@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Tojeero.Forms.LogInPage">
+	<ContentPage.Content>
+		<AbsoluteLayout>
+			<StackLayout Orientation="Vertical" Spacing = "15"  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"  AbsoluteLayout.LayoutFlags="All">
+				<StackLayout Orientation="Vertical" Spacing = "2">
+					<Label Text="{Binding UsernameLabel}"/>
+					<Entry x:Name="usernameEntry" Text="{Binding Username, Mode=TwoWay}" Placeholder="{Binding UsernamePlaceholder}"/>
+				</StackLayout>
+				<StackLayout Orientation="Vertical" Spacing = "2">
+					<Label Text="{Binding PasswordLabel}"/>
+					<Entry x:Name="passwordEntry" Text="{Binding Password, Mode=TwoWay}" Placeholder="{Binding PasswordPlaceholder}" IsPassword="true"/>
+				</StackLayout>
+				<Button x:Name="loginButton" Command="{Binding LoginCommand}" Text="Log In"/>
+				<StackLayout Orientation="Vertical">
+					<Label Text="{Binding UsernameError}" TextColor="Red"></Label>
+					<Label Text="{Binding PasswordError}" TextColor="Red"></Label>
+					<Label Text="{Binding LoadingFailureMessage}" TextColor="Red"></Label>
+				</StackLayout>
+			</StackLayout>
+			<StackLayout Orientation="Vertical" Spacing="5" BackgroundColor="#80000000" IsVisible="{Binding IsLoading}" Padding="10"
+				AbsoluteLayout.LayoutBounds="0.5, 0.5, 150, AutoSize"  AbsoluteLayout.LayoutFlags="XProportional, YProportional">
+				<ActivityIndicator  IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}" Color="White" HorizontalOptions="Center"/>
+				<Label TextColor="White" Text="{Binding LoadingText}" FontSize="15" HorizontalOptions="Center" XAlign="Center"/>
+			</StackLayout>
+		</AbsoluteLayout>
+	</ContentPage.Content>
+</ContentPage>

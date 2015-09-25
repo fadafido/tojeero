@@ -41,30 +41,37 @@
     <Compile Include="BL\Contracts\IModelEntity.cs" />
     <Compile Include="BL\Contracts\IUniqueEntity.cs" />
     <Compile Include="BL\Entities\BaseModelEntity.cs" />
-    <Compile Include="Constants\Constants.cs" />
-    <Compile Include="Constants\HttpErrors.cs" />
-    <Compile Include="Constants\TraceMessages.cs" />
-    <Compile Include="Enums\AuthenticationResultCode.cs" />
-    <Compile Include="Enums\SessionState.cs" />
-    <Compile Include="Events\GenericEventArgs.cs" />
-    <Compile Include="SAL\AuthenticationResult.cs" />
     <Compile Include="SAL\Api Model\AccessToken.cs" />
     <Compile Include="SAL\Api Model\User.cs" />
     <Compile Include="SAL\Contracts\IAuthenticationService.cs" />
-    <Compile Include="Toolbox\DateToolbox.cs" />
     <Compile Include="ViewModels\Authentication\LogInViewModel.cs" />
     <Compile Include="ViewModels\Authentication\UserDetailsViewModel.cs" />
     <Compile Include="Setup\swp8\Bootstrap\CommunitySqlitePluginBootstrap.cs" />
-    <Compile Include="Toolbox\MvxPresenterToolbox.cs" />
-    <Compile Include="Setup\IUIContext.cs" />
-    <Compile Include="Setup\UIContext.cs" />
-    <Compile Include="SAL\Services\AuthenticationService.cs" />
-    <Compile Include="Pages\Authentication\LogInPage.xaml.cs">
-      <DependentUpon>LogInPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Authentication\UserDetailsPage.xaml.cs">
       <DependentUpon>UserDetailsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SAL\AuthenticationException.cs" />
+    <Compile Include="SAL\Contracts\IFacebookService.cs" />
+    <Compile Include="Pages\Main\RootPage.cs" />
+    <Compile Include="Pages\Main\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Main\SideMenuPage.xaml.cs">
+      <DependentUpon>SideMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Main\SideMenuViewModel.cs" />
+    <Compile Include="Misc\Constants\Colors.cs" />
+    <Compile Include="Misc\Constants\Constants.cs" />
+    <Compile Include="Misc\Constants\HttpErrors.cs" />
+    <Compile Include="Misc\Constants\TraceMessages.cs" />
+    <Compile Include="Misc\Enums\AuthenticationResultCode.cs" />
+    <Compile Include="Misc\Enums\SessionState.cs" />
+    <Compile Include="Misc\Events\GenericEventArgs.cs" />
+    <Compile Include="Misc\Messages\SessionStateChangedMessage.cs" />
+    <Compile Include="Misc\Toolbox\DateToolbox.cs" />
+    <Compile Include="Misc\Toolbox\EventHandlerToolbox.cs" />
+    <Compile Include="Misc\Toolbox\MvxToolbox.cs" />
+    <Compile Include="SAL\Api Model\FacebookUser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -111,6 +118,15 @@
     <Reference Include="Cirrious.MvvmCross.Community.Plugins.Sqlite">
       <HintPath>..\packages\MvvmCross.Community.Plugin.Sqlite.3.1.1\lib\portable-win+net45+MonoAndroid+MonoTouch+sl5+wp8\Cirrious.MvvmCross.Community.Plugins.Sqlite.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -122,20 +138,23 @@
     <Folder Include="ViewModels\Contracts\" />
     <Folder Include="BL\" />
     <Folder Include="DAL\" />
-    <Folder Include="Constants\" />
-    <Folder Include="Enums\" />
-    <Folder Include="Events\" />
     <Folder Include="SAL\" />
-    <Folder Include="Toolbox\" />
     <Folder Include="SAL\Services\" />
     <Folder Include="Pages\" />
     <Folder Include="Pages\Authentication\" />
+    <Folder Include="Pages\Base\" />
+    <Folder Include="Pages\Main\" />
+    <Folder Include="ViewModels\Main\" />
+    <Folder Include="Misc\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\Authentication\LogInPage.xaml">
+    <EmbeddedResource Include="Pages\Authentication\UserDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\Authentication\UserDetailsPage.xaml">
+    <EmbeddedResource Include="Pages\Main\HomePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

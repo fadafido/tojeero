@@ -1,11 +1,24 @@
 using Cirrious.CrossCore.IoC;
 using Tojeero.Core.ViewModels;
 using Tojeero.Core.ViewModels;
+using Cirrious.CrossCore;
+using Cirrious.MvvmCross;
 
 namespace Tojeero
 {
+	
     public class MvxApp : Cirrious.MvvmCross.ViewModels.MvxApplication
     {
+		private class EmptyStart : Cirrious.MvvmCross.ViewModels.IMvxAppStart
+		{
+			#region IMvxAppStart implementation
+			public void Start(object hint = null)
+			{
+				
+			}
+			#endregion
+		}
+
         public override void Initialize()
         {
 			CreatableTypes()
@@ -18,7 +31,8 @@ namespace Tojeero
 				.AsTypes()
 				.RegisterAsDynamic();
 
-			RegisterAppStart<LogInViewModel>();
+			Mvx.LazyConstructAndRegisterSingleton<IMvxSingletonCache, MvxSingletonCache>();
+			RegisterAppStart(new EmptyStart());
         }
     }
 }

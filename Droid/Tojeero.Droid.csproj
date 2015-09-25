@@ -123,6 +123,25 @@
     <Reference Include="Nito.AsyncEx.Enlightenment">
       <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\MonoAndroid\Nito.AsyncEx.Enlightenment.dll</HintPath>
     </Reference>
+    <Reference Include="Parse.Android">
+      <HintPath>..\packages\Parse.1.6.0\lib\MonoAndroid\Parse.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\monoandroid\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\monoandroid\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="Xamarin.Auth.Android">
+      <HintPath>..\Components\xamarin.auth-1.2.3.1\lib\android\Xamarin.Auth.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Facebook">
+      <HintPath>..\packages\Xamarin.Facebook.Android.4.5.1.0\lib\MonoAndroid403\Xamarin.Facebook.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tojeero\Tojeero.Forms.csproj">
@@ -139,12 +158,15 @@
     <Compile Include="Setup\Bootstrap\CommunitySqlitePluginBootstrap.cs" />
     <Compile Include="Setup\Bootstrap\LocationPluginBootstrap.cs" />
     <Compile Include="Setup\Bootstrap\MessengerPluginBootstrap.cs" />
-    <Compile Include="SplashScreen.cs" />
     <Compile Include="Setup\Bootstrap\SecureStoragePluginBootstrap.cs" />
-    <Compile Include="Setup\IMvxPageNavigationHost.cs" />
-    <Compile Include="Setup\IMvxPageNavigationProvider.cs" />
-    <Compile Include="Setup\MvxNavigationActivity.cs" />
-    <Compile Include="Setup\MvxPagePresenter.cs" />
+    <Compile Include="..\Tojeero\SAL\Services\ParseAuthenticationService.cs">
+      <Link>Misc\Services\ParseAuthenticationService.cs</Link>
+    </Compile>
+    <Compile Include="Main\MainActivity.cs" />
+    <Compile Include="Main\SplashScreen.cs" />
+    <Compile Include="Main\TojeeroApplication.cs" />
+    <Compile Include="Misc\Services\FacebookService.cs" />
+    <Compile Include="Misc\Toolbox\DateTimeToolbox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -156,6 +178,9 @@
     <Folder Include="Resources\layout\" />
     <Folder Include="Resources\values\" />
     <Folder Include="Setup\" />
+    <Folder Include="Main\" />
+    <Folder Include="Misc\" />
+    <Folder Include="Misc\Toolbox\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
@@ -166,6 +191,7 @@
     <AndroidResource Include="Resources\values\MvxBindingAttributes.xml" />
     <AndroidResource Include="Resources\values\SplashStyle.xml" />
     <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\values\Strings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

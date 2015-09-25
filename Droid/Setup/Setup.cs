@@ -24,13 +24,6 @@ namespace Tojeero.Droid
 			return new DebugTrace();
 		}
 
-		protected override IMvxAndroidViewPresenter CreateViewPresenter()
-		{
-			var presenter = new MvxPagePresenter();
-			Mvx.RegisterSingleton<IMvxPageNavigationHost>(presenter);
-			return presenter;
-		}
-
 		protected override void InitializeFirstChance()
 		{
 			CreatableTypes()

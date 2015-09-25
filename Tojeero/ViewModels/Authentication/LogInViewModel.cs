@@ -21,6 +21,10 @@ namespace Tojeero.Core.ViewModels
 			_authService = authService;
 		}
 
+		public void Init(string username)
+		{
+			Username = username;
+		}
 		#endregion
 
 		#region Properties
@@ -129,7 +133,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_loginCommand = _loginCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(DoLogin, () => false);
+				_loginCommand = _loginCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(DoLogin, () => true);
 				return _loginCommand;
 			}
 		}
@@ -150,28 +154,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			this.StartLoading("Loggin In...");
 			string failureMessage = "";
-			var result = await this._authService.LogIn(this.Username, this.Password); 
-			switch (result.ResultCode)
-			{
-				case AuthenticationResultCode.Successful:
-					{
-						this.ShowViewModel<UserDetailsViewModel>();
-					}
-					break;
-				case AuthenticationResultCode.WrongCredentials:
-					{
-						failureMessage = "Invalid user name and password combination.";
-					}
-					break;
-				case AuthenticationResultCode.WebException:
-					{
-						failureMessage = "Authentication failed due to network issue. Please make sure you are connected to internet and try again.";
-					}
-					break;
-				default:
-					failureMessage = "Failed to log in. Please try again later.";
-					break;
-			}
+			var result = await this._authService.LogInWithFacebook(); 
 			this.StopLoading(failureMessage);
 		}
 

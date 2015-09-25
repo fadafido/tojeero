@@ -1,29 +1,21 @@
 ﻿using System;
 
 using Xamarin.Forms;
+using Cirrious.CrossCore;
 
-namespace Tojeero
+namespace Tojeero.Forms
 {
 	public class FormsApp : Application
 	{
+		static FormsApp()
+		{
+			Mvx.Trace("aaaaaa");
+		}
+
 		public FormsApp()
 		{
 			// The root page of your application
-			MainPage = new ContentPage
-			{
-				Content = new StackLayout
-				{
-					VerticalOptions = LayoutOptions.Center,
-					Children =
-					{
-						new Label
-						{
-							XAlign = TextAlignment.Center,
-							Text = "Welcome to Xamarin Forms!"
-						}
-					}
-				}
-			};
+			MainPage = new RootPage();
 		}
 
 		protected override void OnStart()

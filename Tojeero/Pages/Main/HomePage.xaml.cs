@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms
 {
-	public partial class LogInPage : ContentPage
+	public partial class HomePage : ContentPage
 	{
-		public LogInPage()
+		public HomePage()
 		{
 			InitializeComponent();
 		}

@@ -25,11 +25,6 @@ namespace Tojeero.iOS
 			return new DebugTrace();
 		}
 
-		protected override IMvxTouchViewPresenter CreatePresenter()
-		{
-			return new MvxPagePresenter(Window);
-		}
-
 		protected override void InitializeFirstChance()
 		{
 			CreatableTypes()

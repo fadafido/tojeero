@@ -30,12 +30,6 @@ namespace Tojeero.Core
 		public string Token { get; set; }
 
 		/// <summary>
-		/// Gets or sets the userName.
-		/// </summary>
-		/// <value>The user name.</value>
-		public string Username { get; set; }
-
-		/// <summary>
 		/// Gets or sets the date when the token will expire
 		/// </summary>
 		/// <value>The date when the token will expire.</value>

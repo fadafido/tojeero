@@ -60,29 +60,30 @@ namespace Tojeero.Core.ViewModels
 
 		protected async Task<bool> RecoverUserSession()
 		{
-			this.StartLoading();
-			var result = await _authService.RecoverSession();
-			string failureMessage = null;
-			switch (result.ResultCode)
-			{
-				case AuthenticationResultCode.Successful:
-					break;
-				case AuthenticationResultCode.TokenNotFound:
-					failureMessage = "You are not logged in. Please log in and try again.";
-					break;
-				case AuthenticationResultCode.TokenExpired:
-					failureMessage = "You session has expired. Please log in and try again.";
-					break;
-				case AuthenticationResultCode.WebException:
-					failureMessage = "Failed due to network issue. Please make sure you are connected to internet and try again.";
-					break;
-				default:
-					failureMessage = "Failed due to unknown issue. Please try again later.";
-					break;
-			}
-			if (failureMessage != null)
-				return false;
-			return true;
+			return false;
+//			this.StartLoading();
+//			var result = await _authService.RecoverSession();
+//			string failureMessage = null;
+//			switch (result.ResultCode)
+//			{
+//				case AuthenticationResultCode.Successful:
+//					break;
+//				case AuthenticationResultCode.TokenNotFound:
+//					failureMessage = "You are not logged in. Please log in and try again.";
+//					break;
+//				case AuthenticationResultCode.TokenExpired:
+//					failureMessage = "You session has expired. Please log in and try again.";
+//					break;
+//				case AuthenticationResultCode.WebException:
+//					failureMessage = "Failed due to network issue. Please make sure you are connected to internet and try again.";
+//					break;
+//				default:
+//					failureMessage = "Failed due to unknown issue. Please try again later.";
+//					break;
+//			}
+//			if (failureMessage != null)
+//				return false;
+//			return true;
 		}
 
 		#endregion

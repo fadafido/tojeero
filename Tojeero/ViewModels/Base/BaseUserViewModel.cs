@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Tojeero.Core.Services;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Messages;
+using System.Collections.Generic;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -10,9 +11,9 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Private Fields and Properties
 
-		private readonly IAuthenticationService _authService;
-		private readonly IMvxMessenger _messenger;
-		private readonly MvxSubscriptionToken _messengerToken;
+		protected readonly IAuthenticationService _authService;
+		protected readonly IMvxMessenger _messenger;
+		protected readonly List<MvxSubscriptionToken> _messengerTokens = new List<MvxSubscriptionToken>();
 
 		#endregion
 
@@ -24,10 +25,10 @@ namespace Tojeero.Core.ViewModels
 			this._messenger = messenger;
 			this._authService = authService;
 			CurrentUser = _authService.CurrentUser;
-			_messengerToken = messenger.SubscribeOnMainThread<SessionStateChangedMessage>((message) =>
+			_messengerTokens.Add(messenger.SubscribeOnMainThread<CurrentUserChangedMessage>((message) =>
 				{
-					CurrentUser = _authService.CurrentUser;
-				});
+					CurrentUser = message.CurrentUser;
+				}));
 		}
 
 		#endregion

@@ -85,6 +85,48 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => ProfilePicture); 
 			}
 		}
+
+		private string _country;
+		public string Country
+		{ 
+			get
+			{
+				return _country; 
+			}
+			set
+			{
+				_country = value; 
+				RaisePropertyChanged(() => Country); 
+			}
+		}
+
+		private string _city;
+		public string City
+		{ 
+			get
+			{
+				return _city; 
+			}
+			set
+			{
+				_city = value; 
+				RaisePropertyChanged(() => City); 
+			}
+		}
+
+		private string _mobile;
+		public string Mobile
+		{ 
+			get
+			{
+				return _mobile; 
+			}
+			set
+			{
+				_mobile = value; 
+				RaisePropertyChanged(() => Mobile); 
+			}
+		}
 			
 		public string ProfilePicturePlaceholder
 		{ 
@@ -113,6 +155,9 @@ namespace Tojeero.Core.ViewModels
 			this.LastName = user.LastName;
 			this.Email = user.Email;
 			this.ProfilePicture = user.ProfilePictureUrl;
+			this.Country = user.Country;
+			this.City = user.City;
+			this.Mobile = user.Mobile;
 		}
 
 		#endregion

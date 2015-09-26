@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
+using Tojeero.Core;
 
 namespace Tojeero.Forms
 {
@@ -36,7 +37,7 @@ namespace Tojeero.Forms
 			: base()
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<SideMenuViewModel>();
-			this.ViewModel.ShowUserDetails += showUserDetails;
+			this.ViewModel.ShowProfileSettings += showProfileSettings;
 			InitializeComponent();
 		}
 
@@ -44,9 +45,9 @@ namespace Tojeero.Forms
 
 		#region Utility Methods
 
-		private async void showUserDetails(object sender, EventArgs e)
+		private async void showProfileSettings(object sender, EventArgs<bool> e)
 		{
-			await this.Navigation.PushModalAsync(new NavigationPage(new UserDetailsPage()));
+			await this.Navigation.PushModalAsync(new NavigationPage(new ProfileSettingsPage(e.Data)));
 		}
 
 		#endregion

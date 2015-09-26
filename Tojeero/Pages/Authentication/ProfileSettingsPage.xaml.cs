@@ -7,12 +7,12 @@ using Tojeero.Forms.Toolbox;
 
 namespace Tojeero.Forms
 {
-	public partial class UserDetailsPage : ContentPage
+	public partial class ProfileSettingsPage : ContentPage
 	{
 		#region Properties
 
-		private UserDetailsViewModel _viewModel;
-		public UserDetailsViewModel ViewModel
+		private ProfileSettingsViewModel _viewModel;
+		public ProfileSettingsViewModel ViewModel
 		{
 			get
 			{
@@ -32,11 +32,11 @@ namespace Tojeero.Forms
 
 		#region Constructors
 
-		public UserDetailsPage()
+		public ProfileSettingsPage(bool userShouldProvideDetails = false)
 			: base()
 		{
-			this.ViewModel = MvxToolbox.LoadViewModel<UserDetailsViewModel>();
-			this.ViewModel.Close += closeUserDetails;
+			this.ViewModel = MvxToolbox.LoadViewModel<ProfileSettingsViewModel>(new {userShouldProvideProfileDetails =  userShouldProvideDetails});
+			this.ViewModel.Close += closeProfileSettings;
 			InitializeComponent();
 		}
 
@@ -44,7 +44,7 @@ namespace Tojeero.Forms
 
 		#region Utility Methods
 
-		private async void closeUserDetails(object sender, EventArgs e)
+		private async void closeProfileSettings(object sender, EventArgs e)
 		{
 			await this.Navigation.PopModalAsync();
 		}

@@ -7,6 +7,7 @@ using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Messages;
 using Newtonsoft.Json;
+using System.Threading;
 
 
 namespace Tojeero.Core.Services
@@ -83,13 +84,11 @@ namespace Tojeero.Core.Services
 				parseUser["lastName"] = fbUser.User.LastName;
 				parseUser["profilePictureUri"] = fbUser.User.ProfilePictureUrl;
 				await parseUser.SaveAsync();
-				fbUser.User.ID = parseUser.ObjectId;
-				fbUser.User.UserName = parseUser.Username;
 
-				CurrentUser = fbUser.User;
+				CurrentUser = getCurrentUser();
 				State = SessionState.LoggedIn;
 
-				return fbUser.User;
+				return this.CurrentUser;
 			}
 			catch(Exception ex)
 			{
@@ -108,10 +107,27 @@ namespace Tojeero.Core.Services
 					var jsonUser = Settings.CurrentUser;
 					if(!string.IsNullOrEmpty(jsonUser))
 					{
-						CurrentUser = JsonConvert.DeserializeObject<User>(jsonUser);
+						_currentUser = JsonConvert.DeserializeObject<User>(jsonUser);
+						fireCurrentUserChanged();
 					}
 					this.State = CurrentUser == null ? SessionState.LoggedOut : SessionState.LoggedIn;
 				});
+		}
+
+		public async Task UpdateUserDetails(User user, CancellationToken token)
+		{
+			var currentUser = ParseUser.CurrentUser;
+			if (currentUser == null)
+				return;
+			currentUser["firstName"] = user.FirstName;
+			currentUser["lastName"] = user.LastName;
+			currentUser["country"] = user.Country;
+			currentUser["city"] = user.City;
+			currentUser["mobile"] = user.Mobile;
+			currentUser["isProfileSubmitted"] = true;
+			await currentUser.SaveAsync(token);
+
+			this.CurrentUser = getCurrentUser();
 		}
 
 		#endregion
@@ -125,6 +141,7 @@ namespace Tojeero.Core.Services
 
 		private async void updateCurrentUser()
 		{
+			fireCurrentUserChanged();
 			await Task.Factory.StartNew(() =>
 				{
 					if(CurrentUser == null)
@@ -136,6 +153,42 @@ namespace Tojeero.Core.Services
 				});
 		}
 
+		private void fireCurrentUserChanged()
+		{
+			_messenger.Publish<CurrentUserChangedMessage>(new CurrentUserChangedMessage(this, this.CurrentUser));
+		}
+
+		private User getCurrentUser()
+		{
+			var currentUser = ParseUser.CurrentUser;
+			if (currentUser == null)
+				return null;	
+			string first, last, pic, country, city, mobile;
+			bool submitted;
+
+			currentUser.TryGetValue<String>("firstName", out first);
+			currentUser.TryGetValue<String>("lastName", out last);
+			currentUser.TryGetValue<String>("profilePictureUri", out pic);
+			currentUser.TryGetValue<String>("country", out country);
+			currentUser.TryGetValue<String>("city", out city);
+			currentUser.TryGetValue<String>("mobile", out mobile);
+			currentUser.TryGetValue<bool>("isProfileSubmitted", out submitted);
+
+			var user = new User()
+				{
+					ID = currentUser.ObjectId,
+					UserName = currentUser.Username,
+					Email = currentUser.Email,
+					FirstName = first,
+					LastName = last,
+					ProfilePictureUrl = pic,
+					Country = country,
+					City = city,
+					Mobile = mobile,
+					IsProfileSubmitted = submitted
+				};
+			return user;
+		}
 		#endregion
 	}
 }

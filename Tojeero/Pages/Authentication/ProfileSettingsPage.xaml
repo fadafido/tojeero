@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Tojeero.Forms.UserDetailsPage"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Tojeero.Forms.ProfileSettingsPage"
 			 xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 			 xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
 			 BackgroundColor="{x:Static local:Colors.UltraLightGray}"
@@ -14,8 +14,9 @@
 	<ContentPage.Content>
 		<ScrollView>
 			<StackLayout Padding="20">
+				<Label Text="{Binding Hint}" TextColor="{x:Static local:Colors.Orange}" FontSize="Medium" HorizontalOptions="Center" XAlign="Center"/>
 				<StackLayout Orientation="Vertical" Spacing="5">
-					<StackLayout Orientation="Horizontal" Spacing="10">
+					<StackLayout Orientation="Horizontal" Spacing="5">
 						<Grid HeightRequest="100" WidthRequest="100" VerticalOptions="Start" IsVisible="{Binding IsLoggedIn}">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto"/>
@@ -25,27 +26,37 @@
 							<controls:CircleImage Source="{Binding ProfilePicture}"
 								BorderColor="{x:Static local:Colors.Blue}" BorderThickness="2" Aspect="AspectFill"/>						
 						</Grid>
-						<StackLayout Spacing="2">
+						<StackLayout Spacing="5">
 							<StackLayout Spacing="0">
 								<Label Text="First name:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
-								<Label Text="{Binding FirstName}" TextColor="{x:Static local:Colors.Black}" FontSize="Small"/>
+								<Entry Text="{Binding FirstName, Mode=TwoWay}" Placeholder="First name" TextColor="{x:Static local:Colors.Black}"/>
 							</StackLayout>
 							<StackLayout Spacing="0">
 								<Label Text="Last name:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
-								<Label Text="{Binding LastName}" TextColor="{x:Static local:Colors.Black}" FontSize="Small"/>
+								<Entry Text="{Binding LastName, Mode=TwoWay}" Placeholder="Last name" TextColor="{x:Static local:Colors.Black}"/>
 							</StackLayout>
-							<StackLayout Spacing="0">
-								<Label Text="Email:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
-								<Label Text = "{Binding Email}" TextColor="{x:Static local:Colors.Black}" FontSize="Small"/>
-							</StackLayout>	
 						</StackLayout>
 					</StackLayout>
 
+					<StackLayout Spacing="10" Orientation="Horizontal" Padding="0,10,0,10">
+						<Label Text="Email:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
+						<Label Text = "{Binding Email}" TextColor="{x:Static local:Colors.Black}" FontSize="Small"/>
+					</StackLayout>	
+
 					<StackLayout Spacing="10" Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
 								 IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}">
-						<Picker Title="Country"/>
-						<Picker Title="City"/>
-						<Entry Placeholder="Mobile"/>
+						<StackLayout Spacing="0">
+							<Label Text="Country:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
+							<local:BindablePicker Title="Country" ItemsSource="{Binding Countries}" SelectedItem="{Binding Country, Mode=TwoWay}"/>
+						</StackLayout>
+						<StackLayout Spacing="0">
+							<Label Text="City:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
+							<local:BindablePicker  Title="City" ItemsSource="{Binding Cities}" SelectedItem="{Binding City, Mode=TwoWay}" />
+						</StackLayout>
+						<StackLayout Spacing="0">
+							<Label Text="Mobile:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
+							<Entry Text="{Binding Mobile, Mode=TwoWay}" Placeholder="Mobile"/>
+						</StackLayout>
 					</StackLayout>
 
 					<StackLayout Spacing="5">

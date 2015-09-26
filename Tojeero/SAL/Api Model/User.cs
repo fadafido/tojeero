@@ -35,6 +35,7 @@ namespace Tojeero.Core
 		public string Country { get; set; }
 		public string City { get; set; }
 		public string Mobile { get; set; }
+		public bool IsProfileSubmitted { get; set; }
 		#endregion
 	}
 }

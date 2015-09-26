@@ -12,18 +12,11 @@ namespace Tojeero.Core.ViewModels
 {
 	public class SideMenuViewModel : BaseUserDetailsViewModel
 	{
-		#region Private Fields and Properties
-
-		private readonly IAuthenticationService _authService;
-
-		#endregion
-
 		#region Constructors
 
 		public SideMenuViewModel(IAuthenticationService authService, IMvxMessenger messenger)
 			:base(authService, messenger)
 		{
-			_authService = authService;
 			PropertyChanged += propertyChanged;
 		}
 
@@ -31,7 +24,7 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		public event EventHandler<EventArgs> ShowUserDetails;
+		public event EventHandler<EventArgs<bool>> ShowProfileSettings;
 
 		#endregion
 
@@ -62,6 +55,16 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _showProfileSettingsCommand;
+		public System.Windows.Input.ICommand ShowProfileSettingsCommand
+		{
+			get
+			{
+				_showProfileSettingsCommand = _showProfileSettingsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => this.ShowProfileSettings.Fire(this, new EventArgs<bool>(false)));
+				return _showProfileSettingsCommand;
+			}
+		}
+
 		#endregion
 
 		#region Utility Methods
@@ -70,17 +73,15 @@ namespace Tojeero.Core.ViewModels
 		{
 			this.IsLoading = true;
 			var result = await this._authService.LogInWithFacebook(); 
-			if (result != null)
+			if (result != null && !result.IsProfileSubmitted)
 			{
-				this.ShowUserDetails.Fire(this, new EventArgs());
+				this.ShowProfileSettings.Fire(this, new EventArgs<bool>(true));
 			}
 			this.IsLoading = false;
 		}
 
 		private async Task logOut()
 		{
-			this.ShowUserDetails.Fire(this, new EventArgs());
-			return;
 			this.IsLoading = true;
 			await this._authService.LogOut();
 			this.IsLoading = false;

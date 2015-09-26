@@ -45,11 +45,7 @@
     <Compile Include="SAL\Api Model\User.cs" />
     <Compile Include="SAL\Contracts\IAuthenticationService.cs" />
     <Compile Include="ViewModels\Authentication\LogInViewModel.cs" />
-    <Compile Include="ViewModels\Authentication\UserDetailsViewModel.cs" />
     <Compile Include="Setup\swp8\Bootstrap\CommunitySqlitePluginBootstrap.cs" />
-    <Compile Include="Pages\Authentication\UserDetailsPage.xaml.cs">
-      <DependentUpon>UserDetailsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SAL\AuthenticationException.cs" />
     <Compile Include="SAL\Contracts\IFacebookService.cs" />
     <Compile Include="Pages\Main\RootPage.cs" />
@@ -79,6 +75,12 @@
     <Compile Include="Misc\Converters\InverseBoolConverter.cs" />
     <Compile Include="Misc\Converters\BoolToOpacityConverter.cs" />
     <Compile Include="Misc\Converters\InverseBoolToOpacityConverter.cs" />
+    <Compile Include="Misc\Messages\CurrentUserChangedMessage.cs" />
+    <Compile Include="Misc\Custom Controls\BindablePicker.cs" />
+    <Compile Include="Pages\Authentication\ProfileSettingsPage.xaml.cs">
+      <DependentUpon>ProfileSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Authentication\ProfileSettingsViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -160,15 +162,16 @@
     <Folder Include="ViewModels\Main\" />
     <Folder Include="Misc\" />
     <Folder Include="Misc\Converters\" />
+    <Folder Include="Misc\Custom Controls\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\Authentication\UserDetailsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="Pages\Main\HomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Authentication\ProfileSettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

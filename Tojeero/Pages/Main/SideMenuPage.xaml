@@ -27,6 +27,9 @@
 				</StackLayout>
 			</StackLayout>
 			<ScrollView BackgroundColor="Transparent" VerticalOptions="FillAndExpand">
+				<StackLayout IsVisible="{Binding IsLoggedIn}">
+					<Button HeightRequest="40" VerticalOptions="Start" Text="Profile settings" Command="{Binding ShowProfileSettingsCommand}" TextColor="White" BackgroundColor="Transparent"/>
+				</StackLayout>
 			</ScrollView>
 			<Grid Padding="10,10,10,20" HeightRequest="50" VerticalOptions="End">
 				<Grid.ColumnDefinitions>

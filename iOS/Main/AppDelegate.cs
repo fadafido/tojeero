@@ -13,6 +13,7 @@ using Facebook.CoreKit;
 using Parse;
 using Tojeero.Core;
 using ImageCircle.Forms.Plugin.iOS;
+using Xamarin.Forms.Platform.iOS;
 
 
 namespace Tojeero.iOS
@@ -66,7 +67,8 @@ namespace Tojeero.iOS
 			//Initialize Misc Plugins
 			ImageCircleRenderer.Init();
 
-			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);;
+			MakeAppearanceCustomizations();
+			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
 		}
 
 		public override bool OpenUrl (UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
@@ -74,6 +76,20 @@ namespace Tojeero.iOS
 			// We need to handle URLs by passing them to their own OpenUrl in order to make the SSO authentication works.
 			return ApplicationDelegate.SharedInstance.OpenUrl (application, url, sourceApplication, annotation);
 		}
+		#endregion
+
+		#region Utility Methods
+
+		private void MakeAppearanceCustomizations()
+		{
+			UINavigationBar.Appearance.BarTintColor = Colors.Blue.ToUIColor();
+			UINavigationBar.Appearance.TintColor = Colors.Black.ToUIColor();
+			UITextAttributes attr = new UITextAttributes();
+			attr.Font = UIFont.FromName("System", 16);
+			attr.TextColor = UIColor.White;
+			UINavigationBar.Appearance.SetTitleTextAttributes(attr);
+		}
+
 		#endregion
 
 

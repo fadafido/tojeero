@@ -205,6 +205,7 @@
     <BundleResource Include="Resources\Icon-Small-40%403x.png" />
     <BundleResource Include="Resources\profilePicturePlaceholder.png" />
     <BundleResource Include="Resources\profilePicturePlaceholder%402x.png" />
+    <BundleResource Include="Resources\menuIcon%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

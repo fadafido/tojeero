@@ -18,7 +18,7 @@
 -->
 
 <resources>
-
+	<color name="white">#FFFFFFFF</color>
     <style name="Theme.Tojeero" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_tojeero</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Tojeero</item>
@@ -35,6 +35,7 @@
 
     <style name="ActionBar.Solid.Tojeero" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@drawable/ab_solid_tojeero</item>
+        <item name="android:titleTextStyle">@style/ActionBar.TitleTextStyle.Tojeero</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_tojeero</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_tojeero</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Tojeero</item>
@@ -66,7 +67,11 @@
     <style name="ProgressBar.Tojeero" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_tojeero</item>
     </style>
-    
+
+    <style name="ActionBar.TitleTextStyle.Tojeero" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+  	  <item name="android:textColor">@color/white</item>
+  	</style>
+
     <style name="ActionButton.CloseMode.Tojeero" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_tojeero</item>
     </style>

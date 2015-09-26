@@ -13,9 +13,9 @@ namespace Tojeero.Forms
 			Mvx.Resolve<IAuthenticationService>().RestoreSavedSession();
 			this.Master = new SideMenuPage()
 			{
-				Title = "Tojeero"
+				Title = "Tojeero",
 			};
-			this.Detail = new NavigationPage(new HomePage());
+			this.Detail = new NavigationPage(new HomePage() {Title = "Tojeero"});
 		}
 	}
 }

@@ -39,6 +39,7 @@ namespace Tojeero.Forms
 			this.ViewModel = MvxToolbox.LoadViewModel<SideMenuViewModel>();
 			this.ViewModel.ShowProfileSettings += showProfileSettings;
 			InitializeComponent();
+			this.Icon = "menuIcon.png";
 		}
 
 		#endregion

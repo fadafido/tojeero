@@ -12,10 +12,11 @@ using Xamarin.Facebook;
 using Parse;
 using Tojeero.Core;
 using ImageCircle.Forms.Plugin.Droid;
+using Android.Graphics.Drawables;
 
 namespace Tojeero.Droid
 {
-	[Activity(Label = "Test.Droid", Icon = "@drawable/icon", Theme="@style/Theme.Tojeero", MainLauncher = true,  ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity(Label = "Tojeero", Icon = "@drawable/icon", Theme="@style/Theme.Tojeero", MainLauncher = true,  ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{
 		#region Properties
@@ -47,6 +48,9 @@ namespace Tojeero.Droid
 			//Initialize Misc Plugins
 			ImageCircleRenderer.Init();
 			CallbackManager = CallbackManagerFactory.Create();
+
+			makeUICustomizations();
+
 		}
 
 		protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
@@ -56,6 +60,11 @@ namespace Tojeero.Droid
 			CallbackManager.OnActivityResult(requestCode, (int)resultCode, data);
 		}
 
+
+		void makeUICustomizations()
+		{
+			ActionBar.SetIcon (new ColorDrawable(Resources.GetColor (Android.Resource.Color.Transparent)));
+		}
 		#endregion
 	}
 }

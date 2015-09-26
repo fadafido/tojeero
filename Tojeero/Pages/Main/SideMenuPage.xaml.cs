@@ -30,18 +30,26 @@ namespace Tojeero.Forms
 
 		#endregion
 
+		#region Constructors
+
 		public SideMenuPage()
-			:base()
+			: base()
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<SideMenuViewModel>();
 			this.ViewModel.ShowUserDetails += showUserDetails;
 			InitializeComponent();
 		}
 
-		void showUserDetails (object sender, EventArgs e)
+		#endregion
+
+		#region Utility Methods
+
+		private async void showUserDetails(object sender, EventArgs e)
 		{
-			this.Navigation.PushModalAsync(new NavigationPage(new UserDetailsPage()));
+			await this.Navigation.PushModalAsync(new NavigationPage(new UserDetailsPage()));
 		}
+
+		#endregion
 	}
 }
 

@@ -59,5 +59,9 @@
 	<string>1494452237545846</string>
 	<key>FacebookDisplayName</key>
 	<string>Test</string>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
+	<key>UIStatusBarHidden</key>
+	<true/>
 </dict>
 </plist>

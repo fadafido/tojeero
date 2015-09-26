@@ -24,7 +24,7 @@ namespace Tojeero.Core.ViewModels
 			this._messenger = messenger;
 			this._authService = authService;
 			CurrentUser = _authService.CurrentUser;
-			_messengerToken = messenger.Subscribe<SessionStateChangedMessage>((message) =>
+			_messengerToken = messenger.SubscribeOnMainThread<SessionStateChangedMessage>((message) =>
 				{
 					CurrentUser = _authService.CurrentUser;
 				});

@@ -57,12 +57,16 @@ namespace Tojeero.Core.Services
 		}
 
 
-		public void LogOut()
+		public async Task LogOut()
 		{
-			_facebookService.LogOut();
-			ParseUser.LogOut();
-			CurrentUser = null;
-			State = SessionState.LoggedOut;
+			await Task.Factory.StartNew(() =>
+				{
+					_facebookService.LogOut();
+					CurrentUser = null;
+					State = SessionState.LoggedOut;
+					//Do the parse logout at the last step because seems it takes a lot of time to log out when no network connection is available
+					ParseUser.LogOut();
+				});			
 		}
 
 		public async Task<User> LogInWithFacebook()

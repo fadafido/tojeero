@@ -13,6 +13,7 @@ namespace Tojeero.Core.ViewModels
 			: base(authService, messenger)
 		{
 			PropertyChanged += propertyChanged;
+			updateUserData();
 		}
 
 		#endregion
@@ -101,12 +102,17 @@ namespace Tojeero.Core.ViewModels
 		{
 			if (e.PropertyName == "CurrentUser")
 			{
-				var user = this.CurrentUser ?? new User();
-				this.FirstName = user.FirstName;
-				this.LastName = user.LastName;
-				this.Email = user.Email;
-				this.ProfilePicture = user.ProfilePictureUrl;
-			}
+				updateUserData();
+			}	
+		}
+
+		void updateUserData()
+		{
+			var user = this.CurrentUser ?? new User();
+			this.FirstName = user.FirstName;
+			this.LastName = user.LastName;
+			this.Email = user.Email;
+			this.ProfilePicture = user.ProfilePictureUrl;
 		}
 
 		#endregion

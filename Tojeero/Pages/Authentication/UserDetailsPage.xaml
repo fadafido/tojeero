@@ -2,28 +2,73 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Tojeero.Forms.UserDetailsPage"
 			 xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 			 xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-			 BackgroundColor="{x:Static local:Colors.UltraLightGray}">
+			 BackgroundColor="{x:Static local:Colors.UltraLightGray}"
+			 Title="{Binding Title}">
+			 <ContentPage.Resources>
+			 	<ResourceDictionary>
+			 		 <local:InverseBoolConverter x:Key="inverse" />
+			 		 <local:BoolToOpacityConverter x:Key="opacity" />
+			 		 <local:InverseBoolToOpacityConverter x:Key="inverseOpacity" />
+			 	</ResourceDictionary>
+			 </ContentPage.Resources>
 	<ContentPage.Content>
-		<StackLayout Padding="20">
-			<StackLayout Orientation="Vertical" Spacing="10">
-				<StackLayout Orientation="Horizontal" Spacing="5">
-					<StackLayout Orientation="Vertical">
-						<controls:CircleImage Source="{Binding ProfilePicture}" HeightRequest="100" WidthRequest="100"/>
+		<ScrollView>
+			<StackLayout Padding="20">
+				<StackLayout Orientation="Vertical" Spacing="5">
+					<StackLayout Orientation="Horizontal" Spacing="10">
+						<Grid HeightRequest="100" WidthRequest="100" VerticalOptions="Start" IsVisible="{Binding IsLoggedIn}">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+							<controls:CircleImage Source="{Binding ProfilePicturePlaceholder}" 
+								BorderColor="{x:Static local:Colors.Blue}" BorderThickness="2" Aspect="AspectFill"/>
+							<controls:CircleImage Source="{Binding ProfilePicture}"
+								BorderColor="{x:Static local:Colors.Blue}" BorderThickness="2" Aspect="AspectFill"/>						
+						</Grid>
+						<StackLayout Spacing="2">
+							<StackLayout Spacing="0">
+								<Label Text="First name:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
+								<Label Text="{Binding FirstName}" TextColor="{x:Static local:Colors.Black}" FontSize="Small"/>
+							</StackLayout>
+							<StackLayout Spacing="0">
+								<Label Text="Last name:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
+								<Label Text="{Binding LastName}" TextColor="{x:Static local:Colors.Black}" FontSize="Small"/>
+							</StackLayout>
+							<StackLayout Spacing="0">
+								<Label Text="Email:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
+								<Label Text = "{Binding Email}" TextColor="{x:Static local:Colors.Black}" FontSize="Small"/>
+							</StackLayout>	
+						</StackLayout>
 					</StackLayout>
-					<StackLayout Orientation="Vertical">
-						<Label Text="First name:" TextColor="{x:Static local:Colors.DarkGray}"/>
-						<Label Text="John"/>
-						<Label Text="Last name:" TextColor="{x:Static local:Colors.DarkGray}"/>
-						<Label Text="Appleseed"/>
-						<Label Text="Email" TextColor="{x:Static local:Colors.DarkGray}"/>
-						<Label Text = "john.appleseed@apple.com"/>
-					</StackLayout>
-				</StackLayout>
 
-				<Picker Title="Country"/>
-				<Picker Title="City"/>
-				<Entry Placeholder="Country"/>
+					<StackLayout Spacing="10" Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
+								 IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}">
+						<Picker Title="Country"/>
+						<Picker Title="City"/>
+						<Entry Placeholder="Mobile"/>
+					</StackLayout>
+
+					<StackLayout Spacing="5">
+						<ActivityIndicator IsRunning="{Binding IsLoading}" HorizontalOptions="Center" 
+							VerticalOptions="Center" Color="{x:Static local:Colors.DarkGray}"/>
+						<Grid HeightRequest="40" VerticalOptions="Center" >
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+
+							<Button HeightRequest="40" Grid.Column="0" Text="Cancel" Command="{Binding CancelCommand}" VerticalOptions="Center" 
+								TextColor="White" BackgroundColor="{x:Static local:Colors.Orange}"/>
+
+							<Button HeightRequest="40" Grid.Column="1" Text="Submit" Command="{Binding SubmitCommand}" VerticalOptions="Center" 
+								Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
+								TextColor="White" BackgroundColor="{x:Static local:Colors.Green}" IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}"/>	
+													
+						</Grid>
+					</StackLayout>
+
+				</StackLayout>	
 			</StackLayout>
-		</StackLayout>
+		</ScrollView>
 	</ContentPage.Content>
 </ContentPage>

@@ -57,7 +57,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_logoutCommand = _logoutCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => logOut(), () => !IsLoading);
+				_logoutCommand = _logoutCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => await logOut(), () => !IsLoading);
 				return _logoutCommand;
 			}
 		}
@@ -70,16 +70,24 @@ namespace Tojeero.Core.ViewModels
 		{
 			this.IsLoading = true;
 			var result = await this._authService.LogInWithFacebook(); 
+			if (result != null)
+			{
+				this.ShowUserDetails.Fire(this, new EventArgs());
+			}
 			this.IsLoading = false;
 		}
 
 		private async Task logOut()
 		{
-			this._authService.LogOut();
+			this.ShowUserDetails.Fire(this, new EventArgs());
+			return;
+			this.IsLoading = true;
+			await this._authService.LogOut();
+			this.IsLoading = false;
 		}
 			
 		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
+		{			
 			if (e.PropertyName == "IsLoading")
 			{
 				_loginCommand.RaiseCanExecuteChanged();

@@ -2,7 +2,7 @@
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core;
 
-namespace Tojeero.Forms
+namespace Tojeero.Core.Messages
 {
 	public class SessionStateChangedMessage : MvxMessage
 	{

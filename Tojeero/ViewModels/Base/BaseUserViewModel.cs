@@ -1,18 +1,33 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Tojeero.Core.Services;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core.Messages;
 
 namespace Tojeero.Core.ViewModels
 {
 	public class BaseUserViewModel : LoadableViewModel
 	{
+		#region Private Fields and Properties
+
 		private readonly IAuthenticationService _authService;
+		private readonly IMvxMessenger _messenger;
+		private readonly MvxSubscriptionToken _messengerToken;
+
+		#endregion
+
 		#region Constructors
 
-		public BaseUserViewModel(IAuthenticationService authService)
+		public BaseUserViewModel(IAuthenticationService authService, IMvxMessenger messenger)
 			: base()
 		{
-			_authService = authService;
+			this._messenger = messenger;
+			this._authService = authService;
+			CurrentUser = _authService.CurrentUser;
+			_messengerToken = messenger.Subscribe<SessionStateChangedMessage>((message) =>
+				{
+					CurrentUser = _authService.CurrentUser;
+				});
 		}
 
 		#endregion
@@ -20,7 +35,6 @@ namespace Tojeero.Core.ViewModels
 		#region Properties
 
 		private User _currentUser;
-
 		public User CurrentUser
 		{ 
 			get
@@ -31,73 +45,19 @@ namespace Tojeero.Core.ViewModels
 			{
 				_currentUser = value; 
 				RaisePropertyChanged(() => CurrentUser); 
+				RaisePropertyChanged(() => IsLoggedIn);
 			}
 		}
 
-		#endregion
-
-		#region Commands
-
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _logOutCommand;
-
-		public System.Windows.Input.ICommand LogOutCommand
+		public bool IsLoggedIn
 		{
 			get
 			{
-				_logOutCommand = _logOutCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(DoLogOut);
-				return _logOutCommand;
+				return CurrentUser != null;
 			}
 		}
-
-		private async void DoLogOut()
-		{
-			await logOut();
-		}
-
 		#endregion
 
-		#region Protected API
-
-		protected async Task<bool> RecoverUserSession()
-		{
-			return false;
-//			this.StartLoading();
-//			var result = await _authService.RecoverSession();
-//			string failureMessage = null;
-//			switch (result.ResultCode)
-//			{
-//				case AuthenticationResultCode.Successful:
-//					break;
-//				case AuthenticationResultCode.TokenNotFound:
-//					failureMessage = "You are not logged in. Please log in and try again.";
-//					break;
-//				case AuthenticationResultCode.TokenExpired:
-//					failureMessage = "You session has expired. Please log in and try again.";
-//					break;
-//				case AuthenticationResultCode.WebException:
-//					failureMessage = "Failed due to network issue. Please make sure you are connected to internet and try again.";
-//					break;
-//				default:
-//					failureMessage = "Failed due to unknown issue. Please try again later.";
-//					break;
-//			}
-//			if (failureMessage != null)
-//				return false;
-//			return true;
-		}
-
-		#endregion
-
-		#region Utility Methods
-
-		private async Task logOut()
-		{
-			this.StartLoading("Logging out...");
-			await _authService.LogOut();
-			this.StopLoading();
-		}
-
-		#endregion
 	}
 }
 

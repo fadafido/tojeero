@@ -72,6 +72,13 @@
     <Compile Include="Misc\Toolbox\EventHandlerToolbox.cs" />
     <Compile Include="Misc\Toolbox\MvxToolbox.cs" />
     <Compile Include="SAL\Api Model\FacebookUser.cs" />
+    <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Misc\Settings.cs" />
+    <Compile Include="ViewModels\Base\BaseUserDetailsViewModel.cs" />
+    <Compile Include="Misc\Constants\Images.cs" />
+    <Compile Include="Misc\Converters\InverseBoolConverter.cs" />
+    <Compile Include="Misc\Converters\BoolToOpacityConverter.cs" />
+    <Compile Include="Misc\Converters\InverseBoolToOpacityConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -127,6 +134,12 @@
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\portable-net45+wp8+win8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.MvxPlugins.Settings">
+      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\portable-net45+wp8+wpa81+win8+monoandroid+monotouch+Xamarin.iOS10\Refractored.MvxPlugins.Settings.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -146,6 +159,7 @@
     <Folder Include="Pages\Main\" />
     <Folder Include="ViewModels\Main\" />
     <Folder Include="Misc\" />
+    <Folder Include="Misc\Converters\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Authentication\UserDetailsPage.xaml">

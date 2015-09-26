@@ -11,6 +11,7 @@ using Tojeero.Forms;
 using Xamarin.Facebook;
 using Parse;
 using Tojeero.Core;
+using ImageCircle.Forms.Plugin.Droid;
 
 namespace Tojeero.Droid
 {
@@ -43,6 +44,8 @@ namespace Tojeero.Droid
 			ParseClient.Initialize(Constants.ParseApplicationId, Constants.ParseDotNetKey);
 			ParseFacebookUtils.Initialize(Constants.FacebookAppId);
 
+			//Initialize Misc Plugins
+			ImageCircleRenderer.Init();
 			CallbackManager = CallbackManagerFactory.Create();
 		}
 

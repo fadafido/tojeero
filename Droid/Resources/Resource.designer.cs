@@ -314,7 +314,10 @@ namespace Tojeero.Droid
 			public const int messenger_button_white_bg_selector = 2130837531;
 			
 			// aapt resource value: 0x7f02001c
-			public const int splash = 2130837532;
+			public const int profilePicturePlaceholder = 2130837532;
+			
+			// aapt resource value: 0x7f02001d
+			public const int splash = 2130837533;
 			
 			static Drawable()
 			{

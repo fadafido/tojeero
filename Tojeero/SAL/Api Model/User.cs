@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Tojeero.Core
 {
@@ -15,11 +16,21 @@ namespace Tojeero.Core
 
 		#region Properties
 
+		[JsonProperty("first_name")]
 		public string FirstName { get; set; }
+
+		[JsonProperty("last_name")]
 		public string LastName { get; set; }
+
 		public string UserName { get; set; }
+
+		[JsonProperty("id")]
+		public string ID { get; set; }
+
+		[JsonProperty("email")]
 		public string Email { get; set; }
 
+		public string ProfilePictureUrl { get; set; }
 		#endregion
 	}
 }

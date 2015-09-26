@@ -8,6 +8,8 @@ using Tojeero.Core;
 using Facebook.LoginKit;
 using Facebook.CoreKit;
 using Foundation;
+using Cirrious.CrossCore.Platform;
+using Newtonsoft.Json;
 
 namespace Tojeero.iOS
 {
@@ -49,7 +51,8 @@ namespace Tojeero.iOS
 
 		public void LogOut()
 		{
-			throw new NotImplementedException();
+			var manager = new LoginManager();
+			manager.LogOut();
 		}
 
 		#endregion
@@ -68,8 +71,28 @@ namespace Tojeero.iOS
 
 			var request = new GraphRequest("me", NSDictionary.FromObjectAndKey(new NSString("id, first_name, last_name, email, location"), new NSString("fields")), "GET");
 			request.Start((connection, result, error) =>
-				{
-					completion.TrySetResult(fbUser);
+				{					
+					if(error != null)
+					{
+						Mvx.Trace(MvxTraceLevel.Error, error.ToString());
+					}
+					else
+					{
+						
+						var data = NSJsonSerialization.Serialize(result as NSDictionary, 0, out error);
+						if(error != null)
+						{
+							Mvx.Trace(MvxTraceLevel.Error, error.ToString());
+						}
+						else
+						{
+							var json = new NSString(data, NSStringEncoding.UTF8).ToString();
+							fbUser.User = JsonConvert.DeserializeObject<User>(json);
+							fbUser.User.ProfilePictureUrl =  string.Format("https://graph.facebook.com/{0}/picture?width={1}&height={1}", fbUser.User.ID, Constants.FBProfilePicSize);
+						}
+						completion.TrySetResult(fbUser);	
+					}
+
 				});
 			return completion.Task;
 		}

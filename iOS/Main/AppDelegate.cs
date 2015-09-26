@@ -12,6 +12,7 @@ using Xamarin.Forms;
 using Facebook.CoreKit;
 using Parse;
 using Tojeero.Core;
+using ImageCircle.Forms.Plugin.iOS;
 
 
 namespace Tojeero.iOS
@@ -61,6 +62,9 @@ namespace Tojeero.iOS
 			//Initialize Parse
 			ParseClient.Initialize(Constants.ParseApplicationId, Constants.ParseDotNetKey);
 			ParseFacebookUtils.Initialize(Constants.FacebookAppId);
+
+			//Initialize Misc Plugins
+			ImageCircleRenderer.Init();
 
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);;
 		}

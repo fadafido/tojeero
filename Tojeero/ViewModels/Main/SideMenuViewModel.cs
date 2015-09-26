@@ -4,10 +4,13 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Tojeero.Core.Toolbox;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Xamarin.Forms;
+using Tojeero.Forms;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class SideMenuViewModel : LoadableViewModel
+	public class SideMenuViewModel : BaseUserDetailsViewModel
 	{
 		#region Private Fields and Properties
 
@@ -17,9 +20,11 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public SideMenuViewModel(IAuthenticationService authService)
+		public SideMenuViewModel(IAuthenticationService authService, IMvxMessenger messenger)
+			:base(authService, messenger)
 		{
 			_authService = authService;
+			PropertyChanged += propertyChanged;
 		}
 
 		#endregion
@@ -27,20 +32,6 @@ namespace Tojeero.Core.ViewModels
 		#region Properties
 
 		public event EventHandler<EventArgs> ShowUserDetails;
-
-		private bool _isLoggingIn;
-		public bool IsLoggingIn
-		{ 
-			get
-			{
-				return _isLoggingIn; 
-			}
-			set
-			{
-				_isLoggingIn = value; 
-				RaisePropertyChanged(() => IsLoggingIn); 
-			}
-		}
 
 		#endregion
 
@@ -56,10 +47,18 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_loginCommand = _loginCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
-					await logIn();
-				});
+				_loginCommand = _loginCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => await logIn(), () => !IsLoading);
 				return _loginCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _logoutCommand;
+		public System.Windows.Input.ICommand LogoutCommand
+		{
+			get
+			{
+				_logoutCommand = _logoutCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => logOut(), () => !IsLoading);
+				return _logoutCommand;
 			}
 		}
 
@@ -69,13 +68,24 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task logIn()
 		{
-			this.IsLoggingIn = true;
-			string failureMessage = "";
+			this.IsLoading = true;
 			var result = await this._authService.LogInWithFacebook(); 
-			ShowUserDetails.Fire(this, new EventArgs());
-			this.IsLoggingIn = false;
+			this.IsLoading = false;
 		}
 
+		private async Task logOut()
+		{
+			this._authService.LogOut();
+		}
+			
+		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "IsLoading")
+			{
+				_loginCommand.RaiseCanExecuteChanged();
+				_logoutCommand.RaiseCanExecuteChanged();
+			}
+		}
 		#endregion
 	}
 }

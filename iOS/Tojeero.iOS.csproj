@@ -168,11 +168,23 @@
     <Reference Include="Xamarin.Social.iOS">
       <HintPath>..\Components\xamarin.social-1.1.7\lib\ios-unified\Xamarin.Social.iOS.dll</HintPath>
     </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.iOS">
+      <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\Xamarin.iOS10\ImageCircle.Forms.Plugin.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\Xamarin.iOS10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.MvxPlugins.Settings.TouchUnified">
+      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\Xamarin.iOS10\Refractored.MvxPlugins.Settings.TouchUnified.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.MvxPlugins.Settings">
+      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\monotouch\Refractored.MvxPlugins.Settings.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tojeero\Tojeero.Forms.csproj">
+    <ProjectReference Include="..\Tojeero\Tojeero.csproj">
       <Project>{3D79B416-E11B-4017-922D-F77D17991910}</Project>
-      <Name>Tojeero.Forms</Name>
+      <Name>Tojeero</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +203,8 @@
     <BundleResource Include="Resources\Icon-Small-40.png" />
     <BundleResource Include="Resources\Icon-Small-40%402x.png" />
     <BundleResource Include="Resources\Icon-Small-40%403x.png" />
+    <BundleResource Include="Resources\profilePicturePlaceholder.png" />
+    <BundleResource Include="Resources\profilePicturePlaceholder%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -199,6 +213,7 @@
     <None Include="packages.config" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
+    <None Include="Properties\_SettingsStarted.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main\AppDelegate.cs" />
@@ -217,6 +232,7 @@
     </Compile>
     <Compile Include="Services\FacebookService.cs" />
     <Compile Include="Toolbox\DateToolbox.cs" />
+    <Compile Include="Bootstrap\SettingsPluginBootstrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

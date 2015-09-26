@@ -7,9 +7,9 @@ namespace Tojeero.Core.Services
 	{		
 		User CurrentUser { get; }
 		SessionState State { get; }
-		event EventHandler<EventArgs<SessionState>> SessionStateChanged;
 
-		Task LogOut();
+		void LogOut();
+		Task RestoreSavedSession();
 		Task<User> LogInWithFacebook();
 	}
 }

@@ -9,6 +9,7 @@ using Xamarin.Facebook;
 using Android.App;
 using Cirrious.CrossCore.Platform;
 using Android.OS;
+using Newtonsoft.Json;
 
 namespace Tojeero.Droid
 {
@@ -62,7 +63,7 @@ namespace Tojeero.Droid
 
 		public void LogOut()
 		{
-			throw new NotImplementedException();
+			LoginManager.Instance.LogOut();
 		}
 
 		#endregion
@@ -147,17 +148,13 @@ namespace Tojeero.Droid
 			{
 				_completion = completion;
 				_initialToken = initialToken;
-
 			}
 
 			public void OnCompleted(Org.Json.JSONObject result, GraphResponse response)
 			{
 				var fbUser = _initialToken ?? new FacebookUser();
-				fbUser.ID = result.GetString("id");
-				fbUser.FirstName = result.GetString("first_name");
-				fbUser.LastName = result.GetString("last_name");
-				fbUser.Email = result.GetString("email");
-				fbUser.ProfilePictureUri =  string.Format("https://graph.facebook.com/{0}/picture?width={1}&height={1}", fbUser.ID, Constants.FBProfilePicSize);
+				fbUser.User = JsonConvert.DeserializeObject<User>(response.RawResponse);
+				fbUser.User.ProfilePictureUrl =  string.Format("https://graph.facebook.com/{0}/picture?width={1}&height={1}", fbUser.User.ID, Constants.FBProfilePicSize);
 				_completion.TrySetResult(fbUser);
 			}
 		}

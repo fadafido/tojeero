@@ -1,13 +1,21 @@
 ﻿using System;
 using Cirrious.MvvmCross.ViewModels;
+using Tojeero.Core.Services;
+using Cirrious.MvvmCross.Plugins.Messenger;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class UserDetailsViewModel : MvxViewModel
+	public class UserDetailsViewModel : BaseUserViewModel
 	{
-		public UserDetailsViewModel()
+		#region Constructors
+
+		public UserDetailsViewModel(IAuthenticationService authService, IMvxMessenger messenger)
+			: base(authService, messenger)
 		{
 		}
+
+		#endregion
+
 	}
 }
 

@@ -39,7 +39,7 @@
 					</StackLayout>
 
 					<StackLayout Spacing="10" Orientation="Horizontal" Padding="0,10,0,10">
-						<Label Text="Email:" HorizontalOptions="StartAndExpand" LineBreakMode="NoWrap" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
+						<Label Text="Email:" VerticalOptions="Center" LineBreakMode="NoWrap" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
 						<Label Text = "{Binding Email}" TextColor="{x:Static local:Colors.Black}" FontSize="Small"/>
 					</StackLayout>	
 

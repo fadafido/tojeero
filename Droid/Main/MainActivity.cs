@@ -15,7 +15,7 @@ using ImageCircle.Forms.Plugin.Droid;
 
 namespace Tojeero.Droid
 {
-	[Activity(Label = "Test.Droid", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity(Label = "Test.Droid", Icon = "@drawable/icon", Theme="@style/Theme.Tojeero", MainLauncher = true,  ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{
 		#region Properties

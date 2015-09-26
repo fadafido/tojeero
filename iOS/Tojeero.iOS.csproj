@@ -228,11 +228,12 @@
     <Compile Include="Setup\Bootstrap\Secure Storage\Plugin.cs" />
     <Compile Include="Setup\Bootstrap\Secure Storage\SecureStoragePluginBootstrap.cs" />
     <Compile Include="..\Tojeero\SAL\Services\ParseAuthenticationService.cs">
-      <Link>Services\ParseAuthenticationService.cs</Link>
+      <Link>Misc\Services\ParseAuthenticationService.cs</Link>
     </Compile>
-    <Compile Include="Services\FacebookService.cs" />
-    <Compile Include="Toolbox\DateToolbox.cs" />
     <Compile Include="Bootstrap\SettingsPluginBootstrap.cs" />
+    <Compile Include="Misc\Services\FacebookService.cs" />
+    <Compile Include="Misc\Toolbox\DateToolbox.cs" />
+    <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />
@@ -244,7 +245,7 @@
     <Folder Include="Main\" />
     <Folder Include="Setup\" />
     <Folder Include="Setup\Bootstrap\Secure Storage\" />
-    <Folder Include="Services\" />
-    <Folder Include="Toolbox\" />
+    <Folder Include="Misc\" />
+    <Folder Include="Misc\Custom Renderers\" />
   </ItemGroup>
 </Project>

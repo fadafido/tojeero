@@ -183,6 +183,7 @@
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateTimeToolbox.cs" />
     <Compile Include="Bootstrap\SettingsPluginBootstrap.cs" />
+    <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -199,6 +200,7 @@
     <Folder Include="Misc\" />
     <Folder Include="Misc\Toolbox\" />
     <Folder Include="Resources\drawable-mdpi\" />
+    <Folder Include="Misc\Custom Renderers\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />

@@ -3,7 +3,7 @@ using Xamarin.Forms;
 using System.Collections;
 
 namespace Tojeero.Forms {
-	public class BindablePicker : Picker
+	public class BindablePicker : Tojeero.Forms.Picker
 	{
 		public BindablePicker()
 		{

@@ -39,7 +39,7 @@
 					</StackLayout>
 
 					<StackLayout Spacing="10" Orientation="Horizontal" Padding="0,10,0,10">
-						<Label Text="Email:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
+						<Label Text="Email:" HorizontalOptions="StartAndExpand" LineBreakMode="NoWrap" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
 						<Label Text = "{Binding Email}" TextColor="{x:Static local:Colors.Black}" FontSize="Small"/>
 					</StackLayout>	
 
@@ -47,15 +47,15 @@
 								 IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}">
 						<StackLayout Spacing="0">
 							<Label Text="Country:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
-							<local:BindablePicker Title="Country" ItemsSource="{Binding Countries}" SelectedItem="{Binding Country, Mode=TwoWay}"/>
+							<local:BindablePicker Title="Country" ItemsSource="{Binding Countries}" SelectedItem="{Binding Country, Mode=TwoWay}" TextColor="{x:Static local:Colors.Black}"/>
 						</StackLayout>
 						<StackLayout Spacing="0">
 							<Label Text="City:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
-							<local:BindablePicker  Title="City" ItemsSource="{Binding Cities}" SelectedItem="{Binding City, Mode=TwoWay}" />
+							<local:BindablePicker  Title="City" ItemsSource="{Binding Cities}" SelectedItem="{Binding City, Mode=TwoWay}" TextColor="{x:Static local:Colors.Black}"/>
 						</StackLayout>
 						<StackLayout Spacing="0">
 							<Label Text="Mobile:" TextColor="{x:Static local:Colors.DarkGray}" FontSize="Micro"/>
-							<Entry Text="{Binding Mobile, Mode=TwoWay}" Placeholder="Mobile"/>
+							<Entry Text="{Binding Mobile, Mode=TwoWay}" Placeholder="Mobile" TextColor="{x:Static local:Colors.Black}"/>
 						</StackLayout>
 					</StackLayout>
 

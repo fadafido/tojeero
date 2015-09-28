@@ -161,7 +161,7 @@ namespace Tojeero.Core.ViewModels
 				}
 				catch (Exception ex)
 				{
-					Mvx.Trace(MvxTraceLevel.Error, "Error occured while saving user details. {0}", ex.ToString());
+					Tools.Logger.Log("Error occured while saving user details. {0}", ex.ToString(), LoggingLevel.Error);
 				}
 
 				this.IsLoading = false;

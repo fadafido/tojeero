@@ -4,6 +4,9 @@ namespace Tojeero.Core
 {
 	public static class TraceMessages
 	{
+		public static string OperationTimeOutNoNetwork = "Operation timed out. Seems that it was due to the lack of network connection.";
+		public static string OperationTimeOut = "Operation timed out because of unknown reason.";
+
 		public static class Auth
 		{
 			public static string Unknown = "Authentication failed because of unknown error. {0}";

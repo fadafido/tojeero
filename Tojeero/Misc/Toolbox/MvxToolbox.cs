@@ -8,6 +8,7 @@ using Xamarin.Forms;
 using Cirrious.MvvmCross.Platform;
 using System.Collections.Generic;
 using Cirrious.MvvmCross;
+using Tojeero.Core;
 
 namespace Tojeero.Forms.Toolbox
 {
@@ -28,7 +29,7 @@ namespace Tojeero.Forms.Toolbox
 			var viewModel = viewModelLoader.LoadViewModel(request, null);
 			if (viewModel == null)
 			{
-				Mvx.Trace("Could not find view model of type {0}.", typeof(T));
+				Tools.Logger.Log("Could not find view model of type {0}.", typeof(T));
 				return default(T);
 			}
 			return (T)viewModel;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
+using Tojeero.Core;
 
 namespace Tojeero.Forms
 {
@@ -10,6 +11,7 @@ namespace Tojeero.Forms
 		public HomePage()
 		{
 			InitializeComponent();
+			Tools.Logger.Log(new InvalidOperationException(), "Sample error message.", LoggingLevel.Error, true);
 		}
 	}
 }

@@ -8,6 +8,8 @@ using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Messages;
 using Newtonsoft.Json;
 using System.Threading;
+using Connectivity.Plugin;
+using Xamarin;
 
 
 namespace Tojeero.Core.Services
@@ -60,13 +62,20 @@ namespace Tojeero.Core.Services
 
 		public async Task LogOut()
 		{
-			await Task.Factory.StartNew(() =>
+			await Task.Factory.StartNew(async () =>
 				{
-					_facebookService.LogOut();
-					CurrentUser = null;
-					State = SessionState.LoggedOut;
-					//Do the parse logout at the last step because seems it takes a lot of time to log out when no network connection is available
-					ParseUser.LogOut();
+					try
+					{
+						_facebookService.LogOut();
+						CurrentUser = null;
+						State = SessionState.LoggedOut;
+						var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+						await ParseUser.LogOutAsync(tokenSource.Token);
+					}
+					catch(Exception ex)
+					{
+						handleException(ex);	
+					}
 				});			
 		}
 
@@ -94,7 +103,7 @@ namespace Tojeero.Core.Services
 			{
 				State = SessionState.LoggedOut;
 				CurrentUser = null;
-				Mvx.Trace(MvxTraceLevel.Error, ex.ToString());
+				Tools.Logger.Log(ex, LoggingLevel.Error);
 				return null;
 			}
 
@@ -188,6 +197,28 @@ namespace Tojeero.Core.Services
 					IsProfileSubmitted = submitted
 				};
 			return user;
+		}
+
+		private void handleException(Exception exception)
+		{
+			try
+			{
+				throw exception;
+			}
+			catch(OperationCanceledException ex)
+			{
+				if (!CrossConnectivity.Current.IsConnected)
+					Tools.Logger.Log(ex, TraceMessages.OperationTimeOutNoNetwork, LoggingLevel.Warning, true);
+				else
+				{
+					string message = string.Format(TraceMessages.OperationTimeOut, ex.ToString());
+					Tools.Logger.Log(ex, TraceMessages.OperationTimeOut, LoggingLevel.Error, true);
+				}
+			}
+			catch(Exception ex)
+			{
+
+			}
 		}
 		#endregion
 	}

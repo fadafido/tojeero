@@ -1,8 +1,8 @@
 using Cirrious.CrossCore.IoC;
 using Tojeero.Core.ViewModels;
-using Tojeero.Core.ViewModels;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross;
+using Tojeero.Core;
 
 namespace Tojeero
 {
@@ -31,7 +31,7 @@ namespace Tojeero
 				.AsTypes()
 				.RegisterAsDynamic();
 
-			Mvx.LazyConstructAndRegisterSingleton<IMvxSingletonCache, MvxSingletonCache>();
+			Mvx.RegisterType<ILogger, Logger>();
 			RegisterAppStart(new EmptyStart());
         }
     }

@@ -41,7 +41,6 @@
     <Compile Include="BL\Contracts\IModelEntity.cs" />
     <Compile Include="BL\Contracts\IUniqueEntity.cs" />
     <Compile Include="BL\Entities\BaseModelEntity.cs" />
-    <Compile Include="SAL\Api Model\AccessToken.cs" />
     <Compile Include="SAL\Api Model\User.cs" />
     <Compile Include="SAL\Contracts\IAuthenticationService.cs" />
     <Compile Include="ViewModels\Authentication\LogInViewModel.cs" />
@@ -86,6 +85,11 @@
     <Compile Include="Misc\Services\Contracts\ILocationService.cs" />
     <Compile Include="Misc\Messages\LocationUpdatedMessege.cs" />
     <Compile Include="ViewModels\Base\LoadableNetworkViewModel.cs" />
+    <Compile Include="Misc\Logging\ILogger.cs" />
+    <Compile Include="Misc\Logging\Logger.cs" />
+    <Compile Include="Misc\Logging\LoggingLevel.cs" />
+    <Compile Include="Misc\Tools.cs" />
+    <Compile Include="Misc\Logging\LoggingExtentions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -160,7 +164,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="PluginsHelp\ConnectivityReadme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Setup\" />
@@ -181,6 +184,7 @@
     <Folder Include="Misc\Custom Controls\" />
     <Folder Include="Misc\Services\" />
     <Folder Include="Misc\Services\Contracts\" />
+    <Folder Include="Misc\Logging\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\HomePage.xaml">

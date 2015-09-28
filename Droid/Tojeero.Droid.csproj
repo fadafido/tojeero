@@ -197,6 +197,7 @@
     <Compile Include="Misc\Toolbox\DateTimeToolbox.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
     <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
+    <Compile Include="Misc\Custom Renderers\ButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

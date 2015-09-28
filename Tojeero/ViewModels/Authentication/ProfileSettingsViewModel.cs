@@ -90,36 +90,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Cities); 
 			}
 		}
-
-//		private int _selectedCountry;
-//		public int SelectedCountry
-//		{ 
-//			get
-//			{
-//				return _selectedCountry; 
-//			}
-//			set
-//			{
-//				_selectedCountry = value; 
-//				this.Country = value >= 0 && value < _countryList.Count ? this._countryList[value] : null;
-//				RaisePropertyChanged(() => SelectedCountry); 
-//			}
-//		}
-//
-//		private int _selectedCity;
-//		public int SelectedCity
-//		{ 
-//			get
-//			{
-//				return _selectedCity; 
-//			}
-//			set
-//			{
-//				_selectedCity = value; 
-//				this.City = Cities != null && value >= 0 && value < Cities.Count ? this.Cities[value] : null;
-//				RaisePropertyChanged(() => SelectedCity); 
-//			}
-//		}
+			
 		#endregion
 
 		#region Commands
@@ -129,8 +100,16 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_submitCommand = _submitCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => await submit(), () => !IsLoading);
+				_submitCommand = _submitCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => await submit(), () => CanExecuteSubmitCommand);
 				return _submitCommand;
+			}
+		}
+
+		public bool CanExecuteSubmitCommand
+		{
+			get
+			{
+				return !IsLoading && IsNetworkAvailable;
 			}
 		}
 
@@ -206,6 +185,11 @@ namespace Tojeero.Core.ViewModels
 					this.Cities = _countries[country];
 					this.City = this.Cities.Count > 0 ? this.Cities[0] : null;
 				}
+			}
+			else if(e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
+			{
+				_submitCommand.RaiseCanExecuteChanged();
+				RaisePropertyChanged(() => CanExecuteSubmitCommand);
 			}
 		}
 		#endregion

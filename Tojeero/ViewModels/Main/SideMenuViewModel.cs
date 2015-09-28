@@ -40,7 +40,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_loginCommand = _loginCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => await logIn(), () => !IsLoading);
+				_loginCommand = _loginCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => await logIn(), () => CanExecuteLoginCommand);
 				return _loginCommand;
 			}
 		}
@@ -50,8 +50,16 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_logoutCommand = _logoutCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => await logOut(), () => !IsLoading);
+				_logoutCommand = _logoutCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => await logOut(), () => !this.IsLoading);
 				return _logoutCommand;
+			}
+		}
+
+		public bool CanExecuteLoginCommand
+		{
+			get 
+			{
+				return !IsLoading && IsNetworkAvailable;
 			}
 		}
 
@@ -60,7 +68,10 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_showProfileSettingsCommand = _showProfileSettingsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => this.ShowProfileSettings.Fire(this, new EventArgs<bool>(false)));
+				_showProfileSettingsCommand = _showProfileSettingsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => 
+					{
+						this.ShowProfileSettings.Fire(this, new EventArgs<bool>(false));
+					});
 				return _showProfileSettingsCommand;
 			}
 		}
@@ -89,10 +100,9 @@ namespace Tojeero.Core.ViewModels
 			
 		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{			
-			if (e.PropertyName == "IsLoading")
+			if(e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
 			{
-				_loginCommand.RaiseCanExecuteChanged();
-				_logoutCommand.RaiseCanExecuteChanged();
+				RaisePropertyChanged(() => CanExecuteLoginCommand);
 			}
 		}
 		#endregion

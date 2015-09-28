@@ -247,6 +247,7 @@
     <Compile Include="Misc\Toolbox\DateToolbox.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
     <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
+    <Compile Include="Misc\Custom Renderers\ButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

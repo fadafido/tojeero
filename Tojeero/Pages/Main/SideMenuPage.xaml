@@ -42,10 +42,10 @@
 				</Grid.ColumnDefinitions>
 				<Button HeightRequest="40" Grid.Column="1" Text="Log in" Command="{Binding LoginCommand}" VerticalOptions="Center" 
 					Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
-					TextColor="White" BackgroundColor="{x:Static local:Colors.Green}" IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}"
+					TextColor="White" BackgroundColor="{x:Static local:Colors.Green}" IsEnabled="{Binding CanExecuteLoginCommand}"
 					IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverse}}"></Button>
 				<Button HeightRequest="40" Grid.Column="1" Text="Log out" Command="{Binding LogoutCommand}" VerticalOptions="Center"
-					IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}" Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
+					IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}" 
 					TextColor="White" BackgroundColor="{x:Static local:Colors.Orange}" IsVisible="{Binding IsLoggedIn}"></Button>	
 				<ActivityIndicator Grid.Column="2" IsRunning="{Binding IsLoading}" HorizontalOptions="End" VerticalOptions="Center" Color="White"/>
 			</Grid>

@@ -231,10 +231,10 @@
     <Compile Include="..\Tojeero\SAL\Services\ParseAuthenticationService.cs">
       <Link>Misc\Services\ParseAuthenticationService.cs</Link>
     </Compile>
-    <Compile Include="Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateToolbox.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
+    <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

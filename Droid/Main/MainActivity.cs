@@ -14,7 +14,6 @@ using Tojeero.Core;
 using ImageCircle.Forms.Plugin.Droid;
 using Android.Graphics.Drawables;
 using Cirrious.CrossCore;
-using XLabs.Platform.Services;
 
 namespace Tojeero.Droid
 {

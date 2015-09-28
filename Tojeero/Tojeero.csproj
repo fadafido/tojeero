@@ -82,6 +82,9 @@
     </Compile>
     <Compile Include="ViewModels\Authentication\ProfileSettingsViewModel.cs" />
     <Compile Include="Misc\Custom Controls\Picker.cs" />
+    <Compile Include="Misc\Services\LocationService.cs" />
+    <Compile Include="Misc\Services\Contracts\ILocationService.cs" />
+    <Compile Include="Misc\Messages\LocationUpdatedMessege.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -164,6 +167,8 @@
     <Folder Include="Misc\" />
     <Folder Include="Misc\Converters\" />
     <Folder Include="Misc\Custom Controls\" />
+    <Folder Include="Misc\Services\" />
+    <Folder Include="Misc\Services\Contracts\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\HomePage.xaml">

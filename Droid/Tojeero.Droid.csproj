@@ -182,8 +182,8 @@
     <Compile Include="Main\TojeeroApplication.cs" />
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateTimeToolbox.cs" />
-    <Compile Include="Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
+    <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

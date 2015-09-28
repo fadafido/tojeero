@@ -2,16 +2,13 @@
 
 using Xamarin.Forms;
 using Cirrious.CrossCore;
+using Xamarin;
+using Tojeero.Core;
 
 namespace Tojeero.Forms
 {
 	public class FormsApp : Application
 	{
-		static FormsApp()
-		{
-			Mvx.Trace("aaaaaa");
-		}
-
 		public FormsApp()
 		{
 			// The root page of your application

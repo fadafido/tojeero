@@ -14,6 +14,7 @@ using Tojeero.Core;
 using ImageCircle.Forms.Plugin.Droid;
 using Android.Graphics.Drawables;
 using Cirrious.CrossCore;
+using Xamarin;
 
 namespace Tojeero.Droid
 {
@@ -46,6 +47,13 @@ namespace Tojeero.Droid
 			//Initialize Parse
 			ParseClient.Initialize(Constants.ParseApplicationId, Constants.ParseDotNetKey);
 			ParseFacebookUtils.Initialize(Constants.FacebookAppId);
+
+			//Initialize Xamarin Insights
+			string key = Constants.XamarinInsightsApiKey;
+			#if DEBUG
+			key = Insights.DebugModeKey;
+			#endif
+			Insights.Initialize(key, this);
 
 			//Initialize Misc Plugins
 			ImageCircleRenderer.Init();

@@ -34,48 +34,6 @@ namespace Tojeero.Droid
 			global::PCLStorage.Resource.String.Hello = global::Tojeero.Droid.Resource.String.Hello;
 			global::Refractored.MvxPlugins.Settings.Droid.Resource.String.ApplicationName = global::Tojeero.Droid.Resource.String.ApplicationName;
 			global::Refractored.MvxPlugins.Settings.Droid.Resource.String.Hello = global::Tojeero.Droid.Resource.String.Hello;
-			global::XLabs.Platform.Resource.String.ApplicationName = global::Tojeero.Droid.Resource.String.ApplicationName;
-			global::XLabs.Platform.Resource.String.Hello = global::Tojeero.Droid.Resource.String.Hello;
-			global::XLabs.Forms.Resource.Color.calendar_active_month_bg = global::Tojeero.Droid.Resource.Color.calendar_active_month_bg;
-			global::XLabs.Forms.Resource.Color.calendar_bg = global::Tojeero.Droid.Resource.Color.calendar_bg;
-			global::XLabs.Forms.Resource.Color.calendar_divider = global::Tojeero.Droid.Resource.Color.calendar_divider;
-			global::XLabs.Forms.Resource.Color.calendar_highlighted_day_bg = global::Tojeero.Droid.Resource.Color.calendar_highlighted_day_bg;
-			global::XLabs.Forms.Resource.Color.calendar_inactive_month_bg = global::Tojeero.Droid.Resource.Color.calendar_inactive_month_bg;
-			global::XLabs.Forms.Resource.Color.calendar_selected_day_bg = global::Tojeero.Droid.Resource.Color.calendar_selected_day_bg;
-			global::XLabs.Forms.Resource.Color.calendar_selected_range_bg = global::Tojeero.Droid.Resource.Color.calendar_selected_range_bg;
-			global::XLabs.Forms.Resource.Color.calendar_text_active = global::Tojeero.Droid.Resource.Color.calendar_text_active;
-			global::XLabs.Forms.Resource.Color.calendar_text_inactive = global::Tojeero.Droid.Resource.Color.calendar_text_inactive;
-			global::XLabs.Forms.Resource.Color.calendar_text_selected = global::Tojeero.Droid.Resource.Color.calendar_text_selected;
-			global::XLabs.Forms.Resource.Color.calendar_text_selector = global::Tojeero.Droid.Resource.Color.calendar_text_selector;
-			global::XLabs.Forms.Resource.Color.calendar_text_unselectable = global::Tojeero.Droid.Resource.Color.calendar_text_unselectable;
-			global::XLabs.Forms.Resource.Dimension.calendar_day_headers_paddingbottom = global::Tojeero.Droid.Resource.Dimension.calendar_day_headers_paddingbottom;
-			global::XLabs.Forms.Resource.Dimension.calendar_month_title_bottommargin = global::Tojeero.Droid.Resource.Dimension.calendar_month_title_bottommargin;
-			global::XLabs.Forms.Resource.Dimension.calendar_month_topmargin = global::Tojeero.Droid.Resource.Dimension.calendar_month_topmargin;
-			global::XLabs.Forms.Resource.Dimension.calendar_text_medium = global::Tojeero.Droid.Resource.Dimension.calendar_text_medium;
-			global::XLabs.Forms.Resource.Dimension.calendar_text_small = global::Tojeero.Droid.Resource.Dimension.calendar_text_small;
-			global::XLabs.Forms.Resource.Drawable.ad16 = global::Tojeero.Droid.Resource.Drawable.ad16;
-			global::XLabs.Forms.Resource.Drawable.calendar_bg_selector = global::Tojeero.Droid.Resource.Drawable.calendar_bg_selector;
-			global::XLabs.Forms.Resource.Id.calendar_grid = global::Tojeero.Droid.Resource.Id.calendar_grid;
-			global::XLabs.Forms.Resource.Id.calendar_view = global::Tojeero.Droid.Resource.Id.calendar_view;
-			global::XLabs.Forms.Resource.Id.left_arrow = global::Tojeero.Droid.Resource.Id.left_arrow;
-			global::XLabs.Forms.Resource.Id.right_arrow = global::Tojeero.Droid.Resource.Id.right_arrow;
-			global::XLabs.Forms.Resource.Id.title = global::Tojeero.Droid.Resource.Id.title;
-			global::XLabs.Forms.Resource.Layout.calendar_pager_layout = global::Tojeero.Droid.Resource.Layout.calendar_pager_layout;
-			global::XLabs.Forms.Resource.Layout.calendar_picker = global::Tojeero.Droid.Resource.Layout.calendar_picker;
-			global::XLabs.Forms.Resource.Layout.dialog = global::Tojeero.Droid.Resource.Layout.dialog;
-			global::XLabs.Forms.Resource.Layout.month = global::Tojeero.Droid.Resource.Layout.month;
-			global::XLabs.Forms.Resource.Layout.week = global::Tojeero.Droid.Resource.Layout.week;
-			global::XLabs.Forms.Resource.String.ApplicationName = global::Tojeero.Droid.Resource.String.ApplicationName;
-			global::XLabs.Forms.Resource.String.Hello = global::Tojeero.Droid.Resource.String.Hello;
-			global::XLabs.Forms.Resource.String.day_name_format = global::Tojeero.Droid.Resource.String.day_name_format;
-			global::XLabs.Forms.Resource.String.full_date_format = global::Tojeero.Droid.Resource.String.full_date_format;
-			global::XLabs.Forms.Resource.String.invalid_date = global::Tojeero.Droid.Resource.String.invalid_date;
-			global::XLabs.Forms.Resource.String.library_name = global::Tojeero.Droid.Resource.String.library_name;
-			global::XLabs.Forms.Resource.String.month_name_format = global::Tojeero.Droid.Resource.String.month_name_format;
-			global::XLabs.Forms.Resource.Style.CalendarCell = global::Tojeero.Droid.Resource.Style.CalendarCell;
-			global::XLabs.Forms.Resource.Style.CalendarCell_CalendarDate = global::Tojeero.Droid.Resource.Style.CalendarCell_CalendarDate;
-			global::XLabs.Forms.Resource.Style.CalendarCell_DayHeader = global::Tojeero.Droid.Resource.Style.CalendarCell_DayHeader;
-			global::XLabs.Forms.Resource.Style.CalendarTitle = global::Tojeero.Droid.Resource.Style.CalendarTitle;
 		}
 		
 		public partial class Attribute
@@ -151,83 +109,47 @@ namespace Tojeero.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f040000
-			public const int calendar_active_month_bg = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int com_facebook_blue = 2131034112;
 			
-			// aapt resource value: 0x7f040001
-			public const int calendar_bg = 2130968577;
+			// aapt resource value: 0x7f050001
+			public const int com_facebook_button_background_color = 2131034113;
 			
-			// aapt resource value: 0x7f040002
-			public const int calendar_divider = 2130968578;
+			// aapt resource value: 0x7f050002
+			public const int com_facebook_button_background_color_disabled = 2131034114;
 			
-			// aapt resource value: 0x7f040005
-			public const int calendar_highlighted_day_bg = 2130968581;
+			// aapt resource value: 0x7f050003
+			public const int com_facebook_button_background_color_pressed = 2131034115;
 			
-			// aapt resource value: 0x7f040003
-			public const int calendar_inactive_month_bg = 2130968579;
+			// aapt resource value: 0x7f050004
+			public const int com_facebook_button_like_background_color_selected = 2131034116;
 			
-			// aapt resource value: 0x7f040004
-			public const int calendar_selected_day_bg = 2130968580;
+			// aapt resource value: 0x7f050005
+			public const int com_facebook_button_login_silver_background_color = 2131034117;
 			
-			// aapt resource value: 0x7f040006
-			public const int calendar_selected_range_bg = 2130968582;
+			// aapt resource value: 0x7f050006
+			public const int com_facebook_button_login_silver_background_color_pressed = 2131034118;
 			
-			// aapt resource value: 0x7f040008
-			public const int calendar_text_active = 2130968584;
+			// aapt resource value: 0x7f050007
+			public const int com_facebook_button_send_background_color = 2131034119;
 			
-			// aapt resource value: 0x7f040007
-			public const int calendar_text_inactive = 2130968583;
+			// aapt resource value: 0x7f050008
+			public const int com_facebook_button_send_background_color_pressed = 2131034120;
 			
-			// aapt resource value: 0x7f040009
-			public const int calendar_text_selected = 2130968585;
+			// aapt resource value: 0x7f050009
+			public const int com_facebook_likeboxcountview_border_color = 2131034121;
 			
-			// aapt resource value: 0x7f040019
-			public const int calendar_text_selector = 2130968601;
+			// aapt resource value: 0x7f05000a
+			public const int com_facebook_likeboxcountview_text_color = 2131034122;
 			
-			// aapt resource value: 0x7f04000a
-			public const int calendar_text_unselectable = 2130968586;
+			// aapt resource value: 0x7f05000b
+			public const int com_facebook_likeview_text_color = 2131034123;
 			
-			// aapt resource value: 0x7f04000b
-			public const int com_facebook_blue = 2130968587;
+			// aapt resource value: 0x7f05000c
+			public const int com_facebook_share_button_text_color = 2131034124;
 			
-			// aapt resource value: 0x7f04000c
-			public const int com_facebook_button_background_color = 2130968588;
-			
-			// aapt resource value: 0x7f04000d
-			public const int com_facebook_button_background_color_disabled = 2130968589;
-			
-			// aapt resource value: 0x7f04000e
-			public const int com_facebook_button_background_color_pressed = 2130968590;
-			
-			// aapt resource value: 0x7f04000f
-			public const int com_facebook_button_like_background_color_selected = 2130968591;
-			
-			// aapt resource value: 0x7f040010
-			public const int com_facebook_button_login_silver_background_color = 2130968592;
-			
-			// aapt resource value: 0x7f040011
-			public const int com_facebook_button_login_silver_background_color_pressed = 2130968593;
-			
-			// aapt resource value: 0x7f040012
-			public const int com_facebook_button_send_background_color = 2130968594;
-			
-			// aapt resource value: 0x7f040013
-			public const int com_facebook_button_send_background_color_pressed = 2130968595;
-			
-			// aapt resource value: 0x7f040014
-			public const int com_facebook_likeboxcountview_border_color = 2130968596;
-			
-			// aapt resource value: 0x7f040015
-			public const int com_facebook_likeboxcountview_text_color = 2130968597;
-			
-			// aapt resource value: 0x7f040016
-			public const int com_facebook_likeview_text_color = 2130968598;
-			
-			// aapt resource value: 0x7f040017
-			public const int com_facebook_share_button_text_color = 2130968599;
-			
-			// aapt resource value: 0x7f040018
-			public const int white = 2130968600;
+			// aapt resource value: 0x7f05000d
+			public const int white = 2131034125;
 			
 			static Color()
 			{
@@ -242,77 +164,62 @@ namespace Tojeero.Droid
 		public partial class Dimension
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int calendar_day_headers_paddingbottom = 2131034112;
+			// aapt resource value: 0x7f060000
+			public const int com_facebook_likeboxcountview_border_radius = 2131099648;
 			
-			// aapt resource value: 0x7f050002
-			public const int calendar_month_title_bottommargin = 2131034114;
+			// aapt resource value: 0x7f060001
+			public const int com_facebook_likeboxcountview_border_width = 2131099649;
 			
-			// aapt resource value: 0x7f050001
-			public const int calendar_month_topmargin = 2131034113;
+			// aapt resource value: 0x7f060002
+			public const int com_facebook_likeboxcountview_caret_height = 2131099650;
 			
-			// aapt resource value: 0x7f050003
-			public const int calendar_text_medium = 2131034115;
+			// aapt resource value: 0x7f060003
+			public const int com_facebook_likeboxcountview_caret_width = 2131099651;
 			
-			// aapt resource value: 0x7f050004
-			public const int calendar_text_small = 2131034116;
+			// aapt resource value: 0x7f060004
+			public const int com_facebook_likeboxcountview_text_padding = 2131099652;
 			
-			// aapt resource value: 0x7f050005
-			public const int com_facebook_likeboxcountview_border_radius = 2131034117;
+			// aapt resource value: 0x7f060005
+			public const int com_facebook_likeboxcountview_text_size = 2131099653;
 			
-			// aapt resource value: 0x7f050006
-			public const int com_facebook_likeboxcountview_border_width = 2131034118;
+			// aapt resource value: 0x7f060006
+			public const int com_facebook_likeview_edge_padding = 2131099654;
 			
-			// aapt resource value: 0x7f050007
-			public const int com_facebook_likeboxcountview_caret_height = 2131034119;
+			// aapt resource value: 0x7f060007
+			public const int com_facebook_likeview_internal_padding = 2131099655;
 			
-			// aapt resource value: 0x7f050008
-			public const int com_facebook_likeboxcountview_caret_width = 2131034120;
+			// aapt resource value: 0x7f060008
+			public const int com_facebook_likeview_text_size = 2131099656;
 			
-			// aapt resource value: 0x7f050009
-			public const int com_facebook_likeboxcountview_text_padding = 2131034121;
+			// aapt resource value: 0x7f060009
+			public const int com_facebook_profilepictureview_preset_size_large = 2131099657;
 			
-			// aapt resource value: 0x7f05000a
-			public const int com_facebook_likeboxcountview_text_size = 2131034122;
+			// aapt resource value: 0x7f06000a
+			public const int com_facebook_profilepictureview_preset_size_normal = 2131099658;
 			
-			// aapt resource value: 0x7f05000b
-			public const int com_facebook_likeview_edge_padding = 2131034123;
+			// aapt resource value: 0x7f06000b
+			public const int com_facebook_profilepictureview_preset_size_small = 2131099659;
 			
-			// aapt resource value: 0x7f05000c
-			public const int com_facebook_likeview_internal_padding = 2131034124;
+			// aapt resource value: 0x7f06000c
+			public const int com_facebook_share_button_compound_drawable_padding = 2131099660;
 			
-			// aapt resource value: 0x7f05000d
-			public const int com_facebook_likeview_text_size = 2131034125;
+			// aapt resource value: 0x7f06000d
+			public const int com_facebook_share_button_padding_bottom = 2131099661;
 			
-			// aapt resource value: 0x7f05000e
-			public const int com_facebook_profilepictureview_preset_size_large = 2131034126;
+			// aapt resource value: 0x7f06000e
+			public const int com_facebook_share_button_padding_left = 2131099662;
 			
-			// aapt resource value: 0x7f05000f
-			public const int com_facebook_profilepictureview_preset_size_normal = 2131034127;
+			// aapt resource value: 0x7f06000f
+			public const int com_facebook_share_button_padding_right = 2131099663;
 			
-			// aapt resource value: 0x7f050010
-			public const int com_facebook_profilepictureview_preset_size_small = 2131034128;
+			// aapt resource value: 0x7f060010
+			public const int com_facebook_share_button_padding_top = 2131099664;
 			
-			// aapt resource value: 0x7f050011
-			public const int com_facebook_share_button_compound_drawable_padding = 2131034129;
+			// aapt resource value: 0x7f060011
+			public const int com_facebook_share_button_text_size = 2131099665;
 			
-			// aapt resource value: 0x7f050012
-			public const int com_facebook_share_button_padding_bottom = 2131034130;
-			
-			// aapt resource value: 0x7f050013
-			public const int com_facebook_share_button_padding_left = 2131034131;
-			
-			// aapt resource value: 0x7f050014
-			public const int com_facebook_share_button_padding_right = 2131034132;
-			
-			// aapt resource value: 0x7f050015
-			public const int com_facebook_share_button_padding_top = 2131034133;
-			
-			// aapt resource value: 0x7f050016
-			public const int com_facebook_share_button_text_size = 2131034134;
-			
-			// aapt resource value: 0x7f050017
-			public const int com_facebook_tooltip_horizontal_padding = 2131034135;
+			// aapt resource value: 0x7f060012
+			public const int com_facebook_tooltip_horizontal_padding = 2131099666;
 			
 			static Dimension()
 			{
@@ -349,181 +256,175 @@ namespace Tojeero.Droid
 			public const int actionbar_titletext_tojeero = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int ad16 = 2130837511;
+			public const int btn_cab_done_default_tojeero = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int btn_cab_done_default_tojeero = 2130837512;
+			public const int btn_cab_done_focused_tojeero = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int btn_cab_done_focused_tojeero = 2130837513;
+			public const int btn_cab_done_pressed_tojeero = 2130837513;
 			
 			// aapt resource value: 0x7f02000a
-			public const int btn_cab_done_pressed_tojeero = 2130837514;
+			public const int btn_cab_done_tojeero = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public const int btn_cab_done_tojeero = 2130837515;
+			public const int cab_background_bottom_tojeero = 2130837515;
 			
 			// aapt resource value: 0x7f02000c
-			public const int cab_background_bottom_tojeero = 2130837516;
+			public const int cab_background_top_tojeero = 2130837516;
 			
 			// aapt resource value: 0x7f02000d
-			public const int cab_background_top_tojeero = 2130837517;
+			public const int com_facebook_button_background = 2130837517;
 			
 			// aapt resource value: 0x7f02000e
-			public const int calendar_bg_selector = 2130837518;
+			public const int com_facebook_button_icon = 2130837518;
 			
 			// aapt resource value: 0x7f02000f
-			public const int com_facebook_button_background = 2130837519;
+			public const int com_facebook_button_like_background = 2130837519;
 			
 			// aapt resource value: 0x7f020010
-			public const int com_facebook_button_icon = 2130837520;
+			public const int com_facebook_button_like_icon_selected = 2130837520;
 			
 			// aapt resource value: 0x7f020011
-			public const int com_facebook_button_like_background = 2130837521;
+			public const int com_facebook_button_login_silver_background = 2130837521;
 			
 			// aapt resource value: 0x7f020012
-			public const int com_facebook_button_like_icon_selected = 2130837522;
+			public const int com_facebook_button_send_background = 2130837522;
 			
 			// aapt resource value: 0x7f020013
-			public const int com_facebook_button_login_silver_background = 2130837523;
+			public const int com_facebook_button_send_icon = 2130837523;
 			
 			// aapt resource value: 0x7f020014
-			public const int com_facebook_button_send_background = 2130837524;
+			public const int com_facebook_close = 2130837524;
 			
 			// aapt resource value: 0x7f020015
-			public const int com_facebook_button_send_icon = 2130837525;
+			public const int com_facebook_profile_picture_blank_portrait = 2130837525;
 			
 			// aapt resource value: 0x7f020016
-			public const int com_facebook_close = 2130837526;
+			public const int com_facebook_profile_picture_blank_square = 2130837526;
 			
 			// aapt resource value: 0x7f020017
-			public const int com_facebook_profile_picture_blank_portrait = 2130837527;
+			public const int com_facebook_tooltip_black_background = 2130837527;
 			
 			// aapt resource value: 0x7f020018
-			public const int com_facebook_profile_picture_blank_square = 2130837528;
+			public const int com_facebook_tooltip_black_bottomnub = 2130837528;
 			
 			// aapt resource value: 0x7f020019
-			public const int com_facebook_tooltip_black_background = 2130837529;
+			public const int com_facebook_tooltip_black_topnub = 2130837529;
 			
 			// aapt resource value: 0x7f02001a
-			public const int com_facebook_tooltip_black_bottomnub = 2130837530;
+			public const int com_facebook_tooltip_black_xout = 2130837530;
 			
 			// aapt resource value: 0x7f02001b
-			public const int com_facebook_tooltip_black_topnub = 2130837531;
+			public const int com_facebook_tooltip_blue_background = 2130837531;
 			
 			// aapt resource value: 0x7f02001c
-			public const int com_facebook_tooltip_black_xout = 2130837532;
+			public const int com_facebook_tooltip_blue_bottomnub = 2130837532;
 			
 			// aapt resource value: 0x7f02001d
-			public const int com_facebook_tooltip_blue_background = 2130837533;
+			public const int com_facebook_tooltip_blue_topnub = 2130837533;
 			
 			// aapt resource value: 0x7f02001e
-			public const int com_facebook_tooltip_blue_bottomnub = 2130837534;
+			public const int com_facebook_tooltip_blue_xout = 2130837534;
 			
 			// aapt resource value: 0x7f02001f
-			public const int com_facebook_tooltip_blue_topnub = 2130837535;
+			public const int icon = 2130837535;
 			
 			// aapt resource value: 0x7f020020
-			public const int com_facebook_tooltip_blue_xout = 2130837536;
+			public const int list_focused_tojeero = 2130837536;
 			
 			// aapt resource value: 0x7f020021
-			public const int icon = 2130837537;
+			public const int list_pressed_tojeero = 2130837537;
 			
 			// aapt resource value: 0x7f020022
-			public const int list_focused_tojeero = 2130837538;
+			public const int menu_dropdown_panel_tojeero = 2130837538;
 			
 			// aapt resource value: 0x7f020023
-			public const int list_pressed_tojeero = 2130837539;
+			public const int menuIcon = 2130837539;
 			
 			// aapt resource value: 0x7f020024
-			public const int menu_dropdown_panel_tojeero = 2130837540;
+			public const int messenger_bubble_large_blue = 2130837540;
 			
 			// aapt resource value: 0x7f020025
-			public const int menuIcon = 2130837541;
+			public const int messenger_bubble_large_white = 2130837541;
 			
 			// aapt resource value: 0x7f020026
-			public const int messenger_bubble_large_blue = 2130837542;
+			public const int messenger_bubble_small_blue = 2130837542;
 			
 			// aapt resource value: 0x7f020027
-			public const int messenger_bubble_large_white = 2130837543;
+			public const int messenger_bubble_small_white = 2130837543;
 			
 			// aapt resource value: 0x7f020028
-			public const int messenger_bubble_small_blue = 2130837544;
+			public const int messenger_button_blue_bg_round = 2130837544;
 			
 			// aapt resource value: 0x7f020029
-			public const int messenger_bubble_small_white = 2130837545;
+			public const int messenger_button_blue_bg_selector = 2130837545;
 			
 			// aapt resource value: 0x7f02002a
-			public const int messenger_button_blue_bg_round = 2130837546;
+			public const int messenger_button_send_round_shadow = 2130837546;
 			
 			// aapt resource value: 0x7f02002b
-			public const int messenger_button_blue_bg_selector = 2130837547;
+			public const int messenger_button_white_bg_round = 2130837547;
 			
 			// aapt resource value: 0x7f02002c
-			public const int messenger_button_send_round_shadow = 2130837548;
+			public const int messenger_button_white_bg_selector = 2130837548;
 			
 			// aapt resource value: 0x7f02002d
-			public const int messenger_button_white_bg_round = 2130837549;
+			public const int profilePicturePlaceholder = 2130837549;
 			
 			// aapt resource value: 0x7f02002e
-			public const int messenger_button_white_bg_selector = 2130837550;
+			public const int progress_bg_tojeero = 2130837550;
 			
 			// aapt resource value: 0x7f02002f
-			public const int profilePicturePlaceholder = 2130837551;
+			public const int progress_horizontal_tojeero = 2130837551;
 			
 			// aapt resource value: 0x7f020030
-			public const int progress_bg_tojeero = 2130837552;
+			public const int progress_primary_tojeero = 2130837552;
 			
 			// aapt resource value: 0x7f020031
-			public const int progress_horizontal_tojeero = 2130837553;
+			public const int progress_secondary_tojeero = 2130837553;
 			
 			// aapt resource value: 0x7f020032
-			public const int progress_primary_tojeero = 2130837554;
+			public const int selectable_background_tojeero = 2130837554;
 			
 			// aapt resource value: 0x7f020033
-			public const int progress_secondary_tojeero = 2130837555;
+			public const int spinner_ab_default_tojeero = 2130837555;
 			
 			// aapt resource value: 0x7f020034
-			public const int selectable_background_tojeero = 2130837556;
+			public const int spinner_ab_disabled_tojeero = 2130837556;
 			
 			// aapt resource value: 0x7f020035
-			public const int spinner_ab_default_tojeero = 2130837557;
+			public const int spinner_ab_focused_tojeero = 2130837557;
 			
 			// aapt resource value: 0x7f020036
-			public const int spinner_ab_disabled_tojeero = 2130837558;
+			public const int spinner_ab_pressed_tojeero = 2130837558;
 			
 			// aapt resource value: 0x7f020037
-			public const int spinner_ab_focused_tojeero = 2130837559;
+			public const int spinner_background_ab_tojeero = 2130837559;
 			
 			// aapt resource value: 0x7f020038
-			public const int spinner_ab_pressed_tojeero = 2130837560;
+			public const int splash = 2130837560;
 			
 			// aapt resource value: 0x7f020039
-			public const int spinner_background_ab_tojeero = 2130837561;
+			public const int tab_indicator_ab_tojeero = 2130837561;
 			
 			// aapt resource value: 0x7f02003a
-			public const int splash = 2130837562;
+			public const int tab_selected_focused_tojeero = 2130837562;
 			
 			// aapt resource value: 0x7f02003b
-			public const int tab_indicator_ab_tojeero = 2130837563;
+			public const int tab_selected_pressed_tojeero = 2130837563;
 			
 			// aapt resource value: 0x7f02003c
-			public const int tab_selected_focused_tojeero = 2130837564;
+			public const int tab_selected_tojeero = 2130837564;
 			
 			// aapt resource value: 0x7f02003d
-			public const int tab_selected_pressed_tojeero = 2130837565;
+			public const int tab_unselected_focused_tojeero = 2130837565;
 			
 			// aapt resource value: 0x7f02003e
-			public const int tab_selected_tojeero = 2130837566;
+			public const int tab_unselected_pressed_tojeero = 2130837566;
 			
 			// aapt resource value: 0x7f02003f
-			public const int tab_unselected_focused_tojeero = 2130837567;
-			
-			// aapt resource value: 0x7f020040
-			public const int tab_unselected_pressed_tojeero = 2130837568;
-			
-			// aapt resource value: 0x7f020041
-			public const int tab_unselected_tojeero = 2130837569;
+			public const int tab_unselected_tojeero = 2130837567;
 			
 			static Drawable()
 			{
@@ -553,35 +454,29 @@ namespace Tojeero.Droid
 			// aapt resource value: 0x7f080005
 			public const int button = 2131230725;
 			
-			// aapt resource value: 0x7f08001f
-			public const int calendar_grid = 2131230751;
-			
-			// aapt resource value: 0x7f080014
-			public const int calendar_view = 2131230740;
-			
 			// aapt resource value: 0x7f08000a
 			public const int center = 2131230730;
 			
-			// aapt resource value: 0x7f080019
-			public const int com_facebook_body_frame = 2131230745;
-			
-			// aapt resource value: 0x7f08001b
-			public const int com_facebook_button_xout = 2131230747;
+			// aapt resource value: 0x7f080015
+			public const int com_facebook_body_frame = 2131230741;
 			
 			// aapt resource value: 0x7f080017
-			public const int com_facebook_fragment_container = 2131230743;
+			public const int com_facebook_button_xout = 2131230743;
+			
+			// aapt resource value: 0x7f080013
+			public const int com_facebook_fragment_container = 2131230739;
+			
+			// aapt resource value: 0x7f080014
+			public const int com_facebook_login_activity_progress_bar = 2131230740;
+			
+			// aapt resource value: 0x7f080019
+			public const int com_facebook_tooltip_bubble_view_bottom_pointer = 2131230745;
 			
 			// aapt resource value: 0x7f080018
-			public const int com_facebook_login_activity_progress_bar = 2131230744;
+			public const int com_facebook_tooltip_bubble_view_text_body = 2131230744;
 			
-			// aapt resource value: 0x7f08001d
-			public const int com_facebook_tooltip_bubble_view_bottom_pointer = 2131230749;
-			
-			// aapt resource value: 0x7f08001c
-			public const int com_facebook_tooltip_bubble_view_text_body = 2131230748;
-			
-			// aapt resource value: 0x7f08001a
-			public const int com_facebook_tooltip_bubble_view_top_pointer = 2131230746;
+			// aapt resource value: 0x7f080016
+			public const int com_facebook_tooltip_bubble_view_top_pointer = 2131230742;
 			
 			// aapt resource value: 0x7f08000e
 			public const int display_always = 2131230734;
@@ -595,11 +490,8 @@ namespace Tojeero.Droid
 			// aapt resource value: 0x7f08000b
 			public const int left = 2131230731;
 			
-			// aapt resource value: 0x7f080016
-			public const int left_arrow = 2131230742;
-			
-			// aapt resource value: 0x7f08001e
-			public const int messenger_send_button = 2131230750;
+			// aapt resource value: 0x7f08001a
+			public const int messenger_send_button = 2131230746;
 			
 			// aapt resource value: 0x7f08000f
 			public const int never_display = 2131230735;
@@ -616,17 +508,11 @@ namespace Tojeero.Droid
 			// aapt resource value: 0x7f08000c
 			public const int right = 2131230732;
 			
-			// aapt resource value: 0x7f080015
-			public const int right_arrow = 2131230741;
-			
 			// aapt resource value: 0x7f080012
 			public const int small = 2131230738;
 			
 			// aapt resource value: 0x7f080006
 			public const int standard = 2131230726;
-			
-			// aapt resource value: 0x7f080013
-			public const int title = 2131230739;
 			
 			// aapt resource value: 0x7f080009
 			public const int top = 2131230729;
@@ -648,49 +534,34 @@ namespace Tojeero.Droid
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int calendar_pager_layout = 2130903040;
+			public const int com_facebook_activity_layout = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int calendar_picker = 2130903041;
+			public const int com_facebook_login_fragment = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int com_facebook_activity_layout = 2130903042;
+			public const int com_facebook_tooltip_bubble = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int com_facebook_login_fragment = 2130903043;
+			public const int messenger_button_send_blue_large = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int com_facebook_tooltip_bubble = 2130903044;
+			public const int messenger_button_send_blue_round = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int dialog = 2130903045;
+			public const int messenger_button_send_blue_small = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int messenger_button_send_blue_large = 2130903046;
+			public const int messenger_button_send_white_large = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int messenger_button_send_blue_round = 2130903047;
+			public const int messenger_button_send_white_round = 2130903047;
 			
 			// aapt resource value: 0x7f030008
-			public const int messenger_button_send_blue_small = 2130903048;
+			public const int messenger_button_send_white_small = 2130903048;
 			
 			// aapt resource value: 0x7f030009
-			public const int messenger_button_send_white_large = 2130903049;
-			
-			// aapt resource value: 0x7f03000a
-			public const int messenger_button_send_white_round = 2130903050;
-			
-			// aapt resource value: 0x7f03000b
-			public const int messenger_button_send_white_small = 2130903051;
-			
-			// aapt resource value: 0x7f03000c
-			public const int month = 2130903052;
-			
-			// aapt resource value: 0x7f03000d
-			public const int SplashScreen = 2130903053;
-			
-			// aapt resource value: 0x7f03000e
-			public const int week = 2130903054;
+			public const int SplashScreen = 2130903049;
 			
 			static Layout()
 			{
@@ -705,83 +576,68 @@ namespace Tojeero.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f060006
-			public const int ApplicationName = 2131099654;
+			// aapt resource value: 0x7f040001
+			public const int ApplicationName = 2130968577;
 			
-			// aapt resource value: 0x7f060005
-			public const int Hello = 2131099653;
+			// aapt resource value: 0x7f040000
+			public const int Hello = 2130968576;
 			
-			// aapt resource value: 0x7f060018
-			public const int app_name = 2131099672;
+			// aapt resource value: 0x7f040013
+			public const int app_name = 2130968595;
 			
-			// aapt resource value: 0x7f060007
-			public const int com_facebook_image_download_unknown_error = 2131099655;
+			// aapt resource value: 0x7f040002
+			public const int com_facebook_image_download_unknown_error = 2130968578;
 			
-			// aapt resource value: 0x7f060008
-			public const int com_facebook_internet_permission_error_message = 2131099656;
+			// aapt resource value: 0x7f040003
+			public const int com_facebook_internet_permission_error_message = 2130968579;
 			
-			// aapt resource value: 0x7f060009
-			public const int com_facebook_internet_permission_error_title = 2131099657;
+			// aapt resource value: 0x7f040004
+			public const int com_facebook_internet_permission_error_title = 2130968580;
 			
-			// aapt resource value: 0x7f06000a
-			public const int com_facebook_like_button_liked = 2131099658;
+			// aapt resource value: 0x7f040005
+			public const int com_facebook_like_button_liked = 2130968581;
 			
-			// aapt resource value: 0x7f06000b
-			public const int com_facebook_like_button_not_liked = 2131099659;
+			// aapt resource value: 0x7f040006
+			public const int com_facebook_like_button_not_liked = 2130968582;
 			
-			// aapt resource value: 0x7f06000c
-			public const int com_facebook_loading = 2131099660;
+			// aapt resource value: 0x7f040007
+			public const int com_facebook_loading = 2130968583;
 			
-			// aapt resource value: 0x7f06000d
-			public const int com_facebook_loginview_cancel_action = 2131099661;
+			// aapt resource value: 0x7f040008
+			public const int com_facebook_loginview_cancel_action = 2130968584;
 			
-			// aapt resource value: 0x7f06000e
-			public const int com_facebook_loginview_log_in_button = 2131099662;
+			// aapt resource value: 0x7f040009
+			public const int com_facebook_loginview_log_in_button = 2130968585;
 			
-			// aapt resource value: 0x7f06000f
-			public const int com_facebook_loginview_log_in_button_long = 2131099663;
+			// aapt resource value: 0x7f04000a
+			public const int com_facebook_loginview_log_in_button_long = 2130968586;
 			
-			// aapt resource value: 0x7f060010
-			public const int com_facebook_loginview_log_out_action = 2131099664;
+			// aapt resource value: 0x7f04000b
+			public const int com_facebook_loginview_log_out_action = 2130968587;
 			
-			// aapt resource value: 0x7f060011
-			public const int com_facebook_loginview_log_out_button = 2131099665;
+			// aapt resource value: 0x7f04000c
+			public const int com_facebook_loginview_log_out_button = 2130968588;
 			
-			// aapt resource value: 0x7f060012
-			public const int com_facebook_loginview_logged_in_as = 2131099666;
+			// aapt resource value: 0x7f04000d
+			public const int com_facebook_loginview_logged_in_as = 2130968589;
 			
-			// aapt resource value: 0x7f060013
-			public const int com_facebook_loginview_logged_in_using_facebook = 2131099667;
+			// aapt resource value: 0x7f04000e
+			public const int com_facebook_loginview_logged_in_using_facebook = 2130968590;
 			
-			// aapt resource value: 0x7f060014
-			public const int com_facebook_send_button_text = 2131099668;
+			// aapt resource value: 0x7f04000f
+			public const int com_facebook_send_button_text = 2130968591;
 			
-			// aapt resource value: 0x7f060015
-			public const int com_facebook_share_button_text = 2131099669;
+			// aapt resource value: 0x7f040010
+			public const int com_facebook_share_button_text = 2130968592;
 			
-			// aapt resource value: 0x7f060016
-			public const int com_facebook_tooltip_default = 2131099670;
+			// aapt resource value: 0x7f040011
+			public const int com_facebook_tooltip_default = 2130968593;
 			
-			// aapt resource value: 0x7f060001
-			public const int day_name_format = 2131099649;
+			// aapt resource value: 0x7f040014
+			public const int facebook_app_id = 2130968596;
 			
-			// aapt resource value: 0x7f060019
-			public const int facebook_app_id = 2131099673;
-			
-			// aapt resource value: 0x7f060004
-			public const int full_date_format = 2131099652;
-			
-			// aapt resource value: 0x7f060002
-			public const int invalid_date = 2131099650;
-			
-			// aapt resource value: 0x7f060000
-			public const int library_name = 2131099648;
-			
-			// aapt resource value: 0x7f060017
-			public const int messenger_send_button_text = 2131099671;
-			
-			// aapt resource value: 0x7f060003
-			public const int month_name_format = 2131099651;
+			// aapt resource value: 0x7f040012
+			public const int messenger_send_button_text = 2130968594;
 			
 			static String()
 			{
@@ -796,116 +652,104 @@ namespace Tojeero.Droid
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f07001b
-			public const int ActionBar_Solid_Tojeero = 2131165211;
-			
-			// aapt resource value: 0x7f070022
-			public const int ActionBar_TitleTextStyle_Tojeero = 2131165218;
-			
-			// aapt resource value: 0x7f07001c
-			public const int ActionBar_Transparent_Tojeero = 2131165212;
-			
-			// aapt resource value: 0x7f07001f
-			public const int ActionBarTabStyle_Tojeero = 2131165215;
-			
-			// aapt resource value: 0x7f070023
-			public const int ActionButton_CloseMode_Tojeero = 2131165219;
-			
-			// aapt resource value: 0x7f070001
-			public const int CalendarCell = 2131165185;
-			
-			// aapt resource value: 0x7f070003
-			public const int CalendarCell_CalendarDate = 2131165187;
-			
-			// aapt resource value: 0x7f070002
-			public const int CalendarCell_DayHeader = 2131165186;
-			
-			// aapt resource value: 0x7f070000
-			public const int CalendarTitle = 2131165184;
+			// aapt resource value: 0x7f070017
+			public const int ActionBar_Solid_Tojeero = 2131165207;
 			
 			// aapt resource value: 0x7f07001e
-			public const int DropDownListView_Tojeero = 2131165214;
-			
-			// aapt resource value: 0x7f070020
-			public const int DropDownNav_Tojeero = 2131165216;
-			
-			// aapt resource value: 0x7f070004
-			public const int MessengerButton = 2131165188;
-			
-			// aapt resource value: 0x7f070005
-			public const int MessengerButton_Blue = 2131165189;
-			
-			// aapt resource value: 0x7f070006
-			public const int MessengerButton_Blue_Large = 2131165190;
-			
-			// aapt resource value: 0x7f070007
-			public const int MessengerButton_Blue_Small = 2131165191;
-			
-			// aapt resource value: 0x7f070008
-			public const int MessengerButton_White = 2131165192;
-			
-			// aapt resource value: 0x7f070009
-			public const int MessengerButton_White_Large = 2131165193;
-			
-			// aapt resource value: 0x7f07000a
-			public const int MessengerButton_White_Small = 2131165194;
-			
-			// aapt resource value: 0x7f07000b
-			public const int MessengerButtonText = 2131165195;
-			
-			// aapt resource value: 0x7f07000c
-			public const int MessengerButtonText_Blue = 2131165196;
-			
-			// aapt resource value: 0x7f07000d
-			public const int MessengerButtonText_Blue_Large = 2131165197;
-			
-			// aapt resource value: 0x7f07000e
-			public const int MessengerButtonText_Blue_Small = 2131165198;
-			
-			// aapt resource value: 0x7f07000f
-			public const int MessengerButtonText_White = 2131165199;
-			
-			// aapt resource value: 0x7f070010
-			public const int MessengerButtonText_White_Large = 2131165200;
-			
-			// aapt resource value: 0x7f070011
-			public const int MessengerButtonText_White_Small = 2131165201;
-			
-			// aapt resource value: 0x7f07001d
-			public const int PopupMenu_Tojeero = 2131165213;
-			
-			// aapt resource value: 0x7f070021
-			public const int ProgressBar_Tojeero = 2131165217;
-			
-			// aapt resource value: 0x7f070019
-			public const int Theme_Splash = 2131165209;
-			
-			// aapt resource value: 0x7f07001a
-			public const int Theme_Tojeero = 2131165210;
-			
-			// aapt resource value: 0x7f070024
-			public const int Theme_Tojeero_Widget = 2131165220;
-			
-			// aapt resource value: 0x7f070012
-			public const int com_facebook_button = 2131165202;
-			
-			// aapt resource value: 0x7f070013
-			public const int com_facebook_button_like = 2131165203;
-			
-			// aapt resource value: 0x7f070014
-			public const int com_facebook_button_send = 2131165204;
-			
-			// aapt resource value: 0x7f070015
-			public const int com_facebook_button_share = 2131165205;
-			
-			// aapt resource value: 0x7f070016
-			public const int com_facebook_loginview_default_style = 2131165206;
-			
-			// aapt resource value: 0x7f070017
-			public const int com_facebook_loginview_silver_style = 2131165207;
+			public const int ActionBar_TitleTextStyle_Tojeero = 2131165214;
 			
 			// aapt resource value: 0x7f070018
-			public const int tooltip_bubble_text = 2131165208;
+			public const int ActionBar_Transparent_Tojeero = 2131165208;
+			
+			// aapt resource value: 0x7f07001b
+			public const int ActionBarTabStyle_Tojeero = 2131165211;
+			
+			// aapt resource value: 0x7f07001f
+			public const int ActionButton_CloseMode_Tojeero = 2131165215;
+			
+			// aapt resource value: 0x7f07001a
+			public const int DropDownListView_Tojeero = 2131165210;
+			
+			// aapt resource value: 0x7f07001c
+			public const int DropDownNav_Tojeero = 2131165212;
+			
+			// aapt resource value: 0x7f070000
+			public const int MessengerButton = 2131165184;
+			
+			// aapt resource value: 0x7f070001
+			public const int MessengerButton_Blue = 2131165185;
+			
+			// aapt resource value: 0x7f070002
+			public const int MessengerButton_Blue_Large = 2131165186;
+			
+			// aapt resource value: 0x7f070003
+			public const int MessengerButton_Blue_Small = 2131165187;
+			
+			// aapt resource value: 0x7f070004
+			public const int MessengerButton_White = 2131165188;
+			
+			// aapt resource value: 0x7f070005
+			public const int MessengerButton_White_Large = 2131165189;
+			
+			// aapt resource value: 0x7f070006
+			public const int MessengerButton_White_Small = 2131165190;
+			
+			// aapt resource value: 0x7f070007
+			public const int MessengerButtonText = 2131165191;
+			
+			// aapt resource value: 0x7f070008
+			public const int MessengerButtonText_Blue = 2131165192;
+			
+			// aapt resource value: 0x7f070009
+			public const int MessengerButtonText_Blue_Large = 2131165193;
+			
+			// aapt resource value: 0x7f07000a
+			public const int MessengerButtonText_Blue_Small = 2131165194;
+			
+			// aapt resource value: 0x7f07000b
+			public const int MessengerButtonText_White = 2131165195;
+			
+			// aapt resource value: 0x7f07000c
+			public const int MessengerButtonText_White_Large = 2131165196;
+			
+			// aapt resource value: 0x7f07000d
+			public const int MessengerButtonText_White_Small = 2131165197;
+			
+			// aapt resource value: 0x7f070019
+			public const int PopupMenu_Tojeero = 2131165209;
+			
+			// aapt resource value: 0x7f07001d
+			public const int ProgressBar_Tojeero = 2131165213;
+			
+			// aapt resource value: 0x7f070015
+			public const int Theme_Splash = 2131165205;
+			
+			// aapt resource value: 0x7f070016
+			public const int Theme_Tojeero = 2131165206;
+			
+			// aapt resource value: 0x7f070020
+			public const int Theme_Tojeero_Widget = 2131165216;
+			
+			// aapt resource value: 0x7f07000e
+			public const int com_facebook_button = 2131165198;
+			
+			// aapt resource value: 0x7f07000f
+			public const int com_facebook_button_like = 2131165199;
+			
+			// aapt resource value: 0x7f070010
+			public const int com_facebook_button_send = 2131165200;
+			
+			// aapt resource value: 0x7f070011
+			public const int com_facebook_button_share = 2131165201;
+			
+			// aapt resource value: 0x7f070012
+			public const int com_facebook_loginview_default_style = 2131165202;
+			
+			// aapt resource value: 0x7f070013
+			public const int com_facebook_loginview_silver_style = 2131165203;
+			
+			// aapt resource value: 0x7f070014
+			public const int tooltip_bubble_text = 2131165204;
 			
 			static Style()
 			{

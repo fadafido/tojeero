@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class BaseUserViewModel : LoadableViewModel
+	public class BaseUserViewModel : LoadableNetworkViewModel
 	{
 		#region Private Fields and Properties
 

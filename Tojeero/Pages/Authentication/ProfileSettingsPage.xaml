@@ -13,7 +13,11 @@
 			 </ContentPage.Resources>
 	<ContentPage.Content>
 		<ScrollView>
-			<StackLayout Padding="20">
+			<StackLayout>
+				<StackLayout Padding="0,5,0,5" BackgroundColor="{x:Static local:Colors.Orange}" IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}">
+					<Label Text="{Binding NoNetworkWarning}" TextColor="White" FontAttributes="Bold" FontSize="Small" XAlign="Center"/>
+				</StackLayout>
+				<StackLayout Padding="20">
 				<Label Text="{Binding Hint}" TextColor="{x:Static local:Colors.Orange}" FontSize="Medium" HorizontalOptions="Center" XAlign="Center"/>
 				<StackLayout Orientation="Vertical" Spacing="5">
 					<StackLayout Orientation="Horizontal" Spacing="5">
@@ -79,6 +83,7 @@
 					</StackLayout>
 
 				</StackLayout>	
+			</StackLayout>
 			</StackLayout>
 		</ScrollView>
 	</ContentPage.Content>

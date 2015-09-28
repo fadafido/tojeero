@@ -15,10 +15,42 @@ namespace Tojeero.Core.ViewModels
 		{
 			var connectivity = CrossConnectivity.Current;
 			connectivity.ConnectivityChanged+= (object sender, ConnectivityChangedEventArgs e) => {
-				Mvx.Trace("CONNECTIVITY CHANGED TO - {0}", e.IsConnected ? "CONNECTED to " + string.Join(", ", connectivity.ConnectionTypes) : "DISCONNECTED");
+				IsNetworkAvailable = e.IsConnected;
 			};
+			IsNetworkAvailable = connectivity.IsConnected;
 		}
 
+		#endregion
+
+		#region Properties
+
+		private bool _isNetworkAvailable;
+		public bool IsNetworkAvailable
+		{ 
+			get
+			{
+				return _isNetworkAvailable; 
+			}
+			set
+			{
+				if (_isNetworkAvailable != value)
+				{
+					_isNetworkAvailable = value; 
+					RaisePropertyChanged(() => IsNetworkAvailable); 
+					RaisePropertyChanged(() => NoNetworkWarning); 
+				}
+
+			}
+		}
+
+		private static string _noNetworkLabel = "No network connection available.";
+		public string NoNetworkWarning
+		{ 
+			get
+			{
+				return IsNetworkAvailable ? null : _noNetworkLabel; 
+			}
+		}
 		#endregion
 	}
 }

@@ -11,7 +11,6 @@ namespace Tojeero.Forms
 		public HomePage()
 		{
 			InitializeComponent();
-			Tools.Logger.Log(new InvalidOperationException(), "Sample error message.", LoggingLevel.Error, true);
 		}
 	}
 }

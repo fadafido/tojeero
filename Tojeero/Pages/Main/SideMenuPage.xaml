@@ -12,6 +12,9 @@
 			 </ContentPage.Resources>
 	<ContentPage.Content>
 		<StackLayout Orientation="Vertical" Spacing="0">
+			<StackLayout Padding="0,20,0,5" BackgroundColor="{x:Static local:Colors.Orange}" IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}">
+				<Label Text="{Binding NoNetworkWarning}" TextColor="White" FontAttributes="Bold" FontSize="Small" XAlign="Center"/>
+			</StackLayout>
 			<StackLayout Orientation="Vertical" VerticalOptions="Start">
 				<StackLayout Orientation="Vertical" Spacing="5" Padding="20,30,20,20" HeightRequest="120">
 					<Grid HeightRequest="100" WidthRequest="100" HorizontalOptions="Center" IsVisible="{Binding IsLoggedIn}">

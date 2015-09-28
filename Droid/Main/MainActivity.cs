@@ -13,10 +13,13 @@ using Parse;
 using Tojeero.Core;
 using ImageCircle.Forms.Plugin.Droid;
 using Android.Graphics.Drawables;
+using Cirrious.CrossCore;
+using XLabs.Platform.Services;
 
 namespace Tojeero.Droid
 {
 	[Activity(Label = "Tojeero", Icon = "@drawable/icon", Theme="@style/Theme.Tojeero", MainLauncher = true,  ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[IntentFilter(new[] { Intent.ActionMain }, Categories = new[] { "android.intent.category.LAUNCHER" })]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{
 		#region Properties
@@ -59,12 +62,16 @@ namespace Tojeero.Droid
 
 			CallbackManager.OnActivityResult(requestCode, (int)resultCode, data);
 		}
+			
+		#endregion
 
+		#region Utility Methods
 
 		void makeUICustomizations()
 		{
 			ActionBar.SetIcon (new ColorDrawable(Resources.GetColor (Android.Resource.Color.Transparent)));
 		}
+
 		#endregion
 	}
 }

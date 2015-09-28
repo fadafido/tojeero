@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -67,7 +67,6 @@
     <Compile Include="Misc\Toolbox\EventHandlerToolbox.cs" />
     <Compile Include="Misc\Toolbox\MvxToolbox.cs" />
     <Compile Include="SAL\Api Model\FacebookUser.cs" />
-    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Misc\Settings.cs" />
     <Compile Include="ViewModels\Base\BaseUserDetailsViewModel.cs" />
     <Compile Include="Misc\Constants\Images.cs" />
@@ -91,6 +90,13 @@
     <Compile Include="Misc\Tools.cs" />
     <Compile Include="Misc\Logging\LoggingExtentions.cs" />
     <Compile Include="Misc\Converters\NullToBoolConverter.cs" />
+    <Compile Include="Resources\AppResources.Designer.cs">
+      <DependentUpon>AppResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Misc\Services\Contracts\ILocalizationService.cs" />
+    <Compile Include="Misc\Markup Extensions\TranslateExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -167,25 +173,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Setup\" />
-    <Folder Include="ViewModels\Authentication\" />
-    <Folder Include="ViewModels\Base\" />
-    <Folder Include="ViewModels\Contracts\" />
-    <Folder Include="BL\" />
     <Folder Include="DAL\" />
-    <Folder Include="SAL\" />
-    <Folder Include="SAL\Services\" />
-    <Folder Include="Pages\" />
-    <Folder Include="Pages\Authentication\" />
     <Folder Include="Pages\Base\" />
-    <Folder Include="Pages\Main\" />
-    <Folder Include="ViewModels\Main\" />
-    <Folder Include="Misc\" />
-    <Folder Include="Misc\Converters\" />
-    <Folder Include="Misc\Custom Controls\" />
-    <Folder Include="Misc\Services\" />
-    <Folder Include="Misc\Services\Contracts\" />
-    <Folder Include="Misc\Logging\" />
+    <Folder Include="SAL\Services\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\HomePage.xaml">
@@ -197,5 +187,10 @@
     <EmbeddedResource Include="Pages\Authentication\ProfileSettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AppResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AppResources.ar.resx" />
   </ItemGroup>
 </Project>

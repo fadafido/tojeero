@@ -27,6 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -198,6 +199,7 @@
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
     <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Misc\Custom Renderers\ButtonRenderer.cs" />
+    <Compile Include="Misc\Services\LocalizationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

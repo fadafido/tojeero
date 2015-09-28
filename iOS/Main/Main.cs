@@ -6,6 +6,7 @@ using Foundation;
 using UIKit;
 using Xamarin;
 using Tojeero.Core;
+using System.Reflection;
 
 namespace Tojeero.iOS
 {
@@ -17,6 +18,13 @@ namespace Tojeero.iOS
 			string key = Constants.XamarinInsightsApiKey;
 			#if DEBUG
 			key = Insights.DebugModeKey;
+
+			//Log Resources
+
+			var assembly = typeof(Tojeero.Forms.FormsApp).GetTypeInfo().Assembly;
+			foreach (var res in assembly.GetManifestResourceNames())
+				System.Diagnostics.Debug.WriteLine("FOUND RESOURCE: " + res);
+			
 			#endif
 			Insights.Initialize(key);
 

@@ -4,6 +4,9 @@ using Xamarin.Forms;
 using Cirrious.CrossCore;
 using Xamarin;
 using Tojeero.Core;
+using Tojeero.Core.Services;
+using System.Reflection;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -18,6 +21,7 @@ namespace Tojeero.Forms
 		protected override void OnStart()
 		{
 			// Handle when your app starts
+
 		}
 
 		protected override void OnSleep()
@@ -28,6 +32,8 @@ namespace Tojeero.Forms
 		protected override void OnResume()
 		{
 			// Handle when your app resumes
+			if(Device.OS != TargetPlatform.WinPhone)
+				AppResources.Culture = Mvx.Resolve<ILocalizationService>().GetCurrentCultureInfo();
 		}
 	}
 }

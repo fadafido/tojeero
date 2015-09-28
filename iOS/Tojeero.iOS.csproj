@@ -248,6 +248,7 @@
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
     <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Misc\Custom Renderers\ButtonRenderer.cs" />
+    <Compile Include="Misc\Services\LocalizationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

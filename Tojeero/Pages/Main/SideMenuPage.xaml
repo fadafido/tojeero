@@ -31,7 +31,7 @@
 			</StackLayout>
 			<ScrollView BackgroundColor="Transparent" VerticalOptions="FillAndExpand">
 				<StackLayout IsVisible="{Binding IsLoggedIn}">
-					<Button HeightRequest="40" VerticalOptions="Start" Text="Profile settings" Command="{Binding ShowProfileSettingsCommand}" TextColor="White" BackgroundColor="Transparent"/>
+					<Button HeightRequest="40" VerticalOptions="Start" Text="{local:Translate MenuItemProfileSettings}" Command="{Binding ShowProfileSettingsCommand}" TextColor="White" BackgroundColor="Transparent"/>
 				</StackLayout>
 			</ScrollView>
 			<Grid Padding="10,10,10,20" HeightRequest="50" VerticalOptions="End">
@@ -40,11 +40,11 @@
 					<ColumnDefinition Width="4*"/>
 					<ColumnDefinition Width="*"/>
 				</Grid.ColumnDefinitions>
-				<Button HeightRequest="40" Grid.Column="1" Text="Log in" Command="{Binding LoginCommand}" VerticalOptions="Center" 
+				<Button HeightRequest="40" Grid.Column="1" Text="{local:Translate ButtonLogin}" Command="{Binding LoginCommand}" VerticalOptions="Center" 
 					Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
 					TextColor="White" BackgroundColor="{x:Static local:Colors.Green}" IsEnabled="{Binding CanExecuteLoginCommand}"
 					IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverse}}"></Button>
-				<Button HeightRequest="40" Grid.Column="1" Text="Log out" Command="{Binding LogoutCommand}" VerticalOptions="Center"
+				<Button HeightRequest="40" Grid.Column="1" Text="{local:Translate ButtonLogout}" Command="{Binding LogoutCommand}" VerticalOptions="Center"
 					IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}" 
 					TextColor="White" BackgroundColor="{x:Static local:Colors.Orange}" IsVisible="{Binding IsLoggedIn}"></Button>	
 				<ActivityIndicator Grid.Column="2" IsRunning="{Binding IsLoading}" HorizontalOptions="End" VerticalOptions="Center" Color="White"/>

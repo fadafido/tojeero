@@ -3,6 +3,7 @@ using Cirrious.MvvmCross.Plugins.Messenger;
 using Connectivity.Plugin;
 using Connectivity.Plugin.Abstractions;
 using Cirrious.CrossCore;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -44,7 +45,7 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private static string _noNetworkLabel = "No network connection available.";
+		private static string _noNetworkLabel = AppResources.MessageNoInternetWarning;
 		public string NoNetworkWarning
 		{ 
 			get

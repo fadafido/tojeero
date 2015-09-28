@@ -9,6 +9,7 @@ using Cirrious.CrossCore;
 using Cirrious.CrossCore.Platform;
 using System.Collections.Generic;
 using System.Linq;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -38,7 +39,7 @@ namespace Tojeero.Core.ViewModels
 
 		public void Init(bool userShouldProvideProfileDetails)
 		{
-			Hint = userShouldProvideProfileDetails ? "Please provide some details about you to improve your app experience." : null;
+			Hint = userShouldProvideProfileDetails ? AppResources.MessageProfileSettingsHint : null;
 		}
 
 		#endregion
@@ -46,14 +47,6 @@ namespace Tojeero.Core.ViewModels
 		#region Properties
 
 		public event EventHandler<EventArgs> Close;
-
-		public string Title
-		{
-			get
-			{
-				return "Profile Settings";
-			}
-		}
 
 		private string _hint;
 		public string Hint

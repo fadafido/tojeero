@@ -198,6 +198,14 @@
       <Project>{3D79B416-E11B-4017-922D-F77D17991910}</Project>
       <Name>Tojeero</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Libraries\TwinTechsForms\TwinTechsForms.Core\TwinTechsForms.Core.csproj">
+      <Project>{7C5D7E33-C77E-475F-BE8B-359CD164A4E5}</Project>
+      <Name>TwinTechsForms.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\TwinTechsForms\TwinTechsForms.iOS\TwinTechsForms.iOS.csproj">
+      <Project>{C0D2B64A-CBFC-42A2-B8A6-B8673976EE14}</Project>
+      <Name>TwinTechsForms.iOS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default.png" />
@@ -218,6 +226,36 @@
     <BundleResource Include="Resources\profilePicturePlaceholder.png" />
     <BundleResource Include="Resources\profilePicturePlaceholder%402x.png" />
     <BundleResource Include="Resources\menuIcon%402x.png" />
+    <BundleResource Include="Resources\Samples\Products\Product 1.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 10.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 11.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 12.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 13.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 14.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 15.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 16.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 17.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 18.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 2.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 3.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 4.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 5.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 6.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 7.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 8.PNG" />
+    <BundleResource Include="Resources\Samples\Products\Product 9.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 10.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 11.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 12.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 2.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 3.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 4.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 5.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 6.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 7.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 8.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 9.PNG" />
+    <BundleResource Include="Resources\Samples\Stores\Store 1.PNG" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -270,6 +308,8 @@
     <Compile Include="..\Tojeero\Setup\ParseInitialize.cs">
       <Link>Setup\ParseInitialize.cs</Link>
     </Compile>
+    <Compile Include="Misc\Toolbox\UIImageToolbox.cs" />
+    <Compile Include="Misc\BootstrapData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />
@@ -287,5 +327,8 @@
     <Folder Include="Core\" />
     <Folder Include="Core\BL\" />
     <Folder Include="Core\SAL\" />
+    <Folder Include="Resources\Samples\" />
+    <Folder Include="Resources\Samples\Products\" />
+    <Folder Include="Resources\Samples\Stores\" />
   </ItemGroup>
 </Project>

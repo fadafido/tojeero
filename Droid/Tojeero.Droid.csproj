@@ -171,11 +171,22 @@
       <HintPath>..\packages\ExifLib.PCL.1.0.1\lib\portable-net45+sl50+win+WindowsPhoneApp81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\ExifLib.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android.Export" />
+    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tojeero\Tojeero.csproj">
       <Project>{3D79B416-E11B-4017-922D-F77D17991910}</Project>
       <Name>Tojeero</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\TwinTechsForms\TwinTechsForms.Core\TwinTechsForms.Core.csproj">
+      <Project>{7C5D7E33-C77E-475F-BE8B-359CD164A4E5}</Project>
+      <Name>TwinTechsForms.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\TwinTechsForms\TwinTechsForms.Droid\TwinTechsForms.Droid.csproj">
+      <Project>{F4FDDB8D-1DAD-4558-B62C-CDBD703F9B9D}</Project>
+      <Name>TwinTechsForms.Droid</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

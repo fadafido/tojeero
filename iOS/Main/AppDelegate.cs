@@ -67,6 +67,9 @@ namespace Tojeero.iOS
 			ImageCircleRenderer.Init();
 
 			MakeAppearanceCustomizations();
+
+			BootstrapData.GenerateSampleProductsAndStores();
+
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
 		}
 

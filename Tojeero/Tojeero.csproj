@@ -106,6 +106,8 @@
     <Compile Include="BL\ModelEntityCollection.cs" />
     <Compile Include="Misc\Exceptions\AuthenticationException.cs" />
     <Compile Include="Misc\Enums\UnauthorizedReason.cs" />
+    <Compile Include="ViewModels\Main\ProductsViewModel.cs" />
+    <Compile Include="ViewModels\Main\StoresViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -206,5 +208,11 @@
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\AppResources.ar.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Libraries\TwinTechsForms\TwinTechsForms.Core\TwinTechsForms.Core.csproj">
+      <Project>{7C5D7E33-C77E-475F-BE8B-359CD164A4E5}</Project>
+      <Name>TwinTechsForms.Core</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

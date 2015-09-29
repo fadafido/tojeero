@@ -240,15 +240,30 @@
     <Compile Include="Setup\Bootstrap\Secure Storage\MvxTouchProtectedData.cs" />
     <Compile Include="Setup\Bootstrap\Secure Storage\Plugin.cs" />
     <Compile Include="Setup\Bootstrap\Secure Storage\SecureStoragePluginBootstrap.cs" />
-    <Compile Include="..\Tojeero\SAL\Services\ParseAuthenticationService.cs">
-      <Link>Misc\Services\ParseAuthenticationService.cs</Link>
-    </Compile>
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateToolbox.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
     <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Misc\Custom Renderers\ButtonRenderer.cs" />
     <Compile Include="Misc\Services\LocalizationService.cs" />
+    <Compile Include="..\Tojeero\BL\Entities\BaseModelEntity.cs">
+      <Link>Core\BL\Entities\BaseModelEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Product.cs">
+      <Link>Core\BL\Entities\Product.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Store.cs">
+      <Link>Core\BL\Entities\Store.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\BaseModelEntityManager.cs">
+      <Link>Core\BL\Managers\BaseModelEntityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\StoreManager.cs">
+      <Link>Core\BL\Managers\StoreManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseAuthenticationService.cs">
+      <Link>Core\SAL\Services\ParseAuthenticationService.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />
@@ -263,5 +278,8 @@
     <Folder Include="Setup\Bootstrap\Secure Storage\" />
     <Folder Include="Misc\" />
     <Folder Include="Misc\Custom Renderers\" />
+    <Folder Include="Core\" />
+    <Folder Include="Core\BL\" />
+    <Folder Include="Core\SAL\" />
   </ItemGroup>
 </Project>

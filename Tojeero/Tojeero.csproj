@@ -38,9 +38,6 @@
     <Compile Include="ViewModels\Base\ReloadableViewModel.cs" />
     <Compile Include="ViewModels\Contracts\ILoadableViewModel.cs" />
     <Compile Include="ViewModels\Contracts\IReloadableViewModel.cs" />
-    <Compile Include="BL\Contracts\IModelEntity.cs" />
-    <Compile Include="BL\Contracts\IUniqueEntity.cs" />
-    <Compile Include="BL\Entities\BaseModelEntity.cs" />
     <Compile Include="SAL\Api Model\User.cs" />
     <Compile Include="SAL\Contracts\IAuthenticationService.cs" />
     <Compile Include="ViewModels\Authentication\LogInViewModel.cs" />
@@ -97,6 +94,12 @@
     </Compile>
     <Compile Include="Misc\Services\Contracts\ILocalizationService.cs" />
     <Compile Include="Misc\Markup Extensions\TranslateExtension.cs" />
+    <Compile Include="ViewModels\Base\BaseCollectionViewModel.cs" />
+    <Compile Include="BL\Contracts\Entities\IModelEntity.cs" />
+    <Compile Include="BL\Contracts\Managers\IModelEntityManager.cs" />
+    <Compile Include="BL\Contracts\Entities\IStore.cs" />
+    <Compile Include="BL\Contracts\Entities\IProduct.cs" />
+    <Compile Include="ViewModels\Base\ReloadableNetworkViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -176,6 +179,8 @@
     <Folder Include="DAL\" />
     <Folder Include="Pages\Base\" />
     <Folder Include="SAL\Services\" />
+    <Folder Include="BL\Contracts\Entities\" />
+    <Folder Include="BL\Contracts\Managers\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\HomePage.xaml">

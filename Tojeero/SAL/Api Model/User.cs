@@ -1,9 +1,10 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Cirrious.MvvmCross.ViewModels;
 
 namespace Tojeero.Core
 {
-	public class User : BaseModelEntity
+	public class User : MvxNotifyPropertyChanged, IModelEntity
 	{
 		#region Constructors
 

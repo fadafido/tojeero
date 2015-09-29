@@ -189,7 +189,7 @@
     <Compile Include="Setup\Bootstrap\MessengerPluginBootstrap.cs" />
     <Compile Include="Setup\Bootstrap\SecureStoragePluginBootstrap.cs" />
     <Compile Include="..\Tojeero\SAL\Services\ParseAuthenticationService.cs">
-      <Link>Misc\Services\ParseAuthenticationService.cs</Link>
+      <Link>Core\SAL\Services\ParseAuthenticationService.cs</Link>
     </Compile>
     <Compile Include="Main\MainActivity.cs" />
     <Compile Include="Main\SplashScreen.cs" />
@@ -200,6 +200,21 @@
     <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Misc\Custom Renderers\ButtonRenderer.cs" />
     <Compile Include="Misc\Services\LocalizationService.cs" />
+    <Compile Include="..\Tojeero\BL\Entities\BaseModelEntity.cs">
+      <Link>Core\BL\Entities\BaseModelEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Product.cs">
+      <Link>Core\BL\Entities\Product.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Store.cs">
+      <Link>Core\BL\Entities\Store.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\BaseModelEntityManager.cs">
+      <Link>Core\BL\Managers\BaseModelEntityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\StoreManager.cs">
+      <Link>Core\BL\Managers\StoreManager.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -217,6 +232,9 @@
     <Folder Include="Misc\Toolbox\" />
     <Folder Include="Resources\drawable-mdpi\" />
     <Folder Include="Misc\Custom Renderers\" />
+    <Folder Include="Core\" />
+    <Folder Include="Core\BL\" />
+    <Folder Include="Core\SAL\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />

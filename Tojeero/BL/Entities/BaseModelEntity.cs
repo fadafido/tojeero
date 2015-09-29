@@ -1,64 +1,21 @@
 ﻿using System;
+using Cirrious.MvvmCross.ViewModels;
 
 namespace Tojeero.Core
 {
-	public class BaseModelEntity : IModelEntity
+	public class BaseModelEntity : MvxNotifyPropertyChanged, IModelEntity
 	{
-		#region Constructors
-
 		public BaseModelEntity()
 		{
 		}
-
-		#endregion
-
-		#region Properties
-
-		#region IModelEntity implementation
-
-		private int _sortOrder;
-
-		public int SortOrder
-		{
-			get
-			{
-				return _sortOrder;
-			}
-			set
-			{
-				if (_sortOrder != value)
-				{
-					_sortOrder = value;
-				}
-			}
-		}
-
-		#endregion
-
-		#region IUniqueEntity implementation
-
-		private string _id;
 
 		public string ID
 		{
 			get
 			{
-				return _id;
-			}
-			set
-			{
-				if (_id != value)
-				{
-					_id = value;
-				}
+				throw new NotImplementedException();
 			}
 		}
-
-		#endregion
-
-
-
-		#endregion
 	}
 }
 

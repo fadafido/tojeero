@@ -46,7 +46,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private static string _noNetworkLabel = AppResources.MessageNoInternetWarning;
-		public string NoNetworkWarning
+		public virtual string NoNetworkWarning
 		{ 
 			get
 			{

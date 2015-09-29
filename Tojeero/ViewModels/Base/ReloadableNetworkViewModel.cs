@@ -2,11 +2,11 @@
 
 namespace Tojeero.Core.ViewModels
 {
-	public abstract class ReloadableViewModel : LoadableViewModel, IReloadableViewModel
+	public abstract class ReloadableNetworkViewModel : LoadableNetworkViewModel
 	{
 		#region Constructors
 
-		public ReloadableViewModel()
+		public ReloadableNetworkViewModel()
 			: base()
 		{
 		}

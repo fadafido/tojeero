@@ -18,22 +18,6 @@ namespace Tojeero.Core
 			ShouldAlwaysRaiseInpcOnUserInterfaceThread(alwaysOnUIThread);
 		}
 
-		#region IModelEntity implementation
-
-		public string ID
-		{
-			get
-			{
-				return base.ObjectId;
-			}
-			set
-			{
-				base.ObjectId = value;
-			}
-		}
-
-		#endregion
-
 		#region IMvxNotifyPropertyChanged implementation
 
 		public event PropertyChangedEventHandler PropertyChanged;

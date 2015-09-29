@@ -4,7 +4,7 @@ using Cirrious.MvvmCross.ViewModels;
 
 namespace Tojeero.Core
 {
-	public class User : MvxNotifyPropertyChanged, IModelEntity
+	public class User
 	{
 		#region Constructors
 

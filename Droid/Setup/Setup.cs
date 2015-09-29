@@ -30,6 +30,11 @@ namespace Tojeero.Droid
 				.EndingWith("Service")
 				.AsInterfaces()
 				.RegisterAsLazySingleton();
+
+			CreatableTypes()
+				.EndingWith("Manager")
+				.AsInterfaces()
+				.RegisterAsLazySingleton();
 		}
 	}
 }

@@ -49,6 +49,9 @@ namespace Tojeero.iOS
 
 			_window = new UIWindow(UIScreen.MainScreen.Bounds);
 
+			//Initialize Parse
+			ParseInitialize.Initialize();
+
 			//Initialize MvvmCross
 			var setup = new Setup(this, _window);
 			setup.Initialize();
@@ -60,16 +63,13 @@ namespace Tojeero.iOS
 			_window.RootViewController = _current.MainPage.CreateViewController();
 			_window.MakeKeyAndVisible();
 
-			//Initialize Parse
-			ParseInitialize.Initialize();
-
 			//Initialize Misc Plugins
 			ImageCircleRenderer.Init();
 
 			MakeAppearanceCustomizations();
 
-			BootstrapData.GenerateSampleProductsAndStores();
-
+			//BootstrapData.GenerateSampleProductsAndStores();
+			//sampleQuery();
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
 		}
 
@@ -92,6 +92,12 @@ namespace Tojeero.iOS
 			UINavigationBar.Appearance.SetTitleTextAttributes(attr);
 		}
 
+		private async void sampleQuery()
+		{
+			var query = new ParseQuery<Product>().Limit(10);
+			var result = await query.FindAsync();
+			Console.WriteLine();
+		}
 		#endregion
 
 

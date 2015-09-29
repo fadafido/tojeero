@@ -2,24 +2,25 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace Tojeero.Core
 {
-	public class ModelEntityCollection<EntityType> : ObservableCollection<EntityType>, IModelEntityCollection<EntityType>
-		where EntityType : IModelEntity
+	public class ModelEntityCollection<T> : ObservableCollection<T>, IModelEntityCollection<T>
+		where T : IModelEntity
 	{
 		#region Private fields and properties
 
-		private readonly IModelEntityManager<EntityType> _manager;
 		private readonly int _pageSize;
+		QueryDelegate<T> _query;
 		#endregion
 
 		#region Constructors
 
-		public ModelEntityCollection(IModelEntityManager<EntityType> manager, int pageSize = -1)
+		public ModelEntityCollection(QueryDelegate<T> query, int pageSize = -1)
 		{
-			this._manager = manager;
 			this._pageSize = pageSize;
+			_query = query;
 		}
 
 		#endregion
@@ -35,7 +36,7 @@ namespace Tojeero.Core
 		{
 			try
 			{
-				var result = await _manager.FetchAsync(this.Count, _pageSize, token);
+				var result = await _query(this.Count, _pageSize, token);
 				foreach(var item in result)
 					this.Add(item);
 			}

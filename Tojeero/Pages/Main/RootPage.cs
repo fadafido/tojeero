@@ -15,7 +15,7 @@ namespace Tojeero.Forms
 			{
 				Title = "Tojeero",
 			};
-			this.Detail = new NavigationPage(new HomePage() {Title = "Tojeero"});
+			this.Detail = new NavigationPage(new ProductsPage() {Title = "Tojeero"});
 		}
 	}
 }

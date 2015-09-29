@@ -594,71 +594,68 @@ namespace Tojeero.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f060002
-			public const int ApplicationName = 2131099650;
-			
 			// aapt resource value: 0x7f060001
-			public const int Hello = 2131099649;
-			
-			// aapt resource value: 0x7f060014
-			public const int app_name = 2131099668;
-			
-			// aapt resource value: 0x7f060003
-			public const int com_facebook_image_download_unknown_error = 2131099651;
-			
-			// aapt resource value: 0x7f060004
-			public const int com_facebook_internet_permission_error_message = 2131099652;
-			
-			// aapt resource value: 0x7f060005
-			public const int com_facebook_internet_permission_error_title = 2131099653;
-			
-			// aapt resource value: 0x7f060006
-			public const int com_facebook_like_button_liked = 2131099654;
-			
-			// aapt resource value: 0x7f060007
-			public const int com_facebook_like_button_not_liked = 2131099655;
-			
-			// aapt resource value: 0x7f060008
-			public const int com_facebook_loading = 2131099656;
-			
-			// aapt resource value: 0x7f060009
-			public const int com_facebook_loginview_cancel_action = 2131099657;
-			
-			// aapt resource value: 0x7f06000a
-			public const int com_facebook_loginview_log_in_button = 2131099658;
-			
-			// aapt resource value: 0x7f06000b
-			public const int com_facebook_loginview_log_in_button_long = 2131099659;
-			
-			// aapt resource value: 0x7f06000c
-			public const int com_facebook_loginview_log_out_action = 2131099660;
-			
-			// aapt resource value: 0x7f06000d
-			public const int com_facebook_loginview_log_out_button = 2131099661;
-			
-			// aapt resource value: 0x7f06000e
-			public const int com_facebook_loginview_logged_in_as = 2131099662;
-			
-			// aapt resource value: 0x7f06000f
-			public const int com_facebook_loginview_logged_in_using_facebook = 2131099663;
-			
-			// aapt resource value: 0x7f060010
-			public const int com_facebook_send_button_text = 2131099664;
-			
-			// aapt resource value: 0x7f060011
-			public const int com_facebook_share_button_text = 2131099665;
-			
-			// aapt resource value: 0x7f060012
-			public const int com_facebook_tooltip_default = 2131099666;
-			
-			// aapt resource value: 0x7f060015
-			public const int facebook_app_id = 2131099669;
+			public const int ApplicationName = 2131099649;
 			
 			// aapt resource value: 0x7f060000
-			public const int library_name = 2131099648;
+			public const int Hello = 2131099648;
 			
 			// aapt resource value: 0x7f060013
-			public const int messenger_send_button_text = 2131099667;
+			public const int app_name = 2131099667;
+			
+			// aapt resource value: 0x7f060002
+			public const int com_facebook_image_download_unknown_error = 2131099650;
+			
+			// aapt resource value: 0x7f060003
+			public const int com_facebook_internet_permission_error_message = 2131099651;
+			
+			// aapt resource value: 0x7f060004
+			public const int com_facebook_internet_permission_error_title = 2131099652;
+			
+			// aapt resource value: 0x7f060005
+			public const int com_facebook_like_button_liked = 2131099653;
+			
+			// aapt resource value: 0x7f060006
+			public const int com_facebook_like_button_not_liked = 2131099654;
+			
+			// aapt resource value: 0x7f060007
+			public const int com_facebook_loading = 2131099655;
+			
+			// aapt resource value: 0x7f060008
+			public const int com_facebook_loginview_cancel_action = 2131099656;
+			
+			// aapt resource value: 0x7f060009
+			public const int com_facebook_loginview_log_in_button = 2131099657;
+			
+			// aapt resource value: 0x7f06000a
+			public const int com_facebook_loginview_log_in_button_long = 2131099658;
+			
+			// aapt resource value: 0x7f06000b
+			public const int com_facebook_loginview_log_out_action = 2131099659;
+			
+			// aapt resource value: 0x7f06000c
+			public const int com_facebook_loginview_log_out_button = 2131099660;
+			
+			// aapt resource value: 0x7f06000d
+			public const int com_facebook_loginview_logged_in_as = 2131099661;
+			
+			// aapt resource value: 0x7f06000e
+			public const int com_facebook_loginview_logged_in_using_facebook = 2131099662;
+			
+			// aapt resource value: 0x7f06000f
+			public const int com_facebook_send_button_text = 2131099663;
+			
+			// aapt resource value: 0x7f060010
+			public const int com_facebook_share_button_text = 2131099664;
+			
+			// aapt resource value: 0x7f060011
+			public const int com_facebook_tooltip_default = 2131099665;
+			
+			// aapt resource value: 0x7f060014
+			public const int facebook_app_id = 2131099668;
+			
+			// aapt resource value: 0x7f060012
+			public const int messenger_send_button_text = 2131099666;
 			
 			static String()
 			{

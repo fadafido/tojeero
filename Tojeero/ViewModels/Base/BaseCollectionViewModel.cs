@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -8,18 +10,15 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Private fields and properties
 
-		private readonly IModelEntityManager<T> _manager;
-
 		#endregion
 
 
 		#region Constructors
 
-		public BaseCollectionViewModel(IModelEntityManager<T> manager)
+		public BaseCollectionViewModel(QueryDelegate<T> query)
 			: base()
 		{
-			_manager = manager;
-			_collection = new ModelEntityCollection<T>(manager, 10);
+			_collection = new ModelEntityCollection<T>(query, 10);
 		}
 
 		#endregion

@@ -293,9 +293,6 @@
     <Compile Include="..\Tojeero\BL\Entities\Store.cs">
       <Link>Core\BL\Entities\Store.cs</Link>
     </Compile>
-    <Compile Include="..\Tojeero\BL\Managers\BaseModelEntityManager.cs">
-      <Link>Core\BL\Managers\BaseModelEntityManager.cs</Link>
-    </Compile>
     <Compile Include="..\Tojeero\BL\Managers\StoreManager.cs">
       <Link>Core\BL\Managers\StoreManager.cs</Link>
     </Compile>

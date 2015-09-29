@@ -13,9 +13,12 @@ namespace Tojeero.Core.ViewModels
 		#region Constructors
 
 		public ProductsViewModel(IProductManager manager)
-			: base(manager)
+			: base(manager.FetchProducts)
 		{
 			_manager = manager;
+			LoadNextPageCommand.Execute(null);
+
+
 		}
 
 		#endregion

@@ -31,6 +31,11 @@ namespace Tojeero.iOS
 				.EndingWith("Service")
 				.AsInterfaces()
 				.RegisterAsLazySingleton();
+
+			CreatableTypes()
+				.EndingWith("Manager")
+				.AsInterfaces()
+				.RegisterAsLazySingleton();
 		}
 	}
 }

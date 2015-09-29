@@ -3,7 +3,7 @@ using Parse;
 
 namespace Tojeero.Core
 {
-	[ParseClassName("Product")]
+	[ParseClassName("StoreItem")]
 	public class Product : BaseModelEntity, IProduct
 	{
 		#region Constructors

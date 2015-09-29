@@ -27,6 +27,11 @@ namespace Tojeero
 				.RegisterAsLazySingleton();
 
 			CreatableTypes()
+				.EndingWith("Manager")
+				.AsInterfaces()
+				.RegisterAsLazySingleton();
+
+			CreatableTypes()
 				.EndingWith("ViewModel")
 				.AsTypes()
 				.RegisterAsDynamic();

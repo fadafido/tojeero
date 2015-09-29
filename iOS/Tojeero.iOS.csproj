@@ -264,6 +264,12 @@
     <Compile Include="..\Tojeero\SAL\Services\ParseAuthenticationService.cs">
       <Link>Core\SAL\Services\ParseAuthenticationService.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\ProductManager.cs">
+      <Link>Core\BL\Managers\ProductManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\Setup\ParseInitialize.cs">
+      <Link>Setup\ParseInitialize.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

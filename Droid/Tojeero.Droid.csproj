@@ -215,6 +215,12 @@
     <Compile Include="..\Tojeero\BL\Managers\StoreManager.cs">
       <Link>Core\BL\Managers\StoreManager.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\ProductManager.cs">
+      <Link>Core\BL\Managers\ProductManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\Setup\ParseInitialize.cs">
+      <Link>Setup\ParseInitialize.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

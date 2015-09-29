@@ -45,8 +45,7 @@ namespace Tojeero.Droid
 			FacebookSdk.SdkInitialize(this);
 
 			//Initialize Parse
-			ParseClient.Initialize(Constants.ParseApplicationId, Constants.ParseDotNetKey);
-			ParseFacebookUtils.Initialize(Constants.FacebookAppId);
+			ParseInitialize.Initialize();
 
 			//Initialize Xamarin Insights
 			string key = Constants.XamarinInsightsApiKey;

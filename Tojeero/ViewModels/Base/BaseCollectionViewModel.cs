@@ -69,6 +69,19 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private bool _isLoadingNextPage;
+		public bool IsLoadingNextPage
+		{ 
+			get
+			{
+				return _isLoadingNextPage; 
+			}
+			set
+			{
+				_isLoadingNextPage = value; 
+				RaisePropertyChanged(() => IsLoadingNextPage); 
+			}
+		}
 		#endregion
 
 		#region Commands
@@ -131,15 +144,20 @@ namespace Tojeero.Core.ViewModels
 					var collection = new ModelEntityCollection<T>(_query, _pageSize);
 					await collection.FetchNextPageAsync();
 					this.Collection = collection;
-					this.IsLoadingInitialData = false;
 				}
 				else
+				{
+					this.IsLoadingNextPage = true;
 					await _collection.FetchNextPageAsync();
+				}
 			}
 			catch(Exception ex)
 			{
 				failureMessage = handleException(ex);
 			}
+
+			this.IsLoadingNextPage = false;
+			this.IsLoadingInitialData = false;
 			this.StopLoading(failureMessage);
 			LoadingNextPageFinished.Fire(this, new EventArgs());
 		}

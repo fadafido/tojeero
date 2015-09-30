@@ -26,20 +26,29 @@
 					VerticalOptions="Center" 
 					Color="{x:Static local:Colors.DarkGray}"/>
 			</StackLayout>
-			<ListView 
+			<local:InfiniteListView 
 				x:Name="ProductsListView"
 				ItemsSource="{Binding Collection}"
 				BackgroundColor="Transparent" 
 				RowHeight="100"
 				SeparatorVisibility="None"
 				IsPullToRefreshEnabled="true"
-				RefreshCommand="{Binding ReloadCommand}">
+				RefreshCommand="{Binding ReloadCommand}"
+				LoadMoreCommand="{Binding LoadNextPageCommand}">
 			    <ListView.ItemTemplate>
 			      <DataTemplate>
 			        <local:ProductListCell />
 			      </DataTemplate>
 			    </ListView.ItemTemplate>
-		  	</ListView>
+		  	</local:InfiniteListView>
+		  	<StackLayout Padding="5"
+				IsVisible="{Binding IsLoadingNextPage}">
+				<ActivityIndicator 
+					IsRunning="{Binding IsLoadingNextPage}"
+					HorizontalOptions="Center" 
+					VerticalOptions="Center" 
+					Color="{x:Static local:Colors.DarkGray}"/>
+			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

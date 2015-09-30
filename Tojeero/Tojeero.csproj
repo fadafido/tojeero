@@ -222,7 +222,9 @@
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
       <LogicalName>Tojeero.Core.Resources.AppResources.resources</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\AppResources.ar.resx" />
+    <EmbeddedResource Include="Resources\AppResources.ar.resx">
+      <LogicalName>Tojeero.Core.Resources.AppResources.ar.resources</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pages\Main\ProductsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

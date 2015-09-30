@@ -1,53 +1,75 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
-			 x:Class="Tojeero.Forms.StoresPage"
-			 BackgroundColor="{x:Static local:Colors.LightGray}">
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.StoresPage"
+	BackgroundColor="{x:Static local:Colors.LightGray}">
 	<ContentPage.Resources>
-	 	<ResourceDictionary>
-	 		 <local:InverseBoolConverter x:Key="inverse" />
-	 		 <local:VisibilityConverter x:Key="visibility" />
-	 	</ResourceDictionary>
+		<ResourceDictionary>
+			<local:InverseBoolConverter
+				x:Key="inverse" />
+			<local:VisibilityConverter
+				x:Key="visibility" />
+		</ResourceDictionary>
 	</ContentPage.Resources>
 	<ContentPage.Content>
-		<StackLayout BackgroundColor="Transparent">	
-			<StackLayout Padding="0,5,0,5" BackgroundColor="{x:Static local:Colors.Orange}" IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}">
-				<Label Text="{local:Translate MessageNoInternetWarning}" TextColor="White" FontAttributes="Bold" FontSize="Small" XAlign="Center"/>
+		<StackLayout
+			BackgroundColor="Transparent">
+			<StackLayout
+				Padding="0,5,0,5"
+				BackgroundColor="{x:Static local:Colors.Orange}"
+				IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}">
+				<Label
+					Text="{local:Translate MessageNoInternetWarning}"
+					TextColor="White"
+					FontAttributes="Bold"
+					FontSize="Small"
+					XAlign="Center" />
 			</StackLayout>
-			<StackLayout Padding="0,5,0,5" BackgroundColor="{x:Static local:Colors.Black}" IsVisible="{Binding LoadingFailureMessage, Converter={StaticResource visibility}}">
-				<Label Text="{Binding LoadingFailureMessage}" TextColor="White" FontAttributes="Bold" FontSize="Small" XAlign="Center"/>
+			<StackLayout
+				Padding="0,5,0,5"
+				BackgroundColor="{x:Static local:Colors.Black}"
+				IsVisible="{Binding LoadingFailureMessage, Converter={StaticResource visibility}}">
+				<Label
+					Text="{Binding LoadingFailureMessage}"
+					TextColor="White"
+					FontAttributes="Bold"
+					FontSize="Small"
+					XAlign="Center" />
 			</StackLayout>
-			<StackLayout Padding="5"
+			<StackLayout
+				Padding="5"
 				IsVisible="{Binding IsLoadingInitialData}">
-				<ActivityIndicator 
+				<ActivityIndicator
 					IsRunning="{Binding IsLoadingInitialData}"
-					HorizontalOptions="Center" 
-					VerticalOptions="Center" 
-					Color="{x:Static local:Colors.DarkGray}"/>
+					HorizontalOptions="Center"
+					VerticalOptions="Center"
+					Color="{x:Static local:Colors.DarkGray}" />
 			</StackLayout>
-			<local:InfiniteListView 
+			<local:InfiniteListView
 				x:Name="StoresListView"
 				ItemsSource="{Binding Collection}"
-				BackgroundColor="Transparent" 
+				BackgroundColor="Transparent"
 				RowHeight="100"
 				SeparatorVisibility="None"
 				IsPullToRefreshEnabled="true"
 				RefreshCommand="{Binding ReloadCommand}"
 				LoadMoreCommand="{Binding LoadNextPageCommand}">
-			    <ListView.ItemTemplate>
-			      <DataTemplate>
-			        <local:StoreListCell />
-			      </DataTemplate>
-			    </ListView.ItemTemplate>
-		  	</local:InfiniteListView>
-		  	<StackLayout Padding="5"
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<local:StoreListCell />
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</local:InfiniteListView>
+			<StackLayout
+				Padding="5"
 				IsVisible="{Binding IsLoadingNextPage}">
-				<ActivityIndicator 
+				<ActivityIndicator
 					IsRunning="{Binding IsLoadingNextPage}"
-					HorizontalOptions="Center" 
-					VerticalOptions="Center" 
-					Color="{x:Static local:Colors.DarkGray}"/>
+					HorizontalOptions="Center"
+					VerticalOptions="Center"
+					Color="{x:Static local:Colors.DarkGray}" />
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

@@ -1,59 +1,128 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-			 x:Class="Tojeero.Forms.SideMenuPage"
-			 xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
-			 xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-			 xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
-			 BackgroundColor="{x:Static local:Colors.Black}">
-			 <ContentPage.Resources>
-			 	<ResourceDictionary>
-			 		 <local:InverseBoolConverter x:Key="inverse" />
-			 		 <local:BoolToOpacityConverter x:Key="opacity" />
-			 		 <local:InverseBoolToOpacityConverter x:Key="inverseOpacity" />
-			 		 <local:UrlToCachedImageSourceConverter x:Key="cachedImage"/>
-			 	</ResourceDictionary>
-			 </ContentPage.Resources>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.SideMenuPage"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
+	BackgroundColor="{x:Static local:Colors.Black}">
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<local:InverseBoolConverter
+				x:Key="inverse" />
+			<local:BoolToOpacityConverter
+				x:Key="opacity" />
+			<local:InverseBoolToOpacityConverter
+				x:Key="inverseOpacity" />
+			<local:UrlToCachedImageSourceConverter
+				x:Key="cachedImage" />
+		</ResourceDictionary>
+	</ContentPage.Resources>
 	<ContentPage.Content>
-		<StackLayout Orientation="Vertical" Spacing="0">
-			<StackLayout Padding="0,20,0,5" BackgroundColor="{x:Static local:Colors.Orange}" IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}">
-				<Label Text="{Binding NoNetworkWarning}" TextColor="White" FontAttributes="Bold" FontSize="Small" XAlign="Center"/>
+		<StackLayout
+			Orientation="Vertical"
+			Spacing="0">
+			<StackLayout
+				Padding="0,20,0,5"
+				BackgroundColor="{x:Static local:Colors.Orange}"
+				IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}">
+				<Label
+					Text="{Binding NoNetworkWarning}"
+					TextColor="White"
+					FontAttributes="Bold"
+					FontSize="Small"
+					XAlign="Center" />
 			</StackLayout>
-			<StackLayout Orientation="Vertical" VerticalOptions="Start">
-				<StackLayout Orientation="Vertical" Spacing="5" Padding="20,30,20,20" HeightRequest="120">
-					<Grid HeightRequest="100" WidthRequest="100" HorizontalOptions="Center" IsVisible="{Binding IsLoggedIn}">
+			<StackLayout
+				Orientation="Vertical"
+				VerticalOptions="Start">
+				<StackLayout
+					Orientation="Vertical"
+					Spacing="5"
+					Padding="20,30,20,20"
+					HeightRequest="120">
+					<Grid
+						HeightRequest="100"
+						WidthRequest="100"
+						HorizontalOptions="Center"
+						IsVisible="{Binding IsLoggedIn}">
 						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto"/>
+							<RowDefinition
+								Height="Auto" />
 						</Grid.RowDefinitions>
-						<controls:CircleImage 
-							Source="{Binding ProfilePicturePlaceholder}" 
-							BorderColor="{x:Static local:Colors.Blue}" BorderThickness="2" Aspect="AspectFill"/>
 						<controls:CircleImage
-							Source = "{Binding ProfilePicture, Converter={StaticResource cachedImage}}"
-							BorderColor="{x:Static local:Colors.Blue}" BorderThickness="2" Aspect="AspectFill"/>
+							Source="{Binding ProfilePicturePlaceholder}"
+							BorderColor="{x:Static local:Colors.Blue}"
+							BorderThickness="2"
+							Aspect="AspectFill" />
+						<controls:CircleImage
+							Source="{Binding ProfilePicture, Converter={StaticResource cachedImage}}"
+							BorderColor="{x:Static local:Colors.Blue}"
+							BorderThickness="2"
+							Aspect="AspectFill" />
 					</Grid>
-					<Label Text="{Binding FullName}" HorizontalOptions="Center" TextColor="White"/>
+					<Label
+						Text="{Binding FullName}"
+						HorizontalOptions="Center"
+						TextColor="White" />
 				</StackLayout>
 			</StackLayout>
-			<ScrollView BackgroundColor="Transparent" VerticalOptions="FillAndExpand">
-				<StackLayout IsVisible="{Binding IsLoggedIn}">
-					<Button HeightRequest="40" VerticalOptions="Start" Text="{local:Translate MenuItemProfileSettings}" Command="{Binding ShowProfileSettingsCommand}" TextColor="White" BackgroundColor="Transparent"/>
+			<ScrollView
+				BackgroundColor="Transparent"
+				VerticalOptions="FillAndExpand">
+				<StackLayout
+					IsVisible="{Binding IsLoggedIn}">
+					<Button
+						HeightRequest="40"
+						VerticalOptions="Start"
+						Text="{local:Translate MenuItemProfileSettings}"
+						Command="{Binding ShowProfileSettingsCommand}"
+						TextColor="White"
+						BackgroundColor="Transparent" />
 				</StackLayout>
 			</ScrollView>
-			<Grid Padding="10,10,10,20" HeightRequest="50" VerticalOptions="End">
+			<Grid
+				Padding="10,10,10,20"
+				HeightRequest="50"
+				VerticalOptions="End">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="4*"/>
-					<ColumnDefinition Width="*"/>
+					<ColumnDefinition
+						Width="*" />
+					<ColumnDefinition
+						Width="4*" />
+					<ColumnDefinition
+						Width="*" />
 				</Grid.ColumnDefinitions>
-				<Button HeightRequest="40" Grid.Column="1" Text="{local:Translate ButtonLogin}" Command="{Binding LoginCommand}" VerticalOptions="Center" 
+				<Button
+					HeightRequest="40"
+					Grid.Column="1"
+					Text="{local:Translate ButtonLogin}"
+					Command="{Binding LoginCommand}"
+					VerticalOptions="Center"
 					Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
-					TextColor="White" BackgroundColor="{x:Static local:Colors.Green}" IsEnabled="{Binding CanExecuteLoginCommand}"
-					IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverse}}"></Button>
-				<Button HeightRequest="40" Grid.Column="1" Text="{local:Translate ButtonLogout}" Command="{Binding LogoutCommand}" VerticalOptions="Center"
-					IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}" 
-					TextColor="White" BackgroundColor="{x:Static local:Colors.Orange}" IsVisible="{Binding IsLoggedIn}"></Button>	
-				<ActivityIndicator Grid.Column="2" IsRunning="{Binding IsLoading}" HorizontalOptions="End" VerticalOptions="Center" Color="White"/>
+					TextColor="White"
+					BackgroundColor="{x:Static local:Colors.Green}"
+					IsEnabled="{Binding CanExecuteLoginCommand}"
+					IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverse}}">
+				</Button>
+				<Button
+					HeightRequest="40"
+					Grid.Column="1"
+					Text="{local:Translate ButtonLogout}"
+					Command="{Binding LogoutCommand}"
+					VerticalOptions="Center"
+					IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}"
+					TextColor="White"
+					BackgroundColor="{x:Static local:Colors.Orange}"
+					IsVisible="{Binding IsLoggedIn}">
+				</Button>
+				<ActivityIndicator
+					Grid.Column="2"
+					IsRunning="{Binding IsLoading}"
+					HorizontalOptions="End"
+					VerticalOptions="Center"
+					Color="White" />
 			</Grid>
 		</StackLayout>
 	</ContentPage.Content>

@@ -33,19 +33,6 @@ namespace Tojeero.Droid
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
-			//Setup MvvmCross
-			var setup = new Setup(this);
-			setup.Initialize();
-
-			//Setup Xamarin forms
-			global::Xamarin.Forms.Forms.Init(this, bundle);
-			LoadApplication(new FormsApp());
-
-			//Initialize Facebook
-			FacebookSdk.SdkInitialize(this);
-
-			//Initialize Parse
-			ParseInitialize.Initialize();
 
 			//Initialize Xamarin Insights
 			string key = Constants.XamarinInsightsApiKey;
@@ -53,6 +40,20 @@ namespace Tojeero.Droid
 			key = Insights.DebugModeKey;
 			#endif
 			Insights.Initialize(key, this);
+
+			//Initialize Facebook
+			FacebookSdk.SdkInitialize(this);
+
+			//Initialize Parse
+			ParseInitialize.Initialize();
+
+			//Setup MvvmCross
+			var setup = new Setup(this);
+			setup.Initialize();
+
+			//Setup Xamarin forms
+			global::Xamarin.Forms.Forms.Init(this, bundle);
+			LoadApplication(new FormsApp());
 
 			//Initialize Misc Plugins
 			ImageCircleRenderer.Init();

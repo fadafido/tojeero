@@ -7,6 +7,7 @@ namespace Tojeero.Core
 		string Name { get; set; }
 		double Price { get; set; }
 		Uri ImageUrl { get; }
+		string FormattedPrice { get; }
 	}
 }
 

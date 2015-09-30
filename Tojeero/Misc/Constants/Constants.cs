@@ -19,6 +19,12 @@ namespace Tojeero.Core
 
 		/*****************MISC*****************/
 		public static string XamarinInsightsApiKey = "641ba3e3bf2f2764d06bc254a896aed9c8175a94";
+		public static TimeSpan ImageCacheTimespan = TimeSpan.FromDays(1);
+
+		/*****************TIMEOUTS*****************/
+		public static int DefaultTimeout = 20000;
+		public static int FetchProductsTimeout = 10000;
+		public static int FetchStoresTimeout = 10000;
 	}
 }
 

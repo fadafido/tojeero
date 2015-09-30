@@ -86,7 +86,6 @@
     <Compile Include="Misc\Logging\LoggingLevel.cs" />
     <Compile Include="Misc\Tools.cs" />
     <Compile Include="Misc\Logging\LoggingExtentions.cs" />
-    <Compile Include="Misc\Converters\NullToBoolConverter.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <DependentUpon>AppResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -110,9 +109,11 @@
     <Compile Include="Pages\Main\ProductsPage.xaml.cs">
       <DependentUpon>ProductsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Misc\Custom Cells\ProductGridCell.xaml.cs">
-      <DependentUpon>ProductGridCell.xaml</DependentUpon>
+    <Compile Include="Misc\Custom Cells\ProductListCell.xaml.cs">
+      <DependentUpon>ProductListCell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Misc\Converters\CurrencyConverter.cs" />
+    <Compile Include="Misc\Converters\VisibilityConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -217,14 +218,8 @@
     <EmbeddedResource Include="Pages\Main\ProductsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Misc\Custom Cells\ProductGridCell.xaml">
+    <EmbeddedResource Include="Misc\Custom Cells\ProductListCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Libraries\TwinTechsForms\TwinTechsForms.Core\TwinTechsForms.Core.csproj">
-      <Project>{7C5D7E33-C77E-475F-BE8B-359CD164A4E5}</Project>
-      <Name>TwinTechsForms.Core</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>

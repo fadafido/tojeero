@@ -9,16 +9,20 @@ namespace Tojeero.Core.ViewModels
 		where T : IModelEntity
 	{
 		#region Private fields and properties
-
+		QueryDelegate<T> _query;
+		private int _pageSize;
 		#endregion
 
 
 		#region Constructors
 
-		public BaseCollectionViewModel(QueryDelegate<T> query)
+		public BaseCollectionViewModel(QueryDelegate<T> query, int pageSize = 10)
 			: base()
-		{
-			_collection = new ModelEntityCollection<T>(query, 10);
+		{			
+			_pageSize = pageSize;
+			_query = query;
+			_collection = new ModelEntityCollection<T>(_query, _pageSize);
+			PropertyChanged += propertyChanged;
 		}
 
 		#endregion
@@ -36,6 +40,15 @@ namespace Tojeero.Core.ViewModels
 			{
 				_collection = value; 
 				RaisePropertyChanged(() => Collection); 
+				RaisePropertyChanged(() => Count); 
+			}
+		}
+
+		public int Count
+		{ 
+			get
+			{
+				return this._collection != null ? _collection.Count : 0; 
 			}
 		}
 
@@ -51,8 +64,16 @@ namespace Tojeero.Core.ViewModels
 				_loadNextPageCommand = _loadNextPageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
 						await loadNextPage();
-					}, () => !this.IsLoading);
+					}, () => CanExecuteLoadNextPageCommand);
 				return _loadNextPageCommand;
+			}
+		}
+
+		public bool CanExecuteLoadNextPageCommand
+		{
+			get
+			{
+				return !this.IsLoading && this.IsNetworkAvailable;
 			}
 		}
 
@@ -63,21 +84,29 @@ namespace Tojeero.Core.ViewModels
 		private async Task loadNextPage()
 		{
 			this.StartLoading("Loading...");
-
 			string failureMessage = "";
 			try
 			{
 				await _collection.FetchNextPageAsync();
 			}
-			catch(Exception ex)
+			catch(OperationCanceledException)
 			{
-				Tools.Logger.Log(ex, LoggingLevel.Error);
-				failureMessage = "Failed loading data.";
+				failureMessage = "Loading timed out. Please try again.";
 			}
-
+			catch(Exception)
+			{
+				failureMessage = "Data loading failed. Please try again.";
+			}	
 			this.StopLoading(failureMessage);
 		}
 
+		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{			
+			if(e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
+			{
+				RaisePropertyChanged(() => CanExecuteLoadNextPageCommand);
+			}
+		}
 		#endregion
 	}
 }

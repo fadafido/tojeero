@@ -159,14 +159,8 @@
     <Reference Include="Facebook">
       <HintPath>..\packages\Xamarin.Facebook.iOS.4.5.1.0\lib\Xamarin.iOS10\Facebook.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Auth.iOS">
-      <HintPath>..\Components\xamarin.social-1.1.7\lib\ios-unified\Xamarin.Auth.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Mobile">
       <HintPath>..\Components\xamarin.social-1.1.7\lib\ios-unified\Xamarin.Mobile.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Social.iOS">
-      <HintPath>..\Components\xamarin.social-1.1.7\lib\ios-unified\Xamarin.Social.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ImageCircle.Forms.Plugin.iOS">
       <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\Xamarin.iOS10\ImageCircle.Forms.Plugin.iOS.dll</HintPath>
@@ -197,14 +191,6 @@
     <ProjectReference Include="..\Tojeero\Tojeero.csproj">
       <Project>{3D79B416-E11B-4017-922D-F77D17991910}</Project>
       <Name>Tojeero</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Libraries\TwinTechsForms\TwinTechsForms.Core\TwinTechsForms.Core.csproj">
-      <Project>{7C5D7E33-C77E-475F-BE8B-359CD164A4E5}</Project>
-      <Name>TwinTechsForms.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Libraries\TwinTechsForms\TwinTechsForms.iOS\TwinTechsForms.iOS.csproj">
-      <Project>{C0D2B64A-CBFC-42A2-B8A6-B8673976EE14}</Project>
-      <Name>TwinTechsForms.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

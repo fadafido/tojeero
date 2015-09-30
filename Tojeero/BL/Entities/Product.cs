@@ -26,6 +26,7 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<string>(value);
+				RaisePropertyChanged(() => Name);
 			}
 		}
 
@@ -39,6 +40,16 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<double>(value);
+				RaisePropertyChanged(() => Price);
+				RaisePropertyChanged(() => FormattedPrice);
+			}
+		}
+
+		public string FormattedPrice
+		{
+			get
+			{
+				return Price.ToString("C");
 			}
 		}
 			
@@ -60,6 +71,7 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<ParseFile>(value);
+				RaisePropertyChanged(() => ImageUrl);
 			}
 		}
 		#endregion

@@ -7,7 +7,7 @@ namespace Tojeero.Core
 {
 	public interface IStoreManager
 	{
-		Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset, CancellationToken token);
+		Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset);
 	}
 }
 

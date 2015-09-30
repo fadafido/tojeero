@@ -19,11 +19,14 @@ namespace Tojeero.Core
 
 		#region IProductManager implementation
 
-		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, CancellationToken token)
+		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
 		{
-			var query = new ParseQuery<Product>().Limit(pageSize).Skip(offset);
-			var result = await query.FindAsync();
-			return result;
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
+			{
+				var query = new ParseQuery<Product>().Limit(pageSize).Skip(offset);
+				var result = await query.FindAsync(tokenSource.Token);
+				return result;
+			}
 		}
 
 		#endregion

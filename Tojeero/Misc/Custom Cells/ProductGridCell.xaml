@@ -9,7 +9,7 @@
 	<xlabs:FastGridCell.Resources>
 		<ResourceDictionary>
 	 		 <local:InverseBoolConverter x:Key="inverse" />
-	 		 <local:NullToBoolConverter x:Key="visibility" />
+	 		 <local:VisibilityConverter x:Key="visibility" />
 	 	</ResourceDictionary>
 	</xlabs:FastGridCell.Resources>
 	<Grid BackgroundColor="{x:Static local:Colors.UltraLightGray}">

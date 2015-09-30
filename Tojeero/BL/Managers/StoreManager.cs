@@ -19,11 +19,14 @@ namespace Tojeero.Core
 
 		#region IStoreManager Implementation
 
-		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset, CancellationToken token)
+		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			var query = new ParseQuery<Store>().Limit(pageSize).Skip(offset);
-			var result = await query.FindAsync();
-			return result;
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
+			{
+				var query = new ParseQuery<Store>().Limit(pageSize).Skip(offset);
+				var result = await query.FindAsync(tokenSource.Token);
+				return result;
+			}
 		}
 
 		#endregion

@@ -7,7 +7,7 @@ namespace Tojeero.Core
 {
 	public interface IProductManager
 	{
-		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, CancellationToken token);
+		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
 	}
 }
 

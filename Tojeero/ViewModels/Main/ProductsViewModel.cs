@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Linq;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -10,15 +13,17 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
+		#region Properties
+
+		#endregion
+
 		#region Constructors
 
 		public ProductsViewModel(IProductManager manager)
-			: base(manager.FetchProducts)
+			: base(manager.FetchProducts, 20)
 		{
 			_manager = manager;
 			LoadNextPageCommand.Execute(null);
-
-
 		}
 
 		#endregion

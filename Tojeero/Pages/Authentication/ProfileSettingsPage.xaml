@@ -9,7 +9,7 @@
 			 		 <local:InverseBoolConverter x:Key="inverse" />
 			 		 <local:BoolToOpacityConverter x:Key="opacity" />
 			 		 <local:InverseBoolToOpacityConverter x:Key="inverseOpacity" />
-			 		 <local:NullToBoolConverter x:Key="visibility" />
+			 		 <local:VisibilityConverter x:Key="visibility" />
 			 	</ResourceDictionary>
 			 </ContentPage.Resources>
 	<ContentPage.Content>

@@ -13,6 +13,7 @@ namespace Tojeero.Core
 
 		private readonly int _pageSize;
 		QueryDelegate<T> _query;
+
 		#endregion
 
 		#region Constructors
@@ -27,22 +28,28 @@ namespace Tojeero.Core
 
 		#region IModelEntityCollection implementation
 
-		public Task FetchNextPageAsync()
-		{
-			return FetchNextPageAsync(CancellationToken.None);
-		}
-
-		public async Task FetchNextPageAsync(CancellationToken token)
+		public async Task FetchNextPageAsync()
 		{
 			try
 			{
-				var result = await _query(this.Count, _pageSize, token);
+				var result = await _query(_pageSize, this.Count);
 				foreach(var item in result)
 					this.Add(item);
 			}
+			catch(OperationCanceledException ex)
+			{
+				Tools.Logger.Log(ex, LoggingLevel.Warning);
+				throw ex;
+			}
 			catch(Exception ex)
 			{
-				Tools.Logger.Log(ex, LoggingLevel.Error);
+				Tools.Logger.Log(ex, new Dictionary<string, string>{
+					["Description"]="Error occured while fetching data using ModelEntityCollection.",
+					["Model entity"]=typeof(T).FullName,
+					["Page size"]=this._pageSize.ToString(),
+					["Current offset"]=this.Count.ToString(),
+				}, LoggingLevel.Error, true);
+				throw ex;
 			}
 		}
 

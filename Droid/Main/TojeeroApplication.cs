@@ -2,6 +2,10 @@
 using Android.App;
 using System.Collections.Generic;
 using Android.Content;
+using Tojeero.Core;
+using Xamarin;
+using Xamarin.Facebook;
+using ImageCircle.Forms.Plugin.Droid;
 
 [assembly: UsesPermission(Android.Manifest.Permission.Internet)]
 [assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
@@ -50,9 +54,28 @@ namespace Tojeero.Droid
 		{
 			base.OnCreate();
 			Instance = this;
-			
-		}
 
+			//Initialize Xamarin Insights
+			string key = Constants.XamarinInsightsApiKey;
+			#if DEBUG
+			key = Insights.DebugModeKey;
+			#endif
+			Insights.Initialize(key, this);
+
+			//Initialize Facebook
+			FacebookSdk.SdkInitialize(this);
+
+			//Initialize Parse
+			ParseInitialize.Initialize();
+
+			//Setup MvvmCross
+			var setup = new Setup(this);
+			setup.Initialize();
+
+			//Initialize Misc Plugins
+			ImageCircleRenderer.Init();
+		}
+			
 		#endregion
 
 		#region Private classes

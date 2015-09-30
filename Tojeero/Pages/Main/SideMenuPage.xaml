@@ -1,13 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Tojeero.Forms.SideMenuPage"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+			 x:Class="Tojeero.Forms.SideMenuPage"
 			 xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 			 xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+			 xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
 			 BackgroundColor="{x:Static local:Colors.Black}">
 			 <ContentPage.Resources>
 			 	<ResourceDictionary>
 			 		 <local:InverseBoolConverter x:Key="inverse" />
 			 		 <local:BoolToOpacityConverter x:Key="opacity" />
 			 		 <local:InverseBoolToOpacityConverter x:Key="inverseOpacity" />
+			 		 <local:UrlToCachedImageSourceConverter x:Key="cachedImage"/>
 			 	</ResourceDictionary>
 			 </ContentPage.Resources>
 	<ContentPage.Content>
@@ -21,10 +25,12 @@
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto"/>
 						</Grid.RowDefinitions>
-						<controls:CircleImage Source="{Binding ProfilePicturePlaceholder}" 
+						<controls:CircleImage 
+							Source="{Binding ProfilePicturePlaceholder}" 
 							BorderColor="{x:Static local:Colors.Blue}" BorderThickness="2" Aspect="AspectFill"/>
-						<controls:CircleImage Source="{Binding ProfilePicture}"
-							BorderColor="{x:Static local:Colors.Blue}" BorderThickness="2" Aspect="AspectFill"/>						
+						<controls:CircleImage
+							Source = "{Binding ProfilePicture, Converter={StaticResource cachedImage}}"
+							BorderColor="{x:Static local:Colors.Blue}" BorderThickness="2" Aspect="AspectFill"/>
 					</Grid>
 					<Label Text="{Binding FullName}" HorizontalOptions="Center" TextColor="White"/>
 				</StackLayout>

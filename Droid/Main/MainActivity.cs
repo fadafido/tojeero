@@ -9,12 +9,7 @@ using Android.Widget;
 using Android.OS;
 using Tojeero.Forms;
 using Xamarin.Facebook;
-using Parse;
-using Tojeero.Core;
-using ImageCircle.Forms.Plugin.Droid;
 using Android.Graphics.Drawables;
-using Cirrious.CrossCore;
-using Xamarin;
 
 namespace Tojeero.Droid
 {
@@ -34,29 +29,10 @@ namespace Tojeero.Droid
 		{
 			base.OnCreate(bundle);
 
-			//Initialize Xamarin Insights
-			string key = Constants.XamarinInsightsApiKey;
-			#if DEBUG
-			key = Insights.DebugModeKey;
-			#endif
-			Insights.Initialize(key, this);
-
-			//Initialize Facebook
-			FacebookSdk.SdkInitialize(this);
-
-			//Initialize Parse
-			ParseInitialize.Initialize();
-
-			//Setup MvvmCross
-			var setup = new Setup(this);
-			setup.Initialize();
-
 			//Setup Xamarin forms
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 			LoadApplication(new FormsApp());
 
-			//Initialize Misc Plugins
-			ImageCircleRenderer.Init();
 			CallbackManager = CallbackManagerFactory.Create();
 
 			makeUICustomizations();

@@ -36,7 +36,7 @@ namespace Tojeero
 				.AsTypes()
 				.RegisterAsDynamic();
 
-			Mvx.RegisterType<ILogger, Logger>();
+			Mvx.LazyConstructAndRegisterSingleton<ILogger, Logger>();
 			RegisterAppStart(new EmptyStart());
         }
     }

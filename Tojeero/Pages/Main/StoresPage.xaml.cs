@@ -36,7 +36,9 @@ namespace Tojeero.Forms
 			: base()
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
+			this.ViewModel.ReloadFinished += reloadFinished;
 			InitializeComponent();
+			StoresListView.ItemSelected += storeSelected;
 		}
 
 		#endregion
@@ -47,6 +49,20 @@ namespace Tojeero.Forms
 		{
 			base.OnAppearing();
 			this.ViewModel.LoadNextPageCommand.Execute(null);
+		}
+
+		#endregion
+
+		#region Event Handlers
+
+		void storeSelected (object sender, SelectedItemChangedEventArgs e)
+		{
+			((ListView)sender).SelectedItem = null;
+		}
+
+		void reloadFinished (object sender, EventArgs e)
+		{
+			this.StoresListView.EndRefresh();
 		}
 
 		#endregion

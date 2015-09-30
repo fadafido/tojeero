@@ -17,7 +17,7 @@ namespace Tojeero.Forms
 			};
 			var tabs = new TabbedPage(){ Title = "Tojeero" };
 			tabs.Children.Add(new ProductsPage() { Title = "Products" });
-			tabs.Children.Add(new StoresPage() { Title = "Store" });
+			tabs.Children.Add(new StoresPage() { Title = "Stores" });
 			this.Detail = new NavigationPage(tabs);
 		}
 	}

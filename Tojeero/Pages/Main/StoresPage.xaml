@@ -18,11 +18,22 @@
 			<StackLayout Padding="0,5,0,5" BackgroundColor="{x:Static local:Colors.Black}" IsVisible="{Binding LoadingFailureMessage, Converter={StaticResource visibility}}">
 				<Label Text="{Binding LoadingFailureMessage}" TextColor="White" FontAttributes="Bold" FontSize="Small" XAlign="Center"/>
 			</StackLayout>
+			<StackLayout Padding="5"
+				IsVisible="{Binding IsLoadingInitialData}">
+				<ActivityIndicator 
+					IsRunning="{Binding IsLoadingInitialData}"
+					HorizontalOptions="Center" 
+					VerticalOptions="Center" 
+					Color="{x:Static local:Colors.DarkGray}"/>
+			</StackLayout>
 			<ListView 
+				x:Name="StoresListView"
 				ItemsSource="{Binding Collection}"
 				BackgroundColor="Transparent" 
 				RowHeight="100"
-				SeparatorVisibility="None">
+				SeparatorVisibility="None"
+				IsPullToRefreshEnabled="true"
+				RefreshCommand="{Binding ReloadCommand}">
 			    <ListView.ItemTemplate>
 			      <DataTemplate>
 			        <local:StoreListCell />

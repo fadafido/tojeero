@@ -20,7 +20,7 @@ namespace Tojeero.Core.ViewModels
 		#region Constructors
 
 		public ProductsViewModel(IProductManager manager)
-			: base(manager.FetchProducts, 20)
+			: base(manager.FetchProducts, Constants.ProductsPageSize)
 		{
 			_manager = manager;
 		}

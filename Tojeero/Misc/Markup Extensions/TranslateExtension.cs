@@ -15,7 +15,7 @@ namespace Tojeero.Forms
 	public class TranslateExtension : IMarkupExtension
 	{
 		readonly CultureInfo ci;
-		const string ResourceId = "Tojeero.Forms.Resources.AppResources";
+		const string ResourceId = "Tojeero.Core.Resources.AppResources";
 
 		public TranslateExtension()
 		{

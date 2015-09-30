@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Tojeero.Forms.Resources {
+namespace Tojeero.Core.Resources {
     using System;
     using System.Reflection;
     
@@ -40,7 +40,7 @@ namespace Tojeero.Forms.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Tojeero.Forms.Resources.AppResources", typeof(AppResources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Tojeero.Core.Resources.AppResources", typeof(AppResources).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -157,6 +157,33 @@ namespace Tojeero.Forms.Resources {
         internal static string MenuItemProfileSettings {
             get {
                 return ResourceManager.GetString("MenuItemProfileSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        internal static string MessageGeneralLoading {
+            get {
+                return ResourceManager.GetString("MessageGeneralLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data loading failed. Please try again..
+        /// </summary>
+        internal static string MessageLoadingFailed {
+            get {
+                return ResourceManager.GetString("MessageLoadingFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading timed out. Please try again..
+        /// </summary>
+        internal static string MessageLoadingTimeOut {
+            get {
+                return ResourceManager.GetString("MessageLoadingTimeOut", resourceCulture);
             }
         }
         

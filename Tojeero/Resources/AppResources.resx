@@ -161,6 +161,18 @@
     <value>Profile settings</value>
     <comment>Button inside side menu to acccess user profile settings (Name, Country etc.)</comment>
   </data>
+  <data name="MessageGeneralLoading" xml:space="preserve">
+    <value>Loading...</value>
+    <comment>General loading message which may be used to show the user that something is going on in background</comment>
+  </data>
+  <data name="MessageLoadingFailed" xml:space="preserve">
+    <value>Data loading failed. Please try again.</value>
+    <comment>Message shown to the user if general background operation failed due to unknown issue.</comment>
+  </data>
+  <data name="MessageLoadingTimeOut" xml:space="preserve">
+    <value>Loading timed out. Please try again.</value>
+    <comment>Message shown to the user if general background operation failed due to time out.</comment>
+  </data>
   <data name="MessageNoInternetWarning" xml:space="preserve">
     <value>No network connection available.</value>
     <comment>Warning text which usually will appear at the top of screen to warn user that there is no network connection awailable.</comment>

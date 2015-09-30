@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
 using Tojeero.Core.Toolbox;
+using Tojeero.Core.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -134,7 +135,7 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task loadNextPage()
 		{
-			this.StartLoading("Loading...");
+			this.StartLoading(AppResources.MessageGeneralLoading);
 			string failureMessage = "";
 			try
 			{
@@ -164,7 +165,7 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task reload()
 		{
-			this.StartLoading("Loading...");
+			this.StartLoading(AppResources.MessageGeneralLoading);
 			string failureMessage = "";
 			try
 			{
@@ -197,11 +198,11 @@ namespace Tojeero.Core.ViewModels
 			}
 			catch(OperationCanceledException)
 			{
-				failureMessage = "Loading timed out. Please try again.";
+				failureMessage = AppResources.MessageLoadingTimeOut;
 			}
 			catch(Exception)
 			{
-				failureMessage = "Data loading failed. Please try again.";
+				failureMessage = AppResources.MessageLoadingFailed;
 			}	
 			return failureMessage;
 		}

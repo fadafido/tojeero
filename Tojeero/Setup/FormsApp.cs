@@ -6,7 +6,7 @@ using Xamarin;
 using Tojeero.Core;
 using Tojeero.Core.Services;
 using System.Reflection;
-using Tojeero.Forms.Resources;
+using Tojeero.Core.Resources;
 
 namespace Tojeero.Forms
 {

@@ -40,7 +40,6 @@
     <Compile Include="ViewModels\Contracts\IReloadableViewModel.cs" />
     <Compile Include="SAL\Api Model\User.cs" />
     <Compile Include="SAL\Contracts\IAuthenticationService.cs" />
-    <Compile Include="ViewModels\Authentication\LogInViewModel.cs" />
     <Compile Include="Setup\swp8\Bootstrap\CommunitySqlitePluginBootstrap.cs" />
     <Compile Include="SAL\AuthenticationException.cs" />
     <Compile Include="SAL\Contracts\IFacebookService.cs" />
@@ -221,6 +220,7 @@
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <LogicalName>Tojeero.Core.Resources.AppResources.resources</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\AppResources.ar.resx" />
     <EmbeddedResource Include="Pages\Main\ProductsPage.xaml">

@@ -3,7 +3,7 @@ using Cirrious.MvvmCross.Plugins.Messenger;
 using Connectivity.Plugin;
 using Connectivity.Plugin.Abstractions;
 using Cirrious.CrossCore;
-using Tojeero.Forms.Resources;
+using Tojeero.Core.Resources;
 
 namespace Tojeero.Core.ViewModels
 {

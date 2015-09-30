@@ -23,7 +23,6 @@ namespace Tojeero.Core.ViewModels
 			: base(manager.FetchProducts, 20)
 		{
 			_manager = manager;
-			LoadNextPageCommand.Execute(null);
 		}
 
 		#endregion

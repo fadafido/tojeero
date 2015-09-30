@@ -15,7 +15,10 @@ namespace Tojeero.Forms
 			{
 				Title = "Tojeero",
 			};
-			this.Detail = new NavigationPage(new ProductsPage() {Title = "Tojeero"});
+			var tabs = new TabbedPage(){ Title = "Tojeero" };
+			tabs.Children.Add(new ProductsPage() { Title = "Products" });
+			tabs.Children.Add(new StoresPage() { Title = "Store" });
+			this.Detail = new NavigationPage(tabs);
 		}
 	}
 }

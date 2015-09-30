@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.StoreListCell"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms">
+	<StackLayout BackgroundColor="Transparent" Padding="10,5,10,0">
+		<StackLayout 
+			BackgroundColor="{x:Static local:Colors.UltraLightGray}" 
+			Orientation="Horizontal">
+			<Image
+				x:Name="Image"
+				Aspect="AspectFill"
+				WidthRequest="95"
+				HeightRequest="95"
+				VerticalOptions="Start"
+				BackgroundColor="Transparent">
+				 <Image.Source>
+				 	<UriImageSource 
+				 		CacheValidity="{x:Static core:Constants.ImageCacheTimespan}"
+				 		Uri= "{Binding ImageUrl}"
+				 		CachingEnabled="true"/>
+				 </Image.Source>
+			</Image>
+
+			<Label
+				x:Name="NameLabel"
+				Text="{Binding Name}"
+				TextColor="{x:Static local:Colors.Black}"
+				FontAttributes="Bold"
+				VerticalOptions="Center"/>
+		</StackLayout>
+	</StackLayout>
+</ViewCell>

@@ -7,12 +7,12 @@ using Tojeero.Forms.Toolbox;
 
 namespace Tojeero.Forms
 {
-	public partial class ProductsPage : ContentPage
+	public partial class StoresPage : ContentPage
 	{
 		#region Properties
 
-		private ProductsViewModel _viewModel;
-		public ProductsViewModel ViewModel
+		private StoresViewModel _viewModel;
+		public StoresViewModel ViewModel
 		{
 			get
 			{
@@ -32,10 +32,10 @@ namespace Tojeero.Forms
 
 		#region Constructors
 
-		public ProductsPage()
+		public StoresPage()
 			: base()
 		{
-			this.ViewModel = MvxToolbox.LoadViewModel<ProductsViewModel>();
+			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
 			InitializeComponent();
 		}
 

@@ -17,7 +17,7 @@ namespace Tojeero.Core
 	public class CacheRepository : ICacheRepository
 	{
 		#region Private fields
-
+		private const int TIMEOUT_SECONDS = 10;
 		private readonly ISQLiteConnectionFactory _factory;
 		private readonly IDeviceContextService _deviceContext;
 
@@ -38,32 +38,25 @@ namespace Tojeero.Core
 
 		#region IRepository implementation
 
-		public Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset)
+		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
 		{
-			return FetchAsync<IEnumerable<T>>(pageSize, offset, CancellationToken.None);
+			var result = await FetchAsync<Product>(pageSize, offset);
+			return result.Cast<IProduct>();
 		}
 
-		public Task<T> FetchAsync<T>(int pageSize, int offset, CancellationToken token)
+		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			return Task<IEnumerable<T>>.Factory.StartNew(() =>
-				{
-					_locker.Wait(token);
-					if(token.IsCancellationRequested)
-						throw new OperationCanceledException("Fetching was cancelled.");
-					try
-					{
-						return fetchAsync<T>(pageSize, offset, token);
-					}
-					finally
-					{
-						_locker.Release();
-					}
-				});
+			var result = await FetchAsync<Store>(pageSize, offset);
+			return result.Cast<IStore>();
 		}
 
-//		public abstract Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
-//
-//		public abstract Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset);
+		public async Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset) where T : new()
+		{
+			using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+			{
+				return await fetchAsync<T>(pageSize, offset, source.Token);	
+			}
+		}
 
 		#endregion
 
@@ -263,13 +256,27 @@ namespace Tojeero.Core
 			return connection;
 		}
 
-		IEnumerable<Task> fetchAsync<T>(int pageSize, int offset)
+		private Task<IEnumerable<T>> fetchAsync<T>(int pageSize, int offset, CancellationToken token) where T : new()
 		{
-			using (var connection = getConnection())
-			{
-				var tableName = typeof(T).GetLocalTableName();
-				var result = connection.Query<T>("SELECT * FROM {0}  LIMIT {1} OFFSET {2}", tableName, pageSize, offset);
-			}
+			return Task<IEnumerable<T>>.Factory.StartNew(() =>
+				{
+					_locker.Wait(token);
+					if(token.IsCancellationRequested)
+						throw new OperationCanceledException("Fetching was cancelled.");
+					try
+					{
+						using (var connection = getConnection())
+						{
+							var tableName = typeof(T).GetLocalTableName();
+							var result = connection.Query<T>("SELECT * FROM {0}  LIMIT {1} OFFSET {2}", tableName, pageSize, offset);
+							return result;
+						}
+					}
+					finally
+					{
+						_locker.Release();
+					}
+				});
 		}
 
 		private IEnumerable<T> getItems<T> () where T : new()

@@ -10,8 +10,7 @@ namespace Tojeero.Core
 	{
 		Task Initialize();
 
-		Task<T> FetchAsync<T>(int pageSize, int offset);
-		Task<T> FetchAsync<T>(int pageSize, int offset, CancellationToken token);
+		Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset) where T : new();
 
 
 //		Task<T> FetchAsync<T>(string ID) where T : IModelEntity, new ();

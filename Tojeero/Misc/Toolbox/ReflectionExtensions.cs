@@ -34,15 +34,6 @@ namespace Tojeero.Core.Toolbox
 				tableName = tableAttribute.Name;
 			return tableName;
 		}
-
-		public static string GetLocalPropertyName(this PropertyInfo property)
-		{
-			var propertyName = property.Name;
-			var jsonProperty = property.GetCustomAttribute<ColumnAttribute>();
-			if (jsonProperty != null && jsonProperty.Name != null)
-				propertyName = jsonProperty.Name;
-			return propertyName;
-		}
 			
 		public static T GetEnum<T>(this string stringValue) where T : struct
 		{

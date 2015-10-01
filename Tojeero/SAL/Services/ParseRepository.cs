@@ -20,32 +20,28 @@ namespace Tojeero.Core
 
 		#region IRepository implementation
 
-		public Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset)
+		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
 		{
-			return FetchAsync<T>(pageSize, offset, CancellationToken.None);
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
+			{
+				var query = new ParseQuery<Product>().Limit(pageSize).Skip(offset);
+				var result = await query.FindAsync(tokenSource.Token);
+				return result.Cast<IProduct>();;
+			}
 		}
 
-		public async Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset, CancellationToken token)
+		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			var name = getParseTableName<T>();
-			var query = ParseObject.GetQuery(name).Limit(pageSize).Skip(offset);
-			var result = await query.FindAsync(token);
-			return result.Cast<T>();
-		}
-
-		#endregion
-
-		#region Utility Methods
-
-		private string getParseTableName<T>()
-		{
-			var tableAttribute = IntrospectionExtensions.GetTypeInfo(typeof(T)).GetCustomAttribute<ParseClassNameAttribute>();	
-			if (tableAttribute == null)
-				throw new InvalidOperationException("You can only send requests to Parse for entities which are decorated with ParseClassNameAttribute.");
-			return tableAttribute;
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
+			{
+				var query = new ParseQuery<Store>().Limit(pageSize).Skip(offset);
+				var result = await query.FindAsync(tokenSource.Token);
+				return result.Cast<IStore>();
+			}
 		}
 
 		#endregion
+
 	}
 }
 

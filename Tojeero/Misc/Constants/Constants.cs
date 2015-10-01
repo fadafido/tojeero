@@ -17,10 +17,6 @@ namespace Tojeero.Core
 		/*****************MESSAGES*****************/
 		public static string SessionStateChangedMessage = "com.tojeero.tojeer:SessionStateChangedMessage";
 
-		/*****************MISC*****************/
-		public static string XamarinInsightsApiKey = "641ba3e3bf2f2764d06bc254a896aed9c8175a94";
-		public static TimeSpan ImageCacheTimespan = TimeSpan.FromDays(1);
-
 		/*****************TIMEOUTS*****************/
 		public static int DefaultTimeout = 20000;
 		public static int FetchProductsTimeout = 10000;
@@ -29,6 +25,13 @@ namespace Tojeero.Core
 		/*****************PAGINATION*****************/
 		public static int ProductsPageSize = 50;
 		public static int StoresPageSize = 50;
+
+		/*****************MISC*****************/
+		public static string XamarinInsightsApiKey = "641ba3e3bf2f2764d06bc254a896aed9c8175a94";
+		public static TimeSpan ImageCacheTimespan = TimeSpan.FromDays(1);
+	
+		/*****************DATABASE*****************/
+		public static string DatabaseFileName = "Tojeero.sqlite";
 	}
 }
 

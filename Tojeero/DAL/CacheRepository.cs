@@ -11,18 +11,20 @@ using System.Threading;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using Tojeero.Core.Services;
 using Tojeero.Core.Toolbox;
+using Nito.AsyncEx;
 
 namespace Tojeero.Core
 {
 	public class CacheRepository : ICacheRepository
 	{
 		#region Private fields
+
 		private const int TIMEOUT_SECONDS = 10;
 		private readonly ISQLiteConnectionFactory _factory;
 		private readonly IDeviceContextService _deviceContext;
 
-		ReaderWriterLockSlim readerWriterLock = new ReaderWriterLockSlim();
-		SemaphoreSlim _locker = new SemaphoreSlim(1,1);
+		AsyncReaderWriterLock readerWriterLock = new AsyncReaderWriterLock();
+		SemaphoreSlim _locker = new SemaphoreSlim(1, 1);
 
 		#endregion
 
@@ -66,184 +68,178 @@ namespace Tojeero.Core
 		{
 			return Task.Factory.StartNew(() =>
 				{
-					_locker.Wait();
-					try
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					using (var connection = getConnection())
 					{
-						using(var connection = getConnection())
-						{
-							connection.CreateTable<Product>();
-							connection.CreateTable<Store>();
-						}
-					}
-					finally
-					{
-						_locker.Release();
+						connection.CreateTable<Product>();
+						connection.CreateTable<Store>();
 					}
 				});
 		}
 
-		public Task<IEnumerable<T>> FetchAsync<T> () where T : new()
-		{
-			return Task<IEnumerable<T>>.Factory.StartNew(() =>
-			{
-				EnterLock(false);
-				try
-				{
-					return getItems<T>();
-				}
-				finally
-				{
-					ExitLock(false);
-				}
-			});
-		}
-
-		public Task<T> FetchAsync<T> (string id) where T : IModelEntity, new ()
+		public Task<T> FetchAsync<T>(string id) where T : IModelEntity, new()
 		{
 			return Task<T>.Factory.StartNew(() =>
-			{
-				EnterLock(false);
-				try
 				{
-					return getItem<T>(id);
-				}
-				finally
-				{
-					ExitLock(false);
-				}
-			});
-		}
-
-		public Task SaveAsync<T> (T item)
-		{
-			return Task.Factory.StartNew(() =>
-			{
-				EnterLock(true);
-				try
-				{
-					saveItem<T>(item);
-				}
-				finally
-				{
-					ExitLock(true);
-				}
-			});
-		}
-
-		public Task SaveAsync<T> (IEnumerable<T> items)
-		{
-			return Task.Factory.StartNew(() =>
-			{
-				EnterLock(true);
-				try
-				{
-					saveItems<T>(items);
-				}
-				finally
-				{
-					ExitLock(true);
-				}
-			});
-		}
-
-		public Task DeleteAsync<T>(string id) where T : IModelEntity, new ()
-		{
-			return Task<int>.Factory.StartNew(() =>
-			{
-				EnterLock(true);
-				try
-				{
-					return deleteItem<T>(id);
-				}
-				finally
-				{
-					ExitLock(true);
-				}
-			});
-		}
-			
-		public Task DeleteAsync<T> (IEnumerable<string> items) where T : IModelEntity, new()
-		{
-			return Task.Factory.StartNew(() =>
-			{
-				EnterLock(true);
-				try
-				{
-					deleteItems<T>(items);
-				}
-				finally
-				{
-					ExitLock(true);
-				}
-			});
-		}
-
-		public Task DeleteAsync<T> (T item)
-		{
-			return Task.Factory.StartNew(() =>
-				{
-					
-					EnterLock(true);
-					try
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
 					{
-						deleteItem<T>(item);
-					}
-					finally
-					{
-						ExitLock(true);
+						var result = connection.Table<T>().Where(x => x.ObjectId == id).FirstOrDefault();
+						return result;
 					}
 				});
 		}
 
-		public Task DeleteAsync<T> (IEnumerable<T> items)
+		public Task<T> FetchAsync<T>(object primaryKey) where T : new()
+		{
+			return Task<T>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
+					{
+						return connection.Get<T>(primaryKey);
+					}
+				});
+		}
+
+		public Task SaveAsync<T>(T item)
 		{
 			return Task.Factory.StartNew(() =>
 				{
-					EnterLock(true);
-					try
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					using (var connection = getConnection())
 					{
-						deleteItems<T>(items);
+						connection.InsertOrReplace(item);
 					}
-					finally
+				});
+		}
+
+		public Task SaveAsync<T>(IEnumerable<T> items)
+		{
+			return Task.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					using (var connection = getConnection())
 					{
-						ExitLock(true);
+						connection.RunInTransaction(() =>
+							{
+								foreach (T item in items)
+								{
+									connection.InsertOrReplace(item);
+								}
+							});
+					}
+				});
+		}
+
+		public Task DeleteAsync<T>(string id) where T : IModelEntity, new()
+		{
+			return Task<int>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					using (var connection = getConnection())
+					{
+						return connection.Delete(new T() { ObjectId = id });
+					}
+				});
+		}
+
+		public Task DeleteAsync<T>(object primaryKey)
+		{
+			return Task<int>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					using (var connection = getConnection())
+					{
+						return connection.Delete<T>(primaryKey);
+					}
+				});
+		}
+
+		public Task DeleteAsync<T>(IEnumerable<string> items) where T : IModelEntity, new()
+		{
+			return Task.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					using (var connection = getConnection())
+					{
+						connection.RunInTransaction(() =>
+							{
+								foreach (string id in items)
+								{
+									connection.Delete(new T() { ObjectId = id });
+								}
+							});
+					}
+				});
+		}
+
+		public Task DeleteAsync<T>(T item)
+		{
+			return Task.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					using (var connection = getConnection())
+					{
+						connection.Delete(item);
+					}
+				});
+		}
+
+		public Task DeleteAsync<T>(IEnumerable<T> items)
+		{
+			return Task.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					using (var connection = getConnection())
+					{
+						connection.RunInTransaction(() =>
+							{
+								foreach (T item in items)
+								{
+									connection.Delete(item);
+								}
+							});
 					}
 				});
 		}
 
 
 		public Task Clear<T>()
-        {
+		{
 			return Task.Factory.StartNew(() =>
-			{
-				EnterLock(true);
-				try
 				{
-					 clearTable<T>();
-				}
-				finally
-				{
-					ExitLock(true);
-				}
-			});
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					using (var connection = getConnection())
+					{
+						connection.DeleteAll<T>();
+					}
+				});
 		}
 
-		public Task Clear()
-        {
-			return Task.Factory.StartNew(() =>
-			{
-				EnterLock(true);
-				try
+		public async Task Clear()
+		{
+			await Task.Factory.StartNew(() =>
 				{
-					deleteDatabase();
-					Initialize();
-				}
-				finally
-				{
-					ExitLock(true);
-				}
-			});
-        }
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					{
+						deleteDatabase();
+					}
+				});
+			await Initialize();
+		}
 
 			
 		#endregion
@@ -260,116 +256,15 @@ namespace Tojeero.Core
 		{
 			return Task<IEnumerable<T>>.Factory.StartNew(() =>
 				{
-					_locker.Wait(token);
-					if(token.IsCancellationRequested)
-						throw new OperationCanceledException("Fetching was cancelled.");
-					try
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
 					{
-						using (var connection = getConnection())
-						{
-							var tableName = typeof(T).GetLocalTableName();
-							var result = connection.Query<T>("SELECT * FROM {0}  LIMIT {1} OFFSET {2}", tableName, pageSize, offset);
-							return result;
-						}
-					}
-					finally
-					{
-						_locker.Release();
+						var tableName = typeof(T).GetLocalTableName();
+						var result = connection.Query<T>("SELECT * FROM {0}  LIMIT {1} OFFSET {2}", tableName, pageSize, offset);
+						return result;
 					}
 				});
-		}
-
-		private IEnumerable<T> getItems<T> () where T : new()
-		{
-			using (var connection = getConnection())
-			{
-				var result = connection.Table<T>();
-				return result;
-			}
-		}
-
-		private T getItem<T> (string id) where T : IModelEntity, new ()
-		{
-			using (var connection = getConnection())
-			{
-				var result = connection.Table<T>().Where(x => x.ObjectId == id).FirstOrDefault();
-				return result;
-			}
-		}
-
-		private void saveItem<T> (T item)
-		{
-			using (var connection = getConnection())
-			{
-				connection.InsertOrReplace(item);
-			}
-		}
-
-		private void saveItems<T> (IEnumerable<T> items)
-		{
-			using (var connection = getConnection())
-			{
-				connection.RunInTransaction(() =>
-				{
-					foreach (T item in items)
-					{
-						connection.InsertOrReplace(item);
-					}
-				});
-			}
-		}
-
-
-		private int deleteItem<T>(string id) where T : IModelEntity, new ()
-		{
-			using (var connection = getConnection())
-			{
-				return connection.Delete(new T() { ObjectId = id });
-			}
-		}
-
-		private void deleteItems<T> (IEnumerable<string> items) where T : IModelEntity, new()
-		{
-			using (var connection = getConnection())
-			{
-				connection.RunInTransaction(() =>
-				{
-					foreach (string id in items)
-					{
-						connection.Delete(new T() { ObjectId = id });
-					}
-				});
-			}
-		}
-
-		private void deleteItem<T> (T item)
-		{
-			using (var connection = getConnection())
-			{
-				connection.Delete(item);
-			}
-		}
-
-		private void deleteItems<T> (IEnumerable<T> items)
-		{
-			using (var connection = getConnection())
-			{
-				connection.RunInTransaction(() =>
-					{
-						foreach (T item in items)
-						{
-							connection.Delete(item);
-						}
-					});
-			}
-		}
-			
-		private void clearTable<T>()
-		{
-			using (var connection = getConnection())
-			{
-				connection.DeleteAll<T>();
-			}
 		}
 
 		private void deleteDatabase()
@@ -387,32 +282,6 @@ namespace Tojeero.Core
 			catch (Exception ex)
 			{
 				Tools.Logger.Log(ex, "Error occured while deleting database from local cache.", LoggingLevel.Warning, true);
-			}
-		}
-			
-
-			
-		private void EnterLock(bool isWrite)
-		{
-			if (isWrite)
-			{
-				readerWriterLock.EnterWriteLock();
-			}
-			else
-			{
-				readerWriterLock.EnterReadLock();
-			}
-		}
-
-		private void ExitLock(bool isWrite)
-		{
-			if (isWrite)
-			{
-				readerWriterLock.ExitWriteLock();
-			}
-			else
-			{
-				readerWriterLock.ExitReadLock();
 			}
 		}
 

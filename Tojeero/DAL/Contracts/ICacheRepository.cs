@@ -11,9 +11,10 @@ namespace Tojeero.Core
 		Task Initialize();
 	
 		Task<T> FetchAsync<T>(string ID) where T : IModelEntity, new ();
-		Task<T> FetchAsync<T>(object primaryKey) where T : new ();
+		Task<T> FetchObjectAsync<T>(object primaryKey) where T : new ();
 		Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset) where T : new();
 
+		Task SaveAsync(object entity);
 		Task SaveAsync<T>(T entity);
 		Task SaveAsync<T>(IEnumerable<T> collection);
 

@@ -29,11 +29,11 @@ namespace Tojeero.Core
 			}
 		}
 
-		public Uri ImageUrl
+		public string ImageUrl
 		{
 			get
 			{
-				return Image != null ? Image.Url : null;
+				return Image != null ? Image.Url.ToString() : null;
 			}
 		}
 

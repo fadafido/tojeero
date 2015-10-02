@@ -38,6 +38,8 @@ namespace Tojeero
 
 			Mvx.LazyConstructAndRegisterSingleton<ILogger, Logger>();
 			RegisterAppStart(new EmptyStart());
+
+			Mvx.Resolve<ICacheRepository>().Initialize().Wait();
         }
     }
 }

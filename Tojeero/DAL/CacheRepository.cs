@@ -15,6 +15,11 @@ using Nito.AsyncEx;
 
 namespace Tojeero.Core
 {
+	public class SampleEntity : BaseModelEntity
+	{
+
+	}
+
 	public class CacheRepository : ICacheRepository
 	{
 		#region Private fields
@@ -42,13 +47,13 @@ namespace Tojeero.Core
 
 		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
 		{
-			var result = await FetchAsync<Product>(pageSize, offset);
+			var result = await FetchAsync<Product>(pageSize, offset).ConfigureAwait(false);
 			return result.Cast<IProduct>();
 		}
 
 		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			var result = await FetchAsync<Store>(pageSize, offset);
+			var result = await FetchAsync<Store>(pageSize, offset).ConfigureAwait(false);
 			return result.Cast<IStore>();
 		}
 
@@ -56,7 +61,7 @@ namespace Tojeero.Core
 		{
 			using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
 			{
-				return await fetchAsync<T>(pageSize, offset, source.Token);	
+				return await fetchAsync<T>(pageSize, offset, source.Token).ConfigureAwait(false);	
 			}
 		}
 
@@ -72,8 +77,10 @@ namespace Tojeero.Core
 					using (var writerLock = readerWriterLock.WriterLock(source.Token))
 					using (var connection = getConnection())
 					{
-						connection.CreateTable<Product>();
-						connection.CreateTable<Store>();
+						connection.CreateTable<SampleEntity>();
+//						connection.CreateTable<Product>();
+//						connection.CreateTable<Store>();
+//						connection.CreateTable<CachedQuery>();
 					}
 				});
 		}
@@ -92,7 +99,7 @@ namespace Tojeero.Core
 				});
 		}
 
-		public Task<T> FetchAsync<T>(object primaryKey) where T : new()
+		public Task<T> FetchObjectAsync<T>(object primaryKey) where T : new()
 		{
 			return Task<T>.Factory.StartNew(() =>
 				{
@@ -105,7 +112,7 @@ namespace Tojeero.Core
 				});
 		}
 
-		public Task SaveAsync<T>(T item)
+		public Task SaveAsync(object item)
 		{
 			return Task.Factory.StartNew(() =>
 				{
@@ -116,6 +123,11 @@ namespace Tojeero.Core
 						connection.InsertOrReplace(item);
 					}
 				});
+		}
+
+		public Task SaveAsync<T>(T item)
+		{
+			return SaveAsync(item);
 		}
 
 		public Task SaveAsync<T>(IEnumerable<T> items)
@@ -237,8 +249,8 @@ namespace Tojeero.Core
 					{
 						deleteDatabase();
 					}
-				});
-			await Initialize();
+				}).ConfigureAwait(false);
+			await Initialize().ConfigureAwait(false);
 		}
 
 			

@@ -48,15 +48,47 @@ namespace Tojeero.Core
 
 		public Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
 		{
-			return Rest.FetchProducts(pageSize, offset);
+			string cachedQueryId = string.Format("products-p{0}o{1}", pageSize, offset);
+			var local = new Task<IEnumerable<IProduct>>(() => Cache.FetchProducts(pageSize, offset).Result);
+			var remote = new Task<IEnumerable<IProduct>>(() => Rest.FetchProducts(pageSize, offset).Result);
+			return fetch<IProduct>(cachedQueryId, local, remote);
 		}
 
 		public Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			return Rest.FetchStores(pageSize, offset);
+			string cachedQueryId = string.Format("stores-p{0}o{1}", pageSize, offset);
+			var local = new Task<IEnumerable<IStore>>(() => Cache.FetchStores(pageSize, offset).Result);
+			var remote = new Task<IEnumerable<IStore>>(() => Rest.FetchStores(pageSize, offset).Result);
+			return fetch<IStore>(cachedQueryId, local, remote);
 		}
 
+		#endregion
 
+		#region Utility methods
+
+		public async Task<IEnumerable<T>> fetch<T>(string cachedQueryId, Task<IEnumerable<T>> localQuery, Task<IEnumerable<T>> remoteQuery, double? expiresIn = null)
+		{
+			var cachedQuery = await Cache.FetchObjectAsync<CachedQuery>(cachedQueryId);
+			IEnumerable<T> result = null;
+			//If the query has not ever been executed or was expired fetch the results from backend and save them to local cache
+			if (cachedQuery == null || cachedQuery.IsExpired)
+			{
+				result = await remoteQuery;
+				await Cache.SaveAsync(result);
+				cachedQuery = new CachedQuery()
+				{
+					ID = cachedQueryId,
+					LastFetchedAt = DateTime.UtcNow,
+					ExpiresIn = expiresIn
+				};
+				await Cache.SaveAsync(cachedQuery);
+			}
+			else
+			{
+				result = await localQuery;
+			}
+			return result;
+		}
 
 		#endregion
 	}

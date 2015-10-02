@@ -73,6 +73,7 @@ namespace Tojeero.Core
 			//If the query has not ever been executed or was expired fetch the results from backend and save them to local cache
 			if (cachedQuery == null || cachedQuery.IsExpired)
 			{
+				remoteQuery.Start();
 				result = await remoteQuery;
 				await Cache.SaveAsync(result);
 				cachedQuery = new CachedQuery()
@@ -85,6 +86,7 @@ namespace Tojeero.Core
 			}
 			else
 			{
+				localQuery.Start();
 				result = await localQuery;
 			}
 			return result;

@@ -273,9 +273,6 @@
     <Compile Include="..\Tojeero\BL\Entities\BaseModelEntity.cs">
       <Link>Core\BL\Entities\BaseModelEntity.cs</Link>
     </Compile>
-    <Compile Include="..\Tojeero\BL\Entities\Product.cs">
-      <Link>Core\BL\Entities\Product.cs</Link>
-    </Compile>
     <Compile Include="..\Tojeero\BL\Entities\Store.cs">
       <Link>Core\BL\Entities\Store.cs</Link>
     </Compile>
@@ -302,6 +299,9 @@
     </Compile>
     <Compile Include="..\Tojeero\BL\Managers\BaseModelEntityManager.cs">
       <Link>Core\BL\Managers\BaseModelEntityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Product.cs">
+      <Link>Core\BL\Entities\Product.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

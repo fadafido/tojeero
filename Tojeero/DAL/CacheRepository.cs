@@ -15,11 +15,6 @@ using Nito.AsyncEx;
 
 namespace Tojeero.Core
 {
-	public class SampleEntity : BaseModelEntity
-	{
-
-	}
-
 	public class CacheRepository : ICacheRepository
 	{
 		#region Private fields
@@ -77,15 +72,14 @@ namespace Tojeero.Core
 					using (var writerLock = readerWriterLock.WriterLock(source.Token))
 					using (var connection = getConnection())
 					{
-						connection.CreateTable<SampleEntity>();
-//						connection.CreateTable<Product>();
-//						connection.CreateTable<Store>();
-//						connection.CreateTable<CachedQuery>();
+						connection.CreateTable<Product>();
+						connection.CreateTable<Store>();
+						connection.CreateTable<CachedQuery>();
 					}
 				});
 		}
 
-		public Task<T> FetchAsync<T>(string id) where T : IModelEntity, new()
+		public Task<T> FetchAsync<T>(string id) where T : IUniqueEntity, new()
 		{
 			return Task<T>.Factory.StartNew(() =>
 				{
@@ -93,7 +87,7 @@ namespace Tojeero.Core
 					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
 					using (var connection = getConnection())
 					{
-						var result = connection.Table<T>().Where(x => x.ObjectId == id).FirstOrDefault();
+						var result = connection.Table<T>().Where(x => x.ID == id).FirstOrDefault();
 						return result;
 					}
 				});
@@ -107,12 +101,26 @@ namespace Tojeero.Core
 					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
 					using (var connection = getConnection())
 					{
-						return connection.Get<T>(primaryKey);
+						T result = default(T);
+						//When there is no object with specified primary key exception is thrown so we need to handle that
+						try
+						{
+							result = connection.Get<T>(primaryKey);
+						}
+						catch(InvalidOperationException ex)
+						{
+							
+						}
+						catch(Exception ex)
+						{
+							throw ex;
+						}
+						return result;
 					}
 				});
 		}
-
-		public Task SaveAsync(object item)
+			
+		public Task SaveAsync<T>(T item)
 		{
 			return Task.Factory.StartNew(() =>
 				{
@@ -123,11 +131,6 @@ namespace Tojeero.Core
 						connection.InsertOrReplace(item);
 					}
 				});
-		}
-
-		public Task SaveAsync<T>(T item)
-		{
-			return SaveAsync(item);
 		}
 
 		public Task SaveAsync<T>(IEnumerable<T> items)
@@ -157,7 +160,7 @@ namespace Tojeero.Core
 					using (var writerLock = readerWriterLock.WriterLock(source.Token))
 					using (var connection = getConnection())
 					{
-						return connection.Delete(new T() { ObjectId = id });
+						return connection.Delete(new T() { ID = id });
 					}
 				});
 		}
@@ -187,7 +190,7 @@ namespace Tojeero.Core
 							{
 								foreach (string id in items)
 								{
-									connection.Delete(new T() { ObjectId = id });
+									connection.Delete(new T() { ID = id });
 								}
 							});
 					}
@@ -273,7 +276,7 @@ namespace Tojeero.Core
 					using (var connection = getConnection())
 					{
 						var tableName = typeof(T).GetLocalTableName();
-						var result = connection.Query<T>("SELECT * FROM {0}  LIMIT {1} OFFSET {2}", tableName, pageSize, offset);
+						var result = connection.Query<T>(string.Format("SELECT * FROM [{0}]  LIMIT {1} OFFSET {2}", tableName, pageSize, offset));
 						return result;
 					}
 				});

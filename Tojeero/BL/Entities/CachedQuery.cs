@@ -16,6 +16,7 @@ namespace Tojeero.Core
 
 		#region ICachedQuery implementation
 
+		[PrimaryKey]
 		public string ID { get; set; }
 		public DateTime? LastFetchedAt { get; set; }
 		public double? ExpiresIn { get; set; }

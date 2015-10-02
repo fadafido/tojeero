@@ -3,14 +3,8 @@ using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 
 namespace Tojeero.Core
 {
-	public interface ICachedQuery
+	public interface ICachedQuery : IUniqueEntity
 	{
-		[PrimaryKey]
-		/// <summary>
-		/// Gets or sets the unique ID of the query
-		/// </summary>
-		/// <value>Unique ID of the query</value>
-		string ID { get; set; }
 		/// <summary>
 		/// Gets or sets the date when the query has been fetched last time in UTC
 		/// </summary>

@@ -24,9 +24,9 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
 			{
-				var query = new ParseQuery<Product>().Limit(pageSize).Skip(offset);
+				var query = new ParseQuery<ParseProduct>().Limit(pageSize).Skip(offset);
 				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
-				return result.Cast<IProduct>();;
+				return result.Select(p => new Product(p) as IProduct);
 			}
 		}
 
@@ -34,9 +34,9 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
 			{
-				var query = new ParseQuery<Store>().Limit(pageSize).Skip(offset);
+				var query = new ParseQuery<ParseStore>().Limit(pageSize).Skip(offset);
 				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
-				return result.Cast<IStore>();
+				return result.Select(s => new Store(s) as IStore);
 			}
 		}
 

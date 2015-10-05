@@ -13,7 +13,7 @@ namespace Tojeero.Core.ViewModels
 		#region Constructors
 
 		public StoresViewModel(IStoreManager manager)
-			: base(manager.FetchStores, Constants.StoresPageSize)
+			: base(manager.FetchStores, manager.ClearCache, Constants.StoresPageSize)
 		{
 			_manager = manager;
 		}

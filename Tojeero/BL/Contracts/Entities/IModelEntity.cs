@@ -3,9 +3,9 @@ using Cirrious.MvvmCross.ViewModels;
 
 namespace Tojeero.Core
 {
-	public interface IModelEntity : IMvxNotifyPropertyChanged
+	public interface IModelEntity : IUniqueEntity, IMvxNotifyPropertyChanged
 	{
-		string ObjectId { get; set; }
+		string ID { get; set; }
 	}
 }
 

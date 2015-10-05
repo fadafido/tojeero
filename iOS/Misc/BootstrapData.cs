@@ -66,11 +66,11 @@ namespace Tojeero.iOS
 
 				//////////
 				stage = "Saving products";
-				List<Product> products = new List<Product>();
+				List<ParseProduct> products = new List<ParseProduct>();
 				for (int i = 0; i < productCount; i++)
 				{
 					index=i;
-					var product = new Product()
+					var product = new ParseProduct()
 						{
 							Name = string.Format("Product {0}", i + 1),
 							Image = productImages[i % productSampleCount],
@@ -78,22 +78,22 @@ namespace Tojeero.iOS
 						};
 					products.Add(product);
 				}
-				await ParseObject.SaveAllAsync<Product>(products);
+				await ParseObject.SaveAllAsync<ParseProduct>(products);
 				Console.WriteLine("Saved {0} products ", productCount);
 
 				//////////
 				stage = "Saving stores";
-				List<Store> stores = new List<Store>();
+				List<ParseStore> stores = new List<ParseStore>();
 				for (int i = 0; i < storeCount; i++)
 				{
 					index=i;
-					var store = new Store(){
+					var store = new ParseStore(){
 						Name = string.Format("Store {0}", i + 1),
 						Image = storeImages[i % storeSampleCount]
 					};
 					stores.Add(store);
 				}
-				await ParseObject.SaveAllAsync<Store>(stores);
+				await ParseObject.SaveAllAsync<ParseStore>(stores);
 				Console.WriteLine("Saved {0} stores ", storeCount);
 			}
 			catch(Exception ex)

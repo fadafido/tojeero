@@ -3,6 +3,7 @@ using Tojeero.Core.ViewModels;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross;
 using Tojeero.Core;
+using System;
 
 namespace Tojeero
 {
@@ -38,6 +39,19 @@ namespace Tojeero
 
 			Mvx.LazyConstructAndRegisterSingleton<ILogger, Logger>();
 			RegisterAppStart(new EmptyStart());
+
+			try
+			{
+				Mvx.Resolve<ICacheRepository>().Clear().Wait();
+			}
+			catch(OperationCanceledException ex)
+			{
+				Tools.Logger.Log(ex, LoggingLevel.Warning);
+			}
+			catch(Exception ex)
+			{
+				Tools.Logger.Log(ex, "Error occurred while clearing local cache before application launch.", LoggingLevel.Error, true);
+			}
         }
     }
 }

@@ -19,7 +19,7 @@
 				 <Image.Source>
 				 	<UriImageSource 
 				 		CacheValidity="{x:Static core:Constants.ImageCacheTimespan}"
-				 		Uri= "{Binding ImageUrl}"
+				 		Uri= "{Binding ImageUri}"
 				 		CachingEnabled="true"/>
 				 </Image.Source>
 			</Image>

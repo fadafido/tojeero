@@ -69,7 +69,6 @@ namespace Tojeero.iOS
 			MakeAppearanceCustomizations();
 
 			//BootstrapData.GenerateSampleProductsAndStores();
-			//sampleQuery();
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
 		}
 
@@ -92,12 +91,6 @@ namespace Tojeero.iOS
 			UINavigationBar.Appearance.SetTitleTextAttributes(attr);
 		}
 
-		private async void sampleQuery()
-		{
-			var query = new ParseQuery<Product>().Limit(10);
-			var result = await query.FindAsync();
-			Console.WriteLine();
-		}
 		#endregion
 
 

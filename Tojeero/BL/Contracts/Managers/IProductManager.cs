@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Tojeero.Core
 {
-	public interface IProductManager
+	public interface IProductManager : IBaseModelEntityManager
 	{
 		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
 	}

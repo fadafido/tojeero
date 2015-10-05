@@ -6,6 +6,7 @@ using Tojeero.Core;
 using Xamarin;
 using Xamarin.Facebook;
 using ImageCircle.Forms.Plugin.Droid;
+using Cirrious.CrossCore;
 
 [assembly: UsesPermission(Android.Manifest.Permission.Internet)]
 [assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]

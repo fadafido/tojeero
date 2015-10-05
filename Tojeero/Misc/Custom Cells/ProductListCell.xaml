@@ -5,6 +5,10 @@
 	x:Class="Tojeero.Forms.ProductListCell"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms">
+	<ViewCell.BindingContext>
+	    <local:UrlToCachedImageSourceConverter
+				x:Key="cachedImage" />         
+	</ViewCell.BindingContext>
 	<StackLayout BackgroundColor="Transparent" Padding="10,5,10,0">
 		<StackLayout 
 			BackgroundColor="{x:Static local:Colors.UltraLightGray}" 
@@ -19,7 +23,7 @@
 				 <Image.Source>
 				 	<UriImageSource 
 				 		CacheValidity="{x:Static core:Constants.ImageCacheTimespan}"
-				 		Uri= "{Binding ImageUrl}"
+				 		Uri= "{Binding ImageUri}"
 				 		CachingEnabled="true"/>
 				 </Image.Source>
 			</Image>

@@ -35,6 +35,11 @@ namespace Tojeero.Droid
 				.EndingWith("Manager")
 				.AsInterfaces()
 				.RegisterAsLazySingleton();
+
+			CreatableTypes()
+				.EndingWith("Repository")
+				.AsInterfaces()
+				.RegisterAsLazySingleton();
 		}
 	}
 }

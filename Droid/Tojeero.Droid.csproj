@@ -221,6 +221,16 @@
     <Compile Include="..\Tojeero\Setup\ParseInitialize.cs">
       <Link>Setup\ParseInitialize.cs</Link>
     </Compile>
+    <Compile Include="Misc\Services\DeviceContextService.cs" />
+    <Compile Include="..\Tojeero\DAL\CacheRepository.cs">
+      <Link>Core\DAL\CacheRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository.cs">
+      <Link>Core\SAL\Services\ParseRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\BaseModelEntityManager.cs">
+      <Link>Core\BL\Managers\BaseModelEntityManager.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -241,6 +251,7 @@
     <Folder Include="Core\" />
     <Folder Include="Core\BL\" />
     <Folder Include="Core\SAL\" />
+    <Folder Include="Core\DAL\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />

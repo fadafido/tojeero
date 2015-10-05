@@ -12,17 +12,20 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Private fields and properties
 		QueryDelegate<T> _query;
+		Func<Task> _clearCacheTask;
 		private int _pageSize;
+		private bool _isFirstPageLoaded;
 		#endregion
 
 
 		#region Constructors
 
-		public BaseCollectionViewModel(QueryDelegate<T> query, int pageSize = 10)
+		public BaseCollectionViewModel(QueryDelegate<T> query, Func<Task> clearCacheTask, int pageSize = 10)
 			: base()
 		{			
 			_pageSize = pageSize;
 			_query = query;
+			_clearCacheTask = clearCacheTask;
 			PropertyChanged += propertyChanged;
 		}
 
@@ -86,6 +89,17 @@ namespace Tojeero.Core.ViewModels
 		#endregion
 
 		#region Commands
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadFirstPageCommand;
+		public System.Windows.Input.ICommand LoadFirstPageCommand
+		{
+			get
+			{
+				_loadFirstPageCommand = _loadFirstPageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
+					await loadNextPage();
+				}, () => CanExecuteLoadNextPageCommand && !_isFirstPageLoaded);
+				return _loadFirstPageCommand;
+			}
+		}
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadNextPageCommand;
 		public System.Windows.Input.ICommand LoadNextPageCommand
@@ -145,6 +159,7 @@ namespace Tojeero.Core.ViewModels
 					var collection = new ModelEntityCollection<T>(_query, _pageSize);
 					await collection.FetchNextPageAsync();
 					this.Collection = collection;
+					_isFirstPageLoaded = true;
 				}
 				else
 				{
@@ -169,6 +184,7 @@ namespace Tojeero.Core.ViewModels
 			string failureMessage = "";
 			try
 			{
+				await _clearCacheTask();
 				var collection = new ModelEntityCollection<T>(_query, _pageSize);
 				await collection.FetchNextPageAsync();
 				this.Collection = collection;

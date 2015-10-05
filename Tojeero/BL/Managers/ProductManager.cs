@@ -3,30 +3,39 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Parse;
+using System.Linq;
 
 namespace Tojeero.Core
 {
 	public class ProductManager : IProductManager
 	{
+		#region Private fields and properties
+
+		private readonly IModelEntityManager _manager;
+
+		#endregion
+
 		#region Constructors
 
-		public ProductManager()
+		public ProductManager(IModelEntityManager manager)
 			: base()
 		{
+			this._manager = manager;
 		}
 
 		#endregion
 
 		#region IProductManager implementation
 
-		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
+		public Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
 		{
-			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
-			{
-				var query = new ParseQuery<Product>().Limit(pageSize).Skip(offset);
-				var result = await query.FindAsync(tokenSource.Token);
-				return result;
-			}
+			return _manager.FetchProducts(pageSize, offset);
+		}
+
+
+		public Task ClearCache()
+		{
+			return _manager.Cache.Clear<Product>();
 		}
 
 		#endregion

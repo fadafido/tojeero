@@ -273,9 +273,6 @@
     <Compile Include="..\Tojeero\BL\Entities\BaseModelEntity.cs">
       <Link>Core\BL\Entities\BaseModelEntity.cs</Link>
     </Compile>
-    <Compile Include="..\Tojeero\BL\Entities\Product.cs">
-      <Link>Core\BL\Entities\Product.cs</Link>
-    </Compile>
     <Compile Include="..\Tojeero\BL\Entities\Store.cs">
       <Link>Core\BL\Entities\Store.cs</Link>
     </Compile>
@@ -293,6 +290,19 @@
     </Compile>
     <Compile Include="Misc\Toolbox\UIImageToolbox.cs" />
     <Compile Include="Misc\BootstrapData.cs" />
+    <Compile Include="Misc\Services\DeviceContextService.cs" />
+    <Compile Include="..\Tojeero\DAL\CacheRepository.cs">
+      <Link>Core\DAL\CacheRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository.cs">
+      <Link>Core\SAL\Services\ParseRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\BaseModelEntityManager.cs">
+      <Link>Core\BL\Managers\BaseModelEntityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Product.cs">
+      <Link>Core\BL\Entities\Product.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />
@@ -313,5 +323,6 @@
     <Folder Include="Resources\Samples\" />
     <Folder Include="Resources\Samples\Products\" />
     <Folder Include="Resources\Samples\Stores\" />
+    <Folder Include="Core\DAL\" />
   </ItemGroup>
 </Project>

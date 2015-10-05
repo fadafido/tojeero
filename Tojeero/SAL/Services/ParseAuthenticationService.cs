@@ -76,14 +76,14 @@ namespace Tojeero.Core.Services
 					{
 						handleException(ex);	
 					}
-				});			
+				}).ConfigureAwait(false);			
 		}
 
 		public async Task<User> LogInWithFacebook()
 		{
 			try
 			{
-				var fbUser = await _facebookService.GetFacebookToken();
+				var fbUser = await _facebookService.GetFacebookToken().ConfigureAwait(false);
 				if(fbUser == null)
 					return null;
 				
@@ -92,7 +92,7 @@ namespace Tojeero.Core.Services
 				parseUser["firstName"] = fbUser.User.FirstName;
 				parseUser["lastName"] = fbUser.User.LastName;
 				parseUser["profilePictureUri"] = fbUser.User.ProfilePictureUrl;
-				await parseUser.SaveAsync();
+				await parseUser.SaveAsync().ConfigureAwait(false);
 
 				CurrentUser = getCurrentUser();
 				State = SessionState.LoggedIn;
@@ -120,7 +120,7 @@ namespace Tojeero.Core.Services
 						fireCurrentUserChanged();
 					}
 					this.State = CurrentUser == null ? SessionState.LoggedOut : SessionState.LoggedIn;
-				});
+				}).ConfigureAwait(false);
 		}
 
 		public async Task UpdateUserDetails(User user, CancellationToken token)
@@ -134,7 +134,7 @@ namespace Tojeero.Core.Services
 			currentUser["city"] = user.City;
 			currentUser["mobile"] = user.Mobile;
 			currentUser["isProfileSubmitted"] = true;
-			await currentUser.SaveAsync(token);
+			await currentUser.SaveAsync(token).ConfigureAwait(false);
 
 			this.CurrentUser = getCurrentUser();
 		}
@@ -159,7 +159,7 @@ namespace Tojeero.Core.Services
 					{
 						Settings.CurrentUser = JsonConvert.SerializeObject(CurrentUser);
 					}
-				});
+				}).ConfigureAwait(false);
 		}
 
 		private void fireCurrentUserChanged()

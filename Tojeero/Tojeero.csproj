@@ -31,8 +31,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup\FormsApp.cs" />
     <Compile Include="Setup\MvxApp.cs" />
+    <Compile Include="Setup\FormsApp.cs">
+    </Compile>
     <Compile Include="ViewModels\Base\BaseUserViewModel.cs" />
     <Compile Include="ViewModels\Base\LoadableViewModel.cs" />
     <Compile Include="ViewModels\Base\ReloadableViewModel.cs" />
@@ -121,6 +122,16 @@
     </Compile>
     <Compile Include="Misc\Custom Controls\InfinteListView.cs" />
     <Compile Include="Misc\Converters\UrlToCachedImageSourceConverter.cs" />
+    <Compile Include="BL\Contracts\IRepository.cs" />
+    <Compile Include="DAL\Contracts\ICacheRepository.cs" />
+    <Compile Include="Misc\Services\Contracts\IDeviceContextService.cs" />
+    <Compile Include="Misc\Toolbox\ReflectionExtensions.cs" />
+    <Compile Include="SAL\Contracts\IRestRepository.cs" />
+    <Compile Include="BL\Contracts\Managers\IModelEntityManager.cs" />
+    <Compile Include="BL\Entities\CachedQuery.cs" />
+    <Compile Include="BL\Contracts\Entities\ICachedQuery.cs" />
+    <Compile Include="BL\Contracts\Entities\IUniqueEntity.cs" />
+    <Compile Include="BL\Contracts\Managers\IBaseModelEntityManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -206,6 +217,7 @@
     <Folder Include="BL\Entities\" />
     <Folder Include="BL\Managers\" />
     <Folder Include="Misc\Custom Cells\" />
+    <Folder Include="DAL\Contracts\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\HomePage.xaml">

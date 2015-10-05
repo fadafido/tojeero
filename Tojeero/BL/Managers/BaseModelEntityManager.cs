@@ -51,7 +51,7 @@ namespace Tojeero.Core
 			string cachedQueryId = string.Format("products-p{0}o{1}", pageSize, offset);
 			var local = new Task<IEnumerable<IProduct>>(() => Cache.FetchProducts(pageSize, offset).Result);
 			var remote = new Task<IEnumerable<IProduct>>(() => Rest.FetchProducts(pageSize, offset).Result);
-			return fetch<IProduct>(cachedQueryId, Constants.ProductsCacheName, local, remote);
+			return fetch<IProduct>(cachedQueryId, Constants.ProductsCacheName, local, remote, Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
 
 		public Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
@@ -59,7 +59,7 @@ namespace Tojeero.Core
 			string cachedQueryId = string.Format("stores-p{0}o{1}", pageSize, offset);
 			var local = new Task<IEnumerable<IStore>>(() => Cache.FetchStores(pageSize, offset).Result);
 			var remote = new Task<IEnumerable<IStore>>(() => Rest.FetchStores(pageSize, offset).Result);
-			return fetch<IStore>(cachedQueryId, Constants.StoresCacheName, local, remote);
+			return fetch<IStore>(cachedQueryId, Constants.StoresCacheName, local, remote, Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
 		#endregion

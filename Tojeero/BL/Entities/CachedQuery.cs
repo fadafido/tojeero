@@ -35,7 +35,9 @@ namespace Tojeero.Core
 			{
 				if (LastFetchedAt == null || ExpiresIn == null)
 					return false;
-				return DateTime.UtcNow <= LastFetchedAt.Value.Add(TimeSpan.FromSeconds(ExpiresIn.Value));
+				var now = DateTime.UtcNow;
+				var expires = LastFetchedAt.Value.Add(TimeSpan.FromMilliseconds(ExpiresIn.Value));
+				return now >= expires;
 			}
 		}
 

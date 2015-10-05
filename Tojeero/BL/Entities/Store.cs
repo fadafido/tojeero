@@ -59,12 +59,14 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				return _imageUri != null ? _imageUri.ToString() : null;
+				if (_imageUrl == null && ImageUri != null)
+					_imageUrl = ImageUri.ToString();
+				return _imageUrl;
 			}
 			set
 			{
 				_imageUrl = value;
-				ImageUri = new Uri(value);
+				ImageUri = value != null ? new Uri(value) : null;
 			}
 		}
 

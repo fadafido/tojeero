@@ -51,7 +51,7 @@ namespace Tojeero.Core
 			string cachedQueryId = string.Format("products-p{0}o{1}", pageSize, offset);
 			var local = new Task<IEnumerable<IProduct>>(() => Cache.FetchProducts(pageSize, offset).Result);
 			var remote = new Task<IEnumerable<IProduct>>(() => Rest.FetchProducts(pageSize, offset).Result);
-			return fetch<IProduct>(cachedQueryId, Constants.ProductsCacheName, local, remote, Constants.ProductsCacheTimespan.TotalMilliseconds);
+			return fetch<IProduct, Product>(cachedQueryId, local, remote, Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
 
 		public Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
@@ -59,19 +59,22 @@ namespace Tojeero.Core
 			string cachedQueryId = string.Format("stores-p{0}o{1}", pageSize, offset);
 			var local = new Task<IEnumerable<IStore>>(() => Cache.FetchStores(pageSize, offset).Result);
 			var remote = new Task<IEnumerable<IStore>>(() => Rest.FetchStores(pageSize, offset).Result);
-			return fetch<IStore>(cachedQueryId, Constants.StoresCacheName, local, remote, Constants.StoresCacheTimespan.TotalMilliseconds);
+			return fetch<IStore, Store>(cachedQueryId, local, remote, Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
 		#endregion
 
 		#region Utility methods
 
-		private async Task<IEnumerable<T>> fetch<T>(string cachedQueryId, string entityName, Task<IEnumerable<T>> localQuery, Task<IEnumerable<T>> remoteQuery, double? expiresIn = null)
+		private async Task<IEnumerable<T>> fetch<T, Entity>(string cachedQueryId, Task<IEnumerable<T>> localQuery, Task<IEnumerable<T>> remoteQuery, double? expiresIn = null)
 		{
-			var cachedQuery = await Cache.FetchObjectAsync<CachedQuery>(cachedQueryId);
 			IEnumerable<T> result = null;
+			var cacheName = CachedQuery.GetEntityCacheName<Entity>();
+			var cachedQuery = await Cache.FetchObjectAsync<CachedQuery>(cachedQueryId);
+			bool isExpired = cachedQuery == null || cachedQuery.IsExpired;
+
 			//If the query has not ever been executed or was expired fetch the results from backend and save them to local cache
-			if (cachedQuery == null || cachedQuery.IsExpired)
+			if (isExpired)
 			{
 				remoteQuery.Start();
 				result = await remoteQuery;
@@ -79,7 +82,7 @@ namespace Tojeero.Core
 				cachedQuery = new CachedQuery()
 				{
 					ID = cachedQueryId,
-					EntityName = entityName,
+					EntityName = cacheName,
 					LastFetchedAt = DateTime.UtcNow,
 					ExpiresIn = expiresIn
 				};

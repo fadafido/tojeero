@@ -16,6 +16,23 @@ namespace Tojeero.Core
 
 		#endregion
 
+		#region Static API
+
+		public static string GetEntityCacheName<T>()
+		{
+			return GetEntityCacheName(typeof(T));
+		}
+
+		public static string GetEntityCacheName(Type t)
+		{
+			if (t == null)
+				return null;
+			var name = t.GetTypeInfo().Name;
+			return name;
+		}
+
+		#endregion
+
 		#region ICachedQuery implementation
 
 		[PrimaryKey]

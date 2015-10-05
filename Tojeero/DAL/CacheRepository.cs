@@ -232,40 +232,51 @@ namespace Tojeero.Core
 		}
 
 
-		public Task Clear<T>(string cacheName)
+		public Task Clear<T>()
 		{
 			return Task.Factory.StartNew(() =>
 				{
 					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
-					using (var readerLock = readerWriterLock.UpgradeableReaderLock(source.Token))
+					using (var readerLock = readerWriterLock.WriterLock(source.Token))
 					{
-						using (var connection = getConnection())
-						{
-							var cachedQueries = connection.Table<CachedQuery>().Where(q => q.EntityName == cacheName);
-							using(var writerLock = readerLock.Upgrade())
-							{
-								connection.RunInTransaction(() =>
-									{
-										foreach (CachedQuery item in cachedQueries)
-										{
-											connection.Delete(item);
-										}
-										connection.DeleteAll<T>();
-									});								
-							}
-						}
+						clear<T>();
 					}
 				});
 		}
 
-		public async Task Clear()
+		public Task Clear()
 		{
-			using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
-			using (var writerLock = await readerWriterLock.WriterLockAsync(source.Token))
-			{
-				await deleteDatabase().ConfigureAwait(false);
-			}
-			await Initialize().ConfigureAwait(false);
+			return Task.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					{
+						var name = CachedQuery.GetEntityCacheName<Product>();
+						if (isEntityCacheExpired(name))
+							clear<Product>();
+
+						name = CachedQuery.GetEntityCacheName<Store>();
+						if (isEntityCacheExpired(name))
+							clear<Store>();
+					}
+				});
+			
+		}
+
+		#endregion
+
+		#region Cached Query
+
+		public Task<bool> IsEntityCachedExpired(string cacheName)
+		{
+			return Task<bool>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					{
+						return isEntityCacheExpired(cacheName);
+					}
+				});
 		}
 
 		#endregion
@@ -295,6 +306,23 @@ namespace Tojeero.Core
 				});
 		}
 
+		private void clear<T>()
+		{
+			using (var connection = getConnection())
+			{
+				var cacheName = CachedQuery.GetEntityCacheName<T>();
+				var cachedQueries = connection.Table<CachedQuery>().Where(q => q.EntityName == cacheName);
+				connection.RunInTransaction(() =>
+					{
+						foreach (CachedQuery item in cachedQueries)
+						{
+							connection.Delete(item);
+						}
+						connection.DeleteAll<T>();
+					});	
+			}
+		}
+
 		private async Task deleteDatabase()
 		{
 			try
@@ -313,6 +341,17 @@ namespace Tojeero.Core
 			}
 		}
 
+
+		private bool isEntityCacheExpired(string cacheName)
+		{
+			using (var connection = getConnection())
+			{
+				//Get the first query that has been cached.
+				var queryCache = connection.Table<CachedQuery>().Where(q => q.EntityName == cacheName).OrderBy(q => q.LastFetchedAt).FirstOrDefault();
+				//If it's expired then we consider that the whole entity cache is expired
+				return queryCache != null && queryCache.IsExpired;
+			}
+		}
 		#endregion
 	}
 }

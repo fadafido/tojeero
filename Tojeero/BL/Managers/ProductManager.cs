@@ -35,7 +35,7 @@ namespace Tojeero.Core
 
 		public Task ClearCache()
 		{
-			return _manager.Cache.Clear<Product>(Constants.ProductsCacheName);
+			return _manager.Cache.Clear<Product>();
 		}
 
 		#endregion

@@ -34,7 +34,13 @@ namespace Tojeero.Core
 
 		Task Clear();
 
-		Task Clear<T>(string cacheName);
+		Task Clear<T>();
+
+		#endregion
+
+		#region Cached Query
+
+		Task<bool> IsEntityCachedExpired(string cacheName);
 
 		#endregion
 

@@ -21,9 +21,9 @@ namespace Tojeero.Core
 			Log(null, message, level, logRemotely, args);
 		}
 
-		public void Log(Exception ex, LoggingLevel level = LoggingLevel.Debug, bool logRemotely = false, params object[] args)
+		public void Log(Exception ex, LoggingLevel level = LoggingLevel.Debug, bool logRemotely = false)
 		{
-			Log(ex, null, level, logRemotely, args);
+			Log(ex, null, level, logRemotely, null);
 		}
 
 		public void Log(Exception ex, string message, LoggingLevel level = LoggingLevel.Debug, bool logRemotely = false, params object[] args)

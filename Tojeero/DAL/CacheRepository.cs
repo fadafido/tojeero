@@ -64,6 +64,8 @@ namespace Tojeero.Core
 
 		#region ICacheRepository implementation
 
+		#region Generic Methods
+
 		public Task Initialize()
 		{
 			return Task.Factory.StartNew(() =>
@@ -107,11 +109,11 @@ namespace Tojeero.Core
 						{
 							result = connection.Get<T>(primaryKey);
 						}
-						catch(InvalidOperationException ex)
+						catch (InvalidOperationException ex)
 						{
 							
 						}
-						catch(Exception ex)
+						catch (Exception ex)
 						{
 							throw ex;
 						}
@@ -119,7 +121,7 @@ namespace Tojeero.Core
 					}
 				});
 		}
-			
+
 		public Task SaveAsync<T>(T item)
 		{
 			return Task.Factory.StartNew(() =>
@@ -230,33 +232,44 @@ namespace Tojeero.Core
 		}
 
 
-		public Task Clear<T>()
+		public Task Clear<T>(string cacheName)
 		{
 			return Task.Factory.StartNew(() =>
 				{
 					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
-					using (var writerLock = readerWriterLock.WriterLock(source.Token))
-					using (var connection = getConnection())
+					using (var readerLock = readerWriterLock.UpgradeableReaderLock(source.Token))
 					{
-						connection.DeleteAll<T>();
+						using (var connection = getConnection())
+						{
+							var cachedQueries = connection.Table<CachedQuery>().Where(q => q.EntityName == cacheName);
+							using(var writerLock = readerLock.Upgrade())
+							{
+								connection.RunInTransaction(() =>
+									{
+										foreach (CachedQuery item in cachedQueries)
+										{
+											connection.Delete(item);
+										}
+										connection.DeleteAll<T>();
+									});								
+							}
+						}
 					}
 				});
 		}
 
 		public async Task Clear()
 		{
-			await Task.Factory.StartNew(() =>
-				{
-					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
-					using (var writerLock = readerWriterLock.WriterLock(source.Token))
-					{
-						deleteDatabase();
-					}
-				}).ConfigureAwait(false);
+			using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+			using (var writerLock = await readerWriterLock.WriterLockAsync(source.Token))
+			{
+				await deleteDatabase().ConfigureAwait(false);
+			}
 			await Initialize().ConfigureAwait(false);
 		}
 
-			
+		#endregion
+
 		#endregion
 
 		#region Utility Methods
@@ -282,16 +295,16 @@ namespace Tojeero.Core
 				});
 		}
 
-		private void deleteDatabase()
+		private async Task deleteDatabase()
 		{
 			try
 			{
 				var folder = _deviceContext.CacheFolder;
-				var exists = folder.CheckExistsAsync(Constants.DatabaseFileName).Result;
+				var exists = await folder.CheckExistsAsync(Constants.DatabaseFileName).ConfigureAwait(false);
 				if (exists == ExistenceCheckResult.FileExists)
 				{
-					var dbFile = folder.GetFileAsync(Constants.DatabaseFileName).Result;
-					dbFile.DeleteAsync().Wait();
+					var dbFile = await folder.GetFileAsync(Constants.DatabaseFileName).ConfigureAwait(false);
+					await dbFile.DeleteAsync().ConfigureAwait(false);
 				}
 			}
 			catch (Exception ex)
@@ -299,7 +312,6 @@ namespace Tojeero.Core
 				Tools.Logger.Log(ex, "Error occured while deleting database from local cache.", LoggingLevel.Warning, true);
 			}
 		}
-
 
 		#endregion
 	}

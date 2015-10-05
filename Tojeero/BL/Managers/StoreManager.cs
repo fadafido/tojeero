@@ -32,6 +32,12 @@ namespace Tojeero.Core
 			return _manager.FetchStores(pageSize, offset);
 		}
 
+
+		public Task ClearCache()
+		{
+			return _manager.Cache.Clear<Store>(Constants.StoresCacheName);
+		}
+
 		#endregion
 	}
 }

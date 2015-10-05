@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
+using System.Reflection;
 
 namespace Tojeero.Core
 {
@@ -10,6 +11,7 @@ namespace Tojeero.Core
 
 		public CachedQuery()
 		{
+			
 		}
 
 		#endregion
@@ -18,6 +20,7 @@ namespace Tojeero.Core
 
 		[PrimaryKey]
 		public string ID { get; set; }
+		public string EntityName { get; set; }
 		public DateTime? LastFetchedAt { get; set; }
 		public double? ExpiresIn { get; set; }
 

@@ -32,6 +32,8 @@ namespace Tojeero.Core
 	
 		/*****************DATABASE*****************/
 		public static string DatabaseFileName = "Tojeero.sqlite";
+		public static string ProductsCacheName = "Products";
+		public static string StoresCacheName = "Stores";
 	}
 }
 

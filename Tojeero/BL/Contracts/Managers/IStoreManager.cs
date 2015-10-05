@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Tojeero.Core
 {
-	public interface IStoreManager
+	public interface IStoreManager : IBaseModelEntityManager
 	{
 		Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset);
 	}

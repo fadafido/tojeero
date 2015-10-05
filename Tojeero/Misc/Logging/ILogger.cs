@@ -45,7 +45,7 @@ namespace Tojeero.Core
 		/// <param name="level">Logging level.</param>
 		/// <param name="logRemotely">If set to <c>true</c> log remotely.</param>
 		/// <param name="args">Arguments.</param>
-		void Log(Exception ex, LoggingLevel level = LoggingLevel.Debug, bool logRemotely = false, params object[] args);
+		void Log(Exception ex, LoggingLevel level = LoggingLevel.Debug, bool logRemotely = false);
 
 		/// <summary>
 		/// Log the specified exception with provided details dictionary and logging level.

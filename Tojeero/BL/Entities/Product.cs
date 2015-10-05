@@ -81,14 +81,31 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				if (_imageUrl == null)
-					_imageUrl = _parseObject.ImageUrl;
-				return _imageUrl;
+				return _imageUri != null ? _imageUri.ToString() : null;
 			}
 			set
 			{
 				_imageUrl = value;
-				RaisePropertyChanged(() => ImageUrl);
+				ImageUri = new Uri(value);
+			}
+		}
+
+		private Uri _imageUri;
+		[Ignore]
+		public Uri ImageUri
+		{ 
+			get
+			{
+				if (_imageUri == null && _parseObject != null && _parseObject.Image != null)
+				{
+					_imageUri = _parseObject.Image.Url;
+				}
+				return _imageUri; 
+			}
+			set
+			{
+				_imageUri = value; 
+				RaisePropertyChanged(() => ImageUri); 
 			}
 		}
 
@@ -139,14 +156,6 @@ namespace Tojeero.Core
 			get
 			{
 				return Price.ToString("C");
-			}
-		}
-
-		public string ImageUrl
-		{
-			get
-			{
-				return Image != null ? Image.Url.ToString() : null;
 			}
 		}
 

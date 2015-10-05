@@ -5,7 +5,7 @@ namespace Tojeero.Core
 	public interface IStore : IModelEntity
 	{
 		string Name { get; set; }
-		string ImageUrl { get; }
+		Uri ImageUri { get; }
 	}
 }
 

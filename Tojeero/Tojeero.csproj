@@ -31,8 +31,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup\FormsApp.cs" />
     <Compile Include="Setup\MvxApp.cs" />
+    <Compile Include="Setup\FormsApp.cs">
+    </Compile>
     <Compile Include="ViewModels\Base\BaseUserViewModel.cs" />
     <Compile Include="ViewModels\Base\LoadableViewModel.cs" />
     <Compile Include="ViewModels\Base\ReloadableViewModel.cs" />

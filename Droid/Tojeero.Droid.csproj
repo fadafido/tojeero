@@ -231,6 +231,15 @@
     <Compile Include="..\Tojeero\BL\Managers\BaseModelEntityManager.cs">
       <Link>Core\BL\Managers\BaseModelEntityManager.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Country.cs">
+      <Link>Core\BL\Entities\Country.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\CountryManager.cs">
+      <Link>Core\BL\Managers\CountryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\BaseLocalizableModelEntity.cs">
+      <Link>Core\BL\Entities\BaseLocalizableModelEntity.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -1,11 +1,22 @@
 ﻿using System;
 using System.Globalization;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core.Services
 {
+	public enum LanguageCode
+	{
+		[StringValue("en")]
+		English,
+		[StringValue("ar")]
+		Arabic
+	}
+
 	public interface ILocalizationService
 	{
-		CultureInfo GetCurrentCultureInfo();
+		CultureInfo Culture { get; }
+		LanguageCode Language { get; }
+		void ReloadCurrentCulture();
 	}
 }
 

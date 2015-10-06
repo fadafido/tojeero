@@ -42,6 +42,7 @@ namespace Tojeero
 
 			try
 			{
+				Mvx.Resolve<ICacheRepository>().Initialize().Wait();
 				Mvx.Resolve<ICacheRepository>().Clear().Wait();
 			}
 			catch(OperationCanceledException ex)

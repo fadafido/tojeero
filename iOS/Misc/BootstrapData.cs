@@ -69,13 +69,13 @@ namespace Tojeero.iOS
 				List<ParseProduct> products = new List<ParseProduct>();
 				for (int i = 0; i < productCount; i++)
 				{
-					index=i;
+					index = i;
 					var product = new ParseProduct()
-						{
-							Name = string.Format("Product {0}", i + 1),
-							Image = productImages[i % productSampleCount],
-							Price = (double)priceRandom.Next(10, 200)
-						};
+					{
+						Name = string.Format("Product {0}", i + 1),
+						Image = productImages[i % productSampleCount],
+						Price = (double)priceRandom.Next(10, 200)
+					};
 					products.Add(product);
 				}
 				await ParseObject.SaveAllAsync<ParseProduct>(products);
@@ -86,8 +86,9 @@ namespace Tojeero.iOS
 				List<ParseStore> stores = new List<ParseStore>();
 				for (int i = 0; i < storeCount; i++)
 				{
-					index=i;
-					var store = new ParseStore(){
+					index = i;
+					var store = new ParseStore()
+					{
 						Name = string.Format("Store {0}", i + 1),
 						Image = storeImages[i % storeSampleCount]
 					};
@@ -96,12 +97,53 @@ namespace Tojeero.iOS
 				await ParseObject.SaveAllAsync<ParseStore>(stores);
 				Console.WriteLine("Saved {0} stores ", storeCount);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Console.WriteLine("Error occured while {0}, index = {1}. {2}.", stage, index, ex.ToString());
 			}
 		}
 
+
+		public static async Task CreateData()
+		{
+			var countries = new ParseCountry[]
+			{
+				new ParseCountry()
+				{
+					Name_ar = "الامارات",
+					Name_en = "UAE",
+					Currency_ar = "درهم",
+					Currency_en = "AED",
+					CountryPhoneCode = "971"
+				},
+				new ParseCountry()
+				{
+					Name_ar = "السعودية",
+					Name_en = "KSA",
+					Currency_ar = "ريال",
+					Currency_en = "Ryal",
+					CountryPhoneCode = "966"
+				},
+				new ParseCountry()
+				{
+					Name_ar = "الكويت",
+					Name_en = "Kuwait",
+					Currency_ar = "دينار",
+					Currency_en = "Dinar",
+					CountryPhoneCode = "965"
+				},
+				new ParseCountry()
+				{
+					Name_ar = "الاردن",
+					Name_en = "Jordan",
+					Currency_ar = "دينار",
+					Currency_en = "Dinar",
+					CountryPhoneCode = "962"
+				}
+			};
+
+			await ParseObject.SaveAllAsync<ParseCountry>(countries);
+		}
 	}
 }
 

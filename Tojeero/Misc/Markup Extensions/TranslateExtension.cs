@@ -19,7 +19,7 @@ namespace Tojeero.Forms
 
 		public TranslateExtension()
 		{
-			ci = Mvx.Resolve<ILocalizationService>().GetCurrentCultureInfo();
+			ci = Mvx.Resolve<ILocalizationService>().Culture;
 		}
 
 		public string Text { get; set; }

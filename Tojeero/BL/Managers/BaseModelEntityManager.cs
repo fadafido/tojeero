@@ -62,6 +62,12 @@ namespace Tojeero.Core
 			return fetch<IStore, Store>(cachedQueryId, local, remote, Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
+
+		public Task<IEnumerable<ICountry>> FetchCountries()
+		{
+			throw new NotImplementedException();
+		}
+
 		#endregion
 
 		#region Utility methods

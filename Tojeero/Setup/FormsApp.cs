@@ -33,7 +33,7 @@ namespace Tojeero.Forms
 		{
 			// Handle when your app resumes
 			if(Device.OS != TargetPlatform.WinPhone)
-				AppResources.Culture = Mvx.Resolve<ILocalizationService>().GetCurrentCultureInfo();
+				AppResources.Culture = Mvx.Resolve<ILocalizationService>().Culture;
 		}
 	}
 }

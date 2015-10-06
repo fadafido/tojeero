@@ -40,6 +40,11 @@ namespace Tojeero.Core
 			}
 		}
 
+
+		public Task<IEnumerable<ICountry>> FetchCountries()
+		{
+			throw new NotImplementedException();
+		}
 		#endregion
 
 	}

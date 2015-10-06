@@ -305,7 +305,7 @@ namespace Tojeero.Core
 						string query = string.Format("SELECT * FROM [{0}]", tableName);
 						if(pageSize > 0 && offset >= 0)
 						{
-							query += string.Format(" LIMIT {1} OFFSET {2}", pageSize, offset);
+							query += string.Format(" LIMIT {0} OFFSET {1}", pageSize, offset);
 						}
 						var result = connection.Query<T>(query);
 						return result;

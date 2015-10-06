@@ -79,6 +79,7 @@ namespace Tojeero.Core
 						connection.CreateTable<Product>();
 						connection.CreateTable<Store>();
 						connection.CreateTable<CachedQuery>();
+						connection.CreateTable<Country>();
 					}
 				});
 		}

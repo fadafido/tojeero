@@ -53,14 +53,12 @@ namespace Tojeero.Core
 
 		public Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			string cachedQueryId = string.Format("stores-p{0}o{1}", pageSize, offset);
 			return fetch<IStore, Store>(new FetchStoresQuery(pageSize, offset, this), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
-
 		public Task<IEnumerable<ICountry>> FetchCountries()
 		{
-			throw new NotImplementedException();
+			return fetch<ICountry, Country>(new FetchCountriesQuery(this), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
 		#endregion
@@ -162,7 +160,7 @@ namespace Tojeero.Core
 			{
 				get
 				{
-					string cachedQueryId = string.Format("products-p{0}o{1}", pageSize, offset);
+					string cachedQueryId = string.Format("stores-p{0}o{1}", pageSize, offset);
 					return cachedQueryId;
 				}
 			}
@@ -180,6 +178,38 @@ namespace Tojeero.Core
 			#endregion
 		}
 
+
+		private class FetchCountriesQuery : IQueryLoader<ICountry>
+		{
+			IModelEntityManager manager;
+
+			public FetchCountriesQuery(IModelEntityManager manager)
+			{
+				this.manager = manager;
+			}
+
+			#region IQueryLoader implementation
+
+			public string ID
+			{
+				get
+				{
+					return "countries";
+				}
+			}
+
+			public async Task<IEnumerable<ICountry>> LocalQuery()
+			{
+				return await manager.Cache.FetchCountries();
+			}
+
+			public async Task<IEnumerable<ICountry>> RemoteQuery()
+			{
+				return await manager.Rest.FetchCountries();
+			}
+
+			#endregion
+		}
 		#endregion
 	}
 }

@@ -41,9 +41,14 @@ namespace Tojeero.Core
 		}
 
 
-		public Task<IEnumerable<ICountry>> FetchCountries()
+		public async Task<IEnumerable<ICountry>> FetchCountries()
 		{
-			throw new NotImplementedException();
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchCountriesTimeout))
+			{
+				var query = new ParseQuery<ParseCountry>();
+				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
+				return result.Select(c => new Country(c) as ICountry);
+			}
 		}
 		#endregion
 

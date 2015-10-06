@@ -14,9 +14,9 @@ namespace Tojeero.Core.Services
 
 	public interface ILocalizationService
 	{
+		void SetLanguage(LanguageCode language);
 		CultureInfo Culture { get; }
 		LanguageCode Language { get; }
-		void ReloadCurrentCulture();
 	}
 }
 

@@ -21,7 +21,7 @@ namespace Tojeero.Forms
 		protected override void OnStart()
 		{
 			// Handle when your app starts
-
+			updateCulture();
 		}
 
 		protected override void OnSleep()
@@ -32,8 +32,16 @@ namespace Tojeero.Forms
 		protected override void OnResume()
 		{
 			// Handle when your app resumes
-			if(Device.OS != TargetPlatform.WinPhone)
-				AppResources.Culture = Mvx.Resolve<ILocalizationService>().Culture;
+			updateCulture();
+		}
+
+		private void updateCulture()
+		{
+			if (Device.OS != TargetPlatform.WinPhone)
+			{
+				var localization = Mvx.Resolve<ILocalizationService>();
+				AppResources.Culture = localization.Culture;
+			}
 		}
 	}
 }

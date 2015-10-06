@@ -10,7 +10,7 @@ namespace Tojeero.iOS
 {
 	public class Setup : MvxTouchSetup
 	{
-		public Setup(MvxApplicationDelegate applicationDelegate, UIWindow window)
+		public Setup(IMvxApplicationDelegate applicationDelegate, UIWindow window)
 			: base(applicationDelegate, window)
 		{
 		}

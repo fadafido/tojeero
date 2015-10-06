@@ -76,15 +76,15 @@ namespace Tojeero.Core
 		{
 			IEnumerable<T> result = null;
 			var cacheName = CachedQuery.GetEntityCacheName<Entity>();
-			var cachedQuery = await Cache.FetchObjectAsync<CachedQuery>(cachedQueryId);
+			var cachedQuery = await Cache.FetchObjectAsync<CachedQuery>(cachedQueryId).ConfigureAwait(false);
 			bool isExpired = cachedQuery == null || cachedQuery.IsExpired;
 
 			//If the query has not ever been executed or was expired fetch the results from backend and save them to local cache
 			if (isExpired)
 			{
 				remoteQuery.Start();
-				result = await remoteQuery;
-				await Cache.SaveAsync(result);
+				result = await remoteQuery.ConfigureAwait(false);
+				await Cache.SaveAsync(result).ConfigureAwait(false);
 				cachedQuery = new CachedQuery()
 				{
 					ID = cachedQueryId,
@@ -92,12 +92,12 @@ namespace Tojeero.Core
 					LastFetchedAt = DateTime.UtcNow,
 					ExpiresIn = expiresIn
 				};
-				await Cache.SaveAsync(cachedQuery);
+				await Cache.SaveAsync(cachedQuery).ConfigureAwait(false);
 			}
 			else
 			{
 				localQuery.Start();
-				result = await localQuery;
+				result = await localQuery.ConfigureAwait(false);
 			}
 			return result;
 		}

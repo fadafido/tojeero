@@ -18,7 +18,7 @@ namespace Tojeero.iOS
 		
 		#region Utility methods
 
-		protected override System.Globalization.CultureInfo getCurrentCultureInfo()
+		protected override System.Globalization.CultureInfo getSystemCultureInfo()
 		{
 			var netLanguage = "en";
 			var prefLanguageOnly = "en";

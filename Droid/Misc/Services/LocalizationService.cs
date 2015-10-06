@@ -19,7 +19,7 @@ namespace Tojeero.Droid
 
 		#region Utilit Methods
 
-		protected override CultureInfo getCurrentCultureInfo ()
+		protected override CultureInfo getSystemCultureInfo ()
 		{
 			var androidLocale = Java.Util.Locale.Default;
 			var netLanguage = androidLocale.ToString().Replace ("_", "-"); // turns pt_BR into pt-BR

@@ -27,11 +27,10 @@ namespace Tojeero.Core.Services
 
 		#region ILocalizationService implementation
 
-		public void ReloadCurrentCulture()
+		public void SetLanguage(LanguageCode language)
 		{
-			_culture = getCurrentCultureInfo();
-			_language = getLanguageCode() ?? LanguageCode.English;
-			_messenger.Publish<CultureChangedMessage>(new CultureChangedMessage(this, _culture));
+			Settings.Language = language;
+			reloadCurrentCulture();
 		}
 
 		private CultureInfo _culture;
@@ -62,10 +61,29 @@ namespace Tojeero.Core.Services
 
 		#endregion
 
-		#region Utilit Methods
+		#region Utility Methods
 
-		protected abstract CultureInfo getCurrentCultureInfo ();
+		protected abstract CultureInfo getSystemCultureInfo ();
 
+		private CultureInfo getCurrentCultureInfo()
+		{
+			CultureInfo culture;
+			if (Settings.Language != null)
+			{
+				culture = getCultureInfoForLanguage(Settings.Language.Value);
+			}
+			else
+			{
+				culture = getSystemCultureInfo();
+			}
+			return culture;
+		}
+
+		private CultureInfo getCultureInfoForLanguage(LanguageCode language)
+		{
+			var culture = new CultureInfo(language.GetString());
+			return culture;
+		}
 
 		private LanguageCode? getLanguageCode()
 		{
@@ -82,6 +100,13 @@ namespace Tojeero.Core.Services
 				Tools.Logger.Log(ex, "Error occured when loading language code from string.", LoggingLevel.Error, true);
 			}
 			return null;
+		}
+
+		public void reloadCurrentCulture()
+		{
+			_culture = getCurrentCultureInfo();
+			_language = getLanguageCode() ?? LanguageCode.English;
+			_messenger.Publish<CultureChangedMessage>(new CultureChangedMessage(this, _culture));
 		}
 
 		#endregion

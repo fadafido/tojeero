@@ -15,7 +15,11 @@ namespace Tojeero.Forms
 		public FormsApp()
 		{
 			// The root page of your application
-			MainPage = new RootPage();
+			var bootstrap = new BootstrapPage();
+			bootstrap.ViewModel.BootstrapFinished += (object sender, EventArgs e) => {
+				this.MainPage = new RootPage();
+			};
+			MainPage = bootstrap;
 		}
 
 		protected override void OnStart()

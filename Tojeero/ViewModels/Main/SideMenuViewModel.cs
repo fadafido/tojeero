@@ -7,6 +7,7 @@ using Tojeero.Core.Toolbox;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Xamarin.Forms;
 using Tojeero.Forms;
+using Cirrious.CrossCore;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -70,7 +71,9 @@ namespace Tojeero.Core.ViewModels
 			{
 				_showProfileSettingsCommand = _showProfileSettingsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => 
 					{
-						this.ShowProfileSettings.Fire(this, new EventArgs<bool>(false));
+						var language = Settings.Language != null ? Settings.Language.Value : LanguageCode.English;
+						Mvx.Resolve<ILocalizationService>().SetLanguage(language == LanguageCode.English ? LanguageCode.Arabic : LanguageCode.English);
+						//this.ShowProfileSettings.Fire(this, new EventArgs<bool>(false));
 					});
 				return _showProfileSettingsCommand;
 			}

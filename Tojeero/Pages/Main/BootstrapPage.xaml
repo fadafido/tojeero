@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.BootstrapPage"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	BackgroundColor="{x:Static local:Colors.Black}">
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<local:InverseBoolConverter
+				x:Key="inverse" />
+		</ResourceDictionary>
+	</ContentPage.Resources>
+	<ContentPage.Content>
+		<AbsoluteLayout
+			HorizontalOptions="FillAndExpand"
+			VerticalOptions="FillAndExpand">
+			<StackLayout
+				Padding="0,20,0,5"
+				BackgroundColor="{x:Static local:Colors.Orange}"
+				IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}"
+				AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
+				AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional">
+				<Label
+					Text="{Binding NoNetworkWarning}"
+					TextColor="White"
+					FontAttributes="Bold"
+					FontSize="Small"
+					XAlign="Center" />
+			</StackLayout>
+			<StackLayout
+				AbsoluteLayout.LayoutBounds="0.5, 0.5"
+				AbsoluteLayout.LayoutFlags="PositionProportional"
+				Padding="20">
+				<ActivityIndicator
+					Grid.Column="2"
+					IsRunning="{Binding IsLoading}"
+					HorizontalOptions="Center"
+					Color="White" />
+				<Label
+					Text="{Binding LoadingText}"
+					TextColor="White"
+					FontSize="Large"
+					XAlign="Center" />
+			</StackLayout>
+			<StackLayout
+				AbsoluteLayout.LayoutBounds="0.5, 1, 1, AutoSize"
+				AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"
+				Padding="20">
+				<Label
+					Text="{Binding LoadingFailureMessage}"
+					TextColor="{x:Static local:Colors.Orange}"
+					XAlign="Center" />
+				<Button
+					HeightRequest="40"
+					Text="Try again"
+					Command="{Binding BootstrapCommand}"
+					VerticalOptions="Center"
+					TextColor="White"
+					BackgroundColor="{x:Static local:Colors.Green}"
+					IsEnabled="{Binding IsNetworkAvailable}"
+					IsVisible="{Binding IsLoading, Converter={StaticResource inverse}}">
+				</Button>
+			</StackLayout>
+		</AbsoluteLayout>
+	</ContentPage.Content>
+</ContentPage>

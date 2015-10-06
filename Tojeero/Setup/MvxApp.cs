@@ -39,20 +39,6 @@ namespace Tojeero
 
 			Mvx.LazyConstructAndRegisterSingleton<ILogger, Logger>();
 			RegisterAppStart(new EmptyStart());
-
-			try
-			{
-				Mvx.Resolve<ICacheRepository>().Initialize().Wait();
-				Mvx.Resolve<ICacheRepository>().Clear().Wait();
-			}
-			catch(OperationCanceledException ex)
-			{
-				Tools.Logger.Log(ex, LoggingLevel.Warning);
-			}
-			catch(Exception ex)
-			{
-				Tools.Logger.Log(ex, "Error occurred while clearing local cache before application launch.", LoggingLevel.Error, true);
-			}
         }
     }
 }

@@ -9,8 +9,7 @@ namespace Tojeero.Forms
 	public class RootPage : MasterDetailPage
 	{
 		public RootPage()
-		{			
-			Mvx.Resolve<IAuthenticationService>().RestoreSavedSession();
+		{						
 			this.Master = new SideMenuPage()
 			{
 				Title = "Tojeero",

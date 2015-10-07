@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tojeero.Core
+namespace Tojeero.Forms
 {
 	public static class Images
 	{

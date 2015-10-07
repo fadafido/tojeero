@@ -65,7 +65,6 @@
     <Compile Include="Misc\Toolbox\MvxToolbox.cs" />
     <Compile Include="SAL\Api Model\FacebookUser.cs" />
     <Compile Include="Misc\Settings.cs" />
-    <Compile Include="ViewModels\Base\BaseUserDetailsViewModel.cs" />
     <Compile Include="Misc\Constants\Images.cs" />
     <Compile Include="Misc\Converters\InverseBoolConverter.cs" />
     <Compile Include="Misc\Converters\BoolToOpacityConverter.cs" />

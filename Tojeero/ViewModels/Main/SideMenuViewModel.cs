@@ -11,7 +11,7 @@ using Cirrious.CrossCore;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class SideMenuViewModel : BaseUserDetailsViewModel
+	public class SideMenuViewModel : BaseUserViewModel
 	{
 		#region Constructors
 

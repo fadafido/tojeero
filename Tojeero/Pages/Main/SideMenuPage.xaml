@@ -52,18 +52,18 @@
 								Height="Auto" />
 						</Grid.RowDefinitions>
 						<controls:CircleImage
-							Source="{Binding ProfilePicturePlaceholder}"
+							Source="{x:Static local:Images.ProfilePicturePlaceholder}"
 							BorderColor="{x:Static local:Colors.Blue}"
 							BorderThickness="2"
 							Aspect="AspectFill" />
 						<controls:CircleImage
-							Source="{Binding ProfilePicture, Converter={StaticResource cachedImage}}"
+							Source="{Binding CurrentUser.ProfilePictureUrl, Converter={StaticResource cachedImage}}"
 							BorderColor="{x:Static local:Colors.Blue}"
 							BorderThickness="2"
 							Aspect="AspectFill" />
 					</Grid>
 					<Label
-						Text="{Binding FullName}"
+						Text="{Binding CurrentUser.FullName}"
 						HorizontalOptions="Center"
 						TextColor="White" />
 				</StackLayout>

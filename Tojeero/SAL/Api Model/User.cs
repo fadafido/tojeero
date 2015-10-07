@@ -23,6 +23,14 @@ namespace Tojeero.Core
 		[JsonProperty("last_name")]
 		public string LastName { get; set; }
 
+		public string FullName
+		{ 
+			get
+			{
+				return string.Format("{0} {1}", FirstName, LastName); 
+			}
+		}
+
 		public string UserName { get; set; }
 
 		[JsonProperty("id")]

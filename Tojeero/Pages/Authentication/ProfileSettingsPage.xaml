@@ -94,12 +94,12 @@
 										Height="Auto" />
 								</Grid.RowDefinitions>
 								<controls:CircleImage
-									Source="{Binding ProfilePicturePlaceholder}"
+									Source="{x:Static local:Images.ProfilePicturePlaceholder}"
 									BorderColor="{x:Static local:Colors.Blue}"
 									BorderThickness="2"
 									Aspect="AspectFill" />
 								<controls:CircleImage
-									Source="{Binding ProfilePicture, Converter={StaticResource cachedImage}}"
+									Source="{Binding CurrentUser.ProfilePictureUrl, Converter={StaticResource cachedImage}}"
 									BorderColor="{x:Static local:Colors.Blue}"
 									BorderThickness="2"
 									Aspect="AspectFill" />
@@ -113,7 +113,7 @@
 										TextColor="{x:Static local:Colors.DarkGray}"
 										FontSize="Micro" />
 									<Entry
-										Text="{Binding FirstName, Mode=TwoWay}"
+										Text="{Binding CurrentUser.FirstName, Mode=TwoWay}"
 										Placeholder="First name"
 										TextColor="{x:Static local:Colors.Black}" />
 								</StackLayout>
@@ -124,7 +124,7 @@
 										TextColor="{x:Static local:Colors.DarkGray}"
 										FontSize="Micro" />
 									<Entry
-										Text="{Binding LastName, Mode=TwoWay}"
+										Text="{Binding CurrentUser.LastName, Mode=TwoWay}"
 										Placeholder="Last name"
 										TextColor="{x:Static local:Colors.Black}" />
 								</StackLayout>
@@ -141,7 +141,7 @@
 								TextColor="{x:Static local:Colors.DarkGray}"
 								FontSize="Micro" />
 							<Label
-								Text="{Binding Email}"
+								Text="{Binding CurrentUser.Email}"
 								TextColor="{x:Static local:Colors.Black}"
 								FontSize="Small" />
 						</StackLayout>
@@ -158,7 +158,7 @@
 								<local:BindablePicker
 									Title="Country"
 									ItemsSource="{Binding Countries}"
-									SelectedItem="{Binding Country, Mode=TwoWay}"
+									SelectedItem="{Binding CurrentUser.Country, Mode=TwoWay}"
 									TextColor="{x:Static local:Colors.Black}" />
 							</StackLayout>
 							<StackLayout
@@ -170,7 +170,7 @@
 								<local:BindablePicker
 									Title="City"
 									ItemsSource="{Binding Cities}"
-									SelectedItem="{Binding City, Mode=TwoWay}"
+									SelectedItem="{Binding CurrentUser.City, Mode=TwoWay}"
 									TextColor="{x:Static local:Colors.Black}" />
 							</StackLayout>
 							<StackLayout
@@ -180,7 +180,7 @@
 									TextColor="{x:Static local:Colors.DarkGray}"
 									FontSize="Micro" />
 								<Entry
-									Text="{Binding Mobile, Mode=TwoWay}"
+									Text="{Binding CurrentUser.Mobile, Mode=TwoWay}"
 									Placeholder="Mobile"
 									TextColor="{x:Static local:Colors.Black}" />
 							</StackLayout>

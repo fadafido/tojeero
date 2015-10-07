@@ -13,7 +13,7 @@ using Tojeero.Core.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class ProfileSettingsViewModel : BaseUserDetailsViewModel
+	public class ProfileSettingsViewModel : BaseUserViewModel
 	{
 		#region Private Fields and Properties
 
@@ -160,8 +160,7 @@ namespace Tojeero.Core.ViewModels
 				_token = _tokenSource.Token;
 				try
 				{
-					var user = getUpdatedUser();
-					await _authService.UpdateUserDetails(user, _token);
+					await _authService.UpdateUserDetails(this.CurrentUser, _token);
 					this.StopLoading();
 					this.Close.Fire(this, new EventArgs());
 				}
@@ -192,19 +191,7 @@ namespace Tojeero.Core.ViewModels
 				this.Close.Fire(this, new EventArgs());
 			}
 		}
-
-		private User getUpdatedUser()
-		{
-			var user = new User();
-			user.FirstName = this.FirstName;
-			user.LastName = this.LastName;
-			user.Country = this.Country;
-			user.City = this.City;
-			user.Mobile = this.Mobile;
-			return user;
-		}
-
-
+			
 		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Country")

@@ -27,6 +27,8 @@ namespace Tojeero.Core
 
 		#endregion
 
+		#region Properties
+
 		[Ignore]
 		public override ParseCountry ParseObject
 		{
@@ -40,7 +42,7 @@ namespace Tojeero.Core
 				base.ParseObject = value;
 			}
 		}
-			
+
 		[Ignore]
 		public string Name
 		{
@@ -57,7 +59,7 @@ namespace Tojeero.Core
 				}
 			}
 		}
-			
+
 		[Ignore]
 		public string Currency
 		{
@@ -74,7 +76,7 @@ namespace Tojeero.Core
 				}
 			}
 		}
-			
+
 		public string Name_en
 		{
 			get
@@ -101,7 +103,7 @@ namespace Tojeero.Core
 				this.RaisePropertyChanged(() => Name);
 			}
 		}
-			
+
 		public string Currency_en
 		{
 			get
@@ -140,6 +142,17 @@ namespace Tojeero.Core
 				RaisePropertyChanged(() => CountryPhoneCode);
 			}
 		}
+
+		#endregion
+
+		#region Parent 
+
+		public override string ToString()
+		{
+			return Name;	
+		}
+
+		#endregion
 
 		#region implemented abstract members of BaseLocalizableModelEntity
 

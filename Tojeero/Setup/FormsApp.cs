@@ -12,15 +12,27 @@ namespace Tojeero.Forms
 {
 	public class FormsApp : Application
 	{
+		#region Private fields and properties
+
+		private NavigationPage rootNavigation;
+
+		#endregion
+
+		#region Constructors
+
 		public FormsApp()
 		{
 			// The root page of your application
-			var bootstrap = new BootstrapPage();
-			bootstrap.ViewModel.BootstrapFinished = () => {
+			var bootstrap = new BootstrapPage() { Title = "Tojeer" };
+			rootNavigation = new NavigationPage(bootstrap);
+			bootstrap.ViewModel.BootstrapFinished = () =>
+			{
 				this.MainPage = new RootPage();
 			};
-			MainPage = bootstrap;
+			MainPage = rootNavigation;
 		}
+
+		#endregion
 
 		protected override void OnStart()
 		{

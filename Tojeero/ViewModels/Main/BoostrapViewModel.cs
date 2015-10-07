@@ -64,7 +64,7 @@ namespace Tojeero.Core.ViewModels
 		#region Private API
 
 		private async Task bootstrap()
-		{
+		{			
 			this.StartLoading("Loading initial data, please wait.");
 			await clearCache();
 			if (!(await loadCountries()))

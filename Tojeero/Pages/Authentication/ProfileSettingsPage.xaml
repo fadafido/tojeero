@@ -24,7 +24,8 @@
 	</ContentPage.Resources>
 	<ContentPage.Content>
 		<ScrollView>
-			<StackLayout>
+			<StackLayout
+				Spacing="0">
 				<StackLayout
 					Padding="0,5,0,5"
 					BackgroundColor="{x:Static local:Colors.Orange}"
@@ -35,6 +36,38 @@
 						FontAttributes="Bold"
 						FontSize="Small"
 						XAlign="Center" />
+				</StackLayout>
+				<StackLayout
+					IsVisible = "{Binding IsLoading}"
+					Padding="5">
+					<ActivityIndicator
+						IsRunning="{Binding IsLoading}"
+						HorizontalOptions="Center"
+						VerticalOptions="Center"
+						Color="{x:Static local:Colors.DarkGray}" />
+					<Label
+						Text="{Binding LoadingText}"
+						TextColor="{x:Static local:Colors.DarkGray}"
+						FontSize="Large"
+						XAlign="Center" />
+				</StackLayout>
+				<StackLayout
+					Spacing="5"
+					Padding="5"
+					BackgroundColor="{x:Static local:Colors.Black}"
+					IsVisible="{Binding LoadingFailureMessage, Converter={StaticResource visibility}}">
+					<Label
+						Text="{Binding LoadingFailureMessage}"
+						TextColor="White"
+						FontAttributes="Bold"
+						FontSize="Small"
+						XAlign="Center" />
+					<Button
+						Text="Try again"
+						Command="{Binding ReloadCommand}"
+						TextColor="White"
+						BackgroundColor="{x:Static local:Colors.Orange}"
+						IsEnabled="{Binding IsNetworkAvailable}" />
 				</StackLayout>
 				<StackLayout
 					Padding="10">
@@ -154,11 +187,6 @@
 						</StackLayout>
 						<StackLayout
 							Spacing="5">
-							<ActivityIndicator
-								IsRunning="{Binding IsLoading}"
-								HorizontalOptions="Center"
-								VerticalOptions="Center"
-								Color="{x:Static local:Colors.DarkGray}" />
 							<Grid
 								HeightRequest="40"
 								VerticalOptions="Center">

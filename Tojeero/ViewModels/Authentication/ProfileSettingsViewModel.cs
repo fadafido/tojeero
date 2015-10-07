@@ -19,22 +19,18 @@ namespace Tojeero.Core.ViewModels
 
 		CancellationTokenSource _tokenSource;
 		CancellationToken _token;
-		private List<string> _countryList = new List<string> {"Armenia", "United Arab Emirates"};
-		private Dictionary<string, List<string>> _countries;
+		private bool _isDataLoaded;
+		private readonly ICountryManager _countryManager;
 
 		#endregion
 
 		#region Constructors
 
-		public ProfileSettingsViewModel(IAuthenticationService authService, IMvxMessenger messenger)
+		public ProfileSettingsViewModel(IAuthenticationService authService, IMvxMessenger messenger, ICountryManager countryManager)
 			: base(authService, messenger)
 		{
+			this._countryManager = countryManager;
 			PropertyChanged += propertyChanged;
-			_countries = new Dictionary<string, List<string>>
-			{
-				[_countryList[0]] = new List<string> {"Yerevan", "Armavir", "Kapan", "Goris", "Sisian"},
-				[_countryList[1]] = new List<string> {"Dubai", "Abu Dhabi", "Sharjah", "Al Ain", "Ajman"}
-			};
 		}
 
 		public void Init(bool userShouldProvideProfileDetails)
@@ -62,11 +58,17 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		public List<string> Countries
+		private IEnumerable<ICountry> _countries;
+		public IEnumerable<ICountry> Countries
 		{
 			get
 			{
-				return this._countryList;
+				return _countries;
+			}
+			set
+			{
+				_countries = value;
+				RaisePropertyChanged(() => Countries);
 			}
 		}
 
@@ -83,12 +85,28 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Cities); 
 			}
 		}
-			
+
 		#endregion
 
 		#region Commands
 
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+
+		public System.Windows.Input.ICommand ReloadCommand
+		{
+			get
+			{
+				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						await reloadData();
+					}, () => !IsLoading && IsNetworkAvailable);
+				return _reloadCommand;
+			}
+		}
+
+
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _submitCommand;
+
 		public System.Windows.Input.ICommand SubmitCommand
 		{
 			get
@@ -107,6 +125,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _cancelCommand;
+
 		public System.Windows.Input.ICommand CancelCommand
 		{
 			get
@@ -118,11 +137,24 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
+		#region Protected API
+
+		protected override void handleNetworkConnectionChanged(object sender, Connectivity.Plugin.Abstractions.ConnectivityChangedEventArgs e)
+		{
+			base.handleNetworkConnectionChanged(sender, e);
+			if (!_isDataLoaded)
+			{
+				this.ReloadCommand.Execute(null);
+			}
+		}
+
+		#endregion
+
 		#region Utility Methods
 
 		private async Task submit()
 		{
-			this.IsLoading = true;
+			this.StartLoading("Submitting data...");
 			using (_tokenSource = new CancellationTokenSource())
 			{
 				_token = _tokenSource.Token;
@@ -130,14 +162,19 @@ namespace Tojeero.Core.ViewModels
 				{
 					var user = getUpdatedUser();
 					await _authService.UpdateUserDetails(user, _token);
+					this.StopLoading();
+					this.Close.Fire(this, new EventArgs());
+				}
+				catch(OperationCanceledException ex)
+				{
+					Tools.Logger.Log(ex, LoggingLevel.Warning);
+					StopLoading("Submission failed because of timeout. Please try again.");
 				}
 				catch (Exception ex)
 				{
 					Tools.Logger.Log("Error occured while saving user details. {0}", ex.ToString(), LoggingLevel.Error);
+					StopLoading("Submission failed because of unknown error. Please try again. If the issue persists please contact our support.");
 				}
-
-				this.IsLoading = false;
-				this.Close.Fire(this, new EventArgs());
 			}
 		}
 
@@ -172,18 +209,40 @@ namespace Tojeero.Core.ViewModels
 		{
 			if (e.PropertyName == "Country")
 			{
-				var country = this.Country ?? "";
-				if (this._countries.ContainsKey(country))
-				{
-					this.Cities = _countries[country];
-					this.City = this.Cities.Count > 0 ? this.Cities[0] : null;
-				}
+				
 			}
-			else if(e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
+			else if (e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
 			{
 				_submitCommand.RaiseCanExecuteChanged();
 				RaisePropertyChanged(() => CanExecuteSubmitCommand);
 			}
+		}
+
+		private async Task reloadData()
+		{
+			if (_isDataLoaded)
+				return;			
+			this.StartLoading("Loading data...");
+			await Task.Delay(2000);
+			StopLoading("Failed to load data because of timeout. Please try again.");
+			return;
+			try
+			{
+				var countries = await _countryManager.FetchCountries();
+				this.Countries = countries;
+				_isDataLoaded = true;
+			}
+			catch(OperationCanceledException ex)
+			{
+				Tools.Logger.Log(ex, LoggingLevel.Warning);
+				StopLoading("Failed to load data because of timeout. Please try again.");
+			}
+			catch (Exception ex)
+			{
+				Tools.Logger.Log("Error occured while saving user details. {0}", ex.ToString(), LoggingLevel.Error);
+				StopLoading("Failed to load data because of unknown error. Please try again. If the issue persists please contact our support.");
+			}
+			this.IsLoading = false;
 		}
 		#endregion
 

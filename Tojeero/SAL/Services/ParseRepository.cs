@@ -50,6 +50,17 @@ namespace Tojeero.Core
 				return result.Select(c => new Country(c) as ICountry);
 			}
 		}
+
+		public async Task<IEnumerable<ICity>> FetchCities()
+		{
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchCitiesTimeout))
+			{
+				var query = new ParseQuery<ParseCity>().OrderBy(c => c.CityId);
+				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
+				return result.Select(c => new City(c) as ICity);
+			}
+		}
+
 		#endregion
 
 	}

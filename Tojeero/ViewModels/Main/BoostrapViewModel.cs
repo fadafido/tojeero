@@ -12,6 +12,7 @@ namespace Tojeero.Core.ViewModels
 		#region Private fields and properties
 		private bool _isCachedCleared;
 		private bool _isCountriesLoaded;
+		private bool _isCitiesLoaded;
 		private bool _isBootstrapCompleted;
 		#endregion
 
@@ -68,6 +69,8 @@ namespace Tojeero.Core.ViewModels
 			this.StartLoading("Loading initial data, please wait.");
 			await clearCache();
 			if (!(await loadCountries()))
+				return;
+			if (!(await loadCities()))
 				return;
 			this.StopLoading();
 			_isBootstrapCompleted = true;
@@ -134,6 +137,42 @@ namespace Tojeero.Core.ViewModels
 				return false;
 			}
 			_isCountriesLoaded = true;
+			return true;
+		}
+
+		private async Task<bool> loadCities()
+		{
+			if (_isCitiesLoaded)
+				return true;
+
+			if (!this.IsNetworkAvailable)
+			{
+				StopLoading("App requires internet connection to load necessary data. Please make sure you are connected.");
+				return false;
+			}
+
+			try
+			{
+				var manager = Mvx.Resolve<ICityManager>();
+				var result = await manager.FetchCities();
+				if(result.Count() == 0)
+				{
+					Tools.Logger.Log("Seems there are no registered cities in the backend. Make sure this is not an error!", LoggingLevel.Warning, true);
+				}
+			}
+			catch(OperationCanceledException ex)
+			{
+				Tools.Logger.Log(ex, LoggingLevel.Warning);
+				StopLoading("Failed to load cities because of timeout. Please make sure you have network connection and try again.");
+				return false;
+			}
+			catch(Exception ex)
+			{
+				Tools.Logger.Log(ex, "Error occurred while loading cities before application launch.", LoggingLevel.Error, true);
+				StopLoading("Failed to load cities because of unknown error. Please try again. If the issue persists please contact our support.");
+				return false;
+			}
+			_isCitiesLoaded = true;
 			return true;
 		}
 

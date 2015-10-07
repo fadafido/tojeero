@@ -63,6 +63,12 @@ namespace Tojeero.Core
 			return result.OrderBy(c => c.CountryId);
 		}
 
+		public async Task<IEnumerable<ICity>> FetchCities()
+		{
+			var result = await fetchAsync<City>(-1, -1).ConfigureAwait(false);	
+			return result.OrderBy(c => c.CityId);
+		}
+
 		#endregion
 
 		#region ICacheRepository implementation
@@ -81,6 +87,7 @@ namespace Tojeero.Core
 						connection.CreateTable<Store>();
 						connection.CreateTable<CachedQuery>();
 						connection.CreateTable<Country>();
+						connection.CreateTable<City>();
 					}
 				});
 		}

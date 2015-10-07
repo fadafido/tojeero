@@ -240,6 +240,12 @@
     <Compile Include="..\Tojeero\BL\Entities\BaseLocalizableModelEntity.cs">
       <Link>Core\BL\Entities\BaseLocalizableModelEntity.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\City.cs">
+      <Link>Core\BL\Entities\City.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\CityManager.cs">
+      <Link>Core\BL\Managers\CityManager.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

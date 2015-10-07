@@ -22,6 +22,7 @@ namespace Tojeero.Core
 		public static int FetchProductsTimeout = 10000;
 		public static int FetchStoresTimeout = 10000;
 		public static int FetchCountriesTimeout = 10000;
+		public static int FetchCitiesTimeout = 10000;
 
 		/*****************PAGINATION*****************/
 		public static int ProductsPageSize = 50;

@@ -51,11 +51,11 @@ namespace Tojeero.Core
 			}
 		}
 
-		public async Task<IEnumerable<ICity>> FetchCities()
+		public async Task<IEnumerable<ICity>> FetchCities(int countryId)
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchCitiesTimeout))
 			{
-				var query = new ParseQuery<ParseCity>().OrderBy(c => c.CityId);
+				var query = new ParseQuery<ParseCity>().Where(c => c.CountryId == countryId);
 				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
 				return result.Select(c => new City(c) as ICity);
 			}

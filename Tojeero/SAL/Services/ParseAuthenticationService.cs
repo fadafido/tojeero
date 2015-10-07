@@ -202,14 +202,14 @@ namespace Tojeero.Core.Services
 			if (currentUser == null)
 				return null;	
 			string first, last, pic, mobile;
-			int country, city;
+			int? country, city;
 			bool submitted;
 
 			currentUser.TryGetValue<String>("firstName", out first);
 			currentUser.TryGetValue<String>("lastName", out last);
 			currentUser.TryGetValue<String>("profilePictureUri", out pic);
-			currentUser.TryGetValue<int>("countryId", out country);
-			currentUser.TryGetValue<int>("cityId", out city);
+			currentUser.TryGetValue<int?>("countryId", out country);
+			currentUser.TryGetValue<int?>("cityId", out city);
 			currentUser.TryGetValue<String>("mobile", out mobile);
 			currentUser.TryGetValue<bool>("isProfileSubmitted", out submitted);
 

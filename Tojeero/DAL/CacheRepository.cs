@@ -60,13 +60,21 @@ namespace Tojeero.Core
 		public async Task<IEnumerable<ICountry>> FetchCountries()
 		{
 			var result = await fetchAsync<Country>(-1, -1).ConfigureAwait(false);	
-			return result.OrderBy(c => c.CountryId);
+			return result;
 		}
 
-		public async Task<IEnumerable<ICity>> FetchCities()
+		public Task<IEnumerable<ICity>> FetchCities(int countryId)
 		{
-			var result = await fetchAsync<City>(-1, -1).ConfigureAwait(false);	
-			return result.OrderBy(c => c.CityId);
+			return Task<IEnumerable<ICity>>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
+					{
+						var result = connection.Table<City>().Where(c => c.CountryId == countryId).ToList();
+						return result;
+					}
+				});
 		}
 
 		#endregion

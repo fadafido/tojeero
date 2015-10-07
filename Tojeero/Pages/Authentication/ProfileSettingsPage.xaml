@@ -132,7 +132,7 @@
 								<local:BindablePicker
 									Title="City"
 									ItemsSource="{Binding Cities}"
-									SelectedItem="{Binding City, Mode=TwoWay}"
+									SelectedIndex="{Binding CityIndex, Mode=TwoWay}"
 									TextColor="{x:Static local:Colors.Black}" />
 							</StackLayout>
 							<StackLayout

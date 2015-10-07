@@ -61,9 +61,9 @@ namespace Tojeero.Core
 			return fetch<ICountry, Country>(new FetchCountriesQuery(this), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
-		public Task<IEnumerable<ICity>> FetchCities()
+		public Task<IEnumerable<ICity>> FetchCities(int countryId)
 		{
-			return fetch<ICity, City>(new FetchCitiesQuery(this), Constants.StoresCacheTimespan.TotalMilliseconds);
+			return fetch<ICity, City>(new FetchCitiesQuery(countryId, this), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
 		#endregion
@@ -219,9 +219,11 @@ namespace Tojeero.Core
 		private class FetchCitiesQuery : IQueryLoader<ICity>
 		{
 			IModelEntityManager manager;
+			int countryId;
 
-			public FetchCitiesQuery(IModelEntityManager manager)
+			public FetchCitiesQuery(int countryId, IModelEntityManager manager)
 			{
+				this.countryId = countryId;
 				this.manager = manager;
 			}
 
@@ -231,18 +233,18 @@ namespace Tojeero.Core
 			{
 				get
 				{
-					return "cities";
+					return "cities-c" + countryId;
 				}
 			}
 
 			public async Task<IEnumerable<ICity>> LocalQuery()
 			{
-				return await manager.Cache.FetchCities();
+				return await manager.Cache.FetchCities(countryId);
 			}
 
 			public async Task<IEnumerable<ICity>> RemoteQuery()
 			{
-				return await manager.Rest.FetchCities();
+				return await manager.Rest.FetchCities(countryId);
 			}
 
 			#endregion

@@ -56,6 +56,19 @@ namespace Tojeero.Core
 			}
 		}
 
+		public int CountryId
+		{
+			get
+			{
+				return this.ParseObject.CountryId;
+			}
+			set
+			{
+				this.ParseObject.CountryId = value;
+				this.RaisePropertyChanged(() => CountryId);
+			}
+		}
+
 		[Ignore]
 		public string Name
 		{
@@ -137,6 +150,19 @@ namespace Tojeero.Core
 
 		[ParseFieldName("cityId")]
 		public int CityId
+		{
+			get
+			{
+				return GetProperty<int>();
+			}
+			set
+			{
+				SetProperty<int>(value);
+			}
+		}
+
+		[ParseFieldName("countryId")]
+		public int CountryId
 		{
 			get
 			{

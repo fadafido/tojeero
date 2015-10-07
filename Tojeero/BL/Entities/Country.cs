@@ -43,6 +43,19 @@ namespace Tojeero.Core
 			}
 		}
 
+		public int CountryId
+		{
+			get
+			{
+				return this.ParseObject.CountryId;
+			}
+			set
+			{
+				this.ParseObject.CountryId = value;
+				this.RaisePropertyChanged(() => CountryId);
+			}
+		}
+
 		[Ignore]
 		public string Name
 		{
@@ -188,6 +201,19 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("countryId")]
+		public int CountryId
+		{
+			get
+			{
+				return GetProperty<int>();
+			}
+			set
+			{
+				SetProperty<int>(value);
 			}
 		}
 

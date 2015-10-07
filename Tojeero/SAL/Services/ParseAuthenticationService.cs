@@ -130,8 +130,8 @@ namespace Tojeero.Core.Services
 				return;
 			currentUser["firstName"] = user.FirstName;
 			currentUser["lastName"] = user.LastName;
-			currentUser["country"] = user.Country;
-			currentUser["city"] = user.City;
+			currentUser["countryId"] = user.CountryId;
+			currentUser["cityId"] = user.CityId;
 			currentUser["mobile"] = user.Mobile;
 			currentUser["isProfileSubmitted"] = true;
 			await currentUser.SaveAsync(token).ConfigureAwait(false);
@@ -172,14 +172,15 @@ namespace Tojeero.Core.Services
 			var currentUser = ParseUser.CurrentUser;
 			if (currentUser == null)
 				return null;	
-			string first, last, pic, country, city, mobile;
+			string first, last, pic, mobile;
+			int country, city;
 			bool submitted;
 
 			currentUser.TryGetValue<String>("firstName", out first);
 			currentUser.TryGetValue<String>("lastName", out last);
 			currentUser.TryGetValue<String>("profilePictureUri", out pic);
-			currentUser.TryGetValue<String>("country", out country);
-			currentUser.TryGetValue<String>("city", out city);
+			currentUser.TryGetValue<int>("countryId", out country);
+			currentUser.TryGetValue<int>("cityId", out city);
 			currentUser.TryGetValue<String>("mobile", out mobile);
 			currentUser.TryGetValue<bool>("isProfileSubmitted", out submitted);
 
@@ -191,8 +192,8 @@ namespace Tojeero.Core.Services
 					FirstName = first,
 					LastName = last,
 					ProfilePictureUrl = pic,
-					Country = country,
-					City = city,
+					CountryId = country,
+					CityId = city,
 					Mobile = mobile,
 					IsProfileSubmitted = submitted
 				};

@@ -92,6 +92,7 @@ namespace Tojeero.Core.Services
 				parseUser["firstName"] = fbUser.User.FirstName;
 				parseUser["lastName"] = fbUser.User.LastName;
 				parseUser["profilePictureUri"] = fbUser.User.ProfilePictureUrl;
+				populateUserPreferances(parseUser);
 				await parseUser.SaveAsync().ConfigureAwait(false);
 
 				CurrentUser = getCurrentUser();
@@ -138,6 +139,34 @@ namespace Tojeero.Core.Services
 
 			this.CurrentUser = getCurrentUser();
 		}
+
+		//Update settings bases on user profile
+		private void populateUserPreferances(ParseObject user)
+		{
+			//If the user has already selected country then we need to override Settings with values from user entity
+			if (user.ContainsKey("countryId"))
+			{
+				var countryId = user.Get<int?>("countryId");
+				if(countryId != null)
+					Settings.CountryId = countryId;
+			}
+			else
+			{
+				user["countryId"] = Settings.CountryId;
+			}
+
+			if (user.ContainsKey("cityId"))
+			{
+				var cityId = user.Get<int?>("cityId");
+				if(cityId != null)
+					Settings.CityId = cityId;
+			}
+			else
+			{
+				user["cityId"] = Settings.CityId;
+			}
+		}
+			
 
 		#endregion
 

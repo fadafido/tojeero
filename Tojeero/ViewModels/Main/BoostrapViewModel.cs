@@ -103,7 +103,7 @@ namespace Tojeero.Core.ViewModels
 		private async Task<bool> loadCountries()
 		{
 			//Check if user has already selected the country do not load countries
-			if (!string.IsNullOrEmpty(Settings.CountryId))
+			if (Settings.CountryId != null)
 				return true;
 
 			if (_isCountriesLoaded)

@@ -86,12 +86,12 @@ namespace Tojeero.Core
 		/// <summary>
 		/// default value for your setting
 		/// </summary>
-		public static readonly string CountryIdDefault = null;
+		public static readonly int? CountryIdDefault = null;
 
 		/// <summary>
 		/// Gets or sets the CountryId value
 		/// </summary>
-		public static string CountryId
+		public static int? CountryId
 		{
 			get
 			{
@@ -101,6 +101,36 @@ namespace Tojeero.Core
 			{
 				//if value has changed then save it!
 				if (AppSettings.AddOrUpdateValue(CountryIdKey, value))
+					AppSettings.Save();
+			}
+		}
+
+		#endregion
+
+		#region City ID
+
+		/// <summary>
+		/// Key for your setting
+		/// </summary>
+		public const string CityIdKey = "CityId";
+		/// <summary>
+		/// default value for your setting
+		/// </summary>
+		public static readonly int? CityIdDefault = null;
+
+		/// <summary>
+		/// Gets or sets the CityId value
+		/// </summary>
+		public static int? CityId
+		{
+			get
+			{
+				return AppSettings.GetValueOrDefault(CityIdKey, CityIdDefault);
+			}
+			set
+			{
+				//if value has changed then save it!
+				if (AppSettings.AddOrUpdateValue(CityIdKey, value))
 					AppSettings.Save();
 			}
 		}

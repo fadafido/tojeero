@@ -53,6 +53,12 @@ namespace Tojeero.Core.ViewModels
 		}
 		#endregion
 
+		#region Commands
+
+		public virtual System.Windows.Input.ICommand TryAgainCommand { get; }
+
+		#endregion
+
 		#region Protected API
 
 		protected virtual void handleNetworkConnectionChanged (object sender, ConnectivityChangedEventArgs e)

@@ -20,6 +20,7 @@ namespace Tojeero.Core.ViewModels
 		CancellationTokenSource _tokenSource;
 		CancellationToken _token;
 		private bool _isDataLoaded;
+		private bool _isSubmissionFailed;
 		private readonly ICountryManager _countryManager;
 
 		#endregion
@@ -186,8 +187,25 @@ namespace Tojeero.Core.ViewModels
 
 		#region Commands
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _tryAgainCommand;
 
+		public override System.Windows.Input.ICommand TryAgainCommand
+		{
+			get
+			{
+				_tryAgainCommand = _tryAgainCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
+					{
+						if(!_isDataLoaded)
+							ReloadCommand.Execute(null);
+						if(_isSubmissionFailed)
+							SubmitCommand.Execute(null);
+						
+					}, () => !IsLoading && IsNetworkAvailable);
+				return _tryAgainCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
 		public System.Windows.Input.ICommand ReloadCommand
 		{
 			get
@@ -199,7 +217,6 @@ namespace Tojeero.Core.ViewModels
 				return _reloadCommand;
 			}
 		}
-
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _submitCommand;
 
@@ -240,7 +257,7 @@ namespace Tojeero.Core.ViewModels
 			base.handleNetworkConnectionChanged(sender, e);
 			if (!_isDataLoaded)
 			{
-				this.ReloadCommand.Execute(null);
+				this.TryAgainCommand.Execute(null);
 			}
 		}
 
@@ -251,6 +268,7 @@ namespace Tojeero.Core.ViewModels
 		private async Task submit()
 		{
 			this.StartLoading("Submitting data...");
+			_isSubmissionFailed = false;
 			using (_tokenSource = new CancellationTokenSource())
 			{
 				_token = _tokenSource.Token;
@@ -258,8 +276,10 @@ namespace Tojeero.Core.ViewModels
 				{
 					var user = getUpdatedUser();
 					await _authService.UpdateUserDetails(user, _token);
+					_isSubmissionFailed = false;
 					this.StopLoading();
 					this.Close.Fire(this, new EventArgs());
+					return;
 				}
 				catch(OperationCanceledException ex)
 				{
@@ -272,6 +292,7 @@ namespace Tojeero.Core.ViewModels
 					StopLoading("Submission failed because of unknown error. Please try again. If the issue persists please contact our support.");
 				}
 			}
+			_isSubmissionFailed = true;
 		}
 
 		private void cancel()

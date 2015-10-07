@@ -110,6 +110,7 @@ namespace Tojeero.iOS
 			{
 				new ParseCountry()
 				{
+					CountryId = 1,
 					Name_ar = "الامارات",
 					Name_en = "UAE",
 					Currency_ar = "درهم",
@@ -118,6 +119,7 @@ namespace Tojeero.iOS
 				},
 				new ParseCountry()
 				{
+					CountryId = 2,
 					Name_ar = "السعودية",
 					Name_en = "KSA",
 					Currency_ar = "ريال",
@@ -126,6 +128,7 @@ namespace Tojeero.iOS
 				},
 				new ParseCountry()
 				{
+					CountryId = 3,
 					Name_ar = "الكويت",
 					Name_en = "Kuwait",
 					Currency_ar = "دينار",
@@ -134,6 +137,7 @@ namespace Tojeero.iOS
 				},
 				new ParseCountry()
 				{
+					CountryId = 4,
 					Name_ar = "الاردن",
 					Name_en = "Jordan",
 					Currency_ar = "دينار",

@@ -50,7 +50,8 @@ namespace Tojeero.iOS
 
 			MakeAppearanceCustomizations();
 			base.FinishedLaunching(app, options);
-			//BootstrapData.GenerateSampleProductsAndStores();
+//			BootstrapData.GenerateSampleProductsAndStores();
+//			BootstrapData.CreateData();
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
 		}
 

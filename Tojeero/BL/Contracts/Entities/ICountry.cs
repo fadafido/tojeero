@@ -8,6 +8,7 @@ namespace Tojeero.Core
 		string Name { get; }
 		string Currency { get; }
 		string CountryPhoneCode { get; }
+		int CountryId { get; }
 	}
 }
 

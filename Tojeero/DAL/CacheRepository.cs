@@ -59,7 +59,8 @@ namespace Tojeero.Core
 
 		public async Task<IEnumerable<ICountry>> FetchCountries()
 		{
-			return await fetchAsync<Country>(-1, -1).ConfigureAwait(false);	
+			var result = await fetchAsync<Country>(-1, -1).ConfigureAwait(false);	
+			return result.OrderBy(c => c.CountryId);
 		}
 
 		#endregion

@@ -31,6 +31,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			this._countryManager = countryManager;
 			PropertyChanged += propertyChanged;
+			updateUserData();
 		}
 
 		public void Init(bool userShouldProvideProfileDetails)
@@ -58,6 +59,100 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private string _firstName;
+		public string FirstName
+		{ 
+			get
+			{
+				return _firstName; 
+			}
+			set
+			{
+				_firstName = value; 
+				RaisePropertyChanged(() => FirstName); 
+				RaisePropertyChanged(() => FullName); 
+			}
+		}
+
+		private string _lastName;
+		public string LastName
+		{ 
+			get
+			{
+				return _lastName; 
+			}
+			set
+			{
+				_lastName = value; 
+				RaisePropertyChanged(() => LastName); 
+				RaisePropertyChanged(() => FullName); 
+			}
+		}
+
+		public string FullName
+		{ 
+			get
+			{
+				return string.Format("{0} {1}", FirstName, LastName); 
+			}
+		}
+
+		private string _email;
+		public string Email
+		{ 
+			get
+			{
+				return _email; 
+			}
+			set
+			{
+				_email = value; 
+				RaisePropertyChanged(() => Email); 
+			}
+		}
+
+		private string _profilePicture;
+		public string ProfilePicture
+		{ 
+			get
+			{
+				return _profilePicture; 
+			}
+			set
+			{
+				_profilePicture = value; 
+				RaisePropertyChanged(() => ProfilePicture); 
+			}
+		}
+
+		private ICountry _country;
+		public ICountry Country
+		{ 
+			get
+			{
+				return _country; 
+			}
+			set
+			{
+				_country = value; 
+				RaisePropertyChanged(() => Country); 
+			}
+		}
+
+		private string _mobile;
+		public string Mobile
+		{ 
+			get
+			{
+				return _mobile; 
+			}
+			set
+			{
+				_mobile = value; 
+				RaisePropertyChanged(() => Mobile); 
+			}
+		}
+
 		private IEnumerable<ICountry> _countries;
 		public IEnumerable<ICountry> Countries
 		{
@@ -69,6 +164,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_countries = value;
 				RaisePropertyChanged(() => Countries);
+				updateSelections();
 			}
 		}
 
@@ -160,7 +256,8 @@ namespace Tojeero.Core.ViewModels
 				_token = _tokenSource.Token;
 				try
 				{
-					await _authService.UpdateUserDetails(this.CurrentUser, _token);
+					var user = getUpdatedUser();
+					await _authService.UpdateUserDetails(user, _token);
 					this.StopLoading();
 					this.Close.Fire(this, new EventArgs());
 				}
@@ -191,10 +288,25 @@ namespace Tojeero.Core.ViewModels
 				this.Close.Fire(this, new EventArgs());
 			}
 		}
-			
+
+		private User getUpdatedUser()
+		{
+			var user = new User();
+			user.FirstName = this.FirstName;
+			user.LastName = this.LastName;
+			user.CountryId = this.Country != null ? (int?)this.Country.CountryId : null;
+			user.Mobile = this.Mobile;
+			return user;
+		}
+
+
 		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == "Country")
+			if (e.PropertyName == "CurrentUser")
+			{
+				updateUserData();
+			}	
+			else if (e.PropertyName == "Country")
 			{
 				
 			}
@@ -210,9 +322,6 @@ namespace Tojeero.Core.ViewModels
 			if (_isDataLoaded)
 				return;			
 			this.StartLoading("Loading data...");
-			await Task.Delay(2000);
-			StopLoading("Failed to load data because of timeout. Please try again.");
-			return;
 			try
 			{
 				var countries = await _countryManager.FetchCountries();
@@ -231,6 +340,26 @@ namespace Tojeero.Core.ViewModels
 			}
 			this.IsLoading = false;
 		}
+
+		void updateUserData()
+		{
+			var user = this.CurrentUser ?? new User();
+			this.FirstName = user.FirstName;
+			this.LastName = user.LastName;
+			this.Email = user.Email;
+			this.ProfilePicture = user.ProfilePictureUrl;
+			this.Mobile = user.Mobile;
+			updateSelections();
+		}
+
+		void updateSelections()
+		{
+			if(Countries != null && this.CurrentUser != null && this.CurrentUser.CountryId != null)
+			{
+				this.Country = Countries.Where(c => c.CountryId == this.CurrentUser.CountryId.Value).FirstOrDefault();
+			}
+		}
+
 		#endregion
 
 	}

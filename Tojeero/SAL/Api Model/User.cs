@@ -116,8 +116,8 @@ namespace Tojeero.Core
 			}
 		}
 
-		private int _countryId;
-		public int CountryId
+		private int? _countryId;
+		public int? CountryId
 		{ 
 			get
 			{
@@ -130,8 +130,8 @@ namespace Tojeero.Core
 			}
 		}
 
-		private int _cityId;
-		public int CityId
+		private int? _cityId;
+		public int? CityId
 		{ 
 			get
 			{

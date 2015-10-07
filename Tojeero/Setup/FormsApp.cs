@@ -16,7 +16,7 @@ namespace Tojeero.Forms
 		{
 			// The root page of your application
 			var bootstrap = new BootstrapPage();
-			bootstrap.ViewModel.BootstrapFinished += (object sender, EventArgs e) => {
+			bootstrap.ViewModel.BootstrapFinished = () => {
 				this.MainPage = new RootPage();
 			};
 			MainPage = bootstrap;

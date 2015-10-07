@@ -16,24 +16,10 @@
 			HorizontalOptions="FillAndExpand"
 			VerticalOptions="FillAndExpand">
 			<StackLayout
-				Padding="0,20,0,5"
-				BackgroundColor="{x:Static local:Colors.Orange}"
-				IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}"
-				AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
-				AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional">
-				<Label
-					Text="{Binding NoNetworkWarning}"
-					TextColor="White"
-					FontAttributes="Bold"
-					FontSize="Small"
-					XAlign="Center" />
-			</StackLayout>
-			<StackLayout
 				AbsoluteLayout.LayoutBounds="0.5, 0.5"
 				AbsoluteLayout.LayoutFlags="PositionProportional"
 				Padding="20">
 				<ActivityIndicator
-					Grid.Column="2"
 					IsRunning="{Binding IsLoading}"
 					HorizontalOptions="Center"
 					Color="White" />
@@ -49,7 +35,8 @@
 				Padding="20">
 				<Label
 					Text="{Binding LoadingFailureMessage}"
-					TextColor="{x:Static local:Colors.Orange}"
+					TextColor="White"
+					FontAttributes="Bold"
 					XAlign="Center" />
 				<Button
 					HeightRequest="40"
@@ -57,7 +44,7 @@
 					Command="{Binding BootstrapCommand}"
 					VerticalOptions="Center"
 					TextColor="White"
-					BackgroundColor="{x:Static local:Colors.Green}"
+					BackgroundColor="{x:Static local:Colors.Orange}"
 					IsEnabled="{Binding IsNetworkAvailable}"
 					IsVisible="{Binding IsLoading, Converter={StaticResource inverse}}">
 				</Button>

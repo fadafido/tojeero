@@ -12,6 +12,7 @@ namespace Tojeero.Core.ViewModels
 		#region Private fields and properties
 		private bool _isCachedCleared;
 		private bool _isCountriesLoaded;
+		private bool _isBootstrapCompleted;
 		#endregion
 
 		#region Constructors
@@ -26,22 +27,8 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		public event EventHandler<EventArgs> BootstrapFinished;
+		public Action BootstrapFinished;
 
-		private bool _isBootstrapFailed;
-		public bool IsBootstrapFailed
-		{ 
-			get
-			{
-				return _isBootstrapFailed; 
-			}
-			set
-			{
-				_isBootstrapFailed = value; 
-				RaisePropertyChanged(() => IsBootstrapFailed); 
-			}
-		}
-			
 		#endregion
 
 
@@ -56,7 +43,7 @@ namespace Tojeero.Core.ViewModels
 				_bootstrapCommand = _bootstrapCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
 						await bootstrap();
-					}, () => !IsLoading && IsNetworkAvailable);
+					}, () => !IsLoading);
 				return _bootstrapCommand;
 			}
 		}
@@ -68,7 +55,7 @@ namespace Tojeero.Core.ViewModels
 		protected override void handleNetworkConnectionChanged(object sender, Connectivity.Plugin.Abstractions.ConnectivityChangedEventArgs e)
 		{
 			base.handleNetworkConnectionChanged(sender, e);
-			if (IsBootstrapFailed)
+			if (!_isBootstrapCompleted)
 				this.BootstrapCommand.Execute(null);
 		}
 
@@ -79,13 +66,14 @@ namespace Tojeero.Core.ViewModels
 		private async Task bootstrap()
 		{
 			this.StartLoading("Loading initial data, please wait.");
-			await Task.Delay(2000);
-			await Mvx.Resolve<IAuthenticationService>().RestoreSavedSession();
 			await clearCache();
 			if (!(await loadCountries()))
 				return;
 			this.StopLoading();
-			BootstrapFinished.Fire(this, new EventArgs());
+			_isBootstrapCompleted = true;
+			if (BootstrapFinished != null)
+				BootstrapFinished();
+			Mvx.Resolve<IAuthenticationService>().RestoreSavedSession();
 		}
 
 
@@ -97,6 +85,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				await Mvx.Resolve<ICacheRepository>().Initialize();
 				await Mvx.Resolve<ICacheRepository>().Clear();
+				_isCachedCleared = true;
 			}
 			catch(OperationCanceledException ex)
 			{
@@ -107,16 +96,21 @@ namespace Tojeero.Core.ViewModels
 				Tools.Logger.Log(ex, "Error occurred while clearing local cache before application launch.", LoggingLevel.Error, true);
 			}
 		}
-
-		private bool test = false;
+			
 		private async Task<bool> loadCountries()
 		{
 			//Check if user has already selected the country do not load countries
-			if (Settings.CountryId != null)
+			if (!string.IsNullOrEmpty(Settings.CountryId))
 				return true;
 
 			if (_isCountriesLoaded)
 				return true;
+
+			if (!this.IsNetworkAvailable)
+			{
+				StopLoading("App requires internet connection to load necessary data. Please make sure you are connected.");
+				return false;
+			}
 
 			try
 			{
@@ -130,7 +124,7 @@ namespace Tojeero.Core.ViewModels
 			catch(OperationCanceledException ex)
 			{
 				Tools.Logger.Log(ex, LoggingLevel.Warning);
-				StopLoading("Failed to load countries because of timeout. Please try again.");
+				StopLoading("Failed to load countries because of timeout. Please make sure you have network connection and try again.");
 				return false;
 			}
 			catch(Exception ex)

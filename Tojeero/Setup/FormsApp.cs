@@ -23,7 +23,7 @@ namespace Tojeero.Forms
 		public FormsApp()
 		{
 			// The root page of your application
-			var bootstrap = new BootstrapPage() { Title = "Tojeer" };
+			var bootstrap = new BootstrapPage() { Title = "Tojeero" };
 			rootNavigation = new NavigationPage(bootstrap);
 			bootstrap.ViewModel.BootstrapFinished = () =>
 			{

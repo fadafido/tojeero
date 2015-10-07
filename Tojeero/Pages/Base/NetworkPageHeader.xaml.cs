@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
+using System.Windows.Input;
 
 namespace Tojeero.Forms
 {
@@ -48,6 +49,24 @@ namespace Tojeero.Forms
 			var header = bindable as NetworkPageHeader;
 			header.LoadingLabel.TextColor = newvalue;
 			header.ActivityIndicator.Color = newvalue;
+		}
+
+		#endregion
+
+		#region Commands
+
+		public static readonly BindableProperty TryAgainCommandProperty = BindableProperty.Create<InfiniteListView, ICommand>(bp => bp.LoadMoreCommand, default(ICommand), propertyChanged: OnTryAgainCommandChanged);
+
+		public ICommand TryAgainCommand
+		{
+			get { return (ICommand) GetValue(TryAgainCommandProperty); }
+			set { SetValue(TryAgainCommandProperty, value); }
+		}
+
+		private static void OnTryAgainCommandChanged(BindableObject bindable, ICommand oldvalue, ICommand newvalue)
+		{
+			var header = bindable as NetworkPageHeader;
+			header.TryAgainButton.Command = newvalue;
 		}
 
 		#endregion

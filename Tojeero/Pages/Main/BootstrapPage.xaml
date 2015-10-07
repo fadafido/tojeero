@@ -4,7 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="Tojeero.Forms.BootstrapPage"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
-	BackgroundColor="{x:Static local:Colors.Black}">
+	BackgroundColor="{x:Static local:Colors.UltraLightGray}">
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<local:InverseBoolConverter
@@ -12,43 +12,11 @@
 		</ResourceDictionary>
 	</ContentPage.Resources>
 	<ContentPage.Content>
-		<AbsoluteLayout
-			HorizontalOptions="FillAndExpand"
-			VerticalOptions="FillAndExpand">
-			<StackLayout
-				AbsoluteLayout.LayoutBounds="0.5, 0.5"
-				AbsoluteLayout.LayoutFlags="PositionProportional"
-				Padding="20">
-				<ActivityIndicator
-					IsRunning="{Binding IsLoading}"
-					HorizontalOptions="Center"
-					Color="White" />
-				<Label
-					Text="{Binding LoadingText}"
-					TextColor="White"
-					FontSize="Large"
-					XAlign="Center" />
-			</StackLayout>
-			<StackLayout
-				AbsoluteLayout.LayoutBounds="0.5, 1, 1, AutoSize"
-				AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"
-				Padding="20">
-				<Label
-					Text="{Binding LoadingFailureMessage}"
-					TextColor="White"
-					FontAttributes="Bold"
-					XAlign="Center" />
-				<Button
-					HeightRequest="40"
-					Text="Try again"
-					Command="{Binding BootstrapCommand}"
-					VerticalOptions="Center"
-					TextColor="White"
-					BackgroundColor="{x:Static local:Colors.Orange}"
-					IsEnabled="{Binding IsNetworkAvailable}"
-					IsVisible="{Binding IsLoading, Converter={StaticResource inverse}}">
-				</Button>
-			</StackLayout>
-		</AbsoluteLayout>
+		<StackLayout>
+			<local:NetworkPageHeader
+				NoNetworkPadding="0,5,0,5"
+				Tint="{x:Static local:Colors.DarkGray}"
+				TryAgainCommand="{Binding BootstrapCommand}" />
+		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

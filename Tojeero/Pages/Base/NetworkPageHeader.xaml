@@ -50,8 +50,8 @@
 			FontSize="Small"
 			XAlign="Center" />
 		<Button
+			x:Name="TryAgainButton"
 			Text="Try again"
-			Command="{Binding TryAgainCommand}"
 			TextColor="White"
 			BackgroundColor="{x:Static local:Colors.Orange}"
 			IsEnabled="{Binding IsNetworkAvailable}" />

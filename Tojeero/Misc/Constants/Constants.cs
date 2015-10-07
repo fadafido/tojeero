@@ -15,7 +15,7 @@ namespace Tojeero.Core
 		public static string ParseDotNetKey = "qcdEV2teifcnFbmeLIBPMlUkcz0WgGPAJ9kAvGD2";
 
 		/*****************MESSAGES*****************/
-		public static string SessionStateChangedMessage = "com.tojeero.tojeer:SessionStateChangedMessage";
+		public static string SessionStateChangedMessage = "com.tojeero.tojeero:SessionStateChangedMessage";
 
 		/*****************TIMEOUTS*****************/
 		public static int DefaultTimeout = 20000;

@@ -189,7 +189,7 @@ namespace Tojeero.Core.ViewModels
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _tryAgainCommand;
 
-		public override System.Windows.Input.ICommand TryAgainCommand
+		public System.Windows.Input.ICommand TryAgainCommand
 		{
 			get
 			{

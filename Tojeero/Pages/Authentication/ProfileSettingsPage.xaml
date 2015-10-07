@@ -28,7 +28,8 @@
 				Spacing="0">
 				<local:NetworkPageHeader
 					NoNetworkPadding="0,5,0,5" 
-					Tint = "{x:Static local:Colors.DarkGray}"/>
+					Tint = "{x:Static local:Colors.DarkGray}"
+					TryAgainCommand = "{Binding TryAgainCommand}"/>
 				<StackLayout
 					Padding="10">
 					<Label

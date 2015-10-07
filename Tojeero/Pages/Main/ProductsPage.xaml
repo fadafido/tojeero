@@ -16,37 +16,11 @@
 	<ContentPage.Content>
 		<StackLayout
 			BackgroundColor="Transparent">
-			<StackLayout
-				Padding="0,5,0,5"
-				BackgroundColor="{x:Static local:Colors.Orange}"
-				IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}">
-				<Label
-					Text="{local:Translate MessageNoInternetWarning}"
-					TextColor="White"
-					FontAttributes="Bold"
-					FontSize="Small"
-					XAlign="Center" />
-			</StackLayout>
-			<StackLayout
-				Padding="0,5,0,5"
-				BackgroundColor="{x:Static local:Colors.Black}"
-				IsVisible="{Binding LoadingFailureMessage, Converter={StaticResource visibility}}">
-				<Label
-					Text="{Binding LoadingFailureMessage}"
-					TextColor="White"
-					FontAttributes="Bold"
-					FontSize="Small"
-					XAlign="Center" />
-			</StackLayout>
-			<StackLayout
-				Padding="5"
-				IsVisible="{Binding IsLoadingInitialData}">
-				<ActivityIndicator
-					IsRunning="{Binding IsLoadingInitialData}"
-					HorizontalOptions="Center"
-					VerticalOptions="Center"
-					Color="{x:Static local:Colors.DarkGray}" />
-			</StackLayout>
+			<local:NetworkPageHeader
+				NoNetworkPadding="0,5,0,5"
+				Tint="{x:Static local:Colors.DarkGray}"
+				IsLoading="{Binding IsLoadingInitialData}"
+				TryAgainCommand="{Binding TryAgainCommand}" />
 			<local:InfiniteListView
 				x:Name="ProductsListView"
 				ItemsSource="{Binding Collection}"

@@ -166,7 +166,7 @@
     <comment>General loading message which may be used to show the user that something is going on in background</comment>
   </data>
   <data name="MessageLoadingFailed" xml:space="preserve">
-    <value>Data loading failed. Please try again.</value>
+    <value>Failed to load data because of unknown error. Please try again. If the issue persists please contact our support.</value>
     <comment>Message shown to the user if general background operation failed due to unknown issue.</comment>
   </data>
   <data name="MessageLoadingTimeOut" xml:space="preserve">

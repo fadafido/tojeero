@@ -11,10 +11,21 @@ namespace Tojeero.Core.ViewModels
 		where T : IModelEntity
 	{
 		#region Private fields and properties
+
+		private enum Commands
+		{
+			Unknown,
+			LoadFirstPage,
+			LoadNextPage,
+			Reload
+		}
+
 		QueryDelegate<T> _query;
 		Func<Task> _clearCacheTask;
 		private int _pageSize;
 		private bool _isFirstPageLoaded;
+		private Commands _lastExecutedCommand;
+
 		#endregion
 
 
@@ -37,6 +48,7 @@ namespace Tojeero.Core.ViewModels
 		public event EventHandler<EventArgs> ReloadFinished;
 
 		private IModelEntityCollection<T> _collection;
+
 		public IModelEntityCollection<T> Collection
 		{ 
 			get
@@ -60,6 +72,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private bool _isLoadingInitialData;
+
 		public bool IsLoadingInitialData
 		{ 
 			get
@@ -74,6 +87,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private bool _isLoadingNextPage;
+
 		public bool IsLoadingNextPage
 		{ 
 			get
@@ -86,22 +100,40 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => IsLoadingNextPage); 
 			}
 		}
+
 		#endregion
 
 		#region Commands
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _tryAgainCommand;
+
+		public System.Windows.Input.ICommand TryAgainCommand
+		{
+			get
+			{
+				_tryAgainCommand = _tryAgainCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(tryAgain, () => !IsLoading);
+				return _tryAgainCommand;
+			}
+		}
+
+
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadFirstPageCommand;
+
 		public System.Windows.Input.ICommand LoadFirstPageCommand
 		{
 			get
 			{
-				_loadFirstPageCommand = _loadFirstPageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
-					await loadNextPage();
-				}, () => CanExecuteLoadNextPageCommand && !_isFirstPageLoaded);
+				_loadFirstPageCommand = _loadFirstPageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						_lastExecutedCommand = Commands.LoadNextPage;
+						await loadNextPage();
+					}, () => CanExecuteLoadNextPageCommand && !_isFirstPageLoaded);
 				return _loadFirstPageCommand;
 			}
 		}
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadNextPageCommand;
+
 		public System.Windows.Input.ICommand LoadNextPageCommand
 		{
 			get
@@ -118,7 +150,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return !this.IsLoading && this.IsNetworkAvailable;
+				return !this.IsLoading;
 			}
 		}
 
@@ -129,6 +161,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
+						_lastExecutedCommand = Commands.Reload;
 						await reload();
 					}, () => CanExecuteReloadCommand);
 				return _reloadCommand;
@@ -145,6 +178,18 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
+		#region Protected
+
+		protected override void handleNetworkConnectionChanged(object sender, Connectivity.Plugin.Abstractions.ConnectivityChangedEventArgs e)
+		{
+			base.handleNetworkConnectionChanged(sender, e);
+			//Try to refetch data if there is internet connection now
+			if (e.IsConnected)
+				this.TryAgainCommand.Execute(null);
+		}
+
+		#endregion
+
 		#region Utility Methods
 
 		private async Task loadNextPage()
@@ -153,25 +198,34 @@ namespace Tojeero.Core.ViewModels
 			string failureMessage = "";
 			try
 			{
-				if(_collection == null)
+				int initialCount = this.Count;
+				if (_collection == null)
 				{
 					this.IsLoadingInitialData = true;
 					var collection = new ModelEntityCollection<T>(_query, _pageSize);
 					await collection.FetchNextPageAsync();
 					this.Collection = collection;
-					_isFirstPageLoaded = true;
 				}
 				else
 				{
 					this.IsLoadingNextPage = true;
 					await _collection.FetchNextPageAsync();
 				}
+				//If no data was fetched and there was no network connection available warn user
+				if(initialCount == this.Count && !this.IsNetworkAvailable)
+				{
+					failureMessage = "Please make sure you have internet connection and try again";
+				}
+				else
+				{
+					_isFirstPageLoaded = true;
+				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				failureMessage = handleException(ex);
 			}
-
+				
 			this.IsLoadingNextPage = false;
 			this.IsLoadingInitialData = false;
 			this.StopLoading(failureMessage);
@@ -182,24 +236,53 @@ namespace Tojeero.Core.ViewModels
 		{
 			this.StartLoading(AppResources.MessageGeneralLoading);
 			string failureMessage = "";
+
 			try
 			{
 				await _clearCacheTask();
 				var collection = new ModelEntityCollection<T>(_query, _pageSize);
 				await collection.FetchNextPageAsync();
 				this.Collection = collection;
+				//If no data was fetched and there was no network connection available warn user
+				if(this.Count == 0 && !this.IsNetworkAvailable)
+				{
+					failureMessage = "Please make sure you have internet connection and try again";
+				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				failureMessage = handleException(ex);
 			}
+
 			this.StopLoading(failureMessage);
 			ReloadFinished.Fire(this, new EventArgs());
 		}
 
-		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		void tryAgain()
+		{
+			//Try again only if previously something went wrong,
+			//that is LoadingFailureMessage is not empty
+			if (string.IsNullOrEmpty(this.LoadingFailureMessage))
+				return;
+			switch (_lastExecutedCommand)
+			{
+				case Commands.LoadFirstPage:
+					LoadFirstPageCommand.Execute(null);
+					break;
+				case Commands.LoadNextPage:
+					LoadNextPageCommand.Execute(null);
+					break;
+				case Commands.Reload:
+					ReloadCommand.Execute(null);
+					break;
+				default:
+					break;
+			}
+		}
+
+		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{			
-			if(e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
+			if (e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
 			{
 				RaisePropertyChanged(() => CanExecuteLoadNextPageCommand);
 			}
@@ -212,16 +295,17 @@ namespace Tojeero.Core.ViewModels
 			{
 				throw ex;
 			}
-			catch(OperationCanceledException)
+			catch (OperationCanceledException)
 			{
 				failureMessage = AppResources.MessageLoadingTimeOut;
 			}
-			catch(Exception)
+			catch (Exception)
 			{
 				failureMessage = AppResources.MessageLoadingFailed;
 			}	
 			return failureMessage;
 		}
+
 		#endregion
 	}
 }

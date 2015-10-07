@@ -255,7 +255,7 @@ namespace Tojeero.Core.ViewModels
 		protected override void handleNetworkConnectionChanged(object sender, Connectivity.Plugin.Abstractions.ConnectivityChangedEventArgs e)
 		{
 			base.handleNetworkConnectionChanged(sender, e);
-			if (!_isDataLoaded)
+			if (e.IsConnected && !_isDataLoaded)
 			{
 				this.TryAgainCommand.Execute(null);
 			}
@@ -357,7 +357,7 @@ namespace Tojeero.Core.ViewModels
 			catch (Exception ex)
 			{
 				Tools.Logger.Log("Error occured while saving user details. {0}", ex.ToString(), LoggingLevel.Error);
-				StopLoading("Failed to load data because of unknown error. Please try again. If the issue persists please contact our support.");
+				StopLoading(AppResources.MessageLoadingFailed);
 			}
 			this.IsLoading = false;
 		}

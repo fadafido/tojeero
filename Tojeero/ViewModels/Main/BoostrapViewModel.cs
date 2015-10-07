@@ -55,7 +55,7 @@ namespace Tojeero.Core.ViewModels
 		protected override void handleNetworkConnectionChanged(object sender, Connectivity.Plugin.Abstractions.ConnectivityChangedEventArgs e)
 		{
 			base.handleNetworkConnectionChanged(sender, e);
-			if (!_isBootstrapCompleted)
+			if (e.IsConnected && !_isBootstrapCompleted)
 				this.BootstrapCommand.Execute(null);
 		}
 

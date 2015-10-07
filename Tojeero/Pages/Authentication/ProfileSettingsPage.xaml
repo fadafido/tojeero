@@ -29,6 +29,7 @@
 				<local:NetworkPageHeader
 					NoNetworkPadding="0,5,0,5" 
 					Tint = "{x:Static local:Colors.DarkGray}"
+					IsLoading="{Binding IsLoading}"
 					TryAgainCommand = "{Binding TryAgainCommand}"/>
 				<StackLayout
 					Padding="10">

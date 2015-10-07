@@ -51,6 +51,22 @@ namespace Tojeero.Forms
 			header.ActivityIndicator.Color = newvalue;
 		}
 
+		public static BindableProperty IsLoadingProperty =
+			BindableProperty.Create<NetworkPageHeader, bool>(o => o.IsLoading, false, propertyChanged: OnIsLoadingChanged);
+
+		public bool IsLoading
+		{
+			get { return (bool)GetValue(IsLoadingProperty); }
+			set { SetValue(IsLoadingProperty, value); }
+		}
+
+		private static void OnIsLoadingChanged(BindableObject bindable, bool oldvalue, bool newvalue)
+		{
+			var header = bindable as NetworkPageHeader;
+			header.ActivityIndicator.IsRunning = newvalue;
+			header.LoadingContainer.IsVisible = newvalue;
+		}
+
 		#endregion
 
 		#region Commands

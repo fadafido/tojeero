@@ -25,11 +25,10 @@
 			XAlign="Center" />
 	</StackLayout>
 	<StackLayout
-		IsVisible="{Binding IsLoading}"
+		x:Name="LoadingContainer"
 		Padding="5">
 		<ActivityIndicator
 			x:Name="ActivityIndicator"
-			IsRunning="{Binding IsLoading}"
 			HorizontalOptions="Center"
 			VerticalOptions="Center" />
 		<Label

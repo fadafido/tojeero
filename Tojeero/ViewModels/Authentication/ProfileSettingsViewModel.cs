@@ -125,17 +125,27 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => ProfilePicture); 
 			}
 		}
+			
 
-		private ICountry _country;
 		public ICountry Country
 		{ 
 			get
 			{
-				return _country; 
+				return getCurrentCountry();
+			}
+		}
+
+		private int _countryIndex;
+		public int CountryIndex
+		{ 
+			get
+			{
+				return _countryIndex; 
 			}
 			set
 			{
-				_country = value; 
+				_countryIndex = value; 
+				RaisePropertyChanged(() => CountryIndex); 
 				RaisePropertyChanged(() => Country); 
 			}
 		}
@@ -154,8 +164,8 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private IEnumerable<ICountry> _countries;
-		public IEnumerable<ICountry> Countries
+		private ICountry[] _countries;
+		public ICountry[] Countries
 		{
 			get
 			{
@@ -315,7 +325,8 @@ namespace Tojeero.Core.ViewModels
 			var user = new User();
 			user.FirstName = this.FirstName;
 			user.LastName = this.LastName;
-			user.CountryId = this.Country != null ? (int?)this.Country.CountryId : null;
+			var country = getCurrentCountry();
+			user.CountryId = country != null ? (int?)country.CountryId : null;
 			user.Mobile = this.Mobile;
 			return user;
 		}
@@ -346,7 +357,7 @@ namespace Tojeero.Core.ViewModels
 			try
 			{
 				var countries = await _countryManager.FetchCountries();
-				this.Countries = countries;
+				this.Countries = countries.ToArray();;
 				_isDataLoaded = true;
 			}
 			catch(OperationCanceledException ex)
@@ -377,10 +388,24 @@ namespace Tojeero.Core.ViewModels
 		{
 			if(Countries != null && this.CurrentUser != null && this.CurrentUser.CountryId != null)
 			{
-				this.Country = Countries.Where(c => c.CountryId == this.CurrentUser.CountryId.Value).FirstOrDefault();
+				int i = 0;
+				foreach (var country in Countries)
+				{
+					if (country.CountryId == this.CurrentUser.CountryId)
+						break;
+					i++;
+				}
+
+				if(i < this.Countries.Length)
+					this.CountryIndex = i;
 			}
 		}
 
+		private ICountry getCurrentCountry()
+		{
+			var country = this.Countries != null && this.CountryIndex >= 0 && this.CountryIndex < this.Countries.Length ? this.Countries[this.CountryIndex] : null;
+			return country;
+		}
 		#endregion
 
 	}

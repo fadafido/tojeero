@@ -27,10 +27,10 @@
 			<StackLayout
 				Spacing="0">
 				<local:NetworkPageHeader
-					NoNetworkPadding="0,5,0,5" 
-					Tint = "{x:Static local:Colors.DarkGray}"
+					NoNetworkPadding="0,5,0,5"
+					Tint="{x:Static local:Colors.DarkGray}"
 					IsLoading="{Binding IsLoading}"
-					TryAgainCommand = "{Binding TryAgainCommand}"/>
+					TryAgainCommand="{Binding TryAgainCommand}" />
 				<StackLayout
 					Padding="10">
 					<Label
@@ -120,7 +120,7 @@
 								<local:BindablePicker
 									Title="Country"
 									ItemsSource="{Binding Countries}"
-									SelectedItem="{Binding Country, Mode=TwoWay}"
+									SelectedIndex="{Binding CountryIndex, Mode=TwoWay}"
 									TextColor="{x:Static local:Colors.Black}" />
 							</StackLayout>
 							<StackLayout
@@ -141,10 +141,20 @@
 									Text="{local:Translate LabelMobilePhone}"
 									TextColor="{x:Static local:Colors.DarkGray}"
 									FontSize="Micro" />
-								<Entry
-									Text="{Binding Mobile, Mode=TwoWay}"
-									Placeholder="Mobile"
-									TextColor="{x:Static local:Colors.Black}" />
+								<StackLayout
+									Orientation="Horizontal" Spacing="10"
+									HorizontalOptions="FillAndExpand">
+									<Entry
+										WidthRequest="100"
+										Text="{Binding Country.CountryPhoneCode}"
+										IsEnabled="false"
+										TextColor="{x:Static local:Colors.Black}" />
+									<Entry
+										Text="{Binding Mobile, Mode=TwoWay}"
+										Placeholder="Mobile"
+										Keyboard="Numeric"
+										TextColor="{x:Static local:Colors.Black}" />
+								</StackLayout>
 							</StackLayout>
 						</StackLayout>
 						<StackLayout

@@ -54,10 +54,27 @@ namespace Tojeero.Core
 
 		public async Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset) where T : new()
 		{
-			using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
-			{
-				return await fetchAsync<T>(pageSize, offset, source.Token).ConfigureAwait(false);	
-			}
+			return await fetchAsync<T>(pageSize, offset).ConfigureAwait(false);	
+		}
+
+		public async Task<IEnumerable<ICountry>> FetchCountries()
+		{
+			var result = await fetchAsync<Country>(-1, -1).ConfigureAwait(false);	
+			return result;
+		}
+
+		public Task<IEnumerable<ICity>> FetchCities(int countryId)
+		{
+			return Task<IEnumerable<ICity>>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
+					{
+						var result = connection.Table<City>().Where(c => c.CountryId == countryId).ToList();
+						return result;
+					}
+				});
 		}
 
 		#endregion
@@ -77,6 +94,8 @@ namespace Tojeero.Core
 						connection.CreateTable<Product>();
 						connection.CreateTable<Store>();
 						connection.CreateTable<CachedQuery>();
+						connection.CreateTable<Country>();
+						connection.CreateTable<City>();
 					}
 				});
 		}
@@ -291,7 +310,7 @@ namespace Tojeero.Core
 			return connection;
 		}
 
-		private Task<IEnumerable<T>> fetchAsync<T>(int pageSize, int offset, CancellationToken token) where T : new()
+		private Task<IEnumerable<T>> fetchAsync<T>(int pageSize, int offset) where T : new()
 		{
 			return Task<IEnumerable<T>>.Factory.StartNew(() =>
 				{
@@ -300,7 +319,12 @@ namespace Tojeero.Core
 					using (var connection = getConnection())
 					{
 						var tableName = typeof(T).GetLocalTableName();
-						var result = connection.Query<T>(string.Format("SELECT * FROM [{0}]  LIMIT {1} OFFSET {2}", tableName, pageSize, offset));
+						string query = string.Format("SELECT * FROM [{0}]", tableName);
+						if(pageSize > 0 && offset >= 0)
+						{
+							query += string.Format(" LIMIT {0} OFFSET {1}", pageSize, offset);
+						}
+						var result = connection.Query<T>(query);
 						return result;
 					}
 				});

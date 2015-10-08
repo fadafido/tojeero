@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.NetworkPageHeader"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	Spacing="0">
+	<StackLayout.Resources>
+		<ResourceDictionary>
+			<local:InverseBoolConverter
+				x:Key="inverse" />
+			<local:VisibilityConverter
+				x:Key="visibility" />
+		</ResourceDictionary>
+	</StackLayout.Resources>
+	<StackLayout
+		x:Name="NoNetworkStackLayout"
+		BackgroundColor="{x:Static local:Colors.Orange}"
+		IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}">
+		<Label
+			Text="{local:Translate MessageNoInternetWarning}"
+			TextColor="White"
+			FontAttributes="Bold"
+			FontSize="Small"
+			XAlign="Center" />
+	</StackLayout>
+	<StackLayout
+		x:Name="LoadingContainer"
+		Padding="5">
+		<ActivityIndicator
+			x:Name="ActivityIndicator"
+			HorizontalOptions="Center"
+			VerticalOptions="Center" />
+		<Label
+			x:Name="LoadingLabel"
+			Text="{Binding LoadingText}"
+			FontSize="Large"
+			XAlign="Center" />
+	</StackLayout>
+	<StackLayout
+		Spacing="5"
+		Padding="5"
+		BackgroundColor="{x:Static local:Colors.Black}"
+		IsVisible="{Binding LoadingFailureMessage, Converter={StaticResource visibility}}">
+		<Label
+			Text="{Binding LoadingFailureMessage}"
+			TextColor="White"
+			FontAttributes="Bold"
+			FontSize="Small"
+			XAlign="Center" />
+		<Button
+			x:Name="TryAgainButton"
+			Text="Try again"
+			TextColor="White"
+			BackgroundColor="{x:Static local:Colors.Orange}"
+			IsEnabled="{Binding IsNetworkAvailable}" />
+	</StackLayout>
+</StackLayout>

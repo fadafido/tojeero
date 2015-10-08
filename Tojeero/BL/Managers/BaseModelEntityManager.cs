@@ -48,54 +48,207 @@ namespace Tojeero.Core
 
 		public Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
 		{
-			string cachedQueryId = string.Format("products-p{0}o{1}", pageSize, offset);
-			var local = new Task<IEnumerable<IProduct>>(() => Cache.FetchProducts(pageSize, offset).Result);
-			var remote = new Task<IEnumerable<IProduct>>(() => Rest.FetchProducts(pageSize, offset).Result);
-			return fetch<IProduct, Product>(cachedQueryId, local, remote, Constants.ProductsCacheTimespan.TotalMilliseconds);
+			return fetch<IProduct, Product>(new FetchProductsQuery(pageSize, offset, this), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
 
 		public Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			string cachedQueryId = string.Format("stores-p{0}o{1}", pageSize, offset);
-			var local = new Task<IEnumerable<IStore>>(() => Cache.FetchStores(pageSize, offset).Result);
-			var remote = new Task<IEnumerable<IStore>>(() => Rest.FetchStores(pageSize, offset).Result);
-			return fetch<IStore, Store>(cachedQueryId, local, remote, Constants.StoresCacheTimespan.TotalMilliseconds);
+			return fetch<IStore, Store>(new FetchStoresQuery(pageSize, offset, this), Constants.StoresCacheTimespan.TotalMilliseconds);
+		}
+
+		public Task<IEnumerable<ICountry>> FetchCountries()
+		{
+			return fetch<ICountry, Country>(new FetchCountriesQuery(this), Constants.StoresCacheTimespan.TotalMilliseconds);
+		}
+
+		public Task<IEnumerable<ICity>> FetchCities(int countryId)
+		{
+			return fetch<ICity, City>(new FetchCitiesQuery(countryId, this), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
 		#endregion
 
 		#region Utility methods
 
-		private async Task<IEnumerable<T>> fetch<T, Entity>(string cachedQueryId, Task<IEnumerable<T>> localQuery, Task<IEnumerable<T>> remoteQuery, double? expiresIn = null)
+		private async Task<IEnumerable<T>> fetch<T, Entity>(IQueryLoader<T> loader, double? expiresIn = null)
 		{
 			IEnumerable<T> result = null;
 			var cacheName = CachedQuery.GetEntityCacheName<Entity>();
-			var cachedQuery = await Cache.FetchObjectAsync<CachedQuery>(cachedQueryId);
+			var cachedQuery = await Cache.FetchObjectAsync<CachedQuery>(loader.ID).ConfigureAwait(false);
 			bool isExpired = cachedQuery == null || cachedQuery.IsExpired;
 
 			//If the query has not ever been executed or was expired fetch the results from backend and save them to local cache
 			if (isExpired)
 			{
-				remoteQuery.Start();
-				result = await remoteQuery;
-				await Cache.SaveAsync(result);
+				result = await loader.RemoteQuery().ConfigureAwait(false);
+				await Cache.SaveAsync(result).ConfigureAwait(false);
 				cachedQuery = new CachedQuery()
 				{
-					ID = cachedQueryId,
+					ID = loader.ID,
 					EntityName = cacheName,
 					LastFetchedAt = DateTime.UtcNow,
 					ExpiresIn = expiresIn
 				};
-				await Cache.SaveAsync(cachedQuery);
+				await Cache.SaveAsync(cachedQuery).ConfigureAwait(false);
 			}
 			else
 			{
-				localQuery.Start();
-				result = await localQuery;
+				result = await loader.LocalQuery().ConfigureAwait(false);
 			}
 			return result;
 		}
 
+		private interface IQueryLoader<T>
+		{
+			string ID { get; }
+
+			Task<IEnumerable<T>> LocalQuery();
+
+			Task<IEnumerable<T>> RemoteQuery();
+		}
+
+		private class FetchProductsQuery : IQueryLoader<IProduct>
+		{
+			int pageSize;
+			int offset;
+			IModelEntityManager manager;
+
+			public FetchProductsQuery(int pageSize, int offset, IModelEntityManager manager)
+			{
+				this.manager = manager;
+				this.offset = offset;
+				this.pageSize = pageSize;
+				
+			}
+
+			#region IQueryLoader implementation
+
+			public string ID
+			{
+				get
+				{
+					string cachedQueryId = string.Format("products-p{0}o{1}", pageSize, offset);
+					return cachedQueryId;
+				}
+			}
+
+			public async Task<IEnumerable<IProduct>> LocalQuery()
+			{
+				return await manager.Cache.FetchProducts(pageSize, offset);
+			}
+
+			public async Task<IEnumerable<IProduct>> RemoteQuery()
+			{
+				return await manager.Rest.FetchProducts(pageSize, offset);
+			}
+
+			#endregion
+		}
+
+		private class FetchStoresQuery : IQueryLoader<IStore>
+		{
+			int pageSize;
+			int offset;
+			IModelEntityManager manager;
+
+			public FetchStoresQuery(int pageSize, int offset, IModelEntityManager manager)
+			{
+				this.manager = manager;
+				this.offset = offset;
+				this.pageSize = pageSize;
+
+			}
+
+			#region IQueryLoader implementation
+
+			public string ID
+			{
+				get
+				{
+					string cachedQueryId = string.Format("stores-p{0}o{1}", pageSize, offset);
+					return cachedQueryId;
+				}
+			}
+
+			public async Task<IEnumerable<IStore>> LocalQuery()
+			{
+				return await manager.Cache.FetchStores(pageSize, offset);
+			}
+
+			public async Task<IEnumerable<IStore>> RemoteQuery()
+			{
+				return await manager.Rest.FetchStores(pageSize, offset);
+			}
+
+			#endregion
+		}
+
+
+		private class FetchCountriesQuery : IQueryLoader<ICountry>
+		{
+			IModelEntityManager manager;
+
+			public FetchCountriesQuery(IModelEntityManager manager)
+			{
+				this.manager = manager;
+			}
+
+			#region IQueryLoader implementation
+
+			public string ID
+			{
+				get
+				{
+					return "countries";
+				}
+			}
+
+			public async Task<IEnumerable<ICountry>> LocalQuery()
+			{
+				return await manager.Cache.FetchCountries();
+			}
+
+			public async Task<IEnumerable<ICountry>> RemoteQuery()
+			{
+				return await manager.Rest.FetchCountries();
+			}
+
+			#endregion
+		}
+
+		private class FetchCitiesQuery : IQueryLoader<ICity>
+		{
+			IModelEntityManager manager;
+			int countryId;
+
+			public FetchCitiesQuery(int countryId, IModelEntityManager manager)
+			{
+				this.countryId = countryId;
+				this.manager = manager;
+			}
+
+			#region IQueryLoader implementation
+
+			public string ID
+			{
+				get
+				{
+					return "cities-c" + countryId;
+				}
+			}
+
+			public async Task<IEnumerable<ICity>> LocalQuery()
+			{
+				return await manager.Cache.FetchCities(countryId);
+			}
+
+			public async Task<IEnumerable<ICity>> RemoteQuery()
+			{
+				return await manager.Rest.FetchCities(countryId);
+			}
+
+			#endregion
+		}
 		#endregion
 	}
 }

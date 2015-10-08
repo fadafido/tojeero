@@ -7,16 +7,31 @@ using Tojeero.Core.Toolbox;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Xamarin.Forms;
 using Tojeero.Forms;
+using Cirrious.CrossCore;
+using System.Globalization;
+using Tojeero.Core.Messages;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class SideMenuViewModel : BaseUserDetailsViewModel
+	public class SideMenuViewModel : BaseUserViewModel
 	{
+		#region Private fields and properties
+
+		private readonly ILocalizationService _localizationService;
+		MvxSubscriptionToken _token;
+		#endregion
+
 		#region Constructors
 
-		public SideMenuViewModel(IAuthenticationService authService, IMvxMessenger messenger)
+		public SideMenuViewModel(IAuthenticationService authService, IMvxMessenger messenger, ILocalizationService localizationService )
 			:base(authService, messenger)
 		{
+			this._localizationService = localizationService;
+			_token = messenger.Subscribe<LanguageChangedMessage>((message) =>
+				{
+					RaisePropertyChanged(() => NewLanguage);
+				});
 			PropertyChanged += propertyChanged;
 		}
 
@@ -25,6 +40,15 @@ namespace Tojeero.Core.ViewModels
 		#region Properties
 
 		public event EventHandler<EventArgs<bool>> ShowProfileSettings;
+		public event EventHandler<EventArgs<string>> ShowLanguageChangeWarning;
+
+		public LanguageCode NewLanguage
+		{ 
+			get
+			{
+				return _localizationService.Language == LanguageCode.Arabic ? LanguageCode.English : LanguageCode.Arabic; 
+			}
+		}
 
 		#endregion
 
@@ -76,6 +100,19 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _changeLanguageCommand;
+		public System.Windows.Input.ICommand ChangeLanguageCommand
+		{
+			get
+			{
+				_changeLanguageCommand = _changeLanguageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
+					{
+						Mvx.Resolve<ILocalizationService>().SetLanguage(this.NewLanguage);
+						ShowLanguageChangeWarning.Fire(this, new EventArgs<string>(AppResources.MessageLanguageChangeWarning));
+					});
+				return _changeLanguageCommand;
+			}
+		}
 		#endregion
 
 		#region Utility Methods

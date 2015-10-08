@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Tojeero.Core.Resources {
+namespace Tojeero.Forms.Resources {
     using System;
     using System.Reflection;
     
@@ -40,7 +40,7 @@ namespace Tojeero.Core.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Tojeero.Core.Resources.AppResources", typeof(AppResources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Tojeero.Forms.Resources.AppResources", typeof(AppResources).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -58,6 +58,24 @@ namespace Tojeero.Core.Resources {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string AlertTitleWarning {
+            get {
+                return ResourceManager.GetString("AlertTitleWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tojeero.
+        /// </summary>
+        internal static string AppName {
+            get {
+                return ResourceManager.GetString("AppName", resourceCulture);
             }
         }
         
@@ -98,7 +116,7 @@ namespace Tojeero.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to City:.
+        ///   Looks up a localized string similar to City.
         /// </summary>
         internal static string LabelCity {
             get {
@@ -107,7 +125,7 @@ namespace Tojeero.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Country:.
+        ///   Looks up a localized string similar to Country.
         /// </summary>
         internal static string LabelCountry {
             get {
@@ -116,7 +134,7 @@ namespace Tojeero.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email:.
+        ///   Looks up a localized string similar to Email.
         /// </summary>
         internal static string LabelEmail {
             get {
@@ -125,7 +143,7 @@ namespace Tojeero.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First name:.
+        ///   Looks up a localized string similar to First name.
         /// </summary>
         internal static string LabelFirstName {
             get {
@@ -134,7 +152,7 @@ namespace Tojeero.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last name:.
+        ///   Looks up a localized string similar to Last name.
         /// </summary>
         internal static string LabelLastName {
             get {
@@ -143,7 +161,7 @@ namespace Tojeero.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mobile:.
+        ///   Looks up a localized string similar to Mobile.
         /// </summary>
         internal static string LabelMobilePhone {
             get {
@@ -170,7 +188,25 @@ namespace Tojeero.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data loading failed. Please try again..
+        ///   Looks up a localized string similar to Loading initial data, please wait..
+        /// </summary>
+        internal static string MessageInitialLoading {
+            get {
+                return ResourceManager.GetString("MessageInitialLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order for language change take effect you need to restart the app..
+        /// </summary>
+        internal static string MessageLanguageChangeWarning {
+            get {
+                return ResourceManager.GetString("MessageLanguageChangeWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to load data because of unknown error. Please try again. If the issue persists please contact our support..
         /// </summary>
         internal static string MessageLoadingFailed {
             get {
@@ -179,7 +215,16 @@ namespace Tojeero.Core.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loading timed out. Please try again..
+        ///   Looks up a localized string similar to Data loading failed. Please make sure you have internet connection and try again..
+        /// </summary>
+        internal static string MessageLoadingFailedNoInternet {
+            get {
+                return ResourceManager.GetString("MessageLoadingFailedNoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to load data because of timeout. Please make sure you are connected to internet and try again..
         /// </summary>
         internal static string MessageLoadingTimeOut {
             get {
@@ -206,11 +251,65 @@ namespace Tojeero.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Submission failed because of timeout. Please try again..
+        /// </summary>
+        internal static string MessageSubmissionTimeoutFailure {
+            get {
+                return ResourceManager.GetString("MessageSubmissionTimeoutFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submission failed because of unknown error. Please try again. If the issue persists please contact our support..
+        /// </summary>
+        internal static string MessageSubmissionUnknownFailure {
+            get {
+                return ResourceManager.GetString("MessageSubmissionUnknownFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submitting data....
+        /// </summary>
+        internal static string MessageSubmitting {
+            get {
+                return ResourceManager.GetString("MessageSubmitting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string OK {
+            get {
+                return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Products.
+        /// </summary>
+        internal static string TitleProducts {
+            get {
+                return ResourceManager.GetString("TitleProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profile settings.
         /// </summary>
         internal static string TitleProfileSettings {
             get {
                 return ResourceManager.GetString("TitleProfileSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stores.
+        /// </summary>
+        internal static string TitleStores {
+            get {
+                return ResourceManager.GetString("TitleStores", resourceCulture);
             }
         }
     }

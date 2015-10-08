@@ -40,6 +40,27 @@ namespace Tojeero.Core
 			}
 		}
 
+
+		public async Task<IEnumerable<ICountry>> FetchCountries()
+		{
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchCountriesTimeout))
+			{
+				var query = new ParseQuery<ParseCountry>().OrderBy(c => c.CountryId);
+				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
+				return result.Select(c => new Country(c) as ICountry);
+			}
+		}
+
+		public async Task<IEnumerable<ICity>> FetchCities(int countryId)
+		{
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchCitiesTimeout))
+			{
+				var query = new ParseQuery<ParseCity>().Where(c => c.CountryId == countryId);
+				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
+				return result.Select(c => new City(c) as ICity);
+			}
+		}
+
 		#endregion
 
 	}

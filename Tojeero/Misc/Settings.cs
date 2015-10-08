@@ -1,19 +1,13 @@
 using System.Collections.Generic;
 using Cirrious.CrossCore;
 using Refractored.MvxPlugins.Settings;
+using Tojeero.Core.Services;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core
 {
-	/// <summary>
-	/// This is the Settings static class that can be used in your Core solution or in any
-	/// of your client applications. All settings are laid out the same exact way with getters
-	/// and setters. 
-	/// </summary>
 	public static class Settings
 	{
-		/// <summary>
-		/// Simply setup your settings once when it is initialized.
-		/// </summary>
 		private static ISettings _settings;
 		private static ISettings AppSettings
 		{
@@ -24,6 +18,9 @@ namespace Tojeero.Core
 		}
 
 		#region User Settings
+
+		#region Current user
+
 		/// <summary>
 		/// Key for your setting
 		/// </summary>
@@ -50,6 +47,9 @@ namespace Tojeero.Core
 			}
 		}
 
+		#endregion
+
+		#region Analytics
 		/// <summary>
 		/// Key for your setting
 		/// </summary>
@@ -77,7 +77,102 @@ namespace Tojeero.Core
 		}
 		#endregion
 
+		#region Country ID
+
+		/// <summary>
+		/// Key for your setting
+		/// </summary>
+		public const string CountryIdKey = "CountryId";
+		/// <summary>
+		/// default value for your setting
+		/// </summary>
+		public static readonly int? CountryIdDefault = null;
+
+		/// <summary>
+		/// Gets or sets the CountryId value
+		/// </summary>
+		public static int? CountryId
+		{
+			get
+			{
+				return AppSettings.GetValueOrDefault(CountryIdKey, CountryIdDefault);
+			}
+			set
+			{
+				//if value has changed then save it!
+				if (AppSettings.AddOrUpdateValue(CountryIdKey, value))
+					AppSettings.Save();
+			}
+		}
+
+		#endregion
+
+		#region City ID
+
+		/// <summary>
+		/// Key for your setting
+		/// </summary>
+		public const string CityIdKey = "CityId";
+		/// <summary>
+		/// default value for your setting
+		/// </summary>
+		public static readonly int? CityIdDefault = null;
+
+		/// <summary>
+		/// Gets or sets the CityId value
+		/// </summary>
+		public static int? CityId
+		{
+			get
+			{
+				return AppSettings.GetValueOrDefault(CityIdKey, CityIdDefault);
+			}
+			set
+			{
+				//if value has changed then save it!
+				if (AppSettings.AddOrUpdateValue(CityIdKey, value))
+					AppSettings.Save();
+			}
+		}
+
+		#endregion
+
+		#region Language
+
+		/// <summary>
+		/// Key for your setting
+		/// </summary>
+		public const string LanguageKey = "Language";
+		/// <summary>
+		/// default value for your setting
+		/// </summary>
+		public static readonly LanguageCode? LanguageDefault = null;
+
+		/// <summary>
+		/// Gets or sets the Language value
+		/// </summary>
+		public static LanguageCode? Language
+		{
+			get
+			{
+				return AppSettings.GetValueOrDefault(LanguageKey, LanguageDefault);
+			}
+			set
+			{
+				//if value has changed then save it!
+				if (AppSettings.AddOrUpdateValue(LanguageKey, value))
+					AppSettings.Save();
+			}
+		}
+
+		#endregion
+
+		#endregion
+
 		#region Internal settings
+
+		#region Database Schema Version
+
 		/// <summary>
 		/// Key for your setting
 		/// </summary>
@@ -103,6 +198,8 @@ namespace Tojeero.Core
 					AppSettings.Save();
 			}
 		}
+
+		#endregion
 			
 		#endregion
 	}

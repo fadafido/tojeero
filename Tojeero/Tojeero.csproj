@@ -45,9 +45,6 @@
     <Compile Include="SAL\AuthenticationException.cs" />
     <Compile Include="SAL\Contracts\IFacebookService.cs" />
     <Compile Include="Pages\Main\RootPage.cs" />
-    <Compile Include="Pages\Main\HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Main\SideMenuPage.xaml.cs">
       <DependentUpon>SideMenuPage.xaml</DependentUpon>
     </Compile>
@@ -65,7 +62,6 @@
     <Compile Include="Misc\Toolbox\MvxToolbox.cs" />
     <Compile Include="SAL\Api Model\FacebookUser.cs" />
     <Compile Include="Misc\Settings.cs" />
-    <Compile Include="ViewModels\Base\BaseUserDetailsViewModel.cs" />
     <Compile Include="Misc\Constants\Images.cs" />
     <Compile Include="Misc\Converters\InverseBoolConverter.cs" />
     <Compile Include="Misc\Converters\BoolToOpacityConverter.cs" />
@@ -97,7 +93,6 @@
     <Compile Include="BL\Contracts\Entities\IModelEntity.cs" />
     <Compile Include="BL\Contracts\Entities\IStore.cs" />
     <Compile Include="BL\Contracts\Entities\IProduct.cs" />
-    <Compile Include="ViewModels\Base\ReloadableNetworkViewModel.cs" />
     <Compile Include="BL\Contracts\Managers\IProductManager.cs" />
     <Compile Include="BL\Contracts\Managers\IStoreManager.cs" />
     <Compile Include="BL\Contracts\IModelEntityCollection.cs" />
@@ -132,6 +127,21 @@
     <Compile Include="BL\Contracts\Entities\ICachedQuery.cs" />
     <Compile Include="BL\Contracts\Entities\IUniqueEntity.cs" />
     <Compile Include="BL\Contracts\Managers\IBaseModelEntityManager.cs" />
+    <Compile Include="Misc\Toolbox\LocalizationToolbox.cs" />
+    <Compile Include="BL\Contracts\Entities\ICountry.cs" />
+    <Compile Include="BL\Contracts\Managers\ICountryManager.cs" />
+    <Compile Include="Misc\Services\BaseLocalizationService.cs" />
+    <Compile Include="ViewModels\Main\BoostrapViewModel.cs" />
+    <Compile Include="Pages\Main\BootstrapPage.xaml.cs">
+      <DependentUpon>BootstrapPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Base\NetworkPageHeader.xaml.cs">
+      <DependentUpon>NetworkPageHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BL\Contracts\Entities\ICity.cs" />
+    <Compile Include="BL\Contracts\Managers\ICityManager.cs" />
+    <Compile Include="Misc\Converters\LanguageToCultureConverter.cs" />
+    <Compile Include="Misc\Messages\LanguageChangedMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -220,9 +230,6 @@
     <Folder Include="DAL\Contracts\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\Main\HomePage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -232,11 +239,8 @@
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-      <LogicalName>Tojeero.Core.Resources.AppResources.resources</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\AppResources.ar.resx">
-      <LogicalName>Tojeero.Core.Resources.AppResources.ar.resources</LogicalName>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AppResources.ar.resx" />
     <EmbeddedResource Include="Pages\Main\ProductsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -247,6 +251,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\Main\StoresPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Main\BootstrapPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Base\NetworkPageHeader.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

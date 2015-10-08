@@ -14,29 +14,17 @@ using Parse;
 using Tojeero.Core;
 using ImageCircle.Forms.Plugin.iOS;
 using Xamarin.Forms.Platform.iOS;
+using Cirrious.MvvmCross.Platform;
 
 
 namespace Tojeero.iOS
 {
 	[Register("AppDelegate")]
-	public partial class AppDelegate : MvxApplicationDelegate
+	public partial class AppDelegate : FormsApplicationDelegate, IMvxApplicationDelegate
 	{
 		#region Private API
 
-		Xamarin.Forms.Application _current;
-		UIWindow _window;
 		private static AppDelegate _instance;
-		#endregion
-
-		#region Properties
-
-		public static UIViewController RootViewController
-		{
-			get
-			{
-				return _instance._window != null ? _instance._window.RootViewController : null;
-			}
-		}
 
 		#endregion
 
@@ -45,30 +33,25 @@ namespace Tojeero.iOS
 		public override bool FinishedLaunching(UIApplication app,
 		                                       NSDictionary options)
 		{
-			_instance = this;
-
-			_window = new UIWindow(UIScreen.MainScreen.Bounds);
-
 			//Initialize Parse
 			ParseInitialize.Initialize();
 
 			//Initialize MvvmCross
-			var setup = new Setup(this, _window);
+			var setup = new Setup(this, null);
 			setup.Initialize();
 
 			//Initialize Xamarin Forms
 			global::Xamarin.Forms.Forms.Init();
 
-			_current = new FormsApp();
-			_window.RootViewController = _current.MainPage.CreateViewController();
-			_window.MakeKeyAndVisible();
+			LoadApplication(new FormsApp());
 
 			//Initialize Misc Plugins
 			ImageCircleRenderer.Init();
 
 			MakeAppearanceCustomizations();
-
-			//BootstrapData.GenerateSampleProductsAndStores();
+			base.FinishedLaunching(app, options);
+//			BootstrapData.GenerateSampleProductsAndStores();
+//			BootstrapData.CreateData();
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
 		}
 
@@ -93,7 +76,50 @@ namespace Tojeero.iOS
 
 		#endregion
 
+		#region IMvxApplicationDelegate
 
+		//
+		// Methods
+		//
+		public override void DidEnterBackground(UIApplication application)
+		{
+			base.DidEnterBackground(application);
+			this.FireLifetimeChanged(MvxLifetimeEvent.Deactivated);
+		}
+
+		public override void FinishedLaunching(UIApplication application)
+		{
+			base.FinishedLaunching(application);
+			this.FireLifetimeChanged(MvxLifetimeEvent.Launching);
+		}
+
+		private void FireLifetimeChanged(MvxLifetimeEvent which)
+		{
+			EventHandler<MvxLifetimeEventArgs> lifetimeChanged = this.LifetimeChanged;
+			if (lifetimeChanged != null)
+			{
+				lifetimeChanged(this, new MvxLifetimeEventArgs(which));
+			}
+		}
+
+		public override void WillEnterForeground(UIApplication application)
+		{
+			base.WillEnterForeground(application);
+			this.FireLifetimeChanged(MvxLifetimeEvent.ActivatedFromMemory);
+		}
+
+		public override void WillTerminate(UIApplication application)
+		{
+			base.WillTerminate(application);
+			this.FireLifetimeChanged(MvxLifetimeEvent.Closing);
+		}
+
+		//
+		// Events
+		//
+		public event EventHandler<MvxLifetimeEventArgs> LifetimeChanged;
+
+		#endregion
 	}
 }
 

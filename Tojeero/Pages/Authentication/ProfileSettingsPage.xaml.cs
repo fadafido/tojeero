@@ -28,6 +28,8 @@ namespace Tojeero.Forms
 			}
 		}
 
+
+
 		#endregion
 
 		#region Constructors
@@ -38,6 +40,16 @@ namespace Tojeero.Forms
 			this.ViewModel = MvxToolbox.LoadViewModel<ProfileSettingsViewModel>(new {userShouldProvideProfileDetails =  userShouldProvideDetails});
 			this.ViewModel.Close += closeProfileSettings;
 			InitializeComponent();
+		}
+
+		#endregion
+
+		#region View Lifecycle
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			this.ViewModel.ReloadCommand.Execute(null);
 		}
 
 		#endregion

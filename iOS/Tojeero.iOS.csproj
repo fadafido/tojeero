@@ -303,6 +303,21 @@
     <Compile Include="..\Tojeero\BL\Entities\Product.cs">
       <Link>Core\BL\Entities\Product.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Country.cs">
+      <Link>Core\BL\Entities\Country.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\CountryManager.cs">
+      <Link>Core\BL\Managers\CountryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\BaseLocalizableModelEntity.cs">
+      <Link>Core\BL\Entities\BaseLocalizableModelEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\City.cs">
+      <Link>Core\BL\Entities\City.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\CityManager.cs">
+      <Link>Core\BL\Managers\CityManager.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

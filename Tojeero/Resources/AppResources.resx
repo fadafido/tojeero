@@ -117,6 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlertTitleWarning" xml:space="preserve">
+    <value>Warning</value>
+    <comment>The title of warning alert (message box)</comment>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Tojeero</value>
+    <comment>The name of the application which will appear in several places arround the app.</comment>
+  </data>
   <data name="ButtonCancel" xml:space="preserve">
     <value>Cancel</value>
     <comment>Cancel button title.</comment>
@@ -134,27 +142,27 @@
     <comment>Submit button title.</comment>
   </data>
   <data name="LabelCity" xml:space="preserve">
-    <value>City:</value>
+    <value>City</value>
     <comment>City label text.</comment>
   </data>
   <data name="LabelCountry" xml:space="preserve">
-    <value>Country:</value>
+    <value>Country</value>
     <comment>Country label text.</comment>
   </data>
   <data name="LabelEmail" xml:space="preserve">
-    <value>Email:</value>
+    <value>Email</value>
     <comment>Email label text.</comment>
   </data>
   <data name="LabelFirstName" xml:space="preserve">
-    <value>First name:</value>
+    <value>First name</value>
     <comment>First name label text.</comment>
   </data>
   <data name="LabelLastName" xml:space="preserve">
-    <value>Last name:</value>
+    <value>Last name</value>
     <comment>Last name label text.</comment>
   </data>
   <data name="LabelMobilePhone" xml:space="preserve">
-    <value>Mobile:</value>
+    <value>Mobile</value>
     <comment>Mobile phone label text.</comment>
   </data>
   <data name="MenuItemProfileSettings" xml:space="preserve">
@@ -165,12 +173,24 @@
     <value>Loading...</value>
     <comment>General loading message which may be used to show the user that something is going on in background</comment>
   </data>
+  <data name="MessageInitialLoading" xml:space="preserve">
+    <value>Loading initial data, please wait.</value>
+    <comment>Message shown on the bootstrap screen when loading initial data.</comment>
+  </data>
+  <data name="MessageLanguageChangeWarning" xml:space="preserve">
+    <value>In order for language change take effect you need to restart the app.</value>
+    <comment>Warning message displayed to the user after they change their language within the app UI.</comment>
+  </data>
   <data name="MessageLoadingFailed" xml:space="preserve">
-    <value>Data loading failed. Please try again.</value>
+    <value>Failed to load data because of unknown error. Please try again. If the issue persists please contact our support.</value>
     <comment>Message shown to the user if general background operation failed due to unknown issue.</comment>
   </data>
+  <data name="MessageLoadingFailedNoInternet" xml:space="preserve">
+    <value>Data loading failed. Please make sure you have internet connection and try again.</value>
+    <comment>Message shown to the user if the data has not been loaded persumable because of no internet connection.</comment>
+  </data>
   <data name="MessageLoadingTimeOut" xml:space="preserve">
-    <value>Loading timed out. Please try again.</value>
+    <value>Failed to load data because of timeout. Please make sure you are connected to internet and try again.</value>
     <comment>Message shown to the user if general background operation failed due to time out.</comment>
   </data>
   <data name="MessageNoInternetWarning" xml:space="preserve">
@@ -181,8 +201,31 @@
     <value>Please provide some details about you to improve your app experience.</value>
     <comment>Hint message shown at the top of profile settings screen when user signs up to the application and has not entered some details about him.</comment>
   </data>
+  <data name="MessageSubmissionTimeoutFailure" xml:space="preserve">
+    <value>Submission failed because of timeout. Please try again.</value>
+    <comment>Message that is shown to the user when submission failed because of timeout.</comment>
+  </data>
+  <data name="MessageSubmissionUnknownFailure" xml:space="preserve">
+    <value>Submission failed because of unknown error. Please try again. If the issue persists please contact our support.</value>
+    <comment>Message that is shown to the user when submission failed because of unknown error.</comment>
+  </data>
+  <data name="MessageSubmitting" xml:space="preserve">
+    <value>Submitting data...</value>
+    <comment>Message that is shown to user when data is being submitted</comment>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="TitleProducts" xml:space="preserve">
+    <value>Products</value>
+    <comment>Products page title</comment>
+  </data>
   <data name="TitleProfileSettings" xml:space="preserve">
     <value>Profile settings</value>
     <comment>Title of Profile Settings screen</comment>
+  </data>
+  <data name="TitleStores" xml:space="preserve">
+    <value>Stores</value>
+    <comment>Stores page title</comment>
   </data>
 </root>

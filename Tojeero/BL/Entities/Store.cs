@@ -33,9 +33,6 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				var newValue = value;
-				if (value == null)
-					newValue = Parse.ParseObject.Create<ParseStore>();
 				_imageUrl = null;
 				base.ParseObject = value;
 			}

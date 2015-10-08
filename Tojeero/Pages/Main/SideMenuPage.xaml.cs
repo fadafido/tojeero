@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Core;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -37,18 +38,14 @@ namespace Tojeero.Forms
 			: base()
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<SideMenuViewModel>();
-			this.ViewModel.ShowProfileSettings += showProfileSettings;
+			this.ViewModel.ShowProfileSettings += async (sender, e) => {
+				await this.Navigation.PushModalAsync(new NavigationPage(new ProfileSettingsPage(e.Data)));
+			};
+			this.ViewModel.ShowLanguageChangeWarning += (sender, e) => {
+				DisplayAlert(AppResources.AlertTitleWarning, e.Data, AppResources.OK);
+			};
 			InitializeComponent();
 			this.Icon = "menuIcon.png";
-		}
-
-		#endregion
-
-		#region Utility Methods
-
-		private async void showProfileSettings(object sender, EventArgs<bool> e)
-		{
-			await this.Navigation.PushModalAsync(new NavigationPage(new ProfileSettingsPage(e.Data)));
 		}
 
 		#endregion

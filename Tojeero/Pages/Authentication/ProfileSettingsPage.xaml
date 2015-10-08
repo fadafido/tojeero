@@ -24,18 +24,13 @@
 	</ContentPage.Resources>
 	<ContentPage.Content>
 		<ScrollView>
-			<StackLayout>
-				<StackLayout
-					Padding="0,5,0,5"
-					BackgroundColor="{x:Static local:Colors.Orange}"
-					IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}">
-					<Label
-						Text="{local:Translate MessageNoInternetWarning}"
-						TextColor="White"
-						FontAttributes="Bold"
-						FontSize="Small"
-						XAlign="Center" />
-				</StackLayout>
+			<StackLayout
+				Spacing="0">
+				<local:NetworkPageHeader
+					NoNetworkPadding="0,5,0,5"
+					Tint="{x:Static local:Colors.DarkGray}"
+					IsLoading="{Binding IsLoading}"
+					TryAgainCommand="{Binding TryAgainCommand}" />
 				<StackLayout
 					Padding="10">
 					<Label
@@ -61,7 +56,7 @@
 										Height="Auto" />
 								</Grid.RowDefinitions>
 								<controls:CircleImage
-									Source="{Binding ProfilePicturePlaceholder}"
+									Source="{x:Static local:Images.ProfilePicturePlaceholder}"
 									BorderColor="{x:Static local:Colors.Blue}"
 									BorderThickness="2"
 									Aspect="AspectFill" />
@@ -81,7 +76,7 @@
 										FontSize="Micro" />
 									<Entry
 										Text="{Binding FirstName, Mode=TwoWay}"
-										Placeholder="First name"
+										Placeholder="{local:Translate LabelFirstName}"
 										TextColor="{x:Static local:Colors.Black}" />
 								</StackLayout>
 								<StackLayout
@@ -92,7 +87,7 @@
 										FontSize="Micro" />
 									<Entry
 										Text="{Binding LastName, Mode=TwoWay}"
-										Placeholder="Last name"
+										Placeholder="{local:Translate LabelLastName}"
 										TextColor="{x:Static local:Colors.Black}" />
 								</StackLayout>
 							</StackLayout>
@@ -123,7 +118,7 @@
 									TextColor="{x:Static local:Colors.DarkGray}"
 									FontSize="Micro" />
 								<local:BindablePicker
-									Title="Country"
+									Title="{local:Translate LabelCountry}"
 									ItemsSource="{Binding Countries}"
 									SelectedItem="{Binding Country, Mode=TwoWay}"
 									TextColor="{x:Static local:Colors.Black}" />
@@ -135,8 +130,8 @@
 									TextColor="{x:Static local:Colors.DarkGray}"
 									FontSize="Micro" />
 								<local:BindablePicker
-									Title="City"
-									ItemsSource="{Binding Cities}"
+									Title="{local:Translate LabelCity}"
+									ItemsSource="{Binding Country.Cities}"
 									SelectedItem="{Binding City, Mode=TwoWay}"
 									TextColor="{x:Static local:Colors.Black}" />
 							</StackLayout>
@@ -146,19 +141,24 @@
 									Text="{local:Translate LabelMobilePhone}"
 									TextColor="{x:Static local:Colors.DarkGray}"
 									FontSize="Micro" />
-								<Entry
-									Text="{Binding Mobile, Mode=TwoWay}"
-									Placeholder="Mobile"
-									TextColor="{x:Static local:Colors.Black}" />
+								<StackLayout
+									Orientation="Horizontal" Spacing="10"
+									HorizontalOptions="FillAndExpand">
+									<Entry
+										WidthRequest="100"
+										Text="{Binding Country.CountryPhoneCode}"
+										IsEnabled="false"
+										TextColor="{x:Static local:Colors.Black}" />
+									<Entry
+										Text="{Binding Mobile, Mode=TwoWay}"
+										Placeholder="Mobile"
+										Keyboard="Numeric"
+										TextColor="{x:Static local:Colors.Black}" />
+								</StackLayout>
 							</StackLayout>
 						</StackLayout>
 						<StackLayout
 							Spacing="5">
-							<ActivityIndicator
-								IsRunning="{Binding IsLoading}"
-								HorizontalOptions="Center"
-								VerticalOptions="Center"
-								Color="{x:Static local:Colors.DarkGray}" />
 							<Grid
 								HeightRequest="40"
 								VerticalOptions="Center">

@@ -15,11 +15,11 @@ namespace Tojeero.Forms
 	public class TranslateExtension : IMarkupExtension
 	{
 		readonly CultureInfo ci;
-		const string ResourceId = "Tojeero.Core.Resources.AppResources";
+		const string ResourceId = "Tojeero.Forms.Resources.AppResources";
 
 		public TranslateExtension()
 		{
-			ci = Mvx.Resolve<ILocalizationService>().GetCurrentCultureInfo();
+			ci = Mvx.Resolve<ILocalizationService>().Culture;
 		}
 
 		public string Text { get; set; }

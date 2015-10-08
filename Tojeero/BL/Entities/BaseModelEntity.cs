@@ -36,7 +36,7 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				_parseObject = value; 
+				_parseObject = value ?? Parse.ParseObject.Create<T>(); 
 				RaiseAllPropertiesChanged();
 			}
 		}

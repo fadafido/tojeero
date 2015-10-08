@@ -10,6 +10,8 @@ namespace Tojeero.Core
 	{
 		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
 		Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset);
+		Task<IEnumerable<ICountry>> FetchCountries();
+		Task<IEnumerable<ICity>> FetchCities(int countryId);
 	}
 }
 

@@ -120,7 +120,7 @@
 								<local:BindablePicker
 									Title="{local:Translate LabelCountry}"
 									ItemsSource="{Binding Countries}"
-									SelectedIndex="{Binding CountryIndex, Mode=TwoWay}"
+									SelectedItem="{Binding Country, Mode=TwoWay}"
 									TextColor="{x:Static local:Colors.Black}" />
 							</StackLayout>
 							<StackLayout
@@ -131,8 +131,8 @@
 									FontSize="Micro" />
 								<local:BindablePicker
 									Title="{local:Translate LabelCity}"
-									ItemsSource="{Binding Cities}"
-									SelectedIndex="{Binding CityIndex, Mode=TwoWay}"
+									ItemsSource="{Binding Country.Cities}"
+									SelectedItem="{Binding City, Mode=TwoWay}"
 									TextColor="{x:Static local:Colors.Black}" />
 							</StackLayout>
 							<StackLayout

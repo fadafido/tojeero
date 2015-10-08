@@ -1,15 +1,34 @@
 ﻿using System;
+using System.Linq;
 using Parse;
 using System.Collections.Generic;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using Newtonsoft.Json;
 using Tojeero.Core.Services;
 using Cirrious.CrossCore;
+using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
 	public class Country : BaseLocalizableModelEntity<ParseCountry>, ICountry
 	{
+		#region Private fields and properties
+
+		private ICityManager _cityManager;
+		private ICityManager CityManager
+		{
+			get
+			{
+				if (_cityManager == null)
+				{
+					_cityManager = Mvx.Resolve<ICityManager>();
+				}
+				return _cityManager;
+			}
+		}
+
+		#endregion
+
 		#region Constructors
 
 		public Country()
@@ -51,8 +70,12 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				this.ParseObject.CountryId = value;
-				this.RaisePropertyChanged(() => CountryId);
+				if (this.ParseObject.CountryId != value)
+				{
+					this.ParseObject.CountryId = value;
+					this.RaisePropertyChanged(() => CountryId);
+					this.Cities = null;
+				}
 			}
 		}
 
@@ -154,6 +177,32 @@ namespace Tojeero.Core
 				ParseObject.CountryPhoneCode = value;
 				RaisePropertyChanged(() => CountryPhoneCode);
 			}
+		}
+
+		private ICity[] _cities;
+		[Ignore]
+		public ICity[] Cities
+		{ 
+			get
+			{
+				return _cities; 
+			}
+			set
+			{
+				_cities = value; 
+				RaisePropertyChanged(() => Cities); 
+			}
+		}
+		#endregion
+
+		#region Public API
+
+		public async Task LoadCities()
+		{
+			if (this.Cities != null && this.Cities.Length > 0)
+				return;
+			var cities = await CityManager.FetchCities(this.CountryId);
+			this.Cities = cities.OrderBy(c => c.Name).ToArray();
 		}
 
 		#endregion

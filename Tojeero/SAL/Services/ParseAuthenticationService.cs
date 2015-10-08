@@ -136,7 +136,9 @@ namespace Tojeero.Core.Services
 			currentUser["mobile"] = user.Mobile;
 			currentUser["isProfileSubmitted"] = true;
 			await currentUser.SaveAsync(token).ConfigureAwait(false);
-
+			//Update the local settings
+			Settings.CityId = user.CityId;
+			Settings.CountryId = user.CountryId;
 			this.CurrentUser = getCurrentUser();
 		}
 

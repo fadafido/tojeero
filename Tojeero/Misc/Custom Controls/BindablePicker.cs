@@ -1,26 +1,57 @@
 ﻿using System;
+using System.Linq;
 using Xamarin.Forms;
 using System.Collections;
 
 namespace Tojeero.Forms {
 	public class BindablePicker : Tojeero.Forms.Picker
 	{
+		#region Private fields
+		private IList objects;
+		#endregion
+
+		#region Construtors
+
 		public BindablePicker()
 		{
 			this.SelectedIndexChanged += OnSelectedIndexChanged;
 		}
 
+		#endregion
+
+		#region Bindable properties
+
+		#region Items source
+
 		public static BindableProperty ItemsSourceProperty =
-			BindableProperty.Create<BindablePicker, IEnumerable>(o => o.ItemsSource, default(IEnumerable), propertyChanged: OnItemsSourceChanged);
+			BindableProperty.Create<BindablePicker, IList>(o => o.ItemsSource, default(IList), propertyChanged: OnItemsSourceChanged);
 
-		public static BindableProperty SelectedItemProperty =
-			BindableProperty.Create<BindablePicker, object>(o => o.SelectedItem, default(object),propertyChanged: OnSelectedItemChanged);
 
-		public IEnumerable ItemsSource
+		public IList ItemsSource
 		{
-			get { return (IEnumerable)GetValue(ItemsSourceProperty); }
+			get { return (IList)GetValue(ItemsSourceProperty); }
 			set { SetValue(ItemsSourceProperty, value); }
 		}
+
+		private static void OnItemsSourceChanged(BindableObject bindable, IList oldvalue, IList newvalue)
+		{			
+			var picker = bindable as BindablePicker;
+			picker.objects = newvalue;
+			picker.Items.Clear();
+			if (newvalue != null)
+			{
+				foreach (var item in picker.objects)
+					picker.Items.Add(item.ToString());
+				setSelectedItem(picker, picker.SelectedItem);
+			}
+		}
+
+		#endregion
+
+		#region Selected item
+
+		public static BindableProperty SelectedItemProperty =
+			BindableProperty.Create<BindablePicker, object>(o => o.SelectedItem, default(object), propertyChanged: OnSelectedItemChanged);
 
 		public object SelectedItem
 		{
@@ -28,19 +59,17 @@ namespace Tojeero.Forms {
 			set { SetValue(SelectedItemProperty, value); }
 		}
 
-		private static void OnItemsSourceChanged(BindableObject bindable, IEnumerable oldvalue, IEnumerable newvalue)
+		private static void OnSelectedItemChanged(BindableObject bindable, object oldvalue, object newvalue)
 		{
 			var picker = bindable as BindablePicker;
-			picker.Items.Clear();
-			if (newvalue != null)
-			{
-				//now it works like "subscribe once" but you can improve
-				foreach (var item in newvalue)
-				{
-					picker.Items.Add(item.ToString());
-				}
-			}
+			setSelectedItem(picker, newvalue);
 		}
+
+		#endregion
+
+		#endregion
+
+		#region Utility methods
 
 		private void OnSelectedIndexChanged(object sender, EventArgs eventArgs)
 		{
@@ -50,17 +79,22 @@ namespace Tojeero.Forms {
 			}
 			else
 			{
-				SelectedItem = Items[SelectedIndex];
+				SelectedItem = objects[SelectedIndex];
 			}
 		}
 
-		private static void OnSelectedItemChanged(BindableObject bindable, object oldvalue, object newvalue)
+
+		static void setSelectedItem(BindablePicker picker, object newvalue)
 		{
-			var picker = bindable as BindablePicker;
-			if (newvalue != null)
+			if (newvalue != null && picker.objects != null)
 			{
-				picker.SelectedIndex = picker.Items.IndexOf(newvalue.ToString());
+				picker.SelectedIndex = picker.objects.IndexOf(newvalue);
+			}
+			else
+			{
+				picker.SelectedIndex = -1;
 			}
 		}
+		#endregion
 	}
 }

@@ -49,7 +49,7 @@ namespace Tojeero.Forms
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			this.ViewModel.ReloadCountriesCommand.Execute(null);
+			this.ViewModel.ReloadCommand.Execute(null);
 		}
 
 		#endregion

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
@@ -9,6 +10,8 @@ namespace Tojeero.Core
 		string Currency { get; }
 		string CountryPhoneCode { get; }
 		int CountryId { get; }
+		ICity[] Cities { get; }
+		Task LoadCities();
 	}
 }
 

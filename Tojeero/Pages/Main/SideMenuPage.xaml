@@ -17,6 +17,8 @@
 				x:Key="inverseOpacity" />
 			<local:UrlToCachedImageSourceConverter
 				x:Key="cachedImage" />
+			<local:LanguageToCultureConverter
+				x:Key="languageCulture" />
 		</ResourceDictionary>
 	</ContentPage.Resources>
 	<ContentPage.Content>
@@ -82,48 +84,67 @@
 						BackgroundColor="Transparent" />
 				</StackLayout>
 			</ScrollView>
-			<Grid
-				Padding="10,10,10,20"
-				HeightRequest="50"
-				VerticalOptions="End">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition
-						Width="*" />
-					<ColumnDefinition
-						Width="4*" />
-					<ColumnDefinition
-						Width="*" />
-				</Grid.ColumnDefinitions>
-				<Button
-					HeightRequest="40"
-					Grid.Column="1"
-					Text="{local:Translate ButtonLogin}"
-					Command="{Binding LoginCommand}"
-					VerticalOptions="Center"
-					Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
-					TextColor="White"
-					BackgroundColor="{x:Static local:Colors.Green}"
-					IsEnabled="{Binding CanExecuteLoginCommand}"
-					IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverse}}">
-				</Button>
-				<Button
-					HeightRequest="40"
-					Grid.Column="1"
-					Text="{local:Translate ButtonLogout}"
-					Command="{Binding LogoutCommand}"
-					VerticalOptions="Center"
-					IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}"
-					TextColor="White"
-					BackgroundColor="{x:Static local:Colors.Orange}"
-					IsVisible="{Binding IsLoggedIn}">
-				</Button>
-				<ActivityIndicator
-					Grid.Column="2"
-					IsRunning="{Binding IsLoading}"
-					HorizontalOptions="End"
-					VerticalOptions="Center"
-					Color="White" />
-			</Grid>
+			<StackLayout
+				VerticalOptions="End"
+				Spacing="5">
+				<StackLayout
+					Orientation="Vertical"
+					HorizontalOptions="FillAndExpand"
+					Spacing="2"
+					Padding="10,0,10,0">
+					<Label
+						Text="Tap the button to change the language to:"
+						TextColor="White"
+						VerticalOptions="Center" />
+					<Button
+						Text="{Binding NewLanguage, Converter={StaticResource languageCulture}}"
+						TextColor="White"
+						BackgroundColor="{x:Static local:Colors.DarkBlack}"
+						Command="{Binding ChangeLanguageCommand}" 
+						VerticalOptions="Center"
+						HorizontalOptions="FillAndExpand"/>
+				</StackLayout>
+				<Grid
+					Padding="10,10,10,20"
+					HeightRequest="50">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="*" />
+						<ColumnDefinition
+							Width="4*" />
+						<ColumnDefinition
+							Width="*" />
+					</Grid.ColumnDefinitions>
+					<Button
+						HeightRequest="40"
+						Text="{local:Translate ButtonLogin}"
+						Command="{Binding LoginCommand}"
+						VerticalOptions="Center"
+						Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
+						TextColor="White"
+						BackgroundColor="{x:Static local:Colors.Green}"
+						IsEnabled="{Binding CanExecuteLoginCommand}"
+						IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverse}}">
+					</Button>
+					<Button
+						HeightRequest="40"
+						Grid.Column="1"
+						Text="{local:Translate ButtonLogout}"
+						Command="{Binding LogoutCommand}"
+						VerticalOptions="Center"
+						IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}"
+						TextColor="White"
+						BackgroundColor="{x:Static local:Colors.Orange}"
+						IsVisible="{Binding IsLoggedIn}">
+					</Button>
+					<ActivityIndicator
+						Grid.Column="2"
+						IsRunning="{Binding IsLoading}"
+						HorizontalOptions="End"
+						VerticalOptions="Center"
+						Color="White" />
+				</Grid>
+			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

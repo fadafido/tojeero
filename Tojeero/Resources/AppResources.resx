@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlertTitleWarning" xml:space="preserve">
+    <value>Warning</value>
+    <comment>The title of warning alert (message box)</comment>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>Tojeero</value>
     <comment>The name of the application which will appear in several places arround the app.</comment>
@@ -173,6 +177,10 @@
     <value>Loading initial data, please wait.</value>
     <comment>Message shown on the bootstrap screen when loading initial data.</comment>
   </data>
+  <data name="MessageLanguageChangeWarning" xml:space="preserve">
+    <value>In order for language change take effect you need to restart the app.</value>
+    <comment>Warning message displayed to the user after they change their language within the app UI.</comment>
+  </data>
   <data name="MessageLoadingFailed" xml:space="preserve">
     <value>Failed to load data because of unknown error. Please try again. If the issue persists please contact our support.</value>
     <comment>Message shown to the user if general background operation failed due to unknown issue.</comment>
@@ -204,6 +212,9 @@
   <data name="MessageSubmitting" xml:space="preserve">
     <value>Submitting data...</value>
     <comment>Message that is shown to user when data is being submitted</comment>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="TitleProducts" xml:space="preserve">
     <value>Products</value>

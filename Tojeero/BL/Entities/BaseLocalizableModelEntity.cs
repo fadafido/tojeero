@@ -36,7 +36,7 @@ namespace Tojeero.Core
 		{
 			_localization = Mvx.Resolve<ILocalizationService>();
 			_messenger = Mvx.Resolve<IMvxMessenger>();
-			_token = _messenger.Subscribe<CultureChangedMessage>((message) =>
+			_token = _messenger.Subscribe<LanguageChangedMessage>((message) =>
 				{
 					raiseCulturalPropertyChange();
 				});

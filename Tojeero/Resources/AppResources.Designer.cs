@@ -62,6 +62,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string AlertTitleWarning {
+            get {
+                return ResourceManager.GetString("AlertTitleWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tojeero.
         /// </summary>
         internal static string AppName {
@@ -188,6 +197,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In order for language change take effect you need to restart the app..
+        /// </summary>
+        internal static string MessageLanguageChangeWarning {
+            get {
+                return ResourceManager.GetString("MessageLanguageChangeWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to load data because of unknown error. Please try again. If the issue persists please contact our support..
         /// </summary>
         internal static string MessageLoadingFailed {
@@ -256,6 +274,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageSubmitting {
             get {
                 return ResourceManager.GetString("MessageSubmitting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string OK {
+            get {
+                return ResourceManager.GetString("OK", resourceCulture);
             }
         }
         

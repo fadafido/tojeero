@@ -17,6 +17,7 @@ namespace Tojeero.Core.Services
 		void SetLanguage(LanguageCode language);
 		CultureInfo Culture { get; }
 		LanguageCode Language { get; }
+		string GetNativeLanguageName(LanguageCode language);
 	}
 }
 

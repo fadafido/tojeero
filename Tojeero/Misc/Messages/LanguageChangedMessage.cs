@@ -1,24 +1,25 @@
 ﻿using System;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using System.Globalization;
+using Tojeero.Core.Services;
 
 namespace Tojeero.Core.Messages
 {
-	public class CultureChangedMessage : MvxMessage
+	public class LanguageChangedMessage : MvxMessage
 	{
 		#region Constructors
 
-		public CultureChangedMessage(object sender, CultureInfo culture)
+		public LanguageChangedMessage(object sender, LanguageCode language)
 			: base(sender)
 		{
-			CurrentCulture = culture;
+			Language = language;
 		}
 
 		#endregion
 
 		#region Properties
 
-		public CultureInfo CurrentCulture { get; set; }
+		public LanguageCode Language { get; set; }
 
 		#endregion
 	}

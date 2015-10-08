@@ -59,30 +59,37 @@ namespace Tojeero.Core.Services
 			}
 		}
 
+
+		public string GetNativeLanguageName(LanguageCode language)
+		{
+			var culture = getCultureForLanguage(language);
+			return culture.NativeName;
+		}
+
 		#endregion
 
 		#region Utility Methods
 
 		protected abstract CultureInfo getSystemCultureInfo ();
 
+		private CultureInfo getCultureForLanguage(LanguageCode language)
+		{
+			var culture = new CultureInfo(language.GetString());
+			return culture;
+		}
+
 		private CultureInfo getCurrentCultureInfo()
 		{
 			CultureInfo culture;
 			if (Settings.Language != null)
 			{
-				culture = getCultureInfoForLanguage(Settings.Language.Value);
+				culture = getCultureForLanguage(Settings.Language.Value);
 			}
 			else
 			{
 				culture = getSystemCultureInfo();
 			}
-			return culture;
-		}
-
-		private CultureInfo getCultureInfoForLanguage(LanguageCode language)
-		{
-			var culture = new CultureInfo(language.GetString());
-			return culture;
+			return culture ?? getCultureForLanguage(LanguageCode.English);
 		}
 
 		private LanguageCode? getLanguageCode()
@@ -104,9 +111,13 @@ namespace Tojeero.Core.Services
 
 		public void reloadCurrentCulture()
 		{
-			_culture = getCurrentCultureInfo();
+			var newCulture = getCurrentCultureInfo();
+			bool isNew = _culture != null && _culture.TwoLetterISOLanguageName != newCulture.TwoLetterISOLanguageName;
+			_culture = newCulture;
 			_language = getLanguageCode() ?? LanguageCode.English;
-			_messenger.Publish<CultureChangedMessage>(new CultureChangedMessage(this, _culture));
+
+			if(isNew)
+				_messenger.Publish<LanguageChangedMessage>(new LanguageChangedMessage(this, _language.Value));
 		}
 
 		#endregion

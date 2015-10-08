@@ -45,9 +45,6 @@
     <Compile Include="SAL\AuthenticationException.cs" />
     <Compile Include="SAL\Contracts\IFacebookService.cs" />
     <Compile Include="Pages\Main\RootPage.cs" />
-    <Compile Include="Pages\Main\HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Main\SideMenuPage.xaml.cs">
       <DependentUpon>SideMenuPage.xaml</DependentUpon>
     </Compile>
@@ -232,9 +229,6 @@
     <Folder Include="DAL\Contracts\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\Main\HomePage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -244,11 +238,8 @@
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-      <LogicalName>Tojeero.Core.Resources.AppResources.resources</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\AppResources.ar.resx">
-      <LogicalName>Tojeero.Core.Resources.AppResources.ar.resources</LogicalName>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AppResources.ar.resx" />
     <EmbeddedResource Include="Pages\Main\ProductsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

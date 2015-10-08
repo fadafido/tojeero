@@ -6,7 +6,7 @@ using Xamarin;
 using Tojeero.Core;
 using Tojeero.Core.Services;
 using System.Reflection;
-using Tojeero.Core.Resources;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -23,7 +23,7 @@ namespace Tojeero.Forms
 		public FormsApp()
 		{
 			// The root page of your application
-			var bootstrap = new BootstrapPage() { Title = "Tojeero" };
+			var bootstrap = new BootstrapPage() { Title = AppResources.AppName };
 			rootNavigation = new NavigationPage(bootstrap);
 			bootstrap.ViewModel.BootstrapFinished = () =>
 			{

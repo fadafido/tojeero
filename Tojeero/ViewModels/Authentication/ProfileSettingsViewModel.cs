@@ -9,7 +9,7 @@ using Cirrious.CrossCore;
 using Cirrious.CrossCore.Platform;
 using System.Collections.Generic;
 using System.Linq;
-using Tojeero.Core.Resources;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -341,7 +341,7 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task submit()
 		{
-			this.StartLoading("Submitting data...");
+			this.StartLoading(AppResources.MessageSubmitting);
 			using (_tokenSource = new CancellationTokenSource())
 			{
 				_token = _tokenSource.Token;
@@ -355,12 +355,12 @@ namespace Tojeero.Core.ViewModels
 				catch (OperationCanceledException ex)
 				{
 					Tools.Logger.Log(ex, LoggingLevel.Warning);
-					StopLoading("Submission failed because of timeout. Please try again.");
+					StopLoading(AppResources.MessageSubmissionTimeoutFailure);
 				}
 				catch (Exception ex)
 				{
 					Tools.Logger.Log("Error occured while saving user details. {0}", ex.ToString(), LoggingLevel.Error);
-					StopLoading("Submission failed because of unknown error. Please try again. If the issue persists please contact our support.");
+					StopLoading(AppResources.MessageSubmissionUnknownFailure);
 				}
 			}
 		}
@@ -412,7 +412,7 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task reloadCountries()
 		{
-			this.StartLoading("Loading data...");
+			this.StartLoading(AppResources.MessageGeneralLoading);
 			try
 			{
 				var countries = await _countryManager.FetchCountries();
@@ -421,11 +421,11 @@ namespace Tojeero.Core.ViewModels
 			catch (OperationCanceledException ex)
 			{
 				Tools.Logger.Log(ex, LoggingLevel.Warning);
-				StopLoading("Failed to load data because of timeout. Please try again.");
+				StopLoading(AppResources.MessageLoadingTimeOut);
 			}
 			catch (Exception ex)
 			{
-				Tools.Logger.Log(ex, "Error occured while saving user details.", LoggingLevel.Error, true);
+				Tools.Logger.Log(ex, "Error occurred while loading countries in ProfileSettings screen.", LoggingLevel.Error, true);
 				StopLoading(AppResources.MessageLoadingFailed);
 			}
 			this.IsLoading = false;
@@ -435,7 +435,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			if (this.Country == null)
 				return;
-			this.StartLoading("Loading data...");
+			this.StartLoading(AppResources.MessageGeneralLoading);
 			try
 			{
 				var cities = await _cityManager.FetchCities(this.Country.CountryId);
@@ -444,11 +444,11 @@ namespace Tojeero.Core.ViewModels
 			catch (OperationCanceledException ex)
 			{
 				Tools.Logger.Log(ex, LoggingLevel.Warning);
-				StopLoading("Failed to load data because of timeout. Please try again.");
+				StopLoading(AppResources.MessageLoadingTimeOut);
 			}
 			catch (Exception ex)
 			{
-				Tools.Logger.Log(ex, "Error occured while loading cities.", LoggingLevel.Error, true);
+				Tools.Logger.Log(ex, "Error occured while loading cities in ProfileSettings screen.", LoggingLevel.Error, true);
 				StopLoading(AppResources.MessageLoadingFailed);
 			}
 			this.IsLoading = false;

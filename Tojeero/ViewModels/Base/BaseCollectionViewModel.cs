@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
 using Tojeero.Core.Toolbox;
-using Tojeero.Core.Resources;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -214,7 +214,7 @@ namespace Tojeero.Core.ViewModels
 				//If no data was fetched and there was no network connection available warn user
 				if(initialCount == this.Count && !this.IsNetworkAvailable)
 				{
-					failureMessage = "Please make sure you have internet connection and try again";
+					failureMessage = AppResources.MessageLoadingFailedNoInternet;
 				}
 				else
 				{
@@ -246,7 +246,7 @@ namespace Tojeero.Core.ViewModels
 				//If no data was fetched and there was no network connection available warn user
 				if(this.Count == 0 && !this.IsNetworkAvailable)
 				{
-					failureMessage = "Please make sure you have internet connection and try again";
+					failureMessage = AppResources.MessageLoadingFailedNoInternet;
 				}
 			}
 			catch (Exception ex)

@@ -4,6 +4,7 @@ using Cirrious.CrossCore;
 using System.Linq;
 using Tojeero.Core.Toolbox;
 using Tojeero.Core.Services;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -66,17 +67,18 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task bootstrap()
 		{			
-			this.StartLoading("Loading initial data, please wait.");
+			this.StartLoading(AppResources.MessageInitialLoading);
 			await clearCache();
-			if (!(await loadCountries()))
-				return;
-			if (!(await loadCities()))
-				return;
+			Mvx.Resolve<IAuthenticationService>().RestoreSavedSession();
+			
+//			if (!(await loadCountries()))
+//				return;
+//			if (!(await loadCities()))
+//				return;
 			this.StopLoading();
 			_isBootstrapCompleted = true;
 			if (BootstrapFinished != null)
-				BootstrapFinished();
-			Mvx.Resolve<IAuthenticationService>().RestoreSavedSession();
+				BootstrapFinished();			
 		}
 
 
@@ -108,13 +110,7 @@ namespace Tojeero.Core.ViewModels
 
 			if (_isCountriesLoaded)
 				return true;
-
-			if (!this.IsNetworkAvailable)
-			{
-				StopLoading("App requires internet connection to load necessary data. Please make sure you are connected.");
-				return false;
-			}
-
+			
 			try
 			{
 				var manager = Mvx.Resolve<ICountryManager>();
@@ -127,13 +123,13 @@ namespace Tojeero.Core.ViewModels
 			catch(OperationCanceledException ex)
 			{
 				Tools.Logger.Log(ex, LoggingLevel.Warning);
-				StopLoading("Failed to load countries because of timeout. Please make sure you have network connection and try again.");
+				StopLoading(AppResources.MessageLoadingTimeOut);
 				return false;
 			}
 			catch(Exception ex)
 			{
 				Tools.Logger.Log(ex, "Error occurred while loading countries before application launch.", LoggingLevel.Error, true);
-				StopLoading("Failed to load countries because of unknown error. Please try again. If the issue persists please contact our support.");
+				StopLoading(AppResources.MessageLoadingFailed);
 				return false;
 			}
 			_isCountriesLoaded = true;
@@ -144,12 +140,6 @@ namespace Tojeero.Core.ViewModels
 		{
 			if (_isCitiesLoaded)
 				return true;
-
-			if (!this.IsNetworkAvailable)
-			{
-				StopLoading("App requires internet connection to load necessary data. Please make sure you are connected.");
-				return false;
-			}
 
 			try
 			{
@@ -163,13 +153,13 @@ namespace Tojeero.Core.ViewModels
 			catch(OperationCanceledException ex)
 			{
 				Tools.Logger.Log(ex, LoggingLevel.Warning);
-				StopLoading("Failed to load cities because of timeout. Please make sure you have network connection and try again.");
+				StopLoading(AppResources.MessageLoadingTimeOut);
 				return false;
 			}
 			catch(Exception ex)
 			{
 				Tools.Logger.Log(ex, "Error occurred while loading cities before application launch.", LoggingLevel.Error, true);
-				StopLoading("Failed to load cities because of unknown error. Please try again. If the issue persists please contact our support.");
+				StopLoading(AppResources.MessageLoadingFailed);
 				return false;
 			}
 			_isCitiesLoaded = true;

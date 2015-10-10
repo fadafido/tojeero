@@ -5,12 +5,6 @@
 	x:Class="Tojeero.Forms.BootstrapPage"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	BackgroundColor="{x:Static local:Colors.UltraLightGray}">
-	<ContentPage.Resources>
-		<ResourceDictionary>
-			<local:InverseBoolConverter
-				x:Key="inverse" />
-		</ResourceDictionary>
-	</ContentPage.Resources>
 	<ContentPage.Content>
 		<StackLayout>
 			<local:NetworkPageHeader

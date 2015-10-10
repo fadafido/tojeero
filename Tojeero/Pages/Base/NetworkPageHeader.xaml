@@ -5,14 +5,6 @@
 	x:Class="Tojeero.Forms.NetworkPageHeader"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	Spacing="0">
-	<StackLayout.Resources>
-		<ResourceDictionary>
-			<local:InverseBoolConverter
-				x:Key="inverse" />
-			<local:VisibilityConverter
-				x:Key="visibility" />
-		</ResourceDictionary>
-	</StackLayout.Resources>
 	<StackLayout
 		x:Name="NoNetworkStackLayout"
 		BackgroundColor="{x:Static local:Colors.Orange}"
@@ -51,8 +43,7 @@
 		<Button
 			x:Name="TryAgainButton"
 			Text="Try again"
-			TextColor="White"
-			BackgroundColor="{x:Static local:Colors.Orange}"
+			Style="{StaticResource NegativeButton}"
 			IsEnabled="{Binding IsNetworkAvailable}" />
 	</StackLayout>
 </StackLayout>

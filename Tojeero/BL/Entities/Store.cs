@@ -56,33 +56,14 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				if (_imageUrl == null && ImageUri != null)
-					_imageUrl = ImageUri.ToString();
+				if (_imageUrl == null && _parseObject != null && _parseObject.Image != null && _parseObject.Image.Url != null)
+					_imageUrl = _parseObject.Image.Url.ToString();
 				return _imageUrl;
 			}
 			set
 			{
 				_imageUrl = value;
-				ImageUri = value != null ? new Uri(value) : null;
-			}
-		}
-
-		private Uri _imageUri;
-		[Ignore]
-		public Uri ImageUri
-		{ 
-			get
-			{
-				if (_imageUri == null && _parseObject != null && _parseObject.Image != null)
-				{
-					_imageUri = _parseObject.Image.Url;
-				}
-				return _imageUri; 
-			}
-			set
-			{
-				_imageUri = value; 
-				RaisePropertyChanged(() => ImageUri); 
+				RaisePropertyChanged(() => ImageUrl);
 			}
 		}
 

@@ -8,20 +8,6 @@
 	BackgroundColor="{x:Static local:Colors.UltraLightGray}"
 	Title="{local:Translate TitleProfileSettings}"
 	Padding="0">
-	<ContentPage.Resources>
-		<ResourceDictionary>
-			<local:InverseBoolConverter
-				x:Key="inverse" />
-			<local:BoolToOpacityConverter
-				x:Key="opacity" />
-			<local:InverseBoolToOpacityConverter
-				x:Key="inverseOpacity" />
-			<local:VisibilityConverter
-				x:Key="visibility" />
-			<local:UrlToCachedImageSourceConverter
-				x:Key="cachedImage" />
-		</ResourceDictionary>
-	</ContentPage.Resources>
 	<ContentPage.Content>
 		<ScrollView>
 			<StackLayout
@@ -174,16 +160,14 @@
 									Text="{local:Translate ButtonCancel}"
 									Command="{Binding CancelCommand}"
 									VerticalOptions="Center"
-									TextColor="White"
-									BackgroundColor="{x:Static local:Colors.Orange}" />
+									Style="{StaticResource NegativeButton}" />
 								<Button
 									HeightRequest="40"
 									Grid.Column="1"
 									Text="{local:Translate ButtonSubmit}"
 									Command="{Binding SubmitCommand}"
 									VerticalOptions="Center"
-									TextColor="White"
-									BackgroundColor="{x:Static local:Colors.Green}"
+									Style="{StaticResource PositiveButton}"
 									IsEnabled="{Binding CanExecuteSubmitCommand}" />
 							</Grid>
 						</StackLayout>

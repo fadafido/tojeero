@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "_default": {
+      "link": "tojeero"
+    },
+    "tojeero": {
+      "applicationId": "1gNtcAK31ETKoYCeDAKpaBfjh82FQQR3etWWVTHa"
+    }
+  }
+}

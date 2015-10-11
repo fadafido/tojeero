@@ -17,10 +17,11 @@ namespace Tojeero.Core.ViewModels
 			Unknown,
 			LoadFirstPage,
 			LoadNextPage,
-			Reload
+			Reload,
+			Search
 		}
 
-		QueryDelegate<T> _query;
+		IModelQuery<T> _query;
 		Func<Task> _clearCacheTask;
 		private int _pageSize;
 		private bool _isFirstPageLoaded;
@@ -31,7 +32,7 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public BaseCollectionViewModel(QueryDelegate<T> query, Func<Task> clearCacheTask, int pageSize = 10)
+		public BaseCollectionViewModel(IModelQuery<T> query, Func<Task> clearCacheTask, int pageSize = 10)
 			: base()
 		{			
 			_pageSize = pageSize;

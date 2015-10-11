@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Tojeero.Core
 {
@@ -12,13 +13,13 @@ namespace Tojeero.Core
 		#region Private fields and properties
 
 		private readonly int _pageSize;
-		QueryDelegate<T> _query;
+		IModelQuery<T> _query;
 
 		#endregion
 
 		#region Constructors
 
-		public ModelEntityCollection(QueryDelegate<T> query, int pageSize = -1)
+		public ModelEntityCollection(IModelQuery<T> query, int pageSize = -1)
 		{
 			this._pageSize = pageSize;
 			_query = query;
@@ -32,9 +33,8 @@ namespace Tojeero.Core
 		{
 			try
 			{
-				var result = await _query(_pageSize, this.Count);
-				foreach(var item in result)
-					this.Add(item);
+				var result = await _query.Fetch(_pageSize, this.Count);
+				this.InsertSorted(result, _query.Comparer);
 			}
 			catch(OperationCanceledException ex)
 			{

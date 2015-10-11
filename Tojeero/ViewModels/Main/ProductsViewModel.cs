@@ -20,9 +20,47 @@ namespace Tojeero.Core.ViewModels
 		#region Constructors
 
 		public ProductsViewModel(IProductManager manager)
-			: base(manager.FetchProducts, manager.ClearCache, Constants.ProductsPageSize)
+			: base(new ProductsQuery(manager), manager.ClearCache, Constants.ProductsPageSize)
 		{
 			_manager = manager;
+		}
+
+		#endregion
+
+		#region Utility
+
+		private class ProductsQuery : IModelQuery<IProduct>
+		{
+			IProductManager manager;
+			public ProductsQuery (IProductManager manager)
+			{
+				this.manager = manager;
+				
+			}
+
+			public System.Threading.Tasks.Task<IEnumerable<IProduct>> Fetch(int pageSize = -1, int offset = -1)
+			{
+				return manager.FetchProducts(pageSize, offset);
+			}
+
+			private Comparison<IProduct> _comparer;
+			public Comparison<IProduct> Comparer
+			{
+				get
+				{
+					if (_comparer == null)
+					{
+						_comparer = new Comparison<IProduct>((x, y) =>
+							{
+								if(x.ID == y.ID)
+									return 0;
+								return x.Name.CompareTo(y.Name);
+							});
+					}
+					return _comparer;
+				}
+			}
+			
 		}
 
 		#endregion

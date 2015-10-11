@@ -42,19 +42,19 @@ namespace Tojeero.Core
 
 		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
 		{
-			var result = await FetchAsync<Product>(pageSize, offset).ConfigureAwait(false);
+			var result = await FetchAsync<Product>(pageSize, offset, "Name").ConfigureAwait(false);
 			return result.Cast<IProduct>();
 		}
 
 		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			var result = await FetchAsync<Store>(pageSize, offset).ConfigureAwait(false);
+			var result = await FetchAsync<Store>(pageSize, offset, "Name").ConfigureAwait(false);
 			return result.Cast<IStore>();
 		}
 
-		public async Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset) where T : new()
+		public async Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset, string orderBy = null) where T : new()
 		{
-			return await fetchAsync<T>(pageSize, offset).ConfigureAwait(false);	
+			return await fetchAsync<T>(pageSize, offset, orderBy).ConfigureAwait(false);	
 		}
 
 		public async Task<IEnumerable<ICountry>> FetchCountries()
@@ -310,7 +310,7 @@ namespace Tojeero.Core
 			return connection;
 		}
 
-		private Task<IEnumerable<T>> fetchAsync<T>(int pageSize, int offset) where T : new()
+		private Task<IEnumerable<T>> fetchAsync<T>(int pageSize, int offset, string orderBy = null) where T : new()
 		{
 			return Task<IEnumerable<T>>.Factory.StartNew(() =>
 				{
@@ -320,7 +320,11 @@ namespace Tojeero.Core
 					{
 						var tableName = typeof(T).GetLocalTableName();
 						string query = string.Format("SELECT * FROM [{0}]", tableName);
-						if(pageSize > 0 && offset >= 0)
+						if (!string.IsNullOrEmpty(orderBy))
+						{
+							query += " ORDER BY " + orderBy;
+						}
+						if (pageSize > 0 && offset >= 0)
 						{
 							query += string.Format(" LIMIT {0} OFFSET {1}", pageSize, offset);
 						}
@@ -376,6 +380,7 @@ namespace Tojeero.Core
 				return queryCache != null && queryCache.IsExpired;
 			}
 		}
+
 		#endregion
 	}
 }

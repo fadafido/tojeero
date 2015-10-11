@@ -1,6 +1,7 @@
 ﻿using System;
 using Parse;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
+using System.Collections.Generic;
 
 namespace Tojeero.Core
 {
@@ -115,6 +116,32 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("description")]
+		public string Description
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("tags")]
+		public IList<string> Tags
+		{
+			get
+			{
+				return GetProperty<IList<string>>();
+			}
+			set
+			{
+				SetProperty<IList<string>>(value);
 			}
 		}
 

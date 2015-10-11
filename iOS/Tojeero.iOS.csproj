@@ -242,6 +242,8 @@
     <BundleResource Include="Resources\Samples\Stores\Store 8.PNG" />
     <BundleResource Include="Resources\Samples\Stores\Store 9.PNG" />
     <BundleResource Include="Resources\Samples\Stores\Store 1.PNG" />
+    <BundleResource Include="Resources\Samples\products.json" />
+    <BundleResource Include="Resources\Samples\stores.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

@@ -18,15 +18,15 @@ namespace Tojeero.Core
 		#region Properties
 
 		[ParseFieldName("searchTokens")]
-		public string[] SearchTokens
+		public IList<string> SearchTokens
 		{
 			get
 			{
-				return GetProperty<string[]>();
+				return GetProperty<IList<string>>();
 			}
 			set
 			{
-				SetProperty<string[]>(value);
+				SetProperty<IList<string>>(value);
 			}
 		}
 

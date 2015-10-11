@@ -43,6 +43,18 @@ namespace Tojeero.Core.Toolbox
 				}
 			}
 		}
+
+		/// <summary>
+		/// Adds each element from items to collection.
+		/// </summary>
+		/// <param name="collection">Collection.</param>
+		/// <param name="items">Items.</param>
+		/// <typeparam name="T">The type of collection.</typeparam>
+		public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> items)
+		{
+			foreach (var item in items)
+				collection.Add(item);
+		}
 	}
 }
 

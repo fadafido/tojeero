@@ -96,6 +96,19 @@ namespace Tojeero.Core
 			}
 		}
 
+		[ParseFieldName("description")]
+		public string Description
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
 		[ParseFieldName("image")]
 		public ParseFile Image
 		{

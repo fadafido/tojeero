@@ -76,7 +76,7 @@ namespace Tojeero.Core
 			{				
 				var parseQuery = new ParseQuery<ParseProduct>().OrderBy(p => p.Name);
 				var tokens = query.Tokenize();
-				if (tokens != null && tokens.Length > 0)
+				if (tokens != null && tokens.Count > 0)
 				{
 					parseQuery = parseQuery.WhereContainsAll("searchTokens", tokens);
 				}
@@ -95,7 +95,7 @@ namespace Tojeero.Core
 			{
 				var parseQuery = new ParseQuery<ParseStore>().OrderBy(s => s.Name);
 				var tokens = query.Tokenize();
-				if (tokens != null && tokens.Length > 0)
+				if (tokens != null && tokens.Count > 0)
 				{
 					parseQuery = parseQuery.WhereContainsAll("searchTokens", tokens);
 				}

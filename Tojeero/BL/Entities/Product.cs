@@ -93,7 +93,7 @@ namespace Tojeero.Core
 	}
 
 	[ParseClassName("StoreItem")]
-	public class ParseProduct : ParseObject
+	public class ParseProduct : SearchableParseObject
 	{
 		#region Constructors
 

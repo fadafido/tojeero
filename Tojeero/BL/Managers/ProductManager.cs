@@ -38,6 +38,11 @@ namespace Tojeero.Core
 			return _manager.Cache.Clear<Product>();
 		}
 
+
+		public Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset)
+		{
+			return _manager.FindProducts(query, pageSize, offset);
+		}
 		#endregion
 	}
 }

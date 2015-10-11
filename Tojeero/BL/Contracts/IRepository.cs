@@ -9,7 +9,9 @@ namespace Tojeero.Core
 	public interface IRepository
 	{
 		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
+		Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset);
 		Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset);
+		Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset);
 		Task<IEnumerable<ICountry>> FetchCountries();
 		Task<IEnumerable<ICity>> FetchCities(int countryId);
 	}

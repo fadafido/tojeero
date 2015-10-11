@@ -77,6 +77,16 @@ namespace Tojeero.Core
 				});
 		}
 
+		public Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset)
+		{
+			throw new NotImplementedException();
+		}
+
 		#endregion
 
 		#region ICacheRepository implementation

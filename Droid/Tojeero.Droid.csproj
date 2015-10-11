@@ -246,6 +246,9 @@
     <Compile Include="..\Tojeero\BL\Managers\CityManager.cs">
       <Link>Core\BL\Managers\CityManager.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\SearchableParseObject.cs">
+      <Link>Core\BL\Entities\SearchableParseObject.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

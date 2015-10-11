@@ -66,6 +66,16 @@ namespace Tojeero.Core
 			return fetch<ICity, City>(new FetchCitiesQuery(countryId, this), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
+		public Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset)
+		{
+			return fetch<IProduct, ParseProduct>(new FindProductsQuery(query, pageSize, offset, this), Constants.ProductsCacheTimespan.TotalMilliseconds);
+		}
+
+		public Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset)
+		{
+			return fetch<IStore, ParseStore>(new FindStoresQuery(query, pageSize, offset, this), Constants.StoresCacheTimespan.TotalMilliseconds);
+		}
+
 		#endregion
 
 		#region Utility methods
@@ -81,15 +91,18 @@ namespace Tojeero.Core
 			if (isExpired)
 			{
 				result = await loader.RemoteQuery().ConfigureAwait(false);
-				await Cache.SaveAsync(result).ConfigureAwait(false);
-				cachedQuery = new CachedQuery()
+				if (!string.IsNullOrEmpty(loader.ID))
 				{
-					ID = loader.ID,
-					EntityName = cacheName,
-					LastFetchedAt = DateTime.UtcNow,
-					ExpiresIn = expiresIn
-				};
-				await Cache.SaveAsync(cachedQuery).ConfigureAwait(false);
+					await Cache.SaveAsync(result).ConfigureAwait(false);
+					cachedQuery = new CachedQuery()
+						{
+							ID = loader.ID,
+							EntityName = cacheName,
+							LastFetchedAt = DateTime.UtcNow,
+							ExpiresIn = expiresIn
+						};
+					await Cache.SaveAsync(cachedQuery).ConfigureAwait(false);	
+				}
 			}
 			else
 			{
@@ -159,8 +172,6 @@ namespace Tojeero.Core
 
 			}
 
-			#region IQueryLoader implementation
-
 			public string ID
 			{
 				get
@@ -179,8 +190,6 @@ namespace Tojeero.Core
 			{
 				return await manager.Rest.FetchStores(pageSize, offset);
 			}
-
-			#endregion
 		}
 
 
@@ -192,8 +201,6 @@ namespace Tojeero.Core
 			{
 				this.manager = manager;
 			}
-
-			#region IQueryLoader implementation
 
 			public string ID
 			{
@@ -212,8 +219,6 @@ namespace Tojeero.Core
 			{
 				return await manager.Rest.FetchCountries();
 			}
-
-			#endregion
 		}
 
 		private class FetchCitiesQuery : IQueryLoader<ICity>
@@ -226,9 +231,7 @@ namespace Tojeero.Core
 				this.countryId = countryId;
 				this.manager = manager;
 			}
-
-			#region IQueryLoader implementation
-
+				
 			public string ID
 			{
 				get
@@ -246,8 +249,78 @@ namespace Tojeero.Core
 			{
 				return await manager.Rest.FetchCities(countryId);
 			}
+		}
 
-			#endregion
+		private class FindProductsQuery : IQueryLoader<IProduct>
+		{
+			int pageSize;
+			int offset;
+			IModelEntityManager manager;
+			string query;
+
+			public FindProductsQuery(string query, int pageSize, int offset, IModelEntityManager manager)
+			{
+				this.query = query;
+				this.manager = manager;
+				this.offset = offset;
+				this.pageSize = pageSize;
+
+			}
+
+			public string ID
+			{
+				get
+				{
+					string cachedQueryId = string.Format("products-p{0}o{1}-{2}", pageSize, offset, query);
+					return null;
+				}
+			}
+
+			public async Task<IEnumerable<IProduct>> LocalQuery()
+			{
+				return await manager.Cache.FindProducts(query, pageSize, offset);
+			}
+
+			public async Task<IEnumerable<IProduct>> RemoteQuery()
+			{
+				return await manager.Rest.FindProducts(query, pageSize, offset);
+			}
+		}
+
+		private class FindStoresQuery : IQueryLoader<IStore>
+		{
+			int pageSize;
+			int offset;
+			IModelEntityManager manager;
+			string query;
+
+			public FindStoresQuery(string query, int pageSize, int offset, IModelEntityManager manager)
+			{
+				this.query = query;
+				this.manager = manager;
+				this.offset = offset;
+				this.pageSize = pageSize;
+
+			}
+
+			public string ID
+			{
+				get
+				{
+					string cachedQueryId = string.Format("stores-p{0}o{1}-{2}", pageSize, offset, query);
+					return null;
+				}
+			}
+
+			public async Task<IEnumerable<IStore>> LocalQuery()
+			{
+				return await manager.Cache.FindStores(query, pageSize, offset);
+			}
+
+			public async Task<IEnumerable<IStore>> RemoteQuery()
+			{
+				return await manager.Rest.FindStores(query, pageSize, offset);
+			}
 		}
 		#endregion
 	}

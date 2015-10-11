@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tojeero.Core
+namespace Tojeero.Core.Toolbox
 {
 	public static class CollectionToolbox
 	{

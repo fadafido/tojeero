@@ -5,6 +5,7 @@ using Parse;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core
 {
@@ -68,7 +69,44 @@ namespace Tojeero.Core
 				return result.Select(c => new City(c) as ICity);
 			}
 		}
+			
+		public async Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset)
+		{
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
+			{				
+				var parseQuery = new ParseQuery<ParseProduct>().OrderBy(p => p.Name);
+				var tokens = query.Tokenize();
+				if (tokens != null && tokens.Length > 0)
+				{
+					parseQuery = parseQuery.WhereContainsAll("searchTokens", tokens);
+				}
+				if (pageSize > 0 && offset >= 0)
+				{
+					parseQuery = parseQuery.Limit(pageSize).Skip(offset);
+				}
+				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
+				return result.Select(p => new Product(p) as IProduct);
+			}
+		}
 
+		public async Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset)
+		{
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
+			{
+				var parseQuery = new ParseQuery<ParseStore>().OrderBy(s => s.Name);
+				var tokens = query.Tokenize();
+				if (tokens != null && tokens.Length > 0)
+				{
+					parseQuery = parseQuery.WhereContainsAll("searchTokens", tokens);
+				}
+				if (pageSize > 0 && offset >= 0)
+				{
+					parseQuery = parseQuery.Limit(pageSize).Skip(offset);
+				}
+				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
+				return result.Select(s => new Store(s) as IStore);
+			}
+		}
 		#endregion
 
 	}

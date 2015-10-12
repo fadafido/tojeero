@@ -287,6 +287,24 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search for products.
+        /// </summary>
+        internal static string PlaceholderSearchProducts {
+            get {
+                return ResourceManager.GetString("PlaceholderSearchProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search for stores.
+        /// </summary>
+        internal static string PlaceholderSearchStores {
+            get {
+                return ResourceManager.GetString("PlaceholderSearchStores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Products.
         /// </summary>
         internal static string TitleProducts {

@@ -216,6 +216,14 @@
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="PlaceholderSearchProducts" xml:space="preserve">
+    <value>Search for products</value>
+    <comment>Placeholder string shown inside search on products screen.</comment>
+  </data>
+  <data name="PlaceholderSearchStores" xml:space="preserve">
+    <value>Search for stores</value>
+    <comment>Placeholder string shown inside search on stores screen.</comment>
+  </data>
   <data name="TitleProducts" xml:space="preserve">
     <value>Products</value>
     <comment>Products page title</comment>

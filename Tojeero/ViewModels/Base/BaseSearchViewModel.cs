@@ -39,7 +39,14 @@ namespace Tojeero.Core.ViewModels
 			{
 				if (_viewModel == null)
 				{
-					_viewModel = !string.IsNullOrWhiteSpace(_searchQuery) ? GetSearchViewModel(_searchQuery) : GetBrowsingViewModel();
+					if (!string.IsNullOrWhiteSpace(_searchQuery))
+					{
+						_viewModel = _searchViewModel = GetSearchViewModel(_searchQuery);
+					}
+					else
+					{
+						_viewModel = _browsingViewModel = GetBrowsingViewModel();
+					}
 					connectEvents();
 				}
 				return _viewModel; 
@@ -52,6 +59,7 @@ namespace Tojeero.Core.ViewModels
 					_viewModel = value;
 					connectEvents();
 					RaisePropertyChanged(() => ViewModel); 
+					_viewModel.LoadFirstPageCommand.Execute(null);
 				}
 			}
 		}
@@ -65,9 +73,14 @@ namespace Tojeero.Core.ViewModels
 			}
 			set 
 			{
-				_searchQuery = value; 
-				RaisePropertyChanged(() => SearchQuery); 
-				ScheduleSearch();
+				//If the value is empty or null stop searching.
+				//Start searching only if the search query contains at least 2 non whitespace characters
+				if (_searchQuery != value && (string.IsNullOrEmpty(value) || value.Trim().Length >= 2))
+				{
+					_searchQuery = value;
+					RaisePropertyChanged(() => SearchQuery); 
+					ScheduleSearch();
+				}
 			}
 		}
 

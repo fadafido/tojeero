@@ -108,6 +108,7 @@
 					</Grid.ColumnDefinitions>
 					<Button
 						HeightRequest="40"
+						Grid.Column = "1"
 						Text="{local:Translate ButtonLogin}"
 						Command="{Binding LoginCommand}"
 						VerticalOptions="Center"

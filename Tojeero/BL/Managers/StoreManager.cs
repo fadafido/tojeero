@@ -29,22 +29,93 @@ namespace Tojeero.Core
 
 		public Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			return _manager.FetchStores(pageSize, offset);
+			return _manager.Fetch<IStore, Store>(new FetchStoresQuery(pageSize, offset, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
+		public Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset)
+		{
+			return _manager.Fetch<IStore, ParseStore>(new FindStoresQuery(query, pageSize, offset, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
+		}
 
 		public Task ClearCache()
 		{
 			return _manager.Cache.Clear<Store>();
 		}
 
-
-		public Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset)
-		{
-			return _manager.FindStores(query, pageSize, offset);
-		}
-
 		#endregion
 	}
+
+	#region Queries
+
+	public class FetchStoresQuery : IQueryLoader<IStore>
+	{
+		int pageSize;
+		int offset;
+		IModelEntityManager manager;
+
+		public FetchStoresQuery(int pageSize, int offset, IModelEntityManager manager)
+		{
+			this.manager = manager;
+			this.offset = offset;
+			this.pageSize = pageSize;
+
+		}
+
+		public string ID
+		{
+			get
+			{
+				string cachedQueryId = string.Format("stores-p{0}o{1}", pageSize, offset);
+				return cachedQueryId;
+			}
+		}
+
+		public async Task<IEnumerable<IStore>> LocalQuery()
+		{
+			return await manager.Cache.FetchStores(pageSize, offset);
+		}
+
+		public async Task<IEnumerable<IStore>> RemoteQuery()
+		{
+			return await manager.Rest.FetchStores(pageSize, offset);
+		}
+	}
+
+	public class FindStoresQuery : IQueryLoader<IStore>
+	{
+		int pageSize;
+		int offset;
+		IModelEntityManager manager;
+		string query;
+
+		public FindStoresQuery(string query, int pageSize, int offset, IModelEntityManager manager)
+		{
+			this.query = query;
+			this.manager = manager;
+			this.offset = offset;
+			this.pageSize = pageSize;
+
+		}
+
+		public string ID
+		{
+			get
+			{
+				string cachedQueryId = string.Format("stores-p{0}o{1}-{2}", pageSize, offset, query);
+				return null;
+			}
+		}
+
+		public async Task<IEnumerable<IStore>> LocalQuery()
+		{
+			return await manager.Cache.FindStores(query, pageSize, offset);
+		}
+
+		public async Task<IEnumerable<IStore>> RemoteQuery()
+		{
+			return await manager.Rest.FindStores(query, pageSize, offset);
+		}
+	}
+	#endregion
 }
 

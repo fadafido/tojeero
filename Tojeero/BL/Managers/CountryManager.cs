@@ -26,9 +26,8 @@ namespace Tojeero.Core
 
 		public Task<IEnumerable<ICountry>> FetchCountries()
 		{
-			return _manager.FetchCountries();
+			return _manager.Fetch<ICountry, Country>(new FetchCountriesQuery(_manager), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
-
 
 		public Task ClearCache()
 		{
@@ -37,5 +36,37 @@ namespace Tojeero.Core
 
 		#endregion
 	}
+
+	#region Queries
+
+	public class FetchCountriesQuery : IQueryLoader<ICountry>
+	{
+		IModelEntityManager manager;
+
+		public FetchCountriesQuery(IModelEntityManager manager)
+		{
+			this.manager = manager;
+		}
+
+		public string ID
+		{
+			get
+			{
+				return "countries";
+			}
+		}
+
+		public async Task<IEnumerable<ICountry>> LocalQuery()
+		{
+			return await manager.Cache.FetchCountries();
+		}
+
+		public async Task<IEnumerable<ICountry>> RemoteQuery()
+		{
+			return await manager.Rest.FetchCountries();
+		}
+	}
+
+	#endregion
 }
 

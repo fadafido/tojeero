@@ -335,6 +335,12 @@
     <Compile Include="..\Tojeero\BL\Entities\ProductSubcategory.cs">
       <Link>Core\BL\Entities\ProductSubcategory.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\StoreCategory.cs">
+      <Link>Core\BL\Entities\StoreCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\StoreCategoryManager.cs">
+      <Link>Core\BL\Managers\StoreCategoryManager.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

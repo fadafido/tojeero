@@ -20,6 +20,9 @@ namespace Tojeero.Core
 		Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset);
 		Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset);
 
+		//Store categories
+		Task<IEnumerable<IStoreCategory>> FetchStoreCategories();
+
 		//Countries
 		Task<IEnumerable<ICountry>> FetchCountries();
 

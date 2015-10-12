@@ -8,6 +8,8 @@ namespace Tojeero.Core
 		double Price { get; set; }
 		string ImageUrl { get; }
 		string FormattedPrice { get; }
+		string CategoryID { get; }
+		string SubcategoryID { get; }
 	}
 }
 

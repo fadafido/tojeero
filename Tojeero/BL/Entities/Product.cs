@@ -90,6 +90,35 @@ namespace Tojeero.Core
 			}
 		}
 
+		private string _categoryID;
+		public string CategoryID
+		{ 
+			get
+			{
+				if (_categoryID == null && _parseObject != null && _parseObject.Category != null)
+					_categoryID = _parseObject.Category.ObjectId;
+				return _categoryID; 
+			}
+			set
+			{
+				_categoryID = value; 
+			}
+		}
+
+		private string _subcategoryID;
+		public string SubcategoryID
+		{ 
+			get
+			{
+				if (_subcategoryID == null && _parseObject != null && _parseObject.Subcategory != null)
+					_subcategoryID = _parseObject.Subcategory.ObjectId;
+				return _subcategoryID; 
+			}
+			set
+			{
+				_subcategoryID = value; 
+			}
+		}
 		#endregion
 	}
 
@@ -179,6 +208,31 @@ namespace Tojeero.Core
 			}
 		}
 
+		[ParseFieldName("category")]
+		public ParseProductCategory Category
+		{
+			get
+			{
+				return GetProperty<ParseProductCategory>();
+			}
+			set
+			{
+				SetProperty<ParseProductCategory>(value);
+			}
+		}
+
+		[ParseFieldName("subcategory")]
+		public ParseProductSubcategory Subcategory
+		{
+			get
+			{
+				return GetProperty<ParseProductSubcategory>();
+			}
+			set
+			{
+				SetProperty<ParseProductSubcategory>(value);
+			}
+		}
 		#endregion
 	}
 }

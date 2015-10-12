@@ -42,13 +42,13 @@ namespace Tojeero.Core
 
 		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
 		{
-			var result = await FetchAsync<Product>(pageSize, offset, "Name").ConfigureAwait(false);
+			var result = await FetchAsync<Product>(pageSize, offset, "LowercaseName").ConfigureAwait(false);
 			return result.Cast<IProduct>();
 		}
 
 		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			var result = await FetchAsync<Store>(pageSize, offset, "Name").ConfigureAwait(false);
+			var result = await FetchAsync<Store>(pageSize, offset, "LowercaseName").ConfigureAwait(false);
 			return result.Cast<IStore>();
 		}
 

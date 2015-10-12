@@ -25,7 +25,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
 			{
-				var query = new ParseQuery<ParseProduct>().OrderBy(p => p.Name);
+				var query = new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName);
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);
@@ -39,7 +39,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
 			{
-				var query = new ParseQuery<ParseStore>().OrderBy(s => s.Name);
+				var query = new ParseQuery<ParseStore>().OrderBy(s => s.LowercaseName);
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);

@@ -51,6 +51,19 @@ namespace Tojeero.Core
 			}
 		}
 
+		public string LowercaseName
+		{
+			get
+			{
+				return _parseObject.LowercaseName;
+			}
+			set
+			{
+				_parseObject.LowercaseName = value;
+				RaisePropertyChanged(() => LowercaseName);
+			}
+		}
+
 		private string _imageUrl;
 		public string ImageUrl
 		{
@@ -99,6 +112,19 @@ namespace Tojeero.Core
 
 		[ParseFieldName("name")]
 		public string Name
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("lowercase_name")]
+		public string LowercaseName
 		{
 			get
 			{

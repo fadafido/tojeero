@@ -83,6 +83,20 @@ namespace Tojeero.Core
 			return result;
 		}
 
+		public Task<IEnumerable<IProductSubcategory>> FetchProductSubcategories(string categoryID)
+		{
+			return Task<IEnumerable<IProductSubcategory>>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
+					{
+						var result = connection.Table<ProductSubcategory>().Where(p => p.CategoryID == categoryID).ToList();
+						return result;
+					}
+				});
+		}
+
 		public Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset)
 		{
 			throw new NotImplementedException();

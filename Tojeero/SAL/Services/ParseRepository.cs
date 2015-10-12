@@ -117,6 +117,16 @@ namespace Tojeero.Core
 				return result.Select(c => new ProductCategory(c) as IProductCategory);
 			}
 		}
+
+		public async Task<IEnumerable<IProductSubcategory>> FetchProductSubcategories(string categoryID)
+		{
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductSubcategoriesTimeout))
+			{
+				var query = new ParseQuery<ParseProductSubcategory>().Where(sub => sub.Category == ParseObject.CreateWithoutData<ParseProductCategory>(categoryID));
+				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
+				return result.Select(c => new ProductSubcategory(c) as IProductSubcategory);
+			}
+		}
 		#endregion
 
 	}

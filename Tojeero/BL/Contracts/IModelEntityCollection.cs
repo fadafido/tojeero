@@ -11,6 +11,7 @@ namespace Tojeero.Core
 	{
 		Task<IEnumerable<T>> Fetch(int pageSize = - 1, int offset = -1);
 		Comparison<T> Comparer { get; }
+		Task ClearCache();
 	}
 
 	public interface IModelEntityCollection<T> : ICollection<T>, INotifyCollectionChanged, INotifyPropertyChanged

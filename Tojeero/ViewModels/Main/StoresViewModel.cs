@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -14,7 +15,7 @@ namespace Tojeero.Core.ViewModels
 		#region Constructors
 
 		public StoresViewModel(IStoreManager manager)
-			: base(new StoresQuery(manager), manager.ClearCache, Constants.StoresPageSize)
+			: base(new StoresQuery(manager), Constants.StoresPageSize)
 		{
 			_manager = manager;
 		}
@@ -55,6 +56,10 @@ namespace Tojeero.Core.ViewModels
 				}
 			}
 
+			public Task ClearCache()
+			{
+				return manager.ClearCache();
+			}
 		}
 
 		#endregion

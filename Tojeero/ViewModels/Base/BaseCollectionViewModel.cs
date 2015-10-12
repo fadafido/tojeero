@@ -22,7 +22,6 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		IModelQuery<T> _query;
-		Func<Task> _clearCacheTask;
 		private int _pageSize;
 		private bool _isFirstPageLoaded;
 		private Commands _lastExecutedCommand;
@@ -32,12 +31,11 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public BaseCollectionViewModel(IModelQuery<T> query, Func<Task> clearCacheTask, int pageSize = 10)
+		public BaseCollectionViewModel(IModelQuery<T> query, int pageSize = 10)
 			: base()
 		{			
 			_pageSize = pageSize;
 			_query = query;
-			_clearCacheTask = clearCacheTask;
 			PropertyChanged += propertyChanged;
 		}
 
@@ -240,7 +238,7 @@ namespace Tojeero.Core.ViewModels
 
 			try
 			{
-				await _clearCacheTask();
+				await _query.ClearCache();
 				var collection = new ModelEntityCollection<T>(_query, _pageSize);
 				await collection.FetchNextPageAsync();
 				this.Collection = collection;

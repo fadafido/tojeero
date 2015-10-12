@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -20,7 +21,7 @@ namespace Tojeero.Core.ViewModels
 		#region Constructors
 
 		public ProductsViewModel(IProductManager manager)
-			: base(new ProductsQuery(manager), manager.ClearCache, Constants.ProductsPageSize)
+			: base(new ProductsQuery(manager), Constants.ProductsPageSize)
 		{
 			_manager = manager;
 		}
@@ -61,6 +62,10 @@ namespace Tojeero.Core.ViewModels
 				}
 			}
 			
+			public Task ClearCache()
+			{
+				return manager.ClearCache();
+			}
 		}
 
 		#endregion

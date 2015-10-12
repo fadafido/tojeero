@@ -77,6 +77,12 @@ namespace Tojeero.Core
 				});
 		}
 
+		public async Task<IEnumerable<IProductCategory>> FetchProductCategories()
+		{
+			var result = await fetchAsync<ProductCategory>(-1, -1).ConfigureAwait(false);	
+			return result;
+		}
+
 		public Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset)
 		{
 			throw new NotImplementedException();

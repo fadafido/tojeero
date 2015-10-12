@@ -48,20 +48,6 @@ namespace Tojeero.Core
 
 		#region Properties
 
-		[Ignore]
-		public override ParseCountry ParseObject
-		{
-			get
-			{
-				return base.ParseObject;
-			}
-			set
-			{
-				
-				base.ParseObject = value;
-			}
-		}
-
 		public int CountryId
 		{
 			get

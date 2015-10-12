@@ -5,7 +5,7 @@ namespace Tojeero.Core
 {
 	public interface IModelEntity : IUniqueEntity, IMvxNotifyPropertyChanged
 	{
-		string ID { get; set; }
+		
 	}
 }
 

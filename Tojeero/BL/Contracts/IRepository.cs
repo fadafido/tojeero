@@ -12,6 +12,9 @@ namespace Tojeero.Core
 		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
 		Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset);
 
+		//Product categories
+		Task<IEnumerable<IProductCategory>> FetchProductCategories();
+
 		//Stores
 		Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset);
 		Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset);

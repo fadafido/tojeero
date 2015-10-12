@@ -5,6 +5,8 @@ namespace Tojeero.Core
 {
 	public interface IProductCategory : IModelEntity
 	{
-		string Name { get; set; }
+		string Name { get; }
+		string Name_en { get; }
+		string Name_ar { get; }
 	}
 }

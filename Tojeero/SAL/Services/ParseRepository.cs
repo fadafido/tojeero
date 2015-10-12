@@ -72,7 +72,7 @@ namespace Tojeero.Core
 			
 		public async Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset)
 		{
-			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
+			using (var tokenSource = new CancellationTokenSource(Constants.FindProductsTimeout))
 			{				
 				var parseQuery = new ParseQuery<ParseProduct>().OrderBy(p => p.Name);
 				var tokens = query.Tokenize();
@@ -91,7 +91,7 @@ namespace Tojeero.Core
 
 		public async Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset)
 		{
-			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
+			using (var tokenSource = new CancellationTokenSource(Constants.FindStoresTimeout))
 			{
 				var parseQuery = new ParseQuery<ParseStore>().OrderBy(s => s.Name);
 				var tokens = query.Tokenize();
@@ -105,6 +105,16 @@ namespace Tojeero.Core
 				}
 				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
 				return result.Select(s => new Store(s) as IStore);
+			}
+		}
+
+		public async Task<IEnumerable<IProductCategory>> FetchProductCategories()
+		{
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductSubcategoriesTimeout))
+			{
+				var query = new ParseQuery<ParseProductCategory>();
+				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
+				return result.Select(c => new ProductCategory(c) as IProductCategory);
 			}
 		}
 		#endregion

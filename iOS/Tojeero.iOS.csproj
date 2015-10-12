@@ -247,6 +247,7 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <InterfaceDefinition Include="Misc\Toolbox\InputToolboxView.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -340,6 +341,12 @@
     </Compile>
     <Compile Include="..\Tojeero\BL\Managers\StoreCategoryManager.cs">
       <Link>Core\BL\Managers\StoreCategoryManager.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\SearchBarRenderer.cs" />
+    <Compile Include="Misc\Toolbox\InputToolboxView.cs" />
+    <Compile Include="Misc\Toolbox\UIViewToolbox.cs" />
+    <Compile Include="Misc\Toolbox\InputToolboxView.designer.cs">
+      <DependentUpon>InputToolboxView.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

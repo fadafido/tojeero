@@ -5,7 +5,14 @@ using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
-	public abstract class BaseSearchViewModel<T> : LoadableNetworkViewModel 
+	public interface ISearchViewModel
+	{
+		event EventHandler<EventArgs> LoadingNextPageFinished;
+		event EventHandler<EventArgs> ReloadFinished;
+		string SearchQuery { get; set; }
+	}
+
+	public abstract class BaseSearchViewModel<T> : LoadableNetworkViewModel, ISearchViewModel
 		where T : IModelEntity
 	{
 		#region Private fields and properties

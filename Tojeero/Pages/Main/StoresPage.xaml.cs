@@ -7,24 +7,19 @@ using Tojeero.Forms.Toolbox;
 
 namespace Tojeero.Forms
 {
-	public partial class StoresPage : ContentPage
+	public partial class StoresPage : BaseSearchablePage
 	{
 		#region Properties
 
-		private StoresViewModel _viewModel;
-		public StoresViewModel ViewModel
+		public new StoresViewModel ViewModel
 		{
 			get
 			{
-				return _viewModel;
+				return base.ViewModel as StoresViewModel;
 			}
 			set
 			{
-				if (_viewModel != value)
-				{
-					_viewModel = value;
-					this.BindingContext = _viewModel;
-				}
+				base.ViewModel = value;
 			}
 		}
 
@@ -35,10 +30,8 @@ namespace Tojeero.Forms
 		public StoresPage()
 			: base()
 		{
-			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
-			this.ViewModel.ReloadFinished += reloadFinished;
 			InitializeComponent();
-			StoresListView.ItemSelected += storeSelected;
+			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
 		}
 
 		#endregion
@@ -48,21 +41,7 @@ namespace Tojeero.Forms
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			this.ViewModel.LoadFirstPageCommand.Execute(null);
-		}
-
-		#endregion
-
-		#region Event Handlers
-
-		void storeSelected (object sender, SelectedItemChangedEventArgs e)
-		{
-			((ListView)sender).SelectedItem = null;
-		}
-
-		void reloadFinished (object sender, EventArgs e)
-		{
-			this.StoresListView.EndRefresh();
+			this.ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
 		}
 
 		#endregion

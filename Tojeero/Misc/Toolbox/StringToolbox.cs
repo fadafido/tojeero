@@ -44,6 +44,17 @@ namespace Tojeero.Core.Toolbox
 			}
 			return tokens.ToList();
 		}
+
+		/// <summary>
+		/// Compares two strings ignoring case.
+		/// </summary>
+		/// <returns>The compare result of two strings</returns>
+		/// <param name="str1">Str1.</param>
+		/// <param name="str2">Str2.</param>
+		public static int CompareIgnoreCase(this string str1, string str2)
+		{
+			return string.Compare(str1, str2, StringComparison.CurrentCultureIgnoreCase);
+		}
 	}
 }
 

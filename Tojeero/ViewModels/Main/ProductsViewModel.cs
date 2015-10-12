@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Linq;
 using System.Threading.Tasks;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -65,7 +66,7 @@ namespace Tojeero.Core.ViewModels
 							{
 								if(x.ID == y.ID)
 									return 0;
-								return string.Compare(x.Name, y.Name, StringComparison.CurrentCultureIgnoreCase);
+								return x.LowercaseName.CompareIgnoreCase(y.LowercaseName);
 							});
 					}
 					return _comparer;
@@ -105,7 +106,7 @@ namespace Tojeero.Core.ViewModels
 							{
 								if(x.ID == y.ID)
 									return 0;
-								return x.Name.CompareTo(y.Name);
+								return x.LowercaseName.CompareIgnoreCase(y.LowercaseName);
 							});
 					}
 					return _comparer;

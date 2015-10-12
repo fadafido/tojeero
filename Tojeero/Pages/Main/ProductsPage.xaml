@@ -11,17 +11,20 @@
 			<local:NetworkPageHeader
 				NoNetworkPadding="0,5,0,5"
 				Tint="{x:Static local:Colors.DarkGray}"
-				IsLoading="{Binding IsLoadingInitialData}"
-				TryAgainCommand="{Binding TryAgainCommand}" />
+				IsLoading="{Binding ViewModel.IsLoadingInitialData}"
+				LoadingText="{Binding ViewModel.LoadingText}"
+				FailureMessage="{Binding ViewModel.LoadingFailureMessage}"
+				IsNetworkAvailable="{Binding ViewModel.IsNetworkAvailable}"
+				TryAgainCommand="{Binding ViewModel.TryAgainCommand}" />
 			<local:InfiniteListView
 				x:Name="ProductsListView"
-				ItemsSource="{Binding Collection}"
+				ItemsSource="{Binding ViewModel.Collection}"
 				BackgroundColor="Transparent"
 				RowHeight="100"
 				SeparatorVisibility="None"
 				IsPullToRefreshEnabled="true"
-				RefreshCommand="{Binding ReloadCommand}"
-				LoadMoreCommand="{Binding LoadNextPageCommand}">
+				RefreshCommand="{Binding ViewModel.ReloadCommand}"
+				LoadMoreCommand="{Binding ViewModel.LoadNextPageCommand}">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<local:ProductListCell />
@@ -30,9 +33,9 @@
 			</local:InfiniteListView>
 			<StackLayout
 				Padding="5"
-				IsVisible="{Binding IsLoadingNextPage}">
+				IsVisible="{Binding ViewModel.IsLoadingNextPage}">
 				<ActivityIndicator
-					IsRunning="{Binding IsLoadingNextPage}"
+					IsRunning="{Binding ViewModel.IsLoadingNextPage}"
 					HorizontalOptions="Center"
 					VerticalOptions="Center"
 					Color="{x:Static local:Colors.DarkGray}" />

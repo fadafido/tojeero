@@ -97,6 +97,7 @@ namespace Tojeero.iOS
 					var product = new ParseProduct()
 					{
 						Name = prod.Name,
+						LowercaseName = prod.Name.ToLower(),
 						Description = prod.Description,
 						Tags = prod.Tags.Tokenize(),
 						Image = productImages[i % productSampleCount],
@@ -118,6 +119,7 @@ namespace Tojeero.iOS
 					var store = new ParseStore()
 					{
 						Name = s.Name,
+						LowercaseName = s.Name.ToLower(),
 						Image = storeImages[i % storeSampleCount],
 						Description = s.Description						
 					};

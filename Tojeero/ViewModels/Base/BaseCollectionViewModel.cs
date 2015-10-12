@@ -23,7 +23,6 @@ namespace Tojeero.Core.ViewModels
 
 		IModelQuery<T> _query;
 		private int _pageSize;
-		private bool _isFirstPageLoaded;
 		private Commands _lastExecutedCommand;
 
 		#endregion
@@ -126,7 +125,7 @@ namespace Tojeero.Core.ViewModels
 					{
 						_lastExecutedCommand = Commands.LoadNextPage;
 						await loadNextPage();
-					}, () => CanExecuteLoadNextPageCommand && !_isFirstPageLoaded);
+					}, () => CanExecuteLoadNextPageCommand && this.Count == 0);
 				return _loadFirstPageCommand;
 			}
 		}
@@ -214,10 +213,6 @@ namespace Tojeero.Core.ViewModels
 				if(initialCount == this.Count && !this.IsNetworkAvailable)
 				{
 					failureMessage = AppResources.MessageLoadingFailedNoInternet;
-				}
-				else
-				{
-					_isFirstPageLoaded = true;
 				}
 			}
 			catch (Exception ex)

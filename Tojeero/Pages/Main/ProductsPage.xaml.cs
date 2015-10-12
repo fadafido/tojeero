@@ -48,7 +48,7 @@ namespace Tojeero.Forms
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			this.ViewModel.LoadFirstPageCommand.Execute(null);
+			this.ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
 		}
 
 		#endregion

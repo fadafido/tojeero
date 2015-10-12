@@ -55,6 +55,13 @@ namespace Tojeero.Core.Toolbox
 			foreach (var item in items)
 				collection.Add(item);
 		}
+
+		public static void PrintCollection<T>(this IEnumerable<T> collection, Func<T, string> format = null)
+		{
+			var items = collection.Select(item => format != null ? format(item) : item.ToString());
+			var result = string.Join("\n", items);
+			Tools.Logger.Log(result);
+		}
 	}
 }
 

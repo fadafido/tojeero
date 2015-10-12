@@ -25,17 +25,16 @@
 			VerticalOptions="Center" />
 		<Label
 			x:Name="LoadingLabel"
-			Text="{Binding LoadingText}"
 			FontSize="Large"
 			XAlign="Center" />
 	</StackLayout>
 	<StackLayout
+		x:Name="FailureContainer"
 		Spacing="5"
 		Padding="5"
-		BackgroundColor="{x:Static local:Colors.Black}"
-		IsVisible="{Binding LoadingFailureMessage, Converter={StaticResource visibility}}">
+		BackgroundColor="{x:Static local:Colors.Black}">
 		<Label
-			Text="{Binding LoadingFailureMessage}"
+			x:Name="FailureLabel"
 			TextColor="White"
 			FontAttributes="Bold"
 			FontSize="Small"
@@ -43,7 +42,6 @@
 		<Button
 			x:Name="TryAgainButton"
 			Text="Try again"
-			Style="{StaticResource NegativeButton}"
-			IsEnabled="{Binding IsNetworkAvailable}" />
+			Style="{StaticResource NegativeButton}"/>
 	</StackLayout>
 </StackLayout>

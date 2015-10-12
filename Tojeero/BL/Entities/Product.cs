@@ -133,6 +133,15 @@ namespace Tojeero.Core
 			}
 		}
 		#endregion
+
+		#region Parent 
+
+		public override string ToString()
+		{
+			return this.Name;	
+		}
+
+		#endregion
 	}
 
 	[ParseClassName("StoreItem")]

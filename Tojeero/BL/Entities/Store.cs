@@ -67,6 +67,20 @@ namespace Tojeero.Core
 			}
 		}
 
+		private string _categoryID;
+		public string CategoryID
+		{ 
+			get
+			{
+				if (_categoryID == null && _parseObject != null && _parseObject.Category != null)
+					_categoryID = _parseObject.Category.ObjectId;
+				return _categoryID; 
+			}
+			set
+			{
+				_categoryID = value; 
+			}
+		}
 		#endregion
 	}
 
@@ -122,6 +136,18 @@ namespace Tojeero.Core
 			}
 		}
 
+		[ParseFieldName("category")]
+		public ParseStoreCategory Category
+		{
+			get
+			{
+				return GetProperty<ParseStoreCategory>();
+			}
+			set
+			{
+				SetProperty<ParseStoreCategory>(value);
+			}
+		}
 		#endregion
 	}
 }

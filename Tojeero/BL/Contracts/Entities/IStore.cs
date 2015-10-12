@@ -6,6 +6,7 @@ namespace Tojeero.Core
 	{
 		string Name { get; set; }
 		string ImageUrl { get; }
+		string CategoryID { get; }
 	}
 }
 

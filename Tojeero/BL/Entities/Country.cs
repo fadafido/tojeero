@@ -70,15 +70,9 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				switch (this.Language)
-				{
-					case LanguageCode.Arabic:
-						return Name_ar;
-						break;
-					default:
-						return Name_en;	
-						break;
-				}
+				if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Name_ar))
+					return Name_ar;
+				return Name_en;
 			}
 		}
 
@@ -87,15 +81,9 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				switch (this.Language)
-				{
-					case LanguageCode.Arabic:
-						return Currency_ar;
-						break;
-					default:
-						return Currency_en;	
-						break;
-				}
+				if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Currency_ar))
+					return Currency_ar;
+				return Currency_en;
 			}
 		}
 

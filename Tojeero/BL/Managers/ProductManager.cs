@@ -27,12 +27,12 @@ namespace Tojeero.Core
 
 		#region IProductManager implementation
 
-		public Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
+		public Task<IEnumerable<IProduct>> Fetch(int pageSize, int offset)
 		{
 			return _manager.Fetch<IProduct, Product>(new FetchProductsQuery(pageSize, offset, _manager), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
 
-		public Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset)
+		public Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset)
 		{
 			return _manager.Fetch<IProduct, ParseProduct>(new FindProductsQuery(query, pageSize, offset, _manager), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}

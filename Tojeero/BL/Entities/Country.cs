@@ -201,7 +201,7 @@ namespace Tojeero.Core
 		{
 			if (this.Cities != null && this.Cities.Length > 0)
 				return;
-			var cities = await CityManager.FetchCities(this.CountryId);
+			var cities = await CityManager.Fetch(this.CountryId);
 			this.Cities = cities.OrderBy(c => c.Name).ToArray();
 		}
 

@@ -368,7 +368,7 @@ namespace Tojeero.Core.ViewModels
 			this.StartLoading(AppResources.MessageGeneralLoading);
 			try
 			{
-				var countries = await _countryManager.FetchCountries();
+				var countries = await _countryManager.Fetch();
 				this.Countries = countries.OrderBy(c => c.Name).ToArray();
 			}
 			catch (OperationCanceledException ex)

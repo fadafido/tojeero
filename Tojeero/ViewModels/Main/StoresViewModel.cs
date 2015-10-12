@@ -34,7 +34,7 @@ namespace Tojeero.Core.ViewModels
 
 			public System.Threading.Tasks.Task<IEnumerable<IStore>> Fetch(int pageSize = -1, int offset = -1)
 			{
-				return manager.FetchStores(pageSize, offset);
+				return manager.Fetch(pageSize, offset);
 			}
 
 			private Comparison<IStore> _comparer;

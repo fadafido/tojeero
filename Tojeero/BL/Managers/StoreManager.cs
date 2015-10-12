@@ -27,12 +27,12 @@ namespace Tojeero.Core
 
 		#region IStoreManager Implementation
 
-		public Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
+		public Task<IEnumerable<IStore>> Fetch(int pageSize, int offset)
 		{
 			return _manager.Fetch<IStore, Store>(new FetchStoresQuery(pageSize, offset, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
-		public Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset)
+		public Task<IEnumerable<IStore>> Find(string query, int pageSize, int offset)
 		{
 			return _manager.Fetch<IStore, ParseStore>(new FindStoresQuery(query, pageSize, offset, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}

@@ -40,7 +40,7 @@ namespace Tojeero.Core.ViewModels
 
 			public System.Threading.Tasks.Task<IEnumerable<IProduct>> Fetch(int pageSize = -1, int offset = -1)
 			{
-				return manager.FetchProducts(pageSize, offset);
+				return manager.Fetch(pageSize, offset);
 			}
 
 			private Comparison<IProduct> _comparer;

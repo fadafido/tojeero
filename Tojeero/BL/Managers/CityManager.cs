@@ -24,7 +24,7 @@ namespace Tojeero.Core
 
 		#region ICityManager implementation
 
-		public Task<IEnumerable<ICity>> FetchCities(int countryId)
+		public Task<IEnumerable<ICity>> Fetch(int countryId)
 		{
 			return _manager.Fetch<ICity, City>(new FetchCitiesQuery(countryId, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}

@@ -7,8 +7,8 @@ namespace Tojeero.Core
 {
 	public interface IProductManager : IBaseModelEntityManager
 	{
-		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
-		Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset);
+		Task<IEnumerable<IProduct>> Fetch(int pageSize, int offset);
+		Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset);
 	}
 }
 

@@ -114,7 +114,7 @@ namespace Tojeero.Core.ViewModels
 			try
 			{
 				var manager = Mvx.Resolve<ICountryManager>();
-				var result = await manager.FetchCountries();
+				var result = await manager.Fetch();
 				if(result.Count() == 0)
 				{
 					Tools.Logger.Log("Seems there are no registered countries in the backend. Make sure this is not an error!", LoggingLevel.Warning, true);
@@ -144,7 +144,7 @@ namespace Tojeero.Core.ViewModels
 			try
 			{
 				var manager = Mvx.Resolve<ICityManager>();
-				var result = await manager.FetchCities(0);
+				var result = await manager.Fetch(0);
 				if(result.Count() == 0)
 				{
 					Tools.Logger.Log("Seems there are no registered cities in the backend. Make sure this is not an error!", LoggingLevel.Warning, true);

@@ -431,14 +431,21 @@ namespace Tojeero.Core
 			{
 				var cacheName = CachedQuery.GetEntityCacheName<T>();
 				var cachedQueries = connection.Table<CachedQuery>().Where(q => q.EntityName == cacheName);
+				var searchTokens = connection.Table<SearchToken>().Where(q => q.EntityType == cacheName);
 				connection.RunInTransaction(() =>
 					{
-						foreach (CachedQuery item in cachedQueries)
+						foreach (var item in cachedQueries)
 						{
 							connection.Delete(item);
 						}
+							
+						foreach(var t in searchTokens)
+						{
+							connection.Delete(t);
+						}
 						connection.DeleteAll<T>();
-					});	
+					});					
+
 			}
 		}
 

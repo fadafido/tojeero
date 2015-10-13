@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core
 {
@@ -59,6 +60,7 @@ namespace Tojeero.Core
 				result = await loader.RemoteQuery().ConfigureAwait(false);
 				if (!string.IsNullOrEmpty(loader.ID))
 				{
+					await loader.PostProcess(result);
 					await Cache.SaveAsync(result).ConfigureAwait(false);
 					cachedQuery = new CachedQuery()
 						{

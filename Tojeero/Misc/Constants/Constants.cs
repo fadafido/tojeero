@@ -36,8 +36,8 @@ namespace Tojeero.Core
 		/*****************MISC*****************/
 		public static string XamarinInsightsApiKey = "641ba3e3bf2f2764d06bc254a896aed9c8175a94";
 		public static TimeSpan ImageCacheTimespan = TimeSpan.FromDays(1);
-		public static TimeSpan ProductsCacheTimespan = TimeSpan.FromMinutes(1);
-		public static TimeSpan StoresCacheTimespan = TimeSpan.FromMinutes(1);
+		public static TimeSpan ProductsCacheTimespan = TimeSpan.FromMinutes(5);
+		public static TimeSpan StoresCacheTimespan = TimeSpan.FromMinutes(5);
 
 		/*****************DATABASE*****************/
 		public static string DatabaseFileName = "Tojeero.sqlite";

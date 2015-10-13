@@ -17,6 +17,9 @@ namespace Tojeero.Core.Toolbox
 		/// <typeparam name="T">The 1st type parameter.</typeparam>
 		public static void InsertSorted<T>(this IList<T> list, IEnumerable<T> items, Comparison<T> comparer = null)
 		{
+			if (items == null)
+				return;
+			list = list ?? new List<T>();
 			if (comparer == null)
 			{
 				foreach (var obj in items)
@@ -56,11 +59,12 @@ namespace Tojeero.Core.Toolbox
 				collection.Add(item);
 		}
 
-		public static void PrintCollection<T>(this IEnumerable<T> collection, Func<T, string> format = null)
+		public static string PrintCollection<T>(this IEnumerable<T> collection, string joinString = "\n", Func<T, string> format = null)
 		{
 			var items = collection.Select(item => format != null ? format(item) : item.ToString());
-			var result = string.Join("\n", items);
+			var result = string.Join(joinString, items);
 			Tools.Logger.Log(result);
+			return result;
 		}
 	}
 }

@@ -132,13 +132,29 @@ namespace Tojeero.Core
 				_subcategoryID = value; 
 			}
 		}
+
+		[Ignore]
+		public IList<string> SearchTokens
+		{
+			get
+			{
+				return _parseObject != null ? _parseObject.SearchTokens : null;
+			}
+			set
+			{
+				if (_parseObject != null)
+				{
+					_parseObject.SearchTokens = value;
+				}
+			}
+		}
 		#endregion
 
 		#region Parent 
 
 		public override string ToString()
 		{
-			return this.Name;	
+			return this.ID + " " + this.Name;	
 		}
 
 		#endregion

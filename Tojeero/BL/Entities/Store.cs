@@ -1,6 +1,7 @@
 ﻿using System;
 using Parse;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
+using System.Collections.Generic;
 
 namespace Tojeero.Core
 {
@@ -92,6 +93,22 @@ namespace Tojeero.Core
 			set
 			{
 				_categoryID = value; 
+			}
+		}
+
+		[Ignore]
+		public IList<string> SearchTokens
+		{
+			get
+			{
+				return _parseObject != null ? _parseObject.SearchTokens : null;
+			}
+			set
+			{
+				if (_parseObject != null)
+				{
+					_parseObject.SearchTokens = value;
+				}
 			}
 		}
 		#endregion

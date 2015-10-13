@@ -14,6 +14,7 @@ namespace Tojeero.Core.Toolbox
 		/// </summary>
 		/// <returns>
 		/// Returns string list which will contain only the unique word tokens in lower case which have >= 2 length from initial value.
+		/// The resulting tokens also will be sorted.
 		/// </returns>
 		/// <param name="value">String value.</param>
 		public static List<string> Tokenize(this string value)
@@ -23,7 +24,9 @@ namespace Tojeero.Core.Toolbox
 			var tokens = stringTokenizer.Split(value);
 			HashSet<string> uniqueTokens = new HashSet<string>();
 			uniqueTokens.AddRange(tokens.Where(t => t.Length >= 2).Select(t => t.ToLower()));
-			return uniqueTokens.ToList();
+			var sorted = uniqueTokens.ToList();
+			sorted.Sort(new Comparison<string>((x, y) => x.CompareIgnoreCase(y)));
+			return sorted;
 		}
 
 		/// <summary>
@@ -31,18 +34,22 @@ namespace Tojeero.Core.Toolbox
 		/// </summary>
 		/// <returns>
 		/// Returns string list which will contain only the unique word tokens in lower case from each of the initial string values.
+		/// The resulting tokens also will be sorted.
 		/// </returns>
 		/// <param name="values">Values.</param>
 		public static List<string> Tokenize(this IEnumerable<string> values)
 		{
 			if (values == null)
 				return null;
-			HashSet<string> tokens = new HashSet<string>();
+			HashSet<string> uniqueTokens = new HashSet<string>();
 			foreach (var value in values)
 			{
-				tokens.AddRange(value.Tokenize());
+				var tokens = stringTokenizer.Split(value);
+				uniqueTokens.AddRange(tokens);
 			}
-			return tokens.ToList();
+			var sorted = uniqueTokens.ToList();
+			sorted.Sort(new Comparison<string>((x, y) => x.CompareIgnoreCase(y)));
+			return sorted;
 		}
 
 		/// <summary>

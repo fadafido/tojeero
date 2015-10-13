@@ -34,7 +34,7 @@ namespace Tojeero.Core
 
 		public async Task ClearCache()
 		{
-			await _manager.Cache.Clear<ParseProductCategory>();
+			await _manager.Cache.Clear<ProductCategory>();
 		}
 
 		#endregion
@@ -67,6 +67,10 @@ namespace Tojeero.Core
 		public async Task<IEnumerable<IProductCategory>> RemoteQuery()
 		{
 			return await manager.Rest.FetchProductCategories();
+		}
+
+		public async Task PostProcess(IEnumerable<IProductCategory> items)
+		{
 		}
 	}
 

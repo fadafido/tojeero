@@ -74,7 +74,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindProductsTimeout))
 			{				
-				var parseQuery = new ParseQuery<ParseProduct>().OrderBy(p => p.Name);
+				var parseQuery = new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName);
 				var tokens = query.Tokenize();
 				if (tokens != null && tokens.Count > 0)
 				{
@@ -93,7 +93,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindStoresTimeout))
 			{
-				var parseQuery = new ParseQuery<ParseStore>().OrderBy(s => s.Name);
+				var parseQuery = new ParseQuery<ParseStore>().OrderBy(s => s.LowercaseName);
 				var tokens = query.Tokenize();
 				if (tokens != null && tokens.Count > 0)
 				{

@@ -103,14 +103,38 @@ namespace Tojeero.Core
 			return result;
 		}
 
-		public Task<IEnumerable<IProduct>> FindProducts(string query, int pageSize, int offset)
+		public async Task<IEnumerable<IProduct>> FindProducts(string searchQuery, int pageSize, int offset)
 		{
-			throw new NotImplementedException();
+			return await find<Product>(searchQuery, (ITableQuery<Product> q) => q.OrderBy(p => p.LowercaseName), pageSize, offset);
 		}
 
-		public Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset)
+		public async Task<IEnumerable<IStore>> FindStores(string searchQuery, int pageSize, int offset)
 		{
-			throw new NotImplementedException();
+			return await find<Store>(searchQuery, (ITableQuery<Store> q) => q.OrderBy(s => s.LowercaseName), pageSize, offset);
+		}
+
+		public async Task SaveSearchTokens(IEnumerable<ISearchableEntity> items, string entityType)
+		{
+			if (items == null)
+				return;
+			foreach (var item in items)
+			{
+				if (item.SearchTokens != null)
+				{
+					var tokens = item.SearchTokens.Select(t =>
+						{
+							var token = new SearchToken()
+							{ 						
+								EntityID = item.ID,
+								EntityType = entityType,
+								Token = t
+							};
+							token.ID = token.EntityID + token.EntityType + token.Token;
+							return token;
+						});
+					await SaveAsync<SearchToken>(tokens);
+				}
+			}
 		}
 
 		#endregion
@@ -132,6 +156,7 @@ namespace Tojeero.Core
 						connection.CreateTable<CachedQuery>();
 						connection.CreateTable<Country>();
 						connection.CreateTable<City>();
+						connection.CreateTable<SearchToken>();
 					}
 				});
 		}
@@ -366,6 +391,36 @@ namespace Tojeero.Core
 						}
 						var result = connection.Query<T>(query);
 						return result;
+					}
+				});
+		}
+
+		public Task<IEnumerable<T>> find<T>(string searchQuery, Action<ITableQuery<T>> orderByAction, int pageSize, int offset) where T : ISearchableEntity, new()
+		{
+			return Task<IEnumerable<T>>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
+					{
+						var entityName = CachedQuery.GetEntityCacheName<T>();
+						var tokens = searchQuery.Tokenize();
+
+						var ids = (from t in connection.Table<SearchToken>()
+						           where t.EntityType == entityName && tokens.Contains(t.Token)
+						           group t by t.EntityID into g
+						           where g.Count() == tokens.Count
+						           select g.Key).ToList();
+						var query = from p in connection.Table<T>()
+						            where ids.Contains(p.ID)
+						            select p;
+						if (orderByAction != null)
+							orderByAction(query);
+						if (pageSize > 0 && offset >= 0)
+							query = query.Take(pageSize).Skip(offset);
+
+						return query.ToList();
+
 					}
 				});
 		}

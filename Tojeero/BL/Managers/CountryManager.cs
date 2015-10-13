@@ -65,6 +65,10 @@ namespace Tojeero.Core
 		{
 			return await manager.Rest.FetchCountries();
 		}
+
+		public async Task PostProcess(IEnumerable<ICountry> items)
+		{
+		}
 	}
 
 	#endregion

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Parse;
 using System.Linq;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core
 {
@@ -34,7 +35,7 @@ namespace Tojeero.Core
 
 		public Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset)
 		{
-			return _manager.Fetch<IProduct, ParseProduct>(new FindProductsQuery(query, pageSize, offset, _manager), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			return _manager.Fetch<IProduct, Product>(new FindProductsQuery(query, pageSize, offset, _manager), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
 
 		public Task ClearCache()
@@ -79,6 +80,10 @@ namespace Tojeero.Core
 		{
 			return await manager.Rest.FetchProducts(pageSize, offset);
 		}
+
+		public async Task PostProcess(IEnumerable<IProduct> items)
+		{
+		}
 	}
 
 	public class FindProductsQuery : IQueryLoader<IProduct>
@@ -86,11 +91,11 @@ namespace Tojeero.Core
 		int pageSize;
 		int offset;
 		IModelEntityManager manager;
-		string query;
+		string searchQuery;
 
-		public FindProductsQuery(string query, int pageSize, int offset, IModelEntityManager manager)
+		public FindProductsQuery(string searchQuery, int pageSize, int offset, IModelEntityManager manager)
 		{
-			this.query = query;
+			this.searchQuery = searchQuery;
 			this.manager = manager;
 			this.offset = offset;
 			this.pageSize = pageSize;
@@ -101,19 +106,26 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				string cachedQueryId = string.Format("products-p{0}o{1}-{2}", pageSize, offset, query);
-				return null;
+				string cachedQueryId = string.Format("products-p{0}o{1}-{2}", pageSize, offset, string.Join(",",searchQuery.Tokenize()));
+				return cachedQueryId;
 			}
 		}
 
 		public async Task<IEnumerable<IProduct>> LocalQuery()
 		{
-			return await manager.Cache.FindProducts(query, pageSize, offset);
+			var result = await manager.Cache.FindProducts(searchQuery, pageSize, offset);
+			return result;
 		}
 
 		public async Task<IEnumerable<IProduct>> RemoteQuery()
 		{
-			return await manager.Rest.FindProducts(query, pageSize, offset);
+			var result = await manager.Rest.FindProducts(searchQuery, pageSize, offset);
+			return result;
+		}
+
+		public async Task PostProcess(IEnumerable<IProduct> items)
+		{
+			await manager.Cache.SaveSearchTokens(items, CachedQuery.GetEntityCacheName<Product>());
 		}
 	}
 

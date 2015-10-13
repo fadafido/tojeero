@@ -32,8 +32,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup\MvxApp.cs" />
-    <Compile Include="Setup\FormsApp.cs">
-    </Compile>
     <Compile Include="ViewModels\Base\BaseUserViewModel.cs" />
     <Compile Include="ViewModels\Base\LoadableViewModel.cs" />
     <Compile Include="ViewModels\Base\ReloadableViewModel.cs" />
@@ -142,6 +140,25 @@
     <Compile Include="BL\Contracts\Managers\ICityManager.cs" />
     <Compile Include="Misc\Converters\LanguageToCultureConverter.cs" />
     <Compile Include="Misc\Messages\LanguageChangedMessage.cs" />
+    <Compile Include="Setup\FormsApp.xaml.cs">
+      <DependentUpon>FormsApp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Toolbox\CollectionToolbox.cs" />
+    <Compile Include="Misc\Toolbox\StringToolbox.cs" />
+    <Compile Include="BL\Contracts\Managers\IProductCategoryManager.cs" />
+    <Compile Include="BL\Contracts\Managers\IProductSubcategoryManager.cs" />
+    <Compile Include="BL\Contracts\Managers\IStoreCategoryManager.cs" />
+    <Compile Include="BL\Contracts\Entities\IProductCategory.cs" />
+    <Compile Include="BL\Contracts\Entities\IProductSubcategory.cs" />
+    <Compile Include="BL\Contracts\Entities\IStoreCategory.cs" />
+    <Compile Include="ViewModels\Base\BaseSearchViewModel.cs" />
+    <Compile Include="Misc\Timer.cs" />
+    <Compile Include="Pages\Base\BaseSearchablePage.xaml.cs">
+      <DependentUpon>BaseSearchablePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BL\Contracts\Entities\ISearchToken.cs" />
+    <Compile Include="BL\Entities\SearchToken.cs" />
+    <Compile Include="BL\Contracts\Entities\ISearchableEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -257,6 +274,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\Base\NetworkPageHeader.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\FormsApp.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Base\BaseSearchablePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

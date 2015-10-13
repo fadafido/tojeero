@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Tojeero.Core
 {
-	public interface IProduct : IModelEntity
+	public interface IProduct : IModelEntity, ISearchableEntity
 	{
 		string Name { get; set; }
+		string LowercaseName { get; }
 		double Price { get; set; }
-		Uri ImageUri { get; }
+		string ImageUrl { get; }
 		string FormattedPrice { get; }
+		string CategoryID { get; }
+		string SubcategoryID { get; }
 	}
 }
 

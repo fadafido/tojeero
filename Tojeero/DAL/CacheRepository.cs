@@ -42,19 +42,19 @@ namespace Tojeero.Core
 
 		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
 		{
-			var result = await FetchAsync<Product>(pageSize, offset).ConfigureAwait(false);
+			var result = await FetchAsync<Product>(pageSize, offset, "LowercaseName").ConfigureAwait(false);
 			return result.Cast<IProduct>();
 		}
 
 		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
 		{
-			var result = await FetchAsync<Store>(pageSize, offset).ConfigureAwait(false);
+			var result = await FetchAsync<Store>(pageSize, offset, "LowercaseName").ConfigureAwait(false);
 			return result.Cast<IStore>();
 		}
 
-		public async Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset) where T : new()
+		public async Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset, string orderBy = null) where T : new()
 		{
-			return await fetchAsync<T>(pageSize, offset).ConfigureAwait(false);	
+			return await fetchAsync<T>(pageSize, offset, orderBy).ConfigureAwait(false);	
 		}
 
 		public async Task<IEnumerable<ICountry>> FetchCountries()
@@ -77,6 +77,66 @@ namespace Tojeero.Core
 				});
 		}
 
+		public async Task<IEnumerable<IProductCategory>> FetchProductCategories()
+		{
+			var result = await fetchAsync<ProductCategory>(-1, -1).ConfigureAwait(false);	
+			return result;
+		}
+
+		public Task<IEnumerable<IProductSubcategory>> FetchProductSubcategories(string categoryID)
+		{
+			return Task<IEnumerable<IProductSubcategory>>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
+					{
+						var result = connection.Table<ProductSubcategory>().Where(p => p.CategoryID == categoryID).ToList();
+						return result;
+					}
+				});
+		}
+
+		public async Task<IEnumerable<IStoreCategory>> FetchStoreCategories()
+		{
+			var result = await fetchAsync<StoreCategory>(-1, -1).ConfigureAwait(false);	
+			return result;
+		}
+
+		public async Task<IEnumerable<IProduct>> FindProducts(string searchQuery, int pageSize, int offset)
+		{
+			return await find<Product>(searchQuery, (ITableQuery<Product> q) => q.OrderBy(p => p.LowercaseName), pageSize, offset);
+		}
+
+		public async Task<IEnumerable<IStore>> FindStores(string searchQuery, int pageSize, int offset)
+		{
+			return await find<Store>(searchQuery, (ITableQuery<Store> q) => q.OrderBy(s => s.LowercaseName), pageSize, offset);
+		}
+
+		public async Task SaveSearchTokens(IEnumerable<ISearchableEntity> items, string entityType)
+		{
+			if (items == null)
+				return;
+			foreach (var item in items)
+			{
+				if (item.SearchTokens != null)
+				{
+					var tokens = item.SearchTokens.Select(t =>
+						{
+							var token = new SearchToken()
+							{ 						
+								EntityID = item.ID,
+								EntityType = entityType,
+								Token = t
+							};
+							token.ID = token.EntityID + token.EntityType + token.Token;
+							return token;
+						});
+					await SaveAsync<SearchToken>(tokens);
+				}
+			}
+		}
+
 		#endregion
 
 		#region ICacheRepository implementation
@@ -96,6 +156,7 @@ namespace Tojeero.Core
 						connection.CreateTable<CachedQuery>();
 						connection.CreateTable<Country>();
 						connection.CreateTable<City>();
+						connection.CreateTable<SearchToken>();
 					}
 				});
 		}
@@ -310,7 +371,7 @@ namespace Tojeero.Core
 			return connection;
 		}
 
-		private Task<IEnumerable<T>> fetchAsync<T>(int pageSize, int offset) where T : new()
+		private Task<IEnumerable<T>> fetchAsync<T>(int pageSize, int offset, string orderBy = null) where T : new()
 		{
 			return Task<IEnumerable<T>>.Factory.StartNew(() =>
 				{
@@ -320,12 +381,46 @@ namespace Tojeero.Core
 					{
 						var tableName = typeof(T).GetLocalTableName();
 						string query = string.Format("SELECT * FROM [{0}]", tableName);
-						if(pageSize > 0 && offset >= 0)
+						if (!string.IsNullOrEmpty(orderBy))
+						{
+							query += " ORDER BY " + orderBy;
+						}
+						if (pageSize > 0 && offset >= 0)
 						{
 							query += string.Format(" LIMIT {0} OFFSET {1}", pageSize, offset);
 						}
 						var result = connection.Query<T>(query);
 						return result;
+					}
+				});
+		}
+
+		public Task<IEnumerable<T>> find<T>(string searchQuery, Action<ITableQuery<T>> orderByAction, int pageSize, int offset) where T : ISearchableEntity, new()
+		{
+			return Task<IEnumerable<T>>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
+					{
+						var entityName = CachedQuery.GetEntityCacheName<T>();
+						var tokens = searchQuery.Tokenize();
+
+						var ids = (from t in connection.Table<SearchToken>()
+						           where t.EntityType == entityName && tokens.Contains(t.Token)
+						           group t by t.EntityID into g
+						           where g.Count() == tokens.Count
+						           select g.Key).ToList();
+						var query = from p in connection.Table<T>()
+						            where ids.Contains(p.ID)
+						            select p;
+						if (orderByAction != null)
+							orderByAction(query);
+						if (pageSize > 0 && offset >= 0)
+							query = query.Take(pageSize).Skip(offset);
+
+						return query.ToList();
+
 					}
 				});
 		}
@@ -376,6 +471,7 @@ namespace Tojeero.Core
 				return queryCache != null && queryCache.IsExpired;
 			}
 		}
+
 		#endregion
 	}
 }

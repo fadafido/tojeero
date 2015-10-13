@@ -242,9 +242,12 @@
     <BundleResource Include="Resources\Samples\Stores\Store 8.PNG" />
     <BundleResource Include="Resources\Samples\Stores\Store 9.PNG" />
     <BundleResource Include="Resources\Samples\Stores\Store 1.PNG" />
+    <BundleResource Include="Resources\Samples\products.json" />
+    <BundleResource Include="Resources\Samples\stores.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <InterfaceDefinition Include="Misc\Toolbox\InputToolboxView.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -317,6 +320,33 @@
     </Compile>
     <Compile Include="..\Tojeero\BL\Managers\CityManager.cs">
       <Link>Core\BL\Managers\CityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\SearchableParseObject.cs">
+      <Link>Core\BL\Entities\SearchableParseObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\ProductCategory.cs">
+      <Link>Core\BL\Entities\ProductCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\ProductCategoryManager.cs">
+      <Link>Core\BL\Managers\ProductCategoryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\ProductSubcategoryManager.cs">
+      <Link>Core\BL\Managers\ProductSubcategoryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\ProductSubcategory.cs">
+      <Link>Core\BL\Entities\ProductSubcategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\StoreCategory.cs">
+      <Link>Core\BL\Entities\StoreCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\StoreCategoryManager.cs">
+      <Link>Core\BL\Managers\StoreCategoryManager.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\SearchBarRenderer.cs" />
+    <Compile Include="Misc\Toolbox\InputToolboxView.cs" />
+    <Compile Include="Misc\Toolbox\UIViewToolbox.cs" />
+    <Compile Include="Misc\Toolbox\InputToolboxView.designer.cs">
+      <DependentUpon>InputToolboxView.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

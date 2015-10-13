@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Tojeero.Core
 {
-	public interface IStore : IModelEntity
+	public interface IStore : IModelEntity, ISearchableEntity
 	{
 		string Name { get; set; }
-		Uri ImageUri { get; }
+		string LowercaseName { get; }
+		string ImageUrl { get; }
+		string CategoryID { get; }
 	}
 }
 

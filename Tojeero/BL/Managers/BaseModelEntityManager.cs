@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core
 {
@@ -44,33 +45,9 @@ namespace Tojeero.Core
 
 		#endregion
 
-		#region IRepository implementation
+		#region IModelEntityManager implementation
 
-		public Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
-		{
-			return fetch<IProduct, Product>(new FetchProductsQuery(pageSize, offset, this), Constants.ProductsCacheTimespan.TotalMilliseconds);
-		}
-
-		public Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
-		{
-			return fetch<IStore, Store>(new FetchStoresQuery(pageSize, offset, this), Constants.StoresCacheTimespan.TotalMilliseconds);
-		}
-
-		public Task<IEnumerable<ICountry>> FetchCountries()
-		{
-			return fetch<ICountry, Country>(new FetchCountriesQuery(this), Constants.StoresCacheTimespan.TotalMilliseconds);
-		}
-
-		public Task<IEnumerable<ICity>> FetchCities(int countryId)
-		{
-			return fetch<ICity, City>(new FetchCitiesQuery(countryId, this), Constants.StoresCacheTimespan.TotalMilliseconds);
-		}
-
-		#endregion
-
-		#region Utility methods
-
-		private async Task<IEnumerable<T>> fetch<T, Entity>(IQueryLoader<T> loader, double? expiresIn = null)
+		public async Task<IEnumerable<T>> Fetch<T, Entity>(IQueryLoader<T> loader, double? expiresIn = null)
 		{
 			IEnumerable<T> result = null;
 			var cacheName = CachedQuery.GetEntityCacheName<Entity>();
@@ -81,15 +58,19 @@ namespace Tojeero.Core
 			if (isExpired)
 			{
 				result = await loader.RemoteQuery().ConfigureAwait(false);
-				await Cache.SaveAsync(result).ConfigureAwait(false);
-				cachedQuery = new CachedQuery()
+				if (!string.IsNullOrEmpty(loader.ID))
 				{
-					ID = loader.ID,
-					EntityName = cacheName,
-					LastFetchedAt = DateTime.UtcNow,
-					ExpiresIn = expiresIn
-				};
-				await Cache.SaveAsync(cachedQuery).ConfigureAwait(false);
+					await loader.PostProcess(result);
+					await Cache.SaveAsync(result).ConfigureAwait(false);
+					cachedQuery = new CachedQuery()
+						{
+							ID = loader.ID,
+							EntityName = cacheName,
+							LastFetchedAt = DateTime.UtcNow,
+							ExpiresIn = expiresIn
+						};
+					await Cache.SaveAsync(cachedQuery).ConfigureAwait(false);	
+				}
 			}
 			else
 			{
@@ -97,158 +78,7 @@ namespace Tojeero.Core
 			}
 			return result;
 		}
-
-		private interface IQueryLoader<T>
-		{
-			string ID { get; }
-
-			Task<IEnumerable<T>> LocalQuery();
-
-			Task<IEnumerable<T>> RemoteQuery();
-		}
-
-		private class FetchProductsQuery : IQueryLoader<IProduct>
-		{
-			int pageSize;
-			int offset;
-			IModelEntityManager manager;
-
-			public FetchProductsQuery(int pageSize, int offset, IModelEntityManager manager)
-			{
-				this.manager = manager;
-				this.offset = offset;
-				this.pageSize = pageSize;
-				
-			}
-
-			#region IQueryLoader implementation
-
-			public string ID
-			{
-				get
-				{
-					string cachedQueryId = string.Format("products-p{0}o{1}", pageSize, offset);
-					return cachedQueryId;
-				}
-			}
-
-			public async Task<IEnumerable<IProduct>> LocalQuery()
-			{
-				return await manager.Cache.FetchProducts(pageSize, offset);
-			}
-
-			public async Task<IEnumerable<IProduct>> RemoteQuery()
-			{
-				return await manager.Rest.FetchProducts(pageSize, offset);
-			}
-
-			#endregion
-		}
-
-		private class FetchStoresQuery : IQueryLoader<IStore>
-		{
-			int pageSize;
-			int offset;
-			IModelEntityManager manager;
-
-			public FetchStoresQuery(int pageSize, int offset, IModelEntityManager manager)
-			{
-				this.manager = manager;
-				this.offset = offset;
-				this.pageSize = pageSize;
-
-			}
-
-			#region IQueryLoader implementation
-
-			public string ID
-			{
-				get
-				{
-					string cachedQueryId = string.Format("stores-p{0}o{1}", pageSize, offset);
-					return cachedQueryId;
-				}
-			}
-
-			public async Task<IEnumerable<IStore>> LocalQuery()
-			{
-				return await manager.Cache.FetchStores(pageSize, offset);
-			}
-
-			public async Task<IEnumerable<IStore>> RemoteQuery()
-			{
-				return await manager.Rest.FetchStores(pageSize, offset);
-			}
-
-			#endregion
-		}
-
-
-		private class FetchCountriesQuery : IQueryLoader<ICountry>
-		{
-			IModelEntityManager manager;
-
-			public FetchCountriesQuery(IModelEntityManager manager)
-			{
-				this.manager = manager;
-			}
-
-			#region IQueryLoader implementation
-
-			public string ID
-			{
-				get
-				{
-					return "countries";
-				}
-			}
-
-			public async Task<IEnumerable<ICountry>> LocalQuery()
-			{
-				return await manager.Cache.FetchCountries();
-			}
-
-			public async Task<IEnumerable<ICountry>> RemoteQuery()
-			{
-				return await manager.Rest.FetchCountries();
-			}
-
-			#endregion
-		}
-
-		private class FetchCitiesQuery : IQueryLoader<ICity>
-		{
-			IModelEntityManager manager;
-			int countryId;
-
-			public FetchCitiesQuery(int countryId, IModelEntityManager manager)
-			{
-				this.countryId = countryId;
-				this.manager = manager;
-			}
-
-			#region IQueryLoader implementation
-
-			public string ID
-			{
-				get
-				{
-					return "cities-c" + countryId;
-				}
-			}
-
-			public async Task<IEnumerable<ICity>> LocalQuery()
-			{
-				return await manager.Cache.FetchCities(countryId);
-			}
-
-			public async Task<IEnumerable<ICity>> RemoteQuery()
-			{
-				return await manager.Rest.FetchCities(countryId);
-			}
-
-			#endregion
-		}
+			
 		#endregion
 	}
 }

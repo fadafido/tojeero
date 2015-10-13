@@ -5,18 +5,15 @@
 	x:Class="Tojeero.Forms.BootstrapPage"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	BackgroundColor="{x:Static local:Colors.UltraLightGray}">
-	<ContentPage.Resources>
-		<ResourceDictionary>
-			<local:InverseBoolConverter
-				x:Key="inverse" />
-		</ResourceDictionary>
-	</ContentPage.Resources>
 	<ContentPage.Content>
 		<StackLayout>
 			<local:NetworkPageHeader
 				NoNetworkPadding="0,5,0,5"
 				Tint="{x:Static local:Colors.DarkGray}"
 				IsLoading="{Binding IsLoading}"
+				LoadingText="{Binding LoadingText}"
+				FailureMessage="{Binding LoadingFailureMessage}"
+				IsNetworkAvailable="{Binding IsNetworkAvailable}"
 				TryAgainCommand="{Binding BootstrapCommand}" />
 		</StackLayout>
 	</ContentPage.Content>

@@ -9,14 +9,6 @@
 	BackgroundColor="{x:Static local:Colors.Black}">
 	<ContentPage.Resources>
 		<ResourceDictionary>
-			<local:InverseBoolConverter
-				x:Key="inverse" />
-			<local:BoolToOpacityConverter
-				x:Key="opacity" />
-			<local:InverseBoolToOpacityConverter
-				x:Key="inverseOpacity" />
-			<local:UrlToCachedImageSourceConverter
-				x:Key="cachedImage" />
 			<local:LanguageToCultureConverter
 				x:Key="languageCulture" />
 		</ResourceDictionary>
@@ -98,8 +90,7 @@
 						VerticalOptions="Center" />
 					<Button
 						Text="{Binding NewLanguage, Converter={StaticResource languageCulture}}"
-						TextColor="White"
-						BackgroundColor="{x:Static local:Colors.DarkBlack}"
+						Style="{StaticResource DarkButton}"
 						Command="{Binding ChangeLanguageCommand}" 
 						VerticalOptions="Center"
 						HorizontalOptions="FillAndExpand"/>
@@ -117,12 +108,12 @@
 					</Grid.ColumnDefinitions>
 					<Button
 						HeightRequest="40"
+						Grid.Column = "1"
 						Text="{local:Translate ButtonLogin}"
 						Command="{Binding LoginCommand}"
 						VerticalOptions="Center"
 						Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
-						TextColor="White"
-						BackgroundColor="{x:Static local:Colors.Green}"
+						Style="{StaticResource PositiveButton}"
 						IsEnabled="{Binding CanExecuteLoginCommand}"
 						IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverse}}">
 					</Button>
@@ -133,8 +124,7 @@
 						Command="{Binding LogoutCommand}"
 						VerticalOptions="Center"
 						IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}"
-						TextColor="White"
-						BackgroundColor="{x:Static local:Colors.Orange}"
+						Style="{StaticResource NegativeButton}"
 						IsVisible="{Binding IsLoggedIn}">
 					</Button>
 					<ActivityIndicator

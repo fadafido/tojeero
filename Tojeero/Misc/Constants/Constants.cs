@@ -21,8 +21,13 @@ namespace Tojeero.Core
 		public static int DefaultTimeout = 20000;
 		public static int FetchProductsTimeout = 10000;
 		public static int FetchStoresTimeout = 10000;
+		public static int FindProductsTimeout = 10000;
+		public static int FindStoresTimeout = 10000;
 		public static int FetchCountriesTimeout = 10000;
 		public static int FetchCitiesTimeout = 10000;
+		public static int FetchProductSubcategoriesTimeout = 10000;
+		public static int FetchStoreSubcategoriesTimeout = 10000;
+		public static int SearchTimeout = 1000;
 
 		/*****************PAGINATION*****************/
 		public static int ProductsPageSize = 50;
@@ -31,8 +36,8 @@ namespace Tojeero.Core
 		/*****************MISC*****************/
 		public static string XamarinInsightsApiKey = "641ba3e3bf2f2764d06bc254a896aed9c8175a94";
 		public static TimeSpan ImageCacheTimespan = TimeSpan.FromDays(1);
-		public static TimeSpan ProductsCacheTimespan = TimeSpan.FromMinutes(1);
-		public static TimeSpan StoresCacheTimespan = TimeSpan.FromMinutes(1);
+		public static TimeSpan ProductsCacheTimespan = TimeSpan.FromMinutes(5);
+		public static TimeSpan StoresCacheTimespan = TimeSpan.FromMinutes(5);
 
 		/*****************DATABASE*****************/
 		public static string DatabaseFileName = "Tojeero.sqlite";

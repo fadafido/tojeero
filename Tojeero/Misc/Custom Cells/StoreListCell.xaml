@@ -15,14 +15,8 @@
 				WidthRequest="95"
 				HeightRequest="95"
 				VerticalOptions="Start"
-				BackgroundColor="Transparent">
-				 <Image.Source>
-				 	<UriImageSource 
-				 		CacheValidity="{x:Static core:Constants.ImageCacheTimespan}"
-				 		Uri= "{Binding ImageUri}"
-				 		CachingEnabled="true"/>
-				 </Image.Source>
-			</Image>
+				BackgroundColor="Transparent"
+				Source="{Binding ImageUrl, Converter={StaticResource cachedImage}}"/>
 
 			<Label
 				x:Name="NameLabel"

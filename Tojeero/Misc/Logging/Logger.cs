@@ -13,7 +13,7 @@ namespace Tojeero.Core
 
 		public void Log(string message, params object[] args)
 		{
-			Log(message, LoggingLevel.Debug, false, false);
+			Mvx.Trace(message, args);
 		}
 
 		public void Log(string message, LoggingLevel level = LoggingLevel.Debug, bool logRemotely = false, params object[] args)

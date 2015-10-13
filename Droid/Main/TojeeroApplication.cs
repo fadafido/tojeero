@@ -81,7 +81,7 @@ namespace Tojeero.Droid
 
 		#region Private classes
 
-		private class ActivityLifecycleHandler : IActivityLifecycleCallbacks
+		private class ActivityLifecycleHandler : Java.Lang.Object, IActivityLifecycleCallbacks
 		{
 			public Activity CurrentActivity { get; set; }
 			#region IActivityLifecycleCallbacks implementation
@@ -113,21 +113,6 @@ namespace Tojeero.Droid
 			public void OnActivityStopped(Activity activity)
 			{
 				
-			}
-			#endregion
-			#region IDisposable implementation
-			public void Dispose()
-			{
-				throw new NotImplementedException();
-			}
-			#endregion
-			#region IJavaObject implementation
-			public IntPtr Handle
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
 			}
 			#endregion
 			

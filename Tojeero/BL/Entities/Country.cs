@@ -48,20 +48,6 @@ namespace Tojeero.Core
 
 		#region Properties
 
-		[Ignore]
-		public override ParseCountry ParseObject
-		{
-			get
-			{
-				return base.ParseObject;
-			}
-			set
-			{
-				
-				base.ParseObject = value;
-			}
-		}
-
 		public int CountryId
 		{
 			get
@@ -84,15 +70,9 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				switch (this.Language)
-				{
-					case LanguageCode.Arabic:
-						return Name_ar;
-						break;
-					default:
-						return Name_en;	
-						break;
-				}
+				if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Name_ar))
+					return Name_ar;
+				return Name_en;
 			}
 		}
 
@@ -101,15 +81,9 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				switch (this.Language)
-				{
-					case LanguageCode.Arabic:
-						return Currency_ar;
-						break;
-					default:
-						return Currency_en;	
-						break;
-				}
+				if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Currency_ar))
+					return Currency_ar;
+				return Currency_en;
 			}
 		}
 
@@ -201,7 +175,7 @@ namespace Tojeero.Core
 		{
 			if (this.Cities != null && this.Cities.Length > 0)
 				return;
-			var cities = await CityManager.FetchCities(this.CountryId);
+			var cities = await CityManager.Fetch(this.CountryId);
 			this.Cities = cities.OrderBy(c => c.Name).ToArray();
 		}
 

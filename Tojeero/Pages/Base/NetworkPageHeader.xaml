@@ -5,14 +5,6 @@
 	x:Class="Tojeero.Forms.NetworkPageHeader"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	Spacing="0">
-	<StackLayout.Resources>
-		<ResourceDictionary>
-			<local:InverseBoolConverter
-				x:Key="inverse" />
-			<local:VisibilityConverter
-				x:Key="visibility" />
-		</ResourceDictionary>
-	</StackLayout.Resources>
 	<StackLayout
 		x:Name="NoNetworkStackLayout"
 		BackgroundColor="{x:Static local:Colors.Orange}"
@@ -33,17 +25,16 @@
 			VerticalOptions="Center" />
 		<Label
 			x:Name="LoadingLabel"
-			Text="{Binding LoadingText}"
 			FontSize="Large"
 			XAlign="Center" />
 	</StackLayout>
 	<StackLayout
+		x:Name="FailureContainer"
 		Spacing="5"
 		Padding="5"
-		BackgroundColor="{x:Static local:Colors.Black}"
-		IsVisible="{Binding LoadingFailureMessage, Converter={StaticResource visibility}}">
+		BackgroundColor="{x:Static local:Colors.Black}">
 		<Label
-			Text="{Binding LoadingFailureMessage}"
+			x:Name="FailureLabel"
 			TextColor="White"
 			FontAttributes="Bold"
 			FontSize="Small"
@@ -51,8 +42,6 @@
 		<Button
 			x:Name="TryAgainButton"
 			Text="Try again"
-			TextColor="White"
-			BackgroundColor="{x:Static local:Colors.Orange}"
-			IsEnabled="{Binding IsNetworkAvailable}" />
+			Style="{StaticResource NegativeButton}"/>
 	</StackLayout>
 </StackLayout>

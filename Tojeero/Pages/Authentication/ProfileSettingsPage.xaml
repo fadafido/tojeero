@@ -8,20 +8,6 @@
 	BackgroundColor="{x:Static local:Colors.UltraLightGray}"
 	Title="{local:Translate TitleProfileSettings}"
 	Padding="0">
-	<ContentPage.Resources>
-		<ResourceDictionary>
-			<local:InverseBoolConverter
-				x:Key="inverse" />
-			<local:BoolToOpacityConverter
-				x:Key="opacity" />
-			<local:InverseBoolToOpacityConverter
-				x:Key="inverseOpacity" />
-			<local:VisibilityConverter
-				x:Key="visibility" />
-			<local:UrlToCachedImageSourceConverter
-				x:Key="cachedImage" />
-		</ResourceDictionary>
-	</ContentPage.Resources>
 	<ContentPage.Content>
 		<ScrollView>
 			<StackLayout
@@ -30,6 +16,9 @@
 					NoNetworkPadding="0,5,0,5"
 					Tint="{x:Static local:Colors.DarkGray}"
 					IsLoading="{Binding IsLoading}"
+					LoadingText="{Binding LoadingText}"
+					FailureMessage="{Binding LoadingFailureMessage}"
+					IsNetworkAvailable="{Binding IsNetworkAvailable}"
 					TryAgainCommand="{Binding TryAgainCommand}" />
 				<StackLayout
 					Padding="10">
@@ -142,7 +131,8 @@
 									TextColor="{x:Static local:Colors.DarkGray}"
 									FontSize="Micro" />
 								<StackLayout
-									Orientation="Horizontal" Spacing="10"
+									Orientation="Horizontal"
+									Spacing="10"
 									HorizontalOptions="FillAndExpand">
 									<Entry
 										WidthRequest="100"
@@ -174,16 +164,14 @@
 									Text="{local:Translate ButtonCancel}"
 									Command="{Binding CancelCommand}"
 									VerticalOptions="Center"
-									TextColor="White"
-									BackgroundColor="{x:Static local:Colors.Orange}" />
+									Style="{StaticResource NegativeButton}" />
 								<Button
 									HeightRequest="40"
 									Grid.Column="1"
 									Text="{local:Translate ButtonSubmit}"
 									Command="{Binding SubmitCommand}"
 									VerticalOptions="Center"
-									TextColor="White"
-									BackgroundColor="{x:Static local:Colors.Green}"
+									Style="{StaticResource PositiveButton}"
 									IsEnabled="{Binding CanExecuteSubmitCommand}" />
 							</Grid>
 						</StackLayout>

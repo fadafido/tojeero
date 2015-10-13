@@ -17,13 +17,12 @@ namespace Tojeero.Core.ViewModels
 			Unknown,
 			LoadFirstPage,
 			LoadNextPage,
-			Reload
+			Reload,
+			Search
 		}
 
-		QueryDelegate<T> _query;
-		Func<Task> _clearCacheTask;
+		IModelQuery<T> _query;
 		private int _pageSize;
-		private bool _isFirstPageLoaded;
 		private Commands _lastExecutedCommand;
 
 		#endregion
@@ -31,12 +30,11 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public BaseCollectionViewModel(QueryDelegate<T> query, Func<Task> clearCacheTask, int pageSize = 10)
+		public BaseCollectionViewModel(IModelQuery<T> query, int pageSize = 10)
 			: base()
 		{			
 			_pageSize = pageSize;
 			_query = query;
-			_clearCacheTask = clearCacheTask;
 			PropertyChanged += propertyChanged;
 		}
 
@@ -127,7 +125,7 @@ namespace Tojeero.Core.ViewModels
 					{
 						_lastExecutedCommand = Commands.LoadNextPage;
 						await loadNextPage();
-					}, () => CanExecuteLoadNextPageCommand && !_isFirstPageLoaded);
+					}, () => CanExecuteLoadNextPageCommand && this.Count == 0);
 				return _loadFirstPageCommand;
 			}
 		}
@@ -216,10 +214,6 @@ namespace Tojeero.Core.ViewModels
 				{
 					failureMessage = AppResources.MessageLoadingFailedNoInternet;
 				}
-				else
-				{
-					_isFirstPageLoaded = true;
-				}
 			}
 			catch (Exception ex)
 			{
@@ -239,7 +233,7 @@ namespace Tojeero.Core.ViewModels
 
 			try
 			{
-				await _clearCacheTask();
+				await _query.ClearCache();
 				var collection = new ModelEntityCollection<T>(_query, _pageSize);
 				await collection.FetchNextPageAsync();
 				this.Collection = collection;

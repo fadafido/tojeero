@@ -1,6 +1,7 @@
 ﻿using System;
 using Parse;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
+using System.Collections.Generic;
 
 namespace Tojeero.Core
 {
@@ -51,46 +52,70 @@ namespace Tojeero.Core
 			}
 		}
 
+		public string LowercaseName
+		{
+			get
+			{
+				return _parseObject.LowercaseName;
+			}
+			set
+			{
+				_parseObject.LowercaseName = value;
+				RaisePropertyChanged(() => LowercaseName);
+			}
+		}
+
 		private string _imageUrl;
 		public string ImageUrl
 		{
 			get
 			{
-				if (_imageUrl == null && ImageUri != null)
-					_imageUrl = ImageUri.ToString();
+				if (_imageUrl == null && _parseObject != null && _parseObject.Image != null && _parseObject.Image.Url != null)
+					_imageUrl = _parseObject.Image.Url.ToString();
 				return _imageUrl;
 			}
 			set
 			{
 				_imageUrl = value;
-				ImageUri = value != null ? new Uri(value) : null;
+				RaisePropertyChanged(() => ImageUrl);
 			}
 		}
 
-		private Uri _imageUri;
-		[Ignore]
-		public Uri ImageUri
+		private string _categoryID;
+		public string CategoryID
 		{ 
 			get
 			{
-				if (_imageUri == null && _parseObject != null && _parseObject.Image != null)
-				{
-					_imageUri = _parseObject.Image.Url;
-				}
-				return _imageUri; 
+				if (_categoryID == null && _parseObject != null && _parseObject.Category != null)
+					_categoryID = _parseObject.Category.ObjectId;
+				return _categoryID; 
 			}
 			set
 			{
-				_imageUri = value; 
-				RaisePropertyChanged(() => ImageUri); 
+				_categoryID = value; 
 			}
 		}
 
+		[Ignore]
+		public IList<string> SearchTokens
+		{
+			get
+			{
+				return _parseObject != null ? _parseObject.SearchTokens : null;
+			}
+			set
+			{
+				if (_parseObject != null)
+				{
+					_parseObject.SearchTokens = value;
+				}
+			}
+		}
 		#endregion
 	}
 
 	[ParseClassName("Store")]
-	public class ParseStore : ParseObject
+	public class ParseStore : SearchableParseObject
 	{
 		#region Constructors
 
@@ -115,6 +140,32 @@ namespace Tojeero.Core
 			}
 		}
 
+		[ParseFieldName("lowercase_name")]
+		public string LowercaseName
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("description")]
+		public string Description
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
 		[ParseFieldName("image")]
 		public ParseFile Image
 		{
@@ -128,6 +179,18 @@ namespace Tojeero.Core
 			}
 		}
 
+		[ParseFieldName("category")]
+		public ParseStoreCategory Category
+		{
+			get
+			{
+				return GetProperty<ParseStoreCategory>();
+			}
+			set
+			{
+				SetProperty<ParseStoreCategory>(value);
+			}
+		}
 		#endregion
 	}
 }

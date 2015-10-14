@@ -30,7 +30,7 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public BaseCollectionViewModel(IModelQuery<T> query, int pageSize = 10)
+		public BaseCollectionViewModel(IModelQuery<T> query, int pageSize = 50)
 			: base()
 		{			
 			_pageSize = pageSize;

@@ -23,16 +23,32 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
+		#region Properties
+
+		public BaseSelectableCollectionViewModel<ITag> ViewModel
+		{ 
+			get
+			{
+				return base.ViewModel as BaseSelectableCollectionViewModel<ITag>; 
+			}
+			set
+			{
+				base.ViewModel = value;
+			}
+		}
+
+		#endregion
+
 		#region implemented abstract members of BaseSearchViewModel
 
 		protected override BaseCollectionViewModel<ITag> GetBrowsingViewModel()
 		{
-			return new BaseCollectionViewModel<ITag>(new TagsQuery(_manager), Constants.TagsPageSize);
+			return new BaseSelectableCollectionViewModel<ITag>(new TagsQuery(_manager), Constants.TagsPageSize);
 		}
 
 		protected override BaseCollectionViewModel<ITag> GetSearchViewModel(string searchQuery)
 		{
-			return new BaseCollectionViewModel<ITag>(new SearchTagsQuery(searchQuery, _manager), Constants.TagsPageSize);
+			return new BaseSelectableCollectionViewModel<ITag>(new SearchTagsQuery(searchQuery, _manager), Constants.TagsPageSize);
 		}
 
 		#endregion

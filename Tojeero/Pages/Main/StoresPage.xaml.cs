@@ -34,6 +34,7 @@ namespace Tojeero.Forms
 			InitializeComponent();
 			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
 			this.SearchBar.Placeholder = AppResources.PlaceholderSearchStores;
+			ListView.ItemSelected += itemSelected;
 		}
 
 		#endregion
@@ -44,6 +45,15 @@ namespace Tojeero.Forms
 		{
 			base.OnAppearing();
 			this.ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
+		}
+
+		#endregion
+
+		#region UI Events
+
+		private void itemSelected (object sender, SelectedItemChangedEventArgs e)
+		{
+			((ListView)sender).SelectedItem = null;
 		}
 
 		#endregion

@@ -38,7 +38,6 @@ namespace Tojeero.Forms
 			: base()
 		{
 			InitializeComponent();
-			ListView.ItemSelected += storeSelected;
 		}
 
 		#endregion
@@ -95,11 +94,6 @@ namespace Tojeero.Forms
 		#endregion
 
 		#region Event Handlers
-
-		void storeSelected (object sender, SelectedItemChangedEventArgs e)
-		{
-			((ListView)sender).SelectedItem = null;
-		}
 
 		void reloadFinished (object sender, EventArgs e)
 		{

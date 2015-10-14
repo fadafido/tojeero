@@ -38,6 +38,7 @@ namespace Tojeero.Forms
 						await this.Navigation.PushModalAsync(new NavigationPage(new TagsPage()));
 					}));
 			this.SearchBar.Placeholder = AppResources.PlaceholderSearchProducts;
+			ListView.ItemSelected += itemSelected;
 		}
 
 		#endregion
@@ -48,6 +49,15 @@ namespace Tojeero.Forms
 		{
 			base.OnAppearing();
 			this.ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
+		}
+
+		#endregion
+
+		#region UI Events
+
+		private void itemSelected (object sender, SelectedItemChangedEventArgs e)
+		{
+			((ListView)sender).SelectedItem = null;
 		}
 
 		#endregion

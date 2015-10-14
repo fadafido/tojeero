@@ -6,8 +6,7 @@
 	x:Class="Tojeero.Forms.TagsPage">
 	<local:BaseSearchablePage.ItemTemplate>
 		<DataTemplate>
-			<TextCell
-				Text="{Binding Text}"/>
+			<local:TagListCell/>
 		</DataTemplate>
 	</local:BaseSearchablePage.ItemTemplate>
 </local:BaseSearchablePage>

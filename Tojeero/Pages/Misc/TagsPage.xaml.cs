@@ -4,12 +4,22 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
+using Tojeero.Core;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Forms
 {
 	public partial class TagsPage : BaseSearchablePage
 	{
+		#region Private fields
+
+		private ITag _selectedTag;
+
+		#endregion
+
 		#region Properties
+
+		public event EventHandler<EventArgs<ITag>> DidClose;
 
 		public new TagsViewModel ViewModel
 		{
@@ -38,8 +48,7 @@ namespace Tojeero.Forms
 					}));
 			this.SearchBar.Placeholder = "Search for tags";
 			this.ListView.RowHeight = 30;
-			this.ListView.SeparatorVisibility = SeparatorVisibility.Default;
-			this.ListView.BackgroundColor = Color.White;
+			this.ListView.ItemSelected += itemSelected;
 		}
 
 		#endregion
@@ -50,6 +59,23 @@ namespace Tojeero.Forms
 		{
 			base.OnAppearing();
 			this.ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
+		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+			this.DidClose.Fire(this, new EventArgs<ITag>(this.ViewModel.ViewModel.SelectedItem));
+		}
+
+		#endregion
+
+		#region Parent override
+
+		private void itemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			if (e.SelectedItem != null)
+				this.ViewModel.ViewModel.SelectedItem = e.SelectedItem as ITag;
+			this.ListView.SelectedItem = null;
 		}
 
 		#endregion

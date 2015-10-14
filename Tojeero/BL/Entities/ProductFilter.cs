@@ -6,12 +6,12 @@ namespace Tojeero.Core
 
 	public class ProductFilter : IProductFilter
 	{
-		public IProductCategory Category { get; set; }
-		public IProductSubcategory Subcategory { get; set; }
-		public ICountry Country { get; set; }
-		public ICity City { get; set; }
+		public string CategoryID { get; set; }
+		public string SubcategoryID { get; set; }
+		public int? CountryId { get; set; }
+		public int? CityId { get; set; }
 		public double? StartPrice { get; set; }
 		public double? EndPrice { get; set; }
-		public IList<ITag> Tags { get; set; }
+		public IList<string> Tags { get; set; }
 	}
 }

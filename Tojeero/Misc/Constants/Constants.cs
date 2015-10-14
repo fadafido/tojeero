@@ -27,6 +27,8 @@ namespace Tojeero.Core
 		public static int FetchCitiesTimeout = 10000;
 		public static int FetchProductSubcategoriesTimeout = 10000;
 		public static int FetchStoreSubcategoriesTimeout = 10000;
+		public static int FetchTagsTimeout = 10000;
+		public static int FindTagsTimeout = 10000;
 		public static int SearchTimeout = 1000;
 
 		/*****************PAGINATION*****************/
@@ -38,6 +40,7 @@ namespace Tojeero.Core
 		public static TimeSpan ImageCacheTimespan = TimeSpan.FromDays(1);
 		public static TimeSpan ProductsCacheTimespan = TimeSpan.FromMinutes(5);
 		public static TimeSpan StoresCacheTimespan = TimeSpan.FromMinutes(5);
+		public static TimeSpan TagsCacheTimespan = TimeSpan.FromMinutes(5);
 
 		/*****************DATABASE*****************/
 		public static string DatabaseFileName = "Tojeero.sqlite";

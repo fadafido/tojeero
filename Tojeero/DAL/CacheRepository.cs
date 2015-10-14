@@ -19,7 +19,7 @@ namespace Tojeero.Core
 	{
 		#region Private fields
 
-		private const int TIMEOUT_SECONDS = 10;
+		private const int TIMEOUT_SECONDS = 5;
 		private readonly ISQLiteConnectionFactory _factory;
 		private readonly IDeviceContextService _deviceContext;
 
@@ -135,6 +135,27 @@ namespace Tojeero.Core
 					await SaveAsync<SearchToken>(tokens);
 				}
 			}
+		}
+
+
+		public async Task<IEnumerable<ITag>> FetchTags(int pageSize, int offset)
+		{
+			var result = await FetchAsync<Tag>(pageSize, offset, "Text").ConfigureAwait(false);
+			return result.Cast<ITag>();
+		}
+
+		public Task<IEnumerable<ITag>> FindTags(string searchQuery, int pageSize, int offset)
+		{
+			return Task<IEnumerable<ITag>>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
+					{
+						var result = connection.Table<Tag>().Where(t => t.Text.StartsWith(searchQuery.Trim)).ToList();
+						return result;
+					}
+				});
 		}
 
 		#endregion

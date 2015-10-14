@@ -267,6 +267,12 @@
     <Compile Include="..\Tojeero\BL\Managers\StoreCategoryManager.cs">
       <Link>Core\BL\Managers\StoreCategoryManager.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\TagManager.cs">
+      <Link>Core\BL\Managers\TagManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Tag.cs">
+      <Link>Core\BL\Entities\Tag.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

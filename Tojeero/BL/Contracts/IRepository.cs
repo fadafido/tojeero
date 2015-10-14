@@ -28,6 +28,10 @@ namespace Tojeero.Core
 
 		//Cities
 		Task<IEnumerable<ICity>> FetchCities(int countryId);
+
+		//Tags
+		Task<IEnumerable<ITag>> FetchTags(int pageSize, int offset);
+		Task<IEnumerable<ITag>> FindTags(string searchQuery, int pageSize, int offset);
 	}
 }
 

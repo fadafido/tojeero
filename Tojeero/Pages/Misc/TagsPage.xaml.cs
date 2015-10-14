@@ -6,6 +6,7 @@ using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Core;
 using Tojeero.Core.Toolbox;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -42,13 +43,13 @@ namespace Tojeero.Forms
 		{
 			InitializeComponent();
 			this.ViewModel = MvxToolbox.LoadViewModel<TagsViewModel>();
-			this.ToolbarItems.Add(new ToolbarItem("Close", "", async () =>
-					{
-						await this.Navigation.PopModalAsync();
-					}));
 			this.SearchBar.Placeholder = "Search for tags";
 			this.ListView.RowHeight = 30;
 			this.ListView.ItemSelected += itemSelected;
+			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "", async () =>
+				{
+					await this.Navigation.PopModalAsync();
+				}));
 		}
 
 		#endregion

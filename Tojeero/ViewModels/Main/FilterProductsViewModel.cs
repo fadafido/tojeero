@@ -174,7 +174,7 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task reload()
 		{
-			StartLoading("Loading data...");
+			this.StartLoading(AppResources.MessageGeneralLoading);
 			string failureMessage = null;
 			try
 			{
@@ -193,62 +193,62 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task reloadCities()
 		{
+			this.StartLoading(AppResources.MessageGeneralLoading);
+			string failureMessage = null;
 			using (var writerLock = await _citiesLock.WriterLockAsync())
 			{
-				if (this.ProductFilter.Country == null || this.Countries == null || this.Countries.Length == 0)
-					return;
-				if (this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.ProductFilter.Country.CountryId)
+				if (!(this.ProductFilter.Country == null || this.Countries == null || this.Countries.Length == 0) &&
+					!(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.ProductFilter.Country.CountryId))
 				{
-					return;
+					try
+					{
+						var result = await _cityManager.Fetch(this.ProductFilter.Country.CountryId);
+						this.Cities = result != null ? result.ToArray() : null;
+					}
+					catch (Exception ex)
+					{
+						failureMessage = handleException(ex);
+					}
 				}
-				string failureMessage = null;
-				this.StartLoading(AppResources.MessageGeneralLoading);
-				try
-				{
-					var result = await _cityManager.Fetch(this.ProductFilter.Country.CountryId);
-					this.Cities = result != null ? result.ToArray() : null;
-				}
-				catch (Exception ex)
-				{
-					failureMessage = handleException(ex);
-				}
-				StopLoading(failureMessage);
 			}
+			StopLoading(failureMessage);
 		}
 
 		private async Task reloadSubcategories()
 		{
+			this.StartLoading(AppResources.MessageGeneralLoading);
+			string failureMessage = null;
 			using (var writerLock = await _subcategoriesLock.WriterLockAsync())
 			{
-				if (this.ProductFilter.Category == null || this.Categories == null || this.Categories.Length == 0)
-					return;
-				if (this.Subcategories != null && this.Subcategories.Length > 0 && this.Subcategories[0].CategoryID == this.ProductFilter.Category.ID)
+				if (!(this.ProductFilter.Category == null || this.Categories == null || this.Categories.Length == 0) &&
+					!(this.Subcategories != null && this.Subcategories.Length > 0 && this.Subcategories[0].CategoryID == this.ProductFilter.Category.ID))
 				{
-					return;
+					try
+					{
+						var result = await _subcategoryManager.Fetch(this.ProductFilter.Category.ID);
+						this.Subcategories = result != null ? result.ToArray() : null;
+					}
+					catch (Exception ex)
+					{
+						failureMessage = handleException(ex);
+					}
 				}
-				string failureMessage = null;
-				this.StartLoading(AppResources.MessageGeneralLoading);
-				try
-				{
-					var result = await _subcategoryManager.Fetch(this.ProductFilter.Category.ID);
-					this.Subcategories = result != null ? result.ToArray() : null;
-				}
-				catch (Exception ex)
-				{
-					failureMessage = handleException(ex);
-				}
-				StopLoading(failureMessage);
 			}
+			StopLoading(failureMessage);
 		}
 
 		private async Task loadCategories()
 		{
+			if (this.Categories != null && this.Categories.Length > 0)
+				return;
 			var result = await _categoryManager.Fetch();
 			this.Categories = result != null ? result.ToArray() : null;
 		}
 
 		private async Task loadCountries()
 		{
+			if (this.Countries != null && this.Countries.Length > 0)
+				return;
 			var result = await _countryManager.Fetch();
 			this.Countries = result != null ? result.ToArray() : null;
 		}

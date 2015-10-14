@@ -402,5 +402,14 @@ namespace Tojeero.Forms.Resources {
                 return ResourceManager.GetString("TitleStores", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        internal static string TitleTags {
+            get {
+                return ResourceManager.GetString("TitleTags", resourceCulture);
+            }
+        }
     }
 }

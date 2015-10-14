@@ -14,7 +14,21 @@ namespace Tojeero.Forms
 
 		private ObservedCollection<string> _tags;
 		private Button _addButton;
-
+		private NavigationPage _tagSelector;
+		private NavigationPage TagSelector
+		{
+			get
+			{
+				if (_tagSelector == null)
+				{
+					var tags = new TagsPage();
+					tags.DidClose += tagSelected;
+					_tagSelector = new NavigationPage(tags);
+				}
+				return _tagSelector;
+			}
+		}
+			
 		#endregion
 
 		#region Constructors
@@ -33,6 +47,7 @@ namespace Tojeero.Forms
 					BorderRadius = 15,
 					FontSize=24
 				};
+			_addButton.Clicked += addButtonClicked;
 		}
 
 		#endregion
@@ -143,6 +158,19 @@ namespace Tojeero.Forms
 		{
 			Children.Clear();
 			Children.Add(_addButton);
+		}
+
+		private async void addButtonClicked (object sender, EventArgs e)
+		{
+			await this.Navigation.PushModalAsync(this.TagSelector);
+		}
+
+		private void tagSelected (object sender, EventArgs<ITag> e)
+		{
+			if (e.Data != null && !this.Tags.Contains(e.Data.Text))
+			{
+				this.Tags.Add(e.Data.Text);
+			}
 		}
 
 		#endregion

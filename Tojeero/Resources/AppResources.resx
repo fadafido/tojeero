@@ -265,4 +265,8 @@
     <value>Stores</value>
     <comment>Stores page title</comment>
   </data>
+  <data name="TitleTags" xml:space="preserve">
+    <value>Tags</value>
+    <comment>The title of tag selection page</comment>
+  </data>
 </root>

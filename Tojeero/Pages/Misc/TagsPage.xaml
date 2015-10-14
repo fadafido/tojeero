@@ -3,7 +3,8 @@
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
-	x:Class="Tojeero.Forms.TagsPage">
+	x:Class="Tojeero.Forms.TagsPage"
+	Title="{local:Translate TitleTags}">
 	<local:BaseSearchablePage.ItemTemplate>
 		<DataTemplate>
 			<local:TagListCell/>

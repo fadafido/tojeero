@@ -2,7 +2,7 @@
 
 namespace Tojeero.Core
 {
-	public interface ITag : IUniqueEntity
+	public interface ITag : IModelEntity
 	{
 		string Text { get; set; }
 	}

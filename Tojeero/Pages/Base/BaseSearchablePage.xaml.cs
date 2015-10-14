@@ -57,6 +57,22 @@ namespace Tojeero.Forms
 			}
 		}
 
+		public ListView ListView
+		{
+			get
+			{
+				return this.listView;
+			}
+		}
+
+		public SearchBar SearchBar
+		{
+			get
+			{
+				return this.searchBar;
+			}
+		}
+
 		#endregion
 
 		#region Protected API

@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
-using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
-	public partial class ProductsPage : BaseSearchablePage
+	public partial class TagsPage : BaseSearchablePage
 	{
 		#region Properties
 
-		public new ProductsViewModel ViewModel
+		public new TagsViewModel ViewModel
 		{
 			get
 			{
-				return base.ViewModel as ProductsViewModel;
+				return base.ViewModel as TagsViewModel;
 			}
 			set
 			{
@@ -28,16 +27,19 @@ namespace Tojeero.Forms
 
 		#region Constructors
 
-		public ProductsPage()
+		public TagsPage()
 			: base()
 		{
 			InitializeComponent();
-			this.ViewModel = MvxToolbox.LoadViewModel<ProductsViewModel>();
-			this.ToolbarItems.Add(new ToolbarItem("Filter", "", async () =>
+			this.ViewModel = MvxToolbox.LoadViewModel<TagsViewModel>();
+			this.ToolbarItems.Add(new ToolbarItem("Close", "", async () =>
 					{
-						await this.Navigation.PushModalAsync(new NavigationPage(new TagsPage()));
+						await this.Navigation.PopModalAsync();
 					}));
-			this.SearchBar.Placeholder = AppResources.PlaceholderSearchProducts;
+			this.SearchBar.Placeholder = "Search for tags";
+			this.ListView.RowHeight = 30;
+			this.ListView.SeparatorVisibility = SeparatorVisibility.Default;
+			this.ListView.BackgroundColor = Color.White;
 		}
 
 		#endregion

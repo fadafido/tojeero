@@ -152,7 +152,7 @@ namespace Tojeero.Core
 					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
 					using (var connection = getConnection())
 					{
-						var result = connection.Table<Tag>().Where(t => t.Text.StartsWith(searchQuery.Trim)).ToList();
+						var result = connection.Table<Tag>().Where(t => t.Text.StartsWith(searchQuery.Trim())).ToList();
 						return result;
 					}
 				});
@@ -178,6 +178,7 @@ namespace Tojeero.Core
 						connection.CreateTable<Country>();
 						connection.CreateTable<City>();
 						connection.CreateTable<SearchToken>();
+						connection.CreateTable<Tag>();
 					}
 				});
 		}

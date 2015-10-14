@@ -161,6 +161,10 @@
     <Compile Include="BL\Contracts\Entities\ISearchableEntity.cs" />
     <Compile Include="BL\Contracts\Entities\ITag.cs" />
     <Compile Include="BL\Contracts\Managers\ITagManager.cs" />
+    <Compile Include="ViewModels\Misc\TagsViewModel.cs" />
+    <Compile Include="Pages\Misc\TagsPage.xaml.cs">
+      <DependentUpon>TagsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -247,6 +251,8 @@
     <Folder Include="BL\Managers\" />
     <Folder Include="Misc\Custom Cells\" />
     <Folder Include="DAL\Contracts\" />
+    <Folder Include="ViewModels\Misc\" />
+    <Folder Include="Pages\Misc\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">
@@ -282,6 +288,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\Base\BaseSearchablePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Misc\TagsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

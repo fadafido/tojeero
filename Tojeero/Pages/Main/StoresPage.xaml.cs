@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -32,6 +33,7 @@ namespace Tojeero.Forms
 		{
 			InitializeComponent();
 			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
+			this.SearchBar.Placeholder = AppResources.PlaceholderSearchStores;
 		}
 
 		#endregion

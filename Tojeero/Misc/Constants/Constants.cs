@@ -34,6 +34,7 @@ namespace Tojeero.Core
 		/*****************PAGINATION*****************/
 		public static int ProductsPageSize = 50;
 		public static int StoresPageSize = 50;
+		public static int TagsPageSize = 50;
 
 		/*****************MISC*****************/
 		public static string XamarinInsightsApiKey = "641ba3e3bf2f2764d06bc254a896aed9c8175a94";

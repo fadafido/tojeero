@@ -245,6 +245,7 @@
     <BundleResource Include="Resources\Samples\products.json" />
     <BundleResource Include="Resources\Samples\stores.json" />
     <BundleResource Include="Resources\checkmark%403x.png" />
+    <BundleResource Include="Resources\closeTag%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -355,6 +356,7 @@
     <Compile Include="..\Tojeero\BL\Entities\Tag.cs">
       <Link>Core\BL\Entities\Tag.cs</Link>
     </Compile>
+    <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

@@ -118,6 +118,8 @@
 									TextColor="{x:Static local:Colors.Black}" />
 							</Grid>
 						</StackLayout>
+						<local:TagCloud
+							Tags="{Binding ProductFilter.Tags}"/>
 					</StackLayout>
 				</StackLayout>
 			</StackLayout>

@@ -35,7 +35,7 @@ namespace Tojeero.Forms
 			this.ViewModel = MvxToolbox.LoadViewModel<ProductsViewModel>();
 			this.ToolbarItems.Add(new ToolbarItem("Filter", "", async () =>
 					{
-						await this.Navigation.PushModalAsync(new NavigationPage(new TagsPage()));
+						await this.Navigation.PushModalAsync(new NavigationPage(new FilterProductsPage()));
 					}));
 			this.SearchBar.Placeholder = AppResources.PlaceholderSearchProducts;
 			ListView.ItemSelected += itemSelected;

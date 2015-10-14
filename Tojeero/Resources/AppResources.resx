@@ -129,6 +129,10 @@
     <value>Cancel</value>
     <comment>Cancel button title.</comment>
   </data>
+  <data name="ButtonDone" xml:space="preserve">
+    <value>Done</value>
+    <comment>Done button title</comment>
+  </data>
   <data name="ButtonLogin" xml:space="preserve">
     <value>Log in</value>
     <comment>Log in button title.</comment>
@@ -140,6 +144,9 @@
   <data name="ButtonSubmit" xml:space="preserve">
     <value>Submit</value>
     <comment>Submit button title.</comment>
+  </data>
+  <data name="LabelCategory" xml:space="preserve">
+    <value>Category</value>
   </data>
   <data name="LabelCity" xml:space="preserve">
     <value>City</value>
@@ -153,6 +160,9 @@
     <value>Email</value>
     <comment>Email label text.</comment>
   </data>
+  <data name="LabelEndPrice" xml:space="preserve">
+    <value>End price</value>
+  </data>
   <data name="LabelFirstName" xml:space="preserve">
     <value>First name</value>
     <comment>First name label text.</comment>
@@ -164,6 +174,17 @@
   <data name="LabelMobilePhone" xml:space="preserve">
     <value>Mobile</value>
     <comment>Mobile phone label text.</comment>
+  </data>
+  <data name="LabelPriceRange" xml:space="preserve">
+    <value>Price range</value>
+    <comment>Price range label</comment>
+  </data>
+  <data name="LabelStartPrice" xml:space="preserve">
+    <value>Start price</value>
+    <comment>Start price label</comment>
+  </data>
+  <data name="LabelSubcategory" xml:space="preserve">
+    <value>Subcategory</value>
   </data>
   <data name="MenuItemProfileSettings" xml:space="preserve">
     <value>Profile settings</value>
@@ -223,6 +244,14 @@
   <data name="PlaceholderSearchStores" xml:space="preserve">
     <value>Search for stores</value>
     <comment>Placeholder string shown inside search on stores screen.</comment>
+  </data>
+  <data name="PlaceholderSearchTags" xml:space="preserve">
+    <value>Search for existing tags</value>
+    <comment>Placeholder string shown inside search on tags screen.</comment>
+  </data>
+  <data name="TitleFilterProducts" xml:space="preserve">
+    <value>Filter Products</value>
+    <comment>Filter products page title</comment>
   </data>
   <data name="TitleProducts" xml:space="preserve">
     <value>Products</value>

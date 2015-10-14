@@ -156,7 +156,7 @@ namespace Tojeero.Core
 				{
 					var country = _countryManager.Create();
 					country.CountryId = countryId.Value;
-					this.Country = country;
+					this._country = country;
 				}
 					
 				var cityId = _authService.CurrentUser != null ? _authService.CurrentUser.CityId : Settings.CityId;
@@ -164,7 +164,7 @@ namespace Tojeero.Core
 				{
 					var city = _cityManager.Create();
 					city.CityId = cityId.Value;
-					this.City = city;
+					this._city = city;
 				}
 			}
 		}

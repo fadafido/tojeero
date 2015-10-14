@@ -3,10 +3,11 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Tojeero.Forms.Resources;
 using System.Linq;
+using Nito.AsyncEx;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class FilterProductsViewModel : LoadableNetworkViewModel
+	public class FilterProductsViewModel : LoadableNetworkViewModel, IDisposable
 	{
 		#region Private fields
 
@@ -15,7 +16,8 @@ namespace Tojeero.Core.ViewModels
 		private readonly ICountryManager _countryManager;
 		private readonly ICityManager _cityManager;
 		private readonly ITagManager _tagManager;
-
+		private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
+		private AsyncReaderWriterLock _subcategoriesLock = new AsyncReaderWriterLock();
 		#endregion
 
 		#region Constructors
@@ -29,10 +31,29 @@ namespace Tojeero.Core.ViewModels
 			this._countryManager = countryManager;
 			this._subcategoryManager = subcategoryManager;
 			this._categoryManager = categoryManager;
+			this.ProductFilter.PropertyChanged += ProductFilter_PropertyChanged;
 		}
 
 		#endregion
 
+
+		#region IDisposable implementation
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				ProductFilter.PropertyChanged -= ProductFilter_PropertyChanged;	
+			}
+		}
+
+		#endregion
 		#region Properties
 		public IProductFilter ProductFilter
 		{
@@ -126,9 +147,9 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
+				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
-						
+						await reload();
 					}, () => !IsLoading);
 				return _reloadCommand;
 			}
@@ -159,41 +180,108 @@ namespace Tojeero.Core.ViewModels
 			{
 
 				await loadCountries();
-				await loadCities();
-			}
-			catch (OperationCanceledException ex)
-			{
-				Tools.Logger.Log(ex, LoggingLevel.Warning);
-				StopLoading(AppResources.MessageLoadingTimeOut);
+				await reloadCities();
+				await loadCategories();
+				await reloadSubcategories();
 			}
 			catch (Exception ex)
 			{
-				Tools.Logger.Log(ex, "Error occured while loading data in Product filter screen.", LoggingLevel.Error, true);
-				StopLoading(AppResources.MessageLoadingFailed);
+				failureMessage = handleException(ex);
 			}
 			StopLoading(failureMessage);
 		}
 
-		private async Task loadCategories()
+		private async Task reloadCities()
 		{
-			this.Categories = (await _categoryManager.Fetch()).ToArray();
+			using (var writerLock = await _citiesLock.WriterLockAsync())
+			{
+				if (this.ProductFilter.Country == null || this.Countries == null || this.Countries.Length == 0)
+					return;
+				if (this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.ProductFilter.Country.CountryId)
+				{
+					return;
+				}
+				string failureMessage = null;
+				this.StartLoading(AppResources.MessageGeneralLoading);
+				try
+				{
+					var result = await _cityManager.Fetch(this.ProductFilter.Country.CountryId);
+					this.Cities = result != null ? result.ToArray() : null;
+				}
+				catch (Exception ex)
+				{
+					failureMessage = handleException(ex);
+				}
+				StopLoading(failureMessage);
+			}
 		}
 
-		private async Task loadSubcategories()
+		private async Task reloadSubcategories()
 		{
-			this.Subcategories = this.ProductFilter.Category != null ? (await _subcategoryManager.Fetch(this.ProductFilter.Category.ID)).ToArray() : null;
+			using (var writerLock = await _subcategoriesLock.WriterLockAsync())
+			{
+				if (this.ProductFilter.Category == null || this.Categories == null || this.Categories.Length == 0)
+					return;
+				if (this.Subcategories != null && this.Subcategories.Length > 0 && this.Subcategories[0].CategoryID == this.ProductFilter.Category.ID)
+				{
+					return;
+				}
+				string failureMessage = null;
+				this.StartLoading(AppResources.MessageGeneralLoading);
+				try
+				{
+					var result = await _subcategoryManager.Fetch(this.ProductFilter.Category.ID);
+					this.Subcategories = result != null ? result.ToArray() : null;
+				}
+				catch (Exception ex)
+				{
+					failureMessage = handleException(ex);
+				}
+				StopLoading(failureMessage);
+			}
+		}
+
+		private async Task loadCategories()
+		{
+			var result = await _categoryManager.Fetch();
+			this.Categories = result != null ? result.ToArray() : null;
 		}
 
 		private async Task loadCountries()
 		{
-			this.Countries = (await _countryManager.Fetch()).ToArray();
+			var result = await _countryManager.Fetch();
+			this.Countries = result != null ? result.ToArray() : null;
 		}
 
-		private async Task loadCities()
+		private async void ProductFilter_PropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			this.Cities = this.ProductFilter.Country != null ? (await _cityManager.Fetch(this.ProductFilter.Country.CountryId)).ToArray() : null;
+			if (e.PropertyName == "Country")
+			{
+				await reloadCities();
+			}
+			else if (e.PropertyName == "Category")
+			{
+				await reloadSubcategories();
+			}
 		}
 
+		private string handleException(Exception exception)
+		{
+			try 
+			{
+				throw exception;
+			} 
+			catch (OperationCanceledException ex)
+			{
+				Tools.Logger.Log(ex, LoggingLevel.Warning);
+				return AppResources.MessageLoadingTimeOut;
+			}
+			catch (Exception ex)
+			{
+				Tools.Logger.Log(ex, "Error occured while loading data in product filter screen.", LoggingLevel.Error, true);
+				return AppResources.MessageLoadingFailed;
+			}
+		}
 		#endregion
 	}
 }

@@ -179,6 +179,9 @@ namespace Tojeero.Core
 						connection.CreateTable<City>();
 						connection.CreateTable<SearchToken>();
 						connection.CreateTable<Tag>();
+						connection.CreateTable<ProductCategory>();
+						connection.CreateTable<ProductSubcategory>();
+						connection.CreateTable<StoreCategory>();
 					}
 				});
 		}

@@ -8,6 +8,7 @@ namespace Tojeero.Core
 		string Name_en { get; }
 		string Name_ar { get; }
 		int CityId { get; set; }
+		int CountryId { get; }
 	}
 }
 

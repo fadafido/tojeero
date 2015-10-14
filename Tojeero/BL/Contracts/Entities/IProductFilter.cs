@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Tojeero.Core
 {
-	public interface IProductFilter
+	public interface IProductFilter : INotifyPropertyChanged
 	{
 		IProductCategory Category { get; set; }
 		IProductSubcategory Subcategory { get; set; }

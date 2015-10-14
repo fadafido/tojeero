@@ -34,95 +34,11 @@ namespace Tojeero.Core.ViewModels
 		#endregion
 
 		#region Properties
-
-		private IProductCategory _category;
-
-		public IProductCategory Category
-		{ 
+		public IProductFilter ProductFilter
+		{
 			get
 			{
-				return _category; 
-			}
-			set
-			{
-				_category = value; 
-				RaisePropertyChanged(() => Category); 
-			}
-		}
-
-
-		private IProductSubcategory _subcategory;
-
-		public IProductSubcategory Subcategory
-		{ 
-			get
-			{
-				return _subcategory; 
-			}
-			set
-			{
-				_subcategory = value; 
-				RaisePropertyChanged(() => Subcategory); 
-			}
-		}
-
-		private ICountry _country;
-
-		public ICountry Country
-		{ 
-			get
-			{
-				return _country; 
-			}
-			set
-			{
-				_country = value; 
-				RaisePropertyChanged(() => Country); 
-			}
-		}
-
-		private ICity _city;
-
-		public ICity City
-		{ 
-			get
-			{
-				return _city; 
-			}
-			set
-			{
-				_city = value; 
-				RaisePropertyChanged(() => City); 
-			}
-		}
-
-		private double? _startPrice;
-
-		public double? StartPrice
-		{ 
-			get
-			{
-				return _startPrice; 
-			}
-			set
-			{
-				_startPrice = value; 
-				RaisePropertyChanged(() => StartPrice); 
-			}
-		}
-
-		private double? _endPrice;
-
-		public double? EndPrice
-		{ 
-			get
-			{
-				return _endPrice; 
-			}
-			set
-			{
-				_endPrice = value; 
-				RaisePropertyChanged(() => EndPrice); 
+				return RuntimeSettings.ProductFilter;
 			}
 		}
 
@@ -265,19 +181,17 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task loadSubcategories()
 		{
-			
+			this.Subcategories = this.ProductFilter.Category != null ? (await _subcategoryManager.Fetch(this.ProductFilter.Category.ID)).ToArray() : null;
 		}
 
 		private async Task loadCountries()
 		{
 			this.Countries = (await _countryManager.Fetch()).ToArray();
-//			if(this.Countries != null && RuntimeSettings.ProductFilter
-//			this.Country = 
 		}
 
 		private async Task loadCities()
 		{
-			
+			this.Cities = this.ProductFilter.Country != null ? (await _cityManager.Fetch(this.ProductFilter.Country.CountryId)).ToArray() : null;
 		}
 
 		#endregion

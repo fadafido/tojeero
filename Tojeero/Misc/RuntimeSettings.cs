@@ -4,7 +4,7 @@ using Cirrious.MvvmCross.Plugins.Messenger;
 using Cirrious.CrossCore;
 using Tojeero.Core.Messages;
 
-namespace Tojeero.Forms
+namespace Tojeero.Core
 {
 	public static class RuntimeSettings
 	{
@@ -15,16 +15,9 @@ namespace Tojeero.Forms
 		{
 			get
 			{
+				if (_productFilter == null)
+					_productFilter = new ProductFilter();
 				return _productFilter;
-			}
-			set
-			{
-				if (_productFilter != value)
-				{
-					_messenger = _messenger ?? Mvx.Resolve<IMvxMessenger>();
-					_productFilter = value;
-					_messenger.Publish<ProductFilterChangedMessage>(new ProductFilterChangedMessage(null, _productFilter));
-				}
 			}
 		}
 	}

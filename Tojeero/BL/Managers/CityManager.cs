@@ -35,6 +35,10 @@ namespace Tojeero.Core
 			return _manager.Cache.Clear<City>();
 		}
 
+		public ICity Create()
+		{
+			return new City();
+		}
 		#endregion
 	}
 

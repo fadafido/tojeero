@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Tojeero.Core
 {
 	public interface IProductFilter
 	{
-		string CategoryID { get; set; }
-		string SubcategoryID { get; set; }
-		int? CountryId { get; set; }
-		int? CityId { get; set; }
+		IProductCategory Category { get; set; }
+		IProductSubcategory Subcategory { get; set; }
+		ICountry Country { get; set; }
+		ICity City { get; set; }
 		double? StartPrice { get; set; }
 		double? EndPrice { get; set; }
-		IList<string> Tags { get; set; }
+		ObservableCollection<string> Tags { get; set; }
 	}
 }
 

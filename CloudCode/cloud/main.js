@@ -11,7 +11,11 @@ Parse.Cloud.beforeSave("Tag", function(request, response) {
     response.error('A tag must have a non empty text.');
   } else {
     var query = new Parse.Query(Tag);
-    query.equalTo("text", request.object.get("text"));
+    var tag = request.object;
+    var tagText = tag.get("text");
+    tagText = tagText.toLowerCase();
+    tag.set("text", tagText);
+    query.equalTo("text", tagText);
     query.first({
       success: function(object) {
         if (object) {

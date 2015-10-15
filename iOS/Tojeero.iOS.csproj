@@ -246,6 +246,7 @@
     <BundleResource Include="Resources\Samples\stores.json" />
     <BundleResource Include="Resources\checkmark%403x.png" />
     <BundleResource Include="Resources\closeTag%402x.png" />
+    <BundleResource Include="Resources\Samples\subcategories.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

@@ -1,0 +1,1892 @@
+﻿[
+  {
+    "name_en":"Appartment",
+    "name_ar":"شقة",
+    "category":"0sippOsxoY"
+  },
+  {
+    "name_en":"Commercial",
+    "name_ar":"تجاري",
+    "category":"0sippOsxoY"
+  },
+  {
+    "name_en":"Villa",
+    "name_ar":"فيلا",
+    "category":"0sippOsxoY"
+  },
+  {
+    "name_en":"Rings",
+    "name_ar":"خواتم",
+    "category":"E6b4gbC8e3"
+  },
+  {
+    "name_en":"Bracelets",
+    "name_ar":"أساور",
+    "category":"E6b4gbC8e3"
+  },
+  {
+    "name_en":"Earrings",
+    "name_ar":"أقراط أذن",
+    "category":"E6b4gbC8e3"
+  },
+  {
+    "name_en":"Jewelry Accessories",
+    "name_ar":"اكسسورات المجوهرات",
+    "category":"E6b4gbC8e3"
+  },
+  {
+    "name_en":"Jewelry Sets",
+    "name_ar":"أطقم مجوهرات",
+    "category":"E6b4gbC8e3"
+  },
+  {
+    "name_en":"Loose Gemstones & Diamonds",
+    "name_ar":"أحجار كريمة",
+    "category":"E6b4gbC8e3"
+  },
+  {
+    "name_en":"Men's Jewelry",
+    "name_ar":"مجوهرات رجالية",
+    "category":"E6b4gbC8e3"
+  },
+  {
+    "name_en":"Necklaces, Pendants & Charms",
+    "name_ar":"قلادات وتعليقات",
+    "category":"E6b4gbC8e3"
+  },
+  {
+    "name_en":"Fax Machines",
+    "name_ar":"أجهزة فاكس",
+    "category":"Gb8uW0cOJa"
+  },
+  {
+    "name_en":"Ink & Toner Cartridges",
+    "name_ar":"خراطيش الحبر",
+    "category":"Gb8uW0cOJa"
+  },
+  {
+    "name_en":"Multifunctional Printers",
+    "name_ar":"طابعات متعددة الوظائف",
+    "category":"Gb8uW0cOJa"
+  },
+  {
+    "name_en":"Office Equipment",
+    "name_ar":"معدات مكتبية",
+    "category":"Gb8uW0cOJa"
+  },
+  {
+    "name_en":"Office Supplies",
+    "name_ar":"لوازم المكتبية",
+    "category":"Gb8uW0cOJa"
+  },
+  {
+    "name_en":"Printers",
+    "name_ar":"طابعات",
+    "category":"Gb8uW0cOJa"
+  },
+  {
+    "name_en":"Printers, Scanners, Hardware & Accessories",
+    "name_ar":"طابعات و ناسخات و اكسسواراتها",
+    "category":"Gb8uW0cOJa"
+  },
+  {
+    "name_en":"Stationery",
+    "name_ar":"قرطاسية",
+    "category":"Gb8uW0cOJa"
+  },
+  {
+    "name_en":"Accessories",
+    "name_ar":"اكسسوارات",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Athletic Wear",
+    "name_ar":"ألبسة رياضية",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Costumes",
+    "name_ar":"أزياء تنكرية",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Dresses",
+    "name_ar":"فساتين",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Ethnic & Traditional Wear",
+    "name_ar":"ملابس عرقية و تقليدية",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Eyewear",
+    "name_ar":"نظارات و اكسسواراتها",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Jackets & Coats",
+    "name_ar":"جاكيتات و معاطف",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Maternity Wear",
+    "name_ar":"ملابس حمل",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Pants",
+    "name_ar":"بناطيل",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Shorts",
+    "name_ar":"شورتات",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Skirts",
+    "name_ar":"تنانير",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Sleepwear",
+    "name_ar":"ألبسة نوم",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Suits",
+    "name_ar":"بدلات",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Swimwear",
+    "name_ar":"ملابس سباحة",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Tops",
+    "name_ar":"بلايز/ تيشيرتات",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Underwear",
+    "name_ar":"ملابس داخلية",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Uniforms",
+    "name_ar":"أزياء عمل",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Women's Lingerie",
+    "name_ar":"لانجري",
+    "category":"GxkkabYFBy"
+  },
+  {
+    "name_en":"Auto Accessories & Parts",
+    "name_ar":"قطع غيار و أكسسوارات للسيارات",
+    "category":"M9Nx87tvUG"
+  },
+  {
+    "name_en":"Heavy Vehicles ",
+    "name_ar":"المركبات الثقيلة ",
+    "category":"M9Nx87tvUG"
+  },
+  {
+    "name_en":"Motorcycles ‬ ",
+    "name_ar":"دراجات نارية ",
+    "category":"M9Nx87tvUG"
+  },
+  {
+    "name_en":"Rent Cars",
+    "name_ar":"سيارات للايجار",
+    "category":"M9Nx87tvUG"
+  },
+  {
+    "name_en":"Used Cars for Sale ‬",
+    "name_ar":"سيارات مستعملة للبيع",
+    "category":"M9Nx87tvUG"
+  },
+  {
+    "name_en":"Bags & Carry Cases",
+    "name_ar":"حقائب كمبيوتر محمول",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Barcode Readers",
+    "name_ar":"قارئات باركود",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Blank CDs",
+    "name_ar":"اسطوانات فارغة",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Blank DVDs",
+    "name_ar":"اقراص دي في دي فارغة",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Cables",
+    "name_ar":"كابلات/ وصلات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Card Readers & Writers",
+    "name_ar":"قارئات / ناسخات كروت",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Chargers",
+    "name_ar":"شواحن",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Computer & Laptop Accessories",
+    "name_ar":"اكسسوارات كمبيوتر و لاب توب",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Computer Casing",
+    "name_ar":"أغطية كمبيوتر",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Computer Fans",
+    "name_ar":"مراوح كمبيوترات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Computer Monitors",
+    "name_ar":"شاشات كمبيوتر",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Computer Parts & Components",
+    "name_ar":"اجزاء و مكونات الكمبيوتر",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Computer, Laptop & Tablet Accessories",
+    "name_ar":"اكسسوارات الكمبيوتر و اللاب توب و اجهزة اللوحات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Computers & Servers",
+    "name_ar":"كمبيوترات و سيرفرات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Cooling Pads",
+    "name_ar":"منصات تبريد",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"CPUs",
+    "name_ar":"معالجات رقمية و ذاكرات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Desktop PCs",
+    "name_ar":"كمبيوترات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Docking Stations",
+    "name_ar":"محطة الإرساء",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Hard Disks",
+    "name_ar":"أقراص صلبة",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Headphones",
+    "name_ar":"سماعات رأس",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Headsets",
+    "name_ar":"سماعات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Keyboards",
+    "name_ar":"لوحات المفاتيح",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Media Gateways",
+    "name_ar":"منافذ وسائط الإعلام",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Memory Cards",
+    "name_ar":"كروت ذاكرة",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Memory Modules",
+    "name_ar":"أجهزة يو اس بي",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Microphones",
+    "name_ar":"ميكروفونات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Motherboards",
+    "name_ar":"اللوحات الرئيسية",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Mouse",
+    "name_ar":"ماوس",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Network Cards & Adapters",
+    "name_ar":"بطاقات الشبكة والمحولات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Network Switches",
+    "name_ar":"شبكة مفاتيح",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Networking & Accessories",
+    "name_ar":"الشبكات و اكسسواراتها",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Networking Tools",
+    "name_ar":"أدوات الشبكات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Optical Drives",
+    "name_ar":"مشغلات أقراص ضوئية",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"PC Media Players & Speakers",
+    "name_ar":"سماعات و وسائط تشغيل الموسيقى",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Power Supplies",
+    "name_ar":"مزودات طاقة",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Printer & Scanner Accessories",
+    "name_ar":"اكسسوارات طابعات و ماسحات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Printers",
+    "name_ar":"طابعات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Printers, Scanners, Hardware & Accessories",
+    "name_ar":"طابعات و ناسخات و اكسسواراتها",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Routers",
+    "name_ar":"جهاز التوجيه / راوتر",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Scanners",
+    "name_ar":"ماسحات ضوئية",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Screen Protectors",
+    "name_ar":"واقيات الشاشة",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Servers",
+    "name_ar":"سيرفرات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Skins & Decals",
+    "name_ar":"ملصقات و اغطية حماية",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Smart Watches",
+    "name_ar":"ساعات ذكية",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Software",
+    "name_ar":"برمجيات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Sound Cards",
+    "name_ar":"كروت صوت",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Tablet Accessories",
+    "name_ar":"اكسسوارات أجهزة لوحات",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Tablets, Laptops & Netbooks",
+    "name_ar":"أجهزة لوحات و لاب توب و نت بوك",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Uninterruptible Power Supply UPS",
+    "name_ar":"يو بي إس التيار الكهربائي المتواصل",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"USB Drives",
+    "name_ar":"يو إس بي للموبايل",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"USB Hubs",
+    "name_ar":"محاور يو اس بي",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Video Cards",
+    "name_ar":"بطاقات الفيديو",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Webcams",
+    "name_ar":"كاميرات الويب",
+    "category":"nW5dnL84Vc"
+  },
+  {
+    "name_en":"Bikes, Scooters & Ride-Ons",
+    "name_ar":"الدراجات، الدراجات الصغيرة و معدات الركوب الاضافية",
+    "category":"nZYgzSIS9C"
+  },
+  {
+    "name_en":"Game Consoles",
+    "name_ar":"أنظمة تشغيل",
+    "category":"nZYgzSIS9C"
+  },
+  {
+    "name_en":"Games Gadgets & Accessories",
+    "name_ar":"اكسسوارات ألعاب الكترونية",
+    "category":"nZYgzSIS9C"
+  },
+  {
+    "name_en":"Screen Protectors",
+    "name_ar":"واقيات الشاشة",
+    "category":"nZYgzSIS9C"
+  },
+  {
+    "name_en":"Skins & Decals",
+    "name_ar":"ملصقات و اغطية حماية",
+    "category":"nZYgzSIS9C"
+  },
+  {
+    "name_en":"Toys",
+    "name_ar":"ألعاب",
+    "category":"nZYgzSIS9C"
+  },
+  {
+    "name_en":"Video Games",
+    "name_ar":"ألعاب فيديو",
+    "category":"nZYgzSIS9C"
+  },
+  {
+    "name_en":"Coins",
+    "name_ar":"عملات نقدية",
+    "category":"ou4Kyl6fZF"
+  },
+  {
+    "name_en":"Paper Money",
+    "name_ar":"أوراق نقدية",
+    "category":"ou4Kyl6fZF"
+  },
+  {
+    "name_en":"Stamps",
+    "name_ar":"طوابع",
+    "category":"ou4Kyl6fZF"
+  },
+  {
+    "name_en":"Smart Watches",
+    "name_ar":"ساعات ذكية",
+    "category":"qLCinhxspK"
+  },
+  {
+    "name_en":"Watch Accessories",
+    "name_ar":"اكسسوارات الساعات",
+    "category":"qLCinhxspK"
+  },
+  {
+    "name_en":"Watches",
+    "name_ar":"ساعات",
+    "category":"qLCinhxspK"
+  },
+  {
+    "name_en":"Baby Accessories",
+    "name_ar":"اكسسوارات أطفال",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"Baby Bags",
+    "name_ar":"حقائب أطفال",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"Baby Bath & Skincare",
+    "name_ar":"لوازم الاستحمام والعناية بالطفل",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"Baby Clothing & Shoes",
+    "name_ar":"ملابس و أحذية الأطفال",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"Baby Gear",
+    "name_ar":"معدات أطفال",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"Baby Gift Sets",
+    "name_ar":"مجموعة هدايا أطفال",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"Baby Safety & Health",
+    "name_ar":"معدات سلامة و صحة الطفل",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"Baby Toys and Accessories",
+    "name_ar":"ألعاب أطفال و اكسسواراتها",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"Diapers",
+    "name_ar":"حفاضات",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"Feeding",
+    "name_ar":"مستلزمات اطعام",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"Nursery Furniture",
+    "name_ar":"أثاث أطفال",
+    "category":"rRDxMNh9Ne"
+  },
+  {
+    "name_en":"3D Glasses",
+    "name_ar":"نظارات ثلاثية الابعاد",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Amplifiers & Receivers",
+    "name_ar":"مكبرات صوت وأجهزة الاستقبال",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Analogue Cameras",
+    "name_ar":"كاميرات انالوج",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Audio & Accessories",
+    "name_ar":"صوتيات و اكسسواراتها",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Audio Accessories",
+    "name_ar":"اكسسوارات صوتية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Batteries",
+    "name_ar":"بطاريات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Binoculars",
+    "name_ar":"مناظير",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Camcorders",
+    "name_ar":"كاميرات فيديو رقمية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Camera & Camcorder Accessories",
+    "name_ar":"اكسسوارات كاميرات و فيديوهات رقمية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Camera Bags",
+    "name_ar":"حقائب كاميرات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Cameras & Camcorder Accessories",
+    "name_ar":"اكسسوارات كاميرات و فيديوهات رقمية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Cameras & Photos",
+    "name_ar":"كاميرات و فيديو",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"CD Players & Recorders",
+    "name_ar":"مشغلات أقراص مدمجة و مسجلات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"CD Recording Media",
+    "name_ar":"مسجلات سي دي",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Clock Radios",
+    "name_ar":"راديوهات مع ساعات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Data Storage devices",
+    "name_ar":"أجهزة تخزين البيانات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Deep Fryers",
+    "name_ar":"مقالي عميقة",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Digital Cameras",
+    "name_ar":"كاميرات رقمية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Digital Photo Frames",
+    "name_ar":"اطارات صور رقمية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Dishwashers",
+    "name_ar":"غسالات الصحون",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"DVD & Blu-Ray Players",
+    "name_ar":"مشغلات دي في دي و بلو راي",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"DVD & VCR Combos",
+    "name_ar":"أجهزة فيديو مع دي في دي",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"E-Book Readers",
+    "name_ar":"قارئات كتب الكترونية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Electric Slicers",
+    "name_ar":"قطّاعات كهربائية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Electronic Flashes",
+    "name_ar":"فلاشات إلكترونية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Fans",
+    "name_ar":"مراوح",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Film Cameras",
+    "name_ar":"كاميرات تصوير بالأفلام",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Floor Care",
+    "name_ar":"منظفات الأرضيات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Food Preparation",
+    "name_ar":"محضرات الأطعمة",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Headphones",
+    "name_ar":"سماعات الرأس",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Headsets",
+    "name_ar":"سماعات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Heaters",
+    "name_ar":"مدافئ",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Home & Office Electronics",
+    "name_ar":"الكترونيات المنزل و المكتب",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Home Appliances & Supplies",
+    "name_ar":"أجهزة و معدات المنزل",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Home Theater Systems",
+    "name_ar":"أنظمة المسرح المنزلي",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Home Video Accessories",
+    "name_ar":"اكسسوارات أجهزة فيديو منزلية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Interchangeable Lenses",
+    "name_ar":"عدسات قابلة للتبديل",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Irons",
+    "name_ar":"مكاوي كهربائية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Juice Extractors",
+    "name_ar":"عصارات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Kettles",
+    "name_ar":"غلايات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Memory Cards",
+    "name_ar":"كروت ذاكرة",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Microphones",
+    "name_ar":"ميكروفونات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"MP3 & MP4 Player Accessories",
+    "name_ar":"اكسسوارات مشغلات ام بي ثري،ام بي فور",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"MP3 & MP4 Players",
+    "name_ar":"مشغلات ام بي ثري و ام بي فور",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"MP3, MP4 Player & Accessories",
+    "name_ar":"مشغلات ام بي ثري،ام بي فور و اكسسواراتها",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"MP3, MP4 Players Accessories",
+    "name_ar":"اكسسوارات مشغلات ام بي ثري،ام بي فور",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Portable Cassette & CD Players",
+    "name_ar":"مشغلات كاسيت و سي دي محمولة",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Portable Radios",
+    "name_ar":"راديوهات محمولة",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Portable TVs",
+    "name_ar":"تلفزيونات محمولة",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Projector Accessories",
+    "name_ar":"اكسسوارات أجهزة عرض",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Projectors",
+    "name_ar":"أجهزة عرض",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Projectors & Accessories",
+    "name_ar":"أجهزة عرض و اكسسواراتها",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Recording & Studio Equipment",
+    "name_ar":"معدات التسجيل و الأستديو",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Refrigerators & Freezers",
+    "name_ar":"ثلاجات و مجمدات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Rice Cookers",
+    "name_ar":"أجهزة طبخ الأرز",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Sandwich, Waffle Makers & Grills",
+    "name_ar":"محضرات الساندويشات و الوفل و الشوايات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Satellite Receivers",
+    "name_ar":"أجهزة استقبال القنوات الفضائية - ستالايت",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Security & Surveillance Systems",
+    "name_ar":"أنظمة حماية و ترصد",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Smart Watches",
+    "name_ar":"ساعات ذكية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Speakers",
+    "name_ar":"ﺲﻣﺎﻋﺎﺗ",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Stereo Systems & Equalizers",
+    "name_ar":"أنظمة ستيريو و معدلات صوت",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Still Films",
+    "name_ar":"أفلام كاميرات تقليدية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Telephone Accessories",
+    "name_ar":"اكسسوارات تلفونات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Telephones",
+    "name_ar":"الهواتف اللاسلكية",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Televisions",
+    "name_ar":"تلفزيونات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Toasters",
+    "name_ar":"أجهزة تحميص",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Tuners",
+    "name_ar":"اجهزة ضبط وإستقبال إذاعات الراديو",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"TV & Satellite Accessories",
+    "name_ar":"اكسسوارات تلفزيون و أجهزة استقبال",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"TV Mounts",
+    "name_ar":"حوامل تلفزيون",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"TVs, Satellites & Accessories",
+    "name_ar":"تلفزيونات و ستالايت و اكسسواراتها",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Universal Remote Controls",
+    "name_ar":"(أجهزة التحكم عن بعد (ريموت كنترول",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"VCD, VCP & VCR Players",
+    "name_ar":"VCD, VCP and VCR مشغلات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Video Tapes",
+    "name_ar":"أشرطة فيديو",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Video, Home Theater & Accessories",
+    "name_ar":"فيديو و اجهزة المسرح المنزلية واكسسواراتها",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Washing Machines",
+    "name_ar":"غسالات",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Webcams",
+    "name_ar":"كاميرات الويب",
+    "category":"txPHVtAMVA"
+  },
+  {
+    "name_en":"Bath & Body",
+    "name_ar":"مستحضرات الإستحمام و الجسم",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Beauty Gifts Sets",
+    "name_ar":"هدايا و أطقم تجميل",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Beauty Tools & Accessories",
+    "name_ar":"أدوات تجميل و اكسسواراتها",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Body Massagers",
+    "name_ar":"اجهزة تدليك",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Dental Care",
+    "name_ar":"مستحضرات العناية بالأسنان",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Digital Fever Thermometers",
+    "name_ar":"موازين الحرارة الرقمية",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Electric Shavers",
+    "name_ar":"ماكينات حلاقة كهربائية",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Electrical Personal Care",
+    "name_ar":"ماكينات العناية الشخصية",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Food Supplements & Nutrition",
+    "name_ar":"مكملات غذائية و مغذيات",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Hair Care",
+    "name_ar":"مستحضرات العناية بالشعر",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Hair Electronics",
+    "name_ar":"الكترونيات الشعر",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Hair Tools & Accessories",
+    "name_ar":"اكسسوارات للشعر",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Makeup",
+    "name_ar":"ماكياج",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Men's Grooming",
+    "name_ar":"مستحضرات تجميل رجالية",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Natural Nutrition Products",
+    "name_ar":"منتجات غذائية طبيعية",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Perfumes & Fragrances",
+    "name_ar":"عطور",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Personal Care",
+    "name_ar":"مستحضرات صحية و العناية الشخصية",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Personal Scales",
+    "name_ar":"أجهزة قياس الوزن",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Skin Care",
+    "name_ar":"مستحضرات العناية بالبشرة",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Small Medical Equipment",
+    "name_ar":"معدات طبية صغيرة",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Sports Nutrition",
+    "name_ar":"الرياضة والتغذية",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Vitamins & Minerals",
+    "name_ar":"فيتامينات و معادن",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Wigs",
+    "name_ar":"شعر مستعار",
+    "category":"UB7OegnTnz"
+  },
+  {
+    "name_en":"Movies, Plays & Series",
+    "name_ar":"أفلام، مسلسلات ، مسرحيات",
+    "category":"uhdX00gaAR"
+  },
+  {
+    "name_en":"Music CDs",
+    "name_ar":"سي دي موسيقى",
+    "category":"uhdX00gaAR"
+  },
+  {
+    "name_en":"Musical Instrument Accessories",
+    "name_ar":"أدوات موسيقية و اكسسواراتها",
+    "category":"uhdX00gaAR"
+  },
+  {
+    "name_en":"Musical Instruments",
+    "name_ar":"أدوات موسيقية",
+    "category":"uhdX00gaAR"
+  },
+  {
+    "name_en":"Tuners",
+    "name_ar":"أجهزة ضبط و إستقبال موجات الراديو",
+    "category":"uhdX00gaAR"
+  },
+  {
+    "name_en":"Athletic Shoes",
+    "name_ar":"أحذية رياضية",
+    "category":"VAhl1LzrLT"
+  },
+  {
+    "name_en":"Bikes, Scooters & Ride-Ons",
+    "name_ar":"الدراجات، الدراجات الصغيرة و معدات الركوب الاضافية",
+    "category":"VAhl1LzrLT"
+  },
+  {
+    "name_en":"Camping , Hiking & Climbing Goods",
+    "name_ar":"مستلزمات التخييم, المشي و التسلق",
+    "category":"VAhl1LzrLT"
+  },
+  {
+    "name_en":"Fitness Technology",
+    "name_ar":"تقنية اللياقة البدنية",
+    "category":"VAhl1LzrLT"
+  },
+  {
+    "name_en":"Fitness Technology Center",
+    "name_ar":"مركز تقنية اللياقة البدنية",
+    "category":"VAhl1LzrLT"
+  },
+  {
+    "name_en":"GPS Receiver",
+    "name_ar":"أجهزة إستقبال تحديد المواقع",
+    "category":"VAhl1LzrLT"
+  },
+  {
+    "name_en":"Outdoor Play",
+    "name_ar":"العاب خارجية",
+    "category":"VAhl1LzrLT"
+  },
+  {
+    "name_en":"Smart Watches",
+    "name_ar":"ساعات ذكية",
+    "category":"VAhl1LzrLT"
+  },
+  {
+    "name_en":"Sporting Goods",
+    "name_ar":"مستلزمات رياضية",
+    "category":"VAhl1LzrLT"
+  },
+  {
+    "name_en":"Sports Equipments",
+    "name_ar":"معدات رياضية",
+    "category":"VAhl1LzrLT"
+  },
+  {
+    "name_en":"Athletic Shoes",
+    "name_ar":"أحذية رياضية",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"Backpacks",
+    "name_ar":"حقائب ظهر",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"Boots",
+    "name_ar":"جزم / بووت",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"Casual & Formal Shoes",
+    "name_ar":"أحذية رسمية و كاجويل",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"Handbags",
+    "name_ar":"حقائب يد",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"Luggage & Accessories",
+    "name_ar":"حقائب السفر و اكسسواراتها",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"Sandals",
+    "name_ar":"صنادل",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"School Bags",
+    "name_ar":"حقائب مدرسية",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"Shoes Accessories",
+    "name_ar":"اكسسوارات الاحذية",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"Slippers",
+    "name_ar":"شباشب",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"Wallets",
+    "name_ar":"محافظ",
+    "category":"vuYt1pFWLj"
+  },
+  {
+    "name_en":"Appartment",
+    "name_ar":"شقة",
+    "category":"wjoiqmyftT"
+  },
+  {
+    "name_en":"Commercial",
+    "name_ar":"تجاري",
+    "category":"wjoiqmyftT"
+  },
+  {
+    "name_en":"Land",
+    "name_ar":"أرض",
+    "category":"wjoiqmyftT"
+  },
+  {
+    "name_en":"Villa",
+    "name_ar":"فيلا",
+    "category":"wjoiqmyftT"
+  },
+  {
+    "name_en":"Electrical",
+    "name_ar":"كهربائيات",
+    "category":"wr5kpll0ST"
+  },
+  {
+    "name_en":"Hand Tools",
+    "name_ar":"أدوات يدوية",
+    "category":"wr5kpll0ST"
+  },
+  {
+    "name_en":"Measuring & Layout Tools",
+    "name_ar":"أدوات قياس و تخطيط",
+    "category":"wr5kpll0ST"
+  },
+  {
+    "name_en":"Nails, Screws & Fixings",
+    "name_ar":"مسامير، براغي والمثبتات",
+    "category":"wr5kpll0ST"
+  },
+  {
+    "name_en":"Paint & Supplies",
+    "name_ar":"الطلاء و لوازم الدهان",
+    "category":"wr5kpll0ST"
+  },
+  {
+    "name_en":"Power Tools",
+    "name_ar":"أداوات كهربائية",
+    "category":"wr5kpll0ST"
+  },
+  {
+    "name_en":"Safety and Work Wear",
+    "name_ar":"ملابس عمل و حماية",
+    "category":"wr5kpll0ST"
+  },
+  {
+    "name_en":"Accessories",
+    "name_ar":"اكسسوارات",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"Car Audio",
+    "name_ar":"أنظمة صوت سيارات",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"Car Audio and Video Accessories",
+    "name_ar":"اكسسورات سيارات صوتية و مرئية",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"Car Care Products",
+    "name_ar":"منتجات العناية بالسيارة",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"Car Navigation",
+    "name_ar":"أنظمة توجيه السيارة",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"Car Speakers, Subwoofers & Amplifiers",
+    "name_ar":"سماعات و مكبرات السيارة",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"Car Video",
+    "name_ar":"فيديو سيارات",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"GPS accessories",
+    "name_ar":"اكسسورات أجهزة تحديد المواقع",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"GPS Navigators",
+    "name_ar":"أجهزة تحديد المواقع",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"GPS Receiver",
+    "name_ar":"أجهزة إستقبال تحديد المواقع",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"Keys & Key Chains",
+    "name_ar":"مفاتيح و علاقات المفاتيح",
+    "category":"xWpBKWiFFb"
+  },
+  {
+    "name_en":"Accessories",
+    "name_ar":"اكسسوارات",
+    "category":"yx7fCEDNSU"
+  },
+  {
+    "name_en":"Chargers",
+    "name_ar":"شاحن لاب توب",
+    "category":"yx7fCEDNSU"
+  },
+  {
+    "name_en":"Headsets",
+    "name_ar":"سماعات رأس",
+    "category":"yx7fCEDNSU"
+  },
+  {
+    "name_en":"Memory Cards",
+    "name_ar":"كروت ذاكرة",
+    "category":"yx7fCEDNSU"
+  },
+  {
+    "name_en":"Mobile Phone Accessories",
+    "name_ar":"اكسسوارات الموبايل",
+    "category":"yx7fCEDNSU"
+  },
+  {
+    "name_en":"Mobile Phones",
+    "name_ar":"موبايلات",
+    "category":"yx7fCEDNSU"
+  },
+  {
+    "name_en":"Screen Protectors",
+    "name_ar":"واقيات الشاشة",
+    "category":"yx7fCEDNSU"
+  },
+  {
+    "name_en":"Skins & Decals",
+    "name_ar":"ملصقات و اغطية حماية",
+    "category":"yx7fCEDNSU"
+  },
+  {
+    "name_en":"Smart Watches",
+    "name_ar":"ساعات ذكية",
+    "category":"yx7fCEDNSU"
+  },
+  {
+    "name_en":"Watch Accessories",
+    "name_ar":"اكسسوارات الساعات",
+    "category":"yx7fCEDNSU"
+  },
+  {
+    "name_en":" Garden & Outdoor Living",
+    "name_ar":"الحديقة و معداتها",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Air Conditioners",
+    "name_ar":"مكيفات هواء",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Air Treatment",
+    "name_ar":"ملطفات الجو",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Artificial Flower & Plants",
+    "name_ar":"أزهار و نباتات صناعية",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Baking Tools & Accessories",
+    "name_ar":"أدوات و مستلزمات الخبز",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Barbecue Tools & Grill Accessories",
+    "name_ar":"أدوات الشوي و ملحقاتها",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Bathroom Equipment",
+    "name_ar":"مستلزمات الحمام",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Bathroom Supplies",
+    "name_ar":"مستلزمات الحمام",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Bed & Bath",
+    "name_ar":"مستلزمات النوم و الإستحمام",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Bed Pillows",
+    "name_ar":"مخدات السرير",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Bedding",
+    "name_ar":"مستلزمات النوم",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Bedding Sets",
+    "name_ar":"أطقم أغطية سرير",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Bedding Supplies",
+    "name_ar":"مستلزمات نوم",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Blankets & Throws",
+    "name_ar":"بطانيات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Blenders & Mixers",
+    "name_ar":"خلاطات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Candles & Holders",
+    "name_ar":"شموع وشمعدانات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Chairs & Benches",
+    "name_ar":"الكراسي والمقاعد",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Clocks",
+    "name_ar":"ساعات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Coffee & Espresso",
+    "name_ar":"أجهزة لصنع القهوة والشاي والإسبريسو",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Comforters",
+    "name_ar":"أغطية خارجية",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Cookware & Bakeware",
+    "name_ar":"معدات الطبخ و الخبز",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Curtains",
+    "name_ar":"ستائر",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Curtains",
+    "name_ar":"ستائر",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Cushions",
+    "name_ar":"وسائد",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Cutlery Sets",
+    "name_ar":"سكاكين , ملاعق و شوك",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Decorative Pillows & Cushions",
+    "name_ar":"مساند و وسائد للديكور",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Deep Fryers",
+    "name_ar":"القلايات الكهربائية",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Dishwashers",
+    "name_ar":"غسالات الصحون",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Drawings & Paintings",
+    "name_ar":"رسومات و لوحات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Drinkware",
+    "name_ar":"أكواب و أدوات الشرب",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Electric Meat Grinders",
+    "name_ar":"مطحنة لحوم الكترونية",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Electric Slicers",
+    "name_ar":"القطاعات الكهربائية",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Fans",
+    "name_ar":"مراوح",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Flatware & Cutlery",
+    "name_ar":"ملاعق، شوك و سكاكين",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Food Preparation",
+    "name_ar":"محضرات الأطعمة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Food Preparation Center",
+    "name_ar":"مركز محضرات الأطعمة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Food Processors",
+    "name_ar":"أجهزة معالجة الطعام",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Fruit & Vegetable Tools",
+    "name_ar":"أدوات الخضار و الفواكه",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Garden Decoration",
+    "name_ar":"حديقة الديكور",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Garden Lighting",
+    "name_ar":"إضاءة الحدائق",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Garden lighting",
+    "name_ar":"إضاءة الحدائق",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Gardening & Watering Supplies",
+    "name_ar":"مستلزمات الحدائق و أدوات ريها",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Grills & Smokers",
+    "name_ar":"الشوايات و المدخنات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Heaters",
+    "name_ar":"مدافئ",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Home Decor",
+    "name_ar":"ديكور المنزل",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Home Decor & Furniture",
+    "name_ar":"أثاث و ديكور المنزل",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Home Decor Center",
+    "name_ar":"فئة ديكور المنزل",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Home Supplies",
+    "name_ar":"مستلزمات منزلية",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Hot Beverage Makers",
+    "name_ar":"أدوات اعداد المشروبات الساخنة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Ice Cream Makers",
+    "name_ar":"صانعات البوظة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Ironing Accessories",
+    "name_ar":"اكسسوارات المكاوي",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Irons",
+    "name_ar":"مكاوي",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Juicers & Presses",
+    "name_ar":"العصارات و المكابس",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Kettles",
+    "name_ar":"غلايات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Kitchen & Dining",
+    "name_ar":"أدوات و معدات المطبخ",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Kitchen & Dining Tools",
+    "name_ar":"أدوات المطبخ و التخزين",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Kitchen & Home Appliances",
+    "name_ar":"أجهزة المنزل والمطبخ",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Kitchen & Table Linens",
+    "name_ar":"مفارش مطبخ و سفرة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Kitchen and Dining Tools",
+    "name_ar":"أدوات و معدات المطبغ",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Kitchen Measuring Tools",
+    "name_ar":"أدوات قياس للمطبخ",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Kitchen Scales",
+    "name_ar":"موازين مطبخ",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Kitchen Storage",
+    "name_ar":"مجموعات تخزين و ترتيب",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Kitchen Tools and Utensils",
+    "name_ar":"أدوات و أواني",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Lamps & Lighting",
+    "name_ar":"وحدات الإنارة و اللمبات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Large Appliances",
+    "name_ar":"أجهزة كهربائية كبيرة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Light Bulbs",
+    "name_ar":"لمبات مصابيح",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Lighting & Lamps",
+    "name_ar":"وحدات إنارة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Mattress Toppers & Protectors",
+    "name_ar":"واقيات و أغطية للفراش",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Mattresses",
+    "name_ar":"فرشات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Microwaves",
+    "name_ar":"ميكرويف",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Mirrors",
+    "name_ar":"مرايا",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Party Supplies",
+    "name_ar":"لوازم حفلات و مناسبات خاصة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Pet Food",
+    "name_ar":"اغذية الحيوانات الاليفة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Pet Supplies",
+    "name_ar":"مستلزمات حيوانات أليفة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Photo Frames",
+    "name_ar":"براويز",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Refrigerators & Freezers",
+    "name_ar":"ثلاجات و مجمدات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Rice cooker",
+    "name_ar":"محضره الأرز",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Rugs & Carpets",
+    "name_ar":"بُسط و سجاد",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Sandwich & Waffle Makers",
+    "name_ar":"صانعة الساندويش و الوافل",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Sewing and Accessories",
+    "name_ar":"الخياطة وملحقاتها",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Showers & Showerheads",
+    "name_ar":"شاورات و رؤوس استحمام",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Slow Cookers",
+    "name_ar":"اوعية للطبخ البطيئ",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Small Appliances Center",
+    "name_ar":"مركز المعدات المنزلية الصغيرة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Small Furniture",
+    "name_ar":"أثاث صغير",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Smoking Accessories",
+    "name_ar":"اكسسوارات التدخين",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Sofas, Bean Bags & Ottomans",
+    "name_ar":"ارائك و مقاعد جانبية",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Specialty Kitchen Appliances",
+    "name_ar":"أجهزة مطبخ خاصة",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Steam Cleaners",
+    "name_ar":"منظفات بالبخار",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Steamers",
+    "name_ar":"قدر طهي بخاري",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Storage & Organization",
+    "name_ar":"منظم ومخزن",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Storage & Organization",
+    "name_ar":"منظمات و أدوات تخزين",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Table Linens",
+    "name_ar":"أغطية طاولات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Table Linens",
+    "name_ar":"أغطية طاولات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Tables",
+    "name_ar":"طاولات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Toasters",
+    "name_ar":"حماصات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Towels",
+    "name_ar":"مناشف",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Trash Bin",
+    "name_ar":"سلة مهملات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Vacuum Cleaners",
+    "name_ar":"مكانس الكهربائية",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Vacuum Floor Care Accessories",
+    "name_ar":"اكسسوارات المكانس الكهربائية",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Vases",
+    "name_ar":"مزهريات",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Wall Stickers",
+    "name_ar":"ملصقات الحائط",
+    "category":"Z3E9pyGDUc"
+  },
+  {
+    "name_en":"Washing Machines",
+    "name_ar":"غسالات",
+    "category":"Z3E9pyGDUc"
+  }
+]

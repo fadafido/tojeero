@@ -52,7 +52,7 @@ namespace Tojeero.Core.ViewModels
 
 			public Task<IEnumerable<IProduct>> Fetch(int pageSize = -1, int offset = -1)
 			{
-				return manager.Fetch(pageSize, offset);
+				return manager.Fetch(pageSize, offset, RuntimeSettings.ProductFilter);
 			}
 
 			private Comparison<IProduct> _comparer;
@@ -92,7 +92,7 @@ namespace Tojeero.Core.ViewModels
 
 			public Task<IEnumerable<IProduct>> Fetch(int pageSize = -1, int offset = -1)
 			{
-				return manager.Find(searchQuery, pageSize, offset);
+				return manager.Find(searchQuery, pageSize, offset, RuntimeSettings.ProductFilter);
 			}
 
 			private Comparison<IProduct> _comparer;

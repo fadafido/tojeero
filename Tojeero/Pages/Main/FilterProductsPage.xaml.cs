@@ -27,6 +27,8 @@ namespace Tojeero.Forms
 
 		#region Properties
 
+		public Action DidClose { get; set; }
+
 		private FilterProductsViewModel _viewModel;
 
 		public FilterProductsViewModel ViewModel
@@ -53,6 +55,13 @@ namespace Tojeero.Forms
 		{
 			base.OnAppearing();
 			this.ViewModel.ReloadCommand.Execute(null);
+		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+			if (DidClose != null)
+				DidClose();
 		}
 
 		#endregion

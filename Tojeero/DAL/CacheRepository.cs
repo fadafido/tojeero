@@ -40,7 +40,7 @@ namespace Tojeero.Core
 
 		#region IRepository implementation
 
-		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
+		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, IProductFilter filter = null)
 		{
 			var result = await FetchAsync<Product>(pageSize, offset, "LowercaseName").ConfigureAwait(false);
 			return result.Cast<IProduct>();
@@ -103,7 +103,7 @@ namespace Tojeero.Core
 			return result;
 		}
 
-		public async Task<IEnumerable<IProduct>> FindProducts(string searchQuery, int pageSize, int offset)
+		public async Task<IEnumerable<IProduct>> FindProducts(string searchQuery, int pageSize, int offset, IProductFilter filter = null)
 		{
 			return await find<Product>(searchQuery, (ITableQuery<Product> q) => q.OrderBy(p => p.LowercaseName), pageSize, offset);
 		}

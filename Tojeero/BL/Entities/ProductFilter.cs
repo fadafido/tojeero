@@ -127,10 +127,7 @@ namespace Tojeero.Core
 			}
 		}
 
-		private ObservableCollection<string> _tags = new ObservableCollection<string>{"tag1","tag12","tag123","tag1234","tag12345","tag2","tag45","tag547",
-			"tag1","tag12","tag123","tag1234","tag12345","tag2","tag45","tag547",
-			"tag1","tag12","tag123","tag1234","tag12345","tag2","tag45","tag547",
-			"tag1","tag12","tag123","tag1234","tag12345","tag2","tag45","tag547"};
+		private ObservableCollection<string> _tags = new ObservableCollection<string>{"sed", "nec"};
 
 		public ObservableCollection<string> Tags
 		{ 

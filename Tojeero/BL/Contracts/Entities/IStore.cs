@@ -9,6 +9,8 @@ namespace Tojeero.Core
 		string LowercaseName { get; }
 		string ImageUrl { get; }
 		string CategoryID { get; }
+		int? CityId { get; }
+		int? CountryId { get; }
 	}
 }
 

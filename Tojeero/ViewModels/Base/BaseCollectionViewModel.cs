@@ -122,11 +122,29 @@ namespace Tojeero.Core.ViewModels
 			get
 			{
 				_loadFirstPageCommand = _loadFirstPageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						_lastExecutedCommand = Commands.LoadNextPage;
+					{						
 						await loadNextPage();
 					}, () => CanExecuteLoadNextPageCommand && this.Count == 0);
 				return _loadFirstPageCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _refetchCommand;
+
+		public System.Windows.Input.ICommand RefetchCommand
+		{
+			get
+			{
+				_refetchCommand = _refetchCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						await Task.Factory.StartNew(() => {
+							while(!CanExecuteLoadNextPageCommand)
+							{}
+						});
+						this.Collection = null;
+						await loadNextPage();
+					});
+				return _refetchCommand;
 			}
 		}
 
@@ -153,6 +171,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+
 		public System.Windows.Input.ICommand ReloadCommand
 		{
 			get
@@ -192,6 +211,7 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task loadNextPage()
 		{
+			_lastExecutedCommand = Commands.LoadNextPage;
 			this.StartLoading(AppResources.MessageGeneralLoading);
 			string failureMessage = "";
 			try
@@ -210,7 +230,7 @@ namespace Tojeero.Core.ViewModels
 					await _collection.FetchNextPageAsync();
 				}
 				//If no data was fetched and there was no network connection available warn user
-				if(initialCount == this.Count && !this.IsNetworkAvailable)
+				if (initialCount == this.Count && !this.IsNetworkAvailable)
 				{
 					failureMessage = AppResources.MessageLoadingFailedNoInternet;
 				}
@@ -238,7 +258,7 @@ namespace Tojeero.Core.ViewModels
 				await collection.FetchNextPageAsync();
 				this.Collection = collection;
 				//If no data was fetched and there was no network connection available warn user
-				if(this.Count == 0 && !this.IsNetworkAvailable)
+				if (this.Count == 0 && !this.IsNetworkAvailable)
 				{
 					failureMessage = AppResources.MessageLoadingFailedNoInternet;
 				}

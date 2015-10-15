@@ -35,7 +35,10 @@ namespace Tojeero.Forms
 			this.ViewModel = MvxToolbox.LoadViewModel<ProductsViewModel>();
 			this.ToolbarItems.Add(new ToolbarItem("Filter", "", async () =>
 					{
-						await this.Navigation.PushModalAsync(new NavigationPage(new FilterProductsPage()));
+						await this.Navigation.PushModalAsync(new NavigationPage(new FilterProductsPage()
+								{
+									DidClose = didCloseFilter
+								}));
 					}));
 			this.SearchBar.Placeholder = AppResources.PlaceholderSearchProducts;
 			ListView.ItemSelected += itemSelected;
@@ -55,9 +58,14 @@ namespace Tojeero.Forms
 
 		#region UI Events
 
-		private void itemSelected (object sender, SelectedItemChangedEventArgs e)
+		private void itemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
 			((ListView)sender).SelectedItem = null;
+		}
+
+		private void didCloseFilter()
+		{
+			this.ViewModel.ViewModel.RefetchCommand.Execute(null);
 		}
 
 		#endregion

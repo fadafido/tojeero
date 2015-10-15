@@ -74,6 +74,20 @@ namespace Tojeero.Core.Toolbox
 			}
 		}
 
+		public static IList<T> SubCollection<T>(this IList<T> items, int index, int count)
+		{
+			if (items == null)
+				throw new ArgumentNullException("items");
+			if (index < 0 || index > items.Count)
+				throw new IndexOutOfRangeException();
+			var list = new List<T>();
+			for (int i = index; i < Math.Min(items.Count, index + count); i++)
+			{
+				list.Add(items[i]);
+			}
+			return list;
+		}
+
 		public static string PrintCollection<T>(this IEnumerable<T> collection, string joinString = "\n", Func<T, string> format = null)
 		{
 			var items = collection.Select(item => format != null ? format(item) : item.ToString());
@@ -81,6 +95,7 @@ namespace Tojeero.Core.Toolbox
 			Tools.Logger.Log(result);
 			return result;
 		}
+			
 	}
 }
 

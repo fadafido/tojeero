@@ -12,6 +12,23 @@ namespace Tojeero.Core
 {
 	public class ProductCategory : BaseLocalizableModelEntity<ParseProductCategory>, IProductCategory
 	{
+		#region Private fields and properties
+
+		private IProductSubcategoryManager _subcategoryManager;
+		private IProductSubcategoryManager SubcategoryManager
+		{
+			get
+			{
+				if (_subcategoryManager == null)
+				{
+					_subcategoryManager = Mvx.Resolve<IProductSubcategoryManager>();
+				}
+				return _subcategoryManager;
+			}
+		}
+
+		#endregion
+
 		#region Constructors
 
 		public ProductCategory()
@@ -66,7 +83,6 @@ namespace Tojeero.Core
 				this.ParseObject.Name_ar = value;
 			}
 		}
-
 
 		#endregion
 

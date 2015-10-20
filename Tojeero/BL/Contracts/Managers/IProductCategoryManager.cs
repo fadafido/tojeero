@@ -7,6 +7,7 @@ namespace Tojeero.Core
 	public interface IProductCategoryManager : IBaseModelEntityManager
 	{
 		Task<IEnumerable<IProductCategory>> Fetch();
+		IProductCategory Create();
 	}
 }
 

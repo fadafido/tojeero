@@ -53,7 +53,8 @@ namespace Tojeero.Core
 			var cacheName = CachedQuery.GetEntityCacheName<Entity>();
 			var cachedQuery = await Cache.FetchObjectAsync<CachedQuery>(loader.ID).ConfigureAwait(false);
 			bool isExpired = cachedQuery == null || cachedQuery.IsExpired;
-
+			//TODO:Currently we disable caching. In future phases we'll work on caching.
+			isExpired = true;
 			//If the query has not ever been executed or was expired fetch the results from backend and save them to local cache
 			if (isExpired)
 			{

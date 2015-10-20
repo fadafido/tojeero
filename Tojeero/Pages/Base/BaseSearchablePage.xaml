@@ -18,10 +18,10 @@
 				IsNetworkAvailable="{Binding ViewModel.IsNetworkAvailable}"
 				TryAgainCommand="{Binding ViewModel.TryAgainCommand}" />
 			<SearchBar
-    			Placeholder="{local:Translate PlaceholderSearchProducts}"
+    			x:Name="searchBar"
 				Text="{Binding SearchQuery}"/>
 			<local:InfiniteListView
-				x:Name="ListView"
+				x:Name="listView"
 				ItemsSource="{Binding ViewModel.Collection}"
 				BackgroundColor="Transparent"
 				RowHeight="100"

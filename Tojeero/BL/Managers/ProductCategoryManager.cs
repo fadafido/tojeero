@@ -37,6 +37,11 @@ namespace Tojeero.Core
 			await _manager.Cache.Clear<ProductCategory>();
 		}
 
+		public IProductCategory Create()
+		{
+			return new ProductCategory();
+		}
+
 		#endregion
 	}
 

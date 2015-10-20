@@ -89,6 +89,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        internal static string ButtonDone {
+            get {
+                return ResourceManager.GetString("ButtonDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log in.
         /// </summary>
         internal static string ButtonLogin {
@@ -112,6 +121,15 @@ namespace Tojeero.Forms.Resources {
         internal static string ButtonSubmit {
             get {
                 return ResourceManager.GetString("ButtonSubmit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        internal static string LabelCategory {
+            get {
+                return ResourceManager.GetString("LabelCategory", resourceCulture);
             }
         }
         
@@ -143,6 +161,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End price.
+        /// </summary>
+        internal static string LabelEndPrice {
+            get {
+                return ResourceManager.GetString("LabelEndPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         internal static string LabelFirstName {
@@ -166,6 +193,33 @@ namespace Tojeero.Forms.Resources {
         internal static string LabelMobilePhone {
             get {
                 return ResourceManager.GetString("LabelMobilePhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price range.
+        /// </summary>
+        internal static string LabelPriceRange {
+            get {
+                return ResourceManager.GetString("LabelPriceRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start price.
+        /// </summary>
+        internal static string LabelStartPrice {
+            get {
+                return ResourceManager.GetString("LabelStartPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subcategory.
+        /// </summary>
+        internal static string LabelSubcategory {
+            get {
+                return ResourceManager.GetString("LabelSubcategory", resourceCulture);
             }
         }
         
@@ -305,6 +359,24 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search for existing tags.
+        /// </summary>
+        internal static string PlaceholderSearchTags {
+            get {
+                return ResourceManager.GetString("PlaceholderSearchTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter Products.
+        /// </summary>
+        internal static string TitleFilterProducts {
+            get {
+                return ResourceManager.GetString("TitleFilterProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Products.
         /// </summary>
         internal static string TitleProducts {
@@ -328,6 +400,15 @@ namespace Tojeero.Forms.Resources {
         internal static string TitleStores {
             get {
                 return ResourceManager.GetString("TitleStores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        internal static string TitleTags {
+            get {
+                return ResourceManager.GetString("TitleTags", resourceCulture);
             }
         }
     }

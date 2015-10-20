@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -267,6 +267,13 @@
     <Compile Include="..\Tojeero\BL\Managers\StoreCategoryManager.cs">
       <Link>Core\BL\Managers\StoreCategoryManager.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\TagManager.cs">
+      <Link>Core\BL\Managers\TagManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Tag.cs">
+      <Link>Core\BL\Entities\Tag.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -335,6 +342,8 @@
     <AndroidResource Include="Resources\drawable\tab_indicator_ab_tojeero.xml" />
     <AndroidResource Include="Resources\drawable-xhdpi\menuIcon.png" />
     <AndroidResource Include="Resources\drawable\actionbar_titletext_tojeero.xml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\checkmark.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\closeTag.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

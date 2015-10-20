@@ -29,21 +29,43 @@ namespace Tojeero.iOS
 		public string Description { get; set; }
 	}
 
+	class JsonSubcategory
+	{
+		public string name_en { get; set; }
+		public string name_ar { get; set; }
+		public string category { get; set; }
+	}
+
 	public static class BootstrapData
 	{
-		public static async Task GenerateSampleProductsAndStores()
+		public static async Task GenerateSampleProducts()
 		{
 			string stage = "";
 			int index = 0;
 			try
 			{
+				var catMap = new Dictionary<ParseProductCategory,ParseProductSubcategory[]>();
+				var categories = (await new ParseQuery<ParseProductCategory>().FindAsync()).ToArray();
+				foreach(var cat in categories)
+				{
+					catMap[cat] = (await new ParseQuery<ParseProductSubcategory>().Where(s => s.Category == cat).FindAsync()).ToArray();
+				}
+
+				var countryMap = new Dictionary<int, ParseCity[]>();
+				var countries = (await new ParseQuery<ParseCountry>().FindAsync()).ToArray();
+				foreach(var c in countries)
+				{
+					countryMap[c.CountryId] = (await new ParseQuery<ParseCity>().Where(cty => cty.CountryId == c.CountryId).FindAsync()).ToArray();
+				}
+
 				var jsonProducts = await LoadFromJson<JsonProduct>("products.json");
-				var jsonStores = await LoadFromJson<JsonStore>("stores.json");
-				int productSampleCount = 18, storeSampleCount = 12;
-				int productCount = jsonProducts.Count, storeCount = jsonStores.Count;
+				int productSampleCount = 18;
+				int productCount = jsonProducts.Count;
 				string productsDir = "Samples/Products/";
-				string storesDir = "Samples/Stores/";
-				Random priceRandom = new Random();
+				Random catRandom = new Random();
+				Random subcatRandom = new Random();
+				Random countryRand = new Random();
+				Random cityRand = new Random();
 
 				/////////
 				stage = "Loading product images";
@@ -54,16 +76,7 @@ namespace Tojeero.iOS
 						var name = string.Format("Product {0}.png", i);
 						return new ParseFile(name, UIImage.FromFile(string.Format("{0}{1}", productsDir, name)).GetRawBytes(ImageType.Png));
 					}).ToArray();
-
-				////////
-				stage = "Loading store images";
-				index = 0;
-				var storeImages = Enumerable.Range(1, storeSampleCount).Select(i =>
-					{
-						index++;
-						var name = string.Format("Store {0}.png", i);
-						return new ParseFile(name, UIImage.FromFile(string.Format("{0}{1}", storesDir, name)).GetRawBytes(ImageType.Png));
-					}).ToArray();
+						
 
 				//////////
 				stage = "Saving product images";
@@ -75,18 +88,7 @@ namespace Tojeero.iOS
 					await file.SaveAsync();
 					Console.WriteLine("Saved {0} of {1} product images", count++, productSampleCount);
 				}
-
-				//////////
-				stage = "Saving store images";
-				count = 0;
-				index = 0;
-				foreach (var file in storeImages)
-				{
-					index++;
-					await file.SaveAsync();
-					Console.WriteLine("Saved {0} of {1} store images", count++, storeSampleCount);
-				}
-
+					
 				//////////
 				stage = "Saving products";
 				List<ParseProduct> products = new List<ParseProduct>();
@@ -101,14 +103,66 @@ namespace Tojeero.iOS
 						Description = prod.Description,
 						Tags = prod.Tags.Tokenize(),
 						Image = productImages[i % productSampleCount],
-						Price = prod.Price
+						Price = prod.Price,
 					};
+					product.Category = categories[catRandom.Next(0, categories.Length)];
+					var subs = catMap[product.Category];
+					product.Subcategory = subs[subcatRandom.Next(0, subs.Length)];
+
+					product.CountryId = countries[countryRand.Next(0, countries.Length)].CountryId;
+					var cities = countryMap[product.CountryId.Value];
+					product.CityId = cities[cityRand.Next(0, cities.Length)].CityId;
+
 					product.SearchTokens = new string[] { product.Name, product.Description, prod.Tags }.Tokenize();
+					var tags = prod.Tags.Tokenize().Select(t => new ParseTag() {Text = t});
+					try {
+						await tags.SaveAllAsync();
+					} catch (Exception ex) {
+						
+					}
 					products.Add(product);
 				}
 				await ParseObject.SaveAllAsync<ParseProduct>(products);
 				Console.WriteLine("Saved {0} products ", productCount);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Error occured while {0}, index = {1}. {2}.", stage, index, ex.ToString());
+			}
+		}
 
+		public static async Task GenerateSampleStores()
+		{
+			string stage = "";
+			int index = 0;
+			try
+			{
+				var jsonStores = await LoadFromJson<JsonStore>("stores.json");
+				int storeSampleCount = 12, count;
+				int storeCount = jsonStores.Count;
+				string storesDir = "Samples/Stores/";
+
+				////////
+				stage = "Loading store images";
+				index = 0;
+				var storeImages = Enumerable.Range(1, storeSampleCount).Select(i =>
+					{
+						index++;
+						var name = string.Format("Store {0}.png", i);
+						return new ParseFile(name, UIImage.FromFile(string.Format("{0}{1}", storesDir, name)).GetRawBytes(ImageType.Png));
+					}).ToArray();
+						
+				//////////
+				stage = "Saving store images";
+				count = 0;
+				index = 0;
+				foreach (var file in storeImages)
+				{
+					index++;
+					await file.SaveAsync();
+					Console.WriteLine("Saved {0} of {1} store images", count++, storeSampleCount);
+				}
+					
 				//////////
 				stage = "Saving stores";
 				List<ParseStore> stores = new List<ParseStore>();
@@ -117,12 +171,12 @@ namespace Tojeero.iOS
 					index = i;
 					var s = jsonStores[i];
 					var store = new ParseStore()
-					{
-						Name = s.Name,
-						LowercaseName = s.Name.ToLower(),
-						Image = storeImages[i % storeSampleCount],
-						Description = s.Description						
-					};
+						{
+							Name = s.Name,
+							LowercaseName = s.Name.ToLower(),
+							Image = storeImages[i % storeSampleCount],
+							Description = s.Description						
+						};
 					store.SearchTokens = new string[] { s.Name, s.Description }.Tokenize();
 					stores.Add(store);
 				}
@@ -134,7 +188,6 @@ namespace Tojeero.iOS
 				Console.WriteLine("Error occured while {0}, index = {1}. {2}.", stage, index, ex.ToString());
 			}
 		}
-
 
 		public static async Task CreateData()
 		{
@@ -179,6 +232,16 @@ namespace Tojeero.iOS
 			};
 
 			await ParseObject.SaveAllAsync<ParseCountry>(countries);
+		}
+
+		public static async Task CreateSubcategories()
+		{
+			var subcategories = (await LoadFromJson<JsonSubcategory>("subcategories.json")).Select(s => new ParseProductSubcategory() { 
+				Name_en = s.name_en,
+				Name_ar = s.name_ar,
+				Category = ParseObject.CreateWithoutData<ParseProductCategory>(s.category)
+			});
+			await subcategories.SaveAllAsync();
 		}
 
 		private static async Task<List<T>> LoadFromJson<T>(string file)

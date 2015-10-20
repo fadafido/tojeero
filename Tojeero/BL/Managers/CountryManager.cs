@@ -34,6 +34,11 @@ namespace Tojeero.Core
 			return _manager.Cache.Clear<Country>();
 		}
 
+		public ICountry Create()
+		{
+			return new Country();
+		}
+
 		#endregion
 	}
 

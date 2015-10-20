@@ -133,6 +133,32 @@ namespace Tojeero.Core
 			}
 		}
 
+		public int? CityId
+		{
+			get
+			{
+				return this.ParseObject.CityId;
+			}
+			set
+			{
+				this.ParseObject.CityId = value;
+				this.RaisePropertyChanged(() => CityId);
+			}
+		}
+
+		public int? CountryId
+		{
+			get
+			{
+				return this.ParseObject.CountryId;
+			}
+			set
+			{
+				this.ParseObject.CountryId = value;
+				this.RaisePropertyChanged(() => CountryId);
+			}
+		}
+
 		[Ignore]
 		public IList<string> SearchTokens
 		{
@@ -145,6 +171,22 @@ namespace Tojeero.Core
 				if (_parseObject != null)
 				{
 					_parseObject.SearchTokens = value;
+				}
+			}
+		}
+
+		[Ignore]
+		public IList<string> Tags
+		{
+			get
+			{
+				return _parseObject != null ? _parseObject.Tags : null;
+			}
+			set
+			{
+				if (_parseObject != null)
+				{
+					_parseObject.Tags = value;
 				}
 			}
 		}
@@ -282,6 +324,32 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<ParseProductSubcategory>(value);
+			}
+		}
+
+		[ParseFieldName("cityId")]
+		public int? CityId
+		{
+			get
+			{
+				return GetProperty<int?>();
+			}
+			set
+			{
+				SetProperty<int?>(value);
+			}
+		}
+
+		[ParseFieldName("countryId")]
+		public int? CountryId
+		{
+			get
+			{
+				return GetProperty<int?>();
+			}
+			set
+			{
+				SetProperty<int?>(value);
 			}
 		}
 		#endregion

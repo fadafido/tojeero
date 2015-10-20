@@ -12,6 +12,9 @@ namespace Tojeero.Core
 		string FormattedPrice { get; }
 		string CategoryID { get; }
 		string SubcategoryID { get; }
+		int? CityId { get; }
+		int? CountryId { get; }
+		IList<string> Tags { get; set; }
 	}
 }
 

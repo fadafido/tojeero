@@ -59,6 +59,35 @@ namespace Tojeero.Core.Toolbox
 				collection.Add(item);
 		}
 
+		public static void InsertRange<T>(this IList<T> list, int index, IEnumerable<T> items)
+		{
+			if (list == null)
+				throw new ArgumentNullException("list");
+			if (items == null)
+				throw new ArgumentNullException("items");
+			if (index < 0 || index > list.Count)
+				throw new IndexOutOfRangeException();
+			int j = index;
+			foreach(var item in items)
+			{
+				list.Insert(j++, item);
+			}
+		}
+
+		public static IList<T> SubCollection<T>(this IList<T> items, int index, int count)
+		{
+			if (items == null)
+				throw new ArgumentNullException("items");
+			if (index < 0 || index > items.Count)
+				throw new IndexOutOfRangeException();
+			var list = new List<T>();
+			for (int i = index; i < Math.Min(items.Count, index + count); i++)
+			{
+				list.Add(items[i]);
+			}
+			return list;
+		}
+
 		public static string PrintCollection<T>(this IEnumerable<T> collection, string joinString = "\n", Func<T, string> format = null)
 		{
 			var items = collection.Select(item => format != null ? format(item) : item.ToString());
@@ -66,6 +95,7 @@ namespace Tojeero.Core.Toolbox
 			Tools.Logger.Log(result);
 			return result;
 		}
+			
 	}
 }
 

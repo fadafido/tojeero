@@ -135,7 +135,7 @@ namespace Tojeero.Forms
 
 		#region Commands
 
-		public static readonly BindableProperty TryAgainCommandProperty = BindableProperty.Create<InfiniteListView, ICommand>(bp => bp.LoadMoreCommand, default(ICommand), propertyChanged: OnTryAgainCommandChanged);
+		public static readonly BindableProperty TryAgainCommandProperty = BindableProperty.Create<NetworkPageHeader, ICommand>(bp => bp.TryAgainCommand, default(ICommand), propertyChanged: OnTryAgainCommandChanged);
 
 		public ICommand TryAgainCommand
 		{

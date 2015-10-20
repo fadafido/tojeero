@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -159,6 +159,34 @@
     <Compile Include="BL\Contracts\Entities\ISearchToken.cs" />
     <Compile Include="BL\Entities\SearchToken.cs" />
     <Compile Include="BL\Contracts\Entities\ISearchableEntity.cs" />
+    <Compile Include="ViewModels\Main\FilterProductsViewModel.cs" />
+    <Compile Include="BL\Contracts\Entities\ITag.cs" />
+    <Compile Include="BL\Contracts\Managers\ITagManager.cs" />
+    <Compile Include="ViewModels\Misc\TagsViewModel.cs" />
+    <Compile Include="Pages\Misc\TagsPage.xaml.cs">
+      <DependentUpon>TagsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Base\BaseSelectableCollectionViewModel.cs" />
+    <Compile Include="BL\Contracts\Entities\ISelectableEntity.cs" />
+    <Compile Include="Misc\Custom Cells\TagListCell.xaml.cs">
+      <DependentUpon>TagListCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\RuntimeSettings.cs" />
+    <Compile Include="BL\Contracts\Entities\IProductFilter.cs" />
+    <Compile Include="BL\Entities\ProductFilter.cs" />
+    <Compile Include="Misc\Messages\ProductFilterChangedMessage.cs" />
+    <Compile Include="Pages\Main\FilterProductsPage.xaml.cs">
+      <DependentUpon>FilterProductsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Custom Controls\WrapLayout.cs" />
+    <Compile Include="Misc\Custom Controls\TagCloud.cs" />
+    <Compile Include="Misc\Custom Controls\ObservedCollection.cs" />
+    <Compile Include="Misc\Custom Controls\TagControl.xaml.cs">
+      <DependentUpon>TagControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Custom Controls\RoundedBox.cs" />
+    <Compile Include="Misc\Converters\DoubleConverter.cs" />
+    <Compile Include="BL\Entities\ProductTag.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -245,6 +273,8 @@
     <Folder Include="BL\Managers\" />
     <Folder Include="Misc\Custom Cells\" />
     <Folder Include="DAL\Contracts\" />
+    <Folder Include="ViewModels\Misc\" />
+    <Folder Include="Pages\Misc\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">
@@ -280,6 +310,18 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\Base\BaseSearchablePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Misc\TagsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Cells\TagListCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Main\FilterProductsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\TagControl.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

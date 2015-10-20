@@ -28,14 +28,14 @@ namespace Tojeero.Core
 
 		#region IProductManager implementation
 
-		public Task<IEnumerable<IProduct>> Fetch(int pageSize, int offset)
+		public Task<IEnumerable<IProduct>> Fetch(int pageSize, int offset, IProductFilter filter = null)
 		{
-			return _manager.Fetch<IProduct, Product>(new FetchProductsQuery(pageSize, offset, _manager), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			return _manager.Fetch<IProduct, Product>(new FetchProductsQuery(pageSize, offset, _manager, filter), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
 
-		public Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset)
+		public Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset, IProductFilter filter = null)
 		{
-			return _manager.Fetch<IProduct, Product>(new FindProductsQuery(query, pageSize, offset, _manager), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			return _manager.Fetch<IProduct, Product>(new FindProductsQuery(query, pageSize, offset, _manager, filter), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
 
 		public Task ClearCache()
@@ -53,9 +53,11 @@ namespace Tojeero.Core
 		int pageSize;
 		int offset;
 		IModelEntityManager manager;
+		IProductFilter filter;
 
-		public FetchProductsQuery(int pageSize, int offset, IModelEntityManager manager)
+		public FetchProductsQuery(int pageSize, int offset, IModelEntityManager manager, IProductFilter filter = null)
 		{
+			this.filter = filter;
 			this.manager = manager;
 			this.offset = offset;
 			this.pageSize = pageSize;
@@ -66,23 +68,33 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				string cachedQueryId = string.Format("products-p{0}o{1}", pageSize, offset);
-				return cachedQueryId;
+				return this.ToString();
 			}
 		}
 
 		public async Task<IEnumerable<IProduct>> LocalQuery()
 		{
-			return await manager.Cache.FetchProducts(pageSize, offset);
+			return await manager.Cache.FetchProducts(pageSize, offset, filter);
 		}
 
 		public async Task<IEnumerable<IProduct>> RemoteQuery()
 		{
-			return await manager.Rest.FetchProducts(pageSize, offset);
+			return await manager.Rest.FetchProducts(pageSize, offset, filter);
 		}
 
 		public async Task PostProcess(IEnumerable<IProduct> items)
 		{
+			await manager.Cache.SaveSearchTokens(items, CachedQuery.GetEntityCacheName<Product>());
+			foreach (var p in items)
+			{
+				await manager.Cache.SaveProductTags(p.ID, p.Tags);
+			}
+		}
+
+		public override string ToString()
+		{
+			string cachedQueryId = string.Format("products:p_{0}o_{1}-f_{2}", pageSize, offset, filter);
+			return cachedQueryId;
 		}
 	}
 
@@ -92,9 +104,11 @@ namespace Tojeero.Core
 		int offset;
 		IModelEntityManager manager;
 		string searchQuery;
+		IProductFilter filter;
 
-		public FindProductsQuery(string searchQuery, int pageSize, int offset, IModelEntityManager manager)
+		public FindProductsQuery(string searchQuery, int pageSize, int offset, IModelEntityManager manager, IProductFilter filter = null)
 		{
+			this.filter = filter;
 			this.searchQuery = searchQuery;
 			this.manager = manager;
 			this.offset = offset;
@@ -106,26 +120,36 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				string cachedQueryId = string.Format("products-p{0}o{1}-{2}", pageSize, offset, string.Join(",",searchQuery.Tokenize()));
-				return cachedQueryId;
+				return this.ToString();
 			}
 		}
 
 		public async Task<IEnumerable<IProduct>> LocalQuery()
 		{
-			var result = await manager.Cache.FindProducts(searchQuery, pageSize, offset);
+			var result = await manager.Cache.FindProducts(searchQuery, pageSize, offset, filter);
 			return result;
 		}
 
 		public async Task<IEnumerable<IProduct>> RemoteQuery()
 		{
-			var result = await manager.Rest.FindProducts(searchQuery, pageSize, offset);
+			var result = await manager.Rest.FindProducts(searchQuery, pageSize, offset, filter);
 			return result;
 		}
 
 		public async Task PostProcess(IEnumerable<IProduct> items)
 		{
 			await manager.Cache.SaveSearchTokens(items, CachedQuery.GetEntityCacheName<Product>());
+			foreach (var p in items)
+			{
+				await manager.Cache.SaveProductTags(p.ID, p.Tags);
+			}
+		}
+
+		public override string ToString()
+		{
+			var searchTokens = searchQuery.Tokenize().SubCollection(0, Constants.ParseContainsAllLimit);
+			string cachedQueryId = string.Format("products:p_{0}o_{1}-s_{2}-f_{3}", pageSize, offset, string.Join(",", searchTokens), filter);
+			return cachedQueryId;
 		}
 	}
 

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.TagListCell"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms">
+	<StackLayout
+		BackgroundColor="Transparent"
+		Orientation="Horizontal"
+		Padding="10,5,10,5">
+		<Label
+			Text="{Binding Text}"
+			TextColor="{x:Static local:Colors.Black}"
+			VerticalOptions="Center" 
+			HorizontalOptions="StartAndExpand"/>
+		<Image
+			Source="checkmark.png"
+			IsVisible="{Binding IsSelected}"
+			HorizontalOptions="End"
+			VerticalOptions="Center"/>
+	</StackLayout>
+</ViewCell>

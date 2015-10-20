@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Tojeero.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Tojeero.iOS</AssemblyName>
+    <AssemblyName>TojeeroiOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -244,6 +244,9 @@
     <BundleResource Include="Resources\Samples\Stores\Store 1.PNG" />
     <BundleResource Include="Resources\Samples\products.json" />
     <BundleResource Include="Resources\Samples\stores.json" />
+    <BundleResource Include="Resources\checkmark%403x.png" />
+    <BundleResource Include="Resources\closeTag%402x.png" />
+    <BundleResource Include="Resources\Samples\subcategories.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -348,6 +351,13 @@
     <Compile Include="Misc\Toolbox\InputToolboxView.designer.cs">
       <DependentUpon>InputToolboxView.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\TagManager.cs">
+      <Link>Core\BL\Managers\TagManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Tag.cs">
+      <Link>Core\BL\Entities\Tag.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

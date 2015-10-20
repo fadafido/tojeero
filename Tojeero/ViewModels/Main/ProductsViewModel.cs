@@ -4,6 +4,8 @@ using System.Threading;
 using System.Linq;
 using System.Threading.Tasks;
 using Tojeero.Core.Toolbox;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core.Messages;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -12,15 +14,20 @@ namespace Tojeero.Core.ViewModels
 		#region Private fields and properties
 
 		private readonly IProductManager _manager;
+		private readonly MvxSubscriptionToken _token;
 
 		#endregion
 
 		#region Constructors
 
-		public ProductsViewModel(IProductManager manager)
+		public ProductsViewModel(IProductManager manager, IMvxMessenger messenger)
 			: base()
 		{
 			_manager = manager;
+			_token = messenger.Subscribe<ProductFilterChangedMessage>((m) =>
+				{
+					this.ViewModel.RefetchCommand.Execute(null);
+				});
 		}
 
 		#endregion
@@ -52,7 +59,7 @@ namespace Tojeero.Core.ViewModels
 
 			public Task<IEnumerable<IProduct>> Fetch(int pageSize = -1, int offset = -1)
 			{
-				return manager.Fetch(pageSize, offset);
+				return manager.Fetch(pageSize, offset, RuntimeSettings.ProductFilter);
 			}
 
 			private Comparison<IProduct> _comparer;
@@ -92,7 +99,7 @@ namespace Tojeero.Core.ViewModels
 
 			public Task<IEnumerable<IProduct>> Fetch(int pageSize = -1, int offset = -1)
 			{
-				return manager.Find(searchQuery, pageSize, offset);
+				return manager.Find(searchQuery, pageSize, offset, RuntimeSettings.ProductFilter);
 			}
 
 			private Comparison<IProduct> _comparer;

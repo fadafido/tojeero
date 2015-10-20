@@ -1,29 +1,48 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Application
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
-    x:Class="Tojeero.Forms.FormsApp">
-    <Application.Resources>
-        <ResourceDictionary>        	
-        	<Style x:Key="BaseButton" TargetType="Button">
-                <Setter Property="BorderRadius" Value="3"/>
-                <Setter Property="HeightRequest" Value="40"/>
-                <Setter Property="TextColor" Value="White"/>
-            </Style>
-
-            <Style x:Key="PositiveButton" TargetType="Button" BaseResourceKey="BaseButton">
-                <Setter Property="BackgroundColor" Value="{x:Static local:Colors.Green}"/>
-            </Style>
-
-             <Style x:Key="NegativeButton" TargetType="Button" BaseResourceKey="BaseButton">
-                <Setter Property="BackgroundColor" Value="{x:Static local:Colors.Orange}"/>
-            </Style>
-
-             <Style x:Key="DarkButton" TargetType="Button" BaseResourceKey="BaseButton">
-                <Setter Property="BackgroundColor" Value="{x:Static local:Colors.DarkBlack}"/>
-            </Style>
-
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.FormsApp">
+	<Application.Resources>
+		<ResourceDictionary>
+			<Style
+				x:Key="BaseButton"
+				TargetType="Button">
+				<Setter
+					Property="BorderRadius"
+					Value="3" />
+				<Setter
+					Property="HeightRequest"
+					Value="40" />
+				<Setter
+					Property="TextColor"
+					Value="White" />
+			</Style>
+			<Style
+				x:Key="PositiveButton"
+				TargetType="Button"
+				BaseResourceKey="BaseButton">
+				<Setter
+					Property="BackgroundColor"
+					Value="{x:Static local:Colors.Green}" />
+			</Style>
+			<Style
+				x:Key="NegativeButton"
+				TargetType="Button"
+				BaseResourceKey="BaseButton">
+				<Setter
+					Property="BackgroundColor"
+					Value="{x:Static local:Colors.Orange}" />
+			</Style>
+			<Style
+				x:Key="DarkButton"
+				TargetType="Button"
+				BaseResourceKey="BaseButton">
+				<Setter
+					Property="BackgroundColor"
+					Value="{x:Static local:Colors.DarkBlack}" />
+			</Style>
 			<local:VisibilityConverter
 				x:Key="visibility" />
 			<local:InverseBoolConverter
@@ -34,6 +53,8 @@
 				x:Key="inverseOpacity" />
 			<local:UrlToCachedImageSourceConverter
 				x:Key="cachedImage" />
-        </ResourceDictionary>
-    </Application.Resources>
+			<local:DoubleConverter
+				x:Key="double" />
+		</ResourceDictionary>
+	</Application.Resources>
 </Application>

@@ -18,6 +18,7 @@ namespace Tojeero.Core.ViewModels
 		private readonly ITagManager _tagManager;
 		private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
 		private AsyncReaderWriterLock _subcategoriesLock = new AsyncReaderWriterLock();
+
 		#endregion
 
 		#region Constructors
@@ -55,11 +56,17 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 		#region Properties
+
+		private IProductFilter _productFilter;
 		public IProductFilter ProductFilter
 		{
 			get
 			{
-				return RuntimeSettings.ProductFilter;
+				if(_productFilter == null)
+				{
+					_productFilter = RuntimeSettings.ProductFilter.Clone();
+				}
+				return _productFilter;
 			}
 		}
 
@@ -152,6 +159,20 @@ namespace Tojeero.Core.ViewModels
 						await reload();
 					}, () => !IsLoading);
 				return _reloadCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _doneCommand;
+
+		public System.Windows.Input.ICommand DoneCommand
+		{
+			get
+			{
+				_doneCommand = _doneCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
+					{
+						RuntimeSettings.ProductFilter = this.ProductFilter;
+					});
+				return _doneCommand;
 			}
 		}
 

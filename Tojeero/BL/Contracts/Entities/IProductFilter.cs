@@ -14,6 +14,7 @@ namespace Tojeero.Core
 		double? StartPrice { get; set; }
 		double? EndPrice { get; set; }
 		ObservableCollection<string> Tags { get; set; }
+		IProductFilter Clone();
 	}
 }
 

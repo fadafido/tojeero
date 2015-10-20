@@ -6,6 +6,7 @@ using Cirrious.CrossCore;
 using Tojeero.Core.Services;
 using Tojeero.Core.Messages;
 using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core
 {
@@ -97,7 +98,7 @@ namespace Tojeero.Core
 		}
 	
 
-		private double? _startPrice;
+		private double? _startPrice = 100;
 
 		public double? StartPrice
 		{ 
@@ -112,7 +113,7 @@ namespace Tojeero.Core
 			}
 		}
 
-		private double? _endPrice;
+		private double? _endPrice = 1000;
 
 		public double? EndPrice
 		{ 
@@ -127,8 +128,7 @@ namespace Tojeero.Core
 			}
 		}
 
-		private ObservableCollection<string> _tags = new ObservableCollection<string>{"sed", "nec"};
-
+		private ObservableCollection<string> _tags = new ObservableCollection<string>();
 		public ObservableCollection<string> Tags
 		{ 
 			get
@@ -142,7 +142,148 @@ namespace Tojeero.Core
 			}
 		}
 
+		public IProductFilter Clone()
+		{
+			var filter = new ProductFilter(){
+				Category = this.Category,
+				Subcategory = this.Subcategory,
+				Country = this.Country,
+				City = this.City,
+				StartPrice = this.StartPrice,
+				EndPrice = this.EndPrice
+			};
+			var tags = new ObservableCollection<string>();
+			tags.AddRange(this.Tags);
+			filter.Tags = tags;
+			return filter;
+		}
+
 		#endregion
+
+		#region Overriding Parent
+
+		public override string ToString()
+		{
+			List<string> components = new List<string>();
+			if (this.Category != null)
+			{
+				components.Add("ct:" + this.Category.ID);
+			}
+
+			if (this.Subcategory != null)
+			{
+				components.Add("sct:" + this.Subcategory.ID);
+			}
+
+			if (this.Country != null)
+			{
+				components.Add("cn:" + this.Country.CountryId);
+			}
+
+			if (this.City != null)
+			{
+				components.Add("cty:" + this.City.CityId);
+			}
+
+			if (this.Tags != null && this.Tags.Count > 0)
+			{
+				components.Add("t:" + string.Join(",",this.Tags.SubCollection(0, Constants.ParseContainsAllLimit)));
+			}
+
+			if (this.StartPrice != null)
+			{
+				components.Add("sp:" + this.StartPrice.Value);
+			}
+
+			if (this.EndPrice != null)
+			{
+				components.Add("ep:" + this.EndPrice.Value);
+			}
+			return string.Join("|", components);
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null)
+				return false;
+
+			if (System.Object.ReferenceEquals(this, obj))
+				return true;
+
+			var filter = obj as IProductFilter;
+			if (filter == null)
+				return false;
+
+			if (!(this.Category == null && filter.Category == null ||
+			   this.Category != null && filter.Category != null && this.Category.ID == filter.Category.ID))
+				return false;
+			
+			if (!(this.Subcategory == null && filter.Subcategory == null ||
+				this.Subcategory != null && filter.Subcategory != null && this.Subcategory.ID == filter.Subcategory.ID))
+				return false;	
+			
+			if (!(this.City == null && filter.City == null ||
+				this.City != null && filter.City != null && this.City.CityId == filter.City.CityId))
+				return false;	
+			
+			if (!(this.StartPrice == null && filter.StartPrice == null ||
+				this.StartPrice != null && filter.StartPrice != null && this.StartPrice.Value == filter.StartPrice.Value))
+				return false;
+			
+			if (!(this.StartPrice == null && filter.StartPrice == null ||
+				this.StartPrice != null && filter.StartPrice != null && this.StartPrice.Value == filter.StartPrice.Value))
+				return false;	
+
+			if (!(this.EndPrice == null && filter.EndPrice == null ||
+				this.EndPrice != null && filter.EndPrice != null && this.EndPrice.Value == filter.EndPrice.Value))
+				return false;	
+			
+			if (this.Tags == null && filter.Tags == null)
+			{
+				return true;
+			}
+			else if (this.Tags != null && filter.Tags != null)
+			{
+				if (this.Tags.Count != filter.Tags.Count)
+					return false;
+				for (int i = 0; i < this.Tags.Count; i++)
+				{
+					if (this.Tags[i] != filter.Tags[i])
+						return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+				
+			return true;
+		}
+
+		public static bool operator ==(ProductFilter a, ProductFilter b)
+		{
+			// If both are null, or both are same instance, return true.
+			if (System.Object.ReferenceEquals(a, b))
+			{
+				return true;
+			}
+
+			// If one is null, but not both, return false.
+			if (((object)a == null) || ((object)b == null))
+			{
+				return false;
+			}
+
+			return a.Equals(b);
+		}
+
+		public static bool operator !=(ProductFilter a, ProductFilter b)
+		{
+			return !(a == b);
+		}
+
+		#endregion
+
 
 		#region Utility methods
 

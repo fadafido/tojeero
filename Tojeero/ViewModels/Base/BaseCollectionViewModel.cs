@@ -4,6 +4,7 @@ using System.Threading;
 using System.Collections.Generic;
 using Tojeero.Core.Toolbox;
 using Tojeero.Forms.Resources;
+using Nito.AsyncEx;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -24,7 +25,7 @@ namespace Tojeero.Core.ViewModels
 		IModelQuery<T> _query;
 		private int _pageSize;
 		private Commands _lastExecutedCommand;
-
+		private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
 		#endregion
 
 
@@ -211,65 +212,71 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task loadNextPage()
 		{
-			_lastExecutedCommand = Commands.LoadNextPage;
-			this.StartLoading(AppResources.MessageGeneralLoading);
-			string failureMessage = "";
-			try
+			using (var writerLock = await _locker.WriterLockAsync())
 			{
-				int initialCount = this.Count;
-				if (_collection == null)
+				_lastExecutedCommand = Commands.LoadNextPage;
+				this.StartLoading(AppResources.MessageGeneralLoading);
+				string failureMessage = "";
+				try
 				{
-					this.IsLoadingInitialData = true;
-					var collection = new ModelEntityCollection<T>(_query, _pageSize);
-					await collection.FetchNextPageAsync();
-					this.Collection = collection;
+					int initialCount = this.Count;
+					if (_collection == null)
+					{
+						this.IsLoadingInitialData = true;
+						var collection = new ModelEntityCollection<T>(_query, _pageSize);
+						await collection.FetchNextPageAsync();
+						this.Collection = collection;
+					}
+					else
+					{
+						this.IsLoadingNextPage = true;
+						await _collection.FetchNextPageAsync();
+					}
+					//If no data was fetched and there was no network connection available warn user
+					if (initialCount == this.Count && !this.IsNetworkAvailable)
+					{
+						failureMessage = AppResources.MessageLoadingFailedNoInternet;
+					}
 				}
-				else
+				catch (Exception ex)
 				{
-					this.IsLoadingNextPage = true;
-					await _collection.FetchNextPageAsync();
+					failureMessage = handleException(ex);
 				}
-				//If no data was fetched and there was no network connection available warn user
-				if (initialCount == this.Count && !this.IsNetworkAvailable)
-				{
-					failureMessage = AppResources.MessageLoadingFailedNoInternet;
-				}
-			}
-			catch (Exception ex)
-			{
-				failureMessage = handleException(ex);
-			}
 				
-			this.IsLoadingNextPage = false;
-			this.IsLoadingInitialData = false;
-			this.StopLoading(failureMessage);
-			LoadingNextPageFinished.Fire(this, new EventArgs());
+				this.IsLoadingNextPage = false;
+				this.IsLoadingInitialData = false;
+				this.StopLoading(failureMessage);
+				LoadingNextPageFinished.Fire(this, new EventArgs());
+			}
 		}
 
 		private async Task reload()
 		{
-			this.StartLoading(AppResources.MessageGeneralLoading);
-			string failureMessage = "";
-
-			try
+			using (var writerLock = await _locker.WriterLockAsync())
 			{
-				await _query.ClearCache();
-				var collection = new ModelEntityCollection<T>(_query, _pageSize);
-				await collection.FetchNextPageAsync();
-				this.Collection = collection;
-				//If no data was fetched and there was no network connection available warn user
-				if (this.Count == 0 && !this.IsNetworkAvailable)
+				this.StartLoading(AppResources.MessageGeneralLoading);
+				string failureMessage = "";
+
+				try
 				{
-					failureMessage = AppResources.MessageLoadingFailedNoInternet;
+					await _query.ClearCache();
+					var collection = new ModelEntityCollection<T>(_query, _pageSize);
+					await collection.FetchNextPageAsync();
+					this.Collection = collection;
+					//If no data was fetched and there was no network connection available warn user
+					if (this.Count == 0 && !this.IsNetworkAvailable)
+					{
+						failureMessage = AppResources.MessageLoadingFailedNoInternet;
+					}
 				}
-			}
-			catch (Exception ex)
-			{
-				failureMessage = handleException(ex);
-			}
+				catch (Exception ex)
+				{
+					failureMessage = handleException(ex);
+				}
 
-			this.StopLoading(failureMessage);
-			ReloadFinished.Fire(this, new EventArgs());
+				this.StopLoading(failureMessage);
+				ReloadFinished.Fire(this, new EventArgs());
+			}
 		}
 
 		void tryAgain()

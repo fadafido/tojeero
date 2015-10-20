@@ -174,6 +174,22 @@ namespace Tojeero.Core
 				}
 			}
 		}
+
+		[Ignore]
+		public IList<string> Tags
+		{
+			get
+			{
+				return _parseObject != null ? _parseObject.Tags : null;
+			}
+			set
+			{
+				if (_parseObject != null)
+				{
+					_parseObject.Tags = value;
+				}
+			}
+		}
 		#endregion
 
 		#region Parent 

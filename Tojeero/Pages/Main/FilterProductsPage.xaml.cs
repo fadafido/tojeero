@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.Resources;
+using Tojeero.Core;
 
 namespace Tojeero.Forms
 {
@@ -20,14 +21,13 @@ namespace Tojeero.Forms
 			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "", async () =>
 				{
 					await this.Navigation.PopModalAsync();
+					this.ViewModel.DoneCommand.Execute(null);
 				}));
 		}
 
 		#endregion
 
 		#region Properties
-
-		public Action DidClose { get; set; }
 
 		private FilterProductsViewModel _viewModel;
 
@@ -55,13 +55,6 @@ namespace Tojeero.Forms
 		{
 			base.OnAppearing();
 			this.ViewModel.ReloadCommand.Execute(null);
-		}
-
-		protected override void OnDisappearing()
-		{
-			base.OnDisappearing();
-			if (DidClose != null)
-				DidClose();
 		}
 
 		#endregion

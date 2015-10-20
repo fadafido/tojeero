@@ -40,10 +40,20 @@ namespace Tojeero.Core
 
 		#region IRepository implementation
 
-		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, IProductFilter filter = null)
+		public Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, IProductFilter filter = null)
 		{
-			var result = await FetchAsync<Product>(pageSize, offset, "LowercaseName").ConfigureAwait(false);
-			return result.Cast<IProduct>();
+			return Task<IEnumerable<IProduct>>.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
+					using (var connection = getConnection())
+					{
+						var query = connection.Table<Product>();
+						query = getFilteredProductQuery(query, filter, connection);
+						var result = query.ToList();
+						return result;
+					}
+				});
 		}
 
 		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
@@ -158,6 +168,28 @@ namespace Tojeero.Core
 				});
 		}
 
+		public Task SaveProductTags(string productId, IList<string> tags)
+		{
+			return Task.Factory.StartNew(() =>
+				{
+					using (var source = new CancellationTokenSource(TimeSpan.FromSeconds(TIMEOUT_SECONDS)))
+					using (var writerLock = readerWriterLock.WriterLock(source.Token))
+					using (var connection = getConnection())
+					{
+						foreach (var t in tags)
+						{
+							var tag = new ProductTag()
+							{
+								ID = productId + t,
+								ProductID = productId,
+								Tag = t
+							};
+							connection.InsertOrReplace(tag);
+						}
+					}
+				});
+		}
+
 		#endregion
 
 		#region ICacheRepository implementation
@@ -179,6 +211,7 @@ namespace Tojeero.Core
 						connection.CreateTable<City>();
 						connection.CreateTable<SearchToken>();
 						connection.CreateTable<Tag>();
+						connection.CreateTable<ProductTag>();
 						connection.CreateTable<ProductCategory>();
 						connection.CreateTable<ProductSubcategory>();
 						connection.CreateTable<StoreCategory>();
@@ -464,7 +497,7 @@ namespace Tojeero.Core
 							connection.Delete(item);
 						}
 							
-						foreach(var t in searchTokens)
+						foreach (var t in searchTokens)
 						{
 							connection.Delete(t);
 						}
@@ -502,6 +535,61 @@ namespace Tojeero.Core
 				//If it's expired then we consider that the whole entity cache is expired
 				return queryCache != null && queryCache.IsExpired;
 			}
+		}
+
+		private ITableQuery<Product> getFilteredProductQuery(ITableQuery<Product> query, IProductFilter filter, ISQLiteConnection connection)
+		{
+			if (filter != null)
+			{
+				if (filter.Category != null)
+				{
+					query = query.Where(p => p.CategoryID == filter.Category.ID);
+				}
+
+				if (filter.Subcategory != null)
+				{
+					query = query.Where(p => p.SubcategoryID == filter.Subcategory.ID);
+				}
+
+				if (filter.Country != null)
+				{
+					query = query.Where(p => p.CountryId == filter.Country.CountryId);
+				}
+
+				if (filter.City != null)
+				{
+					query = query.Where(p => p.CityId == filter.City.CityId);
+				}
+
+				if (filter.StartPrice != null)
+				{
+					query = query.Where(p => p.Price >= filter.StartPrice.Value);
+				}
+
+				if (filter.EndPrice != null)
+				{
+					query = query.Where(p => p.Price <= filter.EndPrice.Value);
+				}
+
+				if (filter.Tags != null && filter.Tags.Count > 0)
+				{
+					var temp = connection.Table<ProductTag>().ToList();
+					var temp1 = (from t in connection.Table<ProductTag>()
+					            where filter.Tags.Contains(t.Tag)
+					            select t).ToList();
+					var temp2 = (from t in connection.Table<ProductTag>()
+						where filter.Tags.Contains(t.Tag)
+						group t by t.ProductID into g
+						select g).ToList();
+					var productIDs = (from t in connection.Table<ProductTag>()
+					                  where filter.Tags.Contains(t.Tag)
+					                  group t by t.ProductID into g
+					                  where g.Count() == filter.Tags.Count
+					                  select g.Key).ToList();
+					query = query.Where(p => productIDs.Contains(p.ID));
+				}
+			}
+			return query;
 		}
 
 		#endregion

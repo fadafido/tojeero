@@ -37,6 +37,7 @@ namespace Tojeero.Core
 		Task Clear<T>();
 
 		Task SaveSearchTokens(IEnumerable<ISearchableEntity> items, string entityType);
+		Task SaveProductTags(string productID, IList<string> tags);
 
 		#endregion
 

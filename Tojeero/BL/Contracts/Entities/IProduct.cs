@@ -14,6 +14,7 @@ namespace Tojeero.Core
 		string SubcategoryID { get; }
 		int? CityId { get; }
 		int? CountryId { get; }
+		IList<string> Tags { get; set; }
 	}
 }
 

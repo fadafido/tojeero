@@ -178,12 +178,12 @@ namespace Tojeero.Core
 			{
 				if (filter.Category != null)
 				{
-					query = query.Where(p => p.Category == filter.Category);
+					query = query.Where(p => p.Category == ParseObject.CreateWithoutData<ParseProductCategory>(filter.Category.ID));
 				}
 
 				if (filter.Subcategory != null)
 				{
-					query = query.Where(p => p.Subcategory == filter.Subcategory);
+					query = query.Where(p => p.Subcategory == ParseObject.CreateWithoutData<ParseProductSubcategory>(filter.Subcategory.ID));
 				}
 
 				if (filter.Country != null)

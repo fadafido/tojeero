@@ -68,8 +68,7 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				string cachedQueryId = string.Format("products-p{0}o{1}", pageSize, offset);
-				return cachedQueryId;
+				return this.ToString();
 			}
 		}
 
@@ -85,6 +84,17 @@ namespace Tojeero.Core
 
 		public async Task PostProcess(IEnumerable<IProduct> items)
 		{
+			await manager.Cache.SaveSearchTokens(items, CachedQuery.GetEntityCacheName<Product>());
+			foreach (var p in items)
+			{
+				await manager.Cache.SaveProductTags(p.ID, p.Tags);
+			}
+		}
+
+		public override string ToString()
+		{
+			string cachedQueryId = string.Format("products:p_{0}o_{1}-f_{2}", pageSize, offset, filter);
+			return cachedQueryId;
 		}
 	}
 
@@ -110,8 +120,7 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				string cachedQueryId = string.Format("products-p{0}o{1}-{2}", pageSize, offset, string.Join(",",searchQuery.Tokenize()));
-				return cachedQueryId;
+				return this.ToString();
 			}
 		}
 
@@ -130,6 +139,17 @@ namespace Tojeero.Core
 		public async Task PostProcess(IEnumerable<IProduct> items)
 		{
 			await manager.Cache.SaveSearchTokens(items, CachedQuery.GetEntityCacheName<Product>());
+			foreach (var p in items)
+			{
+				await manager.Cache.SaveProductTags(p.ID, p.Tags);
+			}
+		}
+
+		public override string ToString()
+		{
+			var searchTokens = searchQuery.Tokenize().SubCollection(0, Constants.ParseContainsAllLimit);
+			string cachedQueryId = string.Format("products:p_{0}o_{1}-s_{2}-f_{3}", pageSize, offset, string.Join(",", searchTokens), filter);
+			return cachedQueryId;
 		}
 	}
 

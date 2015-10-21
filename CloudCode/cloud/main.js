@@ -5,6 +5,7 @@ Parse.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
 
+
 var Tag = Parse.Object.extend("Tag");
 Parse.Cloud.beforeSave("Tag", function(request, response) {
   if (!request.object.get("text")) {

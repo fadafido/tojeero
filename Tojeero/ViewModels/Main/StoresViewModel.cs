@@ -4,6 +4,8 @@ using System.Threading;
 using System.Linq;
 using System.Threading.Tasks;
 using Tojeero.Core.Toolbox;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core.Messages;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -12,15 +14,20 @@ namespace Tojeero.Core.ViewModels
 		#region Private fields and properties
 
 		private readonly IStoreManager _manager;
+		private readonly MvxSubscriptionToken _token;
 
 		#endregion
 
 		#region Constructors
 
-		public StoresViewModel(IStoreManager manager)
+		public StoresViewModel(IStoreManager manager, IMvxMessenger messenger)
 			: base()
 		{
 			_manager = manager;
+			_token = messenger.Subscribe<StoreFilterChangedMessage>((m) =>
+				{
+					this.ViewModel.RefetchCommand.Execute(null);
+				});
 		}
 
 		#endregion

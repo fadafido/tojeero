@@ -33,6 +33,10 @@ namespace Tojeero.Forms
 		{
 			InitializeComponent();
 			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
+			this.ToolbarItems.Add(new ToolbarItem("Filter", "", async () =>
+				{
+					await this.Navigation.PushModalAsync(new NavigationPage(new FilterStoresPage()));
+				}));
 			this.SearchBar.Placeholder = AppResources.PlaceholderSearchStores;
 			ListView.ItemSelected += itemSelected;
 		}

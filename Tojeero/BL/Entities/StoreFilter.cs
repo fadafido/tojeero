@@ -11,7 +11,7 @@ using Tojeero.Core.Toolbox;
 namespace Tojeero.Core
 {
 
-	public class ProductFilter : MvxViewModel, IProductFilter
+	public class StoreFilter : MvxViewModel, IStoreFilter
 	{
 		#region Private fields
 
@@ -23,7 +23,7 @@ namespace Tojeero.Core
 
 		#region Constructors
 
-		public ProductFilter()
+		public StoreFilter()
 			:base()
 		{
 			_authService = Mvx.Resolve<IAuthenticationService>();
@@ -35,11 +35,11 @@ namespace Tojeero.Core
 
 		#endregion
 
-		#region IProductFilter implementation
+		#region IStoreFilter implementation
 
-		private IProductCategory _category;
+		private IStoreCategory _category;
 
-		public IProductCategory Category
+		public IStoreCategory Category
 		{ 
 			get
 			{
@@ -51,22 +51,6 @@ namespace Tojeero.Core
 				RaisePropertyChanged(() => Category); 
 			}
 		}
-
-		private IProductSubcategory _subcategory;
-
-		public IProductSubcategory Subcategory
-		{ 
-			get
-			{
-				return _subcategory; 
-			}
-			set
-			{
-				_subcategory = value; 
-				RaisePropertyChanged(() => Subcategory); 
-			}
-		}
-
 
 		private ICountry _country;
 		public ICountry Country
@@ -98,36 +82,6 @@ namespace Tojeero.Core
 		}
 	
 
-		private double? _startPrice = 100;
-
-		public double? StartPrice
-		{ 
-			get
-			{
-				return _startPrice; 
-			}
-			set
-			{
-				_startPrice = value; 
-				RaisePropertyChanged(() => StartPrice); 
-			}
-		}
-
-		private double? _endPrice = 1000;
-
-		public double? EndPrice
-		{ 
-			get
-			{
-				return _endPrice; 
-			}
-			set
-			{
-				_endPrice = value; 
-				RaisePropertyChanged(() => EndPrice); 
-			}
-		}
-
 		private ObservableCollection<string> _tags = new ObservableCollection<string>();
 		public ObservableCollection<string> Tags
 		{ 
@@ -142,15 +96,12 @@ namespace Tojeero.Core
 			}
 		}
 
-		public IProductFilter Clone()
+		public IStoreFilter Clone()
 		{
-			var filter = new ProductFilter(){
+			var filter = new StoreFilter(){
 				Category = this.Category,
-				Subcategory = this.Subcategory,
 				Country = this.Country,
-				City = this.City,
-				StartPrice = this.StartPrice,
-				EndPrice = this.EndPrice
+				City = this.City
 			};
 			var tags = new ObservableCollection<string>();
 			tags.AddRange(this.Tags);
@@ -170,11 +121,6 @@ namespace Tojeero.Core
 				components.Add("ct:" + this.Category.ID);
 			}
 
-			if (this.Subcategory != null)
-			{
-				components.Add("sct:" + this.Subcategory.ID);
-			}
-
 			if (this.Country != null)
 			{
 				components.Add("cn:" + this.Country.CountryId);
@@ -189,16 +135,7 @@ namespace Tojeero.Core
 			{
 				components.Add("t:" + string.Join(",",this.Tags.SubCollection(0, Constants.ParseContainsAllLimit)));
 			}
-
-			if (this.StartPrice != null)
-			{
-				components.Add("sp:" + this.StartPrice.Value);
-			}
-
-			if (this.EndPrice != null)
-			{
-				components.Add("ep:" + this.EndPrice.Value);
-			}
+				
 			return string.Join("|", components);
 		}
 
@@ -210,7 +147,7 @@ namespace Tojeero.Core
 			if (System.Object.ReferenceEquals(this, obj))
 				return true;
 
-			var filter = obj as IProductFilter;
+			var filter = obj as IStoreFilter;
 			if (filter == null)
 				return false;
 
@@ -218,24 +155,12 @@ namespace Tojeero.Core
 			   this.Category != null && filter.Category != null && this.Category.ID == filter.Category.ID))
 				return false;
 			
-			if (!(this.Subcategory == null && filter.Subcategory == null ||
-				this.Subcategory != null && filter.Subcategory != null && this.Subcategory.ID == filter.Subcategory.ID))
-				return false;	
-
 			if (!(this.Country == null && filter.Country == null ||
 				this.Country != null && filter.Country != null && this.Country.CountryId == filter.Country.CountryId))
 				return false;
 			
 			if (!(this.City == null && filter.City == null ||
 				this.City != null && filter.City != null && this.City.CityId == filter.City.CityId))
-				return false;	
-			
-			if (!(this.StartPrice == null && filter.StartPrice == null ||
-				this.StartPrice != null && filter.StartPrice != null && this.StartPrice.Value == filter.StartPrice.Value))
-				return false;	
-
-			if (!(this.EndPrice == null && filter.EndPrice == null ||
-				this.EndPrice != null && filter.EndPrice != null && this.EndPrice.Value == filter.EndPrice.Value))
 				return false;	
 			
 			if (this.Tags == null && filter.Tags == null)
@@ -260,7 +185,7 @@ namespace Tojeero.Core
 			return true;
 		}
 
-		public static bool operator ==(ProductFilter a, ProductFilter b)
+		public static bool operator ==(StoreFilter a, StoreFilter b)
 		{
 			// If both are null, or both are same instance, return true.
 			if (System.Object.ReferenceEquals(a, b))
@@ -277,7 +202,7 @@ namespace Tojeero.Core
 			return a.Equals(b);
 		}
 
-		public static bool operator !=(ProductFilter a, ProductFilter b)
+		public static bool operator !=(StoreFilter a, StoreFilter b)
 		{
 			return !(a == b);
 		}

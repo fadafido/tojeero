@@ -40,6 +40,7 @@ namespace Tojeero.Core
 
 		#region IRepository implementation
 
+		//TODO:Filtering implementation is buggy and is not working now. Need to fix this on next phase.
 		public Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, IProductFilter filter = null)
 		{
 			return Task<IEnumerable<IProduct>>.Factory.StartNew(() =>
@@ -56,7 +57,8 @@ namespace Tojeero.Core
 				});
 		}
 
-		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
+		//TODO:Filtering is not implemented, so the filter parameter is no applied yet for this query.
+		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset, IStoreFilter filter = null)
 		{
 			var result = await FetchAsync<Store>(pageSize, offset, "LowercaseName").ConfigureAwait(false);
 			return result.Cast<IStore>();
@@ -113,14 +115,16 @@ namespace Tojeero.Core
 			return result;
 		}
 
+		//TODO:Filtering is not implemented, so the filter parameter is no applied yet for this query.
 		public async Task<IEnumerable<IProduct>> FindProducts(string searchQuery, int pageSize, int offset, IProductFilter filter = null)
 		{
-			return await find<Product>(searchQuery, (ITableQuery<Product> q) => q.OrderBy(p => p.LowercaseName), pageSize, offset);
+			return await find<Product>(searchQuery, (ITableQuery<Product> q) => q.OrderBy(p => p.LowercaseName), pageSize, offset).ConfigureAwait(false);
 		}
 
-		public async Task<IEnumerable<IStore>> FindStores(string searchQuery, int pageSize, int offset)
+		//TODO:Filtering is not implemented, so the filter parameter is no applied yet for this query.
+		public async Task<IEnumerable<IStore>> FindStores(string searchQuery, int pageSize, int offset, IStoreFilter filter = null)
 		{
-			return await find<Store>(searchQuery, (ITableQuery<Store> q) => q.OrderBy(s => s.LowercaseName), pageSize, offset);
+			return await find<Store>(searchQuery, (ITableQuery<Store> q) => q.OrderBy(s => s.LowercaseName), pageSize, offset).ConfigureAwait(false);
 		}
 
 		public async Task SaveSearchTokens(IEnumerable<ISearchableEntity> items, string entityType)

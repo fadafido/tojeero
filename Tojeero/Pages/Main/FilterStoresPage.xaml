@@ -2,11 +2,11 @@
 <ContentPage
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="Tojeero.Forms.FilterProductsPage"
+	x:Class="Tojeero.Forms.FilterStoresPage"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
 	BackgroundColor="{x:Static local:Colors.UltraLightGray}"
-	Title="{local:Translate TitleFilterProducts}">
+	Title="{local:Translate TitleFilterStores}">
 	<ContentPage.Content>
 		<ScrollView>
 			<StackLayout
@@ -37,7 +37,7 @@
 								x:TypeArguments="core:ICountry"
 								Title="{local:Translate LabelCountry}"
 								ItemsSource="{Binding Countries}"
-								SelectedItem="{Binding ProductFilter.Country, Mode=TwoWay}"
+								SelectedItem="{Binding StoreFilter.Country, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
 						<StackLayout
@@ -51,7 +51,7 @@
 								x:TypeArguments="core:ICity"
 								Title="{local:Translate LabelCity}"
 								ItemsSource="{Binding Cities}"
-								SelectedItem="{Binding ProductFilter.City, Mode=TwoWay}"
+								SelectedItem="{Binding StoreFilter.City, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
 						<StackLayout
@@ -62,26 +62,13 @@
 								FontSize="Micro" />
 							<local:BindablePicker
 								x:Name="categoriesPicker"
-								x:TypeArguments="core:IProductCategory"
+								x:TypeArguments="core:IStoreCategory"
 								Title="{local:Translate LabelCategory}"
 								ItemsSource="{Binding Categories}"
-								SelectedItem="{Binding ProductFilter.Category, Mode=TwoWay}"
+								SelectedItem="{Binding StoreFilter.Category, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
-						<StackLayout
-							Spacing="0">
-							<Label
-								Text="{local:Translate LabelSubcategory}"
-								TextColor="{x:Static local:Colors.DarkGray}"
-								FontSize="Micro" />
-							<local:BindablePicker
-								x:Name="subcategoriesPicker"
-								x:TypeArguments="core:IProductSubcategory"
-								Title="{local:Translate LabelSubcategory}"
-								ItemsSource="{Binding Subcategories}"
-								SelectedItem="{Binding ProductFilter.Subcategory, Mode=TwoWay}"
-								TextColor="{x:Static local:Colors.Black}" />
-						</StackLayout>
+
 						<StackLayout
 							Spacing="0">
 							<Label
@@ -103,7 +90,7 @@
 								<Entry
 									Grid.Column="1"
 									WidthRequest="100"
-									Text="{Binding ProductFilter.StartPrice, Mode=TwoWay, Converter={StaticResource double}}"
+									Text="{Binding StoreFilter.StartPrice, Mode=TwoWay, Converter={StaticResource double}}"
 									Keyboard="Numeric"
 									TextColor="{x:Static local:Colors.Black}" />
 								<Label
@@ -114,13 +101,13 @@
 									VerticalOptions="Center" />
 								<Entry
 									Grid.Column="3"
-									Text="{Binding ProductFilter.EndPrice, Mode=TwoWay, Converter={StaticResource double}}"
+									Text="{Binding StoreFilter.EndPrice, Mode=TwoWay, Converter={StaticResource double}}"
 									Keyboard="Numeric"
 									TextColor="{x:Static local:Colors.Black}" />
 							</Grid>
 						</StackLayout>
 						<local:TagCloud
-							Tags="{Binding ProductFilter.Tags}"/>
+							Tags="{Binding StoreFilter.Tags}"/>
 					</StackLayout>
 				</StackLayout>
 			</StackLayout>

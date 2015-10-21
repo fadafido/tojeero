@@ -137,10 +137,21 @@ namespace Tojeero.iOS
 			int index = 0;
 			try
 			{
+				var categories = (await new ParseQuery<ParseStoreCategory>().FindAsync()).ToArray();
+				var countryMap = new Dictionary<int, ParseCity[]>();
+				var countries = (await new ParseQuery<ParseCountry>().FindAsync()).ToArray();
+				foreach(var c in countries)
+				{
+					countryMap[c.CountryId] = (await new ParseQuery<ParseCity>().Where(cty => cty.CountryId == c.CountryId).FindAsync()).ToArray();
+				}
+
 				var jsonStores = await LoadFromJson<JsonStore>("stores.json");
 				int storeSampleCount = 12, count;
 				int storeCount = jsonStores.Count;
 				string storesDir = "Samples/Stores/";
+				Random catRandom = new Random();
+				Random countryRand = new Random();
+				Random cityRand = new Random();
 
 				////////
 				stage = "Loading store images";
@@ -177,6 +188,12 @@ namespace Tojeero.iOS
 							Image = storeImages[i % storeSampleCount],
 							Description = s.Description						
 						};
+					store.Category = categories[catRandom.Next(0, categories.Length)];
+
+					store.CountryId = countries[countryRand.Next(0, countries.Length)].CountryId;
+					var cities = countryMap[store.CountryId.Value];
+					store.CityId = cities[cityRand.Next(0, cities.Length)].CityId;
+
 					store.SearchTokens = new string[] { s.Name, s.Description }.Tokenize();
 					stores.Add(store);
 				}

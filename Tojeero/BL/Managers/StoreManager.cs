@@ -28,14 +28,14 @@ namespace Tojeero.Core
 
 		#region IStoreManager Implementation
 
-		public Task<IEnumerable<IStore>> Fetch(int pageSize, int offset)
+		public Task<IEnumerable<IStore>> Fetch(int pageSize, int offset, IStoreFilter filter = null)
 		{
-			return _manager.Fetch<IStore, Store>(new FetchStoresQuery(pageSize, offset, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
+			return _manager.Fetch<IStore, Store>(new FetchStoresQuery(pageSize, offset, _manager, filter), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
-		public Task<IEnumerable<IStore>> Find(string query, int pageSize, int offset)
+		public Task<IEnumerable<IStore>> Find(string query, int pageSize, int offset, IStoreFilter filter = null)
 		{
-			return _manager.Fetch<IStore, Store>(new FindStoresQuery(query, pageSize, offset, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
+			return _manager.Fetch<IStore, Store>(new FindStoresQuery(query, pageSize, offset, _manager, filter), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
 		public Task ClearCache()
@@ -53,9 +53,11 @@ namespace Tojeero.Core
 		int pageSize;
 		int offset;
 		IModelEntityManager manager;
+		IStoreFilter filter;
 
-		public FetchStoresQuery(int pageSize, int offset, IModelEntityManager manager)
+		public FetchStoresQuery(int pageSize, int offset, IModelEntityManager manager, IStoreFilter filter = null)
 		{
+			this.filter = filter;
 			this.manager = manager;
 			this.offset = offset;
 			this.pageSize = pageSize;
@@ -66,23 +68,30 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				string cachedQueryId = string.Format("stores-p{0}o{1}", pageSize, offset);
-				return cachedQueryId;
+				//TODO:Currently we disable caching. In future phases we'll work on caching.
+				return null;
+				return this.ToString();
 			}
 		}
 
 		public async Task<IEnumerable<IStore>> LocalQuery()
 		{
-			return await manager.Cache.FetchStores(pageSize, offset);
+			return await manager.Cache.FetchStores(pageSize, offset, filter);
 		}
 
 		public async Task<IEnumerable<IStore>> RemoteQuery()
 		{
-			return await manager.Rest.FetchStores(pageSize, offset);
+			return await manager.Rest.FetchStores(pageSize, offset, filter);
 		}
 
 		public async Task PostProcess(IEnumerable<IStore> items)
 		{
+		}
+
+		public override string ToString()
+		{
+			string cachedQueryId = string.Format("stores:p_{0}o_{1}-f_{2}", pageSize, offset, filter);
+			return cachedQueryId;
 		}
 	}
 
@@ -92,9 +101,11 @@ namespace Tojeero.Core
 		int offset;
 		IModelEntityManager manager;
 		string searchQuery;
+		IStoreFilter filter;
 
-		public FindStoresQuery(string searchQuery, int pageSize, int offset, IModelEntityManager manager)
+		public FindStoresQuery(string searchQuery, int pageSize, int offset, IModelEntityManager manager, IStoreFilter fil\ter = null)
 		{
+			this.filter = filter;
 			this.searchQuery = searchQuery;
 			this.manager = manager;
 			this.offset = offset;
@@ -106,24 +117,32 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				string cachedQueryId = string.Format("stores-p{0}o{1}-{2}", pageSize, offset, string.Join(",",searchQuery.Tokenize()));
-				return cachedQueryId;
+				//TODO:Currently we disable caching. In future phases we'll work on caching.
+				return null;
+				return this.ToString();
 			}
 		}
 
 		public async Task<IEnumerable<IStore>> LocalQuery()
 		{
-			return await manager.Cache.FindStores(searchQuery, pageSize, offset);
+			return await manager.Cache.FindStores(searchQuery, pageSize, offset, filter);
 		}
 
 		public async Task<IEnumerable<IStore>> RemoteQuery()
 		{
-			return await manager.Rest.FindStores(searchQuery, pageSize, offset);
+			return await manager.Rest.FindStores(searchQuery, pageSize, offset, filter);
 		}
 
 		public async Task PostProcess(IEnumerable<IStore> items)
 		{
 			await manager.Cache.SaveSearchTokens(items, CachedQuery.GetEntityCacheName<Store>());
+		}
+
+		public override string ToString()
+		{
+			var searchTokens = searchQuery.Tokenize().SubCollection(0, Constants.ParseContainsAllLimit);
+			string cachedQueryId = string.Format("stores:p_{0}o_{1}-s_{2}-f_{3}", pageSize, offset, string.Join(",", searchTokens), filter);
+			return cachedQueryId;
 		}
 	}
 	#endregion

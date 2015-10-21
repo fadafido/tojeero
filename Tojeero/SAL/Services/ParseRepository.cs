@@ -37,7 +37,7 @@ namespace Tojeero.Core
 			}
 		}
 
-		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset)
+		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset, IStoreFilter filter = null)
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
 			{
@@ -46,6 +46,7 @@ namespace Tojeero.Core
 				{
 					query = query.Limit(pageSize).Skip(offset);
 				}
+				query = getFilteredStoreQuery(query, filter);
 				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
 				return result.Select(s => new Store(s) as IStore);
 			}
@@ -92,7 +93,7 @@ namespace Tojeero.Core
 			}
 		}
 
-		public async Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset)
+		public async Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset, IStoreFilter filter = null)
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindStoresTimeout))
 			{
@@ -106,6 +107,7 @@ namespace Tojeero.Core
 				{
 					parseQuery = parseQuery.Limit(pageSize).Skip(offset);
 				}
+				parseQuery = getFilteredStoreQuery(parseQuery, filter);
 				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
 				return result.Select(s => new Store(s) as IStore);
 			}
@@ -209,6 +211,33 @@ namespace Tojeero.Core
 				if (filter.EndPrice != null)
 				{
 					query = query.Where(p => p.Price <= filter.EndPrice.Value);
+				}
+			}
+			return query;
+		}
+
+		private ParseQuery<ParseStore> getFilteredStoreQuery(ParseQuery<ParseStore> query, IStoreFilter filter)
+		{
+			if (filter != null)
+			{
+				if (filter.Category != null)
+				{
+					query = query.Where(s => s.Category == ParseObject.CreateWithoutData<ParseStoreCategory>(filter.Category.ID));
+				}
+
+				if (filter.Country != null)
+				{
+					query = query.Where(s => s.CountryId == filter.Country.CountryId);
+				}
+
+				if (filter.City != null)
+				{
+					query = query.Where(s => s.CityId == filter.City.CityId);
+				}
+
+				if (filter.Tags != null && filter.Tags.Count > 0)
+				{
+					query = getContainsAllQuery(query, "tags", filter.Tags);
 				}
 			}
 			return query;

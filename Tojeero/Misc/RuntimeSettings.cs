@@ -30,6 +30,26 @@ namespace Tojeero.Core
 				}
 			}
 		}
+
+		private static IStoreFilter _storeFilter;
+		public static IStoreFilter StoreFilter
+		{
+			get
+			{
+				if (_storeFilter == null)
+					_storeFilter = new StoreFilter();
+				return _storeFilter;
+			}
+			set
+			{
+				if (!_storeFilter.Equals(value))
+				{
+					_storeFilter = value;
+					_messenger = _messenger ?? Mvx.Resolve<IMvxMessenger>();
+					_messenger.Publish<StoreFilterChangedMessage>(new StoreFilterChangedMessage(new object(), value));
+				}
+			}
+		}
 	}
 }
 

@@ -11,7 +11,7 @@ namespace Tojeero.Core
 		ICountry Country { get; set; }
 		ICity City { get; set; }
 		ObservableCollection<string> Tags { get; set; }
-		IProductFilter Clone();
+		IStoreFilter Clone();
 	}
 }
 

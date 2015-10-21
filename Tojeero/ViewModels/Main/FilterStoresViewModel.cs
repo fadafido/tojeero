@@ -16,7 +16,6 @@ namespace Tojeero.Core.ViewModels
 		private readonly ICityManager _cityManager;
 		private readonly ITagManager _tagManager;
 		private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
-		private AsyncReaderWriterLock _subcategoriesLock = new AsyncReaderWriterLock();
 
 		#endregion
 

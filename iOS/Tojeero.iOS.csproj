@@ -358,6 +358,7 @@
       <Link>Core\BL\Entities\Tag.cs</Link>
     </Compile>
     <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\LabelRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

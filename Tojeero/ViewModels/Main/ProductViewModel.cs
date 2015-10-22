@@ -143,7 +143,7 @@ namespace Tojeero.Core.ViewModels
 			}
 
 			//If the network state has changed to online and the favorite has not been loaded reload it
-			if (e.PropertyName == IsNetworkAvailable && this.IsNetworkAvailable && IsFavorite == null)
+			if (e.PropertyName == IsNetworkAvailableProperty && this.IsNetworkAvailable && IsFavorite == null)
 			{
 				this.LoadFavoriteCommand.Execute(null);
 			}

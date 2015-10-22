@@ -9,7 +9,6 @@ using Nito.AsyncEx;
 namespace Tojeero.Core.ViewModels
 {
 	public class BaseCollectionViewModel<T> : LoadableNetworkViewModel 
-		where T : IModelEntity
 	{
 		#region Private fields and properties
 

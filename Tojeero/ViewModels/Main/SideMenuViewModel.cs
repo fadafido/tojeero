@@ -137,7 +137,7 @@ namespace Tojeero.Core.ViewModels
 			
 		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{			
-			if(e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
+			if(e.PropertyName == IsLoadingProperty || e.PropertyName == IsNetworkAvailableProperty)
 			{
 				RaisePropertyChanged(() => CanExecuteLoginCommand);
 			}

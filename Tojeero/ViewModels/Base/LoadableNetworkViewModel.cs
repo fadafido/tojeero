@@ -23,7 +23,7 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		public static string IsNetworkAvailablePropertyName = "IsNetworkAvailable";
+		public static string IsNetworkAvailableProperty = "IsNetworkAvailable";
 		private bool _isNetworkAvailable;
 		public bool IsNetworkAvailable
 		{ 

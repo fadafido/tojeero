@@ -344,7 +344,7 @@ namespace Tojeero.Core.ViewModels
 
 		private async void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == "CurrentUser")
+			if (e.PropertyName == CurrentUserProperty)
 			{
 				updateUserData();
 			}
@@ -356,7 +356,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				await updateCitySelection();
 			}
-			else if (e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
+			else if (e.PropertyName == IsLoadingProperty || e.PropertyName == IsNetworkAvailableProperty)
 			{
 				RaisePropertyChanged(() => CanExecuteSubmitCommand);
 			}

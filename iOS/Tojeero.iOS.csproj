@@ -248,6 +248,8 @@
     <BundleResource Include="Resources\closeTag%402x.png" />
     <BundleResource Include="Resources\Samples\subcategories.json" />
     <BundleResource Include="Resources\placeholder%402x.png" />
+    <BundleResource Include="Resources\favorite_selected%402x.png" />
+    <BundleResource Include="Resources\favorite_deselected%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -360,6 +362,7 @@
     </Compile>
     <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\SelectableButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

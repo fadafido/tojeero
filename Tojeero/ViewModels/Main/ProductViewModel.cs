@@ -66,8 +66,8 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_loadFavoriteCommand = _loadFavoriteCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>{
-					
+				_loadFavoriteCommand = _loadFavoriteCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>{
+					await loadFavorite();
 				}, () => CanExecuteLoadFavoriteCommand);
 				return _loadFavoriteCommand;
 			}
@@ -87,8 +87,8 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_toggleFavoriteCommand = _toggleFavoriteCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					
+				_toggleFavoriteCommand = _toggleFavoriteCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
+					await toggleFavorite();
 				}, () => CanExecuteToggleFavoriteCommand);
 				return _toggleFavoriteCommand;
 			}
@@ -114,6 +114,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				if (this.IsFavorite != null)
 					return;
+				await Task.Delay(1000);
 				this.IsFavorite = favRand.Next() % 2 == 0;
 			}
 			StopLoading();

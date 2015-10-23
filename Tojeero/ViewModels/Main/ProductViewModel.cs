@@ -19,7 +19,7 @@ namespace Tojeero.Core.ViewModels
 		#region Constructors
 
 		public ProductViewModel(IProduct product = null)
-			:base(Mvx.Resolve<IAuthenticationService>(), Mvx.Resolve<IMvxMessenger>())
+			: base(Mvx.Resolve<IAuthenticationService>(), Mvx.Resolve<IMvxMessenger>())
 		{
 			this.Product = product;
 			this.PropertyChanged += propertyChanged;
@@ -29,7 +29,9 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
+		public static string ProductProperty = "Product";
 		private IProduct _product;
+
 		public IProduct Product
 		{ 
 			get
@@ -40,12 +42,16 @@ namespace Tojeero.Core.ViewModels
 			{
 				_product = value; 
 				RaisePropertyChanged(() => Product); 
+				this.IsFavorite = false;
+				this.IsFavoriteLoaded = false;
+				this.LoadFavoriteCommand.Execute(null);
 			}
 		}
-			
-		private static string IsFavoriteProperty = "IsFavorite";
-		private bool? _isFavorite;
-		public bool? IsFavorite
+
+		public static string IsFavoriteProperty = "IsFavorite";
+		private bool _isFavorite;
+
+		public bool IsFavorite
 		{ 
 			get
 			{
@@ -57,48 +63,71 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => IsFavorite); 
 			}
 		}
+
+		public static string IsFavoriteLoadedProperty = "IsFavoriteLoaded";
+		private bool _isFavoriteLoaded;
+
+		public bool IsFavoriteLoaded
+		{ 
+			get
+			{
+				return _isFavoriteLoaded; 
+			}
+			set
+			{
+				_isFavoriteLoaded = value; 
+				RaisePropertyChanged(() => IsFavoriteLoaded); 
+			}
+		}
+
 		#endregion
 
 		#region Commands
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadFavoriteCommand;
+
 		public System.Windows.Input.ICommand LoadFavoriteCommand
 		{
 			get
 			{
-				_loadFavoriteCommand = _loadFavoriteCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>{
-					await loadFavorite();
-				}, () => CanExecuteLoadFavoriteCommand);
+				_loadFavoriteCommand = _loadFavoriteCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						await loadFavorite();
+					}, () => CanExecuteLoadFavoriteCommand);
 				return _loadFavoriteCommand;
 			}
 		}
 
+		public static string CanExecuteLoadFavoriteCommandProperty = "CanExecuteLoadFavoriteCommand";
 		public bool CanExecuteLoadFavoriteCommand
 		{
 			get
 			{
-				return this.IsNetworkAvailable && this.IsLoggedIn;
+				return this.Product != null && this.Product.ID != null && this.IsNetworkAvailable && this.IsLoggedIn;
 			}
 		}
 
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _toggleFavoriteCommand;
-		public System.Windows.Input.ICommand TogglFavoriteCommand
+
+		public System.Windows.Input.ICommand ToggleFavoriteCommand
 		{
 			get
 			{
-				_toggleFavoriteCommand = _toggleFavoriteCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
-					await toggleFavorite();
-				}, () => CanExecuteToggleFavoriteCommand);
+				_toggleFavoriteCommand = _toggleFavoriteCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						await toggleFavorite();
+					}, () => CanExecuteToggleFavoriteCommand);
 				return _toggleFavoriteCommand;
 			}
 		}
 
+		public static string CanExecuteToggleFavoriteCommandProperty = "CanExecuteToggleFavoriteCommand";
 		public bool CanExecuteToggleFavoriteCommand
 		{
 			get
 			{
-				return this.IsFavorite != null && this.IsNetworkAvailable && !IsLoading && this.IsLoggedIn;
+				return this.IsFavoriteLoaded && this.IsNetworkAvailable && !this.IsLoading && this.IsLoggedIn;
 			}
 		}
 
@@ -107,44 +136,47 @@ namespace Tojeero.Core.ViewModels
 		#region Utility methods
 
 		private static Random favRand = new Random();
+
 		private async Task loadFavorite()
 		{
 			StartLoading();
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
-				if (this.IsFavorite != null)
+				if (this.IsFavoriteLoaded)
 					return;
 				await Task.Delay(1000);
 				this.IsFavorite = favRand.Next() % 2 == 0;
+				this.IsFavoriteLoaded = true;
 			}
 			StopLoading();
 		}
-			
+
 		private async Task toggleFavorite()
 		{
 			StartLoading();
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
 				await Task.Delay(1000);
-				this.IsFavorite = !this.IsFavorite.Value;
+				this.IsFavorite = !this.IsFavorite;
 			}
 			StopLoading();
 		}
 
-		private async void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty)
+			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
+			    e.PropertyName == IsFavoriteLoadedProperty || e.PropertyName == IsLoadingProperty)
 			{				
-				this.RaisePropertyChanged(() => CanExecuteLoadFavoriteCommand);
-				this.RaisePropertyChanged(() => CanExecuteToggleFavoriteCommand);
-			}
-			else if (e.PropertyName == IsFavoriteProperty || e.PropertyName == IsLoadingProperty)
-			{
 				this.RaisePropertyChanged(() => CanExecuteToggleFavoriteCommand);
 			}
 
-			//If the network state has changed to online and the favorite has not been loaded reload it
-			if (e.PropertyName == IsNetworkAvailableProperty && this.IsNetworkAvailable && IsFavorite == null)
+			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
+			         e.PropertyName == ProductProperty)
+			{
+				this.RaisePropertyChanged(() => CanExecuteLoadFavoriteCommand);
+			}		
+
+			if (e.PropertyName == CanExecuteLoadFavoriteCommandProperty)
 			{
 				this.LoadFavoriteCommand.Execute(null);
 			}
@@ -152,7 +184,8 @@ namespace Tojeero.Core.ViewModels
 			//If the user state has changed to logged off then we need to clean the favorite state
 			if (e.PropertyName == IsLoggedInProperty && !this.IsLoggedIn)
 			{
-				this.IsFavorite = null;
+				this.IsFavorite = false;
+				this.IsFavoriteLoaded = false;
 			}
 		}
 

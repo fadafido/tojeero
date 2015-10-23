@@ -51,10 +51,10 @@
 					Grid.RowSpan="3"
 					Aspect="AspectFill"
 					BackgroundColor="Transparent"
-					Source="{Binding ImageUrl, Converter={StaticResource cachedImage}}" />
+					Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}" />
 				<local:LabelEx
 					Grid.Column="2"
-					Text="{Binding Name}"
+					Text="{Binding Product.Name}"
 					TextColor="{x:Static local:Colors.Main}"
 					FontAttributes="Bold"
 					LineCount="2"
@@ -69,7 +69,7 @@
 					DeselectedImage="favorite_deselected.png" 
 					IsSelected="{Binding IsFavorite}"
 					IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
-					IsVisible="{Binding IsLoggedIn}"
+					IsVisible="{Binding IsFavoriteLoaded}"
 					Command="{Binding ToggleFavoriteCommand}" />
 				<StackLayout
 					Grid.Row="1"
@@ -81,7 +81,7 @@
 						BackgroundColor="{x:Static local:Colors.CellSeparator}"
 						HeightRequest="1" />
 					<local:LabelEx
-						Text="{Binding TagList}"
+						Text="{Binding Product.TagList}"
 						TextColor="{x:Static local:Colors.Subtitle}"
 						FontSize="8"
 						LineCount="1"
@@ -97,7 +97,7 @@
 					Spacing="0"
 					Padding="0,0,6,0">
 					<Label
-						Text="{Binding FormattedPrice}"
+						Text="{Binding Product.FormattedPrice}"
 						TextColor="{x:Static local:Colors.Secondary}"
 						FontAttributes="Bold"
 						LineBreakMode="TailTruncation"

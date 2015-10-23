@@ -98,7 +98,7 @@ namespace Tojeero.Core
 		}
 	
 
-		private double? _startPrice = 100;
+		private double? _startPrice;
 
 		public double? StartPrice
 		{ 
@@ -113,7 +113,7 @@ namespace Tojeero.Core
 			}
 		}
 
-		private double? _endPrice = 1000;
+		private double? _endPrice;
 
 		public double? EndPrice
 		{ 

@@ -2,11 +2,11 @@
 
 namespace Tojeero.Forms
 {
-	public class Label : Xamarin.Forms.Label
+	public class LabelEx : Xamarin.Forms.Label
 	{
 		#region Constructors
 
-		public Label()
+		public LabelEx()
 			: base()
 		{
 		}
@@ -17,7 +17,7 @@ namespace Tojeero.Forms
 
 		#region Line count
 
-		public static Xamarin.Forms.BindableProperty LineCountProperty = Xamarin.Forms.BindableProperty.Create<Label, int>(o => o.LineCount, 0);
+		public static Xamarin.Forms.BindableProperty LineCountProperty = Xamarin.Forms.BindableProperty.Create<LabelEx, int>(o => o.LineCount, 0);
 
 		public int LineCount
 		{

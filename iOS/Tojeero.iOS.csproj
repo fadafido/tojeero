@@ -247,6 +247,7 @@
     <BundleResource Include="Resources\checkmark%403x.png" />
     <BundleResource Include="Resources\closeTag%402x.png" />
     <BundleResource Include="Resources\Samples\subcategories.json" />
+    <BundleResource Include="Resources\placeholder%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -358,7 +359,7 @@
       <Link>Core\BL\Entities\Tag.cs</Link>
     </Compile>
     <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
-    <Compile Include="Misc\Custom Renderers\LabelRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

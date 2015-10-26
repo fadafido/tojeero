@@ -29,6 +29,20 @@ namespace Tojeero.Core
 
 		#region Properties
 
+		[JsonIgnore]
+		public TojeeroUser ParseObject
+		{ 
+			get
+			{
+				return base.ParseObject;
+			}
+			set
+			{
+				base.ParseObject = value;
+			}
+		}
+
+
 		[JsonProperty("first_name")]
 		public string FirstName
 		{ 

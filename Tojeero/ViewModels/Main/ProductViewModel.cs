@@ -182,7 +182,6 @@ namespace Tojeero.Core.ViewModels
 					failureMessage = "Failed to toggle favorite.";
 					Tools.Logger.Log(ex, "Failed to load favorite for product with ID '{0}'", LoggingLevel.Error, true, this.Product.ID);
 				}
-				this.IsFavorite = !this.IsFavorite;
 			}
 			StopLoading(failureMessage);
 		}

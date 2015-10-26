@@ -19,6 +19,10 @@ namespace Tojeero.Core
 		Task<bool> IsProductFavorite(string productID);
 		Task AddProductToFavorites(string productID);
 		Task RemoveProductFromFavorites(string productID);
+
+		Task<bool> IsStoreFavorite(string storeID);
+		Task AddStoreToFavorites(string storeID);
+		Task RemoveStoreFromFavorites(string storeID);
 	}
 }
 

@@ -14,7 +14,9 @@ namespace Tojeero.Core
 		#region Private fields and properties
 
 		private List<string> _favoriteProducts;
+		private List<string> _favoriteStores;
 		private AsyncReaderWriterLock _productLocker = new AsyncReaderWriterLock();
+		private AsyncReaderWriterLock _storeLocker = new AsyncReaderWriterLock();
 
 		#endregion
 
@@ -206,9 +208,8 @@ namespace Tojeero.Core
 		{
 			using (var writerLock = await _productLocker.WriterLockAsync())
 			{
-				var user = ParseUser.CurrentUser;
-				var relation = user.GetRelation<ParseProduct>("favoriteProducts");
-				relation.Add(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
+				var user = ParseUser.CurrentUser as TojeeroUser;
+				user.FavoriteProducts.Add(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
 				await user.SaveAsync();
 				if (_favoriteProducts != null)
 					_favoriteProducts.Add(productID);
@@ -219,12 +220,45 @@ namespace Tojeero.Core
 		{
 			using (var writerLock = await _productLocker.WriterLockAsync())
 			{
-				var user = ParseUser.CurrentUser;
-				var relation = user.GetRelation<ParseProduct>("favoriteProducts");
-				relation.Remove(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
+				var user = ParseUser.CurrentUser as TojeeroUser;
+				user.FavoriteProducts.Remove(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
 				await user.SaveAsync();
 				if (_favoriteProducts != null)
 					_favoriteProducts.Remove(productID);
+			}
+		}
+
+		public async Task<bool> IsStoreFavorite(string storeID)
+		{
+			using (var writerLock = await _storeLocker.WriterLockAsync())
+			{
+				await loadFavoritesIfNeeded();
+				var result = _favoriteStores.Contains(storeID);
+				return result;
+			}
+		}
+
+		public async Task AddStoreToFavorites(string storeID)
+		{
+			using (var writerLock = await _storeLocker.WriterLockAsync())
+			{
+				var user = ParseUser.CurrentUser as TojeeroUser;
+				user.FavoriteStores.Add(Parse.ParseObject.CreateWithoutData<ParseStore>(storeID));
+				await user.SaveAsync();
+				if (_favoriteStores != null)
+					_favoriteStores.Add(storeID);
+			}
+		}
+
+		public async Task RemoveStoreFromFavorites(string storeID)
+		{
+			using (var writerLock = await _storeLocker.WriterLockAsync())
+			{
+				var user = ParseUser.CurrentUser as TojeeroUser;
+				user.FavoriteStores.Remove(Parse.ParseObject.CreateWithoutData<ParseStore>(storeID));
+				await user.SaveAsync();
+				if (_favoriteStores != null)
+					_favoriteStores.Remove(storeID);
 			}
 		}
 
@@ -255,6 +289,15 @@ namespace Tojeero.Core
 			get 
 			{ 
 				return GetRelationProperty<ParseProduct>(); 
+			}
+		}
+
+		[ParseFieldName("favoriteStores")]
+		public ParseRelation<ParseStore> FavoriteStores
+		{
+			get 
+			{ 
+				return GetRelationProperty<ParseStore>(); 
 			}
 		}
 

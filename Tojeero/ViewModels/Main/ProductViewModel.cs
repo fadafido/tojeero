@@ -140,26 +140,51 @@ namespace Tojeero.Core.ViewModels
 		private async Task loadFavorite()
 		{
 			StartLoading();
+			string failureMessage = null;
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
-				if (this.IsFavoriteLoaded)
-					return;
-				await Task.Delay(1000);
-				this.IsFavorite = favRand.Next() % 2 == 0;
-				this.IsFavoriteLoaded = true;
+				try
+				{
+					if (this.IsFavoriteLoaded)
+						return;
+					this.IsFavorite = await _authService.CurrentUser.IsProductFavorite(this.Product.ID);
+					this.IsFavoriteLoaded = true;
+				}
+				catch (Exception ex)
+				{
+					failureMessage = "Failed to load favorite.";
+					Tools.Logger.Log(ex, "Failed to load favorite for product with ID '{0}'", LoggingLevel.Error, true, this.Product.ID);
+				}
 			}
-			StopLoading();
+			StopLoading(failureMessage);
 		}
 
 		private async Task toggleFavorite()
 		{
 			StartLoading();
+			string failureMessage = null;
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
-				await Task.Delay(1000);
+				try
+				{
+					if(this.IsFavorite)
+					{
+						await _authService.CurrentUser.RemoveProductFromFavorites(this.Product.ID);
+					}
+					else
+					{
+						await _authService.CurrentUser.AddProductToFavorites(this.Product.ID);
+					}
+					this.IsFavorite = !this.IsFavorite;
+				}
+				catch (Exception ex)
+				{
+					failureMessage = "Failed to toggle favorite.";
+					Tools.Logger.Log(ex, "Failed to load favorite for product with ID '{0}'", LoggingLevel.Error, true, this.Product.ID);
+				}
 				this.IsFavorite = !this.IsFavorite;
 			}
-			StopLoading();
+			StopLoading(failureMessage);
 		}
 
 		private void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

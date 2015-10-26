@@ -28,8 +28,8 @@ namespace Tojeero.Core.Services
 
 		#region IAuthenticationService implementation
 
-		private User _currentUser;
-		public User CurrentUser
+		private IUser _currentUser;
+		public IUser CurrentUser
 		{
 			get
 			{
@@ -79,7 +79,7 @@ namespace Tojeero.Core.Services
 				}).ConfigureAwait(false);			
 		}
 
-		public async Task<User> LogInWithFacebook()
+		public async Task<IUser> LogInWithFacebook()
 		{
 			try
 			{
@@ -124,7 +124,7 @@ namespace Tojeero.Core.Services
 				}).ConfigureAwait(false);
 		}
 
-		public async Task UpdateUserDetails(User user, CancellationToken token)
+		public async Task UpdateUserDetails(IUser user, CancellationToken token)
 		{
 			var currentUser = ParseUser.CurrentUser;
 			if (currentUser == null)

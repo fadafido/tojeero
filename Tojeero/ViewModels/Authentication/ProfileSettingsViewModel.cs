@@ -30,17 +30,21 @@ namespace Tojeero.Core.ViewModels
 		private Commands _lastExecutedCommand;
 		private readonly ICountryManager _countryManager;
 		private readonly ICityManager _cityManager;
+		private readonly IUserManager _userManager;
 		Dictionary<int, ICity[]> _citiesCache;
 
 		#endregion
 
 		#region Constructors
 
-		public ProfileSettingsViewModel(IAuthenticationService authService, IMvxMessenger messenger, ICountryManager countryManager, ICityManager cityManager)
+		public ProfileSettingsViewModel(IAuthenticationService authService, IMvxMessenger messenger, 
+			ICountryManager countryManager, ICityManager cityManager,
+			IUserManager userManager)
 			: base(authService, messenger)
 		{
 			this._countryManager = countryManager;
 			this._cityManager = cityManager;
+			this._userManager = userManager;
 			PropertyChanged += propertyChanged;
 			updateUserData();
 		}
@@ -330,9 +334,9 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private User getUpdatedUser()
+		private IUser getUpdatedUser()
 		{
-			var user = new User();
+			var user = _userManager.Create();
 			user.FirstName = this.FirstName;
 			user.LastName = this.LastName;
 			user.CountryId = this.Country != null ? (int?)this.Country.CountryId : null;
@@ -432,7 +436,7 @@ namespace Tojeero.Core.ViewModels
 
 		void updateUserData()
 		{
-			var user = this.CurrentUser ?? new User();
+			var user = this.CurrentUser ?? _userManager.Create();
 			this.FirstName = user.FirstName;
 			this.LastName = user.LastName;
 			this.Email = user.Email;

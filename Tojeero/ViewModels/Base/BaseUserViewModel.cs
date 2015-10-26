@@ -36,8 +36,8 @@ namespace Tojeero.Core.ViewModels
 		#region Properties
 
 		public static string CurrentUserProperty = "CurrentUser";
-		private User _currentUser;
-		public User CurrentUser
+		private IUser _currentUser;
+		public IUser CurrentUser
 		{ 
 			get
 			{

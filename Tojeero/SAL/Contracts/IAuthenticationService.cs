@@ -6,13 +6,13 @@ namespace Tojeero.Core.Services
 {
 	public interface IAuthenticationService 
 	{		
-		User CurrentUser { get; }
+		IUser CurrentUser { get; }
 		SessionState State { get; }
 
 		Task LogOut();
 		Task RestoreSavedSession();
-		Task<User> LogInWithFacebook();
-		Task UpdateUserDetails(User user, CancellationToken token);
+		Task<IUser> LogInWithFacebook();
+		Task UpdateUserDetails(IUser user, CancellationToken token);
 	}
 }
 

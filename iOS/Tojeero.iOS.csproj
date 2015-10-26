@@ -364,6 +364,12 @@
     <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\SelectableButtonRenderer.cs" />
+    <Compile Include="..\Tojeero\BL\Managers\UserManager.cs">
+      <Link>Core\BL\Managers\UserManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\User.cs">
+      <Link>Core\BL\Entities\User.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

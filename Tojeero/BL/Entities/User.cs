@@ -1,11 +1,23 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Cirrious.MvvmCross.ViewModels;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Nito.AsyncEx;
+using Parse;
+using System.Linq;
 
 namespace Tojeero.Core
 {
-	public class User : MvxViewModel
+	public class User : MvxViewModel, IUser
 	{
+		#region Private fields and properties
+
+		private List<string> _favoriteProducts;
+		private AsyncReaderWriterLock _productLocker = new AsyncReaderWriterLock();
+
+		#endregion
+
 		#region Constructors
 
 		public User()
@@ -159,6 +171,61 @@ namespace Tojeero.Core
 		}
 
 		public bool IsProfileSubmitted { get; set; }
+		#endregion
+
+		#region Methods
+
+		public async Task<bool> IsProductFavorite(string productID)
+		{
+			using (var writerLock = await _productLocker.WriterLockAsync())
+			{
+				await loadFavoritesIfNeeded();
+				var result = _favoriteProducts.Contains(productID);
+				return result;
+			}
+		}
+
+		public async Task AddProductToFavorites(string productID)
+		{
+			using (var writerLock = await _productLocker.WriterLockAsync())
+			{
+				var user = ParseUser.CurrentUser;
+				var relation = user.GetRelation<ParseProduct>("favoriteProducts");
+				relation.Add(ParseObject.CreateWithoutData<ParseProduct>(productID));
+				await user.SaveAsync();
+				if (_favoriteProducts != null)
+					_favoriteProducts.Add(productID);
+			}
+		}
+
+		public async Task RemoveProductFromFavorites(string productID)
+		{
+			using (var writerLock = await _productLocker.WriterLockAsync())
+			{
+				var user = ParseUser.CurrentUser;
+				var relation = user.GetRelation<ParseProduct>("favoriteProducts");
+				relation.Remove(ParseObject.CreateWithoutData<ParseProduct>(productID));
+				await user.SaveAsync();
+				if (_favoriteProducts != null)
+					_favoriteProducts.Remove(productID);
+			}
+		}
+
+		#endregion
+
+		#region Utility methods
+
+		async Task loadFavoritesIfNeeded()
+		{
+			if (_favoriteProducts == null)
+			{
+				var user = ParseUser.CurrentUser;
+				var relation = user.GetRelation<ParseProduct>("favoriteProducts");
+				var result = await relation.Query.FindAsync();	
+				_favoriteProducts = result.Select(p => p.ObjectId).ToList();
+			}
+		}
+
 		#endregion
 	}
 }

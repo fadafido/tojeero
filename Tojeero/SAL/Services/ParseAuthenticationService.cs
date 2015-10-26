@@ -28,7 +28,7 @@ namespace Tojeero.Core.Services
 
 		#region IAuthenticationService implementation
 
-		private IUser _currentUser;
+		private User _currentUser;
 		public IUser CurrentUser
 		{
 			get
@@ -37,7 +37,7 @@ namespace Tojeero.Core.Services
 			}
 			private set
 			{
-				_currentUser = value;
+				_currentUser = value as User;
 				updateCurrentUser();
 			}
 		}
@@ -87,15 +87,15 @@ namespace Tojeero.Core.Services
 				if(fbUser == null)
 					return null;
 				
-				var parseUser = await ParseFacebookUtils.LogInAsync(fbUser.User.ID, fbUser.Token, fbUser.ExpiryDate);
+				var parseUser = await ParseFacebookUtils.LogInAsync(fbUser.User.ID, fbUser.Token, fbUser.ExpiryDate) as TojeeroUser;
 				parseUser.Email = fbUser.User.Email;
-				parseUser["firstName"] = fbUser.User.FirstName;
-				parseUser["lastName"] = fbUser.User.LastName;
-				parseUser["profilePictureUri"] = fbUser.User.ProfilePictureUrl;
+				parseUser.FirstName = fbUser.User.FirstName;
+				parseUser.LastName = fbUser.User.LastName;
+				parseUser.ProfilePictureUrl = fbUser.User.ProfilePictureUrl;
 				populateUserPreferances(parseUser);
 				await parseUser.SaveAsync().ConfigureAwait(false);
 
-				CurrentUser = getCurrentUser();
+				CurrentUser = new User(parseUser);
 				State = SessionState.LoggedIn;
 
 				return this.CurrentUser;
@@ -126,46 +126,42 @@ namespace Tojeero.Core.Services
 
 		public async Task UpdateUserDetails(IUser user, CancellationToken token)
 		{
-			var currentUser = ParseUser.CurrentUser;
-			if (currentUser == null)
+			if (_currentUser == null)
 				return;
-			currentUser["firstName"] = user.FirstName;
-			currentUser["lastName"] = user.LastName;
-			currentUser["countryId"] = user.CountryId;
-			currentUser["cityId"] = user.CityId;
-			currentUser["mobile"] = user.Mobile;
-			currentUser["isProfileSubmitted"] = true;
-			await currentUser.SaveAsync(token).ConfigureAwait(false);
+			_currentUser.FirstName = user.FirstName;
+			_currentUser.LastName = user.LastName;
+			_currentUser.CountryId = user.CountryId;
+			_currentUser.CityId = user.CityId;
+			_currentUser.Mobile = user.Mobile;
+			_currentUser.IsProfileSubmitted = true;
+			await _currentUser.ParseObject.SaveAsync(token).ConfigureAwait(false);
 			//Update the local settings
 			Settings.CityId = user.CityId;
 			Settings.CountryId = user.CountryId;
-			this.CurrentUser = getCurrentUser();
+			updateCurrentUser();
 		}
 
 		//Update settings bases on user profile
-		private void populateUserPreferances(ParseObject user)
+		private void populateUserPreferances(TojeeroUser user)
 		{
+			
 			//If the user has already selected country then we need to override Settings with values from user entity
-			if (user.ContainsKey("countryId"))
+			if (user.CountryId != null)
 			{
-				var countryId = user.Get<int?>("countryId");
-				if(countryId != null)
-					Settings.CountryId = countryId;
+				Settings.CountryId = user.CountryId;
 			}
 			else
 			{
-				user["countryId"] = Settings.CountryId;
+				user.CountryId = Settings.CountryId;
 			}
 
-			if (user.ContainsKey("cityId"))
+			if (user.CityId != null)
 			{
-				var cityId = user.Get<int?>("cityId");
-				if(cityId != null)
-					Settings.CityId = cityId;
+				Settings.CityId = user.CityId;
 			}
 			else
 			{
-				user["cityId"] = Settings.CityId;
+				user.CityId = Settings.CityId;
 			}
 		}
 			
@@ -197,40 +193,7 @@ namespace Tojeero.Core.Services
 		{
 			_messenger.Publish<CurrentUserChangedMessage>(new CurrentUserChangedMessage(this, this.CurrentUser));
 		}
-
-		private User getCurrentUser()
-		{
-			var currentUser = ParseUser.CurrentUser;
-			if (currentUser == null)
-				return null;	
-			string first, last, pic, mobile;
-			int? country, city;
-			bool submitted;
-
-			currentUser.TryGetValue<String>("firstName", out first);
-			currentUser.TryGetValue<String>("lastName", out last);
-			currentUser.TryGetValue<String>("profilePictureUri", out pic);
-			currentUser.TryGetValue<int?>("countryId", out country);
-			currentUser.TryGetValue<int?>("cityId", out city);
-			currentUser.TryGetValue<String>("mobile", out mobile);
-			currentUser.TryGetValue<bool>("isProfileSubmitted", out submitted);
-
-			var user = new User()
-				{
-					ID = currentUser.ObjectId,
-					UserName = currentUser.Username,
-					Email = currentUser.Email,
-					FirstName = first,
-					LastName = last,
-					ProfilePictureUrl = pic,
-					CountryId = country,
-					CityId = city,
-					Mobile = mobile,
-					IsProfileSubmitted = submitted
-				};
-			return user;
-		}
-
+			
 		private void handleException(Exception exception)
 		{
 			try

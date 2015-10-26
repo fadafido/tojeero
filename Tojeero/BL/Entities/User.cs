@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Tojeero.Core
 {
-	public class User : MvxViewModel, IUser
+	public class User : BaseModelEntity<TojeeroUser>, IUser
 	{
 		#region Private fields and properties
 
@@ -20,8 +20,8 @@ namespace Tojeero.Core
 
 		#region Constructors
 
-		public User()
-			: base()
+		public User(TojeeroUser user = null)
+			: base(user)
 		{
 		}
 
@@ -29,33 +29,31 @@ namespace Tojeero.Core
 
 		#region Properties
 
-		private string _firstName;
 		[JsonProperty("first_name")]
 		public string FirstName
 		{ 
 			get
 			{
-				return _firstName; 
+				return this.ParseObject.FirstName; 
 			}
 			set
 			{
-				_firstName = value; 
+				this.ParseObject.FirstName = value;
 				RaisePropertyChanged(() => FirstName); 
 				RaisePropertyChanged(() => FullName); 
 			}
 		}
 			
-		private string _lastName;
 		[JsonProperty("last_name")]
 		public string LastName
 		{ 
 			get
 			{
-				return _lastName; 
+				return this.ParseObject.LastName; 
 			}
 			set
 			{
-				_lastName = value; 
+				this.ParseObject.LastName = value;
 				RaisePropertyChanged(() => LastName); 
 				RaisePropertyChanged(() => FullName); 
 			}
@@ -69,108 +67,113 @@ namespace Tojeero.Core
 			}
 		}
 
-		private string _userName;
 
 		public string UserName
 		{ 
 			get
 			{
-				return _userName; 
+				return this.ParseObject.Username; 
 			}
 			set
 			{
-				_userName = value; 
+				this.ParseObject.Username = value;
 				RaisePropertyChanged(() => UserName); 
 			}
 		}
 			
-		private string _id;
 		[JsonProperty("id")]
 		public string ID
 		{ 
 			get
 			{
-				return _id; 
+				return base.ID; 
 			}
 			set
 			{
-				_id = value; 
-				RaisePropertyChanged(() => ID); 
+				base.ID = value;
 			}
 		}
-			
-		private string _email;
+
+
 		[JsonProperty("email")]
 		public string Email
 		{ 
 			get
 			{
-				return _email; 
+				return this.ParseObject.Email;; 
 			}
 			set
 			{
-				_email = value; 
+				this.ParseObject.Email = value;
 				RaisePropertyChanged(() => Email); 
 			}
 		}
-
-		private string _profilePictureUrl;
+			
 		public string ProfilePictureUrl
 		{ 
 			get
 			{
-				return _profilePictureUrl; 
+				return this.ParseObject.ProfilePictureUrl; 
 			}
 			set
 			{
-				_profilePictureUrl = value; 
+				this.ParseObject.ProfilePictureUrl = value; 
 				RaisePropertyChanged(() => ProfilePictureUrl); 
 			}
 		}
-
-		private int? _countryId;
+			
 		public int? CountryId
 		{ 
 			get
 			{
-				return _countryId; 
+				return this.ParseObject.CountryId; 
 			}
 			set
 			{
-				_countryId = value; 
+				this.ParseObject.CountryId = value; 
 				RaisePropertyChanged(() => CountryId); 
 			}
 		}
-
-		private int? _cityId;
+			
 		public int? CityId
 		{ 
 			get
 			{
-				return _cityId; 
+				return this.ParseObject.CityId; 
 			}
 			set
 			{
-				_cityId = value; 
+				this.ParseObject.CityId = value; 
 				RaisePropertyChanged(() => CityId); 
 			}
 		}
-
-		private string _mobile;
+			
 		public string Mobile
 		{ 
 			get
 			{
-				return _mobile; 
+				return this.ParseObject.Mobile; 
 			}
 			set
 			{
-				_mobile = value; 
+				this.ParseObject.Mobile = value; 
 				RaisePropertyChanged(() => Mobile); 
 			}
 		}
 
-		public bool IsProfileSubmitted { get; set; }
+		public bool IsProfileSubmitted 
+		{
+			get
+			{
+				return this.ParseObject.IsProfileSubmitted;
+			}
+			set
+			{ 
+				this.ParseObject.IsProfileSubmitted = value;
+				RaisePropertyChanged(() => IsProfileSubmitted);
+			}
+		}
+
 		#endregion
 
 		#region Methods
@@ -191,7 +194,7 @@ namespace Tojeero.Core
 			{
 				var user = ParseUser.CurrentUser;
 				var relation = user.GetRelation<ParseProduct>("favoriteProducts");
-				relation.Add(ParseObject.CreateWithoutData<ParseProduct>(productID));
+				relation.Add(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
 				await user.SaveAsync();
 				if (_favoriteProducts != null)
 					_favoriteProducts.Add(productID);
@@ -204,7 +207,7 @@ namespace Tojeero.Core
 			{
 				var user = ParseUser.CurrentUser;
 				var relation = user.GetRelation<ParseProduct>("favoriteProducts");
-				relation.Remove(ParseObject.CreateWithoutData<ParseProduct>(productID));
+				relation.Remove(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
 				await user.SaveAsync();
 				if (_favoriteProducts != null)
 					_favoriteProducts.Remove(productID);
@@ -227,6 +230,110 @@ namespace Tojeero.Core
 		}
 
 		#endregion
+	}
+
+	[ParseClassName("_User")]
+	public class TojeeroUser : ParseUser
+	{
+		[ParseFieldName("favoriteProducts")]
+		public ParseRelation<ParseProduct> FavoriteProducts
+		{
+			get 
+			{ 
+				return GetRelationProperty<ParseProduct>(); 
+			}
+		}
+
+		[ParseFieldName("firstName")]
+		public string FirstName
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("lastName")]
+		public string LastName
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("profilePictureUri")]
+		public string ProfilePictureUrl
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("countryId")]
+		public int? CountryId
+		{
+			get
+			{
+				return GetProperty<int?>();
+			}
+			set
+			{
+				SetProperty<int?>(value);
+			}
+		}
+
+		[ParseFieldName("cityId")]
+		public int? CityId
+		{
+			get
+			{
+				return GetProperty<int?>();
+			}
+			set
+			{
+				SetProperty<int?>(value);
+			}
+		}
+
+		[ParseFieldName("mobile")]
+		public string Mobile
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("isProfileSubmitted")]
+		public bool IsProfileSubmitted
+		{
+			get
+			{
+				return GetProperty<bool>();
+			}
+			set
+			{
+				SetProperty<bool>(value);
+			}
+		}
 	}
 }
 

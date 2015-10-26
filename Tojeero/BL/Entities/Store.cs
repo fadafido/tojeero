@@ -64,6 +64,19 @@ namespace Tojeero.Core
 				RaisePropertyChanged(() => LowercaseName);
 			}
 		}
+			
+		public string Description
+		{
+			get
+			{
+				return this.ParseObject.Description;
+			}
+			set
+			{
+				this.ParseObject.Description = value;
+				RaisePropertyChanged(() => Description);
+			}
+		}
 
 		private string _imageUrl;
 		public string ImageUrl

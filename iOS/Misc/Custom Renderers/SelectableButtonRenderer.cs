@@ -43,14 +43,13 @@ namespace Tojeero.iOS.Renderers
 		private void updateImage()
 		{
 			var button = (SelectableButton)this.Element;
-			button.Opacity = button.IsEnabled ? 1f : 0.5f;
 			var imageSource = button.IsSelected ? button.SelectedImage : button.DeselectedImage;
 			button.Image = imageSource;
 		}
 
 		private void updateOpacity()
 		{
-			this.Element.Opacity = this.Element.IsEnabled ? 1f : 0.5f;
+			//this.Element.Opacity = this.Element.IsEnabled ? 1f : 0.5f;
 		}
 	}
 }

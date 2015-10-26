@@ -9,7 +9,6 @@ using Nito.AsyncEx;
 namespace Tojeero.Core.ViewModels
 {
 	public class BaseCollectionViewModel<T> : LoadableNetworkViewModel 
-		where T : IModelEntity
 	{
 		#region Private fields and properties
 
@@ -303,7 +302,7 @@ namespace Tojeero.Core.ViewModels
 
 		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{			
-			if (e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
+			if (e.PropertyName == IsLoadingProperty || e.PropertyName == IsNetworkAvailableProperty)
 			{
 				RaisePropertyChanged(() => CanExecuteLoadNextPageCommand);
 			}

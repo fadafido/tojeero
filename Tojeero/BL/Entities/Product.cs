@@ -10,7 +10,7 @@ namespace Tojeero.Core
 		#region Constructors
 
 		public Product()
-			:base()
+			: base()
 		{
 		}
 
@@ -63,7 +63,7 @@ namespace Tojeero.Core
 				RaisePropertyChanged(() => LowercaseName);
 			}
 		}
-			
+
 		public double Price
 		{
 			get
@@ -83,11 +83,12 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				return Price.ToString("C");
+				return Price.ToString("N2");
 			}
 		}
 
 		private string _imageUrl;
+
 		public string ImageUrl
 		{
 			get
@@ -104,6 +105,7 @@ namespace Tojeero.Core
 		}
 
 		private string _categoryID;
+
 		public string CategoryID
 		{ 
 			get
@@ -119,6 +121,7 @@ namespace Tojeero.Core
 		}
 
 		private string _subcategoryID;
+
 		public string SubcategoryID
 		{ 
 			get
@@ -187,12 +190,35 @@ namespace Tojeero.Core
 				if (_parseObject != null)
 				{
 					_parseObject.Tags = value;
+					_tagList = null;
+					RaisePropertyChanged(() => Tags);
+					RaisePropertyChanged(() => TagList);
 				}
 			}
 		}
+
+
+		private string _tagList;
+		[Ignore]
+		public string TagList
+		{
+			get
+			{
+				if (_tagList == null)
+				{
+
+					if (Tags != null)
+						_tagList = string.Join(", ", Tags);
+					else
+						_tagList = "";
+				}
+				return _tagList;
+			}
+		}
+
 		#endregion
 
-		#region Parent 
+		#region Parent
 
 		public override string ToString()
 		{
@@ -352,6 +378,7 @@ namespace Tojeero.Core
 				SetProperty<int?>(value);
 			}
 		}
+
 		#endregion
 	}
 }

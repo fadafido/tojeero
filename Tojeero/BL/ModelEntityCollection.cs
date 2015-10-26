@@ -10,7 +10,6 @@ using Nito.AsyncEx;
 namespace Tojeero.Core
 {
 	public class ModelEntityCollection<T> : ObservableCollection<T>, IModelEntityCollection<T>
-		where T : IModelEntity
 	{
 		#region Private fields and properties
 

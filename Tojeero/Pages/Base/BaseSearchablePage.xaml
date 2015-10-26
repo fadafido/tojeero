@@ -4,7 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	x:Class="Tojeero.Forms.BaseSearchablePage"
-	BackgroundColor="{x:Static local:Colors.LightGray}">
+	BackgroundColor="White">
 	<ContentPage.Content>
 		<StackLayout
 			BackgroundColor="Transparent"

@@ -13,7 +13,6 @@ namespace Tojeero.Core.ViewModels
 	}
 
 	public abstract class BaseSearchViewModel<T> : LoadableNetworkViewModel, ISearchViewModel
-		where T : IModelEntity
 	{
 		#region Private fields and properties
 

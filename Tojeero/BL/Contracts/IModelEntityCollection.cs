@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Tojeero.Core
 {
-	public interface IModelQuery<T> where T : IModelEntity
+	public interface IModelQuery<T>
 	{
 		Task<IEnumerable<T>> Fetch(int pageSize = - 1, int offset = -1);
 		Comparison<T> Comparer { get; }

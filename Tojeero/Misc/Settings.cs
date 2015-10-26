@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using Cirrious.CrossCore;
-using Refractored.MvxPlugins.Settings;
 using Tojeero.Core.Services;
 using Tojeero.Core.Toolbox;
+using Refractored.Xam.Settings.Abstractions;
+using Refractored.Xam.Settings;
 
 namespace Tojeero.Core
 {
 	public static class Settings
 	{
-		private static ISettings _settings;
 		private static ISettings AppSettings
 		{
 			get
 			{
-				return _settings ?? (_settings = Mvx.GetSingleton<ISettings>());
+				return CrossSettings.Current;
 			}
 		}
 
@@ -41,9 +41,10 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(CurrentUserKey, value))
-					AppSettings.Save();
+				if (value == null)
+					AppSettings.Remove(CurrentUserKey);
+				else
+					AppSettings.AddOrUpdateValue(CurrentUserKey, value);
 			}
 		}
 
@@ -70,9 +71,7 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(IsAnalyticsPermittedByUserKey, value))
-					AppSettings.Save();
+				AppSettings.AddOrUpdateValue(IsAnalyticsPermittedByUserKey, value);
 			}
 		}
 		#endregion
@@ -99,9 +98,10 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(CountryIdKey, value))
-					AppSettings.Save();
+				if (value == null)
+					AppSettings.Remove(CountryIdKey);
+				else
+					AppSettings.AddOrUpdateValue(CountryIdKey, value);
 			}
 		}
 
@@ -129,9 +129,11 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(CityIdKey, value))
-					AppSettings.Save();
+				
+				if (value == null)
+					AppSettings.Remove(CityIdKey);
+				else
+					AppSettings.AddOrUpdateValue(CityIdKey, value);
 			}
 		}
 
@@ -159,9 +161,10 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(LanguageKey, value))
-					AppSettings.Save();
+				if (value == null)
+					AppSettings.Remove(LanguageKey);
+				else
+					AppSettings.AddOrUpdateValue(LanguageKey, value);
 			}
 		}
 
@@ -193,9 +196,7 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(DatabaseSchemaVersionKey, value))
-					AppSettings.Save();
+				AppSettings.AddOrUpdateValue(DatabaseSchemaVersionKey, value);
 			}
 		}
 

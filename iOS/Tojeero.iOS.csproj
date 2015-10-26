@@ -168,9 +168,6 @@
     <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
       <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\Xamarin.iOS10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Refractored.MvxPlugins.Settings.TouchUnified">
-      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\Xamarin.iOS10\Refractored.MvxPlugins.Settings.TouchUnified.dll</HintPath>
-    </Reference>
     <Reference Include="Refractored.MvxPlugins.Settings">
       <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\monotouch\Refractored.MvxPlugins.Settings.dll</HintPath>
     </Reference>
@@ -185,6 +182,12 @@
     </Reference>
     <Reference Include="PLCrashReporterUnifiedBinding">
       <HintPath>..\packages\Xamarin.Insights.1.11.1\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\Xamarin.iOS10\Refractored.Xam.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\Xamarin.iOS10\Refractored.Xam.Settings.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +250,9 @@
     <BundleResource Include="Resources\checkmark%403x.png" />
     <BundleResource Include="Resources\closeTag%402x.png" />
     <BundleResource Include="Resources\Samples\subcategories.json" />
+    <BundleResource Include="Resources\placeholder%402x.png" />
+    <BundleResource Include="Resources\favorite_selected%402x.png" />
+    <BundleResource Include="Resources\favorite_deselected%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -256,7 +262,6 @@
     <None Include="packages.config" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
-    <None Include="Properties\_SettingsStarted.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main\AppDelegate.cs" />
@@ -273,7 +278,6 @@
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateToolbox.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
-    <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Misc\Custom Renderers\ButtonRenderer.cs" />
     <Compile Include="Misc\Services\LocalizationService.cs" />
     <Compile Include="..\Tojeero\BL\Entities\BaseModelEntity.cs">
@@ -358,6 +362,14 @@
       <Link>Core\BL\Entities\Tag.cs</Link>
     </Compile>
     <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\SelectableButtonRenderer.cs" />
+    <Compile Include="..\Tojeero\BL\Managers\UserManager.cs">
+      <Link>Core\BL\Managers\UserManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\User.cs">
+      <Link>Core\BL\Entities\User.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

@@ -35,8 +35,9 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		private User _currentUser;
-		public User CurrentUser
+		public static string CurrentUserProperty = "CurrentUser";
+		private IUser _currentUser;
+		public IUser CurrentUser
 		{ 
 			get
 			{
@@ -50,6 +51,7 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public static string IsLoggedInProperty = "IsLoggedIn";
 		public bool IsLoggedIn
 		{
 			get

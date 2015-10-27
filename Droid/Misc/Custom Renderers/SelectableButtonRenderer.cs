@@ -1,21 +1,23 @@
 ﻿using System;
 using Xamarin.Forms;
+using Tojeero.Forms;
+using Xamarin.Forms.Platform.Android;
 
-[assembly:ExportRenderer(typeof(Button), typeof(Tojeero.Droid.Renderers.ButtonRenderer))]
+[assembly:ExportRenderer(typeof(SelectableButton), typeof(Tojeero.Droid.Renderers.SelectableButtonRenderer))]
 
 namespace Tojeero.Droid.Renderers
-{	
-	public class ButtonRenderer : Xamarin.Forms.Platform.Android.ButtonRenderer
+{
+	public class SelectableButtonRenderer : ButtonRenderer
 	{
-		protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Button> e)
+		protected override void OnElementChanged(ElementChangedEventArgs<Button> e)
 		{
 			base.OnElementChanged(e);
 
-			if (e.OldElement != null || this.Element == null)
+			if (this.Element == null)
 				return;
 
-			this.Element.Opacity = this.Element.IsEnabled ? 1f : 0.5f;
-		}
+			updateImage();
+		}	
 
 		protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
@@ -24,10 +26,19 @@ namespace Tojeero.Droid.Renderers
 			if (this.Element == null || this.Control == null)
 				return;
 
-			if (e.PropertyName == Button.IsEnabledProperty.PropertyName)
+			if (e.PropertyName == SelectableButton.IsSelectedProperty.PropertyName ||
+				e.PropertyName == SelectableButton.SelectedImageProperty.PropertyName ||
+				e.PropertyName == SelectableButton.DeselectedImageProperty.PropertyName)
 			{
-				this.Element.Opacity = this.Element.IsEnabled ? 1f : 0.5f;
+				updateImage();
 			}
+		}
+
+		private void updateImage()
+		{
+			var button = (SelectableButton)this.Element;
+			var imageSource = button.IsSelected ? button.SelectedImage : button.DeselectedImage;
+			button.Image = imageSource;
 		}
 	}
 }

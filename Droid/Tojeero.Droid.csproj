@@ -146,12 +146,6 @@
     <Reference Include="MvvmCross.Plugins.Settings">
       <HintPath>..\packages\MvvmCross.Plugins.Settings.0.0.0.2\lib\portable-net45+sl5+wp8+win8\MvvmCross.Plugins.Settings.dll</HintPath>
     </Reference>
-    <Reference Include="Refractored.MvxPlugins.Settings.Droid">
-      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\monoandroid\Refractored.MvxPlugins.Settings.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="Refractored.MvxPlugins.Settings">
-      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\monoandroid\Refractored.MvxPlugins.Settings.dll</HintPath>
-    </Reference>
     <Reference Include="Connectivity.Plugin">
       <HintPath>..\packages\Xam.Plugin.Connectivity.1.0.4\lib\MonoAndroid10\Connectivity.Plugin.dll</HintPath>
     </Reference>
@@ -176,6 +170,12 @@
     </Reference>
     <Reference Include="Xamarin.Android.Support.v7.CardView">
       <HintPath>..\packages\Xamarin.Android.Support.v7.CardView.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.CardView.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\MonoAndroid10\Refractored.Xam.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\MonoAndroid10\Refractored.Xam.Settings.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -291,7 +291,6 @@
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <None Include="Properties\_SettingsStarted.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\layout\" />

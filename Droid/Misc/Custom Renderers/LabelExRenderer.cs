@@ -1,20 +1,20 @@
 ﻿using System;
-using UIKit;
-using Tojeero.Forms;
 using Xamarin.Forms;
+using Tojeero.Forms;
 
-[assembly:Xamarin.Forms.ExportRenderer(typeof(LabelEx), typeof(Tojeero.iOS.Renderers.LabelExRenderer))]
+[assembly:ExportRenderer(typeof(LabelEx), typeof(Tojeero.Droid.Renderers.LabelExRenderer))]
 
-namespace Tojeero.iOS.Renderers
+namespace Tojeero.Droid.Renderers
 {	
-	public class LabelExRenderer : Xamarin.Forms.Platform.iOS.LabelRenderer
+	public class LabelExRenderer : Xamarin.Forms.Platform.Android.LabelRenderer
 	{
-		protected override void OnElementChanged(Xamarin.Forms.Platform.iOS.ElementChangedEventArgs<Label> e)
+		protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Button> e)
 		{
 			base.OnElementChanged(e);
 
 			if (e.OldElement != null || this.Element == null)
 				return;
+
 			updateLineCount();
 		}
 
@@ -31,10 +31,10 @@ namespace Tojeero.iOS.Renderers
 			}
 		}
 
-		void updateLineCount()
+		private void updateLineCount()
 		{
-			var element = (LabelEx)this.Element;
-			this.Control.Lines = element.LineCount;
+			var label = this.Control as LabelEx;
+			this.Control.MaxLines = label.LineCount;
 		}
 	}
 }

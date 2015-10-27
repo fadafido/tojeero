@@ -283,6 +283,7 @@
     <Compile Include="..\Tojeero\BL\Managers\UserManager.cs">
       <Link>Core\BL\Managers\UserManager.cs</Link>
     </Compile>
+    <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

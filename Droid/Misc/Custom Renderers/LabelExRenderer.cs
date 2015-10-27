@@ -8,7 +8,7 @@ namespace Tojeero.Droid.Renderers
 {	
 	public class LabelExRenderer : Xamarin.Forms.Platform.Android.LabelRenderer
 	{
-		protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Button> e)
+		protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Label> e)
 		{
 			base.OnElementChanged(e);
 
@@ -33,8 +33,8 @@ namespace Tojeero.Droid.Renderers
 
 		private void updateLineCount()
 		{
-			var label = this.Control as LabelEx;
-			this.Control.MaxLines = label.LineCount;
+			var label = this.Element as LabelEx;
+			this.Control.SetMaxLines(label.LineCount);
 		}
 	}
 }

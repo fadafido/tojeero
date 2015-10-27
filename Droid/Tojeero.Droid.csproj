@@ -177,6 +177,12 @@
     <Reference Include="Refractored.Xam.Settings.Abstractions">
       <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\MonoAndroid10\Refractored.Xam.Settings.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Design">
+      <HintPath>..\packages\Xamarin.Android.Support.Design.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tojeero\Tojeero.csproj">
@@ -203,7 +209,6 @@
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateTimeToolbox.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
-    <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Misc\Custom Renderers\ButtonRenderer.cs" />
     <Compile Include="Misc\Services\LocalizationService.cs" />
     <Compile Include="..\Tojeero\BL\Entities\BaseModelEntity.cs">
@@ -285,6 +290,7 @@
     </Compile>
     <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\SelectableButtonRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\BorderViewRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -354,6 +360,8 @@
     <AndroidResource Include="Resources\drawable\actionbar_titletext_tojeero.xml" />
     <AndroidResource Include="Resources\drawable-xxhdpi\checkmark.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\closeTag.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\favorite_deselected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\favorite_selected.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

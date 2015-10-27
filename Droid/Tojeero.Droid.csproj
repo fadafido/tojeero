@@ -284,6 +284,7 @@
       <Link>Core\BL\Managers\UserManager.cs</Link>
     </Compile>
     <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\SelectableButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

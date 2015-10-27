@@ -87,7 +87,7 @@
 					HeightRequest="1"
 					VerticalOptions="Start" />
 				<local:LabelEx
-					Text="Store category"
+					Text="{Binding Store.Category.Name}"
 					TextColor="{x:Static local:Colors.Subtitle}"
 					FontSize="8"
 					LineCount="1"

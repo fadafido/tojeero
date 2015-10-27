@@ -35,6 +35,7 @@ namespace Tojeero.Core
 			set
 			{
 				_imageUrl = null;
+				_category = null;
 				base.ParseObject = value;
 			}
 		}
@@ -62,6 +63,19 @@ namespace Tojeero.Core
 			{
 				_parseObject.LowercaseName = value;
 				RaisePropertyChanged(() => LowercaseName);
+			}
+		}
+			
+		public string Description
+		{
+			get
+			{
+				return this.ParseObject.Description;
+			}
+			set
+			{
+				this.ParseObject.Description = value;
+				RaisePropertyChanged(() => Description);
 			}
 		}
 
@@ -93,6 +107,23 @@ namespace Tojeero.Core
 			set
 			{
 				_categoryID = value; 
+			}
+		}
+
+		private IStoreCategory _category;
+		[Ignore]
+		public IStoreCategory Category
+		{ 
+			get
+			{
+				if (_category == null)
+					_category = new StoreCategory(this.ParseObject.Category);
+				return _category; 
+			}
+			set
+			{
+				_category = value; 
+				RaisePropertyChanged(() => Category); 
 			}
 		}
 

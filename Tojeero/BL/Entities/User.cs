@@ -14,7 +14,9 @@ namespace Tojeero.Core
 		#region Private fields and properties
 
 		private List<string> _favoriteProducts;
+		private List<string> _favoriteStores;
 		private AsyncReaderWriterLock _productLocker = new AsyncReaderWriterLock();
+		private AsyncReaderWriterLock _storeLocker = new AsyncReaderWriterLock();
 
 		#endregion
 
@@ -194,52 +196,81 @@ namespace Tojeero.Core
 
 		public async Task<bool> IsProductFavorite(string productID)
 		{
-			using (var writerLock = await _productLocker.WriterLockAsync())
-			{
-				await loadFavoritesIfNeeded();
-				var result = _favoriteProducts.Contains(productID);
-				return result;
-			}
+			await loadFavoriteProductsIfNeeded();
+			var result = _favoriteProducts.Contains(productID);
+			return result;
 		}
 
 		public async Task AddProductToFavorites(string productID)
 		{
-			using (var writerLock = await _productLocker.WriterLockAsync())
-			{
-				var user = ParseUser.CurrentUser;
-				var relation = user.GetRelation<ParseProduct>("favoriteProducts");
-				relation.Add(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
-				await user.SaveAsync();
-				if (_favoriteProducts != null)
-					_favoriteProducts.Add(productID);
-			}
+			var user = ParseUser.CurrentUser as TojeeroUser;
+			user.FavoriteProducts.Add(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
+			await user.SaveAsync();
+			if (_favoriteProducts != null)
+				_favoriteProducts.Add(productID);
 		}
 
 		public async Task RemoveProductFromFavorites(string productID)
 		{
-			using (var writerLock = await _productLocker.WriterLockAsync())
-			{
-				var user = ParseUser.CurrentUser;
-				var relation = user.GetRelation<ParseProduct>("favoriteProducts");
-				relation.Remove(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
-				await user.SaveAsync();
-				if (_favoriteProducts != null)
-					_favoriteProducts.Remove(productID);
-			}
+			var user = ParseUser.CurrentUser as TojeeroUser;
+			user.FavoriteProducts.Remove(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
+			await user.SaveAsync();
+			if (_favoriteProducts != null)
+				_favoriteProducts.Remove(productID);
+		}
+
+		public async Task<bool> IsStoreFavorite(string storeID)
+		{
+			await loadFavoriteStoresIfNeeded();
+			var result = _favoriteStores.Contains(storeID);
+			return result;
+		}
+
+		public async Task AddStoreToFavorites(string storeID)
+		{
+			var user = ParseUser.CurrentUser as TojeeroUser;
+			user.FavoriteStores.Add(Parse.ParseObject.CreateWithoutData<ParseStore>(storeID));
+			await user.SaveAsync();
+			if (_favoriteStores != null)
+				_favoriteStores.Add(storeID);
+		}
+
+		public async Task RemoveStoreFromFavorites(string storeID)
+		{
+			var user = ParseUser.CurrentUser as TojeeroUser;
+			user.FavoriteStores.Remove(Parse.ParseObject.CreateWithoutData<ParseStore>(storeID));
+			await user.SaveAsync();
+			if (_favoriteStores != null)
+				_favoriteStores.Remove(storeID);
 		}
 
 		#endregion
 
 		#region Utility methods
 
-		async Task loadFavoritesIfNeeded()
+		async Task loadFavoriteProductsIfNeeded()
 		{
-			if (_favoriteProducts == null)
+			using (var writerLock = await _productLocker.WriterLockAsync())
 			{
-				var user = ParseUser.CurrentUser;
-				var relation = user.GetRelation<ParseProduct>("favoriteProducts");
-				var result = await relation.Query.FindAsync();	
-				_favoriteProducts = result.Select(p => p.ObjectId).ToList();
+				if (_favoriteProducts == null)
+				{
+					var user = ParseUser.CurrentUser as TojeeroUser;
+					var result = await user.FavoriteProducts.Query.FindAsync();	
+					_favoriteProducts = result.Select(p => p.ObjectId).ToList();
+				}
+			}
+		}
+
+		async Task loadFavoriteStoresIfNeeded()
+		{
+			using (var writerLock = await _storeLocker.WriterLockAsync())
+			{
+				if (_favoriteStores == null)
+				{
+					var user = ParseUser.CurrentUser as TojeeroUser;
+					var result = await user.FavoriteStores.Query.FindAsync();	
+					_favoriteStores = result.Select(p => p.ObjectId).ToList();
+				}
 			}
 		}
 
@@ -255,6 +286,15 @@ namespace Tojeero.Core
 			get 
 			{ 
 				return GetRelationProperty<ParseProduct>(); 
+			}
+		}
+
+		[ParseFieldName("favoriteStores")]
+		public ParseRelation<ParseStore> FavoriteStores
+		{
+			get 
+			{ 
+				return GetRelationProperty<ParseStore>(); 
 			}
 		}
 

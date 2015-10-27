@@ -9,13 +9,34 @@ using Tojeero.Core.Messages;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class StoresViewModel : BaseSearchViewModel<IStore>
+	public class StoresViewModel : BaseSearchViewModel<StoreViewModel>
 	{
 		#region Private fields and properties
 
 		private readonly IStoreManager _manager;
 		private readonly MvxSubscriptionToken _token;
 
+		private static Comparison<StoreViewModel> _comparer;
+		public static Comparison<StoreViewModel> Comparer
+		{
+			get
+			{
+				if (_comparer == null)
+				{
+					_comparer = new Comparison<StoreViewModel>((x, y) =>
+						{
+							if(x.Store == null || y.Store == null)
+								return -1;
+							if(x.Store.ID == y.Store.ID)
+								return 0;
+							if(x.Store.LowercaseName == null || y.Store.LowercaseName == null)
+								return -1;
+							return x.Store.LowercaseName.CompareIgnoreCase(y.Store.LowercaseName);
+						});
+				}
+				return _comparer;
+			}
+		}
 		#endregion
 
 		#region Constructors
@@ -34,53 +55,43 @@ namespace Tojeero.Core.ViewModels
 
 		#region implemented abstract members of BaseSearchViewModel
 
-		protected override BaseCollectionViewModel<IStore> GetBrowsingViewModel()
+		protected override BaseCollectionViewModel<StoreViewModel> GetBrowsingViewModel()
 		{
-			return new BaseCollectionViewModel<IStore>(new StoresQuery(_manager), Constants.StoresPageSize);
+			return new BaseCollectionViewModel<StoreViewModel>(new StoresQuery(_manager), Constants.StoresPageSize);
 		}
 
-		protected override BaseCollectionViewModel<IStore> GetSearchViewModel(string searchQuery)
+		protected override BaseCollectionViewModel<StoreViewModel> GetSearchViewModel(string searchQuery)
 		{
-			return new BaseCollectionViewModel<IStore>(new SearchStoresQuery(searchQuery, _manager), Constants.StoresPageSize);
+			return new BaseCollectionViewModel<StoreViewModel>(new SearchStoresQuery(searchQuery, _manager), Constants.StoresPageSize);
 		}
 
 		#endregion
 
 		#region Queries
 
-		private class StoresQuery : IModelQuery<IStore>
+		private class StoresQuery : IModelQuery<StoreViewModel>
 		{
 			IStoreManager manager;
-
-			public StoresQuery(IStoreManager manager)
+			public StoresQuery (IStoreManager manager)
 			{
 				this.manager = manager;
 
 			}
 
-			public Task<IEnumerable<IStore>> Fetch(int pageSize = -1, int offset = -1)
+			public async Task<IEnumerable<StoreViewModel>> Fetch(int pageSize = -1, int offset = -1)
 			{
-				return manager.Fetch(pageSize, offset, RuntimeSettings.StoreFilter);
+				var result = await manager.Fetch(pageSize, offset, RuntimeSettings.StoreFilter);
+				return result.Select(p => new StoreViewModel(p));
 			}
 
-			private Comparison<IStore> _comparer;
-
-			public Comparison<IStore> Comparer
+			public Comparison<StoreViewModel> Comparer
 			{
 				get
 				{
-					if (_comparer == null)
-					{
-						_comparer = new Comparison<IStore>((x, y) =>
-							{
-								if (x.ID == y.ID)
-									return 0;
-								return x.LowercaseName.CompareIgnoreCase(y.LowercaseName);
-							});
-					}
-					return _comparer;
+					return StoresViewModel.Comparer;
 				}
 			}
+
 
 			public Task ClearCache()
 			{
@@ -88,38 +99,28 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private class SearchStoresQuery : IModelQuery<IStore>
+		private class SearchStoresQuery : IModelQuery<StoreViewModel>
 		{
 			IStoreManager manager;
 			string searchQuery;
 
-			public SearchStoresQuery(string searchQuery, IStoreManager manager)
+			public SearchStoresQuery (string searchQuery, IStoreManager manager)
 			{
 				this.searchQuery = searchQuery;
 				this.manager = manager;
 			}
 
-			public Task<IEnumerable<IStore>> Fetch(int pageSize = -1, int offset = -1)
+			public async Task<IEnumerable<StoreViewModel>> Fetch(int pageSize = -1, int offset = -1)
 			{
-				return manager.Find(searchQuery, pageSize, offset, RuntimeSettings.StoreFilter);
+				var result = await manager.Find(searchQuery, pageSize, offset, RuntimeSettings.StoreFilter);
+				return result.Select(p => new StoreViewModel(p));
 			}
 
-			private Comparison<IStore> _comparer;
-
-			public Comparison<IStore> Comparer
+			public Comparison<StoreViewModel> Comparer
 			{
 				get
 				{
-					if (_comparer == null)
-					{
-						_comparer = new Comparison<IStore>((x, y) =>
-							{
-								if (x.ID == y.ID)
-									return 0;
-								return x.LowercaseName.CompareIgnoreCase(y.LowercaseName);
-							});
-					}
-					return _comparer;
+					return StoresViewModel.Comparer;
 				}
 			}
 
@@ -128,7 +129,6 @@ namespace Tojeero.Core.ViewModels
 				return manager.ClearCache();
 			}
 		}
-
 		#endregion
 	}
 }

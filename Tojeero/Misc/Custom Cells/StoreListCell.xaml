@@ -5,107 +5,116 @@
 	x:Class="Tojeero.Forms.StoreListCell"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms">
-	<StackLayout
+	<AbsoluteLayout
 		Padding="12,3,12,3"
 		VerticalOptions="FillAndExpand"
 		HorizontalOptions="FillAndExpand">
-		<Frame
-			OutlineColor="{x:Static local:Colors.CellBorder}"
-			HasShadow="false"
+		<local:BorderView
+			Grid.RowSpan="3"
+			Grid.ColumnSpan="4"
+			BorderColor="{x:Static local:Colors.CellBorder}"
+			BorderWidth="1"
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+			BackgroundColor="{x:Static local:Colors.CellBackground}"/>
+		<Grid
+			ColumnSpacing="0"
+			RowSpacing="0"
 			Padding="3,3,0,3"
-			BackgroundColor="{x:Static local:Colors.CellBackground}"
-			VerticalOptions="FillAndExpand">
-			<Grid
-				ColumnSpacing="0"
-				RowSpacing="0"
-				VerticalOptions="FillAndExpand">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition
-						Width="120" />
-					<ColumnDefinition
-						Width="5" />
-					<ColumnDefinition
-						Width="*" />
-					<ColumnDefinition
-						Width="30" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition
-						Height="25" />
-					<RowDefinition
-						Height="20" />
-					<RowDefinition
-						Height="*" />
-				</Grid.RowDefinitions>
-				<Frame
-					Grid.RowSpan="3"
-					BackgroundColor="{x:Static local:Colors.Placeholder}"
-					HasShadow="false"
-					Padding="0">
-					<Image
-						Source="placeholder.png"
-						VerticalOptions="Center"
-						HorizontalOptions="Center" />
-				</Frame>
-				<Image
-					Grid.RowSpan="3"
-					Aspect="AspectFill"
-					BackgroundColor="Transparent"
-					Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
+			VerticalOptions="FillAndExpand"
+			HorizontalOptions="FillAndExpand"
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0.01, 0.01, 0.99, 0.99">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition
+					Width="120" />
+				<ColumnDefinition
+					Width="5" />
+				<ColumnDefinition
+					Width="*" />
+				<ColumnDefinition
+					Width="30" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition
+					Height="25" />
+				<RowDefinition
+					Height="20" />
+				<RowDefinition
+					Height="*" />
+			</Grid.RowDefinitions>
+			<Image
+				Grid.RowSpan="3"
+				BackgroundColor="{x:Static local:Colors.Placeholder}"
+				Source="placeholder.png"
+				VerticalOptions="Center"
+				HorizontalOptions="Center" />
+			<Image
+				Grid.RowSpan="3"
+				Aspect="AspectFill"
+				BackgroundColor="Transparent"
+				Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
+			<local:LabelEx
+				Grid.Column="2"
+				Text="{Binding Store.Name}"
+				TextColor="{x:Static local:Colors.Main}"
+				FontAttributes="Bold"
+				LineBreakMode="TailTruncation"
+				LineCount="1"
+				FontSize="12"
+				VerticalOptions="Center"
+				HorizontalOptions="FillAndExpand" />
+			<local:SelectableButton
+				Grid.Column="3"
+				VerticalOptions="Start"
+				HeightRequest="25"
+				WidthRequest="30"
+				SelectedImage="favorite_selected.png"
+				DeselectedImage="favorite_deselected.png"
+				IsSelected="{Binding IsFavorite}"
+				IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
+				IsVisible="{Binding IsFavoriteLoaded}"
+				Command="{Binding ToggleFavoriteCommand}"/>
+			<StackLayout
+				Grid.Row="1"
+				Grid.Column="2"
+				Grid.ColumnSpan="2"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand"
+				Padding="0,0,6,0">
+				<BoxView
+					BackgroundColor="{x:Static local:Colors.CellSeparator}"
+					HeightRequest="1"
+					VerticalOptions="Start" />
 				<local:LabelEx
-					Grid.Column="2"
-					Text="{Binding Store.Name}"
-					TextColor="{x:Static local:Colors.Main}"
-					FontAttributes="Bold"
-					LineBreakMode="TailTruncation"
+					Text="Store category"
+					TextColor="{x:Static local:Colors.Subtitle}"
+					FontSize="8"
 					LineCount="1"
-					FontSize="12" 
-					VerticalOptions="Center"/>
-				<local:SelectableButton
-					Grid.Column="3"
-					VerticalOptions="Start"
-					HeightRequest="25"
-					WidthRequest="30"
-					SelectedImage="favorite_selected.png"
-					DeselectedImage="favorite_deselected.png" 
-					IsSelected="{Binding IsFavorite}"
-					IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
-					IsVisible="{Binding IsFavoriteLoaded}"
-					Command="{Binding ToggleFavoriteCommand}" />
-				<StackLayout
-					Grid.Row="1"
-					Grid.Column="2"
-					Grid.ColumnSpan="2"
+					LineBreakMode="TailTruncation"
 					VerticalOptions="Center"
-					Padding="0,0,6,0">
-					<BoxView
-						BackgroundColor="{x:Static local:Colors.CellSeparator}"
-						HeightRequest="1" />
-					<local:LabelEx
-						Text="Store category"
-						TextColor="{x:Static local:Colors.Subtitle}"
-						FontSize="8"
-						LineCount="1"
-						LineBreakMode="TailTruncation" />
-				</StackLayout>
-				<StackLayout
-					Grid.Row="2"
-					Grid.Column="2"
-					Grid.ColumnSpan="2"
+					HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+			<StackLayout
+				Grid.Row="2"
+				Grid.Column="2"
+				Grid.ColumnSpan="2"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand"
+				Padding="0,0,6,0">
+				<BoxView
+					BackgroundColor="{x:Static local:Colors.CellSeparator}"
+					HeightRequest="1"
+					VerticalOptions="Start" />
+				<local:LabelEx
+					Text="{Binding Store.Description}"
+					TextColor="{x:Static local:Colors.Main}"
+					FontSize="8"
+					LineCount="3"
+					LineBreakMode="WordWrap"
 					VerticalOptions="Center"
-					Padding="0,0,6,0">
-					<BoxView
-						BackgroundColor="{x:Static local:Colors.CellSeparator}"
-						HeightRequest="1" />
-					<local:LabelEx
-						Text="{Binding Store.Description}"
-						TextColor="{x:Static local:Colors.Main}"
-						FontSize="8"
-						LineCount="3"
-						LineBreakMode="WordWrap" 
-						VerticalOptions="FillAndExpand"/>
-				</StackLayout>
-			</Grid>
-		</Frame>
-	</StackLayout>
+					HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+		</Grid>
+	</AbsoluteLayout>
 </ViewCell>

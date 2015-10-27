@@ -370,6 +370,7 @@
     <Compile Include="..\Tojeero\BL\Entities\User.cs">
       <Link>Core\BL\Entities\User.cs</Link>
     </Compile>
+    <Compile Include="Misc\Custom Renderers\BorderViewRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

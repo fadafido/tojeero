@@ -43,9 +43,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\packages\Xamarin.Android.Support.v4.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Forms.Platform.Android">
       <HintPath>..\packages\Xamarin.Forms.1.5.0.6446\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
     </Reference>
@@ -140,9 +137,6 @@
     <Reference Include="Xamarin.Auth.Android">
       <HintPath>..\Components\xamarin.auth-1.2.3.1\lib\android\Xamarin.Auth.Android.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Facebook">
-      <HintPath>..\packages\Xamarin.Facebook.Android.4.5.1.0\lib\MonoAndroid403\Xamarin.Facebook.dll</HintPath>
-    </Reference>
     <Reference Include="ImageCircle.Forms.Plugin.Android">
       <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Android.dll</HintPath>
     </Reference>
@@ -151,12 +145,6 @@
     </Reference>
     <Reference Include="MvvmCross.Plugins.Settings">
       <HintPath>..\packages\MvvmCross.Plugins.Settings.0.0.0.2\lib\portable-net45+sl5+wp8+win8\MvvmCross.Plugins.Settings.dll</HintPath>
-    </Reference>
-    <Reference Include="Refractored.MvxPlugins.Settings.Droid">
-      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\monoandroid\Refractored.MvxPlugins.Settings.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="Refractored.MvxPlugins.Settings">
-      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\monoandroid\Refractored.MvxPlugins.Settings.dll</HintPath>
     </Reference>
     <Reference Include="Connectivity.Plugin">
       <HintPath>..\packages\Xam.Plugin.Connectivity.1.0.4\lib\MonoAndroid10\Connectivity.Plugin.dll</HintPath>
@@ -171,8 +159,23 @@
       <HintPath>..\packages\ExifLib.PCL.1.0.1\lib\portable-net45+sl50+win+WindowsPhoneApp81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\ExifLib.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android.Export" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
-      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Facebook">
+      <HintPath>..\packages\Xamarin.Facebook.Android.4.7.0.0\lib\MonoAndroid403\Xamarin.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.CardView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.CardView.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.CardView.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\MonoAndroid10\Refractored.Xam.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\MonoAndroid10\Refractored.Xam.Settings.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -274,13 +277,20 @@
       <Link>Core\BL\Entities\Tag.cs</Link>
     </Compile>
     <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
+    <Compile Include="..\Tojeero\BL\Entities\User.cs">
+      <Link>Core\BL\Entities\User.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\UserManager.cs">
+      <Link>Core\BL\Managers\UserManager.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\SelectableButtonRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <None Include="Properties\_SettingsStarted.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\layout\" />

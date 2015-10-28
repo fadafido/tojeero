@@ -20,7 +20,7 @@ namespace Tojeero.Forms
 
 		public static Color CellBackground = Color.FromHex("#f2f4f4");
 		public static Color CellBorder = Color.FromHex("#dbdfdf");
-		public static Color CellSeparator = Color.FromHex("#e6e8e9");
+		public static Color Separator = Color.FromHex("#e6e8e9");
 
 		public static Color Main = Color.FromHex("#2a414e");
 		public static Color Secondary = Color.FromHex("#f15a24");

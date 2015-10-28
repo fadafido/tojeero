@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.Resources;
+using Tojeero.Core;
 
 namespace Tojeero.Forms
 {
@@ -57,7 +58,13 @@ namespace Tojeero.Forms
 
 		private void itemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
-			((ListView)sender).SelectedItem = null;
+			var item = ((ListView)sender).SelectedItem as ProductViewModel; 
+			if (item != null)
+			{
+				((ListView)sender).SelectedItem = null;
+				var productDetails = new ProductDetailsPage(item.Product);
+				this.Navigation.PushAsync(productDetails);
+			}
 		}
 
 		#endregion

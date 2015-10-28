@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.ProductDetailsPage"
+	Title="{local:Translate TitleProductDetails}">
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout
+				Spacing="0"
+				VerticalOptions="Start">
+				<local:NetworkPageHeader
+					NoNetworkPadding="0,5,0,5"
+					Tint="{x:Static local:Colors.DarkGray}"
+					IsLoading="{Binding ViewModel.IsLoading}"
+					LoadingText="{Binding ViewModel.LoadingText}"
+					FailureMessage="{Binding ViewModel.LoadingFailureMessage}"
+					IsNetworkAvailable="{Binding ViewModel.IsNetworkAvailable}"
+					TryAgainCommand="{Binding ViewModel.ReloadCommand}" />
+				<!--STORE DETAILS-->
+				<Grid
+					ColumnSpacing="10"
+					Padding="10"
+					HorizontalOptions="FillAndExpand">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="50" />
+						<ColumnDefinition
+							Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition
+							Height="40" />
+					</Grid.RowDefinitions>
+					<BoxView
+						BackgroundColor="{x:Static local:Colors.Placeholder}"/>
+					<Image
+						Source="placeholder.png"
+						VerticalOptions="Center"
+						HorizontalOptions="Center" 
+						HeightRequest="25"
+						WidthRequest="20"/>
+					<Image
+						Aspect="AspectFit"
+						BackgroundColor="Transparent"
+						Source="{Binding Product.Store.ImageUrl, Converter={StaticResource cachedImage}}" />
+					<local:LabelEx
+						Grid.Column="1"
+						Text="Store name will be here"
+						TextColor="{x:Static local:Colors.Main}"
+						FontAttributes="Bold"
+						LineCount="2"
+						FontSize="15"
+						VerticalOptions="Center"
+						HorizontalOptions="FillAndExpand" />
+				</Grid>
+				<BoxView
+					BackgroundColor="{x:Static local:Colors.Separator}"
+					HeightRequest="1"
+					HorizontalOptions="FillAndExpand" />
+				<!--PRODUCT IMAGE-->
+				<Grid
+					HeightRequest="250"
+					HorizontalOptions="FillAndExpand">
+					<Image
+						BackgroundColor="{x:Static local:Colors.Placeholder}"
+						Source="placeholder.png"
+						VerticalOptions="Center"
+						HorizontalOptions="Center" />
+					<Image
+						Aspect="AspectFill"
+						BackgroundColor="Transparent"
+						Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}" />
+				</Grid>
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

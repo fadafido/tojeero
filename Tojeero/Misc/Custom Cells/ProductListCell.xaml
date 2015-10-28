@@ -80,7 +80,7 @@
 				VerticalOptions="Center"
 				Padding="0,0,6,0">
 				<BoxView
-					BackgroundColor="{x:Static local:Colors.CellSeparator}"
+					BackgroundColor="{x:Static local:Colors.Separator}"
 					HeightRequest="1" />
 				<local:LabelEx
 					Text="{Binding Product.TagList}"

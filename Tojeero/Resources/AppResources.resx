@@ -257,6 +257,10 @@
     <value>Filter Stores</value>
     <comment>Filter stores page title</comment>
   </data>
+  <data name="TitleProductDetails" xml:space="preserve">
+    <value>Product details</value>
+    <comment>Product details screen title</comment>
+  </data>
   <data name="TitleProducts" xml:space="preserve">
     <value>Products</value>
     <comment>Products page title</comment>

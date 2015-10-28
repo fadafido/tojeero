@@ -83,7 +83,7 @@
 				HorizontalOptions="FillAndExpand"
 				Padding="0,0,6,0">
 				<BoxView
-					BackgroundColor="{x:Static local:Colors.CellSeparator}"
+					BackgroundColor="{x:Static local:Colors.Separator}"
 					HeightRequest="1"
 					VerticalOptions="Start" />
 				<local:LabelEx
@@ -103,7 +103,7 @@
 				HorizontalOptions="FillAndExpand"
 				Padding="0,0,6,0">
 				<BoxView
-					BackgroundColor="{x:Static local:Colors.CellSeparator}"
+					BackgroundColor="{x:Static local:Colors.Separator}"
 					HeightRequest="1"
 					VerticalOptions="Start" />
 				<local:LabelEx

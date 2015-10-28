@@ -12,7 +12,7 @@ namespace Tojeero.Core
 		string CategoryID { get; }
 		int? CityId { get; }
 		int? CountryId { get; }
-		IStoreCategory Category { get; set; }
+		IStoreCategory Category { get; }
 	}
 }
 

@@ -34,6 +34,8 @@ namespace Tojeero.Core
 			set
 			{
 				_imageUrl = null;
+				_category = null;
+				_subcategory = null;
 				base.ParseObject = value;
 			}
 		}
@@ -213,6 +215,30 @@ namespace Tojeero.Core
 						_tagList = "";
 				}
 				return _tagList;
+			}
+		}
+
+		private IProductCategory _category;
+		[Ignore]
+		public IProductCategory Category
+		{ 
+			get
+			{
+				if (_category == null)
+					_category = new ProductCategory(this.ParseObject.Category);
+				return _category; 
+			}
+		}
+
+		private IProductSubcategory _subcategory;
+		[Ignore]
+		public IProductSubcategory Subcategory
+		{ 
+			get
+			{
+				if (_subcategory == null)
+					_subcategory = new ProductSubcategory(this.ParseObject.Subcategory);
+				return _subcategory; 
 			}
 		}
 

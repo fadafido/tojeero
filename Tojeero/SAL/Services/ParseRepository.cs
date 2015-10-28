@@ -26,7 +26,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
 			{
- 				var query = new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName);
+				var query = new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName).Include("category").Include("subcategory");
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);

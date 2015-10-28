@@ -26,6 +26,9 @@ namespace Tojeero.Core
 		IList<string> Tags { get; set; }
 
 		string TagList{ get; }
+
+		IProductCategory Category { get; }
+		IProductSubcategory Subcategory { get; }
 	}
 }
 

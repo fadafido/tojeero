@@ -137,7 +137,7 @@ namespace Tojeero.Core.ViewModels
 
 		private static Random favRand = new Random();
 
-		private async Task loadFavorite()
+		protected async Task loadFavorite()
 		{
 			StartLoading();
 			string failureMessage = null;
@@ -159,7 +159,7 @@ namespace Tojeero.Core.ViewModels
 			StopLoading(failureMessage);
 		}
 
-		private async Task toggleFavorite()
+		protected async Task toggleFavorite()
 		{
 			StartLoading();
 			string failureMessage = null;

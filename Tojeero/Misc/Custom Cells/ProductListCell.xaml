@@ -16,7 +16,7 @@
 			BorderWidth="1"
 			AbsoluteLayout.LayoutFlags="All"
 			AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-			BackgroundColor="{x:Static local:Colors.CellBackground}"/>
+			BackgroundColor="{x:Static local:Colors.CellBackground}" />
 		<Grid
 			ColumnSpacing="0"
 			RowSpacing="0"
@@ -24,7 +24,7 @@
 			VerticalOptions="FillAndExpand"
 			HorizontalOptions="FillAndExpand"
 			AbsoluteLayout.LayoutFlags="All"
-			AbsoluteLayout.LayoutBounds="0.01, 0.01, 0.99, 0.99">
+			AbsoluteLayout.LayoutBounds="0.01, 0.01, 0.98, 0.98">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition
 					Width="120" />
@@ -69,10 +69,16 @@
 				WidthRequest="30"
 				SelectedImage="favorite_selected.png"
 				DeselectedImage="favorite_deselected.png"
+				Aspect="AspectFit"
 				IsSelected="{Binding IsFavorite}"
 				IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
 				IsVisible="{Binding IsFavoriteLoaded}"
-				Command="{Binding ToggleFavoriteCommand}" />
+				Command="{Binding ToggleFavoriteCommand}">
+				<local:SelectableButton.GestureRecognizers>
+					<TapGestureRecognizer
+						Command="{Binding ToggleFavoriteCommand}" />
+				</local:SelectableButton.GestureRecognizers>
+			</local:SelectableButton>
 			<StackLayout
 				Grid.Row="1"
 				Grid.Column="2"

@@ -33,7 +33,6 @@ namespace Tojeero.Forms.Renderers
 					Android.Widget.ImageButton button = new Android.Widget.ImageButton(base.Context);
 					button.Touch += buttonTouched;
 					button.SetBackgroundColor(Android.Graphics.Color.Transparent);
-					button.Click += buttonClicked;
 					button.Tag = this;
 					base.SetNativeControl(button);
 				}
@@ -45,6 +44,7 @@ namespace Tojeero.Forms.Renderers
 
 		protected override async void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
+			Console.WriteLine("PROPERTY CHANGED: " + e.PropertyName);
 			base.OnElementPropertyChanged(sender, e);
 			if (e.PropertyName == ImageButton.ImageProperty.PropertyName)
 			{
@@ -77,7 +77,6 @@ namespace Tojeero.Forms.Renderers
 		{
 			if (disposing && this.Control != null)
 			{
-				this.Control.Click -= buttonClicked;
 				this.Control.Touch -= buttonTouched;
 			}
 			base.Dispose(disposing);
@@ -87,18 +86,16 @@ namespace Tojeero.Forms.Renderers
 
 		#region Events
 
-		void buttonClicked (object sender, EventArgs e)
-		{
-			if (this.Element != null && this.Element.Command != null)
-				this.Element.Command.Execute(null);
-		}
-
 		void buttonTouched (object sender, TouchEventArgs e)
 		{
 			if (e.Event.Action == MotionEventActions.Down)
 				this.Control.Alpha = (float)this.Element.Opacity / 2;
 			else if (e.Event.Action == MotionEventActions.Up)
+			{
 				this.Control.Alpha = (float)this.Element.Opacity;
+				if (this.Element != null && this.Element.Command != null)
+					this.Element.Command.Execute(null);
+			}
 		}
 
 		#endregion

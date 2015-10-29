@@ -10,6 +10,12 @@ namespace Tojeero.Forms
 
 		public ImageButton()
 		{
+			this.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
+				if(e.PropertyName == IsSelectedProperty.PropertyName)
+				{
+					
+				}
+			};
 		}
 
 		#endregion
@@ -40,7 +46,7 @@ namespace Tojeero.Forms
 			set { SetValue(SelectedImageProperty, value); }
 		}
 
-		public static BindableProperty IsSelectedProperty = BindableProperty.Create<ImageButton, bool>(o => o.IsSelected, false);
+		public static BindableProperty IsSelectedProperty = BindableProperty.Create<ImageButton, bool>(o => o.IsSelected, false, BindingMode.OneWay);
 
 		public bool IsSelected
 		{

@@ -22,7 +22,7 @@ namespace Tojeero.Forms.Renderers
 			{
 				if (base.Control == null)
 				{
-					base.SetNativeControl(new UIButton(UIButtonType.System));
+					base.SetNativeControl(new UIButton(UIButtonType.Custom));
 					base.Control.TouchUpInside += new EventHandler(this.buttonTapped);
 				}
 				await this.UpdateImage();
@@ -86,13 +86,13 @@ namespace Tojeero.Forms.Renderers
 		private async Task UpdateImage()
 		{
 			var btn = this.Element;
-			await setImageAsync(btn.Image, this.Control, UIControlState.Normal);
+			await setImageAsync(btn.Image, UIControlState.Normal);
 		}
 
 		private async Task UpdateSelectedImage()
 		{
 			var btn = this.Element;
-			await setImageAsync(btn.SelectedImage, this.Control, UIControlState.Selected);
+			await setImageAsync(btn.SelectedImage, UIControlState.Selected);
 		}
 
 		private void UpdateIsEnabled()

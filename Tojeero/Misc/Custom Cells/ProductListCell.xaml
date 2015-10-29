@@ -62,13 +62,13 @@
 				LineCount="2"
 				FontSize="12"
 				VerticalOptions="FillAndExpand" />
-			<local:SelectableButton
+			<local:ImageButton
 				Grid.Column="3"
 				VerticalOptions="Start"
 				HeightRequest="25"
 				WidthRequest="30"
 				SelectedImage="favorite_selected.png"
-				DeselectedImage="favorite_deselected.png"
+				Image="favorite_deselected.png"
 				IsSelected="{Binding IsFavorite}"
 				IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
 				IsVisible="{Binding IsFavoriteLoaded}"

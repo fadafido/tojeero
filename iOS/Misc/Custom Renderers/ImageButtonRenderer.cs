@@ -13,25 +13,7 @@ namespace Tojeero.Forms.Renderers
 {
 	public partial class ImageButtonRenderer : ViewRenderer<ImageButton, UIButton>
 	{
-		//
-		// Methods
-		//
-		protected override void Dispose(bool disposing)
-		{
-			if (base.Control != null)
-			{
-				base.Control.TouchUpInside -= new EventHandler(this.OnButtonTouchUpInside);
-			}
-			base.Dispose(disposing);
-		}
-
-		private void OnButtonTouchUpInside(object sender, EventArgs eventArgs)
-		{
-			if (this.Element != null && this.Element.Command != null)
-			{
-				this.Element.Command.Execute(null);
-			}
-		}
+		#region Parent override
 
 		protected override async void OnElementChanged(ElementChangedEventArgs<ImageButton> e)
 		{
@@ -41,7 +23,7 @@ namespace Tojeero.Forms.Renderers
 				if (base.Control == null)
 				{
 					base.SetNativeControl(new UIButton(UIButtonType.System));
-					base.Control.TouchUpInside += new EventHandler(this.OnButtonTouchUpInside);
+					base.Control.TouchUpInside += new EventHandler(this.buttonTapped);
 				}
 				await this.UpdateImage();
 				await this.UpdateSelectedImage();
@@ -68,10 +50,39 @@ namespace Tojeero.Forms.Renderers
 			if (e.PropertyName == ImageButton.IsEnabledProperty.PropertyName)
 			{
 				this.UpdateIsEnabled();
-				return;
 			}
 		}
+
+		#endregion
+
+		#region IDisposable
+
+		protected override void Dispose(bool disposing)
+		{
+			if (base.Control != null)
+			{
+				base.Control.TouchUpInside -= new EventHandler(this.buttonTapped);
+			}
+			base.Dispose(disposing);
+		}
+
+		#endregion
 			
+		#region Events
+
+		private void buttonTapped(object sender, EventArgs eventArgs)
+		{
+			if (this.Element != null && this.Element.Command != null)
+			{
+				this.Element.Command.Execute(null);
+			}
+		}
+
+		#endregion
+
+
+		#region Utility methods
+
 		private async Task UpdateImage()
 		{
 			var btn = this.Element;
@@ -94,7 +105,7 @@ namespace Tojeero.Forms.Renderers
 			this.Control.Selected = this.Element.IsSelected;
 		}
 
-		private async static Task setImageAsync(ImageSource source, UIButton targetButton, UIControlState state = UIControlState.Normal)
+		private async Task setImageAsync(ImageSource source, UIControlState state = UIControlState.Normal)
 		{
 			UIImage target = null;
 			var handler = GetHandler(source);
@@ -103,11 +114,14 @@ namespace Tojeero.Forms.Renderers
 				using (var image = await handler.LoadImageAsync(source))
 				{
 					target = image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
-				};
+				}
+				;
 			}
 				
-			targetButton.SetImage(target, state);
+			this.Control.SetImage(target, state);
 		}
+
+		#endregion
 	}
 }
 

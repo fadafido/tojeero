@@ -32,9 +32,9 @@ namespace Tojeero.Droid.Renderers
 		}
 
 		private void updateLineCount()
-		{
+		{			
 			var label = this.Element as LabelEx;
-			this.Control.SetMaxLines(label.LineCount);
+			this.Control.SetMaxLines(label.LineCount > 0 ? label.LineCount : Int32.MaxValue);
 		}
 	}
 }

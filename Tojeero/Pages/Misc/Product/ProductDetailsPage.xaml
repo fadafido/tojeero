@@ -137,7 +137,7 @@
 					<local:ImageButton
 						Grid.Row="1"
 						Image="favorite_selected.png"
-						VerticalOptions="Center" />
+						VerticalOptions="FillAndExpand" />
 					<BoxView
 						Grid.Row="1"
 						BackgroundColor="{x:Static local:Colors.Separator}"
@@ -148,7 +148,7 @@
 						Grid.Row="1"
 						Grid.Column="1"
 						Image="icon_share.png"
-						VerticalOptions="Center" />
+						VerticalOptions="FillAndExpand" />
 					<BoxView
 						Grid.Row="1"
 						Grid.Column="1"
@@ -160,7 +160,7 @@
 						Grid.Row="1"
 						Grid.Column="2"
 						Image="icon_send_to_friend.png"
-						VerticalOptions="Center" />
+						VerticalOptions="FillAndExpand" />
 				</Grid>
 			</StackLayout>
 		</ScrollView>

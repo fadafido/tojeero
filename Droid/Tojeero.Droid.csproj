@@ -291,6 +291,10 @@
     <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\SelectableButtonRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\BorderViewRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\ImageButtonRenderer.cs" />
+    <Compile Include="..\Tojeero\Misc\Custom Controls\ImageButtonRenderer.shared.cs">
+      <Link>Misc\Custom Renderers\ImageButtonRenderer.shared.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -362,6 +366,9 @@
     <AndroidResource Include="Resources\drawable-xhdpi\closeTag.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\favorite_deselected.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\favorite_selected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_send_to_friend.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_share.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\placeholder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

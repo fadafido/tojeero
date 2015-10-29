@@ -34,13 +34,13 @@
 							Height="40" />
 					</Grid.RowDefinitions>
 					<BoxView
-						BackgroundColor="{x:Static local:Colors.Placeholder}"/>
+						BackgroundColor="{x:Static local:Colors.Placeholder}" />
 					<Image
 						Source="placeholder.png"
 						VerticalOptions="Center"
-						HorizontalOptions="Center" 
+						HorizontalOptions="Center"
 						HeightRequest="25"
-						WidthRequest="20"/>
+						WidthRequest="20" />
 					<Image
 						Aspect="AspectFit"
 						BackgroundColor="Transparent"
@@ -72,6 +72,95 @@
 						Aspect="AspectFill"
 						BackgroundColor="Transparent"
 						Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}" />
+				</Grid>
+				<BoxView
+					BackgroundColor="{x:Static local:Colors.Separator}"
+					HeightRequest="1"
+					HorizontalOptions="FillAndExpand" />
+				<!--PRODUCT DETAILS-->
+				<StackLayout
+					Padding="10"
+					Spacing="10">
+					<local:LabelEx
+						Text="{Binding Product.Name}"
+						TextColor="{x:Static local:Colors.Main}"
+						FontSize="15"
+						VerticalOptions="FillAndExpand"
+						HorizontalOptions="FillAndExpand" />
+					<StackLayout
+						Orientation="Horizontal"
+						HorizontalOptions="Start"
+						VerticalOptions="Center"
+						Spacing="0">
+						<Label
+							Text="{Binding Product.FormattedPrice}"
+							TextColor="{x:Static local:Colors.Secondary}"
+							FontAttributes="Bold"
+							LineBreakMode="TailTruncation"
+							FontSize="15" />
+						<Label
+							Text="AED"
+							TextColor="{x:Static local:Colors.Main}"
+							FontAttributes="Bold"
+							FontSize="9"
+							VerticalOptions="Center" />
+					</StackLayout>
+				</StackLayout>
+				<!--FAVORITES AND SHARING-->
+				<Grid
+					HeightRequest="45"
+					Padding="10,0,10,0"
+					RowSpacing="0"
+					ColumnSpacing="0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="*" />
+						<ColumnDefinition
+							Width="*" />
+						<ColumnDefinition
+							Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition
+							Height="4" />
+						<RowDefinition
+							Height="*" />
+						<RowDefinition
+							Height="4" />
+					</Grid.RowDefinitions>
+					<BoxView
+						Grid.ColumnSpan="3"
+						BackgroundColor="{x:Static local:Colors.Separator}"
+						HeightRequest="1"
+						HorizontalOptions="FillAndExpand" 
+						VerticalOptions="Start"/>
+					<local:ImageButton
+						Grid.Row="1"
+						Image="favorite_selected.png"
+						VerticalOptions="Center" />
+					<BoxView
+						Grid.Row="1"
+						BackgroundColor="{x:Static local:Colors.Separator}"
+						WidthRequest="1"
+						HorizontalOptions="End" 
+						VerticalOptions="FillAndExpand"/>
+					<local:ImageButton
+						Grid.Row="1"
+						Grid.Column="1"
+						Image="icon_share.png"
+						VerticalOptions="Center" />
+					<BoxView
+						Grid.Row="1"
+						Grid.Column="1"
+						BackgroundColor="{x:Static local:Colors.Separator}"
+						WidthRequest="1"
+						HorizontalOptions="End" 
+						VerticalOptions="FillAndExpand"/>
+					<local:ImageButton
+						Grid.Row="1"
+						Grid.Column="2"
+						Image="icon_send_to_friend.png"
+						VerticalOptions="Center" />
 				</Grid>
 			</StackLayout>
 		</ScrollView>

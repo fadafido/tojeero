@@ -55,6 +55,8 @@
 				x:Key="cachedImage" />
 			<local:DoubleConverter
 				x:Key="double" />
+			<local:NullableBoolConverter
+				x:Key="bool"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

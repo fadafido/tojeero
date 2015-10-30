@@ -241,6 +241,20 @@ namespace Tojeero.Core
 				return _subcategory; 
 			}
 		}
+			
+		private bool? _isFavorite;
+		public bool? IsFavorite
+		{ 
+			get
+			{
+				return _isFavorite; 
+			}
+			set
+			{
+				_isFavorite = value; 
+				RaisePropertyChanged(() => IsFavorite); 
+			}
+		}
 
 		#endregion
 

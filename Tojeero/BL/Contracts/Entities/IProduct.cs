@@ -29,6 +29,8 @@ namespace Tojeero.Core
 
 		IProductCategory Category { get; }
 		IProductSubcategory Subcategory { get; }
+
+		bool? IsFavorite { get; set; }
 	}
 }
 

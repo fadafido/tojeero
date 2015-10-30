@@ -111,7 +111,8 @@
 					HeightRequest="45"
 					Padding="10,0,10,0"
 					RowSpacing="0"
-					ColumnSpacing="0">
+					ColumnSpacing="0"
+					IsVisible="{Binding IsLoggedIn}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
 							Width="*" />
@@ -132,18 +133,23 @@
 						Grid.ColumnSpan="3"
 						BackgroundColor="{x:Static local:Colors.Separator}"
 						HeightRequest="1"
-						HorizontalOptions="FillAndExpand" 
-						VerticalOptions="Start"/>
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="Start" />
 					<local:ImageButton
 						Grid.Row="1"
-						Image="favorite_selected.png"
+						Image="icon_favorite_deselected.png"
+						SelectedImage="icon_favorite_selected.png"
+						IsSelected="{Binding Product.IsFavorite, Converter={StaticResource bool}}"
+						IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
+						IsVisible="{Binding Product.IsFavorite, Converter={StaticResource visibility}}"
+						Command="{Binding ToggleFavoriteCommand}"
 						VerticalOptions="FillAndExpand" />
 					<BoxView
 						Grid.Row="1"
 						BackgroundColor="{x:Static local:Colors.Separator}"
 						WidthRequest="1"
-						HorizontalOptions="End" 
-						VerticalOptions="FillAndExpand"/>
+						HorizontalOptions="End"
+						VerticalOptions="FillAndExpand" />
 					<local:ImageButton
 						Grid.Row="1"
 						Grid.Column="1"
@@ -154,8 +160,8 @@
 						Grid.Column="1"
 						BackgroundColor="{x:Static local:Colors.Separator}"
 						WidthRequest="1"
-						HorizontalOptions="End" 
-						VerticalOptions="FillAndExpand"/>
+						HorizontalOptions="End"
+						VerticalOptions="FillAndExpand" />
 					<local:ImageButton
 						Grid.Row="1"
 						Grid.Column="2"

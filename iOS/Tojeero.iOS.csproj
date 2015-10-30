@@ -255,6 +255,8 @@
     <BundleResource Include="Resources\favorite_deselected%402x.png" />
     <BundleResource Include="Resources\icon_send_to_friend%402x.png" />
     <BundleResource Include="Resources\icon_share%402x.png" />
+    <BundleResource Include="Resources\icon_favorite_deselected%402x.png" />
+    <BundleResource Include="Resources\icon_favorite_selected%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

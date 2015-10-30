@@ -10,12 +10,6 @@ namespace Tojeero.Forms
 
 		public ImageButton()
 		{
-			this.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
-				if(e.PropertyName == IsSelectedProperty.PropertyName)
-				{
-					
-				}
-			};
 		}
 
 		#endregion

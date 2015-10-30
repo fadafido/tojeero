@@ -44,8 +44,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
-				if (!IsFavoriteLoaded && CanExecuteLoadFavoriteCommand)
-					await loadFavorite();
+				await loadFavorite();
 			}
 		}
 

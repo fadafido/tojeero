@@ -120,11 +120,6 @@ namespace Tojeero.Core
 					_category = new StoreCategory(this.ParseObject.Category);
 				return _category; 
 			}
-			set
-			{
-				_category = value; 
-				RaisePropertyChanged(() => Category); 
-			}
 		}
 
 		public int? CityId

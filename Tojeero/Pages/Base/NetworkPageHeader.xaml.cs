@@ -13,6 +13,8 @@ namespace Tojeero.Forms
 		public NetworkPageHeader()
 		{
 			InitializeComponent();
+			this.FailureContainer.IsVisible = false;
+			this.LoadingContainer.IsVisible = false;
 		}
 
 		#endregion

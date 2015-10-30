@@ -179,6 +179,22 @@
     <value>Price range</value>
     <comment>Price range label</comment>
   </data>
+  <data name="LabelProductDetailsCategory" xml:space="preserve">
+    <value>Category:</value>
+    <comment>Category label shown on product details screen</comment>
+  </data>
+  <data name="LabelProductDetailsDescription" xml:space="preserve">
+    <value>Description:</value>
+    <comment>Description label shown on product details screen</comment>
+  </data>
+  <data name="LabelProductDetailsSubcategory" xml:space="preserve">
+    <value>Sub-category:</value>
+    <comment>Subcategory label shown on product details screen</comment>
+  </data>
+  <data name="LabelProductDetailsTags" xml:space="preserve">
+    <value>Tags:</value>
+    <comment>Tags label shown on product details screen</comment>
+  </data>
   <data name="LabelStartPrice" xml:space="preserve">
     <value>Start price</value>
     <comment>Start price label</comment>
@@ -256,6 +272,10 @@
   <data name="TitleFilterStores" xml:space="preserve">
     <value>Filter Stores</value>
     <comment>Filter stores page title</comment>
+  </data>
+  <data name="TitleProductDetails" xml:space="preserve">
+    <value>Product details</value>
+    <comment>Product details screen title</comment>
   </data>
   <data name="TitleProducts" xml:space="preserve">
     <value>Products</value>

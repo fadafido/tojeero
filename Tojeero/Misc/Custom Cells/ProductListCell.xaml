@@ -62,16 +62,16 @@
 				LineCount="2"
 				FontSize="12"
 				VerticalOptions="FillAndExpand" />
-			<local:SelectableButton
+			<local:ImageButton
 				Grid.Column="3"
 				VerticalOptions="Start"
 				HeightRequest="25"
 				WidthRequest="30"
 				SelectedImage="favorite_selected.png"
-				DeselectedImage="favorite_deselected.png"
-				IsSelected="{Binding IsFavorite}"
+				Image="favorite_deselected.png"
+				IsSelected="{Binding Product.IsFavorite, Converter={StaticResource bool}}"
 				IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
-				IsVisible="{Binding IsFavoriteLoaded}"
+				IsVisible="{Binding Product.IsFavorite, Converter={StaticResource visibility}}"
 				Command="{Binding ToggleFavoriteCommand}" />
 			<StackLayout
 				Grid.Row="1"
@@ -80,7 +80,7 @@
 				VerticalOptions="Center"
 				Padding="0,0,6,0">
 				<BoxView
-					BackgroundColor="{x:Static local:Colors.CellSeparator}"
+					BackgroundColor="{x:Static local:Colors.Separator}"
 					HeightRequest="1" />
 				<local:LabelEx
 					Text="{Binding Product.TagList}"

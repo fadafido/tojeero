@@ -40,43 +40,13 @@ namespace Tojeero.Core.ViewModels
 			}
 			set
 			{
+				if (_product != null)
+					_product.PropertyChanged -= propertyChanged;
 				_product = value; 
+				if (_product != null)
+					_product.PropertyChanged += propertyChanged;
 				RaisePropertyChanged(() => Product); 
-				this.IsFavorite = false;
-				this.IsFavoriteLoaded = false;
 				this.LoadFavoriteCommand.Execute(null);
-			}
-		}
-
-		public static string IsFavoriteProperty = "IsFavorite";
-		private bool _isFavorite;
-
-		public bool IsFavorite
-		{ 
-			get
-			{
-				return _isFavorite; 
-			}
-			set
-			{
-				_isFavorite = value; 
-				RaisePropertyChanged(() => IsFavorite); 
-			}
-		}
-
-		public static string IsFavoriteLoadedProperty = "IsFavoriteLoaded";
-		private bool _isFavoriteLoaded;
-
-		public bool IsFavoriteLoaded
-		{ 
-			get
-			{
-				return _isFavoriteLoaded; 
-			}
-			set
-			{
-				_isFavoriteLoaded = value; 
-				RaisePropertyChanged(() => IsFavoriteLoaded); 
 			}
 		}
 
@@ -103,7 +73,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.Product != null && this.Product.ID != null && this.IsNetworkAvailable && this.IsLoggedIn;
+				return this.Product != null && this.Product.ID != null && this.Product.IsFavorite == null && this.IsNetworkAvailable && this.IsLoggedIn;
 			}
 		}
 
@@ -127,7 +97,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.IsFavoriteLoaded && this.IsNetworkAvailable && !this.IsLoading && this.IsLoggedIn;
+				return this.Product != null && this.Product.IsFavorite != null && this.IsNetworkAvailable && !this.IsLoading && this.IsLoggedIn;
 			}
 		}
 
@@ -137,18 +107,17 @@ namespace Tojeero.Core.ViewModels
 
 		private static Random favRand = new Random();
 
-		private async Task loadFavorite()
+		protected async Task loadFavorite()
 		{
+			if (!CanExecuteLoadFavoriteCommand)
+				return;
 			StartLoading();
 			string failureMessage = null;
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
 				try
 				{
-					if (this.IsFavoriteLoaded)
-						return;
-					this.IsFavorite = await _authService.CurrentUser.IsProductFavorite(this.Product.ID);
-					this.IsFavoriteLoaded = true;
+					this.Product.IsFavorite = await _authService.CurrentUser.IsProductFavorite(this.Product.ID);
 				}
 				catch (Exception ex)
 				{
@@ -159,15 +128,18 @@ namespace Tojeero.Core.ViewModels
 			StopLoading(failureMessage);
 		}
 
-		private async Task toggleFavorite()
+		protected async Task toggleFavorite()
 		{
+			if (!CanExecuteToggleFavoriteCommand)
+				return;
 			StartLoading();
 			string failureMessage = null;
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
 				try
 				{
-					if(this.IsFavorite)
+					var isFav = this.Product.IsFavorite.Value;
+					if(isFav)
 					{
 						await _authService.CurrentUser.RemoveProductFromFavorites(this.Product.ID);
 					}
@@ -175,7 +147,7 @@ namespace Tojeero.Core.ViewModels
 					{
 						await _authService.CurrentUser.AddProductToFavorites(this.Product.ID);
 					}
-					this.IsFavorite = !this.IsFavorite;
+					this.Product.IsFavorite = !isFav;
 				}
 				catch (Exception ex)
 				{
@@ -189,7 +161,7 @@ namespace Tojeero.Core.ViewModels
 		private void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
-			    e.PropertyName == IsFavoriteLoadedProperty || e.PropertyName == IsLoadingProperty)
+				e.PropertyName == "IsFavorite" || e.PropertyName == IsLoadingProperty)
 			{				
 				this.RaisePropertyChanged(() => CanExecuteToggleFavoriteCommand);
 			}
@@ -206,10 +178,9 @@ namespace Tojeero.Core.ViewModels
 			}
 
 			//If the user state has changed to logged off then we need to clean the favorite state
-			if (e.PropertyName == IsLoggedInProperty && !this.IsLoggedIn)
+			if (e.PropertyName == IsLoggedInProperty && !this.IsLoggedIn && this.Product != null)
 			{
-				this.IsFavorite = false;
-				this.IsFavoriteLoaded = false;
+				this.Product.IsFavorite = null;
 			}
 		}
 

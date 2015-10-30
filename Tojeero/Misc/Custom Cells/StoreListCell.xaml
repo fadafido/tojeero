@@ -64,13 +64,13 @@
 				FontSize="12"
 				VerticalOptions="Center"
 				HorizontalOptions="FillAndExpand" />
-			<local:SelectableButton
+			<local:ImageButton
 				Grid.Column="3"
 				VerticalOptions="Start"
 				HeightRequest="25"
 				WidthRequest="30"
 				SelectedImage="favorite_selected.png"
-				DeselectedImage="favorite_deselected.png"
+				Image="favorite_deselected.png"
 				IsSelected="{Binding IsFavorite}"
 				IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
 				IsVisible="{Binding IsFavoriteLoaded}"
@@ -83,7 +83,7 @@
 				HorizontalOptions="FillAndExpand"
 				Padding="0,0,6,0">
 				<BoxView
-					BackgroundColor="{x:Static local:Colors.CellSeparator}"
+					BackgroundColor="{x:Static local:Colors.Separator}"
 					HeightRequest="1"
 					VerticalOptions="Start" />
 				<local:LabelEx
@@ -103,7 +103,7 @@
 				HorizontalOptions="FillAndExpand"
 				Padding="0,0,6,0">
 				<BoxView
-					BackgroundColor="{x:Static local:Colors.CellSeparator}"
+					BackgroundColor="{x:Static local:Colors.Separator}"
 					HeightRequest="1"
 					VerticalOptions="Start" />
 				<local:LabelEx

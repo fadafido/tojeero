@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -253,6 +253,10 @@
     <BundleResource Include="Resources\placeholder%402x.png" />
     <BundleResource Include="Resources\favorite_selected%402x.png" />
     <BundleResource Include="Resources\favorite_deselected%402x.png" />
+    <BundleResource Include="Resources\icon_send_to_friend%402x.png" />
+    <BundleResource Include="Resources\icon_share%402x.png" />
+    <BundleResource Include="Resources\icon_favorite_deselected%402x.png" />
+    <BundleResource Include="Resources\icon_favorite_selected%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -371,6 +375,10 @@
       <Link>Core\BL\Entities\User.cs</Link>
     </Compile>
     <Compile Include="Misc\Custom Renderers\BorderViewRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\ImageButtonRenderer.cs" />
+    <Compile Include="..\Tojeero\Misc\Custom Controls\ImageButtonRenderer.shared.cs">
+      <Link>Misc\Custom Renderers\ImageButtonRenderer.shared.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

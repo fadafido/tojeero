@@ -39,8 +39,9 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		public event EventHandler<EventArgs<bool>> ShowProfileSettings;
-		public event EventHandler<EventArgs<string>> ShowLanguageChangeWarning;
+		public Action<bool> ShowProfileSettings;
+		public Action ShowFavorites;
+		public Action<string> ShowLanguageChangeWarning;
 
 		public LanguageCode NewLanguage
 		{ 
@@ -94,7 +95,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_showProfileSettingsCommand = _showProfileSettingsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => 
 					{
-						this.ShowProfileSettings.Fire(this, new EventArgs<bool>(false));
+						this.ShowProfileSettings.Fire(false);
 					});
 				return _showProfileSettingsCommand;
 			}
@@ -108,11 +109,25 @@ namespace Tojeero.Core.ViewModels
 				_changeLanguageCommand = _changeLanguageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
 					{
 						Mvx.Resolve<ILocalizationService>().SetLanguage(this.NewLanguage);
-						ShowLanguageChangeWarning.Fire(this, new EventArgs<string>(AppResources.MessageLanguageChangeWarning));
+						ShowLanguageChangeWarning.Fire(AppResources.MessageLanguageChangeWarning);
 					});
 				return _changeLanguageCommand;
 			}
 		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _showFavoritesCommand;
+
+		public System.Windows.Input.ICommand ShowFavoritesCommand
+		{
+			get
+			{
+				_showFavoritesCommand = _showFavoritesCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
+					this.ShowFavorites.Fire();
+				});
+				return _showFavoritesCommand;
+			}
+		}
+
 		#endregion
 
 		#region Utility Methods
@@ -123,7 +138,7 @@ namespace Tojeero.Core.ViewModels
 			var result = await this._authService.LogInWithFacebook(); 
 			if (result != null && !result.IsProfileSubmitted)
 			{
-				this.ShowProfileSettings.Fire(this, new EventArgs<bool>(true));
+				this.ShowProfileSettings.Fire(true);
 			}
 			this.IsLoading = false;
 		}

@@ -74,6 +74,12 @@
 						Command="{Binding ShowProfileSettingsCommand}"
 						TextColor="White"
 						BackgroundColor="Transparent" />
+					<Button
+						HeightRequest="40"
+						Text="{local:Translate TitleFavorites}"
+						Command="{Binding ShowFavoritesCommand}"
+						TextColor="White"
+						BackgroundColor="Transparent" />
 				</StackLayout>
 			</ScrollView>
 			<StackLayout

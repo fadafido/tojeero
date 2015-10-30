@@ -129,6 +129,9 @@
     <value>Cancel</value>
     <comment>Cancel button title.</comment>
   </data>
+  <data name="ButtonClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="ButtonDone" xml:space="preserve">
     <value>Done</value>
     <comment>Done button title</comment>
@@ -264,6 +267,14 @@
   <data name="PlaceholderSearchTags" xml:space="preserve">
     <value>Search for existing tags</value>
     <comment>Placeholder string shown inside search on tags screen.</comment>
+  </data>
+  <data name="TitleFavoriteProducts" xml:space="preserve">
+    <value>Favorite products</value>
+    <comment>Favorite products screen title</comment>
+  </data>
+  <data name="TitleFavorites" xml:space="preserve">
+    <value>Favorites</value>
+    <comment>Favorites screen title</comment>
   </data>
   <data name="TitleFilterProducts" xml:space="preserve">
     <value>Filter Products</value>

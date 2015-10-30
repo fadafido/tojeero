@@ -206,6 +206,42 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category:.
+        /// </summary>
+        internal static string LabelProductDetailsCategory {
+            get {
+                return ResourceManager.GetString("LabelProductDetailsCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description:.
+        /// </summary>
+        internal static string LabelProductDetailsDescription {
+            get {
+                return ResourceManager.GetString("LabelProductDetailsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sub-category:.
+        /// </summary>
+        internal static string LabelProductDetailsSubcategory {
+            get {
+                return ResourceManager.GetString("LabelProductDetailsSubcategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags:.
+        /// </summary>
+        internal static string LabelProductDetailsTags {
+            get {
+                return ResourceManager.GetString("LabelProductDetailsTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start price.
         /// </summary>
         internal static string LabelStartPrice {

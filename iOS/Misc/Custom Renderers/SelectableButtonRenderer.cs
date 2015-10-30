@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using Xamarin.Forms;
 using Tojeero.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -53,4 +53,4 @@ namespace Tojeero.iOS.Renderers
 		}
 	}
 }
-
+*/

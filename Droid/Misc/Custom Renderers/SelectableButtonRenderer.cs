@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using Xamarin.Forms;
 using Tojeero.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -41,5 +41,5 @@ namespace Tojeero.Droid.Renderers
 			button.Image = imageSource;
 		}
 	}
-}
+}*/
 

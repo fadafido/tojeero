@@ -158,7 +158,6 @@
     <Compile Include="BL\Contracts\Entities\ISearchToken.cs" />
     <Compile Include="BL\Entities\SearchToken.cs" />
     <Compile Include="BL\Contracts\Entities\ISearchableEntity.cs" />
-    <Compile Include="ViewModels\Main\FilterProductsViewModel.cs" />
     <Compile Include="BL\Contracts\Entities\ITag.cs" />
     <Compile Include="BL\Contracts\Managers\ITagManager.cs" />
     <Compile Include="ViewModels\Misc\TagsViewModel.cs" />
@@ -185,17 +184,13 @@
     <Compile Include="BL\Entities\ProductTag.cs" />
     <Compile Include="BL\Entities\StoreFilter.cs" />
     <Compile Include="BL\Contracts\Entities\IStoresFilter.cs" />
-    <Compile Include="ViewModels\Main\FilterStoresViewModel.cs" />
     <Compile Include="Misc\Messages\StoreFilterChangedMessage.cs" />
     <Compile Include="Misc\Custom Controls\LabelEx.cs" />
     <Compile Include="Misc\Custom Controls\SelectableButton.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="BL\Contracts\Managers\IUserManager.cs" />
     <Compile Include="BL\Contracts\Entities\IUser.cs" />
-    <Compile Include="ViewModels\Main\StoreViewModel.cs" />
     <Compile Include="Misc\Custom Controls\BorderView.cs" />
-    <Compile Include="ViewModels\Misc\Product\ProductViewModel.cs" />
-    <Compile Include="ViewModels\Misc\Product\ProductDetailsViewModel.cs" />
     <Compile Include="Misc\Custom Controls\ImageButton.cs" />
     <Compile Include="Misc\Converters\NullableBoolConverter.cs" />
     <Compile Include="Pages\Product\ProductDetailsPage.xaml.cs">
@@ -210,6 +205,11 @@
     <Compile Include="Pages\Misc\FavoritesPage.xaml.cs">
       <DependentUpon>FavoritesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Product\ProductDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Product\ProductViewModel.cs" />
+    <Compile Include="ViewModels\Product\FilterProductsViewModel.cs" />
+    <Compile Include="ViewModels\Store\FilterStoresViewModel.cs" />
+    <Compile Include="ViewModels\Store\StoreViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -301,8 +301,9 @@
     <Folder Include="DAL\Contracts\" />
     <Folder Include="ViewModels\Misc\" />
     <Folder Include="Pages\Misc\" />
-    <Folder Include="ViewModels\Misc\Product\" />
     <Folder Include="Pages\Store\" />
+    <Folder Include="ViewModels\Product\" />
+    <Folder Include="ViewModels\Store\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">

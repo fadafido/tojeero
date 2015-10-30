@@ -37,6 +37,18 @@ namespace Tojeero.Core
 			}
 		}
 
+		public async Task<IEnumerable<IProduct>> FetchFavoriteProducts(int pageSize, int offset)
+		{
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
+			{
+				var user = ParseUser.CurrentUser as TojeeroUser;
+				if (user == null)
+					return null;
+				var result = await user.FavoriteProducts.Query.FindAsync();	
+				return result.Select(p => new Product(p) as IProduct);
+			}
+		}
+
 		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset, IStoreFilter filter = null)
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))

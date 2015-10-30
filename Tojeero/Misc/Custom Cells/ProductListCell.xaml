@@ -69,16 +69,10 @@
 				WidthRequest="30"
 				SelectedImage="favorite_selected.png"
 				Image="favorite_deselected.png"
-				Aspect="AspectFit"
 				IsSelected="{Binding Product.IsFavorite, Converter={StaticResource bool}}"
 				IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
 				IsVisible="{Binding Product.IsFavorite, Converter={StaticResource visibility}}"
-				Command="{Binding ToggleFavoriteCommand}">
-				<local:SelectableButton.GestureRecognizers>
-					<TapGestureRecognizer
-						Command="{Binding ToggleFavoriteCommand}" />
-				</local:SelectableButton.GestureRecognizers>
-			</local:SelectableButton>
+				Command="{Binding ToggleFavoriteCommand}"/>
 			<StackLayout
 				Grid.Row="1"
 				Grid.Column="2"

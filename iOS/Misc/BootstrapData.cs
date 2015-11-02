@@ -32,13 +32,21 @@ namespace Tojeero.iOS
 	class JsonSubcategory
 	{
 		public string name_en { get; set; }
+
 		public string name_ar { get; set; }
+
 		public string category { get; set; }
 	}
 
 	public static class BootstrapData
 	{
-		public static async Task GenerateSampleProducts()
+		public static async Task GenerateSampleProductsAndStores()
+		{
+			var stores = await GenerateSampleStores();
+			await GenerateSampleProducts(stores);
+		}
+		
+		private static async Task GenerateSampleProducts(List<ParseStore> stores)
 		{
 			string stage = "";
 			int index = 0;
@@ -46,14 +54,14 @@ namespace Tojeero.iOS
 			{
 				var catMap = new Dictionary<ParseProductCategory,ParseProductSubcategory[]>();
 				var categories = (await new ParseQuery<ParseProductCategory>().FindAsync()).ToArray();
-				foreach(var cat in categories)
+				foreach (var cat in categories)
 				{
 					catMap[cat] = (await new ParseQuery<ParseProductSubcategory>().Where(s => s.Category == cat).FindAsync()).ToArray();
 				}
 
 				var countryMap = new Dictionary<int, ParseCity[]>();
 				var countries = (await new ParseQuery<ParseCountry>().FindAsync()).ToArray();
-				foreach(var c in countries)
+				foreach (var c in countries)
 				{
 					countryMap[c.CountryId] = (await new ParseQuery<ParseCity>().Where(cty => cty.CountryId == c.CountryId).FindAsync()).ToArray();
 				}
@@ -66,6 +74,7 @@ namespace Tojeero.iOS
 				Random subcatRandom = new Random();
 				Random countryRand = new Random();
 				Random cityRand = new Random();
+				Random storeRand = new Random();
 
 				/////////
 				stage = "Loading product images";
@@ -104,6 +113,7 @@ namespace Tojeero.iOS
 						Tags = prod.Tags.Tokenize(),
 						Image = productImages[i % productSampleCount],
 						Price = prod.Price,
+						Store = stores[storeRand.Next(0, stores.Count)]
 					};
 					product.Category = categories[catRandom.Next(0, categories.Length)];
 					var subs = catMap[product.Category];
@@ -114,10 +124,13 @@ namespace Tojeero.iOS
 					product.CityId = cities[cityRand.Next(0, cities.Length)].CityId;
 
 					product.SearchTokens = new string[] { product.Name, product.Description, prod.Tags }.Tokenize();
-					var tags = prod.Tags.Tokenize().Select(t => new ParseTag() {Text = t});
-					try {
+					var tags = prod.Tags.Tokenize().Select(t => new ParseTag() { Text = t });
+					try
+					{
 						await tags.SaveAllAsync();
-					} catch (Exception ex) {
+					}
+					catch (Exception ex)
+					{
 						
 					}
 					products.Add(product);
@@ -131,7 +144,7 @@ namespace Tojeero.iOS
 			}
 		}
 
-		public static async Task GenerateSampleStores()
+		private static async Task<List<ParseStore>> GenerateSampleStores()
 		{
 			string stage = "";
 			int index = 0;
@@ -140,7 +153,7 @@ namespace Tojeero.iOS
 				var categories = (await new ParseQuery<ParseStoreCategory>().FindAsync()).ToArray();
 				var countryMap = new Dictionary<int, ParseCity[]>();
 				var countries = (await new ParseQuery<ParseCountry>().FindAsync()).ToArray();
-				foreach(var c in countries)
+				foreach (var c in countries)
 				{
 					countryMap[c.CountryId] = (await new ParseQuery<ParseCity>().Where(cty => cty.CountryId == c.CountryId).FindAsync()).ToArray();
 				}
@@ -182,12 +195,12 @@ namespace Tojeero.iOS
 					index = i;
 					var s = jsonStores[i];
 					var store = new ParseStore()
-						{
-							Name = s.Name,
-							LowercaseName = s.Name.ToLower(),
-							Image = storeImages[i % storeSampleCount],
-							Description = s.Description						
-						};
+					{
+						Name = s.Name,
+						LowercaseName = s.Name.ToLower(),
+						Image = storeImages[i % storeSampleCount],
+						Description = s.Description						
+					};
 					store.Category = categories[catRandom.Next(0, categories.Length)];
 
 					store.CountryId = countries[countryRand.Next(0, countries.Length)].CountryId;
@@ -199,10 +212,12 @@ namespace Tojeero.iOS
 				}
 				await ParseObject.SaveAllAsync<ParseStore>(stores);
 				Console.WriteLine("Saved {0} stores ", storeCount);
+				return stores;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("Error occured while {0}, index = {1}. {2}.", stage, index, ex.ToString());
+				return null;
 			}
 		}
 
@@ -253,11 +268,12 @@ namespace Tojeero.iOS
 
 		public static async Task CreateSubcategories()
 		{
-			var subcategories = (await LoadFromJson<JsonSubcategory>("subcategories.json")).Select(s => new ParseProductSubcategory() { 
-				Name_en = s.name_en,
-				Name_ar = s.name_ar,
-				Category = ParseObject.CreateWithoutData<ParseProductCategory>(s.category)
-			});
+			var subcategories = (await LoadFromJson<JsonSubcategory>("subcategories.json")).Select(s => new ParseProductSubcategory()
+				{ 
+					Name_en = s.name_en,
+					Name_ar = s.name_ar,
+					Category = ParseObject.CreateWithoutData<ParseProductCategory>(s.category)
+				});
 			await subcategories.SaveAllAsync();
 		}
 

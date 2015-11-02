@@ -431,6 +431,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Favorite stores.
+        /// </summary>
+        internal static string TitleFavoriteStores {
+            get {
+                return ResourceManager.GetString("TitleFavoriteStores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter Products.
         /// </summary>
         internal static string TitleFilterProducts {

@@ -17,6 +17,7 @@ namespace Tojeero.Forms
 		#region Properties
 
 		public Action ShowFavoriteProductsAction;
+		public Action ShowFavoriteStoresAction;
 
 		#endregion
 
@@ -32,6 +33,19 @@ namespace Tojeero.Forms
 					ShowFavoriteProductsAction.Fire();
 				});
 				return _showFavoriteProductsCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _showFavoriteStoresCommand;
+
+		public System.Windows.Input.ICommand ShowFavoriteStoresCommand
+		{
+			get
+			{
+				_showFavoriteStoresCommand = _showFavoriteStoresCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
+					ShowFavoriteStoresAction.Fire();
+				});
+				return _showFavoriteStoresCommand;
 			}
 		}
 

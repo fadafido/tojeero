@@ -48,7 +48,11 @@ namespace Tojeero.Forms
 		{
 			this.ViewModel.ShowFavoriteProductsAction = async () =>
 				{
-					this.Navigation.PushAsync(new FavoriteProductsPage());
+					await this.Navigation.PushAsync(new FavoriteProductsPage());
+				};
+			this.ViewModel.ShowFavoriteStoresAction = async () =>
+				{
+					this.Navigation.PushAsync(new FavoriteStoresPage());
 				};
 			this.BindingContext = this.ViewModel;
 		}

@@ -276,6 +276,10 @@
     <value>Favorites</value>
     <comment>Favorites screen title</comment>
   </data>
+  <data name="TitleFavoriteStores" xml:space="preserve">
+    <value>Favorite stores</value>
+    <comment>Favorite stores screen title</comment>
+  </data>
   <data name="TitleFilterProducts" xml:space="preserve">
     <value>Filter Products</value>
     <comment>Filter products page title</comment>

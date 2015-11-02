@@ -5,12 +5,6 @@ using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
-	public interface ISearchViewModel
-	{
-		event EventHandler<EventArgs> LoadingNextPageFinished;
-		event EventHandler<EventArgs> ReloadFinished;
-		string SearchQuery { get; set; }
-	}
 
 	public abstract class BaseSearchViewModel<T> : LoadableNetworkViewModel, ISearchViewModel
 	{

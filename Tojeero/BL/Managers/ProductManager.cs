@@ -33,6 +33,11 @@ namespace Tojeero.Core
 			return _manager.Fetch<IProduct, Product>(new FetchProductsQuery(pageSize, offset, _manager, filter), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
 
+		public Task<IEnumerable<IProduct>> FetchFavoriteProducts(int pageSize, int offset)
+		{
+			return _manager.Fetch<IProduct, Product>(new FetchFavoriteProductsQuery(pageSize, offset, _manager), Constants.ProductsCacheTimespan.TotalMilliseconds);
+		}
+
 		public Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset, IProductFilter filter = null)
 		{
 			return _manager.Fetch<IProduct, Product>(new FindProductsQuery(query, pageSize, offset, _manager, filter), Constants.ProductsCacheTimespan.TotalMilliseconds);
@@ -96,6 +101,56 @@ namespace Tojeero.Core
 		public override string ToString()
 		{
 			string cachedQueryId = string.Format("products:p_{0}o_{1}-f_{2}", pageSize, offset, filter);
+			return cachedQueryId;
+		}
+	}
+
+	public class FetchFavoriteProductsQuery : IQueryLoader<IProduct>
+	{
+		int pageSize;
+		int offset;
+		IModelEntityManager manager;
+
+		public FetchFavoriteProductsQuery(int pageSize, int offset, IModelEntityManager manager)
+		{
+			this.manager = manager;
+			this.offset = offset;
+			this.pageSize = pageSize;
+
+		}
+
+		public string ID
+		{
+			get
+			{
+				//TODO:Currently we disable caching. In future phases we'll work on caching.
+				return null;
+				return this.ToString();
+			}
+		}
+
+		public async Task<IEnumerable<IProduct>> LocalQuery()
+		{
+			return await manager.Cache.FetchFavoriteProducts(pageSize, offset);
+		}
+
+		public async Task<IEnumerable<IProduct>> RemoteQuery()
+		{
+			return await manager.Rest.FetchFavoriteProducts(pageSize, offset);
+		}
+
+		public async Task PostProcess(IEnumerable<IProduct> items)
+		{
+			await manager.Cache.SaveSearchTokens(items, CachedQuery.GetEntityCacheName<Product>());
+			foreach (var p in items)
+			{
+				await manager.Cache.SaveProductTags(p.ID, p.Tags);
+			}
+		}
+
+		public override string ToString()
+		{
+			string cachedQueryId = string.Format("products:p_{0}o_{1}", pageSize, offset);
 			return cachedQueryId;
 		}
 	}

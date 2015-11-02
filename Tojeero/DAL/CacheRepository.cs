@@ -57,6 +57,11 @@ namespace Tojeero.Core
 				});
 		}
 
+		public Task<IEnumerable<IProduct>> FetchFavoriteProducts(int pageSize, int offset)
+		{
+			throw new NotImplementedException();
+		}
+
 		//TODO:Filtering is not implemented, so the filter parameter is no applied yet for this query.
 		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset, IStoreFilter filter = null)
 		{

@@ -8,7 +8,8 @@ using Nito.AsyncEx;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class BaseCollectionViewModel<T> : LoadableNetworkViewModel 
+
+	public class BaseCollectionViewModel<T> : LoadableNetworkViewModel, ICollectionViewModel<T>
 	{
 		#region Private fields and properties
 
@@ -77,7 +78,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				return _isLoadingInitialData; 
 			}
-			set
+			private set
 			{
 				_isLoadingInitialData = value; 
 				RaisePropertyChanged(() => IsLoadingInitialData); 
@@ -92,7 +93,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				return _isLoadingNextPage; 
 			}
-			set
+			private set
 			{
 				_isLoadingNextPage = value; 
 				RaisePropertyChanged(() => IsLoadingNextPage); 

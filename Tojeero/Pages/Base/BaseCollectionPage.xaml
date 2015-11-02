@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.BaseCollectionPage"
+	BackgroundColor="White">
+	<ContentPage.Content>
+		<StackLayout
+			BackgroundColor="Transparent"
+			Spacing="0">
+			<local:NetworkPageHeader
+				NoNetworkPadding="0,5,0,5"
+				Tint="{x:Static local:Colors.DarkGray}"
+				IsLoading="{Binding IsLoadingInitialData}"
+				LoadingText="{Binding LoadingText}"
+				FailureMessage="{Binding LoadingFailureMessage}"
+				IsNetworkAvailable="{Binding IsNetworkAvailable}"
+				TryAgainCommand="{Binding TryAgainCommand}" />
+			<local:InfiniteListView
+				x:Name="listView"
+				ItemsSource="{Binding Collection}"
+				BackgroundColor="Transparent"
+				RowHeight="100"
+				SeparatorVisibility="None"
+				IsPullToRefreshEnabled="true"
+				RefreshCommand="{Binding ReloadCommand}"
+				LoadMoreCommand="{Binding LoadNextPageCommand}">
+			</local:InfiniteListView>
+			<StackLayout
+				Padding="5"
+				IsVisible="{Binding IsLoadingNextPage}">
+				<ActivityIndicator
+					IsRunning="{Binding IsLoadingNextPage}"
+					HorizontalOptions="Center"
+					VerticalOptions="Center"
+					Color="{x:Static local:Colors.DarkGray}" />
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

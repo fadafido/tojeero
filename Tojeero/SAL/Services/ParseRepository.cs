@@ -37,6 +37,23 @@ namespace Tojeero.Core
 			}
 		}
 
+		public async Task<IEnumerable<IProduct>> FetchFavoriteProducts(int pageSize, int offset)
+		{
+			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
+			{
+				var user = ParseUser.CurrentUser as TojeeroUser;
+				if (user == null)
+					return null;
+				var query = user.FavoriteProducts.Query.OrderBy(p => p.LowercaseName).Include("category").Include("subcategory");
+				if (pageSize > 0 && offset >= 0)
+				{
+					query = query.Limit(pageSize).Skip(offset);
+				}
+				var result = await query.FindAsync();	
+				return result.Select(p => new Product(p) as IProduct);
+			}
+		}
+
 		public async Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset, IStoreFilter filter = null)
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))

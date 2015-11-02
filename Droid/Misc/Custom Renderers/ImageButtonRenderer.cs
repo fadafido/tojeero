@@ -44,7 +44,6 @@ namespace Tojeero.Forms.Renderers
 
 		protected override async void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			Console.WriteLine("PROPERTY CHANGED: " + e.PropertyName);
 			base.OnElementPropertyChanged(sender, e);
 			if (e.PropertyName == ImageButton.ImageProperty.PropertyName)
 			{

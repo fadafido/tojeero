@@ -158,7 +158,6 @@
     <Compile Include="BL\Contracts\Entities\ISearchToken.cs" />
     <Compile Include="BL\Entities\SearchToken.cs" />
     <Compile Include="BL\Contracts\Entities\ISearchableEntity.cs" />
-    <Compile Include="ViewModels\Main\FilterProductsViewModel.cs" />
     <Compile Include="BL\Contracts\Entities\ITag.cs" />
     <Compile Include="BL\Contracts\Managers\ITagManager.cs" />
     <Compile Include="ViewModels\Misc\TagsViewModel.cs" />
@@ -174,9 +173,6 @@
     <Compile Include="BL\Contracts\Entities\IProductFilter.cs" />
     <Compile Include="BL\Entities\ProductFilter.cs" />
     <Compile Include="Misc\Messages\ProductFilterChangedMessage.cs" />
-    <Compile Include="Pages\Main\FilterProductsPage.xaml.cs">
-      <DependentUpon>FilterProductsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Misc\Custom Controls\WrapLayout.cs" />
     <Compile Include="Misc\Custom Controls\TagCloud.cs" />
     <Compile Include="Misc\Custom Controls\ObservedCollection.cs" />
@@ -188,25 +184,42 @@
     <Compile Include="BL\Entities\ProductTag.cs" />
     <Compile Include="BL\Entities\StoreFilter.cs" />
     <Compile Include="BL\Contracts\Entities\IStoresFilter.cs" />
-    <Compile Include="ViewModels\Main\FilterStoresViewModel.cs" />
     <Compile Include="Misc\Messages\StoreFilterChangedMessage.cs" />
-    <Compile Include="Pages\Main\FilterStoresPage.xaml.cs">
-      <DependentUpon>FilterStoresPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Misc\Custom Controls\LabelEx.cs" />
     <Compile Include="Misc\Custom Controls\SelectableButton.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="BL\Contracts\Managers\IUserManager.cs" />
     <Compile Include="BL\Contracts\Entities\IUser.cs" />
-    <Compile Include="ViewModels\Main\StoreViewModel.cs" />
     <Compile Include="Misc\Custom Controls\BorderView.cs" />
-    <Compile Include="ViewModels\Misc\Product\ProductViewModel.cs" />
-    <Compile Include="ViewModels\Misc\Product\ProductDetailsViewModel.cs" />
-    <Compile Include="Pages\Misc\Product\ProductDetailsPage.xaml.cs">
-      <DependentUpon>ProductDetailsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Misc\Custom Controls\ImageButton.cs" />
     <Compile Include="Misc\Converters\NullableBoolConverter.cs" />
+    <Compile Include="Pages\Product\ProductDetailsPage.xaml.cs">
+      <DependentUpon>..\Misc\Product\ProductDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Product\FilterProductsPage.xaml.cs">
+      <DependentUpon>FilterProductsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Store\FilterStoresPage.xaml.cs">
+      <DependentUpon>FilterStoresPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Misc\FavoritesPage.xaml.cs">
+      <DependentUpon>FavoritesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Product\ProductDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Product\ProductViewModel.cs" />
+    <Compile Include="ViewModels\Product\FilterProductsViewModel.cs" />
+    <Compile Include="ViewModels\Store\FilterStoresViewModel.cs" />
+    <Compile Include="ViewModels\Store\StoreViewModel.cs" />
+    <Compile Include="ViewModels\Product\FavoriteProductsViewModel.cs" />
+    <Compile Include="ViewModels\Contracts\ICollectionViewModel.cs" />
+    <Compile Include="ViewModels\Contracts\ISearchViewModel.cs" />
+    <Compile Include="Pages\Base\BaseCollectionPage.cs">
+      <DependentUpon>BaseCollectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Product\FavoriteProductsPage.xaml.cs">
+      <DependentUpon>FavoriteProductsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Misc\FavoritesViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -298,8 +311,9 @@
     <Folder Include="DAL\Contracts\" />
     <Folder Include="ViewModels\Misc\" />
     <Folder Include="Pages\Misc\" />
-    <Folder Include="ViewModels\Misc\Product\" />
-    <Folder Include="Pages\Misc\Product\" />
+    <Folder Include="Pages\Store\" />
+    <Folder Include="ViewModels\Product\" />
+    <Folder Include="ViewModels\Store\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">
@@ -343,16 +357,25 @@
     <EmbeddedResource Include="Misc\Custom Cells\TagListCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\Main\FilterProductsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="Misc\Custom Controls\TagControl.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\Main\FilterStoresPage.xaml">
+    <EmbeddedResource Include="Pages\Product\ProductDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\Misc\Product\ProductDetailsPage.xaml">
+    <EmbeddedResource Include="Pages\Product\FilterProductsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Store\FilterStoresPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Misc\FavoritesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Base\BaseCollectionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Product\FavoriteProductsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -43,9 +43,13 @@
 				<RowDefinition
 					Height="20" />
 			</Grid.RowDefinitions>
-			<Image
+			<BoxView
 				Grid.RowSpan="3"
 				BackgroundColor="{x:Static local:Colors.Placeholder}"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand" />
+			<Image
+				Grid.RowSpan="3"
 				Source="placeholder.png"
 				VerticalOptions="Center"
 				HorizontalOptions="Center" />
@@ -53,7 +57,9 @@
 				Grid.RowSpan="3"
 				Aspect="AspectFill"
 				BackgroundColor="Transparent"
-				Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}" />
+				Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand" />
 			<local:LabelEx
 				Grid.Column="2"
 				Text="{Binding Product.Name}"
@@ -72,7 +78,7 @@
 				IsSelected="{Binding Product.IsFavorite, Converter={StaticResource bool}}"
 				IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
 				IsVisible="{Binding Product.IsFavorite, Converter={StaticResource visibility}}"
-				Command="{Binding ToggleFavoriteCommand}"/>
+				Command="{Binding ToggleFavoriteCommand}" />
 			<StackLayout
 				Grid.Row="1"
 				Grid.Column="2"

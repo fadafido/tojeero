@@ -43,9 +43,13 @@
 				<RowDefinition
 					Height="*" />
 			</Grid.RowDefinitions>
-			<Image
+			<BoxView
 				Grid.RowSpan="3"
 				BackgroundColor="{x:Static local:Colors.Placeholder}"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand" />
+			<Image
+				Grid.RowSpan="3"
 				Source="placeholder.png"
 				VerticalOptions="Center"
 				HorizontalOptions="Center" />
@@ -53,7 +57,9 @@
 				Grid.RowSpan="3"
 				Aspect="AspectFill"
 				BackgroundColor="Transparent"
-				Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
+				Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand" />
 			<local:LabelEx
 				Grid.Column="2"
 				Text="{Binding Store.Name}"

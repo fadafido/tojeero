@@ -89,6 +89,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string ButtonClose {
+            get {
+                return ResourceManager.GetString("ButtonClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Done.
         /// </summary>
         internal static string ButtonDone {
@@ -400,6 +409,24 @@ namespace Tojeero.Forms.Resources {
         internal static string PlaceholderSearchTags {
             get {
                 return ResourceManager.GetString("PlaceholderSearchTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Favorite products.
+        /// </summary>
+        internal static string TitleFavoriteProducts {
+            get {
+                return ResourceManager.GetString("TitleFavoriteProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Favorites.
+        /// </summary>
+        internal static string TitleFavorites {
+            get {
+                return ResourceManager.GetString("TitleFavorites", resourceCulture);
             }
         }
         

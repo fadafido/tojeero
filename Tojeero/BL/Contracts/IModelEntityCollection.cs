@@ -14,9 +14,14 @@ namespace Tojeero.Core
 		Task ClearCache();
 	}
 
-	public interface IModelEntityCollection<T> : ICollection<T>, INotifyCollectionChanged, INotifyPropertyChanged
+	public interface IModelEntityCollection : INotifyCollectionChanged, INotifyPropertyChanged
 	{
 		Task FetchNextPageAsync();
+	}
+
+	public interface IModelEntityCollection<T> : IModelEntityCollection, ICollection<T>
+	{
+		
 	}
 }
 

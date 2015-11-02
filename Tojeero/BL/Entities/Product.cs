@@ -36,6 +36,7 @@ namespace Tojeero.Core
 				_imageUrl = null;
 				_category = null;
 				_subcategory = null;
+				_store = null;
 				base.ParseObject = value;
 			}
 		}
@@ -135,6 +136,22 @@ namespace Tojeero.Core
 			set
 			{
 				_subcategoryID = value; 
+			}
+		}
+
+		private string _storeID;
+
+		public string StoreID
+		{ 
+			get
+			{
+				if (_storeID == null && _parseObject != null && _parseObject.Store != null)
+					_storeID = _parseObject.Store.ObjectId;
+				return _storeID; 
+			}
+			set
+			{
+				_storeID = value; 
 			}
 		}
 
@@ -239,6 +256,18 @@ namespace Tojeero.Core
 				if (_subcategory == null)
 					_subcategory = new ProductSubcategory(this.ParseObject.Subcategory);
 				return _subcategory; 
+			}
+		}
+
+		private IStore _store;
+		[Ignore]
+		public IStore Store
+		{ 
+			get
+			{
+				if (_store == null)
+					_store = new Store(this.ParseObject.Store);
+				return _store; 
 			}
 		}
 			
@@ -390,6 +419,19 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<ParseProductSubcategory>(value);
+			}
+		}
+
+		[ParseFieldName("store")]
+		public ParseStore Store
+		{
+			get
+			{
+				return GetProperty<ParseStore>();
+			}
+			set
+			{
+				SetProperty<ParseStore>(value);
 			}
 		}
 

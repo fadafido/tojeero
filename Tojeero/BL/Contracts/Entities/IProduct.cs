@@ -19,6 +19,8 @@ namespace Tojeero.Core
 
 		string SubcategoryID { get; }
 
+		string StoreID { get; }
+
 		int? CityId { get; }
 
 		int? CountryId { get; }
@@ -28,7 +30,10 @@ namespace Tojeero.Core
 		string TagList{ get; }
 
 		IProductCategory Category { get; }
+
 		IProductSubcategory Subcategory { get; }
+
+		IStore Store { get; }
 
 		bool? IsFavorite { get; set; }
 	}

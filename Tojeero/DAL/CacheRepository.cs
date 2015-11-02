@@ -69,6 +69,11 @@ namespace Tojeero.Core
 			return result.Cast<IStore>();
 		}
 
+		public Task<IEnumerable<IStore>> FetchFavoriteStores(int pageSize, int offset)
+		{
+			throw new NotImplementedException();
+		}
+
 		public async Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset, string orderBy = null) where T : new()
 		{
 			return await fetchAsync<T>(pageSize, offset, orderBy).ConfigureAwait(false);	

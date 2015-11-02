@@ -33,7 +33,7 @@ namespace Tojeero.Core
 			return _manager.Fetch<IProduct, Product>(new FetchProductsQuery(pageSize, offset, _manager, filter), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
 
-		public Task<IEnumerable<IProduct>> FetchFavoriteProducts(int pageSize, int offset)
+		public Task<IEnumerable<IProduct>> FetchFavorite(int pageSize, int offset)
 		{
 			return _manager.Fetch<IProduct, Product>(new FetchFavoriteProductsQuery(pageSize, offset, _manager), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
@@ -150,7 +150,7 @@ namespace Tojeero.Core
 
 		public override string ToString()
 		{
-			string cachedQueryId = string.Format("products:p_{0}o_{1}", pageSize, offset);
+			string cachedQueryId = string.Format("favorite_products:p_{0}o_{1}", pageSize, offset);
 			return cachedQueryId;
 		}
 	}

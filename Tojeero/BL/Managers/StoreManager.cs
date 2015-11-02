@@ -33,6 +33,11 @@ namespace Tojeero.Core
 			return _manager.Fetch<IStore, Store>(new FetchStoresQuery(pageSize, offset, _manager, filter), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
+		public Task<IEnumerable<IStore>> FetchFavorite(int pageSize, int offset)
+		{
+			return _manager.Fetch<IStore, Store>(new FetchFavoriteStoresQuery(pageSize, offset, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
+		}
+
 		public Task<IEnumerable<IStore>> Find(string query, int pageSize, int offset, IStoreFilter filter = null)
 		{
 			return _manager.Fetch<IStore, Store>(new FindStoresQuery(query, pageSize, offset, _manager, filter), Constants.StoresCacheTimespan.TotalMilliseconds);
@@ -91,6 +96,52 @@ namespace Tojeero.Core
 		public override string ToString()
 		{
 			string cachedQueryId = string.Format("stores:p_{0}o_{1}-f_{2}", pageSize, offset, filter);
+			return cachedQueryId;
+		}
+	}
+
+	public class FetchFavoriteStoresQuery : IQueryLoader<IStore>
+	{
+		int pageSize;
+		int offset;
+		IModelEntityManager manager;
+
+		public FetchFavoriteStoresQuery(int pageSize, int offset, IModelEntityManager manager)
+		{
+			this.manager = manager;
+			this.offset = offset;
+			this.pageSize = pageSize;
+
+		}
+
+		public string ID
+		{
+			get
+			{
+				//TODO:Currently we disable caching. In future phases we'll work on caching.
+				return null;
+				return this.ToString();
+			}
+		}
+
+		public async Task<IEnumerable<IStore>> LocalQuery()
+		{
+			return await manager.Cache.FetchFavoriteStores(pageSize, offset);
+		}
+
+		public async Task<IEnumerable<IStore>> RemoteQuery()
+		{
+			return await manager.Rest.FetchFavoriteStores(pageSize, offset);
+		}
+
+		public async Task PostProcess(IEnumerable<IStore> items)
+		{
+			await manager.Cache.SaveSearchTokens(items, CachedQuery.GetEntityCacheName<Store>());
+		}
+
+		public override string ToString()
+		{
+			string cachedQueryId = string.Format("favorite_stores:p_{0}o_{1}", pageSize, offset);
 			return cachedQueryId;
 		}
 	}

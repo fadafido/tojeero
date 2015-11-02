@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
@@ -15,6 +16,8 @@ namespace Tojeero.Core
 		IStoreCategory Category { get; }
 
 		bool? IsFavorite { get; set; }
+
+		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
 	}
 }
 

@@ -224,6 +224,7 @@
     <Compile Include="Pages\Store\FavoriteStoresPage.xaml.cs">
       <DependentUpon>FavoriteStoresPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Store\StoreDetailsViewModel.cs" />
     <Compile Include="Misc\Comparers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

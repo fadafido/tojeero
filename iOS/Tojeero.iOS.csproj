@@ -388,6 +388,9 @@
     <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Tag.cs">
       <Link>Core\SAL\Services\ParseRepository_Tag.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Queries\StoreProductsQueryLoader.cs">
+      <Link>Core\BL\Queries\StoreProductsQueryLoader.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />
@@ -409,5 +412,6 @@
     <Folder Include="Resources\Samples\Products\" />
     <Folder Include="Resources\Samples\Stores\" />
     <Folder Include="Core\DAL\" />
+    <Folder Include="Core\BL\Queries\" />
   </ItemGroup>
 </Project>

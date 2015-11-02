@@ -2,6 +2,8 @@
 using Parse;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cirrious.CrossCore;
 
 namespace Tojeero.Core
 {
@@ -179,8 +181,20 @@ namespace Tojeero.Core
 			}
 		}
 		#endregion
-	}
 
+		#region Methods
+
+		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
+		{
+			var manager = Mvx.Resolve<IModelEntityManager>();
+			var result = await manager.Fetch<IProduct, Product>(new StoreProductsQueryLoader(pageSize, offset, manager, this), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			return result;
+		}
+
+		#endregion	
+
+	}
+		
 	[ParseClassName("Store")]
 	public class ParseStore : SearchableParseObject
 	{

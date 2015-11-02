@@ -295,6 +295,15 @@
     <Compile Include="..\Tojeero\Misc\Custom Controls\ImageButtonRenderer.shared.cs">
       <Link>Misc\Custom Renderers\ImageButtonRenderer.shared.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Product.cs">
+      <Link>Core\SAL\Services\ParseRepository_Product.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Store.cs">
+      <Link>Core\SAL\Services\ParseRepository_Store.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Tag.cs">
+      <Link>Core\SAL\Services\ParseRepository_Tag.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

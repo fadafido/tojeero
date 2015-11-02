@@ -125,6 +125,11 @@ namespace Tojeero.Core
 			return result;
 		}
 
+		public Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID)
+		{
+			throw new NotImplementedException();
+		}
+
 		//TODO:Filtering is not implemented, so the filter parameter is no applied yet for this query.
 		public async Task<IEnumerable<IProduct>> FindProducts(string searchQuery, int pageSize, int offset, IProductFilter filter = null)
 		{

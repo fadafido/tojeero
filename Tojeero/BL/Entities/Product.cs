@@ -37,6 +37,7 @@ namespace Tojeero.Core
 				_category = null;
 				_subcategory = null;
 				_store = null;
+				_isFavorite = null;
 				base.ParseObject = value;
 			}
 		}

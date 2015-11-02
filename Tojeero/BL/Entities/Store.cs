@@ -36,6 +36,7 @@ namespace Tojeero.Core
 			{
 				_imageUrl = null;
 				_category = null;
+				_isFavorite = null;
 				base.ParseObject = value;
 			}
 		}
@@ -161,6 +162,20 @@ namespace Tojeero.Core
 				{
 					_parseObject.SearchTokens = value;
 				}
+			}
+		}
+
+		private bool? _isFavorite;
+		public bool? IsFavorite
+		{ 
+			get
+			{
+				return _isFavorite; 
+			}
+			set
+			{
+				_isFavorite = value; 
+				RaisePropertyChanged(() => IsFavorite); 
 			}
 		}
 		#endregion

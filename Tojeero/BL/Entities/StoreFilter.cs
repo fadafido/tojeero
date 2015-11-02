@@ -214,6 +214,7 @@ namespace Tojeero.Core
 
 		private void initialize()
 		{
+			return;
 			if (_authService.CurrentUser != null)
 			{
 				

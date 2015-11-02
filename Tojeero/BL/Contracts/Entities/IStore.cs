@@ -13,6 +13,8 @@ namespace Tojeero.Core
 		int? CityId { get; }
 		int? CountryId { get; }
 		IStoreCategory Category { get; }
+
+		bool? IsFavorite { get; set; }
 	}
 }
 

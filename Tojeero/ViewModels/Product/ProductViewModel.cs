@@ -105,8 +105,6 @@ namespace Tojeero.Core.ViewModels
 
 		#region Utility methods
 
-		private static Random favRand = new Random();
-
 		protected async Task loadFavorite()
 		{
 			if (!CanExecuteLoadFavoriteCommand)

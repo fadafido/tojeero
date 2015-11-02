@@ -25,7 +25,7 @@ namespace Tojeero.Forms
 				if (_viewModel != value)
 				{
 					_viewModel = value;
-					this.BindingContext = _viewModel;
+					setupViewModel();
 				}
 			}
 		}
@@ -38,6 +38,16 @@ namespace Tojeero.Forms
 			: base()
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<SideMenuViewModel>();
+			InitializeComponent();
+			this.Icon = "menuIcon.png";
+		}
+
+		#endregion
+
+		#region Utility methods
+
+		private void setupViewModel()
+		{			
 			this.ViewModel.ShowProfileSettings = async (arg) => {
 				await this.Navigation.PushModalAsync(new NavigationPage(new ProfileSettingsPage(arg)));
 			};
@@ -47,8 +57,7 @@ namespace Tojeero.Forms
 			this.ViewModel.ShowFavorites = async () => {
 				await this.Navigation.PushModalAsync(new NavigationPage(new FavoritesPage()));
 			};
-			InitializeComponent();
-			this.Icon = "menuIcon.png";
+			this.BindingContext = _viewModel;
 		}
 
 		#endregion

@@ -48,7 +48,6 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
-
 		#region Queries
 
 		private class FavoriteProductsQuery : IModelQuery<ProductViewModel>

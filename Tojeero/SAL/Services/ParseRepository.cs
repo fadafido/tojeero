@@ -44,7 +44,12 @@ namespace Tojeero.Core
 				var user = ParseUser.CurrentUser as TojeeroUser;
 				if (user == null)
 					return null;
-				var result = await user.FavoriteProducts.Query.FindAsync();	
+				var query = user.FavoriteProducts.Query.OrderBy(p => p.LowercaseName).Include("category").Include("subcategory");
+				if (pageSize > 0 && offset >= 0)
+				{
+					query = query.Limit(pageSize).Skip(offset);
+				}
+				var result = await query.FindAsync();	
 				return result.Select(p => new Product(p) as IProduct);
 			}
 		}

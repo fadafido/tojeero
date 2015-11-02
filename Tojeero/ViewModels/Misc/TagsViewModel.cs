@@ -69,23 +69,12 @@ namespace Tojeero.Core.ViewModels
 			{
 				return manager.Fetch(pageSize, offset);
 			}
-
-			private Comparison<ITag> _comparer;
-
+				
 			public Comparison<ITag> Comparer
 			{
 				get
 				{
-					if (_comparer == null)
-					{
-						_comparer = new Comparison<ITag>((x, y) =>
-							{
-								if (x.ID == y.ID)
-									return 0;
-								return x.Text.CompareTo(y.Text);
-							});
-					}
-					return _comparer;
+					return Comparers.TagText;
 				}
 			}
 

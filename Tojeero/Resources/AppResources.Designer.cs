@@ -287,11 +287,11 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delivery Note.
+        ///   Looks up a localized string similar to Delivery Notes.
         /// </summary>
-        internal static string LabelStoreDetailsDeliveryNote {
+        internal static string LabelStoreDetailsDeliveryNotes {
             get {
-                return ResourceManager.GetString("LabelStoreDetailsDeliveryNote", resourceCulture);
+                return ResourceManager.GetString("LabelStoreDetailsDeliveryNotes", resourceCulture);
             }
         }
         

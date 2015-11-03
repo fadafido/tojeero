@@ -324,9 +324,9 @@
     <value>Country:</value>
     <comment>Country label shown on store details screen</comment>
   </data>
-  <data name="LabelStoreDetailsDeliveryNote" xml:space="preserve">
-    <value>Delivery Note</value>
-    <comment>Delivery note label shown on store details screen</comment>
+  <data name="LabelStoreDetailsDeliveryNotes" xml:space="preserve">
+    <value>Delivery Notes</value>
+    <comment>Delivery notes label shown on store details screen</comment>
   </data>
   <data name="LabelStoreDetailsDescription" xml:space="preserve">
     <value>Description:</value>

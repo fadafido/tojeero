@@ -224,9 +224,6 @@
     <Compile Include="Misc\Comparers.cs" />
     <Compile Include="BL\Contracts\Entities\ISocialObject.cs" />
     <Compile Include="ViewModels\Contracts\ISocialViewModel.cs" />
-    <Compile Include="Pages\Base\NetworkPageHeader.xaml.cs">
-      <DependentUpon>NetworkPageHeader.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Misc\Custom Controls\FavoriteSocialView.xaml.cs">
       <DependentUpon>FavoriteSocialView.xaml</DependentUpon>
     </Compile>
@@ -239,6 +236,12 @@
       <DependentUpon>StoreDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Store\StoreDetailsViewModel.cs" />
+    <Compile Include="Misc\Custom Controls\NetworkPageHeader.xaml.cs">
+      <DependentUpon>NetworkPageHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Custom Controls\CollapsibleView.xaml.cs">
+      <DependentUpon>CollapsibleView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -397,7 +400,6 @@
     <EmbeddedResource Include="Pages\Store\FavoriteStoresPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\Base\NetworkPageHeader.xaml" />
     <EmbeddedResource Include="Misc\Custom Controls\FavoriteSocialView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -407,5 +409,7 @@
     <EmbeddedResource Include="Pages\Store\StoreDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\NetworkPageHeader.xaml" />
+    <EmbeddedResource Include="Misc\Custom Controls\CollapsibleView.xaml" />
   </ItemGroup>
 </Project>

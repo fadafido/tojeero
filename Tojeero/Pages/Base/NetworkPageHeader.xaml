@@ -42,6 +42,6 @@
 		<Button
 			x:Name="TryAgainButton"
 			Text="Try again"
-			Style="{StaticResource NegativeButton}"/>
+			Style="{StaticResource Button2}"/>
 	</StackLayout>
 </StackLayout>

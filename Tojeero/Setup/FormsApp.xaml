@@ -18,17 +18,23 @@
 				<Setter
 					Property="TextColor"
 					Value="White" />
+				<Setter
+					Property="FontAttributes"
+					Value="Bold" />
 			</Style>
 			<Style
-				x:Key="PositiveButton"
+				x:Key="Button1"
 				TargetType="Button"
 				BaseResourceKey="BaseButton">
 				<Setter
 					Property="BackgroundColor"
-					Value="{x:Static local:Colors.Green}" />
+					Value="{x:Static local:Colors.Button1}" />
+				<Setter
+					Property="BackgroundColor"
+					Value="{x:Static local:Colors.Button1}" />
 			</Style>
 			<Style
-				x:Key="NegativeButton"
+				x:Key="Button2"
 				TargetType="Button"
 				BaseResourceKey="BaseButton">
 				<Setter

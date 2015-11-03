@@ -119,7 +119,7 @@
 						Command="{Binding LoginCommand}"
 						VerticalOptions="Center"
 						Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
-						Style="{StaticResource PositiveButton}"
+						Style="{StaticResource Button1}"
 						IsEnabled="{Binding CanExecuteLoginCommand}"
 						IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverse}}">
 					</Button>
@@ -130,7 +130,7 @@
 						Command="{Binding LogoutCommand}"
 						VerticalOptions="Center"
 						IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}"
-						Style="{StaticResource NegativeButton}"
+						Style="{StaticResource Button2}"
 						IsVisible="{Binding IsLoggedIn}">
 					</Button>
 					<ActivityIndicator

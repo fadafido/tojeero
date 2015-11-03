@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.StoreInfoPage"
+	Title="{local:Translate TitleStoreDetails}">
+	<ContentPage.Content>
+		<StackLayout
+			BackgroundColor="Transparent"
+			Spacing="0">
+			<local:NetworkPageHeader
+				NoNetworkPadding="0,5,0,5"
+				Tint="{x:Static local:Colors.DarkGray}"
+				IsLoading="{Binding Products.IsLoadingInitialData}"
+				LoadingText="{Binding Products.LoadingText}"
+				FailureMessage="{Binding Products.LoadingFailureMessage}"
+				IsNetworkAvailable="{Binding Products.IsNetworkAvailable}"
+				TryAgainCommand="{Binding Products.TryAgainCommand}" />
+			<local:InfiniteListView
+				x:Name="listView"
+				ItemsSource="{Binding Products.Collection}"
+				BackgroundColor="Transparent"
+				RowHeight="100"
+				SeparatorVisibility="None"
+				IsPullToRefreshEnabled="true"
+				RefreshCommand="{Binding Products.ReloadCommand}"
+				LoadMoreCommand="{Binding Products.LoadNextPageCommand}">
+				<local:InfiniteListView.ItemTemplate>
+					<DataTemplate>
+						<local:ProductListCell />
+					</DataTemplate>
+				</local:InfiniteListView.ItemTemplate>
+				<local:InfiniteListView.Header>
+					<StackLayout
+						x:Name="HeaderView"
+						Spacing="0">
+						<!--STORE DETAILS-->
+						<Grid
+							ColumnSpacing="10"
+							RowSpacing="10"
+							Padding="10"
+							HorizontalOptions="FillAndExpand">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition
+									Width="50" />
+								<ColumnDefinition
+									Width="*" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition
+									Height="Auto" />
+								<RowDefinition
+									Height="40" />
+							</Grid.RowDefinitions>
+							<Grid
+								VerticalOptions="Start"
+								HeightRequest="40">
+								<BoxView
+									BackgroundColor="{x:Static local:Colors.Placeholder}" />
+								<Image
+									Source="placeholder.png"
+									VerticalOptions="Center"
+									HorizontalOptions="Center"
+									HeightRequest="25"
+									WidthRequest="20" />
+								<Image
+									Aspect="AspectFill"
+									BackgroundColor="Transparent"
+									Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
+							</Grid>
+							<Label
+								Grid.Column="1"
+								Text="{Binding Store.Name}"
+								TextColor="{x:Static local:Colors.Main}"
+								FontAttributes="Bold"
+								FontSize="15"
+								VerticalOptions="CenterAndExpand"
+								HorizontalOptions="FillAndExpand"
+								YAlign="Center" />
+							<Button
+								Grid.Row="1"
+								Grid.ColumnSpan="2"
+								Text="{local:Translate TitleStoreDetails}"
+								Command="{Binding ShowStoreDetailsCommand}"
+								VerticalOptions="FillAndExpand"
+								HorizontalOptions="FillAndExpand"
+								Style="{StaticResource Button1}" />
+						</Grid>
+						<!--FAVORITES AND SHARING-->
+						<local:FavoriteSocialView
+							SocialObject="{Binding Store}"
+							SocialViewModel="{Binding .}" />
+					</StackLayout>
+				</local:InfiniteListView.Header>
+			</local:InfiniteListView>
+			<StackLayout
+				Padding="5"
+				IsVisible="{Binding Products.IsLoadingNextPage}">
+				<ActivityIndicator
+					IsRunning="{Binding Products.IsLoadingNextPage}"
+					HorizontalOptions="Center"
+					VerticalOptions="Center"
+					Color="{x:Static local:Colors.DarkGray}" />
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

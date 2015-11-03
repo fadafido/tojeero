@@ -7,7 +7,7 @@ using Cirrious.CrossCore;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class StoreDetailsViewModel : StoreViewModel
+	public class StoreInfoViewModel : StoreViewModel
 	{
 		#region Private APIs and Fields
 
@@ -17,7 +17,7 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public StoreDetailsViewModel(IStore store = null)
+		public StoreInfoViewModel(IStore store = null)
 			: base(store)
 		{
 			this.Store = store;
@@ -53,6 +53,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				base.Store = value;
 				setupViewModel();
+				RaisePropertyChanged(() => Store);
 			}
 		}
 

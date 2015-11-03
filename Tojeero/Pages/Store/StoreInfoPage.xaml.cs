@@ -4,42 +4,21 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
-using Tojeero.Forms.Resources;
 using Tojeero.Core;
 
 namespace Tojeero.Forms
 {
-	public partial class ProductsPage : BaseSearchablePage
+	public partial class StoreInfoPage : ContentPage
 	{
-		#region Properties
-
-		public new ProductsViewModel ViewModel
-		{
-			get
-			{
-				return base.ViewModel as ProductsViewModel;
-			}
-			set
-			{
-				base.ViewModel = value;
-			}
-		}
-
-		#endregion
-
 		#region Constructors
 
-		public ProductsPage()
-			: base()
+		public StoreInfoPage(IStore store)
 		{
+			this.ViewModel = MvxToolbox.LoadViewModel<StoreInfoViewModel>();
+			this.ViewModel.Store = store;
 			InitializeComponent();
-			this.ViewModel = MvxToolbox.LoadViewModel<ProductsViewModel>();
-			this.ToolbarItems.Add(new ToolbarItem("Filter", "", async () =>
-					{
-						await this.Navigation.PushModalAsync(new NavigationPage(new FilterProductsPage()));
-					}));
-			this.SearchBar.Placeholder = AppResources.PlaceholderSearchProducts;
-			ListView.ItemSelected += itemSelected;
+			this.HeaderView.BindingContext = this.ViewModel;
+			this.listView.ItemSelected += itemSelected;
 		}
 
 		#endregion
@@ -49,7 +28,31 @@ namespace Tojeero.Forms
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			this.ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
+			this.ViewModel.Products.LoadFirstPageCommand.Execute(null);
+		}
+
+		#endregion
+
+		#region Properties
+
+		private StoreInfoViewModel _viewModel;
+
+		public StoreInfoViewModel ViewModel
+		{ 
+			get
+			{
+				return _viewModel; 
+			}
+			set
+			{
+				if (_viewModel != value)
+				{
+					_viewModel = value;
+					if(this.HeaderView != null)
+						this.HeaderView.BindingContext = _viewModel;
+					this.BindingContext = _viewModel;
+				}
+			}
 		}
 
 		#endregion

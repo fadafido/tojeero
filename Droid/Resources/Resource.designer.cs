@@ -267,13 +267,13 @@ namespace Tojeero.Droid
 			public const int buttonBarButtonStyle = 2130772151;
 			
 			// aapt resource value: 0x7f0100e4
-			public const int buttonBarNegativeButtonStyle = 2130772196;
+			public const int buttonBarButton2Style = 2130772196;
 			
 			// aapt resource value: 0x7f0100e5
 			public const int buttonBarNeutralButtonStyle = 2130772197;
 			
 			// aapt resource value: 0x7f0100e3
-			public const int buttonBarPositiveButtonStyle = 2130772195;
+			public const int buttonBarButton1Style = 2130772195;
 			
 			// aapt resource value: 0x7f0100b6
 			public const int buttonBarStyle = 2130772150;
@@ -5161,13 +5161,13 @@ namespace Tojeero.Droid
 			public const int Theme_buttonBarButtonStyle = 51;
 			
 			// aapt resource value: 96
-			public const int Theme_buttonBarNegativeButtonStyle = 96;
+			public const int Theme_buttonBarButton2Style = 96;
 			
 			// aapt resource value: 97
 			public const int Theme_buttonBarNeutralButtonStyle = 97;
 			
 			// aapt resource value: 95
-			public const int Theme_buttonBarPositiveButtonStyle = 95;
+			public const int Theme_buttonBarButton1Style = 95;
 			
 			// aapt resource value: 50
 			public const int Theme_buttonBarStyle = 50;

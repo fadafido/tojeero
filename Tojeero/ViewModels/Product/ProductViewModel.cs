@@ -8,7 +8,7 @@ using Nito.AsyncEx;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class ProductViewModel : BaseUserViewModel
+	public class ProductViewModel : BaseUserViewModel, ISocialViewModel
 	{
 		#region Private fields and properties
 

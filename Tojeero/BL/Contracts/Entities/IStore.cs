@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
-	public interface IStore : IModelEntity, ISearchableEntity
+	public interface IStore : IModelEntity, ISearchableEntity, ISocialObject
 	{
 		string Name { get; set; }
 		string Description { get; set; }
@@ -14,8 +14,6 @@ namespace Tojeero.Core
 		int? CityId { get; }
 		int? CountryId { get; }
 		IStoreCategory Category { get; }
-
-		bool? IsFavorite { get; set; }
 
 		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
 	}

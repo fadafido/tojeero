@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Tojeero.Core
 {
-	public interface IProduct : IModelEntity, ISearchableEntity
+	public interface IProduct : IModelEntity, ISearchableEntity, ISocialObject
 	{
 		string Name { get; set; }
 
@@ -34,8 +34,6 @@ namespace Tojeero.Core
 		IProductSubcategory Subcategory { get; }
 
 		IStore Store { get; }
-
-		bool? IsFavorite { get; set; }
 	}
 }
 

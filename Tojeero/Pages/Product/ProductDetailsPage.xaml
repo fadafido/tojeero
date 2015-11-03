@@ -114,67 +114,9 @@
 					</StackLayout>
 				</StackLayout>
 				<!--FAVORITES AND SHARING-->
-				<Grid
-					HeightRequest="45"
-					Padding="10,0,10,0"
-					RowSpacing="0"
-					ColumnSpacing="0"
-					IsVisible="{Binding IsLoggedIn}">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="*" />
-						<ColumnDefinition
-							Width="*" />
-						<ColumnDefinition
-							Width="*" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition
-							Height="4" />
-						<RowDefinition
-							Height="*" />
-						<RowDefinition
-							Height="4" />
-					</Grid.RowDefinitions>
-					<BoxView
-						Grid.ColumnSpan="3"
-						BackgroundColor="{x:Static local:Colors.Separator}"
-						HeightRequest="1"
-						HorizontalOptions="FillAndExpand"
-						VerticalOptions="Start" />
-					<local:ImageButton
-						Grid.Row="1"
-						Image="icon_favorite_deselected.png"
-						SelectedImage="icon_favorite_selected.png"
-						IsSelected="{Binding Product.IsFavorite, Converter={StaticResource bool}}"
-						IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
-						IsVisible="{Binding Product.IsFavorite, Converter={StaticResource visibility}}"
-						Command="{Binding ToggleFavoriteCommand}"
-						VerticalOptions="FillAndExpand" />
-					<BoxView
-						Grid.Row="1"
-						BackgroundColor="{x:Static local:Colors.Separator}"
-						WidthRequest="1"
-						HorizontalOptions="End"
-						VerticalOptions="FillAndExpand" />
-					<local:ImageButton
-						Grid.Row="1"
-						Grid.Column="1"
-						Image="icon_share.png"
-						VerticalOptions="FillAndExpand" />
-					<BoxView
-						Grid.Row="1"
-						Grid.Column="1"
-						BackgroundColor="{x:Static local:Colors.Separator}"
-						WidthRequest="1"
-						HorizontalOptions="End"
-						VerticalOptions="FillAndExpand" />
-					<local:ImageButton
-						Grid.Row="1"
-						Grid.Column="2"
-						Image="icon_send_to_friend.png"
-						VerticalOptions="FillAndExpand" />
-				</Grid>
+				<local:FavoriteSocialView 
+					SocialObject="{Binding Product}"
+					SocialViewModel="{Binding .}"/>
 				<!--PRODUCT DETAILS-->
 				<BoxView
 					BackgroundColor="{x:Static local:Colors.Separator}"

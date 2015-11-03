@@ -180,6 +180,23 @@ namespace Tojeero.Core
 				RaisePropertyChanged(() => IsFavorite); 
 			}
 		}
+
+		public ICity City
+		{
+			get
+			{
+				return null;
+			}
+		}
+
+		public ICountry Country
+		{
+			get
+			{
+				return null;
+			}
+		}
+
 		#endregion
 
 		#region Methods

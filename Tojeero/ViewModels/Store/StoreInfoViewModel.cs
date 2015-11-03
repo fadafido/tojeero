@@ -4,6 +4,7 @@ using Nito.AsyncEx;
 using System.Collections.Generic;
 using System.Linq;
 using Cirrious.CrossCore;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -27,6 +28,8 @@ namespace Tojeero.Core.ViewModels
 
 
 		#region Properties
+
+		public Action<IStore> ShowStoreDetailsAction;
 
 		private BaseCollectionViewModel<ProductViewModel> _products;
 
@@ -71,6 +74,19 @@ namespace Tojeero.Core.ViewModels
 					await reload();
 				}, () => !IsLoading && IsNetworkAvailable);
 				return _reloadCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _showStoreDetailsCommand;
+
+		public System.Windows.Input.ICommand ShowStoreDetailsCommand
+		{
+			get
+			{
+				_showStoreDetailsCommand = _showStoreDetailsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
+					ShowStoreDetailsAction.Fire(this.Store);
+				});
+				return _showStoreDetailsCommand;
 			}
 		}
 

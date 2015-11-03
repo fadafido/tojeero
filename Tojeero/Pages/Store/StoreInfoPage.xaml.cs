@@ -19,6 +19,10 @@ namespace Tojeero.Forms
 			InitializeComponent();
 			this.HeaderView.BindingContext = this.ViewModel;
 			this.listView.ItemSelected += itemSelected;
+			this.ViewModel.ShowStoreDetailsAction = async (s) =>
+			{
+				await this.Navigation.PushAsync(new StoreDetailsPage(s));
+			};
 		}
 
 		#endregion
@@ -48,7 +52,7 @@ namespace Tojeero.Forms
 				if (_viewModel != value)
 				{
 					_viewModel = value;
-					if(this.HeaderView != null)
+					if (this.HeaderView != null)
 						this.HeaderView.BindingContext = _viewModel;
 					this.BindingContext = _viewModel;
 				}

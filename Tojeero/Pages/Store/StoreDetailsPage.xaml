@@ -3,8 +3,8 @@
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
-	x:Class="Tojeero.Forms.ProductDetailsPage"
-	Title="{local:Translate TitleProductDetails}"
+	x:Class="Tojeero.Forms.StoreDetailsPage"
+	Title="{local:Translate TitleStoreDetails}"
 	BackgroundColor="White">
 	<ContentPage.Content>
 		<ScrollView
@@ -23,52 +23,11 @@
 					FailureMessage="{Binding LoadingFailureMessage}"
 					IsNetworkAvailable="{Binding IsNetworkAvailable}"
 					TryAgainCommand="{Binding ReloadCommand}" />
-				<!--STORE DETAILS-->
-				<Grid
-					ColumnSpacing="10"
-					Padding="10"
-					HorizontalOptions="FillAndExpand">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="50" />
-						<ColumnDefinition
-							Width="*" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition
-							Height="40" />
-					</Grid.RowDefinitions>
-					<BoxView
-						BackgroundColor="{x:Static local:Colors.Placeholder}" />
-					<Image
-						Source="placeholder.png"
-						VerticalOptions="Center"
-						HorizontalOptions="Center"
-						HeightRequest="25"
-						WidthRequest="20" />
-					<Image
-						Aspect="AspectFill"
-						BackgroundColor="Transparent"
-						Source="{Binding Product.Store.ImageUrl, Converter={StaticResource cachedImage}}" />
-					<local:LabelEx
-						Grid.Column="1"
-						Text="Store name will be here"
-						TextColor="{x:Static local:Colors.Main}"
-						FontAttributes="Bold"
-						LineCount="2"
-						FontSize="15"
-						VerticalOptions="Center"
-						HorizontalOptions="FillAndExpand" />
-				</Grid>
-				<!--PRODUCT IMAGE-->
+				<!--STORE IMAGE-->
 				<Grid
 					HeightRequest="250"
-					HorizontalOptions="FillAndExpand">
-					<BoxView
-						BackgroundColor="{x:Static local:Colors.Separator}"
-						HeightRequest="1"
-						HorizontalOptions="FillAndExpand"
-						VerticalOptions="Start" />
+					HorizontalOptions="FillAndExpand"
+					BackgroundColor="{x:Static local:Colors.Placeholder}">
 					<Image
 						BackgroundColor="{x:Static local:Colors.Placeholder}"
 						Source="placeholder.png"
@@ -77,9 +36,9 @@
 					<Image
 						Aspect="AspectFill"
 						BackgroundColor="Transparent"
-						Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}" />
+						Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
 				</Grid>
-				<!--PRODUCT NAME/PRICE-->
+				<!--STORE NAME-->
 				<StackLayout
 					Padding="10"
 					Spacing="10">
@@ -89,35 +48,17 @@
 						HorizontalOptions="FillAndExpand"
 						VerticalOptions="Start" />
 					<Label
-						Text="{Binding Product.Name}"
+						Text="{Binding Store.Name}"
 						TextColor="{x:Static local:Colors.Main}"
 						FontSize="15"
 						VerticalOptions="FillAndExpand"
 						HorizontalOptions="FillAndExpand" />
-					<StackLayout
-						Orientation="Horizontal"
-						HorizontalOptions="Start"
-						VerticalOptions="Center"
-						Spacing="0">
-						<Label
-							Text="{Binding Product.FormattedPrice}"
-							TextColor="{x:Static local:Colors.Secondary}"
-							FontAttributes="Bold"
-							LineBreakMode="TailTruncation"
-							FontSize="15" />
-						<Label
-							Text="AED"
-							TextColor="{x:Static local:Colors.Main}"
-							FontAttributes="Bold"
-							FontSize="9"
-							VerticalOptions="Center" />
-					</StackLayout>
 				</StackLayout>
 				<!--FAVORITES AND SHARING-->
 				<local:FavoriteSocialView 
-					SocialObject="{Binding Product}"
+					SocialObject="{Binding Store}"
 					SocialViewModel="{Binding .}"/>
-				<!--PRODUCT DETAILS-->
+				<!--STORE DETAILS-->
 				<BoxView
 					BackgroundColor="{x:Static local:Colors.Separator}"
 					HeightRequest="1"
@@ -147,7 +88,7 @@
 						Grid.Row="0"
 						Padding="0,6,0,6">
 						<Label
-							Text="{local:Translate LabelProductDetailsCategory}"
+							Text="{local:Translate LabelStoreDetailsCategory}"
 							TextColor="{x:Static local:Colors.Subtitle}"
 							FontAttributes="Bold"
 							FontSize="14" />
@@ -157,7 +98,7 @@
 						Grid.Row="0"
 						Padding="0,6,0,6">
 						<Label
-							Text="{Binding Product.Category.Name}"
+							Text="{Binding Store.Category.Name}"
 							TextColor="{x:Static local:Colors.Main}"
 							FontAttributes="Bold"
 							FontSize="14" />
@@ -174,7 +115,7 @@
 						Grid.Column="0"
 						Padding="0,6,0,6">
 						<Label
-							Text="{local:Translate LabelProductDetailsSubcategory}"
+							Text="{local:Translate LabelStoreDetailsCountry}"
 							TextColor="{x:Static local:Colors.Subtitle}"
 							FontAttributes="Bold"
 							FontSize="14" />
@@ -184,7 +125,7 @@
 						Grid.Row="1"
 						Padding="0,6,0,6">
 						<Label
-							Text="{Binding Product.Subcategory.Name}"
+							Text="{Binding Store.Country.Name}"
 							TextColor="{x:Static local:Colors.Main}"
 							FontAttributes="Bold"
 							FontSize="14" />
@@ -201,7 +142,7 @@
 						Grid.Column="0"
 						Padding="0,6,0,6">
 						<Label
-							Text="{local:Translate LabelProductDetailsTags}"
+							Text="{local:Translate LabelStoreDetailsCity}"
 							TextColor="{x:Static local:Colors.Subtitle}"
 							FontAttributes="Bold"
 							FontSize="14" />
@@ -211,7 +152,7 @@
 						Grid.Row="2"
 						Padding="0,6,0,6">
 						<Label
-							Text="{Binding Product.TagList}"
+							Text="{Binding Store.City.Name}"
 							TextColor="{x:Static local:Colors.Main}"
 							FontAttributes="Bold"
 							FontSize="14" />
@@ -228,7 +169,7 @@
 						Grid.Column="0"
 						Padding="0,6,0,6">
 						<Label
-							Text="{local:Translate LabelProductDetailsDescription}"
+							Text="{local:Translate LabelStoreDetailsDescription}"
 							TextColor="{x:Static local:Colors.Subtitle}"
 							FontAttributes="Bold"
 							FontSize="14" />
@@ -238,7 +179,7 @@
 						Grid.Row="3"
 						Padding="0,6,0,6">
 						<Label
-							Text="{Binding Product.Description}"
+							Text="{Binding Store.Description}"
 							TextColor="{x:Static local:Colors.Main}"
 							FontAttributes="Bold"
 							FontSize="14" />

@@ -312,4 +312,28 @@
     <value>Store details</value>
     <comment>Store details page title</comment>
   </data>
+  <data name="LabelStoreDetailsCategory" xml:space="preserve">
+    <value>Category:</value>
+    <comment>Category label shown on store details screen</comment>
+  </data>
+  <data name="LabelStoreDetailsCity" xml:space="preserve">
+    <value>City:</value>
+    <comment>City label shown on store details screen</comment>
+  </data>
+  <data name="LabelStoreDetailsCountry" xml:space="preserve">
+    <value>Country:</value>
+    <comment>Country label shown on store details screen</comment>
+  </data>
+  <data name="LabelStoreDetailsDeliveryNote" xml:space="preserve">
+    <value>Delivery Note</value>
+    <comment>Delivery note label shown on store details screen</comment>
+  </data>
+  <data name="LabelStoreDetailsDescription" xml:space="preserve">
+    <value>Description:</value>
+    <comment>Description label shown on store details screen</comment>
+  </data>
+  <data name="LabelStoreDetailsPrivacy" xml:space="preserve">
+    <value>Store Privacy</value>
+    <comment>Store privacy label shown on store details screen</comment>
+  </data>
 </root>

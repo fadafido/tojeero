@@ -8,7 +8,7 @@ using Tojeero.Core.ViewModels;
 
 namespace Tojeero.Forms
 {
-	public partial class FavoriteSocialView : Grid
+	public partial class FavoriteSocialView : StackLayout
 	{
 		#region Constructors
 
@@ -33,7 +33,7 @@ namespace Tojeero.Forms
 			private set
 			{
 				_viewModel = value; 
-				this.favoriteButton.BindingContext = value;
+				this.rootContent.BindingContext = value;
 			}
 		}
 

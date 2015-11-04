@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.StoreDetailsPage"
+	Title="{local:Translate TitleStoreDetails}"
+	BackgroundColor="White">
+	<ContentPage.Content>
+		<ScrollView
+			x:Name="scrollView"
+			VerticalOptions="FillAndExpand"
+			HorizontalOptions="FillAndExpand">
+			<StackLayout
+				Spacing="0"
+				VerticalOptions="Start"
+				HorizontalOptions="FillAndExpand">
+				<local:NetworkPageHeader
+					NoNetworkPadding="0,5,0,5"
+					Tint="{x:Static local:Colors.DarkGray}"
+					IsLoading="{Binding IsLoading}"
+					LoadingText="{Binding LoadingText}"
+					FailureMessage="{Binding LoadingFailureMessage}"
+					IsNetworkAvailable="{Binding IsNetworkAvailable}"
+					TryAgainCommand="{Binding ReloadCommand}" />
+				<!--STORE IMAGE-->
+				<Grid
+					HeightRequest="250"
+					HorizontalOptions="FillAndExpand"
+					BackgroundColor="{x:Static local:Colors.Placeholder}">
+					<Image
+						BackgroundColor="{x:Static local:Colors.Placeholder}"
+						Source="placeholder.png"
+						VerticalOptions="Center"
+						HorizontalOptions="Center" />
+					<Image
+						Aspect="AspectFill"
+						BackgroundColor="Transparent"
+						Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
+				</Grid>
+				<!--STORE NAME-->
+				<StackLayout
+					Padding="10"
+					Spacing="10">
+					<BoxView
+						BackgroundColor="{x:Static local:Colors.Separator}"
+						HeightRequest="1"
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="Start" />
+					<Label
+						Text="{Binding Store.Name}"
+						TextColor="{x:Static local:Colors.Main}"
+						FontSize="15"
+						VerticalOptions="FillAndExpand"
+						HorizontalOptions="FillAndExpand" />
+				</StackLayout>
+				<!--FAVORITES AND SHARING-->
+				<local:FavoriteSocialView
+					SocialObject="{Binding Store}"
+					SocialViewModel="{Binding .}" />
+				<!--STORE DETAILS-->
+				<BoxView
+					BackgroundColor="{x:Static local:Colors.Separator}"
+					HeightRequest="1"
+					HorizontalOptions="FillAndExpand" />
+				<Grid
+					Padding="10,0,10,0"
+					RowSpacing="0"
+					ColumnSpacing="12">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="Auto" />
+						<ColumnDefinition
+							Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+						<RowDefinition
+							Height="Auto" />
+					</Grid.RowDefinitions>
+					<ContentView
+						Grid.Column="0"
+						Grid.Row="0"
+						Padding="0,6,0,6">
+						<Label
+							Text="{local:Translate LabelStoreDetailsCategory}"
+							TextColor="{x:Static local:Colors.Subtitle}"
+							FontAttributes="Bold"
+							FontSize="14" />
+					</ContentView>
+					<ContentView
+						Grid.Column="1"
+						Grid.Row="0"
+						Padding="0,6,0,6">
+						<Label
+							Text="{Binding Store.Category.Name}"
+							TextColor="{x:Static local:Colors.Main}"
+							FontAttributes="Bold"
+							FontSize="14" />
+					</ContentView>
+					<BoxView
+						Grid.Row="0"
+						Grid.ColumnSpan="2"
+						BackgroundColor="{x:Static local:Colors.Separator}"
+						HeightRequest="1"
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="End" />
+					<ContentView
+						Grid.Row="1"
+						Grid.Column="0"
+						Padding="0,6,0,6">
+						<Label
+							Text="{local:Translate LabelStoreDetailsCountry}"
+							TextColor="{x:Static local:Colors.Subtitle}"
+							FontAttributes="Bold"
+							FontSize="14" />
+					</ContentView>
+					<ContentView
+						Grid.Column="1"
+						Grid.Row="1"
+						Padding="0,6,0,6">
+						<Label
+							Text="{Binding Store.Country.Name}"
+							TextColor="{x:Static local:Colors.Main}"
+							FontAttributes="Bold"
+							FontSize="14" />
+					</ContentView>
+					<BoxView
+						Grid.Row="1"
+						Grid.ColumnSpan="2"
+						BackgroundColor="{x:Static local:Colors.Separator}"
+						HeightRequest="1"
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="End" />
+					<ContentView
+						Grid.Row="2"
+						Grid.Column="0"
+						Padding="0,6,0,6">
+						<Label
+							Text="{local:Translate LabelStoreDetailsCity}"
+							TextColor="{x:Static local:Colors.Subtitle}"
+							FontAttributes="Bold"
+							FontSize="14" />
+					</ContentView>
+					<ContentView
+						Grid.Column="1"
+						Grid.Row="2"
+						Padding="0,6,0,6">
+						<Label
+							Text="{Binding Store.City.Name}"
+							TextColor="{x:Static local:Colors.Main}"
+							FontAttributes="Bold"
+							FontSize="14" />
+					</ContentView>
+					<BoxView
+						Grid.Row="2"
+						Grid.ColumnSpan="2"
+						BackgroundColor="{x:Static local:Colors.Separator}"
+						HeightRequest="1"
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="End" />
+					<ContentView
+						Grid.Row="3"
+						Grid.Column="0"
+						Padding="0,6,0,6">
+						<Label
+							Text="{local:Translate LabelStoreDetailsDescription}"
+							TextColor="{x:Static local:Colors.Subtitle}"
+							FontAttributes="Bold"
+							FontSize="14" />
+					</ContentView>
+					<ContentView
+						Grid.Column="1"
+						Grid.Row="3"
+						Padding="0,6,0,6">
+						<Label
+							Text="{Binding Store.Description}"
+							TextColor="{x:Static local:Colors.Main}"
+							FontAttributes="Bold"
+							FontSize="14" />
+					</ContentView>
+					<BoxView
+						Grid.ColumnSpan="2"
+						Grid.Row="3"
+						BackgroundColor="{x:Static local:Colors.Separator}"
+						HeightRequest="1"
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="End" />
+				</Grid>
+				<local:CollapsibleView
+					x:Name="deliveryNotes"
+					Title="{local:Translate LabelStoreDetailsDeliveryNotes}">
+					<local:CollapsibleView.CollapsibleContent>
+						<Label
+							Text="{Binding Store.DeliveryNotes}"
+							TextColor="{x:Static local:Colors.Main}"
+							FontSize="9" />
+					</local:CollapsibleView.CollapsibleContent>
+				</local:CollapsibleView>
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

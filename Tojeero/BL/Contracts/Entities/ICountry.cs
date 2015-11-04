@@ -13,7 +13,7 @@ namespace Tojeero.Core
 		string Currency_en { get; }
 		string Currency_ar { get; }
 		string CountryPhoneCode { get; }
-		int CountryId { get; set; }
+
 		ICity[] Cities { get; }
 		Task LoadCities();
 	}

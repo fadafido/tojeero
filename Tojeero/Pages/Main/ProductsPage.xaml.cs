@@ -56,14 +56,14 @@ namespace Tojeero.Forms
 
 		#region UI Events
 
-		private void itemSelected(object sender, SelectedItemChangedEventArgs e)
+		private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
 			var item = ((ListView)sender).SelectedItem as ProductViewModel; 
 			if (item != null)
 			{
 				((ListView)sender).SelectedItem = null;
 				var productDetails = new ProductDetailsPage(item.Product);
-				this.Navigation.PushAsync(productDetails);
+				await this.Navigation.PushAsync(productDetails);
 			}
 		}
 

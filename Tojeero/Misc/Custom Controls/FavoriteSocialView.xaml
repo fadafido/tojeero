@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.FavoriteSocialView"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms">
+	<Grid
+		x:Name="rootContent"
+		HeightRequest="45"
+		Padding="10,0,10,0"
+		RowSpacing="0"
+		ColumnSpacing="0"
+		IsVisible="{Binding SocialViewModel.IsLoggedIn}">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition
+				Width="*" />
+			<ColumnDefinition
+				Width="*" />
+			<ColumnDefinition
+				Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition
+				Height="4" />
+			<RowDefinition
+				Height="*" />
+			<RowDefinition
+				Height="4" />
+		</Grid.RowDefinitions>
+		<BoxView
+			Grid.ColumnSpan="3"
+			BackgroundColor="{x:Static local:Colors.Separator}"
+			HeightRequest="1"
+			HorizontalOptions="FillAndExpand"
+			VerticalOptions="Start" />
+		<local:ImageButton
+			x:Name="favoriteButton"
+			Grid.Row="1"
+			Image="icon_favorite_deselected.png"
+			SelectedImage="icon_favorite_selected.png"
+			IsSelected="{Binding SocialObject.IsFavorite, Converter={StaticResource bool}}"
+			IsEnabled="{Binding SocialViewModel.CanExecuteToggleFavoriteCommand}"
+			IsVisible="{Binding SocialObject.IsFavorite, Converter={StaticResource visibility}}"
+			Command="{Binding SocialViewModel.ToggleFavoriteCommand}"
+			VerticalOptions="FillAndExpand" />
+		<BoxView
+			Grid.Row="1"
+			BackgroundColor="{x:Static local:Colors.Separator}"
+			WidthRequest="1"
+			HorizontalOptions="End"
+			VerticalOptions="FillAndExpand" />
+		<local:ImageButton
+			Grid.Row="1"
+			Grid.Column="1"
+			Image="icon_share.png"
+			VerticalOptions="FillAndExpand" />
+		<BoxView
+			Grid.Row="1"
+			Grid.Column="1"
+			BackgroundColor="{x:Static local:Colors.Separator}"
+			WidthRequest="1"
+			HorizontalOptions="End"
+			VerticalOptions="FillAndExpand" />
+		<local:ImageButton
+			Grid.Row="1"
+			Grid.Column="2"
+			Image="icon_send_to_friend.png"
+			VerticalOptions="FillAndExpand" />
+	</Grid>
+</StackLayout>

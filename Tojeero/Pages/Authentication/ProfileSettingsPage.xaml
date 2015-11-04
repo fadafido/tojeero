@@ -167,14 +167,14 @@
 									Text="{local:Translate ButtonCancel}"
 									Command="{Binding CancelCommand}"
 									VerticalOptions="Center"
-									Style="{StaticResource NegativeButton}" />
+									Style="{StaticResource Button2}" />
 								<Button
 									HeightRequest="40"
 									Grid.Column="1"
 									Text="{local:Translate ButtonSubmit}"
 									Command="{Binding SubmitCommand}"
 									VerticalOptions="Center"
-									Style="{StaticResource PositiveButton}"
+									Style="{StaticResource Button1}"
 									IsEnabled="{Binding CanExecuteSubmitCommand}" />
 							</Grid>
 						</StackLayout>

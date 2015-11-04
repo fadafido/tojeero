@@ -55,9 +55,15 @@ namespace Tojeero.Forms
 
 		#region UI Events
 
-		private void itemSelected (object sender, SelectedItemChangedEventArgs e)
+		private async void itemSelected (object sender, SelectedItemChangedEventArgs e)
 		{
-			((ListView)sender).SelectedItem = null;
+			var item = ((ListView)sender).SelectedItem as StoreViewModel; 
+			if (item != null)
+			{
+				((ListView)sender).SelectedItem = null;
+				var storeInfo = new StoreInfoPage(item.Store);
+				await this.Navigation.PushAsync(storeInfo);
+			}
 		}
 
 		#endregion

@@ -146,22 +146,22 @@ namespace Tojeero.Core.Services
 		{
 			
 			//If the user has already selected country then we need to override Settings with values from user entity
-			if (user.CountryId != null)
+			if (user.Country != null)
 			{
-				Settings.CountryId = user.CountryId;
+				Settings.CountryId = user.Country.ObjectId;
 			}
 			else
 			{
-				user.CountryId = Settings.CountryId;
+				user.Country = ParseObject.CreateWithoutData<ParseCountry>(Settings.CountryId);
 			}
 
-			if (user.CityId != null)
+			if (user.City != null)
 			{
-				Settings.CityId = user.CityId;
+				Settings.CityId = user.City.ObjectId;
 			}
 			else
 			{
-				user.CityId = Settings.CityId;
+				user.City = ParseObject.CreateWithoutData<ParseCity>(Settings.CityId);
 			}
 		}
 			

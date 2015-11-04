@@ -21,6 +21,7 @@ namespace Tojeero.Core
 		Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset, IStoreFilter filter = null);
 		Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset, IStoreFilter filter = null);
 		Task<IEnumerable<IStore>> FetchFavoriteStores(int pageSize, int offset);
+		Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset);
 
 		//Store categories
 		Task<IEnumerable<IStoreCategory>> FetchStoreCategories();
@@ -29,7 +30,7 @@ namespace Tojeero.Core
 		Task<IEnumerable<ICountry>> FetchCountries();
 
 		//Cities
-		Task<IEnumerable<ICity>> FetchCities(int countryId);
+		Task<IEnumerable<ICity>> FetchCities(string countryId);
 
 		//Tags
 		Task<IEnumerable<ITag>> FetchTags(int pageSize, int offset);

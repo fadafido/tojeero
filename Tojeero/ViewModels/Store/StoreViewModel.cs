@@ -8,7 +8,7 @@ using Nito.AsyncEx;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class StoreViewModel : BaseUserViewModel
+	public class StoreViewModel : BaseUserViewModel, ISocialViewModel
 	{
 		#region Private fields and properties
 
@@ -40,43 +40,13 @@ namespace Tojeero.Core.ViewModels
 			}
 			set
 			{
+				if (_store != null)
+					_store.PropertyChanged -= propertyChanged;
 				_store = value; 
+				if (_store != null)
+					_store.PropertyChanged += propertyChanged;
 				RaisePropertyChanged(() => Store); 
-				this.IsFavorite = false;
-				this.IsFavoriteLoaded = false;
 				this.LoadFavoriteCommand.Execute(null);
-			}
-		}
-
-		public static string IsFavoriteProperty = "IsFavorite";
-		private bool _isFavorite;
-
-		public bool IsFavorite
-		{ 
-			get
-			{
-				return _isFavorite; 
-			}
-			set
-			{
-				_isFavorite = value; 
-				RaisePropertyChanged(() => IsFavorite); 
-			}
-		}
-
-		public static string IsFavoriteLoadedProperty = "IsFavoriteLoaded";
-		private bool _isFavoriteLoaded;
-
-		public bool IsFavoriteLoaded
-		{ 
-			get
-			{
-				return _isFavoriteLoaded; 
-			}
-			set
-			{
-				_isFavoriteLoaded = value; 
-				RaisePropertyChanged(() => IsFavoriteLoaded); 
 			}
 		}
 
@@ -103,7 +73,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.Store != null && this.Store.ID != null && this.IsNetworkAvailable && this.IsLoggedIn;
+				return this.Store != null && this.Store.ID != null && this.Store.IsFavorite == null && this.IsNetworkAvailable && this.IsLoggedIn;
 			}
 		}
 
@@ -127,7 +97,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.IsFavoriteLoaded && this.IsNetworkAvailable && !this.IsLoading && this.IsLoggedIn;
+				return this.Store != null && this.Store.IsFavorite != null && this.IsNetworkAvailable && !this.IsLoading && this.IsLoggedIn;
 			}
 		}
 
@@ -135,20 +105,17 @@ namespace Tojeero.Core.ViewModels
 
 		#region Utility methods
 
-		private static Random favRand = new Random();
-
-		private async Task loadFavorite()
+		protected async Task loadFavorite()
 		{
+			if (!CanExecuteLoadFavoriteCommand)
+				return;
 			StartLoading();
 			string failureMessage = null;
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
 				try
 				{
-					if (this.IsFavoriteLoaded)
-						return;
-					this.IsFavorite = await _authService.CurrentUser.IsStoreFavorite(this.Store.ID);
-					this.IsFavoriteLoaded = true;
+					this.Store.IsFavorite = await _authService.CurrentUser.IsStoreFavorite(this.Store.ID);
 				}
 				catch (Exception ex)
 				{
@@ -161,13 +128,16 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task toggleFavorite()
 		{
+			if (!CanExecuteToggleFavoriteCommand)
+				return;
 			StartLoading();
 			string failureMessage = null;
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
 				try
 				{
-					if(this.IsFavorite)
+					var isFav = this.Store.IsFavorite.Value;
+					if(isFav)
 					{
 						await _authService.CurrentUser.RemoveStoreFromFavorites(this.Store.ID);
 					}
@@ -175,7 +145,7 @@ namespace Tojeero.Core.ViewModels
 					{
 						await _authService.CurrentUser.AddStoreToFavorites(this.Store.ID);
 					}
-					this.IsFavorite = !this.IsFavorite;
+					this.Store.IsFavorite = !isFav;
 				}
 				catch (Exception ex)
 				{
@@ -189,7 +159,7 @@ namespace Tojeero.Core.ViewModels
 		private void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
-			    e.PropertyName == IsFavoriteLoadedProperty || e.PropertyName == IsLoadingProperty)
+				e.PropertyName == "IsFavorite" || e.PropertyName == IsLoadingProperty)
 			{				
 				this.RaisePropertyChanged(() => CanExecuteToggleFavoriteCommand);
 			}
@@ -206,10 +176,9 @@ namespace Tojeero.Core.ViewModels
 			}
 
 			//If the user state has changed to logged off then we need to clean the favorite state
-			if (e.PropertyName == IsLoggedInProperty && !this.IsLoggedIn)
+			if (e.PropertyName == IsLoggedInProperty && !this.IsLoggedIn && this.Store != null)
 			{
-				this.IsFavorite = false;
-				this.IsFavoriteLoaded = false;
+				this.Store.IsFavorite = null;
 			}
 		}
 

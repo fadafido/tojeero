@@ -257,6 +257,9 @@
     <BundleResource Include="Resources\icon_share%402x.png" />
     <BundleResource Include="Resources\icon_favorite_deselected%402x.png" />
     <BundleResource Include="Resources\icon_favorite_selected%402x.png" />
+    <BundleResource Include="Resources\icon_arrow_down%402x.png" />
+    <BundleResource Include="Resources\icon_arrow_up%402x.png" />
+    <BundleResource Include="Resources\icon_arrow_right%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -379,6 +382,18 @@
     <Compile Include="..\Tojeero\Misc\Custom Controls\ImageButtonRenderer.shared.cs">
       <Link>Misc\Custom Renderers\ImageButtonRenderer.shared.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Product.cs">
+      <Link>Core\SAL\Services\ParseRepository_Product.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Store.cs">
+      <Link>Core\SAL\Services\ParseRepository_Store.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Tag.cs">
+      <Link>Core\SAL\Services\ParseRepository_Tag.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Queries\StoreProductsQueryLoader.cs">
+      <Link>Core\BL\Queries\StoreProductsQueryLoader.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />
@@ -400,5 +415,6 @@
     <Folder Include="Resources\Samples\Products\" />
     <Folder Include="Resources\Samples\Stores\" />
     <Folder Include="Core\DAL\" />
+    <Folder Include="Core\BL\Queries\" />
   </ItemGroup>
 </Project>

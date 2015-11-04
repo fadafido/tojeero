@@ -138,32 +138,72 @@ namespace Tojeero.Core
 			}
 		}
 			
-		public int? CountryId
-		{ 
+		private string _cityId;
+
+		public string CityId
+		{
 			get
 			{
-				return this.ParseObject.CountryId; 
+				if (_cityId == null && _parseObject != null && _parseObject.City != null)
+					_cityId = _parseObject.City.ObjectId;
+				return _cityId;
 			}
 			set
 			{
-				this.ParseObject.CountryId = value; 
-				RaisePropertyChanged(() => CountryId); 
+				if (_cityId != value)
+				{
+					_cityId = value;
+					_city = null;
+					this.ParseObject.City = Parse.ParseObject.CreateWithoutData<ParseCity>(_cityId);
+				}
 			}
 		}
-			
-		public int? CityId
-		{ 
+
+		private string _countryId;
+
+		public string CountryId
+		{
 			get
 			{
-				return this.ParseObject.CityId; 
+				if (_countryId == null && _parseObject != null && _parseObject.Country != null)
+					_countryId = _parseObject.Country.ObjectId;
+				return _countryId;
 			}
 			set
 			{
-				this.ParseObject.CityId = value; 
-				RaisePropertyChanged(() => CityId); 
+				if (_countryId != value)
+				{
+					_countryId = value;
+					_country = null;
+					this.ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
+				}
 			}
 		}
 			
+		private ICountry _country;
+		[JsonIgnore]
+		public ICountry Country
+		{ 
+			get
+			{
+				if (_country == null)
+					_country = new Country(this.ParseObject.Country);
+				return _country; 
+			}
+		}
+
+		private ICity _city;
+		[JsonIgnore]
+		public ICity City
+		{ 
+			get
+			{
+				if (_city == null)
+					_city = new City(this.ParseObject.City);
+				return _city; 
+			}
+		}
+
 		public string Mobile
 		{ 
 			get
@@ -337,29 +377,29 @@ namespace Tojeero.Core
 			}
 		}
 
-		[ParseFieldName("countryId")]
-		public int? CountryId
+		[ParseFieldName("country")]
+		public ParseCountry Country
 		{
 			get
 			{
-				return GetProperty<int?>();
+				return GetProperty<ParseCountry>();
 			}
 			set
 			{
-				SetProperty<int?>(value);
+				SetProperty<ParseCountry>(value);
 			}
 		}
 
-		[ParseFieldName("cityId")]
-		public int? CityId
+		[ParseFieldName("city")]
+		public ParseCity City
 		{
 			get
 			{
-				return GetProperty<int?>();
+				return GetProperty<ParseCity>();
 			}
 			set
 			{
-				SetProperty<int?>(value);
+				SetProperty<ParseCity>(value);
 			}
 		}
 

@@ -36,6 +36,10 @@ namespace Tojeero.Core
 				_imageUrl = null;
 				_category = null;
 				_subcategory = null;
+				_store = null;
+				_country = null;
+				_city = null;
+				_isFavorite = null;
 				base.ParseObject = value;
 			}
 		}
@@ -138,29 +142,85 @@ namespace Tojeero.Core
 			}
 		}
 
-		public int? CityId
-		{
+		private string _storeID;
+
+		public string StoreID
+		{ 
 			get
 			{
-				return this.ParseObject.CityId;
+				if (_storeID == null && _parseObject != null && _parseObject.Store != null)
+					_storeID = _parseObject.Store.ObjectId;
+				return _storeID; 
 			}
 			set
 			{
-				this.ParseObject.CityId = value;
-				this.RaisePropertyChanged(() => CityId);
+				_storeID = value; 
 			}
 		}
 
-		public int? CountryId
+		private string _cityId;
+
+		public string CityId
 		{
 			get
 			{
-				return this.ParseObject.CountryId;
+				if (_cityId == null && _parseObject != null && _parseObject.City != null)
+					_cityId = _parseObject.City.ObjectId;
+				return _cityId;
 			}
 			set
 			{
-				this.ParseObject.CountryId = value;
-				this.RaisePropertyChanged(() => CountryId);
+				if (_cityId != value)
+				{
+					_cityId = value;
+					_city = null;
+					this.ParseObject.City = Parse.ParseObject.CreateWithoutData<ParseCity>(_cityId);
+				}
+			}
+		}
+
+		private string _countryId;
+
+		public string CountryId
+		{
+			get
+			{
+				if (_countryId == null && _parseObject != null && _parseObject.Country != null)
+					_countryId = _parseObject.Country.ObjectId;
+				return _countryId;
+			}
+			set
+			{
+				if (_countryId != value)
+				{
+					_countryId = value;
+					_country = null;
+					this.ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
+				}
+			}
+		}
+
+		private ICountry _country;
+		[Ignore]
+		public ICountry Country
+		{ 
+			get
+			{
+				if (_country == null)
+					_country = new Country(this.ParseObject.Country);
+				return _country; 
+			}
+		}
+
+		private ICity _city;
+		[Ignore]
+		public ICity City
+		{ 
+			get
+			{
+				if (_city == null)
+					_city = new City(this.ParseObject.City);
+				return _city; 
 			}
 		}
 
@@ -239,6 +299,18 @@ namespace Tojeero.Core
 				if (_subcategory == null)
 					_subcategory = new ProductSubcategory(this.ParseObject.Subcategory);
 				return _subcategory; 
+			}
+		}
+
+		private IStore _store;
+		[Ignore]
+		public IStore Store
+		{ 
+			get
+			{
+				if (_store == null)
+					_store = new Store(this.ParseObject.Store);
+				return _store; 
 			}
 		}
 			
@@ -393,29 +465,42 @@ namespace Tojeero.Core
 			}
 		}
 
-		[ParseFieldName("cityId")]
-		public int? CityId
+		[ParseFieldName("store")]
+		public ParseStore Store
 		{
 			get
 			{
-				return GetProperty<int?>();
+				return GetProperty<ParseStore>();
 			}
 			set
 			{
-				SetProperty<int?>(value);
+				SetProperty<ParseStore>(value);
 			}
 		}
 
-		[ParseFieldName("countryId")]
-		public int? CountryId
+		[ParseFieldName("country")]
+		public ParseCountry Country
 		{
 			get
 			{
-				return GetProperty<int?>();
+				return GetProperty<ParseCountry>();
 			}
 			set
 			{
-				SetProperty<int?>(value);
+				SetProperty<ParseCountry>(value);
+			}
+		}
+
+		[ParseFieldName("city")]
+		public ParseCity City
+		{
+			get
+			{
+				return GetProperty<ParseCity>();
+			}
+			set
+			{
+				SetProperty<ParseCity>(value);
 			}
 		}
 

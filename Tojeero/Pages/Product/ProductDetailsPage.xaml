@@ -18,21 +18,23 @@
 				<local:NetworkPageHeader
 					NoNetworkPadding="0,5,0,5"
 					Tint="{x:Static local:Colors.DarkGray}"
-					IsLoading="{Binding ViewModel.IsLoading}"
-					LoadingText="{Binding ViewModel.LoadingText}"
-					FailureMessage="{Binding ViewModel.LoadingFailureMessage}"
-					IsNetworkAvailable="{Binding ViewModel.IsNetworkAvailable}"
-					TryAgainCommand="{Binding ViewModel.ReloadCommand}" />
+					IsLoading="{Binding IsLoading}"
+					LoadingText="{Binding LoadingText}"
+					FailureMessage="{Binding LoadingFailureMessage}"
+					IsNetworkAvailable="{Binding IsNetworkAvailable}"
+					TryAgainCommand="{Binding ReloadCommand}" />
 				<!--STORE DETAILS-->
 				<Grid
 					ColumnSpacing="10"
-					Padding="10"
+					Padding="10,10,5,10"
 					HorizontalOptions="FillAndExpand">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
 							Width="50" />
 						<ColumnDefinition
 							Width="*" />
+						<ColumnDefinition
+							Width="20" />
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
 						<RowDefinition
@@ -47,18 +49,24 @@
 						HeightRequest="25"
 						WidthRequest="20" />
 					<Image
-						Aspect="AspectFit"
+						Aspect="AspectFill"
 						BackgroundColor="Transparent"
 						Source="{Binding Product.Store.ImageUrl, Converter={StaticResource cachedImage}}" />
 					<local:LabelEx
 						Grid.Column="1"
-						Text="Store name will be here"
+						Text="{Binding Product.Store.Name}"
 						TextColor="{x:Static local:Colors.Main}"
 						FontAttributes="Bold"
 						LineCount="2"
 						FontSize="15"
 						VerticalOptions="Center"
 						HorizontalOptions="FillAndExpand" />
+					<local:ImageButton
+						Grid.Column="2"
+						Image="icon_arrow_right.png"
+						VerticalOptions="FillAndExpand"
+						HorizontalOptions="FillAndExpand"
+						Command="{Binding ShowStoreInfoPageCommand}" />
 				</Grid>
 				<!--PRODUCT IMAGE-->
 				<Grid
@@ -88,7 +96,7 @@
 						HeightRequest="1"
 						HorizontalOptions="FillAndExpand"
 						VerticalOptions="Start" />
-					<local:LabelEx
+					<Label
 						Text="{Binding Product.Name}"
 						TextColor="{x:Static local:Colors.Main}"
 						FontSize="15"
@@ -114,67 +122,9 @@
 					</StackLayout>
 				</StackLayout>
 				<!--FAVORITES AND SHARING-->
-				<Grid
-					HeightRequest="45"
-					Padding="10,0,10,0"
-					RowSpacing="0"
-					ColumnSpacing="0"
-					IsVisible="{Binding IsLoggedIn}">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition
-							Width="*" />
-						<ColumnDefinition
-							Width="*" />
-						<ColumnDefinition
-							Width="*" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition
-							Height="4" />
-						<RowDefinition
-							Height="*" />
-						<RowDefinition
-							Height="4" />
-					</Grid.RowDefinitions>
-					<BoxView
-						Grid.ColumnSpan="3"
-						BackgroundColor="{x:Static local:Colors.Separator}"
-						HeightRequest="1"
-						HorizontalOptions="FillAndExpand"
-						VerticalOptions="Start" />
-					<local:ImageButton
-						Grid.Row="1"
-						Image="icon_favorite_deselected.png"
-						SelectedImage="icon_favorite_selected.png"
-						IsSelected="{Binding Product.IsFavorite, Converter={StaticResource bool}}"
-						IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
-						IsVisible="{Binding Product.IsFavorite, Converter={StaticResource visibility}}"
-						Command="{Binding ToggleFavoriteCommand}"
-						VerticalOptions="FillAndExpand" />
-					<BoxView
-						Grid.Row="1"
-						BackgroundColor="{x:Static local:Colors.Separator}"
-						WidthRequest="1"
-						HorizontalOptions="End"
-						VerticalOptions="FillAndExpand" />
-					<local:ImageButton
-						Grid.Row="1"
-						Grid.Column="1"
-						Image="icon_share.png"
-						VerticalOptions="FillAndExpand" />
-					<BoxView
-						Grid.Row="1"
-						Grid.Column="1"
-						BackgroundColor="{x:Static local:Colors.Separator}"
-						WidthRequest="1"
-						HorizontalOptions="End"
-						VerticalOptions="FillAndExpand" />
-					<local:ImageButton
-						Grid.Row="1"
-						Grid.Column="2"
-						Image="icon_send_to_friend.png"
-						VerticalOptions="FillAndExpand" />
-				</Grid>
+				<local:FavoriteSocialView
+					SocialObject="{Binding Product}"
+					SocialViewModel="{Binding .}" />
 				<!--PRODUCT DETAILS-->
 				<BoxView
 					BackgroundColor="{x:Static local:Colors.Separator}"

@@ -14,28 +14,6 @@ namespace Tojeero.Forms
 
 		private readonly IStoreManager _manager;
 
-		private static Comparison<StoreViewModel> _comparer;
-		public static Comparison<StoreViewModel> Comparer
-		{
-			get
-			{
-				if (_comparer == null)
-				{
-					_comparer = new Comparison<StoreViewModel>((x, y) =>
-						{
-							if(x.Store == null || y.Store == null)
-								return -1;
-							if(x.Store.ID == y.Store.ID)
-								return 0;
-							if(x.Store.LowercaseName == null || y.Store.LowercaseName == null)
-								return -1;
-							return x.Store.LowercaseName.CompareIgnoreCase(y.Store.LowercaseName);
-						});
-				}
-				return _comparer;
-			}
-		}
-
 		#endregion
 
 		#region Constructors
@@ -69,7 +47,7 @@ namespace Tojeero.Forms
 			{
 				get
 				{
-					return FavoriteStoresViewModel.Comparer;
+					return Comparers.StoreName;
 				}
 			}
 

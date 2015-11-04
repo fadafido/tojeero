@@ -27,6 +27,9 @@ namespace Tojeero.Forms
 		public static Color Subtitle = Color.FromHex("#9e9e9e");
 		public static Color Placeholder = Color.FromHex("#dde4e6");
 
+		public static Color Button1 = Color.FromHex("#08d2c1");
+		public static Color Button2 = Color.FromHex("#f6846a");
+
 	}
 }
 

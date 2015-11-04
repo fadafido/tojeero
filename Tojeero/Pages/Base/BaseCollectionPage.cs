@@ -9,6 +9,16 @@ namespace Tojeero.Forms
 {
 	public partial class BaseCollectionPage : ContentPage
 	{
+		#region Constructors
+
+		public BaseCollectionPage()
+			: base()
+		{
+			InitializeComponent();
+		}
+
+		#endregion
+
 		#region Properties
 
 		private ICollectionViewModel  _viewModel;
@@ -30,20 +40,6 @@ namespace Tojeero.Forms
 			}
 		}
 
-		#endregion
-
-		#region Constructors
-
-		public BaseCollectionPage()
-			: base()
-		{
-			InitializeComponent();
-		}
-
-		#endregion
-
-		#region Properties
-
 		public DataTemplate ItemTemplate
 		{ 
 			get
@@ -53,6 +49,18 @@ namespace Tojeero.Forms
 			set
 			{
 				this.ListView.ItemTemplate = value;
+			}
+		}
+
+		public object Header
+		{
+			get
+			{
+				return this.ListView.Header; 
+			}
+			set
+			{
+				this.ListView.Header = value;
 			}
 		}
 

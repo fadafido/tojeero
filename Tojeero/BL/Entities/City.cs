@@ -42,30 +42,25 @@ namespace Tojeero.Core
 				base.ParseObject = value;
 			}
 		}
+			
+		private string _countryId;
 
-		public int CityId
+		public string CountryId
 		{
 			get
 			{
-				return this.ParseObject.CityId;
+				if (_countryId == null && _parseObject != null && _parseObject.Country != null)
+					_countryId = _parseObject.Country.ObjectId;
+				return _countryId;
 			}
 			set
 			{
-				this.ParseObject.CityId = value;
-				this.RaisePropertyChanged(() => CityId);
-			}
-		}
-
-		public int CountryId
-		{
-			get
-			{
-				return this.ParseObject.CountryId;
-			}
-			set
-			{
-				this.ParseObject.CountryId = value;
-				this.RaisePropertyChanged(() => CountryId);
+				if (_countryId != value)
+				{
+					_countryId = value;
+					_country = null;
+					this.ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
+				}
 			}
 		}
 
@@ -107,6 +102,17 @@ namespace Tojeero.Core
 			}
 		}
 			
+		private ICountry _country;
+		[Ignore]
+		public ICountry Country
+		{ 
+			get
+			{
+				if (_country == null)
+					_country = new Country(this.ParseObject.Country);
+				return _country; 
+			}
+		}
 
 		#endregion
 
@@ -142,29 +148,16 @@ namespace Tojeero.Core
 
 		#region Properties
 
-		[ParseFieldName("cityId")]
-		public int CityId
+		[ParseFieldName("country")]
+		public ParseCountry Country
 		{
 			get
 			{
-				return GetProperty<int>();
+				return GetProperty<ParseCountry>();
 			}
 			set
 			{
-				SetProperty<int>(value);
-			}
-		}
-
-		[ParseFieldName("countryId")]
-		public int CountryId
-		{
-			get
-			{
-				return GetProperty<int>();
-			}
-			set
-			{
-				SetProperty<int>(value);
+				SetProperty<ParseCountry>(value);
 			}
 		}
 

@@ -123,12 +123,12 @@ namespace Tojeero.Core
 
 			if (this.Country != null)
 			{
-				components.Add("cn:" + this.Country.CountryId);
+				components.Add("cn:" + this.Country.ID);
 			}
 
 			if (this.City != null)
 			{
-				components.Add("cty:" + this.City.CityId);
+				components.Add("cty:" + this.City.ID);
 			}
 
 			if (this.Tags != null && this.Tags.Count > 0)
@@ -156,11 +156,11 @@ namespace Tojeero.Core
 				return false;
 			
 			if (!(this.Country == null && filter.Country == null ||
-				this.Country != null && filter.Country != null && this.Country.CountryId == filter.Country.CountryId))
+				this.Country != null && filter.Country != null && this.Country.ID == filter.Country.ID))
 				return false;
 			
 			if (!(this.City == null && filter.City == null ||
-				this.City != null && filter.City != null && this.City.CityId == filter.City.CityId))
+				this.City != null && filter.City != null && this.City.ID == filter.City.ID))
 				return false;	
 			
 			if (this.Tags == null && filter.Tags == null)
@@ -214,6 +214,7 @@ namespace Tojeero.Core
 
 		private void initialize()
 		{
+			return;
 			if (_authService.CurrentUser != null)
 			{
 				
@@ -221,7 +222,7 @@ namespace Tojeero.Core
 				if (countryId != null)
 				{
 					var country = _countryManager.Create();
-					country.CountryId = countryId.Value;
+					country.ID = countryId;
 					this._country = country;
 				}
 					
@@ -229,7 +230,7 @@ namespace Tojeero.Core
 				if (cityId != null)
 				{
 					var city = _cityManager.Create();
-					city.CityId = cityId.Value;
+					city.ID = cityId;
 					this._city = city;
 				}
 			}

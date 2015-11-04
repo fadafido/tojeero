@@ -15,27 +15,6 @@ namespace Tojeero.Core.ViewModels
 
 		private readonly IProductManager _manager;
 
-		private static Comparison<ProductViewModel> _comparer;
-		public static Comparison<ProductViewModel> Comparer
-		{
-			get
-			{
-				if (_comparer == null)
-				{
-					_comparer = new Comparison<ProductViewModel>((x, y) =>
-						{
-							if(x.Product == null || y.Product == null)
-								return -1;
-							if(x.Product.ID == y.Product.ID)
-								return 0;
-							if(x.Product.LowercaseName == null || y.Product.LowercaseName == null)
-								return -1;
-							return x.Product.LowercaseName.CompareIgnoreCase(y.Product.LowercaseName);
-						});
-				}
-				return _comparer;
-			}
-		}
 		#endregion
 
 		#region Constructors
@@ -69,7 +48,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				get
 				{
-					return FavoriteProductsViewModel.Comparer;
+					return Comparers.ProductName;
 				}
 			}
 

@@ -2,6 +2,8 @@
 using Parse;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cirrious.CrossCore;
 
 namespace Tojeero.Core
 {
@@ -36,6 +38,9 @@ namespace Tojeero.Core
 			{
 				_imageUrl = null;
 				_category = null;
+				_isFavorite = null;
+				_country = null;
+				_city = null;
 				base.ParseObject = value;
 			}
 		}
@@ -76,6 +81,19 @@ namespace Tojeero.Core
 			{
 				this.ParseObject.Description = value;
 				RaisePropertyChanged(() => Description);
+			}
+		}
+
+		public string DeliveryNotes
+		{
+			get
+			{
+				return this.ParseObject.DeliveryNotes;
+			}
+			set
+			{
+				this.ParseObject.DeliveryNotes = value;
+				RaisePropertyChanged(() => DeliveryNotes);
 			}
 		}
 
@@ -122,29 +140,69 @@ namespace Tojeero.Core
 			}
 		}
 
-		public int? CityId
+		private string _cityId;
+
+		public string CityId
 		{
 			get
 			{
-				return this.ParseObject.CityId;
+				if (_cityId == null && _parseObject != null && _parseObject.City != null)
+					_cityId = _parseObject.City.ObjectId;
+				return _cityId;
 			}
 			set
 			{
-				this.ParseObject.CityId = value;
-				this.RaisePropertyChanged(() => CityId);
+				if (_cityId != value)
+				{
+					_cityId = value;
+					_city = null;
+					this.ParseObject.City = Parse.ParseObject.CreateWithoutData<ParseCity>(_cityId);
+				}
 			}
 		}
 
-		public int? CountryId
+		private string _countryId;
+
+		public string CountryId
 		{
 			get
 			{
-				return this.ParseObject.CountryId;
+				if (_countryId == null && _parseObject != null && _parseObject.Country != null)
+					_countryId = _parseObject.Country.ObjectId;
+				return _countryId;
 			}
 			set
 			{
-				this.ParseObject.CountryId = value;
-				this.RaisePropertyChanged(() => CountryId);
+				if (_countryId != value)
+				{
+					_countryId = value;
+					_country = null;
+					this.ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
+				}
+			}
+		}
+
+		private ICountry _country;
+		[Ignore]
+		public ICountry Country
+		{ 
+			get
+			{
+				if (_country == null)
+					_country = new Country(this.ParseObject.Country);
+				return _country; 
+			}
+		}
+
+		private ICity _city;
+		[Ignore]
+		public ICity City
+		{ 
+			get
+			{
+				if (_city == null)
+					_city = new City(this.ParseObject.City);
+				return _city; 
 			}
 		}
 
@@ -163,9 +221,36 @@ namespace Tojeero.Core
 				}
 			}
 		}
-		#endregion
-	}
 
+		private bool? _isFavorite;
+		public bool? IsFavorite
+		{ 
+			get
+			{
+				return _isFavorite; 
+			}
+			set
+			{
+				_isFavorite = value; 
+				RaisePropertyChanged(() => IsFavorite); 
+			}
+		}
+
+		#endregion
+
+		#region Methods
+
+		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
+		{
+			var manager = Mvx.Resolve<IModelEntityManager>();
+			var result = await manager.Fetch<IProduct, Product>(new StoreProductsQueryLoader(pageSize, offset, manager, this), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			return result;
+		}
+
+		#endregion	
+
+	}
+		
 	[ParseClassName("Store")]
 	public class ParseStore : SearchableParseObject
 	{
@@ -207,6 +292,19 @@ namespace Tojeero.Core
 
 		[ParseFieldName("description")]
 		public string Description
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("deliveryNotes")]
+		public string DeliveryNotes
 		{
 			get
 			{
@@ -267,6 +365,32 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<int?>(value);
+			}
+		}
+
+		[ParseFieldName("country")]
+		public ParseCountry Country
+		{
+			get
+			{
+				return GetProperty<ParseCountry>();
+			}
+			set
+			{
+				SetProperty<ParseCountry>(value);
+			}
+		}
+
+		[ParseFieldName("city")]
+		public ParseCity City
+		{
+			get
+			{
+				return GetProperty<ParseCity>();
+			}
+			set
+			{
+				SetProperty<ParseCity>(value);
 			}
 		}
 		#endregion

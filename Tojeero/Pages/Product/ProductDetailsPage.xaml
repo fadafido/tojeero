@@ -26,13 +26,15 @@
 				<!--STORE DETAILS-->
 				<Grid
 					ColumnSpacing="10"
-					Padding="10"
+					Padding="10,10,5,10"
 					HorizontalOptions="FillAndExpand">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
 							Width="50" />
 						<ColumnDefinition
 							Width="*" />
+						<ColumnDefinition
+							Width="20" />
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
 						<RowDefinition
@@ -52,13 +54,19 @@
 						Source="{Binding Product.Store.ImageUrl, Converter={StaticResource cachedImage}}" />
 					<local:LabelEx
 						Grid.Column="1"
-						Text="Store name will be here"
+						Text="{Binding Product.Store.Name}"
 						TextColor="{x:Static local:Colors.Main}"
 						FontAttributes="Bold"
 						LineCount="2"
 						FontSize="15"
 						VerticalOptions="Center"
 						HorizontalOptions="FillAndExpand" />
+					<local:ImageButton
+						Grid.Column="2"
+						Image="icon_arrow_right.png"
+						VerticalOptions="FillAndExpand"
+						HorizontalOptions="FillAndExpand"
+						Command="{Binding ShowStoreInfoPageCommand}" />
 				</Grid>
 				<!--PRODUCT IMAGE-->
 				<Grid
@@ -114,9 +122,9 @@
 					</StackLayout>
 				</StackLayout>
 				<!--FAVORITES AND SHARING-->
-				<local:FavoriteSocialView 
+				<local:FavoriteSocialView
 					SocialObject="{Binding Product}"
-					SocialViewModel="{Binding .}"/>
+					SocialViewModel="{Binding .}" />
 				<!--PRODUCT DETAILS-->
 				<BoxView
 					BackgroundColor="{x:Static local:Colors.Separator}"

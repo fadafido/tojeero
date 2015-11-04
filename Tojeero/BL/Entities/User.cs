@@ -181,6 +181,7 @@ namespace Tojeero.Core
 		}
 			
 		private ICountry _country;
+		[JsonIgnore]
 		public ICountry Country
 		{ 
 			get
@@ -192,6 +193,7 @@ namespace Tojeero.Core
 		}
 
 		private ICity _city;
+		[JsonIgnore]
 		public ICity City
 		{ 
 			get

@@ -62,7 +62,7 @@
 			<local:DoubleConverter
 				x:Key="double" />
 			<local:NullableBoolConverter
-				x:Key="bool"/>
+				x:Key="bool" />
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

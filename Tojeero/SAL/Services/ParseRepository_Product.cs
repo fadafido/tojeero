@@ -18,7 +18,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
 			{
-				var query = new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName).Include("category").Include("subcategory");
+				var query = new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store");
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);
@@ -36,7 +36,7 @@ namespace Tojeero.Core
 				var user = ParseUser.CurrentUser as TojeeroUser;
 				if (user == null)
 					return null;
-				var query = user.FavoriteProducts.Query.OrderBy(p => p.LowercaseName).Include("category").Include("subcategory");
+				var query = user.FavoriteProducts.Query.OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store");
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);
@@ -50,7 +50,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindProductsTimeout))
 			{				
-				var parseQuery = new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName).Include("category").Include("subcategory");
+				var parseQuery = new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store");
 				var tokens = query.Tokenize();
 				if (tokens != null && tokens.Count > 0)
 				{

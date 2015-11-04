@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Nito.AsyncEx;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -21,6 +22,12 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
+		#region Properties
+
+		public Action<IStore> ShowStoreInfoPageAction;
+
+		#endregion
+
 		#region Commands
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
@@ -33,6 +40,19 @@ namespace Tojeero.Core.ViewModels
 					await reload();
 				}, () => !IsLoading && IsNetworkAvailable);
 				return _reloadCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _showStoreInfoPageCommand;
+
+		public System.Windows.Input.ICommand ShowStoreInfoPageCommand
+		{
+			get
+			{
+				_showStoreInfoPageCommand = _showStoreInfoPageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
+					ShowStoreInfoPageAction.Fire(this.Product.Store);
+				}, () => this.Product != null && this.Product.Store != null);
+				return _showStoreInfoPageCommand;
 			}
 		}
 

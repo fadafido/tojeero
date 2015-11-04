@@ -259,6 +259,7 @@
     <BundleResource Include="Resources\icon_favorite_selected%402x.png" />
     <BundleResource Include="Resources\icon_arrow_down%402x.png" />
     <BundleResource Include="Resources\icon_arrow_up%402x.png" />
+    <BundleResource Include="Resources\icon_arrow_right%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

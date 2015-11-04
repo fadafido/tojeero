@@ -48,23 +48,6 @@ namespace Tojeero.Core
 
 		#region Properties
 
-		public int CountryId
-		{
-			get
-			{
-				return this.ParseObject.CountryId;
-			}
-			set
-			{
-				if (this.ParseObject.CountryId != value)
-				{
-					this.ParseObject.CountryId = value;
-					this.RaisePropertyChanged(() => CountryId);
-					this.Cities = null;
-				}
-			}
-		}
-
 		[Ignore]
 		public string Name
 		{
@@ -175,7 +158,7 @@ namespace Tojeero.Core
 		{
 			if (this.Cities != null && this.Cities.Length > 0)
 				return;
-			var cities = await CityManager.Fetch(this.CountryId);
+			var cities = await CityManager.Fetch(this.ID);
 			if(cities != null)
 				this.Cities = cities.OrderBy(c => c.Name).ToArray();
 		}
@@ -290,6 +273,15 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("cities")]
+		public ParseRelation<ParseCity> Cities
+		{
+			get
+			{
+				return GetRelationProperty<ParseCity>(); 
 			}
 		}
 

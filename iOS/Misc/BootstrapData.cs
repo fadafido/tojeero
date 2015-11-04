@@ -59,11 +59,11 @@ namespace Tojeero.iOS
 					catMap[cat] = (await new ParseQuery<ParseProductSubcategory>().Where(s => s.Category == cat).FindAsync()).ToArray();
 				}
 
-				var countryMap = new Dictionary<int, ParseCity[]>();
+				var countryMap = new Dictionary<string, ParseCity[]>();
 				var countries = (await new ParseQuery<ParseCountry>().FindAsync()).ToArray();
 				foreach (var c in countries)
 				{
-					countryMap[c.CountryId] = (await new ParseQuery<ParseCity>().Where(cty => cty.CountryId == c.CountryId).FindAsync()).ToArray();
+					countryMap[c.ObjectId] = (await c.Cities.Query.FindAsync()).ToArray();
 				}
 
 				var jsonProducts = await LoadFromJson<JsonProduct>("products.json");
@@ -119,9 +119,9 @@ namespace Tojeero.iOS
 					var subs = catMap[product.Category];
 					product.Subcategory = subs[subcatRandom.Next(0, subs.Length)];
 
-					product.CountryId = countries[countryRand.Next(0, countries.Length)].CountryId;
-					var cities = countryMap[product.CountryId.Value];
-					product.CityId = cities[cityRand.Next(0, cities.Length)].CityId;
+					product.Country = countries[countryRand.Next(0, countries.Length)];
+					var cities = countryMap[product.Country.ObjectId];
+					product.City = cities[cityRand.Next(0, cities.Length)];
 
 					product.SearchTokens = new string[] { product.Name, product.Description, prod.Tags }.Tokenize();
 					var tags = prod.Tags.Tokenize().Select(t => new ParseTag() { Text = t });
@@ -151,11 +151,11 @@ namespace Tojeero.iOS
 			try
 			{
 				var categories = (await new ParseQuery<ParseStoreCategory>().FindAsync()).ToArray();
-				var countryMap = new Dictionary<int, ParseCity[]>();
+				var countryMap = new Dictionary<string, ParseCity[]>();
 				var countries = (await new ParseQuery<ParseCountry>().FindAsync()).ToArray();
 				foreach (var c in countries)
 				{
-					countryMap[c.CountryId] = (await new ParseQuery<ParseCity>().Where(cty => cty.CountryId == c.CountryId).FindAsync()).ToArray();
+					countryMap[c.ObjectId] = (await c.Cities.Query.FindAsync()).ToArray();
 				}
 
 				var jsonStores = await LoadFromJson<JsonStore>("stores.json");
@@ -203,9 +203,9 @@ namespace Tojeero.iOS
 					};
 					store.Category = categories[catRandom.Next(0, categories.Length)];
 
-					store.CountryId = countries[countryRand.Next(0, countries.Length)].CountryId;
-					var cities = countryMap[store.CountryId.Value];
-					store.CityId = cities[cityRand.Next(0, cities.Length)].CityId;
+					store.Country = countries[countryRand.Next(0, countries.Length)];
+					var cities = countryMap[store.Country.ObjectId];
+					store.City = cities[cityRand.Next(0, cities.Length)];
 
 					store.SearchTokens = new string[] { s.Name, s.Description }.Tokenize();
 					stores.Add(store);
@@ -220,52 +220,7 @@ namespace Tojeero.iOS
 				return null;
 			}
 		}
-
-		public static async Task CreateData()
-		{
-			var countries = new ParseCountry[]
-			{
-				new ParseCountry()
-				{
-					CountryId = 1,
-					Name_ar = "الامارات",
-					Name_en = "UAE",
-					Currency_ar = "درهم",
-					Currency_en = "AED",
-					CountryPhoneCode = "971"
-				},
-				new ParseCountry()
-				{
-					CountryId = 2,
-					Name_ar = "السعودية",
-					Name_en = "KSA",
-					Currency_ar = "ريال",
-					Currency_en = "Ryal",
-					CountryPhoneCode = "966"
-				},
-				new ParseCountry()
-				{
-					CountryId = 3,
-					Name_ar = "الكويت",
-					Name_en = "Kuwait",
-					Currency_ar = "دينار",
-					Currency_en = "Dinar",
-					CountryPhoneCode = "965"
-				},
-				new ParseCountry()
-				{
-					CountryId = 4,
-					Name_ar = "الاردن",
-					Name_en = "Jordan",
-					Currency_ar = "دينار",
-					Currency_en = "Dinar",
-					CountryPhoneCode = "962"
-				}
-			};
-
-			await ParseObject.SaveAllAsync<ParseCountry>(countries);
-		}
-
+			
 		public static async Task CreateSubcategories()
 		{
 			var subcategories = (await LoadFromJson<JsonSubcategory>("subcategories.json")).Select(s => new ParseProductSubcategory()

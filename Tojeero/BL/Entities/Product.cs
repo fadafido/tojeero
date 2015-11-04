@@ -37,6 +37,8 @@ namespace Tojeero.Core
 				_category = null;
 				_subcategory = null;
 				_store = null;
+				_country = null;
+				_city = null;
 				_isFavorite = null;
 				base.ParseObject = value;
 			}
@@ -156,29 +158,69 @@ namespace Tojeero.Core
 			}
 		}
 
-		public int? CityId
+		private string _cityId;
+
+		public string CityId
 		{
 			get
 			{
-				return this.ParseObject.CityId;
+				if (_cityId == null && _parseObject != null && _parseObject.City != null)
+					_cityId = _parseObject.City.ObjectId;
+				return _cityId;
 			}
 			set
 			{
-				this.ParseObject.CityId = value;
-				this.RaisePropertyChanged(() => CityId);
+				if (_cityId != value)
+				{
+					_cityId = value;
+					_city = null;
+					this.ParseObject.City = Parse.ParseObject.CreateWithoutData<ParseCity>(_cityId);
+				}
 			}
 		}
 
-		public int? CountryId
+		private string _countryId;
+
+		public string CountryId
 		{
 			get
 			{
-				return this.ParseObject.CountryId;
+				if (_countryId == null && _parseObject != null && _parseObject.Country != null)
+					_countryId = _parseObject.Country.ObjectId;
+				return _countryId;
 			}
 			set
 			{
-				this.ParseObject.CountryId = value;
-				this.RaisePropertyChanged(() => CountryId);
+				if (_countryId != value)
+				{
+					_countryId = value;
+					_country = null;
+					this.ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
+				}
+			}
+		}
+
+		private ICountry _country;
+		[Ignore]
+		public ICountry Country
+		{ 
+			get
+			{
+				if (_country == null)
+					_country = new Country(this.ParseObject.Country);
+				return _country; 
+			}
+		}
+
+		private ICity _city;
+		[Ignore]
+		public ICity City
+		{ 
+			get
+			{
+				if (_city == null)
+					_city = new City(this.ParseObject.City);
+				return _city; 
 			}
 		}
 
@@ -436,29 +478,29 @@ namespace Tojeero.Core
 			}
 		}
 
-		[ParseFieldName("cityId")]
-		public int? CityId
+		[ParseFieldName("country")]
+		public ParseCountry Country
 		{
 			get
 			{
-				return GetProperty<int?>();
+				return GetProperty<ParseCountry>();
 			}
 			set
 			{
-				SetProperty<int?>(value);
+				SetProperty<ParseCountry>(value);
 			}
 		}
 
-		[ParseFieldName("countryId")]
-		public int? CountryId
+		[ParseFieldName("city")]
+		public ParseCity City
 		{
 			get
 			{
-				return GetProperty<int?>();
+				return GetProperty<ParseCity>();
 			}
 			set
 			{
-				SetProperty<int?>(value);
+				SetProperty<ParseCity>(value);
 			}
 		}
 

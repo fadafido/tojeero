@@ -18,11 +18,11 @@ namespace Tojeero.Core
 
 		IStoreCategory Category { get; }
 
-		int? CityId { get; }
+		string CityId { get; }
 
 		ICity City { get; }
 
-		int? CountryId { get; }
+		string CountryId { get; }
 
 		ICountry Country { get; }
 

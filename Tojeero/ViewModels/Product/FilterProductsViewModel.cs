@@ -219,11 +219,11 @@ namespace Tojeero.Core.ViewModels
 			using (var writerLock = await _citiesLock.WriterLockAsync())
 			{
 				if (!(this.ProductFilter.Country == null || this.Countries == null || this.Countries.Length == 0) &&
-					!(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.ProductFilter.Country.CountryId))
+					!(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.ProductFilter.Country.ID))
 				{
 					try
 					{
-						var result = await _cityManager.Fetch(this.ProductFilter.Country.CountryId);
+						var result = await _cityManager.Fetch(this.ProductFilter.Country.ID);
 						this.Cities = result != null ? result.ToArray() : null;
 					}
 					catch (Exception ex)

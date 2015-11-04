@@ -30,7 +30,7 @@ namespace Tojeero.Core
 		Task<IEnumerable<ICountry>> FetchCountries();
 
 		//Cities
-		Task<IEnumerable<ICity>> FetchCities(int countryId);
+		Task<IEnumerable<ICity>> FetchCities(string countryId);
 
 		//Tags
 		Task<IEnumerable<ITag>> FetchTags(int pageSize, int offset);

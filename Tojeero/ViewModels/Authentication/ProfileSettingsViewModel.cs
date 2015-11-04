@@ -339,8 +339,8 @@ namespace Tojeero.Core.ViewModels
 			var user = _userManager.Create();
 			user.FirstName = this.FirstName;
 			user.LastName = this.LastName;
-			user.CountryId = this.Country != null ? (int?)this.Country.CountryId : null;
-			user.CityId = this.City != null ? (int?)this.City.CityId : null;
+			user.CountryId = this.Country != null ? this.Country.ID : null;
+			user.CityId = this.City != null ? this.City.ID : null;
 			user.Mobile = this.Mobile;
 			return user;
 		}
@@ -449,7 +449,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			if (Countries != null && Settings.CountryId != null)
 			{
-				var country = this.Countries.Where(c => c.CountryId == Settings.CountryId).FirstOrDefault();
+				var country = this.Countries.Where(c => c.ID == Settings.CountryId).FirstOrDefault();
 				this.Country = country;
 			}
 		}
@@ -465,7 +465,7 @@ namespace Tojeero.Core.ViewModels
 				await reloadCities();
 				if (this.Country != null && this.Country.Cities != null)
 				{
-					var city = this.Country.Cities.Where(c => c.CityId == Settings.CityId).FirstOrDefault();
+					var city = this.Country.Cities.Where(c => c.ID == Settings.CityId).FirstOrDefault();
 					this.City = city;
 				}
 				else

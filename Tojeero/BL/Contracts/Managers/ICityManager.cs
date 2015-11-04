@@ -6,7 +6,7 @@ namespace Tojeero.Core
 { 
 	public interface ICityManager : IBaseModelEntityManager
 	{
-		Task<IEnumerable<ICity>> Fetch(int countryId);
+		Task<IEnumerable<ICity>> Fetch(string countryId);
 		ICity Create();
 	}
 }

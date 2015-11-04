@@ -67,13 +67,13 @@ namespace Tojeero.Forms
 				{
 					if(c1 == null || c2 == null)
 						return false;
-					return c1 == c2 || c1.CityId == c2.CityId;
+					return c1 == c2 || c1.ID == c2.ID;
 				};
 			countriesPicker.Comparer = (c1, c2) =>
 				{
 					if(c1 == null || c2 == null)
 						return false;
-					return c1 == c2 || c1.CountryId == c2.CountryId;
+					return c1 == c2 || c1.ID == c2.ID;
 				};
 			categoriesPicker.Comparer = (x, y) =>
 				{

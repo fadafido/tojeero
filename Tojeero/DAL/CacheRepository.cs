@@ -85,7 +85,7 @@ namespace Tojeero.Core
 			return result;
 		}
 
-		public Task<IEnumerable<ICity>> FetchCities(int countryId)
+		public Task<IEnumerable<ICity>> FetchCities(string countryId)
 		{
 			return Task<IEnumerable<ICity>>.Factory.StartNew(() =>
 				{
@@ -572,12 +572,12 @@ namespace Tojeero.Core
 
 				if (filter.Country != null)
 				{
-					query = query.Where(p => p.CountryId == filter.Country.CountryId);
+					query = query.Where(p => p.CountryId == filter.Country.ID);
 				}
 
 				if (filter.City != null)
 				{
-					query = query.Where(p => p.CityId == filter.City.CityId);
+					query = query.Where(p => p.CityId == filter.City.ID);
 				}
 
 				if (filter.StartPrice != null)

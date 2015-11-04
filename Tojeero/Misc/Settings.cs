@@ -85,12 +85,12 @@ namespace Tojeero.Core
 		/// <summary>
 		/// default value for your setting
 		/// </summary>
-		public static readonly int? CountryIdDefault = null;
+		public static readonly string CountryIdDefault = null;
 
 		/// <summary>
 		/// Gets or sets the CountryId value
 		/// </summary>
-		public static int? CountryId
+		public static string CountryId
 		{
 			get
 			{
@@ -116,12 +116,12 @@ namespace Tojeero.Core
 		/// <summary>
 		/// default value for your setting
 		/// </summary>
-		public static readonly int? CityIdDefault = null;
+		public static readonly string CityIdDefault = null;
 
 		/// <summary>
 		/// Gets or sets the CityId value
 		/// </summary>
-		public static int? CityId
+		public static string CityId
 		{
 			get
 			{

@@ -21,9 +21,13 @@ namespace Tojeero.Core
 
 		string StoreID { get; }
 
-		int? CityId { get; }
+		string CityId { get; }
 
-		int? CountryId { get; }
+		ICity City { get; }
+
+		string CountryId { get; }
+
+		ICountry Country { get; }
 
 		IList<string> Tags { get; set; }
 

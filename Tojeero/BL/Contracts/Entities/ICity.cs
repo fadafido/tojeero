@@ -2,13 +2,13 @@
 
 namespace Tojeero.Core
 {
-	public interface ICity
+	public interface ICity : IUniqueEntity
 	{
 		string Name { get; }
 		string Name_en { get; }
 		string Name_ar { get; }
-		int CityId { get; set; }
-		int CountryId { get; }
+		string CountryId { get; }
+		ICountry Country { get; }
 	}
 }
 

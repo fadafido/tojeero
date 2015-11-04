@@ -18,7 +18,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
 			{
-				var query = new ParseQuery<ParseStore>().OrderBy(s => s.LowercaseName).Include("category");
+				var query = new ParseQuery<ParseStore>().OrderBy(s => s.LowercaseName).Include("category").Include("country").Include("city");
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);
@@ -36,7 +36,7 @@ namespace Tojeero.Core
 				var user = ParseUser.CurrentUser as TojeeroUser;
 				if (user == null)
 					return null;
-				var query = user.FavoriteStores.Query.OrderBy(p => p.LowercaseName).Include("category");
+				var query = user.FavoriteStores.Query.OrderBy(p => p.LowercaseName).Include("category").Include("country").Include("city");
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);
@@ -50,7 +50,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindStoresTimeout))
 			{
-				var parseQuery = new ParseQuery<ParseStore>().OrderBy(s => s.LowercaseName);
+				var parseQuery = new ParseQuery<ParseStore>().OrderBy(s => s.LowercaseName).Include("category").Include("country").Include("city");
 				var tokens = query.Tokenize();
 				if (tokens != null && tokens.Count > 0)
 				{
@@ -96,12 +96,12 @@ namespace Tojeero.Core
 
 				if (filter.Country != null)
 				{
-					query = query.Where(s => s.CountryId == filter.Country.CountryId);
+					query = query.Where(s => s.Country == ParseObject.CreateWithoutData<ParseCountry>(filter.Country.ID));
 				}
 
 				if (filter.City != null)
 				{
-					query = query.Where(s => s.CityId == filter.City.CityId);
+					query = query.Where(s => s.City == ParseObject.CreateWithoutData<ParseCity>(filter.City.ID));
 				}
 
 				if (filter.Tags != null && filter.Tags.Count > 0)

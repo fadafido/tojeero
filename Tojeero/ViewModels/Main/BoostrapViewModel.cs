@@ -136,7 +136,7 @@ namespace Tojeero.Core.ViewModels
 			return true;
 		}
 
-		private async Task<bool> loadCities()
+		/*private async Task<bool> loadCities()
 		{
 			if (_isCitiesLoaded)
 				return true;
@@ -164,7 +164,7 @@ namespace Tojeero.Core.ViewModels
 			}
 			_isCitiesLoaded = true;
 			return true;
-		}
+		}*/
 
 		#endregion
 

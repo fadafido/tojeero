@@ -12,6 +12,8 @@ namespace Tojeero.Core
 
 		string LowercaseName { get; }
 
+		string DeliveryNotes { get; set; }
+
 		string ImageUrl { get; }
 
 		string CategoryID { get; }

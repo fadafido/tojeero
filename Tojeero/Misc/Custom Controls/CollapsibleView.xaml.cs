@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 using System.Windows.Input;
+using Tojeero.Core;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Forms
 {
@@ -19,6 +21,9 @@ namespace Tojeero.Forms
 		#endregion
 
 		#region Properties
+
+		public event EventHandler<EventArgs> DidCollapse;
+		public event EventHandler<EventArgs> DidOpen;
 
 		private bool _isCollapsed = true;
 		public bool IsCollapsed
@@ -80,6 +85,10 @@ namespace Tojeero.Forms
 		void toggleContentView(object sender, EventArgs args)
 		{
 			this.IsCollapsed = !this.IsCollapsed;
+			if (IsCollapsed)
+				this.DidCollapse.Fire(this, new EventArgs());
+			else
+				this.DidOpen.Fire(this, new EventArgs());
 		}
 
 		#endregion

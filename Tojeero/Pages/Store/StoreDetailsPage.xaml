@@ -8,7 +8,7 @@
 	BackgroundColor="White">
 	<ContentPage.Content>
 		<ScrollView
-			x:Name="ScrollView"
+			x:Name="scrollView"
 			VerticalOptions="FillAndExpand"
 			HorizontalOptions="FillAndExpand">
 			<StackLayout
@@ -193,19 +193,11 @@
 						VerticalOptions="End" />
 				</Grid>
 				<local:CollapsibleView
+					x:Name="deliveryNotes"
 					Title="{local:Translate LabelStoreDetailsDeliveryNotes}">
 					<local:CollapsibleView.CollapsibleContent>
 						<Label
-							Text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis "
-							TextColor="{x:Static local:Colors.Main}"
-							FontSize="9" />
-					</local:CollapsibleView.CollapsibleContent>
-				</local:CollapsibleView>
-				<local:CollapsibleView
-					Title="{local:Translate LabelStoreDetailsPrivacy}">
-					<local:CollapsibleView.CollapsibleContent>
-						<Label
-							Text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis "
+							Text="{Binding Store.DeliveryNotes}"
 							TextColor="{x:Static local:Colors.Main}"
 							FontSize="9" />
 					</local:CollapsibleView.CollapsibleContent>

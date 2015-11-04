@@ -84,6 +84,19 @@ namespace Tojeero.Core
 			}
 		}
 
+		public string DeliveryNotes
+		{
+			get
+			{
+				return this.ParseObject.DeliveryNotes;
+			}
+			set
+			{
+				this.ParseObject.DeliveryNotes = value;
+				RaisePropertyChanged(() => DeliveryNotes);
+			}
+		}
+
 		private string _imageUrl;
 		public string ImageUrl
 		{
@@ -279,6 +292,19 @@ namespace Tojeero.Core
 
 		[ParseFieldName("description")]
 		public string Description
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
+			}
+		}
+
+		[ParseFieldName("deliveryNotes")]
+		public string DeliveryNotes
 		{
 			get
 			{

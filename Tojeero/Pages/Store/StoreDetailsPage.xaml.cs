@@ -18,6 +18,9 @@ namespace Tojeero.Forms
 			this.ViewModel = MvxToolbox.LoadViewModel<StoreDetailsViewModel>();
 			this.ViewModel.Store = store;
 			InitializeComponent();
+			this.deliveryNotes.DidOpen += (sender, e) => {
+				this.scrollView.ScrollToAsync(this.deliveryNotes, ScrollToPosition.End, true);
+			};
 		}
 
 		#endregion

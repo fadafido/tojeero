@@ -124,7 +124,13 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				_categoryID = value; 
+				if (_categoryID != value)
+				{
+					_categoryID = value;
+					_category = null;
+					this.ParseObject.Category = value != null ? Parse.ParseObject.CreateWithoutData<ParseStoreCategory>(value) : null;
+					RaisePropertyChanged(() => Category);
+				}
 			}
 		}
 
@@ -156,7 +162,8 @@ namespace Tojeero.Core
 				{
 					_cityId = value;
 					_city = null;
-					this.ParseObject.City = Parse.ParseObject.CreateWithoutData<ParseCity>(_cityId);
+					this.ParseObject.City = value != null ? Parse.ParseObject.CreateWithoutData<ParseCity>(value) : null;
+					RaisePropertyChanged(() => City);
 				}
 			}
 		}
@@ -177,7 +184,8 @@ namespace Tojeero.Core
 				{
 					_countryId = value;
 					_country = null;
-					this.ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
+					this.ParseObject.Country = value != null ? Parse.ParseObject.CreateWithoutData<ParseCountry>(value) : null;
+					RaisePropertyChanged(() => Country);
 				}
 			}
 		}
@@ -218,6 +226,7 @@ namespace Tojeero.Core
 				if (_parseObject != null)
 				{
 					_parseObject.SearchTokens = value;
+					RaisePropertyChanged(() => SearchTokens);
 				}
 			}
 		}
@@ -245,6 +254,18 @@ namespace Tojeero.Core
 			var manager = Mvx.Resolve<IModelEntityManager>();
 			var result = await manager.Fetch<IProduct, Product>(new StoreProductsQueryLoader(pageSize, offset, manager, this), Constants.ProductsCacheTimespan.TotalMilliseconds);
 			return result;
+		}
+
+		public async Task Save()
+		{
+			await this.ParseObject.SaveAsync();
+		}
+
+		public async Task SetMainImage(IImage image)
+		{
+			var imageFile = new ParseFile(image.Name, image.RawImage);
+			await imageFile.SaveAsync();
+			this.ParseObject.Image = imageFile;
 		}
 
 		#endregion	

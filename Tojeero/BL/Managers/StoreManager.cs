@@ -5,6 +5,7 @@ using System.Threading;
 using Parse;
 using System.Linq;
 using Tojeero.Core.Toolbox;
+using Tojeero.Core.ViewModels;
 
 namespace Tojeero.Core
 {
@@ -41,6 +42,11 @@ namespace Tojeero.Core
 		public Task<IEnumerable<IStore>> Find(string query, int pageSize, int offset, IStoreFilter filter = null)
 		{
 			return _manager.Fetch<IStore, Store>(new FindStoresQuery(query, pageSize, offset, _manager, filter), Constants.StoresCacheTimespan.TotalMilliseconds);
+		}
+
+		public async Task Save(IStoreViewModel store)
+		{
+			await _manager.Rest.SaveStore(store);
 		}
 
 		public Task ClearCache()

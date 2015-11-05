@@ -12,6 +12,7 @@ using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using Tojeero.Core.Services;
 using Tojeero.Core.Toolbox;
 using Nito.AsyncEx;
+using Tojeero.Core.ViewModels;
 
 namespace Tojeero.Core
 {
@@ -70,6 +71,11 @@ namespace Tojeero.Core
 		}
 
 		public Task<IEnumerable<IStore>> FetchFavoriteStores(int pageSize, int offset)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task SaveStore(IStoreViewModel store)
 		{
 			throw new NotImplementedException();
 		}

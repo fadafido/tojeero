@@ -1,9 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
+using System.Windows.Input;
 
 namespace Tojeero.Core.ViewModels
 {
-	public interface IStoreViewModel
+	public interface ISaveStoreViewModel
 	{
 		IStore CurrentStore { get; set; }
 
@@ -15,13 +16,17 @@ namespace Tojeero.Core.ViewModels
 
 		string DeliveryNotes { get; set; }
 
-		IStoreCategory Category { get; }
+		IStoreCategory Category { get; set; }
 
-		ICity City { get; }
+		ICity City { get; set; }
 
-		ICountry Country { get; }
+		ICountry Country { get; set; }
 
-		bool HasChanged();
+		bool HasChanged { get; }
+
+		ICommand SaveCommand { get; }
+
+		ICommand PickMainImage { get; }
 	}
 }
 

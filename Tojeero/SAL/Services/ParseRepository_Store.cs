@@ -82,24 +82,25 @@ namespace Tojeero.Core
 			}
 		}
 			
-		public async Task SaveStore(IStoreViewModel store)
+		public async Task<IStore> SaveStore(ISaveStoreViewModel store)
 		{
 			if (store == null)
 				return;
 			using (var tokenSource = new CancellationTokenSource(Constants.SaveStoreTimeout))
 			{
-				store.CurrentStore = store.CurrentStore != null ? store.CurrentStore : new Store();
-				store.CurrentStore.CategoryID = store.Category != null ? store.Category.ID : null;
-				store.CurrentStore.CountryId = store.Country != null ? store.Country.ID : null;
-				store.CurrentStore.CityId = store.City != null ? store.City.ID : null;
-				store.CurrentStore.Name = store.Name;
-				store.CurrentStore.Description = store.Description;
-				store.CurrentStore.DeliveryNotes = store.DeliveryNotes;
+				var s = store.CurrentStore != null ? store.CurrentStore : new Store();
+				s.CategoryID = store.Category != null ? store.Category.ID : null;
+				s.CountryId = store.Country != null ? store.Country.ID : null;
+				s.CityId = store.City != null ? store.City.ID : null;
+				s.Name = store.Name;
+				s.Description = store.Description;
+				s.DeliveryNotes = store.DeliveryNotes;
 				if (store.MainImage.NewImage != null)
 				{
-					await store.CurrentStore.SetMainImage(store.MainImage.NewImage);
+					await s.SetMainImage(store.MainImage.NewImage);
 				}
-				await store.CurrentStore.Save();
+				await s.Save();
+				return s;
 			}
 		}
 

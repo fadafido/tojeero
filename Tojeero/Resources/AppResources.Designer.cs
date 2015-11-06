@@ -404,6 +404,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saving store....
+        /// </summary>
+        internal static string MessageSavingStore {
+            get {
+                return ResourceManager.GetString("MessageSavingStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submission failed because of timeout. Please try again..
         /// </summary>
         internal static string MessageSubmissionTimeoutFailure {
@@ -427,6 +436,51 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageSubmitting {
             get {
                 return ResourceManager.GetString("MessageSubmitting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category is required.
+        /// </summary>
+        internal static string MessageValidateStoreRequiredCategory {
+            get {
+                return ResourceManager.GetString("MessageValidateStoreRequiredCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to City is required.
+        /// </summary>
+        internal static string MessageValidateStoreRequiredCity {
+            get {
+                return ResourceManager.GetString("MessageValidateStoreRequiredCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country is required.
+        /// </summary>
+        internal static string MessageValidateStoreRequiredCountry {
+            get {
+                return ResourceManager.GetString("MessageValidateStoreRequiredCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image is required.
+        /// </summary>
+        internal static string MessageValidateStoreRequiredImage {
+            get {
+                return ResourceManager.GetString("MessageValidateStoreRequiredImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Store name is required.
+        /// </summary>
+        internal static string MessageValidateStoreRequiredName {
+            get {
+                return ResourceManager.GetString("MessageValidateStoreRequiredName", resourceCulture);
             }
         }
         

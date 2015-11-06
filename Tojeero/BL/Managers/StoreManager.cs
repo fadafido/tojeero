@@ -44,9 +44,21 @@ namespace Tojeero.Core
 			return _manager.Fetch<IStore, Store>(new FindStoresQuery(query, pageSize, offset, _manager, filter), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
-		public async Task Save(IStoreViewModel store)
+		public async Task<IStore> Save(ISaveStoreViewModel store)
 		{
-			await _manager.Rest.SaveStore(store);
+			if (store != null)
+			{
+				if (store.HasChanged)
+				{
+					var result = await _manager.Rest.SaveStore(store);
+					return result;
+				}
+				else
+				{
+					return store.CurrentStore;
+				}
+			}
+			return null;
 		}
 
 		public Task ClearCache()

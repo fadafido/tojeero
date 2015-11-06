@@ -32,6 +32,14 @@ namespace Tojeero.Forms
 			set { SetValue(ImageProperty, value); }
 		}
 
+		public static BindableProperty BackgroundImageProperty = BindableProperty.Create<ImageButton, ImageSource>(o => o.BackgroundImage, null);
+
+		public ImageSource BackgroundImage
+		{
+			get { return (ImageSource)GetValue(BackgroundImageProperty); }
+			set { SetValue(BackgroundImageProperty, value); }
+		}
+
 		public static BindableProperty SelectedImageProperty = BindableProperty.Create<ImageButton, ImageSource>(o => o.SelectedImage, null);
 
 		public ImageSource SelectedImage

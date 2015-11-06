@@ -57,6 +57,9 @@ namespace Tojeero.Forms
 			this.ViewModel.ShowFavorites = async () => {
 				await this.Navigation.PushModalAsync(new NavigationPage(new FavoritesPage()));
 			};
+			this.ViewModel.ShowSaveStoreAction = async (s) => {
+				await this.Navigation.PushModalAsync(new NavigationPage(new SaveStorePage(s)));
+			};
 			this.BindingContext = _viewModel;
 		}
 

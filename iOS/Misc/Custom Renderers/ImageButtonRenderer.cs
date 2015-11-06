@@ -25,6 +25,7 @@ namespace Tojeero.Forms.Renderers
 					base.SetNativeControl(new UIButton(UIButtonType.Custom));
 					base.Control.TouchUpInside += new EventHandler(this.buttonTapped);
 				}
+				await this.UpdateBackgroundImage();
 				await this.UpdateImage();
 				await this.UpdateSelectedImage();
 				this.UpdateIsEnabled();
@@ -35,6 +36,10 @@ namespace Tojeero.Forms.Renderers
 		protected override async void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
+			if (e.PropertyName == ImageButton.BackgroundImageProperty.PropertyName)
+			{
+				await this.UpdateBackgroundImage();
+			}
 			if (e.PropertyName == ImageButton.ImageProperty.PropertyName)
 			{
 				await this.UpdateImage();
@@ -83,6 +88,12 @@ namespace Tojeero.Forms.Renderers
 
 		#region Utility methods
 
+		private async Task UpdateBackgroundImage()
+		{
+			var btn = this.Element;
+			await setImageAsync(btn.BackgroundImage, UIControlState.Normal, true);
+		}
+
 		private async Task UpdateImage()
 		{
 			var btn = this.Element;
@@ -105,7 +116,7 @@ namespace Tojeero.Forms.Renderers
 			this.Control.Selected = this.Element.IsSelected;
 		}
 
-		private async Task setImageAsync(ImageSource source, UIControlState state = UIControlState.Normal)
+		private async Task setImageAsync(ImageSource source, UIControlState state = UIControlState.Normal, bool isBackground = false)
 		{
 			UIImage target = null;
 			var handler = GetHandler(source);
@@ -115,10 +126,12 @@ namespace Tojeero.Forms.Renderers
 				{
 					target = image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal);
 				}
-				;
 			}
 				
-			this.Control.SetImage(target, state);
+			if(!isBackground)
+				this.Control.SetImage(target, state);
+			else
+				this.Control.SetBackgroundImage(target, state);
 		}
 
 		#endregion

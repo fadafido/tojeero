@@ -85,7 +85,7 @@ namespace Tojeero.Core
 		public async Task<IStore> SaveStore(ISaveStoreViewModel store)
 		{
 			if (store == null)
-				return;
+				return null;
 			using (var tokenSource = new CancellationTokenSource(Constants.SaveStoreTimeout))
 			{
 				var s = store.CurrentStore != null ? store.CurrentStore : new Store();

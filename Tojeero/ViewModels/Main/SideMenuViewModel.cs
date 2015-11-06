@@ -39,6 +39,7 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
+		public Action<IStore> ShowSaveStoreAction;
 		public Action<bool> ShowProfileSettings;
 		public Action ShowFavorites;
 		public Action<string> ShowLanguageChangeWarning;
@@ -125,6 +126,19 @@ namespace Tojeero.Core.ViewModels
 					this.ShowFavorites.Fire();
 				});
 				return _showFavoritesCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _showSaveStoreCommand;
+
+		public System.Windows.Input.ICommand ShowSaveStoreCommand
+		{
+			get
+			{
+				_showSaveStoreCommand = _showSaveStoreCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
+					this.ShowSaveStoreAction.Fire(null);
+				});
+				return _showSaveStoreCommand;
 			}
 		}
 

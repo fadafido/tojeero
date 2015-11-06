@@ -134,6 +134,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to add main image.
+        /// </summary>
+        internal static string LabelAddMainImage {
+            get {
+                return ResourceManager.GetString("LabelAddMainImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category.
         /// </summary>
         internal static string LabelCategory {
@@ -517,6 +526,15 @@ namespace Tojeero.Forms.Resources {
         internal static string PlaceholderSearchTags {
             get {
                 return ResourceManager.GetString("PlaceholderSearchTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create store.
+        /// </summary>
+        internal static string TitleCreateStore {
+            get {
+                return ResourceManager.GetString("TitleCreateStore", resourceCulture);
             }
         }
         

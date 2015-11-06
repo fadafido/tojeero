@@ -75,7 +75,7 @@ namespace Tojeero.Core
 			throw new NotImplementedException();
 		}
 
-		public Task SaveStore(ISaveStoreViewModel store)
+		public Task<IStore> SaveStore(ISaveStoreViewModel store)
 		{
 			throw new NotImplementedException();
 		}

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Android.Graphics;
 using Tojeero.Forms.Renderers;
 using Android.Views;
+using Android.Graphics.Drawables;
 
 [assembly: ExportRenderer(typeof(ImageButton), typeof(ImageButtonRenderer))]
 namespace Tojeero.Forms.Renderers
@@ -16,6 +17,7 @@ namespace Tojeero.Forms.Renderers
 	{
 		#region Private fields and properties
 
+		private Bitmap _backgroundImage;
 		private Bitmap _image;
 		private Bitmap _selectedImage;
 
@@ -37,7 +39,7 @@ namespace Tojeero.Forms.Renderers
 					base.SetNativeControl(button);
 				}
 			}
-
+			await this.UpdateBackgroundImage();
 			await this.UpdateImage();
 			this.UpdateIsEnabled();
 		}
@@ -45,6 +47,12 @@ namespace Tojeero.Forms.Renderers
 		protected override async void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
+
+			if (e.PropertyName == ImageButton.BackgroundImageProperty.PropertyName)
+			{
+				_backgroundImage = null;
+			}
+
 			if (e.PropertyName == ImageButton.ImageProperty.PropertyName)
 			{
 				_image = null;
@@ -100,6 +108,13 @@ namespace Tojeero.Forms.Renderers
 		#endregion
 
 		#region Utility methods
+
+		private async Task UpdateBackgroundImage()
+		{
+			var btn = this.Element;
+			_backgroundImage = _backgroundImage != null ? _backgroundImage : await getBitmapAsync(btn.BackgroundImage);
+			this.Control.Background = new BitmapDrawable(_backgroundImage);
+		}
 
 		private async Task UpdateImage()
 		{

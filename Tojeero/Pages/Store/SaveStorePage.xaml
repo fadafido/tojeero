@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.SaveStorePage"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
+	BackgroundColor="White"
+	Title="{local:Translate TitleFilterStores}">
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout
+				Spacing="0"
+				VerticalOptions="FillAndExpand">
+				<local:NetworkPageHeader
+					NoNetworkPadding="0,5,0,5"
+					Tint="{x:Static local:Colors.DarkGray}"
+					IsLoading="{Binding IsLoading}"
+					LoadingText="{Binding LoadingText}"
+					FailureMessage="{Binding LoadingFailureMessage}"
+					IsNetworkAvailable="{Binding IsNetworkAvailable}"
+					TryAgainCommand="{Binding ReloadCommand}" />
+				<StackLayout
+					Orientation="Vertical"
+					Spacing="5"
+					Padding="0">
+					<StackLayout
+						Spacing="10">
+						<StackLayout
+							Spacing="20"
+							Padding="20,5,5,20">
+							<local:RemovableContainerView
+								HeightRequest="230"
+								HorizontalOptions="FillAndExpand">
+								<local:RemovableContainerView.RootContent>
+									<Grid
+										VerticalOptions="FillAndExpand"
+										HorizontalOptions="FillAndExpand">
+										<BoxView
+											VerticalOptions="FillAndExpand"
+											HorizontalOptions="FillAndExpand"
+											BackgroundColor="{x:Static local:Colors.Placeholder}" />
+										<Label
+											Text="{local:Translate LabelAddMainImage}"
+											HorizontalOptions="Center"
+											VerticalOptions="End"
+											BackgroundColor="{x:Static local:Colors.Placeholder}" />
+										<Image
+											BackgroundColor="{x:Static local:Colors.Placeholder}"
+											Source="placeholder.png"
+											VerticalOptions="Center"
+											HorizontalOptions="Center" />
+										<Image
+											Aspect="AspectFill"
+											BackgroundColor="Transparent"
+											Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}"
+											VerticalOptions="FillAndExpand"
+											HorizontalOptions="FillAndExpand" />
+									</Grid>
+								</local:RemovableContainerView.RootContent>
+							</local:RemovableContainerView>
+						</StackLayout>
+						<!--CATEGORY-->
+						<StackLayout
+							Spacing="0">
+							<Label
+								Text="{local:Translate LabelCategory}"
+								TextColor="{x:Static local:Colors.DarkGray}"
+								FontSize="Micro" />
+							<local:BindablePicker
+								x:Name="categoriesPicker"
+								x:TypeArguments="core:IStoreCategory"
+								Title="{local:Translate LabelCategory}"
+								ItemsSource="{Binding Categories}"
+								SelectedItem="{Binding StoreFilter.Category, Mode=TwoWay}"
+								TextColor="{x:Static local:Colors.Black}" />
+						</StackLayout>
+						<!--COUNTRY-->
+						<StackLayout
+							Spacing="0">
+							<Label
+								Text="{local:Translate LabelCountry}"
+								TextColor="{x:Static local:Colors.DarkGray}"
+								FontSize="Micro" />
+							<local:BindablePicker
+								x:Name="countriesPicker"
+								x:TypeArguments="core:ICountry"
+								Title="{local:Translate LabelCountry}"
+								ItemsSource="{Binding Countries}"
+								SelectedItem="{Binding StoreFilter.Country, Mode=TwoWay}"
+								TextColor="{x:Static local:Colors.Black}" />
+						</StackLayout>
+						<!--CITY-->
+						<StackLayout
+							Spacing="0">
+							<Label
+								Text="{local:Translate LabelCity}"
+								TextColor="{x:Static local:Colors.DarkGray}"
+								FontSize="Micro" />
+							<local:BindablePicker
+								x:Name="citiesPicker"
+								x:TypeArguments="core:ICity"
+								Title="{local:Translate LabelCity}"
+								ItemsSource="{Binding Cities}"
+								SelectedItem="{Binding StoreFilter.City, Mode=TwoWay}"
+								TextColor="{x:Static local:Colors.Black}" />
+						</StackLayout>
+					</StackLayout>
+				</StackLayout>
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

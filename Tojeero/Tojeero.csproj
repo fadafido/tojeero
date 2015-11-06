@@ -247,6 +247,12 @@
     <Compile Include="BL\Contracts\Entities\IImage.cs" />
     <Compile Include="ViewModels\Contracts\ISaveStoreViewModel.cs" />
     <Compile Include="ViewModels\Store\SaveStoreViewModel.cs" />
+    <Compile Include="Pages\Store\SaveStorePage.xaml.cs">
+      <DependentUpon>SaveStorePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Custom Controls\RemovableContainerView.xaml.cs">
+      <DependentUpon>RemovableContainerView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -416,5 +422,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\Custom Controls\NetworkPageHeader.xaml" />
     <EmbeddedResource Include="Misc\Custom Controls\CollapsibleView.xaml" />
+    <EmbeddedResource Include="Pages\Store\SaveStorePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\RemovableContainerView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

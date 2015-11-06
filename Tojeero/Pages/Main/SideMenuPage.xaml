@@ -80,6 +80,12 @@
 						Command="{Binding ShowFavoritesCommand}"
 						TextColor="White"
 						BackgroundColor="Transparent" />
+					<Button
+						HeightRequest="40"
+						Text="{local:Translate TitleCreateStore}"
+						Command="{Binding ShowSaveStoreCommand}"
+						TextColor="White"
+						BackgroundColor="Transparent" />
 				</StackLayout>
 			</ScrollView>
 			<StackLayout

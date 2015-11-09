@@ -80,6 +80,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add image.
+        /// </summary>
+        internal static string ButtonAddImage {
+            get {
+                return ResourceManager.GetString("ButtonAddImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string ButtonCancel {
@@ -166,6 +175,24 @@ namespace Tojeero.Forms.Resources {
         internal static string LabelCountry {
             get {
                 return ResourceManager.GetString("LabelCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delivery notes.
+        /// </summary>
+        internal static string LabelDeliveryNotes {
+            get {
+                return ResourceManager.GetString("LabelDeliveryNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string LabelDescription {
+            get {
+                return ResourceManager.GetString("LabelDescription", resourceCulture);
             }
         }
         
@@ -319,6 +346,15 @@ namespace Tojeero.Forms.Resources {
         internal static string LabelStoreDetailsPrivacy {
             get {
                 return ResourceManager.GetString("LabelStoreDetailsPrivacy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Store name.
+        /// </summary>
+        internal static string LabelStoreName {
+            get {
+                return ResourceManager.GetString("LabelStoreName", resourceCulture);
             }
         }
         

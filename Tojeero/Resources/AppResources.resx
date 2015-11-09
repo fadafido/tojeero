@@ -359,7 +359,19 @@
     <value>Create store</value>
     <comment>The title of create store page</comment>
   </data>
+  <data name="ButtonAddImage" xml:space="preserve">
+    <value>Add image</value>
+  </data>
   <data name="LabelAddMainImage" xml:space="preserve">
     <value>Tap to add main image</value>
+  </data>
+  <data name="LabelDeliveryNotes" xml:space="preserve">
+    <value>Delivery notes</value>
+  </data>
+  <data name="LabelDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="LabelStoreName" xml:space="preserve">
+    <value>Store name</value>
   </data>
 </root>

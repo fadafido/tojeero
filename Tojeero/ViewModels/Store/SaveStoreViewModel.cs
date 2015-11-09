@@ -177,6 +177,14 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public bool IsCityEnabled
+		{
+			get
+			{ 
+				return this.Country != null && this.Cities != null && this.Cities.Length > 0;
+			}
+		}
+
 		#endregion
 
 		#region Commands
@@ -386,6 +394,7 @@ namespace Tojeero.Core.ViewModels
 				}
 			}
 			StopLoading(failureMessage);
+			RaisePropertyChanged(() => IsCityEnabled);
 		}
 
 		private async Task loadCategories()

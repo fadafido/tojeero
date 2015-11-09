@@ -224,6 +224,24 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to From camera.
+        /// </summary>
+        internal static string LabelFromCamera {
+            get {
+                return ResourceManager.GetString("LabelFromCamera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From library.
+        /// </summary>
+        internal static string LabelFromLibrary {
+            get {
+                return ResourceManager.GetString("LabelFromLibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last name.
         /// </summary>
         internal static string LabelLastName {
@@ -616,6 +634,15 @@ namespace Tojeero.Forms.Resources {
         internal static string TitleFilterStores {
             get {
                 return ResourceManager.GetString("TitleFilterStores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pick image.
+        /// </summary>
+        internal static string TitlePickImage {
+            get {
+                return ResourceManager.GetString("TitlePickImage", resourceCulture);
             }
         }
         

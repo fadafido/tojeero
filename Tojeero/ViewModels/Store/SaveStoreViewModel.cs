@@ -18,13 +18,14 @@ namespace Tojeero.Core.ViewModels
 		private readonly ICountryManager _countryManager;
 		private readonly ICityManager _cityManager;
 		private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
+		private bool _isPickingImage;
 
 		#endregion
 
 		#region Constructors
 
 		public SaveStoreViewModel(IStoreManager storeManager, IStoreCategoryManager categoryManager, ICountryManager countryManager, 
-			ICityManager cityManager, IAuthenticationService authService, IMvxMessenger messenger)
+		                          ICityManager cityManager, IAuthenticationService authService, IMvxMessenger messenger)
 			: base(authService, messenger)
 		{
 			this._storeManager = storeManager;
@@ -32,6 +33,8 @@ namespace Tojeero.Core.ViewModels
 			this._countryManager = countryManager;
 			this._categoryManager = categoryManager;
 			this.PropertyChanged += propertyChanged;
+			this.MainImage = new ImageViewModel();
+			this.MainImage.PropertyChanged += propertyChanged;
 		}
 
 		#endregion
@@ -195,9 +198,10 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_saveCommand = _saveCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
-					await save();
-				}, () => CanExecuteSaveCommand);
+				_saveCommand = _saveCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						await save();
+					}, () => CanExecuteSaveCommand);
 				return _saveCommand;
 			}
 		}
@@ -210,16 +214,38 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _pickMainImage;
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _pickMainImageCommand;
 
-		public System.Windows.Input.ICommand PickMainImage
+		public System.Windows.Input.ICommand PickMainImageCommand
 		{
 			get
 			{
-				_pickMainImage = _pickMainImage ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					
-				});
-				return _pickMainImage;
+				_pickMainImageCommand = _pickMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						await pickImage();
+					}, () => !_isPickingImage);
+				return _pickMainImageCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _removeMainImageCommand;
+
+		public System.Windows.Input.ICommand RemoveMainImageCommand
+		{
+			get
+			{
+				_removeMainImageCommand = _removeMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
+					this.MainImage.NewImage = null;
+				}, () => CanExecuteRemoveMainImageCommand);
+				return _removeMainImageCommand;
+			}
+		}
+
+		public bool CanExecuteRemoveMainImageCommand
+		{
+			get
+			{
+				return this.MainImage != null && this.MainImage.NewImage != null;
 			}
 		}
 
@@ -228,6 +254,8 @@ namespace Tojeero.Core.ViewModels
 		#endregion
 
 		#region Properties
+
+		public Func<Task<IImage>> PickImageFunction;
 
 		private IStoreCategory[] _categories;
 
@@ -273,7 +301,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Cities); 
 			}
 		}
-			
+
 		private bool _isUpdate;
 
 		public bool IsUpdate
@@ -315,8 +343,8 @@ namespace Tojeero.Core.ViewModels
 		{
 			if (this.CurrentStore == null)
 				nullifyViewModel();
-			//TODO:Update image
-
+			
+			this.MainImage.ImageUrl = this.CurrentStore.ImageUrl;
 			this.Name = this.CurrentStore.Name;
 			this.Description = this.CurrentStore.Description;
 			this.DeliveryNotes = this.CurrentStore.DeliveryNotes;
@@ -373,6 +401,16 @@ namespace Tojeero.Core.ViewModels
 			StopLoading(failureMessage);
 		}
 
+		private async Task pickImage()
+		{
+			_isPickingImage = true;
+			if(PickImageFunction != null)
+			{
+				this.MainImage.NewImage = await PickImageFunction();
+			}	
+			_isPickingImage = false;
+		}
+
 		private async Task reloadCities()
 		{
 			this.StartLoading(AppResources.MessageGeneralLoading);
@@ -380,7 +418,7 @@ namespace Tojeero.Core.ViewModels
 			using (var writerLock = await _citiesLock.WriterLockAsync())
 			{
 				if (!(this.Country == null || this.Countries == null || this.Countries.Length == 0) &&
-					!(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.Country.ID))
+				    !(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.Country.ID))
 				{
 					try
 					{
@@ -415,10 +453,10 @@ namespace Tojeero.Core.ViewModels
 
 		private string handleException(Exception exception)
 		{
-			try 
+			try
 			{
 				throw exception;
-			} 
+			}
 			catch (OperationCanceledException ex)
 			{
 				Tools.Logger.Log(ex, LoggingLevel.Warning);
@@ -441,6 +479,10 @@ namespace Tojeero.Core.ViewModels
 			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty || e.PropertyName == IsLoadingProperty)
 			{				
 				this.RaisePropertyChanged(() => CanExecuteSaveCommand);
+			}
+			if (e.PropertyName == "MainImage" || e.PropertyName == "NewImage")
+			{
+				this.RaisePropertyChanged(() => CanExecuteRemoveMainImageCommand);
 			}
 		}
 

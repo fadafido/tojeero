@@ -5,6 +5,8 @@ using UIKit;
 using Tojeero.Core;
 using Cirrious.MvvmCross.Touch.Views.Presenters;
 using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore;
+using XLabs.Platform.Services.Media;
 
 namespace Tojeero.iOS
 {
@@ -41,6 +43,8 @@ namespace Tojeero.iOS
 				.EndingWith("Repository")
 				.AsInterfaces()
 				.RegisterAsLazySingleton();
+
+			Mvx.LazyConstructAndRegisterSingleton<IMediaPicker, MediaPicker>();
 		}
 	}
 }

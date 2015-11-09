@@ -26,7 +26,11 @@ namespace Tojeero.Core.ViewModels
 
 		ICommand SaveCommand { get; }
 
-		ICommand PickMainImage { get; }
+		ICommand PickMainImageCommand { get; }
+
+		ICommand RemoveMainImageCommand { get; }
+
+		bool CanExecuteRemoveMainImageCommand { get; }
 	}
 }
 

@@ -374,4 +374,13 @@
   <data name="LabelStoreName" xml:space="preserve">
     <value>Store name</value>
   </data>
+  <data name="LabelFromCamera" xml:space="preserve">
+    <value>From camera</value>
+  </data>
+  <data name="LabelFromLibrary" xml:space="preserve">
+    <value>From library</value>
+  </data>
+  <data name="TitlePickImage" xml:space="preserve">
+    <value>Pick image</value>
+  </data>
 </root>

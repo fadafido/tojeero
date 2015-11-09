@@ -30,7 +30,9 @@
 						<local:RemovableContainerView
 							HeightRequest="230"
 							HorizontalOptions="FillAndExpand"
-							Padding="20,5,5,20">
+							Padding="20,5,5,20"
+							RemoveEnabled="{Binding CanExecuteRemoveMainImageCommand}"
+							RemoveCommand="{Binding RemoveMainImageCommand}">
 							<local:RemovableContainerView.RootContent>
 								<Grid
 									VerticalOptions="FillAndExpand"
@@ -56,19 +58,18 @@
 									<Image
 										Aspect="AspectFill"
 										BackgroundColor="Transparent"
-										Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}"
+										Source="{Binding MainImage.Image}"
 										VerticalOptions="FillAndExpand"
-										HorizontalOptions="FillAndExpand" />
+										HorizontalOptions="FillAndExpand">
+										<Image.GestureRecognizers>
+											<TapGestureRecognizer
+												Command="{Binding PickMainImageCommand}"
+												NumberOfTapsRequired="1" />
+										</Image.GestureRecognizers>
+									</Image>
 								</Grid>
 							</local:RemovableContainerView.RootContent>
 						</local:RemovableContainerView>
-						<StackLayout
-							Spacing="0"
-							Padding="20,0,20,0">
-							<Button
-								Text="{local:Translate ButtonAddImage}"
-								Style="{StaticResource Button1}" />
-						</StackLayout>
 						<!--STORE NAME-->
 						<StackLayout
 							Spacing="5"
@@ -81,7 +82,7 @@
 							<Editor
 								Text="{Binding Name, Mode=TwoWay}"
 								HeightRequest="50"
-								HorizontalOptions="FillAndExpand"/>
+								HorizontalOptions="FillAndExpand" />
 							<BoxView
 								HeightRequest="1"
 								HorizontalOptions="FillAndExpand"
@@ -130,8 +131,8 @@
 							<Label
 								Text="{local:Translate LabelCity}"
 								TextColor="{x:Static local:Colors.Main}"
-								FontSize="17" 
-								FontAttributes="Bold"/>
+								FontSize="17"
+								FontAttributes="Bold" />
 							<local:BindablePicker
 								x:Name="citiesPicker"
 								x:TypeArguments="core:ICity"
@@ -170,7 +171,7 @@
 							<Editor
 								Text="{Binding DeliveryNotes, Mode=TwoWay}"
 								HeightRequest="100"
-								HorizontalOptions="FillAndExpand"/>
+								HorizontalOptions="FillAndExpand" />
 							<BoxView
 								HeightRequest="1"
 								HorizontalOptions="FillAndExpand"

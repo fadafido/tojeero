@@ -131,7 +131,7 @@ namespace Tojeero.Forms
 				{
 					result = await this._mediaPicker.TakePhotoAsync(new CameraMediaStorageOptions
 						{ 
-							DefaultCamera = CameraDevice.Front, 
+							DefaultCamera = CameraDevice.Rear, 
 							MaxPixelDimension = 1000
 						});
 				}

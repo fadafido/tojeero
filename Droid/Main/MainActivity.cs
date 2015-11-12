@@ -36,7 +36,6 @@ namespace Tojeero.Droid
 			CallbackManager = CallbackManagerFactory.Create();
 
 			makeUICustomizations();
-
 		}
 
 		protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)

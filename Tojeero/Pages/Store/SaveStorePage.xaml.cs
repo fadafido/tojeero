@@ -35,6 +35,7 @@ namespace Tojeero.Forms
 						await this.Navigation.PopModalAsync();
 					}));
 			this.ViewModel.PickImageFunction = pickImage;
+			TakePictureFunction = takePicture;
 		}
 
 		#endregion
@@ -58,6 +59,8 @@ namespace Tojeero.Forms
 				}
 			}
 		}
+
+		public Func<bool, Task<IImage>> TakePictureFunction;
 
 		#endregion
 
@@ -98,6 +101,9 @@ namespace Tojeero.Forms
 
 		async Task<IImage> pickImage()
 		{
+//			this.Navigation.PushModalAsync(new NavigationPage(new CameraPage()));
+//			return null;
+//
 			IImage image = null;
 			string[] titles = null;
 			if (_mediaPicker.IsCameraAvailable)
@@ -109,16 +115,16 @@ namespace Tojeero.Forms
 				var action = await this.DisplayActionSheet(AppResources.TitlePickImage, AppResources.ButtonCancel, null, titles);
 				if (action == AppResources.LabelFromCamera)
 				{
-					image = await takePicture(true);
+					image = await TakePictureFunction(true);
 				}
 				else if (action == AppResources.LabelFromLibrary)
 				{
-					image = await takePicture(false);
+					image = await TakePictureFunction(false);
 				}
 			}
 			else
 			{
-				image = await takePicture(false);
+				image = await TakePictureFunction(false);
 			}
 			return image;
 		}
@@ -151,7 +157,6 @@ namespace Tojeero.Forms
 			}
 			return null;
 		}
-
 
 		#endregion
 	}

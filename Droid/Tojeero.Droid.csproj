@@ -333,6 +333,7 @@
       <Link>Misc\Services\ImageService.cs</Link>
     </Compile>
     <Compile Include="Misc\Toolbox\BitmapToolbox.cs" />
+    <Compile Include="Misc\Images\PhotoGaleryActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -354,6 +355,7 @@
     <Folder Include="Core\SAL\" />
     <Folder Include="Core\DAL\" />
     <Folder Include="Core\BL\Queries\" />
+    <Folder Include="Misc\Images\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
@@ -414,6 +416,8 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon_arrow_up.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon_arrow_right.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon_corner_remove.png" />
+    <AndroidResource Include="Resources\layout\photo_galery.axml" />
+    <AndroidResource Include="Resources\layout\photo_galery_item.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using XLabs.Platform.Services.Media;
 using System.IO;
 using Cirrious.CrossCore;
+using Tojeero.Core.Services;
 
 namespace Tojeero.Forms
 {
@@ -18,6 +19,7 @@ namespace Tojeero.Forms
 		#region Private fields
 
 		private IMediaPicker _mediaPicker = Mvx.Resolve<IMediaPicker>();
+		private IImageService _imageService = Mvx.Resolve<IImageService>(); 
 
 		#endregion
 
@@ -123,7 +125,6 @@ namespace Tojeero.Forms
 
 		private async Task<IImage> takePicture(bool fromCamera)
 		{
-			PickedImage image = null;
 			try
 			{
 				MediaFile result = null;
@@ -131,26 +132,17 @@ namespace Tojeero.Forms
 				{
 					result = await this._mediaPicker.TakePhotoAsync(new CameraMediaStorageOptions
 						{ 
-							DefaultCamera = CameraDevice.Rear, 
-							MaxPixelDimension = 1000
+							DefaultCamera = CameraDevice.Rear
 						});
 				}
 				else
 				{
-					result = await this._mediaPicker.SelectPhotoAsync(new CameraMediaStorageOptions
-						{
-							MaxPixelDimension = 1000
-						});
+					result = await this._mediaPicker.SelectPhotoAsync(new CameraMediaStorageOptions());
 				}
 				if (result != null)
 				{
-					byte[] rawImage = new byte[result.Source.Length];
-					result.Source.Read(rawImage, 0, rawImage.Length);
-					return new PickedImage()
-					{
-						Name = Path.GetFileName(result.Path),
-						RawImage = rawImage
-					};
+					var image = await _imageService.GetImage(result);
+					return image;
 				}
 			}
 			catch (Exception ex)

@@ -9,7 +9,9 @@ namespace Tojeero.Core.Services
 		[StringValue("en")]
 		English,
 		[StringValue("ar")]
-		Arabic
+		Arabic,
+		[StringValue("unknown")]
+		Unknown
 	}
 
 	public interface ILocalizationService

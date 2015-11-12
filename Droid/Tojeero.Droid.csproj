@@ -329,6 +329,10 @@
     <Compile Include="..\Tojeero\BL\Queries\StoreProductsQueryLoader.cs">
       <Link>Core\BL\Queries\StoreProductsQueryLoader.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\Misc\Services\ImageService.cs">
+      <Link>Misc\Services\ImageService.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Toolbox\BitmapToolbox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

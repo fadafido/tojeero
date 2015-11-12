@@ -18,7 +18,6 @@ namespace Tojeero.Core.ViewModels
 		private readonly ICountryManager _countryManager;
 		private readonly ICityManager _cityManager;
 		private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
-		private bool _isPickingImage;
 
 		#endregion
 
@@ -223,7 +222,7 @@ namespace Tojeero.Core.ViewModels
 				_pickMainImageCommand = _pickMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
 						await pickImage();
-					}, () => !_isPickingImage);
+					}, () => !IsPickingImage);
 				return _pickMainImageCommand;
 			}
 		}
@@ -317,6 +316,20 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private bool _isPickingImage;
+
+		public bool IsPickingImage
+		{ 
+			get
+			{
+				return _isPickingImage; 
+			}
+			set
+			{
+				_isPickingImage = value; 
+				RaisePropertyChanged(() => IsPickingImage); 
+			}
+		}
 		#endregion
 
 		#region Commands
@@ -403,12 +416,12 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task pickImage()
 		{
-			_isPickingImage = true;
+			IsPickingImage = true;
 			if(PickImageFunction != null)
 			{
 				this.MainImage.NewImage = await PickImageFunction();
 			}	
-			_isPickingImage = false;
+			IsPickingImage = false;
 		}
 
 		private async Task reloadCities()

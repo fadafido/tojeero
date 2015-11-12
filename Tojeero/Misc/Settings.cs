@@ -148,12 +148,12 @@ namespace Tojeero.Core
 		/// <summary>
 		/// default value for your setting
 		/// </summary>
-		public static readonly LanguageCode? LanguageDefault = null;
+		public static readonly LanguageCode LanguageDefault = LanguageCode.Unknown;
 
 		/// <summary>
 		/// Gets or sets the Language value
 		/// </summary>
-		public static LanguageCode? Language
+		public static LanguageCode Language
 		{
 			get
 			{

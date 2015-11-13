@@ -337,6 +337,7 @@
     <Compile Include="Misc\Images\CameraActivity.cs" />
     <Compile Include="Misc\Images\SquareRelativeLayout.cs" />
     <Compile Include="Misc\Images\GridAutofitLayoutManager.cs" />
+    <Compile Include="Misc\Images\PhotoGalery.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

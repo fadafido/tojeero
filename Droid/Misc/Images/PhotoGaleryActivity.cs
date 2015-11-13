@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 
 using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.Provider;
 using System.Threading.Tasks;
 using Android.Graphics;
 using Android.Content.PM;
@@ -26,48 +24,27 @@ namespace Tojeero.Droid
 	{
 		#region Private fields and properties
 
-		private string[] arrPath;
-		private int[] _imageIDs;
-		private int count;
-
 		RecyclerView _recyclerView;
 		GridLayoutManager _layoutManager;
-		ImageAdapter _adapter;
-
+		PhotoGaleryAdapter _adapter;
+		PhotoGalery _galery;
 		#endregion
 
-		protected override void OnCreate(Bundle bundle)
+		protected override async void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
 
 			// Create your application here
 			this.SetContentView(Resource.Layout.activity_photo_galery);
 
-			string[] columns = { MediaStore.Images.Media.InterfaceConsts.Data, MediaStore.Images.Media.InterfaceConsts.Id };
-			string orderBy = MediaStore.Images.Media.InterfaceConsts.Id;
-
-			var imageCursor = ContentResolver.Query(MediaStore.Images.Media.ExternalContentUri, columns, null, null, orderBy);
-
-			int image_column_index = imageCursor.GetColumnIndex(MediaStore.Images.Media.InterfaceConsts.Id);
-			this.count = imageCursor.Count;
-			this.arrPath = new string[this.count];
-			_imageIDs = new int[count];
-			for (int i = 0; i < this.count; i++)
-			{
-				imageCursor.MoveToPosition(i);
-				_imageIDs[i] = imageCursor.GetInt(image_column_index);
-				int dataColumnIndex = imageCursor.GetColumnIndex(MediaStore.Images.Media.InterfaceConsts.Data);
-				arrPath[i] = imageCursor.GetString(dataColumnIndex);
-			}
-
-			_adapter = new ImageAdapter(_imageIDs);
 			_layoutManager = new GridAutofitLayoutManager(this, 150);
 			_recyclerView = FindViewById<RecyclerView>(Resource.Id.recycler_view_photo_galery);
 			_recyclerView.SetLayoutManager(_layoutManager);
+
+			_galery = new PhotoGalery(this);
+			await _galery.LoadImages();
+			_adapter = new PhotoGaleryAdapter(_galery);
 			_recyclerView.SetAdapter(_adapter);
-
-			imageCursor.Close();
-
 //			Button selectBtn = (Button) FindViewById(Resource.Id.selectBtn);
 //			selectBtn.setOnClickListener(new OnClickListener() {
 //
@@ -94,56 +71,15 @@ namespace Tojeero.Droid
 //				}
 //			});
 		}
-
-		private class GlobalLayoutListener : Java.Lang.Object,  Android.Views.ViewTreeObserver.IOnGlobalLayoutListener
-		{
-			WeakReference<PhotoGaleryActivity> _parent;
-			public GlobalLayoutListener(PhotoGaleryActivity parent)
-			{
-				_parent = new WeakReference<PhotoGaleryActivity>(parent);
-			}
-
-			#region IOnGlobalLayoutListener implementation
-
-			public void OnGlobalLayout()
-			{
-				PhotoGaleryActivity parent;
-				_parent.TryGetTarget(out parent);
-				parent._recyclerView.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
-				int viewWidth = parent._recyclerView.MeasuredWidth;
-				float cardViewWidth = 150;
-				int newSpanCount = (int) Math.Floor(viewWidth / cardViewWidth);
-				parent._layoutManager.SpanCount = newSpanCount;
-				parent._layoutManager.RequestLayout();
-			}
-
-			#endregion
 			
-		}
-
-		void recyclerViewLayoutChanged (object sender, EventArgs e)
+		public class PhotoGaleryAdapter : RecyclerView.Adapter
 		{
 			
-		}
+			private PhotoGalery _galery;
 
-
-		//
-		//
-		//
-		//		public void onBackPressed() {
-		//			setResult(Activity.RESULT_CANCELED);
-		//			super.onBackPressed();
-		//
-		//		}
-
-		public class ImageAdapter : RecyclerView.Adapter
-		{
-			
-			private int[] _imageIDs;
-
-			public ImageAdapter(int[] imageIDs)
+			public PhotoGaleryAdapter(PhotoGalery galery)
 			{
-				this._imageIDs = imageIDs;
+				this._galery = galery;
 			}
 
 			#region implemented abstract members of Adapter
@@ -162,7 +98,7 @@ namespace Tojeero.Droid
 			{
 				var cell = (ImageViewHolder)holder;
 				cell.ImageView.Id = position;
-				cell.ID = _imageIDs[position];
+				cell.FetchImage = (token) => _galery.GetImageAtIndex(position, token);
 				try
 				{					
 					cell.LoadBitmap();
@@ -177,7 +113,7 @@ namespace Tojeero.Droid
 			{
 				get
 				{
-					return _imageIDs != null ? _imageIDs.Length : 0;
+					return this._galery.Count;
 				}
 			}
 
@@ -207,7 +143,7 @@ namespace Tojeero.Droid
 
 				public ImageView ImageView { get; set; }
 
-				public int ID { get; set; }
+				public Func<CancellationToken, Task<Bitmap>> FetchImage { get; set; }
 
 				#endregion
 
@@ -228,15 +164,7 @@ namespace Tojeero.Droid
 					Bitmap image = null;
 					try
 					{
-						//Load the new image
-						image = await Task<Bitmap>.Factory.StartNew(() =>
-							{
-								var bitmap = MediaStore.Images.Thumbnails.GetThumbnail(
-									             Application.Context.ContentResolver, 
-									             ID, ThumbnailKind.MiniKind, null);
-								return bitmap;
-							}, _cancellationToken.Token);
-
+						image = await FetchImage(_cancellationToken.Token);
 						//If the task is cancelled dispose the image and return
 						if (_cancellationToken.Token.IsCancellationRequested && image != null)
 						{

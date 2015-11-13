@@ -334,6 +334,9 @@
     </Compile>
     <Compile Include="Misc\Toolbox\BitmapToolbox.cs" />
     <Compile Include="Misc\Images\PhotoGaleryActivity.cs" />
+    <Compile Include="Misc\Images\CameraActivity.cs" />
+    <Compile Include="Misc\Images\SquareRelativeLayout.cs" />
+    <Compile Include="Misc\Images\GridAutofitLayoutManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -416,8 +419,14 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon_arrow_up.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon_arrow_right.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon_corner_remove.png" />
-    <AndroidResource Include="Resources\layout\photo_galery.axml" />
-    <AndroidResource Include="Resources\layout\photo_galery_item.axml" />
+    <AndroidResource Include="Resources\layout\activity_camera.axml" />
+    <AndroidResource Include="Resources\layout\activity_photo_galery.axml" />
+    <AndroidResource Include="Resources\layout\grid_cell_photo_galery_item.axml" />
+    <AndroidResource Include="Resources\drawable\FlashButton.png" />
+    <AndroidResource Include="Resources\drawable\NoFlashButton.png" />
+    <AndroidResource Include="Resources\drawable\TakePhotoButton.png" />
+    <AndroidResource Include="Resources\drawable\ToggleCameraButton.png" />
+    <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

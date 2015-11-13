@@ -134,20 +134,25 @@ namespace Tojeero.Forms
 			try
 			{
 				MediaFile result = null;
+				IImage image;
 				if (fromCamera)
 				{
-					result = await this._mediaPicker.TakePhotoAsync(new CameraMediaStorageOptions
-						{ 
-							DefaultCamera = CameraDevice.Rear
-						});
+//					result = await this._mediaPicker.TakePhotoAsync(new CameraMediaStorageOptions
+//						{ 
+//							DefaultCamera = CameraDevice.Rear
+//						});
+					image = await this._imageService.GetImageFromCamera();
+					return image;
 				}
 				else
 				{
-					result = await this._mediaPicker.SelectPhotoAsync(new CameraMediaStorageOptions());
+//					result = await this._mediaPicker.SelectPhotoAsync(new CameraMediaStorageOptions());
+					image = await this._imageService.GetImageFromLibrary();
+					return image;
 				}
 				if (result != null)
 				{
-					var image = await _imageService.GetImage(result);
+					image = await _imageService.GetImage(result);
 					return image;
 				}
 			}

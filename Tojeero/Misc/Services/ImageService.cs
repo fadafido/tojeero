@@ -39,6 +39,32 @@ namespace Tojeero.Core.Services
 				});
 		}
 
+		public async Task<IImage> GetImageFromLibrary()
+		{
+			#if __IOS__
+
+			#endif
+			#if __ANDROID__
+			var activity = Xamarin.Forms.Forms.Context as MainActivity;
+			activity.StartActivity(typeof(PhotoGaleryActivity));
+			#endif 
+
+			return null;
+		}
+
+		public async Task<IImage> GetImageFromCamera()
+		{
+			#if __IOS__
+
+			#endif
+			#if __ANDROID__
+			var activity = Xamarin.Forms.Forms.Context as MainActivity;
+			activity.StartActivity(typeof(CameraActivity));
+			#endif 
+
+			return null;
+		}
+
 		public byte[] ResizeImage(MediaFile file, float maxPixelDimension)
 		{
 			#if __IOS__

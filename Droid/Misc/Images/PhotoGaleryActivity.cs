@@ -13,19 +13,26 @@ using Android.Widget;
 using Android.Provider;
 using System.Threading.Tasks;
 using Android.Graphics;
+using Android.Content.PM;
+using Nito.AsyncEx;
+using System.Threading;
+using Android.Support.V7.Widget;
+using Android.Graphics.Drawables;
 
 namespace Tojeero.Droid
 {
-	[Activity(Label = "PhotoGaleryActivity")]			
+	[Activity(Label = "PhotoGaleryActivity", Icon = "@drawable/icon", Theme = "@style/Theme.Tojeero", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class PhotoGaleryActivity : Activity
 	{
 		#region Private fields and properties
 
-		private ImageAdapter imageAdapter;
-
 		private string[] arrPath;
 		private int[] _imageIDs;
 		private int count;
+
+		RecyclerView _recyclerView;
+		GridLayoutManager _layoutManager;
+		ImageAdapter _adapter;
 
 		#endregion
 
@@ -34,28 +41,32 @@ namespace Tojeero.Droid
 			base.OnCreate(bundle);
 
 			// Create your application here
-			this.SetContentView(Resource.Layout.photo_galery);
+			this.SetContentView(Resource.Layout.activity_photo_galery);
 
 			string[] columns = { MediaStore.Images.Media.InterfaceConsts.Data, MediaStore.Images.Media.InterfaceConsts.Id };
 			string orderBy = MediaStore.Images.Media.InterfaceConsts.Id;
 
-			var imagecursor =  ContentResolver.Query(MediaStore.Images.Media.ExternalContentUri, columns, null, null, orderBy);
+			var imageCursor = ContentResolver.Query(MediaStore.Images.Media.ExternalContentUri, columns, null, null, orderBy);
 
-			int image_column_index = imagecursor.GetColumnIndex(MediaStore.Images.Media.InterfaceConsts.Id);
-			this.count = imagecursor.Count;
+			int image_column_index = imageCursor.GetColumnIndex(MediaStore.Images.Media.InterfaceConsts.Id);
+			this.count = imageCursor.Count;
 			this.arrPath = new string[this.count];
 			_imageIDs = new int[count];
-			for (int i = 0; i < this.count; i++) {
-				imagecursor.MoveToPosition(i);
-				_imageIDs[i] = imagecursor.GetInt(image_column_index);
-				int dataColumnIndex = imagecursor.GetColumnIndex(MediaStore.Images.Media.InterfaceConsts.Data);
-				arrPath[i] = imagecursor.GetString(dataColumnIndex);
+			for (int i = 0; i < this.count; i++)
+			{
+				imageCursor.MoveToPosition(i);
+				_imageIDs[i] = imageCursor.GetInt(image_column_index);
+				int dataColumnIndex = imageCursor.GetColumnIndex(MediaStore.Images.Media.InterfaceConsts.Data);
+				arrPath[i] = imageCursor.GetString(dataColumnIndex);
 			}
 
-			GridView imagegrid = (GridView) FindViewById(Resource.Id.PhoneImageGrid);
-			imageAdapter = new ImageAdapter(_imageIDs);
-			imagegrid.Adapter = imageAdapter;
-			imagecursor.Close();
+			_adapter = new ImageAdapter(_imageIDs);
+			_layoutManager = new GridAutofitLayoutManager(this, 150);
+			_recyclerView = FindViewById<RecyclerView>(Resource.Id.recycler_view_photo_galery);
+			_recyclerView.SetLayoutManager(_layoutManager);
+			_recyclerView.SetAdapter(_adapter);
+
+			imageCursor.Close();
 
 //			Button selectBtn = (Button) FindViewById(Resource.Id.selectBtn);
 //			selectBtn.setOnClickListener(new OnClickListener() {
@@ -84,86 +95,181 @@ namespace Tojeero.Droid
 //			});
 		}
 
+		private class GlobalLayoutListener : Java.Lang.Object,  Android.Views.ViewTreeObserver.IOnGlobalLayoutListener
+		{
+			WeakReference<PhotoGaleryActivity> _parent;
+			public GlobalLayoutListener(PhotoGaleryActivity parent)
+			{
+				_parent = new WeakReference<PhotoGaleryActivity>(parent);
+			}
 
-//
-//
-//
-//		public void onBackPressed() {
-//			setResult(Activity.RESULT_CANCELED);
-//			super.onBackPressed();
-//
-//		}
+			#region IOnGlobalLayoutListener implementation
 
-		public class ImageAdapter : BaseAdapter {
+			public void OnGlobalLayout()
+			{
+				PhotoGaleryActivity parent;
+				_parent.TryGetTarget(out parent);
+				parent._recyclerView.ViewTreeObserver.RemoveOnGlobalLayoutListener(this);
+				int viewWidth = parent._recyclerView.MeasuredWidth;
+				float cardViewWidth = 150;
+				int newSpanCount = (int) Math.Floor(viewWidth / cardViewWidth);
+				parent._layoutManager.SpanCount = newSpanCount;
+				parent._layoutManager.RequestLayout();
+			}
+
+			#endregion
 			
-			private LayoutInflater _inflater;
+		}
+
+		void recyclerViewLayoutChanged (object sender, EventArgs e)
+		{
+			
+		}
+
+
+		//
+		//
+		//
+		//		public void onBackPressed() {
+		//			setResult(Activity.RESULT_CANCELED);
+		//			super.onBackPressed();
+		//
+		//		}
+
+		public class ImageAdapter : RecyclerView.Adapter
+		{
+			
 			private int[] _imageIDs;
 
-			public ImageAdapter(int[] imageIDs) 
+			public ImageAdapter(int[] imageIDs)
 			{
 				this._imageIDs = imageIDs;
-				_inflater = (LayoutInflater)Application.Context.GetSystemService(Context.LayoutInflaterService);
 			}
 
-			#region implemented abstract members of BaseAdapter
+			#region implemented abstract members of Adapter
 
-			public override Java.Lang.Object GetItem(int position)
+			static int create = 0;
+			public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
 			{
-				return position;
+				Console.WriteLine("CREATE VIEW HOLDER - {0}", ++create);
+
+				var view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.grid_cell_photo_galery_item, null);
+				var holder = new ImageViewHolder(view);
+				return holder;
 			}
 
-			public override long GetItemId(int position)
+			public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
 			{
-				return position;
-			}
-
-			public override View GetView(int position, View convertView, ViewGroup parent)
-			{
-				ViewHolder holder;
-				if (convertView == null) {
-					holder = new ViewHolder();
-					convertView = _inflater.Inflate(Resource.Layout.photo_galery_item, null);
-					holder.imageview = (ImageView) convertView.FindViewById(Resource.Id.thumbImage);
-
-					convertView.Tag = holder;
-				} else {
-					holder = (ViewHolder) convertView.Tag;
+				var cell = (ImageViewHolder)holder;
+				cell.ImageView.Id = position;
+				cell.ID = _imageIDs[position];
+				try
+				{					
+					cell.LoadBitmap();
 				}
-				holder.imageview.Id = position;
-
-				try 
-				{
-					setBitmap (holder.imageview, _imageIDs[position]);
-				} 
-				catch (Exception e) 
+				catch (Exception e)
 				{
 					Console.WriteLine(e);
 				}
-
-				holder.id = position;
-				return convertView;
 			}
 
-			public override int Count
+			public override int ItemCount
 			{
 				get
 				{
-					return _imageIDs.Length;
+					return _imageIDs != null ? _imageIDs.Length : 0;
 				}
 			}
 
 			#endregion
 
-			private async void setBitmap(ImageView imageView, int imageId)
+			class ImageViewHolder : RecyclerView.ViewHolder
 			{
-				var image = await Task<Bitmap>.Factory.StartNew(() => MediaStore.Images.Thumbnails.GetThumbnail(Application.Context.ContentResolver, imageId, ThumbnailKind.MicroKind, null));
-				imageView.SetImageBitmap(image);
-			}
+				#region Private fields and properties
 
-			class ViewHolder : Java.Lang.Object
-			{
-				public ImageView imageview { get; set; }
-				public int id { get; set; }
+				static int count = 0;
+				private CancellationTokenSource _cancellationToken;
+				private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+
+				#endregion
+
+				#region Constructors
+
+				public ImageViewHolder(View parent)
+					:base(parent)
+				{
+					this.ImageView = parent.FindViewById<ImageView>(Resource.Id.thumbImage);
+				}
+
+				#endregion
+
+				#region Properties
+
+				public ImageView ImageView { get; set; }
+
+				public int ID { get; set; }
+
+				#endregion
+
+				public async void LoadBitmap()
+				{
+					//If we had already running task on this view, cancel it.
+					if (_cancellationToken != null)
+					{
+						_cancellationToken.Cancel();
+					}
+
+					//Create new cancellation token
+					_cancellationToken = new CancellationTokenSource();
+
+					//Set the image to null
+					setImage(null, _cancellationToken.Token);
+
+					Bitmap image = null;
+					try
+					{
+						//Load the new image
+						image = await Task<Bitmap>.Factory.StartNew(() =>
+							{
+								var bitmap = MediaStore.Images.Thumbnails.GetThumbnail(
+									             Application.Context.ContentResolver, 
+									             ID, ThumbnailKind.MiniKind, null);
+								return bitmap;
+							}, _cancellationToken.Token);
+
+						//If the task is cancelled dispose the image and return
+						if (_cancellationToken.Token.IsCancellationRequested && image != null)
+						{
+							image.Recycle();
+							return;
+						}
+						else
+						{
+							//Set new image
+							setImage(image, _cancellationToken.Token);
+						}
+
+					}
+					catch (Exception ex)
+					{
+					}
+				}
+
+				private void setImage(Bitmap bitmap, CancellationToken token)
+				{
+					using (var writerLock = _locker.WriterLock(token))
+					{
+						if (ImageView == null)
+							return;
+						if (ImageView.Drawable != null)
+						{
+							var old = ((BitmapDrawable)ImageView.Drawable).Bitmap;
+							if (old != null && !old.IsRecycled)
+								old.Recycle();
+						}
+						ImageView.SetImageBitmap(bitmap);
+					}
+				}
 			}
 		}
 	}

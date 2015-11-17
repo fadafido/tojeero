@@ -10,7 +10,7 @@ namespace Tojeero.Core
 
 		string Description { get; set; }
 
-		string LowercaseName { get; }
+		string LowercaseName { get; set; }
 
 		string DeliveryNotes { get; set; }
 

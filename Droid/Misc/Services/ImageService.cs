@@ -92,7 +92,7 @@ namespace Tojeero.Core.Services
 							{
 								var path = message.Path;
 								var file = new MediaFile(path, () => File.OpenRead(path));
-								var rawImage = getScaledAndRotatedImage(file, 1000);
+								var rawImage = getScaledAndRotatedImage(file, Constants.MaxPixelDimensionOfImages);
 
 								//Initialize picked image
 								image = new PickedImage()

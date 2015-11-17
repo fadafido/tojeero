@@ -40,6 +40,7 @@ namespace Tojeero.Core
 		/*****************MISC*****************/
 		public static string XamarinInsightsApiKey = "641ba3e3bf2f2764d06bc254a896aed9c8175a94";
 		public static int ParseContainsAllLimit = 9;
+		public static int MaxPixelDimensionOfImages = 500;
 
 		/*****************Cache timespans*****************/
 		public static TimeSpan ImageCacheTimespan = TimeSpan.FromDays(1);

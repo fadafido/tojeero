@@ -55,7 +55,7 @@ namespace Tojeero.Core.Services
 		{
 			return Task<IImage>.Factory.StartNew(() =>
 				{
-					var rawImage = getScaledAndRotatedImage(file, 1000);
+					var rawImage = getScaledAndRotatedImage(file, Constants.MaxPixelDimensionOfImages);
 
 					//Initialize picked image
 					PickedImage image = new PickedImage()

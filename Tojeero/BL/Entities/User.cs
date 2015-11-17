@@ -302,6 +302,8 @@ namespace Tojeero.Core
 
 		public async Task LoadDefaultStore()
 		{
+			if (this.DefaultStore != null)
+				return;
 			var repo = Mvx.Resolve<IRestRepository>();
 			var store = await repo.FetchDefaultStoreForUser(ParseUser.CurrentUser.ObjectId);
 			this.DefaultStore = store;

@@ -52,10 +52,51 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		#endregion
+		private bool _isLoadingUserStore;
+		public static string IsLoadingUserStoreProperty = "IsLoadingUserStore";
 
-		#region UI Strings
+		public bool IsLoadingUserStore
+		{ 
+			get
+			{
+				return _isLoadingUserStore; 
+			}
+			set
+			{
+				_isLoadingUserStore = value; 
+				RaisePropertyChanged(() => IsLoadingUserStore); 
+			}
+		}
 
+		private bool _isLoadingUserStoreFailed;
+
+		public bool IsLoadingUserStoreFailed
+		{ 
+			get
+			{
+				return _isLoadingUserStoreFailed; 
+			}
+			set
+			{
+				_isLoadingUserStoreFailed = value; 
+				RaisePropertyChanged(() => IsLoadingUserStoreFailed); 
+			}
+		}
+
+		private IStore _userStore;
+		public static string UserStoreProperty = "UserStore";
+		public IStore UserStore
+		{ 
+			get
+			{
+				return _userStore; 
+			}
+			set
+			{
+				_userStore = value; 
+				RaisePropertyChanged(() => UserStore); 
+			}
+		}
 
 		#endregion
 
@@ -142,6 +183,28 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadUserStoreCommand;
+
+		public System.Windows.Input.ICommand LoadUserStoreCommand
+		{
+			get
+			{
+				_loadUserStoreCommand = _loadUserStoreCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						await loadUserStore();
+					}, () => CanExecuteLoadUserStoreCommand);
+				return _loadUserStoreCommand;
+			}
+		}
+			
+		public bool CanExecuteLoadUserStoreCommand
+		{
+			get
+			{
+				return this.IsLoggedIn && this.IsNetworkAvailable && !IsLoadingUserStore && this.UserStore == null;
+			}
+		}
+
 		#endregion
 
 		#region Utility Methods
@@ -163,6 +226,29 @@ namespace Tojeero.Core.ViewModels
 			await this._authService.LogOut();
 			this.IsLoading = false;
 		}
+
+		private async Task loadUserStore()
+		{
+			this.IsLoadingUserStore = true;
+			this.IsLoadingUserStoreFailed = false;
+			try
+			{
+				if(this.CurrentUser.DefaultStore == null)
+					await this.CurrentUser.LoadDefaultStore();
+				this.UserStore = this.CurrentUser.DefaultStore;
+			}
+			catch(OperationCanceledException ex)
+			{
+				this.IsLoadingUserStoreFailed = true;
+				Tools.Logger.Log(ex, LoggingLevel.Debug);
+			}
+			catch (Exception ex)
+			{
+				this.IsLoadingUserStoreFailed = true;
+				Tools.Logger.Log(ex, LoggingLevel.Error, true);
+			}
+			this.IsLoadingUserStore = false;
+		}
 			
 		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{			
@@ -170,7 +256,14 @@ namespace Tojeero.Core.ViewModels
 			{
 				RaisePropertyChanged(() => CanExecuteLoginCommand);
 			}
+
+			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty || 
+				e.PropertyName == IsLoadingUserStoreProperty || e.PropertyName == UserStoreProperty)
+			{
+				RaisePropertyChanged(() => CanExecuteLoadUserStoreCommand);
+			}
 		}
+
 		#endregion
 	}
 }

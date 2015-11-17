@@ -125,6 +125,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit my store.
+        /// </summary>
+        internal static string ButtonEditStore {
+            get {
+                return ResourceManager.GetString("ButtonEditStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log in.
         /// </summary>
         internal static string ButtonLogin {
@@ -139,6 +148,15 @@ namespace Tojeero.Forms.Resources {
         internal static string ButtonLogout {
             get {
                 return ResourceManager.GetString("ButtonLogout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refetch store.
+        /// </summary>
+        internal static string ButtonRefetchStore {
+            get {
+                return ResourceManager.GetString("ButtonRefetchStore", resourceCulture);
             }
         }
         
@@ -449,6 +467,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading store....
+        /// </summary>
+        internal static string MessageLoadingStore {
+            get {
+                return ResourceManager.GetString("MessageLoadingStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to load data because of timeout. Please make sure you are connected to internet and try again..
         /// </summary>
         internal static string MessageLoadingTimeOut {
@@ -598,6 +625,15 @@ namespace Tojeero.Forms.Resources {
         internal static string TitleCreateStore {
             get {
                 return ResourceManager.GetString("TitleCreateStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit store.
+        /// </summary>
+        internal static string TitleEditStore {
+            get {
+                return ResourceManager.GetString("TitleEditStore", resourceCulture);
             }
         }
         

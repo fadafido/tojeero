@@ -225,7 +225,7 @@ namespace Tojeero.Droid
 			camera.StopPreview();
 
 			var image = textureView.Bitmap;
-			_selectedImage = image.GetScaledAndRotatedBitmap(SurfaceOrientation.Rotation0, 1000);
+			_selectedImage = image.GetScaledAndRotatedBitmap(SurfaceOrientation.Rotation0, Constants.MaxPixelDimensionOfImages);
 			Finish();
 			publishSelectedImage();
 		}

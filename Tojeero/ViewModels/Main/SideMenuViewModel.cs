@@ -69,7 +69,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private bool _isLoadingUserStoreFailed;
-
+		public static string IsLoadingUserStoreFailedProperty = "IsLoadingUserStoreFailed";
 		public bool IsLoadingUserStoreFailed
 		{ 
 			get
@@ -95,6 +95,33 @@ namespace Tojeero.Core.ViewModels
 			{
 				_userStore = value; 
 				RaisePropertyChanged(() => UserStore); 
+				RaisePropertyChanged(() => ShowSaveStoreTitle);
+			}
+		}
+
+		public string ShowSaveStoreTitle
+		{
+			get
+			{
+				string title;
+
+				if (this.UserStore != null)
+				{
+					title = !string.IsNullOrEmpty(this.UserStore.Name) ? this.UserStore.Name : AppResources.ButtonEditStore;
+				}
+				else
+				{
+					title = AppResources.ButtonCreateStore;
+				}
+				return title;
+			}
+		}
+
+		public bool IsShowSaveStoreVisible
+		{
+			get
+			{
+				return !IsLoadingUserStore && !IsLoadingUserStoreFailed;
 			}
 		}
 
@@ -177,7 +204,7 @@ namespace Tojeero.Core.ViewModels
 			get
 			{
 				_showSaveStoreCommand = _showSaveStoreCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					this.ShowSaveStoreAction.Fire(null);
+					this.ShowSaveStoreAction.Fire(this.UserStore);
 				});
 				return _showSaveStoreCommand;
 			}
@@ -261,6 +288,11 @@ namespace Tojeero.Core.ViewModels
 				e.PropertyName == IsLoadingUserStoreProperty || e.PropertyName == UserStoreProperty)
 			{
 				RaisePropertyChanged(() => CanExecuteLoadUserStoreCommand);
+			}
+
+			if (e.PropertyName == IsLoadingUserStoreProperty || e.PropertyName == IsLoadingUserStoreFailedProperty)
+			{
+				RaisePropertyChanged(() => IsShowSaveStoreVisible);
 			}
 		}
 

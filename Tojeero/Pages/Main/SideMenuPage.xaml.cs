@@ -44,6 +44,16 @@ namespace Tojeero.Forms
 
 		#endregion
 
+		#region View lifecycle management
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			this.ViewModel.LoadUserStoreCommand.Execute(null);
+		}
+
+		#endregion
+
 		#region Utility methods
 
 		private void setupViewModel()

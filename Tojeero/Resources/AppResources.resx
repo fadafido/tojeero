@@ -387,4 +387,16 @@
     <value>Create my free store</value>
     <comment>Create store button title</comment>
   </data>
+  <data name="ButtonEditStore" xml:space="preserve">
+    <value>Edit my store</value>
+  </data>
+  <data name="ButtonRefetchStore" xml:space="preserve">
+    <value>Refetch store</value>
+  </data>
+  <data name="MessageLoadingStore" xml:space="preserve">
+    <value>Loading store...</value>
+  </data>
+  <data name="TitleEditStore" xml:space="preserve">
+    <value>Edit store</value>
+  </data>
 </root>

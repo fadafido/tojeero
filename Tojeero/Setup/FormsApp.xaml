@@ -48,6 +48,8 @@
 			</Style>
 			<local:VisibilityConverter
 				x:Key="visibility" />
+			<local:InverseVisibilityConverter
+				x:Key="inverseVisibility" />
 			<local:InverseBoolConverter
 				x:Key="inverse" />
 			<local:BoolToOpacityConverter

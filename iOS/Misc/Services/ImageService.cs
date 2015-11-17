@@ -10,17 +10,48 @@ using System.Drawing;
 using UIKit;
 using CoreGraphics;
 using Tojeero.iOS;
+using Cirrious.CrossCore;
 
 namespace Tojeero.Core.Services
 {
 	public class ImageService : IImageService
 	{
+		#region Constructors
+
 		public ImageService(IMvxMessenger messenger)
 		{
 			
 		}
 
-		public Task<IImage> GetImage(MediaFile file)
+		#endregion
+
+		#region IImageService implementation
+
+		public async Task<IImage> GetImageFromLibrary()
+		{
+			IMediaPicker _mediaPicker = Mvx.Resolve<IMediaPicker>();
+			var imageFile = await _mediaPicker.SelectPhotoAsync(new CameraMediaStorageOptions());
+			var result = await getImageFromMediaFile(imageFile);
+			return result;
+		}
+
+		public async Task<IImage> GetImageFromCamera()
+		{
+			IMediaPicker _mediaPicker = Mvx.Resolve<IMediaPicker>();
+			var imageFile = await _mediaPicker.TakePhotoAsync(new CameraMediaStorageOptions
+				{ 
+					DefaultCamera = CameraDevice.Rear
+				});
+			var result = await getImageFromMediaFile(imageFile);
+			return result;
+		}
+
+		#endregion
+			
+
+		#region Utility methods
+
+		public Task<IImage> getImageFromMediaFile(MediaFile file)
 		{
 			return Task<IImage>.Factory.StartNew(() =>
 				{
@@ -28,33 +59,22 @@ namespace Tojeero.Core.Services
 
 					//Initialize picked image
 					PickedImage image = new PickedImage()
-					{
-						Name = System.IO.Path.GetFileName(file.Path),
-						RawImage = rawImage
-					};
+						{
+							Name = System.IO.Path.GetFileName(file.Path),
+							RawImage = rawImage
+						};
 
 					return image;
 				});
 		}
 
-		public Task<IImage> GetImageFromLibrary()
-		{
-			return null;
-		}
-
-		public Task<IImage> GetImageFromCamera()
-		{
-			
-			return null;
-		}
-			
 		public byte[] getScaledAndRotatedImage(MediaFile file, float maxPixelDimension)
 		{
 			byte[] rawImage = new byte[file.Source.Length];
 			file.Source.Read(rawImage, 0, rawImage.Length);
 
 			using (var original = rawImage.GetUIImage())
-			using(var result = original.GetScaledAndRotatedImage(maxPixelDimension))
+			using (var result = original.GetScaledAndRotatedImage(maxPixelDimension))
 			{
 				var fileName = file.Path.ToLower();
 				if (fileName.EndsWith("png"))
@@ -64,6 +84,8 @@ namespace Tojeero.Core.Services
 				return result.GetRawBytes(ImageType.Jpeg);
 			}
 		}
+			
+		#endregion
 	}
 }
 

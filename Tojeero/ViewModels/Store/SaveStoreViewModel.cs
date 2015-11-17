@@ -419,7 +419,11 @@ namespace Tojeero.Core.ViewModels
 			IsPickingImage = true;
 			if(PickImageFunction != null)
 			{
-				this.MainImage.NewImage = await PickImageFunction();
+				var image = await PickImageFunction();
+				if (image != null)
+				{
+					this.MainImage.NewImage = image;
+				}
 			}	
 			IsPickingImage = false;
 		}

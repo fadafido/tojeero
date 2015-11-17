@@ -137,16 +137,11 @@ namespace Tojeero.Forms
 				IImage image;
 				if (fromCamera)
 				{
-//					result = await this._mediaPicker.TakePhotoAsync(new CameraMediaStorageOptions
-//						{ 
-//							DefaultCamera = CameraDevice.Rear
-//						});
 					image = await this._imageService.GetImageFromCamera();
 					return image;
 				}
 				else
 				{
-//					result = await this._mediaPicker.SelectPhotoAsync(new CameraMediaStorageOptions());
 					image = await this._imageService.GetImageFromLibrary();
 					return image;
 				}

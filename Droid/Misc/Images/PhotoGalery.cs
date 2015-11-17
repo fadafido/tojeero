@@ -6,6 +6,8 @@ using Android.Content;
 using Android.Graphics;
 using Android.App;
 using System.Threading;
+using Android.Database;
+using System.Collections.Generic;
 
 namespace Tojeero.Droid
 {
@@ -40,7 +42,7 @@ namespace Tojeero.Droid
 				await Task.Factory.StartNew(() =>
 					{
 						string[] columns = { MediaStore.Images.Media.InterfaceConsts.Data, MediaStore.Images.Media.InterfaceConsts.Id };
-						string orderBy = MediaStore.Images.Media.InterfaceConsts.Id;
+						string orderBy = MediaStore.Images.Media.InterfaceConsts.DateModified + " DESC";
 
 						var imageCursor = _context.ContentResolver.Query(MediaStore.Images.Media.ExternalContentUri, columns, null, null, orderBy);
 
@@ -48,6 +50,7 @@ namespace Tojeero.Droid
 						var count = imageCursor.Count;
 						this._imagePaths = new string[count];
 						_imageIDs = new int[count];
+
 						for (int i = 0; i < count; i++)
 						{
 							imageCursor.MoveToPosition(i);
@@ -55,14 +58,13 @@ namespace Tojeero.Droid
 							int dataColumnIndex = imageCursor.GetColumnIndex(MediaStore.Images.Media.InterfaceConsts.Data);
 							_imagePaths[i] = imageCursor.GetString(dataColumnIndex);
 						}
-
 						imageCursor.Close();
 						this.Count = _imageIDs.Length;
 					});
 			}
 		}
 
-		public async Task<Bitmap> GetImageAtIndex(int index, CancellationToken token)
+		public async Task<Bitmap> GetThumbnailAtIndex(int index, CancellationToken token)
 		{
 			if (!(index >= 0 && index < this.Count))
 				return null;
@@ -70,14 +72,26 @@ namespace Tojeero.Droid
 			var image = await Task<Bitmap>.Factory.StartNew(() =>
 				{
 					var bitmap = MediaStore.Images.Thumbnails.GetThumbnail(
-						Application.Context.ContentResolver, 
-						_imageIDs[index], ThumbnailKind.MiniKind, null);
+						             _context.ContentResolver,
+						             _imageIDs[index], 
+						             ThumbnailKind.MiniKind, null);
 					return bitmap;
 				}, token);
 			return image;
 		}
 
+		public string GetImagePathAtIndex(int index)
+		{
+			if (!(index >= 0 && index < this.Count))
+				return null;
+			//Load the new image path
+			var imagePath = _imagePaths[index];
+			
+			return imagePath;
+		}
+
 		private int _count;
+
 		public int Count
 		{
 			get
@@ -89,7 +103,9 @@ namespace Tojeero.Droid
 				_count = value;
 			}
 		}
+
 		#endregion
+
 	}
 }
 

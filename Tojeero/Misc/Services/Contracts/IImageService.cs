@@ -7,8 +7,6 @@ namespace Tojeero.Core.Services
 {
 	public interface IImageService
 	{
-		Task<PickedImage> GetImage(MediaFile file);
-
 		Task<IImage> GetImageFromLibrary();
 		Task<IImage> GetImageFromCamera();
 	}

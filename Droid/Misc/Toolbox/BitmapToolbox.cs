@@ -4,6 +4,7 @@ using XLabs.Platform.Services.Media;
 using ExifLib;
 using System.IO;
 using System.Drawing;
+using Android.Views;
 
 namespace Tojeero.Droid
 {
@@ -18,7 +19,39 @@ namespace Tojeero.Droid
 				case ExifOrientation.TopRight:
 					degrees = 90;
 					break;
-				case ExifOrientation.TopLeft:
+				case ExifOrientation.BottomLeft:
+					degrees = -90;
+					break;
+				case ExifOrientation.BottomRight:
+					degrees = 180;
+					break;
+			}
+
+			//Rotate if needed
+			if (degrees != 0)
+			{
+				using (Matrix mtx = new Matrix())
+				{
+					mtx.PreRotate(degrees);
+					bitmap = Bitmap.CreateBitmap(bitmap, 0, 0, bitmap.Width, bitmap.Height, mtx, false);
+				}
+			}
+			return bitmap;
+		}
+
+		public static Bitmap RotateToCorrentOrientation(this Bitmap bitmap, SurfaceOrientation currentOrientation)
+		{
+			//Calculate rotation
+			float degrees = 0;
+			switch (currentOrientation)
+			{
+				case SurfaceOrientation.Rotation180:
+					degrees = -180;
+					break;
+				case SurfaceOrientation.Rotation270:
+					degrees = 90;
+					break;
+				case SurfaceOrientation.Rotation90:
 					degrees = -90;
 					break;
 			}
@@ -57,6 +90,23 @@ namespace Tojeero.Droid
 		}
 
 		public static Bitmap GetScaledAndRotatedBitmap(this Bitmap bitmap, ExifOrientation currentOrientation, float maxPixelDimension)
+		{
+			var newBitmapSize = getScaledSize(bitmap.Width, bitmap.Height, maxPixelDimension);
+			if (newBitmapSize != SizeF.Empty)
+			{
+				var scaled = bitmap.ScaleBitmap(newBitmapSize);
+				var rotated = scaled.RotateToCorrentOrientation(currentOrientation);
+				if (rotated != scaled)
+					scaled.Dispose();
+				return rotated;
+			}
+			else
+			{
+				return bitmap.RotateToCorrentOrientation(currentOrientation);
+			}
+		}
+
+		public static Bitmap GetScaledAndRotatedBitmap(this Bitmap bitmap, SurfaceOrientation currentOrientation, float maxPixelDimension)
 		{
 			var newBitmapSize = getScaledSize(bitmap.Width, bitmap.Height, maxPixelDimension);
 			if (newBitmapSize != SizeF.Empty)

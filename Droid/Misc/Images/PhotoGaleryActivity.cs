@@ -16,6 +16,10 @@ using Nito.AsyncEx;
 using System.Threading;
 using Android.Support.V7.Widget;
 using Android.Graphics.Drawables;
+using Tojeero.Core.Toolbox;
+using Android.Content;
+using Cirrious.CrossCore;
+using Cirrious.MvvmCross.Plugins.Messenger;
 
 namespace Tojeero.Droid
 {
@@ -24,15 +28,26 @@ namespace Tojeero.Droid
 	{
 		#region Private fields and properties
 
-		RecyclerView _recyclerView;
-		GridLayoutManager _layoutManager;
-		PhotoGaleryAdapter _adapter;
-		PhotoGalery _galery;
+		private RecyclerView _recyclerView;
+		private GridLayoutManager _layoutManager;
+		private PhotoGaleryAdapter _adapter;
+		private PhotoGalery _galery;
+		private static string KEY_RECEIVER_ID = "RECEIVER_ID";
+		private Guid _receiverID = Guid.Empty;
+		private string _selectedImagePath;
+
 		#endregion
+
+		#region Lifecycle management
 
 		protected override async void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
+
+			if (this.Intent != null)
+			{
+				_receiverID = new Guid(this.Intent.GetStringExtra(KEY_RECEIVER_ID));
+			}
 
 			// Create your application here
 			this.SetContentView(Resource.Layout.activity_photo_galery);
@@ -43,52 +58,62 @@ namespace Tojeero.Droid
 
 			_galery = new PhotoGalery(this);
 			await _galery.LoadImages();
-			_adapter = new PhotoGaleryAdapter(_galery);
+			_adapter = new PhotoGaleryAdapter(_galery, imageSelected);
 			_recyclerView.SetAdapter(_adapter);
-//			Button selectBtn = (Button) FindViewById(Resource.Id.selectBtn);
-//			selectBtn.setOnClickListener(new OnClickListener() {
-//
-//				public void onClick(View v) {
-//					final int len = thumbnailsselection.length;
-//					int cnt = 0;
-//					string selectImages = "";
-//					for (int i = 0; i < len; i++) {
-//						if (thumbnailsselection[i]) {
-//							cnt++;
-//							selectImages = selectImages + arrPath[i] + "|";
-//						}
-//					}
-//					if (cnt == 0) {
-//						Toast.makeText(getApplicationContext(), "Please select at least one image", Toast.LENGTH_LONG).show();
-//					} else {
-//
-//						Log.d("SelectedImages", selectImages);
-//						Intent i = new Intent();
-//						i.putExtra("data", selectImages);
-//						setResult(Activity.RESULT_OK, i);
-//						finish();
-//					}
-//				}
-//			});
 		}
+
+		public override void OnBackPressed()
+		{
+			base.OnBackPressed();
+			publishSelectedImage();
+		}
+
+		#endregion
 			
+		#region Public API
+
+		public static Intent GetIntentForReceiver(Context context, Guid receiver)
+		{
+			var intent = new Intent(context, typeof(PhotoGaleryActivity));
+			intent.PutExtra(KEY_RECEIVER_ID, receiver.ToString());
+			return intent;
+		}
+
+		#endregion
+
+		#region Utility methods
+
+		public void imageSelected(string path)
+		{
+			_selectedImagePath = path;
+			this.Finish();
+			publishSelectedImage();
+		}
+
+		public void publishSelectedImage()
+		{
+			var messenger = Mvx.Resolve<IMvxMessenger>();
+			messenger.Publish<LibraryImageSelectedMessage>(new LibraryImageSelectedMessage(this, _receiverID, _selectedImagePath));
+		}
+
+		#endregion
+
 		public class PhotoGaleryAdapter : RecyclerView.Adapter
 		{
 			
 			private PhotoGalery _galery;
+			private Action<string> _selectedAction;
 
-			public PhotoGaleryAdapter(PhotoGalery galery)
+			public PhotoGaleryAdapter(PhotoGalery galery, Action<string> selectedAction)
 			{
 				this._galery = galery;
+				this._selectedAction = selectedAction;
 			}
 
 			#region implemented abstract members of Adapter
 
-			static int create = 0;
 			public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
 			{
-				Console.WriteLine("CREATE VIEW HOLDER - {0}", ++create);
-
 				var view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.grid_cell_photo_galery_item, null);
 				var holder = new ImageViewHolder(view);
 				return holder;
@@ -98,7 +123,8 @@ namespace Tojeero.Droid
 			{
 				var cell = (ImageViewHolder)holder;
 				cell.ImageView.Id = position;
-				cell.FetchImage = (token) => _galery.GetImageAtIndex(position, token);
+				cell.FetchImage = (token) => _galery.GetThumbnailAtIndex(position, token);
+				cell.SelectedAction = () => selectImageAtIndex(position);
 				try
 				{					
 					cell.LoadBitmap();
@@ -119,6 +145,16 @@ namespace Tojeero.Droid
 
 			#endregion
 
+			#region Utility methods
+
+			private void selectImageAtIndex(int index)
+			{
+				var path = _galery.GetImagePathAtIndex(index);
+				_selectedAction.Fire(path);
+			}
+
+			#endregion
+
 			class ImageViewHolder : RecyclerView.ViewHolder
 			{
 				#region Private fields and properties
@@ -135,6 +171,21 @@ namespace Tojeero.Droid
 					:base(parent)
 				{
 					this.ImageView = parent.FindViewById<ImageView>(Resource.Id.thumbImage);
+					parent.Clickable = true;
+					parent.Click += clicked;
+				}
+
+				#endregion
+
+				#region Disposable
+
+				protected override void Dispose(bool disposing)
+				{
+					if (disposing)
+					{
+						this.ItemView.Click -= clicked;
+					}
+					base.Dispose(disposing);
 				}
 
 				#endregion
@@ -142,10 +193,12 @@ namespace Tojeero.Droid
 				#region Properties
 
 				public ImageView ImageView { get; set; }
-
 				public Func<CancellationToken, Task<Bitmap>> FetchImage { get; set; }
+				public Action SelectedAction { get; set; }
 
 				#endregion
+
+				#region Public API
 
 				public async void LoadBitmap()
 				{
@@ -183,6 +236,10 @@ namespace Tojeero.Droid
 					}
 				}
 
+				#endregion
+
+				#region Utility methods
+
 				private void setImage(Bitmap bitmap, CancellationToken token)
 				{
 					using (var writerLock = _locker.WriterLock(token))
@@ -198,6 +255,13 @@ namespace Tojeero.Droid
 						ImageView.SetImageBitmap(bitmap);
 					}
 				}
+
+				void clicked (object sender, EventArgs e)
+				{
+					SelectedAction.Fire();
+				}
+
+				#endregion
 			}
 		}
 	}

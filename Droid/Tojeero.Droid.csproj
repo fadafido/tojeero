@@ -28,7 +28,7 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
+    <JavaOptions>-Xmx1024M</JavaOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -329,15 +329,15 @@
     <Compile Include="..\Tojeero\BL\Queries\StoreProductsQueryLoader.cs">
       <Link>Core\BL\Queries\StoreProductsQueryLoader.cs</Link>
     </Compile>
-    <Compile Include="..\Tojeero\Misc\Services\ImageService.cs">
-      <Link>Misc\Services\ImageService.cs</Link>
-    </Compile>
     <Compile Include="Misc\Toolbox\BitmapToolbox.cs" />
     <Compile Include="Misc\Images\PhotoGaleryActivity.cs" />
     <Compile Include="Misc\Images\CameraActivity.cs" />
     <Compile Include="Misc\Images\SquareRelativeLayout.cs" />
     <Compile Include="Misc\Images\GridAutofitLayoutManager.cs" />
     <Compile Include="Misc\Images\PhotoGalery.cs" />
+    <Compile Include="Misc\Services\ImageService.cs" />
+    <Compile Include="Misc\Messages\CameraImageSelectedMessage.cs" />
+    <Compile Include="Misc\Messages\LibraryImageSelectedMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -360,6 +360,7 @@
     <Folder Include="Core\DAL\" />
     <Folder Include="Core\BL\Queries\" />
     <Folder Include="Misc\Images\" />
+    <Folder Include="Misc\Messages\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />

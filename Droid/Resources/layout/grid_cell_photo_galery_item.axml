@@ -10,7 +10,10 @@
             android:id="@+id/thumbImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
+            android:scaleType="centerCrop" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/selectable_background_tojeero" />
     </FrameLayout>
 </Tojeero.Droid.SquareRelativeLayout>

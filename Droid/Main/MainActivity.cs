@@ -13,7 +13,12 @@ using Android.Graphics.Drawables;
 
 namespace Tojeero.Droid
 {
-	[Activity(Label = "Tojeero", Icon = "@drawable/icon", Theme="@style/Theme.Tojeero", MainLauncher = true,  ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity(Label = "Tojeero", 
+		Icon = "@drawable/icon", 
+		Theme="@style/Theme.Tojeero", 
+		MainLauncher = true,  
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+		ScreenOrientation=ScreenOrientation.Portrait)]
 	[IntentFilter(new[] { Intent.ActionMain }, Categories = new[] { "android.intent.category.LAUNCHER" })]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{

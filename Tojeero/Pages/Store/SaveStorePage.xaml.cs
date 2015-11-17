@@ -150,11 +150,7 @@ namespace Tojeero.Forms
 					image = await this._imageService.GetImageFromLibrary();
 					return image;
 				}
-				if (result != null)
-				{
-					image = await _imageService.GetImage(result);
-					return image;
-				}
+				return image;
 			}
 			catch (Exception ex)
 			{

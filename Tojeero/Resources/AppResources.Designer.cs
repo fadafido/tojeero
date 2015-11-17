@@ -107,6 +107,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create my free store.
+        /// </summary>
+        internal static string ButtonCreateStore {
+            get {
+                return ResourceManager.GetString("ButtonCreateStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Done.
         /// </summary>
         internal static string ButtonDone {

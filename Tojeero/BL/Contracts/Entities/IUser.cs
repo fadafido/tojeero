@@ -25,6 +25,8 @@ namespace Tojeero.Core
 
 		ICountry Country { get; }
 
+		IStore DefaultStore { get; }
+
 		string Mobile { get; set; }
 
 		bool IsProfileSubmitted { get; set; }
@@ -40,6 +42,8 @@ namespace Tojeero.Core
 		Task AddStoreToFavorites(string storeID);
 
 		Task RemoveStoreFromFavorites(string storeID);
+
+		Task LoadDefaultStore();
 	}
 }
 

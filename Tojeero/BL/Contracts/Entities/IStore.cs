@@ -18,6 +18,10 @@ namespace Tojeero.Core
 
 		string CategoryID { get; set; }
 
+		string OwnerID { get; set; }
+
+		IUser Owner { get; }
+
 		IStoreCategory Category { get; }
 
 		string CityId { get; set; }

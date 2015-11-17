@@ -383,4 +383,8 @@
   <data name="TitlePickImage" xml:space="preserve">
     <value>Pick image</value>
   </data>
+  <data name="ButtonCreateStore" xml:space="preserve">
+    <value>Create my free store</value>
+    <comment>Create store button title</comment>
+  </data>
 </root>

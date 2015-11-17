@@ -177,6 +177,15 @@
 								HorizontalOptions="FillAndExpand"
 								BackgroundColor="{x:Static local:Colors.Placeholder}" />
 						</StackLayout>
+						<!--CREATE STORE BUTTON-->
+						<StackLayout
+							Spacing="5"
+							Padding="20,0,20,20">
+							<Button 
+								Text="{local:Translate ButtonCreateStore}"
+								Command="{Binding SaveCommand}"
+								Style="{StaticResource Button1}"/>
+						</StackLayout>
 					</StackLayout>
 				</StackLayout>
 			</StackLayout>

@@ -41,6 +41,7 @@ namespace Tojeero.Core
 				_isFavorite = null;
 				_country = null;
 				_city = null;
+				_owner = null;
 				base.ParseObject = value;
 			}
 		}
@@ -245,6 +246,40 @@ namespace Tojeero.Core
 			}
 		}
 
+
+		private string _ownerID;
+
+		public string OwnerID
+		{
+			get
+			{
+				if (_ownerID == null && _parseObject != null && _parseObject.Owner != null)
+					_ownerID = _parseObject.Owner.ObjectId;
+				return _ownerID;
+			}
+			set
+			{
+				if (_ownerID != value)
+				{
+					_ownerID = value;
+					_owner = null;
+					this.ParseObject.Owner = value != null ? Parse.ParseObject.CreateWithoutData<TojeeroUser>(value) : null;
+					RaisePropertyChanged(() => Owner);
+				}
+			}
+		}
+
+		private IUser _owner;
+		[Ignore]
+		public IUser Owner
+		{ 
+			get
+			{
+				if (_owner == null)
+					_owner = new User(this.ParseObject.Owner);
+				return _owner; 
+			}
+		}
 		#endregion
 
 		#region Methods
@@ -412,6 +447,19 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<ParseCity>(value);
+			}
+		}
+
+		[ParseFieldName("owner")]
+		public TojeeroUser Owner
+		{
+			get
+			{
+				return GetProperty<TojeeroUser>();
+			}
+			set
+			{
+				SetProperty<TojeeroUser>(value);
 			}
 		}
 		#endregion

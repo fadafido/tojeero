@@ -95,6 +95,7 @@ namespace Tojeero.Core
 				s.Name = store.Name;
 				s.Description = store.Description;
 				s.DeliveryNotes = store.DeliveryNotes;
+				s.OwnerID = ParseUser.CurrentUser.ObjectId;
 				if (store.MainImage.NewImage != null)
 				{
 					await s.SetMainImage(store.MainImage.NewImage);
@@ -102,6 +103,17 @@ namespace Tojeero.Core
 				await s.Save();
 				return s;
 			}
+		}
+
+		public async Task<IStore> FetchDefaultStoreForUser(string userID)
+		{
+			if (string.IsNullOrEmpty(userID))
+				return null;
+			var user = ParseObject.CreateWithoutData<TojeeroUser>(userID);
+			var query = new ParseQuery<ParseStore>().Where(s => s.Owner == user).Include("category").Include("country").Include("city");
+			var store = await query.FirstOrDefaultAsync();
+
+			return new Store(store);
 		}
 
 		#endregion

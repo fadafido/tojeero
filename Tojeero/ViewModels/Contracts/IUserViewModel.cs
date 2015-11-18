@@ -7,6 +7,7 @@ namespace Tojeero.Core.ViewModels
 	{
 		IUser CurrentUser { get; set; }
 		bool IsLoggedIn { get; }
+		bool ShouldSubscribeToSessionChange { get; set; }
 	}
 }
 

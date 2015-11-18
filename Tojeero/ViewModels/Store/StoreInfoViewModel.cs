@@ -21,6 +21,7 @@ namespace Tojeero.Core.ViewModels
 		public StoreInfoViewModel(IStore store = null)
 			: base(store)
 		{
+			this.ShouldSubscribeToSessionChange = true;
 			this.Store = store;
 		}
 

@@ -6,6 +6,8 @@ namespace Tojeero.Core.ViewModels
 {
 	public interface ISaveStoreViewModel
 	{
+		string Title { get; }
+
 		IStore CurrentStore { get; set; }
 
 		IImageViewModel MainImage { get; set; }

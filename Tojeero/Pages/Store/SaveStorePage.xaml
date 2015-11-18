@@ -6,7 +6,7 @@
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
 	BackgroundColor="White"
-	Title="{local:Translate TitleFilterStores}">
+	Title="{Binding Title}">
 	<ContentPage.Content>
 		<ScrollView>
 			<StackLayout
@@ -102,7 +102,7 @@
 								x:TypeArguments="core:IStoreCategory"
 								Title="{local:Translate LabelCategory}"
 								ItemsSource="{Binding Categories}"
-								SelectedItem="{Binding StoreFilter.Category, Mode=TwoWay}"
+								SelectedItem="{Binding Category, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
 						<!--COUNTRY-->
@@ -119,7 +119,7 @@
 								x:TypeArguments="core:ICountry"
 								Title="{local:Translate LabelCountry}"
 								ItemsSource="{Binding Countries}"
-								SelectedItem="{Binding StoreFilter.Country, Mode=TwoWay}"
+								SelectedItem="{Binding Country, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
 						<!--CITY-->
@@ -138,7 +138,7 @@
 								x:TypeArguments="core:ICity"
 								Title="{local:Translate LabelCity}"
 								ItemsSource="{Binding Cities}"
-								SelectedItem="{Binding StoreFilter.City, Mode=TwoWay}"
+								SelectedItem="{Binding City, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
 						<!--DESCRIPTION-->

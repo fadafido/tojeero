@@ -115,7 +115,7 @@ namespace Tojeero.Core
 			var query = new ParseQuery<ParseStore>().Where(s => s.Owner == user).Include("category").Include("country").Include("city");
 			var store = await query.FirstOrDefaultAsync();
 
-			return new Store(store);
+			return store != null ? new Store(store) : null;
 		}
 
 		#endregion

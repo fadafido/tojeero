@@ -11,6 +11,7 @@ using Cirrious.CrossCore;
 using System.Globalization;
 using Tojeero.Core.Messages;
 using Tojeero.Forms.Resources;
+using System.Threading;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -19,7 +20,10 @@ namespace Tojeero.Core.ViewModels
 		#region Private fields and properties
 
 		private readonly ILocalizationService _localizationService;
-		MvxSubscriptionToken _token;
+		private readonly MvxSubscriptionToken _languageChangeToken;
+		private readonly MvxSubscriptionToken _storeChangeToken;
+		private bool _isLoggedIn;
+
 		#endregion
 
 		#region Constructors
@@ -27,10 +31,20 @@ namespace Tojeero.Core.ViewModels
 		public SideMenuViewModel(IAuthenticationService authService, IMvxMessenger messenger, ILocalizationService localizationService )
 			:base(authService, messenger)
 		{
+			this.ShouldSubscribeToSessionChange = true;
 			this._localizationService = localizationService;
-			_token = messenger.Subscribe<LanguageChangedMessage>((message) =>
+			_languageChangeToken = messenger.Subscribe<LanguageChangedMessage>((message) =>
 				{
 					RaisePropertyChanged(() => NewLanguage);
+				});
+			_storeChangeToken = messenger.Subscribe<StoreChangedMessage>((message) =>
+				{
+					//If the changed store is related to current user then refetch the user store to reflect the change
+					if(message.Store != null && this.CurrentUser != null &&
+						message.Store.OwnerID == this.CurrentUser.ID)
+					{
+						reloadUserStore();
+					}
 				});
 			PropertyChanged += propertyChanged;
 		}
@@ -294,6 +308,20 @@ namespace Tojeero.Core.ViewModels
 			{
 				RaisePropertyChanged(() => IsShowSaveStoreVisible);
 			}
+
+			//If the logged in property has changed we need to reload user store.
+			if (e.PropertyName == IsLoggedInProperty && _isLoggedIn != this.IsLoggedIn)
+			{
+				_isLoggedIn = this.IsLoggedIn;
+				reloadUserStore();
+			}
+		}
+
+
+		void reloadUserStore()
+		{
+			this.UserStore = null;
+			LoadUserStoreCommand.Execute(null);
 		}
 
 		#endregion

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Tojeero.Forms.Resources;
 using Nito.AsyncEx;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -27,6 +28,7 @@ namespace Tojeero.Core.ViewModels
 		                          ICityManager cityManager, IAuthenticationService authService, IMvxMessenger messenger)
 			: base(authService, messenger)
 		{
+			this.ShouldSubscribeToSessionChange = true;
 			this._storeManager = storeManager;
 			this._cityManager = cityManager;
 			this._countryManager = countryManager;
@@ -42,6 +44,24 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
+		public string Title
+		{ 
+			get
+			{
+				string title;
+
+				if (this.CurrentStore != null)
+				{
+					title = !string.IsNullOrEmpty(this.CurrentStore.Name) ? this.CurrentStore.Name : AppResources.TitleEditStore;
+				}
+				else
+				{
+					title = AppResources.TitleCreateStore;
+				}
+				return title.Truncate(20);
+			}
+		}
+
 		private IStore _currentStore;
 
 		public IStore CurrentStore
@@ -54,6 +74,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_currentStore = value; 
 				RaisePropertyChanged(() => CurrentStore); 
+				RaisePropertyChanged(() => Title);
 				updateViewModel();
 			}
 		}
@@ -235,6 +256,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_removeMainImageCommand = _removeMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
 					this.MainImage.NewImage = null;
+					this.MainImage.ImageUrl = null;
 				}, () => CanExecuteRemoveMainImageCommand);
 				return _removeMainImageCommand;
 			}
@@ -244,7 +266,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.MainImage != null && this.MainImage.NewImage != null;
+				return this.MainImage != null && (this.MainImage.NewImage != null || this.MainImage.ImageUrl != null);
 			}
 		}
 
@@ -355,7 +377,10 @@ namespace Tojeero.Core.ViewModels
 		private void updateViewModel()
 		{
 			if (this.CurrentStore == null)
+			{
 				nullifyViewModel();
+				return;
+			}
 			
 			this.MainImage.ImageUrl = this.CurrentStore.ImageUrl;
 			this.Name = this.CurrentStore.Name;
@@ -363,11 +388,13 @@ namespace Tojeero.Core.ViewModels
 			this.DeliveryNotes = this.CurrentStore.DeliveryNotes;
 			this.Country = this.CurrentStore.Country;
 			this.City = this.CurrentStore.City;
+			this.Category = this.CurrentStore.Category;
 		}
 
 		private void nullifyViewModel()
 		{
-			this.MainImage = null;
+			this.MainImage.NewImage = null;
+			this.MainImage.ImageUrl = null;
 			this.Name = null;
 			this.Description = null;
 			this.DeliveryNotes = null;
@@ -497,7 +524,7 @@ namespace Tojeero.Core.ViewModels
 			{				
 				this.RaisePropertyChanged(() => CanExecuteSaveCommand);
 			}
-			if (e.PropertyName == "MainImage" || e.PropertyName == "NewImage")
+			if (e.PropertyName == "MainImage" || e.PropertyName == "NewImage" || e.PropertyName=="ImageUrl")
 			{
 				this.RaisePropertyChanged(() => CanExecuteRemoveMainImageCommand);
 			}

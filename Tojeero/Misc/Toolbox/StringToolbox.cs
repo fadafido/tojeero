@@ -44,8 +44,11 @@ namespace Tojeero.Core.Toolbox
 			HashSet<string> uniqueTokens = new HashSet<string>();
 			foreach (var value in values)
 			{
-				var tokens = stringTokenizer.Split(value);
-				uniqueTokens.AddRange(tokens);
+				if (value != null)
+				{
+					var tokens = stringTokenizer.Split(value);
+					uniqueTokens.AddRange(tokens);
+				}
 			}
 			var sorted = uniqueTokens.ToList();
 			sorted.Sort(new Comparison<string>((x, y) => x.CompareIgnoreCase(y)));
@@ -61,6 +64,18 @@ namespace Tojeero.Core.Toolbox
 		public static int CompareIgnoreCase(this string str1, string str2)
 		{
 			return string.Compare(str1, str2, StringComparison.CurrentCultureIgnoreCase);
+		}
+
+		public static string Truncate(this string str, int maxLength)
+		{
+			var length = str.Length;
+			string result = str;
+			if (length > maxLength)
+			{
+				string dots = "...";
+				result = str.Substring(0, maxLength - dots.Length) + dots;
+			}
+			return result;
 		}
 	}
 }

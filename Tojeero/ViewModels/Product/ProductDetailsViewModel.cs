@@ -18,6 +18,7 @@ namespace Tojeero.Core.ViewModels
 		public ProductDetailsViewModel(IProduct product = null)
 			: base(product)
 		{
+			this.ShouldSubscribeToSessionChange = true;
 		}
 
 		#endregion

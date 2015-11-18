@@ -6,6 +6,8 @@ using Parse;
 using System.Linq;
 using Tojeero.Core.Toolbox;
 using Tojeero.Core.ViewModels;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core.Messages;
 
 namespace Tojeero.Core
 {
@@ -14,15 +16,18 @@ namespace Tojeero.Core
 		#region Private fields and properties
 
 		private readonly IModelEntityManager _manager;
+		private readonly IMvxMessenger _messenger;
 
 		#endregion
 
 		#region Constructors
 
-		public StoreManager(IModelEntityManager manager)
+		public StoreManager(IModelEntityManager manager, IMvxMessenger messenger)
 			: base()
 		{
+			this._messenger = messenger;
 			this._manager = manager;
+
 		}
 
 		#endregion
@@ -48,9 +53,14 @@ namespace Tojeero.Core
 		{
 			if (store != null)
 			{
+				bool isUpdate = store.CurrentStore != null;
 				if (store.HasChanged)
 				{
 					var result = await _manager.Rest.SaveStore(store);
+					if (result != null)
+					{
+						_messenger.Publish<StoreChangedMessage>(new StoreChangedMessage(this, result, isUpdate ? EntityChangeType.Update : EntityChangeType.Create));
+					}
 					return result;
 				}
 				else
@@ -172,7 +182,7 @@ namespace Tojeero.Core
 		string searchQuery;
 		IStoreFilter filter;
 
-		public FindStoresQuery(string searchQuery, int pageSize, int offset, IModelEntityManager manager, IStoreFilter fil\ter = null)
+		public FindStoresQuery(string searchQuery, int pageSize, int offset, IModelEntityManager manager, IStoreFilter filter = null)
 		{
 			this.filter = filter;
 			this.searchQuery = searchQuery;

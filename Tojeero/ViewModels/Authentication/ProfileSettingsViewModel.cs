@@ -42,6 +42,7 @@ namespace Tojeero.Core.ViewModels
 			IUserManager userManager)
 			: base(authService, messenger)
 		{
+			this.ShouldSubscribeToSessionChange = true;
 			this._countryManager = countryManager;
 			this._cityManager = cityManager;
 			this._userManager = userManager;

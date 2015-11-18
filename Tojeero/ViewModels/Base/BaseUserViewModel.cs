@@ -13,7 +13,7 @@ namespace Tojeero.Core.ViewModels
 
 		protected readonly IAuthenticationService _authService;
 		protected readonly IMvxMessenger _messenger;
-		protected readonly List<MvxSubscriptionToken> _messengerTokens = new List<MvxSubscriptionToken>();
+		MvxSubscriptionToken _userChangeToken;
 
 		#endregion
 
@@ -25,10 +25,7 @@ namespace Tojeero.Core.ViewModels
 			this._messenger = messenger;
 			this._authService = authService;
 			CurrentUser = _authService.CurrentUser;
-			_messengerTokens.Add(messenger.SubscribeOnMainThread<CurrentUserChangedMessage>((message) =>
-				{
-					CurrentUser = message.CurrentUser;
-				}));
+			reloadUserChangeSubscribtion();
 		}
 
 		#endregion
@@ -59,6 +56,44 @@ namespace Tojeero.Core.ViewModels
 				return CurrentUser != null;
 			}
 		}
+
+		private bool _shouldSubscribeToSessionChange = false;
+
+		public virtual bool ShouldSubscribeToSessionChange
+		{
+			get
+			{
+				return _shouldSubscribeToSessionChange;
+			}
+			set
+			{
+				if (_shouldSubscribeToSessionChange != value)
+				{
+					_shouldSubscribeToSessionChange = value;
+					reloadUserChangeSubscribtion();
+				}
+			}
+		}
+		#endregion
+
+		#region Utility methods
+
+		void reloadUserChangeSubscribtion()
+		{
+			if (this.ShouldSubscribeToSessionChange == false && _userChangeToken != null)
+			{
+				_messenger.Unsubscribe<CurrentUserChangedMessage>(_userChangeToken);
+				_userChangeToken = null;
+			}
+			else if (ShouldSubscribeToSessionChange == true && _userChangeToken == null)
+			{
+				_userChangeToken = _messenger.SubscribeOnMainThread<CurrentUserChangedMessage>((message) =>
+					{
+						CurrentUser = message.CurrentUser;
+					});
+			}
+		}
+
 		#endregion
 
 	}

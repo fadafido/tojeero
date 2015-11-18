@@ -53,13 +53,12 @@ namespace Tojeero.Core
 		{
 			if (store != null)
 			{
-				bool isUpdate = store.CurrentStore != null;
 				if (store.HasChanged)
 				{
 					var result = await _manager.Rest.SaveStore(store);
 					if (result != null)
 					{
-						_messenger.Publish<StoreChangedMessage>(new StoreChangedMessage(this, result, isUpdate ? EntityChangeType.Update : EntityChangeType.Create));
+						_messenger.Publish<StoreChangedMessage>(new StoreChangedMessage(this, result, store.IsNew ? EntityChangeType.Create : EntityChangeType.Update));
 					}
 					return result;
 				}

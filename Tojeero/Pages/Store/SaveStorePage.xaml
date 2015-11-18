@@ -76,13 +76,15 @@
 							Padding="20,0,20,0">
 							<Label
 								Text="{local:Translate LabelStoreName}"
-								TextColor="{x:Static local:Colors.Main}"
-								FontSize="17"
-								FontAttributes="Bold" />
+								Style="{StaticResource Label1}"/>
 							<Editor
 								Text="{Binding Name, Mode=TwoWay}"
 								HeightRequest="50"
 								HorizontalOptions="FillAndExpand" />
+							<Label
+								Text="{Binding NameInvalid}"
+								Style="{StaticResource LabelInvalid}"
+								IsVisible="{Binding NameInvalid, Converter={StaticResource visibility}}"/>
 							<BoxView
 								HeightRequest="1"
 								HorizontalOptions="FillAndExpand"
@@ -94,9 +96,7 @@
 							Padding="20,0,20,0">
 							<Label
 								Text="{local:Translate LabelCategory}"
-								TextColor="{x:Static local:Colors.Main}"
-								FontSize="17"
-								FontAttributes="Bold" />
+								Style="{StaticResource Label1}" />
 							<local:BindablePicker
 								x:Name="categoriesPicker"
 								x:TypeArguments="core:IStoreCategory"
@@ -104,6 +104,10 @@
 								ItemsSource="{Binding Categories}"
 								SelectedItem="{Binding Category, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
+							<Label
+								Text="{Binding CategoryInvalid}"
+								Style="{StaticResource LabelInvalid}"
+								IsVisible="{Binding CategoryInvalid, Converter={StaticResource visibility}}"/>
 						</StackLayout>
 						<!--COUNTRY-->
 						<StackLayout
@@ -111,9 +115,7 @@
 							Padding="20,0,20,0">
 							<Label
 								Text="{local:Translate LabelCountry}"
-								TextColor="{x:Static local:Colors.Main}"
-								FontSize="17"
-								FontAttributes="Bold" />
+								Style="{StaticResource Label1}" />
 							<local:BindablePicker
 								x:Name="countriesPicker"
 								x:TypeArguments="core:ICountry"
@@ -121,25 +123,31 @@
 								ItemsSource="{Binding Countries}"
 								SelectedItem="{Binding Country, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
+							<Label
+								Text="{Binding CountryInvalid}"
+								Style="{StaticResource LabelInvalid}"
+								IsVisible="{Binding CountryInvalid, Converter={StaticResource visibility}}"/>
 						</StackLayout>
 						<!--CITY-->
 						<StackLayout
 							Spacing="0"
 							Padding="20,0,20,0"
-							IsEnabled="{Binding IsCityEnabled}"
 							Opacity="{Binding IsCityEnabled, Converter={StaticResource opacity}}">
 							<Label
 								Text="{local:Translate LabelCity}"
-								TextColor="{x:Static local:Colors.Main}"
-								FontSize="17"
-								FontAttributes="Bold" />
+								Style="{StaticResource Label1}" />
 							<local:BindablePicker
 								x:Name="citiesPicker"
 								x:TypeArguments="core:ICity"
 								Title="{local:Translate LabelCity}"
 								ItemsSource="{Binding Cities}"
 								SelectedItem="{Binding City, Mode=TwoWay}"
-								TextColor="{x:Static local:Colors.Black}" />
+								TextColor="{x:Static local:Colors.Black}"
+								IsEnabled="{Binding IsCityEnabled}" />
+							<Label
+								Text="{Binding CityInvalid}"
+								Style="{StaticResource LabelInvalid}"
+								IsVisible="{Binding CityInvalid, Converter={StaticResource visibility}}"/>
 						</StackLayout>
 						<!--DESCRIPTION-->
 						<StackLayout
@@ -147,9 +155,7 @@
 							Padding="20,0,20,0">
 							<Label
 								Text="{local:Translate LabelDescription}"
-								TextColor="{x:Static local:Colors.Main}"
-								FontSize="17"
-								FontAttributes="Bold" />
+								Style="{StaticResource Label1}" />
 							<Editor
 								Text="{Binding Description, Mode=TwoWay}"
 								HeightRequest="100"
@@ -165,9 +171,7 @@
 							Padding="20,0,20,0">
 							<Label
 								Text="{local:Translate LabelDeliveryNotes}"
-								TextColor="{x:Static local:Colors.Main}"
-								FontSize="17"
-								FontAttributes="Bold" />
+								Style="{StaticResource Label1}" />
 							<Editor
 								Text="{Binding DeliveryNotes, Mode=TwoWay}"
 								HeightRequest="100"
@@ -182,9 +186,10 @@
 							Spacing="5"
 							Padding="20,0,20,20">
 							<Button 
-								Text="{local:Translate ButtonCreateStore}"
+								Text="{Binding SaveCommandTitle}"
 								Command="{Binding SaveCommand}"
-								Style="{StaticResource Button1}"/>
+								Style="{StaticResource Button1}"
+								IsEnabled="{Binding CanExecuteSaveCommand}"/>
 						</StackLayout>
 					</StackLayout>
 				</StackLayout>

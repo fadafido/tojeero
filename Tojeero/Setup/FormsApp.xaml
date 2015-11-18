@@ -23,6 +23,13 @@
 					Value="Bold" />
 			</Style>
 			<Style
+				x:Key="BaseLabel"
+				TargetType="Label">
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Main}" />
+			</Style>
+			<Style
 				x:Key="Button1"
 				TargetType="Button"
 				BaseResourceKey="BaseButton">
@@ -45,6 +52,27 @@
 				<Setter
 					Property="BackgroundColor"
 					Value="{x:Static local:Colors.DarkBlack}" />
+			</Style>
+			<Style
+				x:Key="Label1"
+				TargetType="Label"
+				BaseResourceKey="BaseLabel">
+				<Setter
+					Property="FontSize"
+					Value="17" />
+				<Setter
+					Property="FontAttributes"
+					Value="Bold" />
+			</Style>
+			<Style
+				x:Key="LabelInvalid"
+				TargetType="Label">
+				<Setter
+					Property="FontSize"
+					Value="14" />
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Invalid}" />
 			</Style>
 			<local:VisibilityConverter
 				x:Key="visibility" />

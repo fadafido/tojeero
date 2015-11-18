@@ -42,26 +42,6 @@ namespace Tojeero.Core.ViewModels
 
 		#region ISaveStoreViewModel implementation
 
-		#region Properties
-
-		public string Title
-		{ 
-			get
-			{
-				string title;
-
-				if (this.CurrentStore != null)
-				{
-					title = !string.IsNullOrEmpty(this.CurrentStore.Name) ? this.CurrentStore.Name : AppResources.TitleEditStore;
-				}
-				else
-				{
-					title = AppResources.TitleCreateStore;
-				}
-				return title.Truncate(20);
-			}
-		}
-
 		private IStore _currentStore;
 
 		public IStore CurrentStore
@@ -75,7 +55,17 @@ namespace Tojeero.Core.ViewModels
 				_currentStore = value; 
 				RaisePropertyChanged(() => CurrentStore); 
 				RaisePropertyChanged(() => Title);
+				RaisePropertyChanged(() => IsNew);
+				RaisePropertyChanged(() => SaveCommandTitle);
 				updateViewModel();
+			}
+		}
+
+		public bool IsNew
+		{
+			get
+			{
+				return this.CurrentStore == null;
 			}
 		}
 
@@ -99,7 +89,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_name = value; 
 				RaisePropertyChanged(() => Name); 
-				RaisePropertyChanged(() => CanExecuteSaveCommand);
+				validateName();
 			}
 		}
 
@@ -115,7 +105,6 @@ namespace Tojeero.Core.ViewModels
 			{
 				_description = value; 
 				RaisePropertyChanged(() => Description); 
-				RaisePropertyChanged(() => CanExecuteSaveCommand);
 			}
 		}
 
@@ -131,7 +120,6 @@ namespace Tojeero.Core.ViewModels
 			{
 				_deliveryNotes = value; 
 				RaisePropertyChanged(() => DeliveryNotes); 
-				RaisePropertyChanged(() => CanExecuteSaveCommand);
 			}
 		}
 
@@ -147,7 +135,6 @@ namespace Tojeero.Core.ViewModels
 			{
 				_mainImage = value; 
 				RaisePropertyChanged(() => MainImage); 
-				RaisePropertyChanged(() => CanExecuteSaveCommand);
 			}
 		}
 
@@ -163,7 +150,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_category = value; 
 				RaisePropertyChanged(() => Category); 
-				RaisePropertyChanged(() => CanExecuteSaveCommand);
+				validateCategory();
 			}
 		}
 
@@ -179,7 +166,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_country = value; 
 				RaisePropertyChanged(() => Country); 
-				RaisePropertyChanged(() => CanExecuteSaveCommand);
+				validateCountry();
 				reloadCities();
 			}
 		}
@@ -196,87 +183,34 @@ namespace Tojeero.Core.ViewModels
 			{
 				_city = value; 
 				RaisePropertyChanged(() => City); 
-				RaisePropertyChanged(() => CanExecuteSaveCommand);
+				validateCity();
 			}
 		}
-
-		public bool IsCityEnabled
-		{
-			get
-			{ 
-				return this.Country != null && this.Cities != null && this.Cities.Length > 0;
-			}
-		}
-
-		#endregion
-
-		#region Commands
-
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _saveCommand;
-
-		public System.Windows.Input.ICommand SaveCommand
-		{
-			get
-			{
-				_saveCommand = _saveCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						await save();
-					}, () => CanExecuteSaveCommand);
-				return _saveCommand;
-			}
-		}
-
-		public bool CanExecuteSaveCommand
-		{
-			get
-			{
-				return this.IsLoggedIn && this.IsNetworkAvailable && !IsLoading && validate();
-			}
-		}
-
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _pickMainImageCommand;
-
-		public System.Windows.Input.ICommand PickMainImageCommand
-		{
-			get
-			{
-				_pickMainImageCommand = _pickMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						await pickImage();
-					}, () => !IsPickingImage);
-				return _pickMainImageCommand;
-			}
-		}
-
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _removeMainImageCommand;
-
-		public System.Windows.Input.ICommand RemoveMainImageCommand
-		{
-			get
-			{
-				_removeMainImageCommand = _removeMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					this.MainImage.NewImage = null;
-					this.MainImage.ImageUrl = null;
-				}, () => CanExecuteRemoveMainImageCommand);
-				return _removeMainImageCommand;
-			}
-		}
-
-		public bool CanExecuteRemoveMainImageCommand
-		{
-			get
-			{
-				return this.MainImage != null && (this.MainImage.NewImage != null || this.MainImage.ImageUrl != null);
-			}
-		}
-
-		#endregion
 
 		#endregion
 
 		#region Properties
 
+
 		public Func<Task<IImage>> PickImageFunction;
+
+		public string Title
+		{ 
+			get
+			{
+				string title;
+
+				if (!this.IsNew)
+				{
+					title = !string.IsNullOrEmpty(this.CurrentStore.Name) ? this.CurrentStore.Name : AppResources.TitleEditStore;
+				}
+				else
+				{
+					title = AppResources.TitleCreateStore;
+				}
+				return title.Truncate(20);
+			}
+		}
 
 		private IStoreCategory[] _categories;
 
@@ -352,6 +286,92 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => IsPickingImage); 
 			}
 		}
+
+		public bool IsCityEnabled
+		{
+			get
+			{ 
+				return this.Country != null && this.Cities != null && this.Cities.Length > 0;
+			}
+		}
+
+		private string _nameInvalid;
+
+		public string NameInvalid
+		{ 
+			get
+			{
+				return _nameInvalid; 
+			}
+			set
+			{
+				_nameInvalid = value; 
+				RaisePropertyChanged(() => NameInvalid); 
+			}
+		}
+			
+		private string _categoryInvalid;
+
+		public string CategoryInvalid
+		{ 
+			get
+			{
+				return _categoryInvalid; 
+			}
+			set
+			{
+				_categoryInvalid = value; 
+				RaisePropertyChanged(() => CategoryInvalid); 
+			}
+		}
+			
+		private string _cityInvalid;
+
+		public string CityInvalid
+		{ 
+			get
+			{
+				return _cityInvalid; 
+			}
+			set
+			{
+				_cityInvalid = value; 
+				RaisePropertyChanged(() => CityInvalid); 
+			}
+		}
+
+		private string _countryInvalid;
+
+		public string CountryInvalid
+		{ 
+			get
+			{
+				return _countryInvalid; 
+			}
+			set
+			{
+				_countryInvalid = value; 
+				RaisePropertyChanged(() => CountryInvalid); 
+			}
+		}
+
+		public static string IsValidForSavingProperty = "IsValidForSaving";
+		public bool IsValidForSaving
+		{ 
+			get
+			{
+				return NameInvalid == null && CategoryInvalid == null && CountryInvalid == null && CityInvalid == null; 
+			}
+		}
+
+		public string SaveCommandTitle
+		{
+			get
+			{
+				return this.IsNew ? AppResources.ButtonCreateStore : AppResources.ButtonSaveChanges;
+			}
+		}
+
 		#endregion
 
 		#region Commands
@@ -367,6 +387,67 @@ namespace Tojeero.Core.ViewModels
 						await reload();
 					}, () => !IsLoading);
 				return _reloadCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _saveCommand;
+
+		public System.Windows.Input.ICommand SaveCommand
+		{
+			get
+			{
+				_saveCommand = _saveCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						if(validate() && CanExecuteSaveCommand)
+						{
+							await save();
+						}	
+					});
+				return _saveCommand;
+			}
+		}
+
+		public bool CanExecuteSaveCommand
+		{
+			get
+			{
+				return this.IsLoggedIn && this.IsNetworkAvailable && !IsLoading && IsValidForSaving;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _pickMainImageCommand;
+
+		public System.Windows.Input.ICommand PickMainImageCommand
+		{
+			get
+			{
+				_pickMainImageCommand = _pickMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						await pickImage();
+					}, () => !IsPickingImage);
+				return _pickMainImageCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _removeMainImageCommand;
+
+		public System.Windows.Input.ICommand RemoveMainImageCommand
+		{
+			get
+			{
+				_removeMainImageCommand = _removeMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
+					this.MainImage.NewImage = null;
+					this.MainImage.ImageUrl = null;
+				}, () => CanExecuteRemoveMainImageCommand);
+				return _removeMainImageCommand;
+			}
+		}
+
+		public bool CanExecuteRemoveMainImageCommand
+		{
+			get
+			{
+				return this.MainImage != null && (this.MainImage.NewImage != null || this.MainImage.ImageUrl != null);
 			}
 		}
 
@@ -515,14 +596,44 @@ namespace Tojeero.Core.ViewModels
 
 		private bool validate()
 		{
-			return true;
+			validateName();
+			validateCategory();
+			validateCountry();
+			validateCity();
+			return IsValidForSaving;
+		}
+
+		private void validateName()
+		{
+			this.NameInvalid = string.IsNullOrEmpty(this.Name) ? AppResources.MessageValidateRequiredName : null; 
+			RaisePropertyChanged(() => IsValidForSaving);
+		}
+
+		private void validateCategory()
+		{
+			this.CategoryInvalid = this.Category == null ? AppResources.MessageValidateRequiredCategory : null; 
+			RaisePropertyChanged(() => IsValidForSaving);
+		}
+
+		private void validateCountry()
+		{
+			this.CountryInvalid = this.Country == null ? AppResources.MessageValidateRequiredCountry : null; 
+			RaisePropertyChanged(() => IsValidForSaving);	
+		}
+
+		private void validateCity()
+		{
+			this.CityInvalid = this.City == null ? AppResources.MessageValidateRequiredCity : null; 
+			RaisePropertyChanged(() => IsValidForSaving);
 		}
 
 		private void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty || e.PropertyName == IsLoadingProperty)
+			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty || 
+				e.PropertyName == IsLoadingProperty || e.PropertyName == IsValidForSavingProperty)
 			{				
 				this.RaisePropertyChanged(() => CanExecuteSaveCommand);
+
 			}
 			if (e.PropertyName == "MainImage" || e.PropertyName == "NewImage" || e.PropertyName=="ImageUrl")
 			{

@@ -6,9 +6,9 @@ namespace Tojeero.Core.ViewModels
 {
 	public interface ISaveStoreViewModel
 	{
-		string Title { get; }
-
 		IStore CurrentStore { get; set; }
+
+		bool IsNew { get; }
 
 		IImageViewModel MainImage { get; set; }
 
@@ -25,14 +25,6 @@ namespace Tojeero.Core.ViewModels
 		ICountry Country { get; set; }
 
 		bool HasChanged { get; }
-
-		ICommand SaveCommand { get; }
-
-		ICommand PickMainImageCommand { get; }
-
-		ICommand RemoveMainImageCommand { get; }
-
-		bool CanExecuteRemoveMainImageCommand { get; }
 	}
 }
 

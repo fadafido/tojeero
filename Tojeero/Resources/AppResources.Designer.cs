@@ -161,6 +161,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save changes.
+        /// </summary>
+        internal static string ButtonSaveChanges {
+            get {
+                return ResourceManager.GetString("ButtonSaveChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         internal static string ButtonSubmit {
@@ -539,47 +548,47 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Category is required.
+        ///   Looks up a localized string similar to Please select different name for your store. This name is reserved..
         /// </summary>
-        internal static string MessageValidateStoreRequiredCategory {
+        internal static string MessageValidateInvalidStoreName {
             get {
-                return ResourceManager.GetString("MessageValidateStoreRequiredCategory", resourceCulture);
+                return ResourceManager.GetString("MessageValidateInvalidStoreName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to City is required.
+        ///   Looks up a localized string similar to Please select category..
         /// </summary>
-        internal static string MessageValidateStoreRequiredCity {
+        internal static string MessageValidateRequiredCategory {
             get {
-                return ResourceManager.GetString("MessageValidateStoreRequiredCity", resourceCulture);
+                return ResourceManager.GetString("MessageValidateRequiredCategory", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Country is required.
+        ///   Looks up a localized string similar to Please select city..
         /// </summary>
-        internal static string MessageValidateStoreRequiredCountry {
+        internal static string MessageValidateRequiredCity {
             get {
-                return ResourceManager.GetString("MessageValidateStoreRequiredCountry", resourceCulture);
+                return ResourceManager.GetString("MessageValidateRequiredCity", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Image is required.
+        ///   Looks up a localized string similar to Please select country..
         /// </summary>
-        internal static string MessageValidateStoreRequiredImage {
+        internal static string MessageValidateRequiredCountry {
             get {
-                return ResourceManager.GetString("MessageValidateStoreRequiredImage", resourceCulture);
+                return ResourceManager.GetString("MessageValidateRequiredCountry", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Store name is required.
+        ///   Looks up a localized string similar to Please enter non-empty name..
         /// </summary>
-        internal static string MessageValidateStoreRequiredName {
+        internal static string MessageValidateRequiredName {
             get {
-                return ResourceManager.GetString("MessageValidateStoreRequiredName", resourceCulture);
+                return ResourceManager.GetString("MessageValidateRequiredName", resourceCulture);
             }
         }
         

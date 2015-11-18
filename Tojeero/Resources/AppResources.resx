@@ -340,20 +340,17 @@
     <value>Saving store...</value>
     <comment>Message shown on save store screen to indicate that store is being saved</comment>
   </data>
-  <data name="MessageValidateStoreRequiredCategory" xml:space="preserve">
-    <value>Category is required</value>
+  <data name="MessageValidateRequiredCategory" xml:space="preserve">
+    <value>Please select category.</value>
   </data>
-  <data name="MessageValidateStoreRequiredCity" xml:space="preserve">
-    <value>City is required</value>
+  <data name="MessageValidateRequiredCity" xml:space="preserve">
+    <value>Please select city.</value>
   </data>
-  <data name="MessageValidateStoreRequiredCountry" xml:space="preserve">
-    <value>Country is required</value>
+  <data name="MessageValidateRequiredCountry" xml:space="preserve">
+    <value>Please select country.</value>
   </data>
-  <data name="MessageValidateStoreRequiredImage" xml:space="preserve">
-    <value>Image is required</value>
-  </data>
-  <data name="MessageValidateStoreRequiredName" xml:space="preserve">
-    <value>Store name is required</value>
+  <data name="MessageValidateRequiredName" xml:space="preserve">
+    <value>Please enter non-empty name.</value>
   </data>
   <data name="TitleCreateStore" xml:space="preserve">
     <value>Create store</value>
@@ -393,8 +390,14 @@
   <data name="ButtonRefetchStore" xml:space="preserve">
     <value>Refetch store</value>
   </data>
+  <data name="ButtonSaveChanges" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
   <data name="MessageLoadingStore" xml:space="preserve">
     <value>Loading store...</value>
+  </data>
+  <data name="MessageValidateInvalidStoreName" xml:space="preserve">
+    <value>Please select different name for your store. This name is reserved.</value>
   </data>
   <data name="TitleEditStore" xml:space="preserve">
     <value>Edit store</value>

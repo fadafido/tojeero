@@ -372,6 +372,36 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private bool _savingInProgress;
+
+		public bool SavingInProgress
+		{ 
+			get
+			{
+				return _savingInProgress; 
+			}
+			set
+			{
+				_savingInProgress = value; 
+				RaisePropertyChanged(() => SavingInProgress); 
+			}
+		}
+
+		private string _savingFailure;
+
+		public string SavingFailure
+		{ 
+			get
+			{
+				return _savingFailure; 
+			}
+			set
+			{
+				_savingFailure = value; 
+				RaisePropertyChanged(() => SavingFailure); 
+			}
+		}
+
 		#endregion
 
 		#region Commands
@@ -398,7 +428,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_saveCommand = _saveCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
-						if(validate() && CanExecuteSaveCommand)
+						if(validate() && CanExecuteSaveCommand && HasChanged)
 						{
 							await save();
 						}	
@@ -411,7 +441,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.IsLoggedIn && this.IsNetworkAvailable && !IsLoading && IsValidForSaving;
+				return this.IsLoggedIn && this.IsNetworkAvailable && !IsLoading && !SavingInProgress && IsValidForSaving;
 			}
 		}
 
@@ -485,7 +515,8 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task save()
 		{
-			StartLoading(AppResources.MessageSavingStore);
+			this.SavingInProgress = true;
+			this.SavingFailure = null;
 			string failureMessage = null;
 			try
 			{
@@ -501,7 +532,8 @@ namespace Tojeero.Core.ViewModels
 				Tools.Logger.Log(ex, "Error occured while saving store.", LoggingLevel.Error, true);
 				failureMessage = AppResources.MessageSubmissionUnknownFailure;
 			}
-			StopLoading(failureMessage);
+			this.SavingFailure = failureMessage;
+			this.SavingInProgress = false;
 		}
 
 		private async Task reload()

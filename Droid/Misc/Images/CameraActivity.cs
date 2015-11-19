@@ -13,6 +13,7 @@ using Xamarin.Forms.Platform.Android;
 using Android.Content.PM;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core;
 
 namespace Tojeero.Droid
 {

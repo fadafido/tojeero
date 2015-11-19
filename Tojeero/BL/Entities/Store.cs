@@ -301,6 +301,7 @@ namespace Tojeero.Core
 			var imageFile = new ParseFile(image.Name, image.RawImage);
 			await imageFile.SaveAsync();
 			this.ParseObject.Image = imageFile;
+			this.ImageUrl = null;
 		}
 
 		#endregion	

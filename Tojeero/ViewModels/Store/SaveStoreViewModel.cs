@@ -7,6 +7,7 @@ using System.Linq;
 using Tojeero.Forms.Resources;
 using Nito.AsyncEx;
 using Tojeero.Core.Toolbox;
+using System.Text.RegularExpressions;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -19,6 +20,7 @@ namespace Tojeero.Core.ViewModels
 		private readonly ICountryManager _countryManager;
 		private readonly ICityManager _cityManager;
 		private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
+		private Regex _nameValidationRegex = new Regex(@"[^A-Za-z0-9\u0600-\u06FF \-_'&]");
 
 		#endregion
 
@@ -73,7 +75,24 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return true;
+				if (this.CurrentStore == null &&
+				    (Name != null || Category != null ||
+				    Country != null || City != null ||
+				    MainImage.NewImage != null || Description != null ||
+				    DeliveryNotes != null))
+				{
+					return true;
+				}
+				else if (CurrentStore != null && 
+					(Name != CurrentStore.Name || MainImage.NewImage != null ||
+						Category != null && Category.ID != CurrentStore.CategoryID ||
+						Country != null && Country.ID != CurrentStore.CountryId ||
+						City != null && City.ID != CurrentStore.CityId ||
+						DeliveryNotes != CurrentStore.DeliveryNotes))
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -309,7 +328,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => NameInvalid); 
 			}
 		}
-			
+
 		private string _categoryInvalid;
 
 		public string CategoryInvalid
@@ -324,7 +343,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => CategoryInvalid); 
 			}
 		}
-			
+
 		private string _cityInvalid;
 
 		public string CityInvalid
@@ -356,6 +375,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		public static string IsValidForSavingProperty = "IsValidForSaving";
+
 		public bool IsValidForSaving
 		{ 
 			get
@@ -373,6 +393,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private bool _savingInProgress;
+		public static string SavingInProgressProperty = "SavingInProgress";
 
 		public bool SavingInProgress
 		{ 
@@ -428,7 +449,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_saveCommand = _saveCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
-						if(validate() && CanExecuteSaveCommand && HasChanged)
+						if (validate() && CanExecuteSaveCommand && HasChanged)
 						{
 							await save();
 						}	
@@ -465,10 +486,11 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_removeMainImageCommand = _removeMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					this.MainImage.NewImage = null;
-					this.MainImage.ImageUrl = null;
-				}, () => CanExecuteRemoveMainImageCommand);
+				_removeMainImageCommand = _removeMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
+					{
+						this.MainImage.NewImage = null;
+						this.MainImage.ImageUrl = null;
+					}, () => CanExecuteRemoveMainImageCommand);
 				return _removeMainImageCommand;
 			}
 		}
@@ -520,7 +542,15 @@ namespace Tojeero.Core.ViewModels
 			string failureMessage = null;
 			try
 			{
-				this.CurrentStore = await _storeManager.Save(this);
+				var nameIsReserved = await _storeManager.CheckNameIsReserved(this.Name);
+				if (nameIsReserved)
+				{
+					failureMessage = AppResources.MessageValidateStoreNameReserved;
+				}
+				else
+				{
+					this.CurrentStore = await _storeManager.Save(this);
+				}
 			}
 			catch (OperationCanceledException ex)
 			{
@@ -557,7 +587,7 @@ namespace Tojeero.Core.ViewModels
 		private async Task pickImage()
 		{
 			IsPickingImage = true;
-			if(PickImageFunction != null)
+			if (PickImageFunction != null)
 			{
 				var image = await PickImageFunction();
 				if (image != null)
@@ -637,7 +667,14 @@ namespace Tojeero.Core.ViewModels
 
 		private void validateName()
 		{
-			this.NameInvalid = string.IsNullOrEmpty(this.Name) ? AppResources.MessageValidateRequiredName : null; 
+			string invalid = null;
+			if (string.IsNullOrEmpty(this.Name) ||
+			    this.Name.Length < 6 || this.Name.Length > 40 ||
+			    this._nameValidationRegex.IsMatch(this.Name))
+			{
+				invalid = AppResources.MessageValidateStoreName;
+			}
+			this.NameInvalid = invalid;
 			RaisePropertyChanged(() => IsValidForSaving);
 		}
 
@@ -661,13 +698,14 @@ namespace Tojeero.Core.ViewModels
 
 		private void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty || 
-				e.PropertyName == IsLoadingProperty || e.PropertyName == IsValidForSavingProperty)
+			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
+			    e.PropertyName == IsLoadingProperty || e.PropertyName == IsValidForSavingProperty ||
+			    e.PropertyName == SavingInProgressProperty)
 			{				
 				this.RaisePropertyChanged(() => CanExecuteSaveCommand);
 
 			}
-			if (e.PropertyName == "MainImage" || e.PropertyName == "NewImage" || e.PropertyName=="ImageUrl")
+			if (e.PropertyName == "MainImage" || e.PropertyName == "NewImage" || e.PropertyName == "ImageUrl")
 			{
 				this.RaisePropertyChanged(() => CanExecuteRemoveMainImageCommand);
 			}

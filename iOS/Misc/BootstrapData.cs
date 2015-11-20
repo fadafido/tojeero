@@ -8,6 +8,8 @@ using Tojeero.Core;
 using PCLStorage;
 using Newtonsoft.Json;
 using Tojeero.Core.Toolbox;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Tojeero.iOS
 {
@@ -239,6 +241,28 @@ namespace Tojeero.iOS
 			var json = await store.ReadAllTextAsync();
 			var items = JsonConvert.DeserializeObject<List<T>>(json);
 			return items;
+		}
+
+		public static async Task UploadReservedStoreNames()
+		{
+			var whitespace = new Regex(@"\s+");
+			using (var file = new StreamReader("Samples/reservedStoreNames.txt"))
+			{
+				List<string> reservedNames = new List<string>();
+				reservedNames.Add("\"name\",\"type\"");
+				string name;
+				while ((name = await file.ReadLineAsync()) != null)
+				{
+					name = whitespace.Replace(name, " ").Trim().ToLower();
+					if (!string.IsNullOrEmpty(name))
+					{
+						var reservedName = string.Format("\"{0}\",{1}", name, (int)ReservedNameType.Store);
+						reservedNames.Add(reservedName);
+					}
+				}
+					
+				var csv = string.Join("\n", reservedNames);
+			}
 		}
 	}
 }

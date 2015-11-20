@@ -72,6 +72,17 @@ namespace Tojeero.Core
 			}
 		}
 			
+		public async Task<bool> CheckStoreNameIsReserved(string storeName)
+		{
+			using (var tokenSource = new CancellationTokenSource(Constants.DefaultTimeout))
+			{
+				var query = new ParseQuery<ReservedName>().Where(r => r.Name == storeName && r.Type == (int)ReservedNameType.Store);
+				var result = await query.FirstOrDefaultAsync(tokenSource.Token).ConfigureAwait(false);
+				var isReserved = result != null;
+				return isReserved;
+			}
+		}
+
 		#endregion
 
 		#region Utility methods

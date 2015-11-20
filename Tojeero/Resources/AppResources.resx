@@ -402,4 +402,10 @@
   <data name="TitleEditStore" xml:space="preserve">
     <value>Edit store</value>
   </data>
+  <data name="MessageValidateStoreName" xml:space="preserve">
+    <value>Store name should have 6 to 40 length, contain only alpha-numeric characters, spaces and these special characters: -_'&amp;</value>
+  </data>
+  <data name="MessageValidateStoreNameReserved" xml:space="preserve">
+    <value>The name you've entered for your store is reserved. Please change it and try again.</value>
+  </data>
 </root>

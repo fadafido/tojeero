@@ -12,6 +12,7 @@ namespace Tojeero.Core
 		Task<IEnumerable<IStore>> FetchFavorite(int pageSize, int offset);
 		Task<IEnumerable<IStore>> Find(string query, int pageSize, int offset, IStoreFilter filter = null);
 		Task<IStore> Save(ISaveStoreViewModel store);
+		Task<bool> CheckNameIsReserved(string storeName);
 	}
 }
 

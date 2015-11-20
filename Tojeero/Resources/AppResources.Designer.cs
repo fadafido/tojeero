@@ -593,6 +593,24 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Store name should have 6 to 40 length, contain only alpha-numeric characters, spaces and these special characters: -_&apos;&amp;.
+        /// </summary>
+        internal static string MessageValidateStoreName {
+            get {
+                return ResourceManager.GetString("MessageValidateStoreName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name you&apos;ve entered for your store is reserved. Please change it and try again..
+        /// </summary>
+        internal static string MessageValidateStoreNameReserved {
+            get {
+                return ResourceManager.GetString("MessageValidateStoreNameReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string OK {

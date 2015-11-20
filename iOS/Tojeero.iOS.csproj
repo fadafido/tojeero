@@ -282,6 +282,7 @@
     <BundleResource Include="Resources\icon_arrow_up%402x.png" />
     <BundleResource Include="Resources\icon_arrow_right%402x.png" />
     <BundleResource Include="Resources\icon_corner_remove%402x.png" />
+    <BundleResource Include="Resources\Samples\reservedStoreNames.txt" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -417,6 +418,9 @@
       <Link>Core\BL\Queries\StoreProductsQueryLoader.cs</Link>
     </Compile>
     <Compile Include="Misc\Services\ImageService.cs" />
+    <Compile Include="..\Tojeero\BL\Entities\ReservedName.cs">
+      <Link>Core\BL\Entities\ReservedName.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

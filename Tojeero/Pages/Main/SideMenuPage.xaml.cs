@@ -44,6 +44,16 @@ namespace Tojeero.Forms
 
 		#endregion
 
+		#region View lifecycle management
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			this.ViewModel.LoadUserStoreCommand.Execute(null);
+		}
+
+		#endregion
+
 		#region Utility methods
 
 		private void setupViewModel()
@@ -56,6 +66,9 @@ namespace Tojeero.Forms
 			};
 			this.ViewModel.ShowFavorites = async () => {
 				await this.Navigation.PushModalAsync(new NavigationPage(new FavoritesPage()));
+			};
+			this.ViewModel.ShowSaveStoreAction = async (s) => {
+				await this.Navigation.PushModalAsync(new NavigationPage(new SaveStorePage(s)));
 			};
 			this.BindingContext = _viewModel;
 		}

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Tojeero.Core.Toolbox;
 using System.Collections;
+using Tojeero.Core.ViewModels;
 
 namespace Tojeero.Core
 {
@@ -81,6 +82,42 @@ namespace Tojeero.Core
 			}
 		}
 			
+		public async Task<IStore> SaveStore(ISaveStoreViewModel store)
+		{
+			if (store == null)
+				return null;
+			using (var tokenSource = new CancellationTokenSource(Constants.SaveStoreTimeout))
+			{
+				var s = store.CurrentStore != null ? store.CurrentStore : new Store();
+				s.CategoryID = store.Category != null ? store.Category.ID : null;
+				s.CountryId = store.Country != null ? store.Country.ID : null;
+				s.CityId = store.City != null ? store.City.ID : null;
+				s.Name = store.Name;
+				s.Description = store.Description;
+				s.DeliveryNotes = store.DeliveryNotes;
+				s.OwnerID = ParseUser.CurrentUser.ObjectId;
+				s.LowercaseName = s.Name.ToLower();
+				s.SearchTokens = new string[] { s.Name, s.Description }.Tokenize();
+				if (store.MainImage.NewImage != null)
+				{
+					await s.SetMainImage(store.MainImage.NewImage);
+				}
+				await s.Save();
+				return s;
+			}
+		}
+
+		public async Task<IStore> FetchDefaultStoreForUser(string userID)
+		{
+			if (string.IsNullOrEmpty(userID))
+				return null;
+			var user = ParseObject.CreateWithoutData<TojeeroUser>(userID);
+			var query = new ParseQuery<ParseStore>().Where(s => s.Owner == user).Include("category").Include("country").Include("city");
+			var store = await query.FirstOrDefaultAsync();
+
+			return store != null ? new Store(store) : null;
+		}
+
 		#endregion
 
 		#region Utility methods

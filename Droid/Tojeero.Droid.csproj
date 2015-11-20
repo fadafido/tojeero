@@ -28,6 +28,7 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <JavaOptions>-Xmx1024M</JavaOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -183,6 +184,27 @@
     <Reference Include="Xamarin.Android.Support.Design">
       <HintPath>..\packages\Xamarin.Android.Support.Design.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
     </Reference>
+    <Reference Include="XLabs.Ioc">
+      <HintPath>..\packages\XLabs.IoC.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Ioc.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Core">
+      <HintPath>..\packages\XLabs.Core.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform.Droid">
+      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\MonoAndroid\XLabs.Platform.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform">
+      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\MonoAndroid\XLabs.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Serialization">
+      <HintPath>..\packages\XLabs.Serialization.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms.Droid">
+      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\MonoAndroid\XLabs.Forms.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms">
+      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\MonoAndroid\XLabs.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tojeero\Tojeero.csproj">
@@ -307,6 +329,15 @@
     <Compile Include="..\Tojeero\BL\Queries\StoreProductsQueryLoader.cs">
       <Link>Core\BL\Queries\StoreProductsQueryLoader.cs</Link>
     </Compile>
+    <Compile Include="Misc\Toolbox\BitmapToolbox.cs" />
+    <Compile Include="Misc\Images\PhotoGaleryActivity.cs" />
+    <Compile Include="Misc\Images\CameraActivity.cs" />
+    <Compile Include="Misc\Images\SquareRelativeLayout.cs" />
+    <Compile Include="Misc\Images\GridAutofitLayoutManager.cs" />
+    <Compile Include="Misc\Images\PhotoGalery.cs" />
+    <Compile Include="Misc\Services\ImageService.cs" />
+    <Compile Include="Misc\Messages\CameraImageSelectedMessage.cs" />
+    <Compile Include="Misc\Messages\LibraryImageSelectedMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -328,6 +359,8 @@
     <Folder Include="Core\SAL\" />
     <Folder Include="Core\DAL\" />
     <Folder Include="Core\BL\Queries\" />
+    <Folder Include="Misc\Images\" />
+    <Folder Include="Misc\Messages\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
@@ -387,6 +420,15 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon_arrow_down.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon_arrow_up.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon_arrow_right.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_corner_remove.png" />
+    <AndroidResource Include="Resources\layout\activity_camera.axml" />
+    <AndroidResource Include="Resources\layout\activity_photo_galery.axml" />
+    <AndroidResource Include="Resources\layout\grid_cell_photo_galery_item.axml" />
+    <AndroidResource Include="Resources\drawable\FlashButton.png" />
+    <AndroidResource Include="Resources\drawable\NoFlashButton.png" />
+    <AndroidResource Include="Resources\drawable\TakePhotoButton.png" />
+    <AndroidResource Include="Resources\drawable\ToggleCameraButton.png" />
+    <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

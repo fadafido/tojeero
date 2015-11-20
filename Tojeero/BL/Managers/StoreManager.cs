@@ -5,6 +5,10 @@ using System.Threading;
 using Parse;
 using System.Linq;
 using Tojeero.Core.Toolbox;
+using Tojeero.Core.ViewModels;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core.Messages;
+using System.Text.RegularExpressions;
 
 namespace Tojeero.Core
 {
@@ -13,15 +17,20 @@ namespace Tojeero.Core
 		#region Private fields and properties
 
 		private readonly IModelEntityManager _manager;
+		private readonly IMvxMessenger _messenger;
+		private Dictionary<string, bool> _reservedStoreNames = new Dictionary<string, bool>();
+		private Regex _whitespaceRegex = new Regex(@"\s+");
 
 		#endregion
 
 		#region Constructors
 
-		public StoreManager(IModelEntityManager manager)
+		public StoreManager(IModelEntityManager manager, IMvxMessenger messenger)
 			: base()
 		{
+			this._messenger = messenger;
 			this._manager = manager;
+
 		}
 
 		#endregion
@@ -43,9 +52,45 @@ namespace Tojeero.Core
 			return _manager.Fetch<IStore, Store>(new FindStoresQuery(query, pageSize, offset, _manager, filter), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
+		public async Task<IStore> Save(ISaveStoreViewModel store)
+		{
+			if (store != null)
+			{
+				if (store.HasChanged)
+				{
+					var result = await _manager.Rest.SaveStore(store);
+					if (result != null)
+					{
+						_messenger.Publish<StoreChangedMessage>(new StoreChangedMessage(this, result, store.IsNew ? EntityChangeType.Create : EntityChangeType.Update));
+					}
+					return result;
+				}
+				else
+				{
+					return store.CurrentStore;
+				}
+			}
+			return null;
+		}
+
 		public Task ClearCache()
 		{
 			return _manager.Cache.Clear<Store>();
+		}
+
+		public async Task<bool> CheckNameIsReserved(string storeName)
+		{
+			//Replace whitespaces with space
+			var name = _whitespaceRegex.Replace(storeName, " ").Trim().ToLower();
+			//Check in memory cache
+			bool isReserved = false;
+			if (_reservedStoreNames.TryGetValue(name, out isReserved))
+				return isReserved;
+			//Check in rest repository
+			isReserved = await this._manager.Rest.CheckStoreNameIsReserved(name);
+			_reservedStoreNames[name] = isReserved;
+
+			return isReserved;
 		}
 
 		#endregion
@@ -154,7 +199,7 @@ namespace Tojeero.Core
 		string searchQuery;
 		IStoreFilter filter;
 
-		public FindStoresQuery(string searchQuery, int pageSize, int offset, IModelEntityManager manager, IStoreFilter fil\ter = null)
+		public FindStoresQuery(string searchQuery, int pageSize, int offset, IModelEntityManager manager, IStoreFilter filter = null)
 		{
 			this.filter = filter;
 			this.searchQuery = searchQuery;

@@ -14,7 +14,9 @@ namespace Tojeero.Core.ViewModels
 		#region Private fields and properties
 
 		private readonly IStoreManager _manager;
-		private readonly MvxSubscriptionToken _token;
+		private readonly MvxSubscriptionToken _filterChangeToken;
+		private readonly MvxSubscriptionToken _storeChangeToken;
+		private readonly MvxSubscriptionToken _sessionChangedToken;
 
 		#endregion
 
@@ -24,7 +26,15 @@ namespace Tojeero.Core.ViewModels
 			: base()
 		{
 			_manager = manager;
-			_token = messenger.Subscribe<StoreFilterChangedMessage>((m) =>
+			_filterChangeToken = messenger.Subscribe<StoreFilterChangedMessage>((m) =>
+				{
+					this.ViewModel.RefetchCommand.Execute(null);
+				});
+			_storeChangeToken = messenger.Subscribe<StoreChangedMessage>((message) =>
+				{
+					this.ViewModel.RefetchCommand.Execute(null);
+				});
+			_sessionChangedToken = messenger.Subscribe<SessionStateChangedMessage>((m) =>
 				{
 					this.ViewModel.RefetchCommand.Execute(null);
 				});

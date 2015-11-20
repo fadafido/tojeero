@@ -150,7 +150,7 @@ namespace Tojeero.Core.Services
 			{
 				Settings.CountryId = user.Country.ObjectId;
 			}
-			else
+			else if(Settings.CountryId != null)
 			{
 				user.Country = ParseObject.CreateWithoutData<ParseCountry>(Settings.CountryId);
 			}
@@ -159,7 +159,7 @@ namespace Tojeero.Core.Services
 			{
 				Settings.CityId = user.City.ObjectId;
 			}
-			else
+			else if(Settings.CityId != null)
 			{
 				user.City = ParseObject.CreateWithoutData<ParseCity>(Settings.CityId);
 			}

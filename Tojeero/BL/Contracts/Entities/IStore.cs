@@ -10,25 +10,33 @@ namespace Tojeero.Core
 
 		string Description { get; set; }
 
-		string LowercaseName { get; }
+		string LowercaseName { get; set; }
 
 		string DeliveryNotes { get; set; }
 
 		string ImageUrl { get; }
 
-		string CategoryID { get; }
+		string CategoryID { get; set; }
+
+		string OwnerID { get; set; }
+
+		IUser Owner { get; }
 
 		IStoreCategory Category { get; }
 
-		string CityId { get; }
+		string CityId { get; set; }
 
 		ICity City { get; }
 
-		string CountryId { get; }
+		string CountryId { get; set; }
 
 		ICountry Country { get; }
 
 		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
+
+		Task Save();
+
+		Task SetMainImage(IImage image);
 	}
 }
 

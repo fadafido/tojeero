@@ -17,6 +17,7 @@
 		<StackLayout
 			Orientation="Vertical"
 			Spacing="0">
+			<!--NETWORK AVAILABILITY-->
 			<StackLayout
 				Padding="0,20,0,5"
 				BackgroundColor="{x:Static local:Colors.Orange}"
@@ -28,6 +29,7 @@
 					FontSize="Small"
 					XAlign="Center" />
 			</StackLayout>
+			<!--USER PROFILE-->
 			<StackLayout
 				Orientation="Vertical"
 				VerticalOptions="Start">
@@ -62,6 +64,7 @@
 						TextColor="White" />
 				</StackLayout>
 			</StackLayout>
+			<!--USER OPTIONS-->
 			<ScrollView
 				BackgroundColor="Transparent"
 				VerticalOptions="FillAndExpand">
@@ -80,6 +83,43 @@
 						Command="{Binding ShowFavoritesCommand}"
 						TextColor="White"
 						BackgroundColor="Transparent" />
+					<!--STORE MANAGEMENT-->
+					<Grid>
+						<StackLayout
+							Orientation="Horizontal"
+							HorizontalOptions="Center"
+							VerticalOptions="Center">
+							<Label
+								Text="{local:Translate MessageLoadingStore}"
+								IsVisible="{Binding IsLoadingUserStore}"
+								BackgroundColor="Transparent"
+								TextColor="White"
+								HorizontalOptions="Center"
+								VerticalOptions="Center" />
+							<ActivityIndicator
+								Grid.Column="1"
+								IsRunning="{Binding IsLoadingUserStore}"
+								IsVisible="{Binding IsLoadingUserStore}"
+								Color="White"
+								HorizontalOptions="Center"
+								VerticalOptions="Center" />
+						</StackLayout>
+						<Button
+							HeightRequest="40"
+							Text="{Binding ShowSaveStoreTitle}"
+							Command="{Binding ShowSaveStoreCommand}"
+							TextColor="White"
+							IsVisible="{Binding IsShowSaveStoreVisible}"
+							BackgroundColor="Transparent" />
+						<Button
+							HeightRequest="40"
+							Text="{local:Translate ButtonRefetchStore}"
+							Command="{Binding LoadUserStoreCommand}"
+							IsEnabled="{Binding CanExecuteLoadUserStoreCommand}"
+							TextColor="{x:Static local:Colors.Orange}"
+							IsVisible="{Binding IsShowSaveStoreVisible, Converter={StaticResource inverse}}"
+							BackgroundColor="Transparent" />
+					</Grid>
 				</StackLayout>
 			</ScrollView>
 			<StackLayout
@@ -97,9 +137,9 @@
 					<Button
 						Text="{Binding NewLanguage, Converter={StaticResource languageCulture}}"
 						Style="{StaticResource DarkButton}"
-						Command="{Binding ChangeLanguageCommand}" 
+						Command="{Binding ChangeLanguageCommand}"
 						VerticalOptions="Center"
-						HorizontalOptions="FillAndExpand"/>
+						HorizontalOptions="FillAndExpand" />
 				</StackLayout>
 				<Grid
 					Padding="10,10,10,20"
@@ -114,7 +154,7 @@
 					</Grid.ColumnDefinitions>
 					<Button
 						HeightRequest="40"
-						Grid.Column = "1"
+						Grid.Column="1"
 						Text="{local:Translate ButtonLogin}"
 						Command="{Binding LoginCommand}"
 						VerticalOptions="Center"

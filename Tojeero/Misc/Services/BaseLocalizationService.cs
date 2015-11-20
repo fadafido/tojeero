@@ -81,9 +81,9 @@ namespace Tojeero.Core.Services
 		private CultureInfo getCurrentCultureInfo()
 		{
 			CultureInfo culture;
-			if (Settings.Language != null)
+			if (Settings.Language != LanguageCode.Unknown)
 			{
-				culture = getCultureForLanguage(Settings.Language.Value);
+				culture = getCultureForLanguage(Settings.Language);
 			}
 			else
 			{

@@ -79,7 +79,7 @@
 				Image="favorite_deselected.png"
 				IsSelected="{Binding Store.IsFavorite, Converter={StaticResource bool}}"
 				IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
-				IsVisible="{Binding Product.IsFavorite, Converter={StaticResource visibility}}"
+				IsVisible="{Binding Store.IsFavorite, Converter={StaticResource visibility}}"
 				Command="{Binding ToggleFavoriteCommand}" />
 			<StackLayout
 				Grid.Row="1"

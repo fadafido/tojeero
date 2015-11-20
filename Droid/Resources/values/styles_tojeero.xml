@@ -28,9 +28,7 @@
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Tojeero</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_tojeero</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_tojeero</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Tojeero</item>
-        
-        
+        <item name="android:windowBackground">@color/background</item>
     </style>
 
     <style name="ActionBar.Solid.Tojeero" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">

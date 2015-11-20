@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Nito.AsyncEx;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Cirrious.CrossCore;
+using Tojeero.Core.Messages;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -17,6 +20,8 @@ namespace Tojeero.Core.ViewModels
 		public StoreDetailsViewModel(IStore store = null)
 			: base(store)
 		{
+			this.ShouldSubscribeToSessionChange = true;
+			var messenger = Mvx.Resolve<IMvxMessenger>();
 		}
 
 		#endregion

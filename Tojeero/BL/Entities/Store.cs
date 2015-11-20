@@ -41,6 +41,7 @@ namespace Tojeero.Core
 				_isFavorite = null;
 				_country = null;
 				_city = null;
+				_owner = null;
 				base.ParseObject = value;
 			}
 		}
@@ -124,7 +125,13 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				_categoryID = value; 
+				if (_categoryID != value)
+				{
+					_categoryID = value;
+					_category = null;
+					this.ParseObject.Category = value != null ? Parse.ParseObject.CreateWithoutData<ParseStoreCategory>(value) : null;
+					RaisePropertyChanged(() => Category);
+				}
 			}
 		}
 
@@ -156,7 +163,8 @@ namespace Tojeero.Core
 				{
 					_cityId = value;
 					_city = null;
-					this.ParseObject.City = Parse.ParseObject.CreateWithoutData<ParseCity>(_cityId);
+					this.ParseObject.City = value != null ? Parse.ParseObject.CreateWithoutData<ParseCity>(value) : null;
+					RaisePropertyChanged(() => City);
 				}
 			}
 		}
@@ -177,7 +185,8 @@ namespace Tojeero.Core
 				{
 					_countryId = value;
 					_country = null;
-					this.ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
+					this.ParseObject.Country = value != null ? Parse.ParseObject.CreateWithoutData<ParseCountry>(value) : null;
+					RaisePropertyChanged(() => Country);
 				}
 			}
 		}
@@ -218,6 +227,7 @@ namespace Tojeero.Core
 				if (_parseObject != null)
 				{
 					_parseObject.SearchTokens = value;
+					RaisePropertyChanged(() => SearchTokens);
 				}
 			}
 		}
@@ -236,6 +246,40 @@ namespace Tojeero.Core
 			}
 		}
 
+
+		private string _ownerID;
+
+		public string OwnerID
+		{
+			get
+			{
+				if (_ownerID == null && _parseObject != null && _parseObject.Owner != null)
+					_ownerID = _parseObject.Owner.ObjectId;
+				return _ownerID;
+			}
+			set
+			{
+				if (_ownerID != value)
+				{
+					_ownerID = value;
+					_owner = null;
+					this.ParseObject.Owner = value != null ? Parse.ParseObject.CreateWithoutData<TojeeroUser>(value) : null;
+					RaisePropertyChanged(() => Owner);
+				}
+			}
+		}
+
+		private IUser _owner;
+		[Ignore]
+		public IUser Owner
+		{ 
+			get
+			{
+				if (_owner == null)
+					_owner = new User(this.ParseObject.Owner);
+				return _owner; 
+			}
+		}
 		#endregion
 
 		#region Methods
@@ -245,6 +289,19 @@ namespace Tojeero.Core
 			var manager = Mvx.Resolve<IModelEntityManager>();
 			var result = await manager.Fetch<IProduct, Product>(new StoreProductsQueryLoader(pageSize, offset, manager, this), Constants.ProductsCacheTimespan.TotalMilliseconds);
 			return result;
+		}
+
+		public async Task Save()
+		{
+			await this.ParseObject.SaveAsync();
+		}
+
+		public async Task SetMainImage(IImage image)
+		{
+			var imageFile = new ParseFile(image.Name, image.RawImage);
+			await imageFile.SaveAsync();
+			this.ParseObject.Image = imageFile;
+			this.ImageUrl = null;
 		}
 
 		#endregion	
@@ -391,6 +448,19 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<ParseCity>(value);
+			}
+		}
+
+		[ParseFieldName("owner")]
+		public TojeeroUser Owner
+		{
+			get
+			{
+				return GetProperty<TojeeroUser>();
+			}
+			set
+			{
+				SetProperty<TojeeroUser>(value);
 			}
 		}
 		#endregion

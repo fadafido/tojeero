@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Nito.AsyncEx;
 using Parse;
 using System.Linq;
+using Cirrious.CrossCore;
 
 namespace Tojeero.Core
 {
@@ -230,6 +231,21 @@ namespace Tojeero.Core
 			}
 		}
 
+		private IStore _defaultStore;
+		[JsonIgnore]
+		public IStore DefaultStore
+		{
+			get
+			{
+				return _defaultStore;
+			}
+			private set
+			{
+				_defaultStore = value;
+				RaisePropertyChanged(() => DefaultStore);
+			}
+		}
+
 		#endregion
 
 		#region Methods
@@ -282,6 +298,15 @@ namespace Tojeero.Core
 			await user.SaveAsync();
 			if (_favoriteStores != null)
 				_favoriteStores.Remove(storeID);
+		}
+
+		public async Task LoadDefaultStore()
+		{
+			if (this.DefaultStore != null)
+				return;
+			var repo = Mvx.Resolve<IRestRepository>();
+			var store = await repo.FetchDefaultStoreForUser(ParseUser.CurrentUser.ObjectId);
+			this.DefaultStore = store;
 		}
 
 		#endregion

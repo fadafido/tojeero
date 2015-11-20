@@ -149,7 +149,7 @@ namespace Tojeero.iOS
 
 
 
-		public static UIImage RotateImage(this UIImage owner)
+		public static UIImage RotateToCorrectOrientation(this UIImage owner)
 		{
 			UIImage toReturn = null;
 			float degAngle = 0f;
@@ -238,33 +238,36 @@ namespace Tojeero.iOS
 
 		}//end UIImage CreateThumbnail
 
-		public static UIImage GetScaledAndRotatedImage(this UIImage image)
+		public static UIImage GetScaledAndRotatedImage(this UIImage image, float maxPixelDimension)
 		{
 			CGSize imageSize = image.Size;
 			CGSize newImageSize = CGSize.Empty;
-			var MaxSize = 500;
-			if (MaxSize > 0)
+			if (maxPixelDimension > 0)
 			{
 				if (imageSize.Width > imageSize.Height)
 				{
-					nfloat ratio = imageSize.Width / MaxSize;
-					newImageSize = new CGSize(MaxSize, imageSize.Height / ratio);
+					nfloat ratio = imageSize.Width / maxPixelDimension;
+					newImageSize = new CGSize(maxPixelDimension, imageSize.Height / ratio);
 
 				}
 				else
 				{
-					nfloat ratio = imageSize.Height / MaxSize;
-					newImageSize = new CGSize(imageSize.Width / ratio, MaxSize);
+					nfloat ratio = imageSize.Height / maxPixelDimension;
+					newImageSize = new CGSize(imageSize.Width / ratio, maxPixelDimension);
 				}
 			}
 
-			var imageToReturn = image.RotateImage();
+			var rotatedImage = image.RotateToCorrectOrientation();
 			if (newImageSize != CGSize.Empty)
 			{
-				imageToReturn = imageToReturn.ScaleImage(newImageSize, 1);
+				var result = rotatedImage.ScaleImage(newImageSize, 1);
+				rotatedImage.Dispose();
+				return result;
 			}
-
-			return imageToReturn;
+			else
+			{
+				return rotatedImage;
+			}
 		}
 	}
 }

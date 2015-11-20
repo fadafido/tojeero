@@ -336,4 +336,76 @@
     <value>Store Privacy</value>
     <comment>Store privacy label shown on store details screen</comment>
   </data>
+  <data name="MessageSavingStore" xml:space="preserve">
+    <value>Saving store...</value>
+    <comment>Message shown on save store screen to indicate that store is being saved</comment>
+  </data>
+  <data name="MessageValidateRequiredCategory" xml:space="preserve">
+    <value>Please select category.</value>
+  </data>
+  <data name="MessageValidateRequiredCity" xml:space="preserve">
+    <value>Please select city.</value>
+  </data>
+  <data name="MessageValidateRequiredCountry" xml:space="preserve">
+    <value>Please select country.</value>
+  </data>
+  <data name="MessageValidateRequiredName" xml:space="preserve">
+    <value>Please enter non-empty name.</value>
+  </data>
+  <data name="TitleCreateStore" xml:space="preserve">
+    <value>Create store</value>
+    <comment>The title of create store page</comment>
+  </data>
+  <data name="ButtonAddImage" xml:space="preserve">
+    <value>Add image</value>
+  </data>
+  <data name="LabelAddMainImage" xml:space="preserve">
+    <value>Tap to add main image</value>
+  </data>
+  <data name="LabelDeliveryNotes" xml:space="preserve">
+    <value>Delivery notes</value>
+  </data>
+  <data name="LabelDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="LabelStoreName" xml:space="preserve">
+    <value>Store name</value>
+  </data>
+  <data name="LabelFromCamera" xml:space="preserve">
+    <value>From camera</value>
+  </data>
+  <data name="LabelFromLibrary" xml:space="preserve">
+    <value>From library</value>
+  </data>
+  <data name="TitlePickImage" xml:space="preserve">
+    <value>Pick image</value>
+  </data>
+  <data name="ButtonCreateStore" xml:space="preserve">
+    <value>Create my free store</value>
+    <comment>Create store button title</comment>
+  </data>
+  <data name="ButtonEditStore" xml:space="preserve">
+    <value>Edit my store</value>
+  </data>
+  <data name="ButtonRefetchStore" xml:space="preserve">
+    <value>Refetch store</value>
+  </data>
+  <data name="ButtonSaveChanges" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="MessageLoadingStore" xml:space="preserve">
+    <value>Loading store...</value>
+  </data>
+  <data name="MessageValidateInvalidStoreName" xml:space="preserve">
+    <value>Please select different name for your store. This name is reserved.</value>
+  </data>
+  <data name="TitleEditStore" xml:space="preserve">
+    <value>Edit store</value>
+  </data>
+  <data name="MessageValidateStoreName" xml:space="preserve">
+    <value>Store name should have 6 to 40 length, contain only alpha-numeric characters, spaces and these special characters: -_'&amp;</value>
+  </data>
+  <data name="MessageValidateStoreNameReserved" xml:space="preserve">
+    <value>The name you've entered for your store is reserved. Please change it and try again.</value>
+  </data>
 </root>

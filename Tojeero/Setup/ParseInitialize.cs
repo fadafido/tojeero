@@ -17,6 +17,7 @@ namespace Tojeero.Core
 			ParseObject.RegisterSubclass<ParseStoreCategory>();
 			ParseObject.RegisterSubclass<ParseTag>();
 			ParseObject.RegisterSubclass<TojeeroUser>();
+			ParseObject.RegisterSubclass<ReservedName>();
 
 			//Initialize parse
 			ParseClient.Initialize(Constants.ParseApplicationId, Constants.ParseDotNetKey);

@@ -30,6 +30,7 @@ namespace Tojeero.Core
 		public static int FetchTagsTimeout = 10000;
 		public static int FindTagsTimeout = 10000;
 		public static int SearchTimeout = 1000;
+		public static int SaveStoreTimeout = 10000;
 
 		/*****************PAGINATION*****************/
 		public static int ProductsPageSize = 50;
@@ -39,6 +40,7 @@ namespace Tojeero.Core
 		/*****************MISC*****************/
 		public static string XamarinInsightsApiKey = "641ba3e3bf2f2764d06bc254a896aed9c8175a94";
 		public static int ParseContainsAllLimit = 9;
+		public static int MaxPixelDimensionOfImages = 500;
 
 		/*****************Cache timespans*****************/
 		public static TimeSpan ImageCacheTimespan = TimeSpan.FromDays(1);

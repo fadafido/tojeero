@@ -5,7 +5,7 @@ namespace Tojeero.Forms
 {
 	public class VisibilityConverter : IValueConverter
 	{
-		public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public virtual object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			if(value == null)
 				return false;
@@ -14,10 +14,11 @@ namespace Tojeero.Forms
 			return true;
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		public virtual object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			throw new NotImplementedException();
 		}
 	}
+
 }
 

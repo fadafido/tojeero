@@ -338,6 +338,9 @@
     <Compile Include="Misc\Services\ImageService.cs" />
     <Compile Include="Misc\Messages\CameraImageSelectedMessage.cs" />
     <Compile Include="Misc\Messages\LibraryImageSelectedMessage.cs" />
+    <Compile Include="..\Tojeero\BL\Entities\ReservedName.cs">
+      <Link>Core\BL\Entities\ReservedName.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -430,7 +433,7 @@
     <AndroidResource Include="Resources\drawable\ToggleCameraButton.png" />
     <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

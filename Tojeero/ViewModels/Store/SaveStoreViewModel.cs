@@ -21,6 +21,7 @@ namespace Tojeero.Core.ViewModels
 		private readonly ICityManager _cityManager;
 		private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
 		private Regex _nameValidationRegex = new Regex(@"[^A-Za-z0-9\u0600-\u06FF \-_'&]");
+		private Regex _whitespaceRegex = new Regex(@"\s+");
 
 		#endregion
 
@@ -445,6 +446,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_saveCommand = _saveCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
+						this.SavingFailure = null;
 						if (validate() && CanExecuteSaveCommand && HasChanged)
 						{
 							await save();
@@ -497,11 +499,12 @@ namespace Tojeero.Core.ViewModels
 		private async Task save()
 		{
 			this.SavingInProgress = true;
-			this.SavingFailure = null;
 			string failureMessage = null;
 			try
 			{
-				var nameIsReserved = await _storeManager.CheckNameIsReserved(this.Name);
+				//Replace whitespaces with space
+				this.Name = _whitespaceRegex.Replace(this.Name, " ").Trim();
+				var nameIsReserved = await _storeManager.CheckNameIsReserved(this.Name, this.CurrentStore != null ? this.CurrentStore.ID : null);
 				if (nameIsReserved)
 				{
 					failureMessage = AppResources.MessageValidateStoreNameReserved;

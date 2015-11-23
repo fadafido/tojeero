@@ -8,7 +8,6 @@ using Tojeero.Core.Toolbox;
 using Tojeero.Core.ViewModels;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Messages;
-using System.Text.RegularExpressions;
 
 namespace Tojeero.Core
 {
@@ -18,8 +17,6 @@ namespace Tojeero.Core
 
 		private readonly IModelEntityManager _manager;
 		private readonly IMvxMessenger _messenger;
-		private Dictionary<string, bool> _reservedStoreNames = new Dictionary<string, bool>();
-		private Regex _whitespaceRegex = new Regex(@"\s+");
 
 		#endregion
 
@@ -78,17 +75,12 @@ namespace Tojeero.Core
 			return _manager.Cache.Clear<Store>();
 		}
 
-		public async Task<bool> CheckNameIsReserved(string storeName)
+		public async Task<bool> CheckNameIsReserved(string storeName, string currentStoreID = null)
 		{
 			//Replace whitespaces with space
-			var name = _whitespaceRegex.Replace(storeName, " ").Trim().ToLower();
-			//Check in memory cache
-			bool isReserved = false;
-			if (_reservedStoreNames.TryGetValue(name, out isReserved))
-				return isReserved;
+			var name = storeName.ToLower();
 			//Check in rest repository
-			isReserved = await this._manager.Rest.CheckStoreNameIsReserved(name);
-			_reservedStoreNames[name] = isReserved;
+			var isReserved = await this._manager.Rest.CheckStoreNameIsReserved(name, currentStoreID);
 
 			return isReserved;
 		}

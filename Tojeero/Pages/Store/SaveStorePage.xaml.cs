@@ -24,13 +24,17 @@ namespace Tojeero.Forms
 			this.ViewModel = MvxToolbox.LoadViewModel<SaveStoreViewModel>();
 			InitializeComponent();
 			setupPickers();
-			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonCancel, "", async () =>
+			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
 					{
 						await this.Navigation.PopModalAsync();
 					}));
 			this.ViewModel.CurrentStore = store;
 			this.mainImageControl.ParentPage = this;
 			this.mainImageControl.ViewModel = this.ViewModel.MainImage;
+			this.ViewModel.ShowAlert = (t, m, accept) =>
+			{
+				this.DisplayAlert(t, m, accept);
+			};
 		}
 
 		#endregion
@@ -90,7 +94,7 @@ namespace Tojeero.Forms
 				return x == y || x.ID == y.ID;
 			};
 		}
-			
+
 		#endregion
 	}
 }

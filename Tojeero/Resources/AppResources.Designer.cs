@@ -152,6 +152,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string ButtonOK {
+            get {
+                return ResourceManager.GetString("ButtonOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refetch store.
         /// </summary>
         internal static string ButtonRefetchStore {
@@ -512,6 +521,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saving failure.
+        /// </summary>
+        internal static string MessageSavingFailure {
+            get {
+                return ResourceManager.GetString("MessageSavingFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saving store....
         /// </summary>
         internal static string MessageSavingStore {
@@ -607,6 +625,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageValidateStoreNameReserved {
             get {
                 return ResourceManager.GetString("MessageValidateStoreNameReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose your store name wisely, you won&apos;t be able to change it..
+        /// </summary>
+        internal static string MessageWarningStoreName {
+            get {
+                return ResourceManager.GetString("MessageWarningStoreName", resourceCulture);
             }
         }
         

@@ -210,6 +210,8 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
+		public Action<string, string, string> ShowAlert { get; set; }
+
 		public string Title
 		{ 
 			get
@@ -525,6 +527,10 @@ namespace Tojeero.Core.ViewModels
 				failureMessage = AppResources.MessageSubmissionUnknownFailure;
 			}
 			this.SavingFailure = failureMessage;
+			if (failureMessage != null && this.ShowAlert != null)
+			{
+				this.ShowAlert(AppResources.MessageSavingFailure, failureMessage, AppResources.ButtonOK);
+			}
 			this.SavingInProgress = false;
 		}
 

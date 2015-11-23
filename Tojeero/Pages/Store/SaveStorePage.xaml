@@ -49,12 +49,18 @@
 							Spacing="5"
 							Padding="20,0,20,0">
 							<Label
+								Text="{local:Translate MessageWarningStoreName}"
+								Style="{StaticResource LabelWarning}"
+								IsVisible="{Binding IsNew}" />
+							<Label
 								Text="{local:Translate LabelStoreName}"
 								Style="{StaticResource Label1}" />
 							<Editor
 								Text="{Binding Name, Mode=TwoWay}"
 								HeightRequest="50"
-								HorizontalOptions="FillAndExpand" />
+								HorizontalOptions="FillAndExpand" 
+								IsEnabled="{Binding IsNew}"
+								Opacity="{Binding IsNew, Converter={StaticResource opacity}}"/>
 							<Label
 								Text="{Binding NameInvalid}"
 								Style="{StaticResource LabelInvalid}"

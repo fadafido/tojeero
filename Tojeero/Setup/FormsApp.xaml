@@ -74,6 +74,16 @@
 					Property="TextColor"
 					Value="{x:Static local:Colors.Invalid}" />
 			</Style>
+			<Style
+				x:Key="LabelWarning"
+				TargetType="Label">
+				<Setter
+					Property="FontSize"
+					Value="10" />
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Warning}" />
+			</Style>
 			<local:VisibilityConverter
 				x:Key="visibility" />
 			<local:InverseVisibilityConverter

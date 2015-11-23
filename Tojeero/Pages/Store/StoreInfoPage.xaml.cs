@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Core;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -12,17 +13,26 @@ namespace Tojeero.Forms
 	{
 		#region Constructors
 
-		public StoreInfoPage(IStore store)
+		public StoreInfoPage(IStore store, ContentMode mode = ContentMode.View)
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<StoreInfoViewModel>();
 			this.ViewModel.Store = store;
+			this.ViewModel.Mode = mode;
 			InitializeComponent();
 			this.HeaderView.BindingContext = this.ViewModel;
 			this.listView.ItemSelected += itemSelected;
 			this.ViewModel.ShowStoreDetailsAction = async (s) =>
 			{
-				await this.Navigation.PushAsync(new StoreDetailsPage(s));
+				await this.Navigation.PushAsync(new StoreDetailsPage(s, mode));
 			};
+			if (mode == ContentMode.Edit && store != null)
+			{
+				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
+						{
+							var editStorePage = new SaveStorePage(store);
+							await this.Navigation.PushAsync(editStorePage);
+						}));
+			}
 		}
 
 		#endregion

@@ -211,6 +211,9 @@ namespace Tojeero.Core.ViewModels
 		#region Properties
 
 		public Action<string, string, string> ShowAlert { get; set; }
+		//Action which will called as soon as store will be saved. 
+		//Bool parameter indicates wether this was new store creation or update of existing store
+		public Action<IStore, bool> DidSaveStoreAction { get; set; }
 
 		public string Title
 		{ 
@@ -504,6 +507,7 @@ namespace Tojeero.Core.ViewModels
 			string failureMessage = null;
 			try
 			{
+				bool wasNew = this.IsNew;
 				//Replace whitespaces with space
 				this.Name = _whitespaceRegex.Replace(this.Name, " ").Trim();
 				var nameIsReserved = await _storeManager.CheckNameIsReserved(this.Name, this.CurrentStore != null ? this.CurrentStore.ID : null);
@@ -514,6 +518,10 @@ namespace Tojeero.Core.ViewModels
 				else
 				{
 					this.CurrentStore = await _storeManager.Save(this);
+				}
+				if(this.CurrentStore != null && DidSaveStoreAction != null)
+				{
+					DidSaveStoreAction(this.CurrentStore, wasNew);
 				}
 			}
 			catch (OperationCanceledException ex)

@@ -18,11 +18,12 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public StoreInfoViewModel(IStore store = null)
+		public StoreInfoViewModel(IStore store = null, ContentMode mode = ContentMode.View)
 			: base(store)
 		{
 			this.ShouldSubscribeToSessionChange = true;
 			this.Store = store;
+			this.Mode = mode;
 		}
 
 		#endregion
@@ -58,6 +59,21 @@ namespace Tojeero.Core.ViewModels
 				base.Store = value;
 				setupViewModel();
 				RaisePropertyChanged(() => Store);
+			}
+		}
+
+		private ContentMode _mode;
+
+		public ContentMode Mode
+		{ 
+			get
+			{
+				return _mode; 
+			}
+			set
+			{
+				_mode = value; 
+				RaisePropertyChanged(() => Mode); 
 			}
 		}
 

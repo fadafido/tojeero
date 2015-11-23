@@ -17,11 +17,30 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public StoreDetailsViewModel(IStore store = null)
+		public StoreDetailsViewModel(IStore store = null, ContentMode mode = ContentMode.View)
 			: base(store)
 		{
 			this.ShouldSubscribeToSessionChange = true;
 			var messenger = Mvx.Resolve<IMvxMessenger>();
+		}
+
+		#endregion
+
+		#region Properties
+
+		private ContentMode _mode;
+
+		public ContentMode Mode
+		{ 
+			get
+			{
+				return _mode; 
+			}
+			set
+			{
+				_mode = value; 
+				RaisePropertyChanged(() => Mode); 
+			}
 		}
 
 		#endregion

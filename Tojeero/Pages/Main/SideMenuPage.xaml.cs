@@ -68,7 +68,19 @@ namespace Tojeero.Forms
 				await this.Navigation.PushModalAsync(new NavigationPage(new FavoritesPage()));
 			};
 			this.ViewModel.ShowSaveStoreAction = async (s) => {
-				await this.Navigation.PushModalAsync(new NavigationPage(new SaveStorePage(s)));
+				if(s == null)
+				{
+					await this.Navigation.PushModalAsync(new NavigationPage(new SaveStorePage(s)));
+				}
+				else
+				{
+					var storeInfoPage = new StoreInfoPage(s, ContentMode.Edit);
+					storeInfoPage.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
+						{
+							await storeInfoPage.Navigation.PopModalAsync();
+						}));
+					await this.Navigation.PushModalAsync(new NavigationPage(storeInfoPage));
+				}
 			};
 			this.BindingContext = _viewModel;
 		}

@@ -408,6 +408,9 @@
   <data name="MessageValidateStoreNameReserved" xml:space="preserve">
     <value>The name you've entered for your store is reserved. Please change it and try again.</value>
   </data>
+  <data name="ButtonEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
   <data name="ButtonOK" xml:space="preserve">
     <value>OK</value>
   </data>

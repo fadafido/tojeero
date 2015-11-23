@@ -27,49 +27,23 @@
 					<StackLayout
 						Spacing="10">
 						<!--STORE IMAGE-->
-						<local:RemovableContainerView
-							HeightRequest="230"
-							HorizontalOptions="FillAndExpand"
-							Padding="20,5,5,20"
-							RemoveEnabled="{Binding CanExecuteRemoveMainImageCommand}"
-							RemoveCommand="{Binding RemoveMainImageCommand}">
-							<local:RemovableContainerView.RootContent>
-								<Grid
-									VerticalOptions="FillAndExpand"
-									HorizontalOptions="FillAndExpand">
-									<BoxView
-										VerticalOptions="FillAndExpand"
-										HorizontalOptions="FillAndExpand"
-										BackgroundColor="{x:Static local:Colors.Placeholder}" />
-									<StackLayout
-										HorizontalOptions="Center"
-										VerticalOptions="End"
-										Padding="10">
-										<Label
-											Text="{local:Translate LabelAddMainImage}"
-											TextColor="{x:Static local:Colors.Main}"
-											FontSize="10" />
-									</StackLayout>
-									<Image
-										BackgroundColor="{x:Static local:Colors.Placeholder}"
-										Source="placeholder.png"
-										VerticalOptions="Center"
-										HorizontalOptions="Center" />
-									<Image
-										Aspect="AspectFill"
-										BackgroundColor="Transparent"
-										Source="{Binding MainImage.Image}"
-										VerticalOptions="FillAndExpand"
-										HorizontalOptions="FillAndExpand">
-										<Image.GestureRecognizers>
-											<TapGestureRecognizer
-												Command="{Binding PickMainImageCommand}"
-												NumberOfTapsRequired="1" />
-										</Image.GestureRecognizers>
-									</Image>
-								</Grid>
-							</local:RemovableContainerView.RootContent>
-						</local:RemovableContainerView>
+						<StackLayout
+							Spacing="0">
+							<local:ImageControl
+								x:Name="mainImageControl"
+								HeightRequest="230"
+								HorizontalOptions="FillAndExpand"
+								Padding="20,5,5,0">
+							</local:ImageControl>
+							<StackLayout
+								Padding="20,0,20,20">
+								<Label
+									Text="{local:Translate LabelAddMainImage}"
+									TextColor="{x:Static local:Colors.Main}"
+									FontSize="10"
+									XAlign="Center" />
+							</StackLayout>
+						</StackLayout>
 						<!--STORE NAME-->
 						<StackLayout
 							Spacing="5"
@@ -193,12 +167,12 @@
 									Text="{Binding SaveCommandTitle}"
 									Command="{Binding SaveCommand}"
 									Style="{StaticResource Button1}"
-									IsEnabled="{Binding CanExecuteSaveCommand}" 
+									IsEnabled="{Binding CanExecuteSaveCommand}"
 									HorizontalOptions="FillAndExpand" />
 								<ActivityIndicator
 									IsRunning="{Binding SavingInProgress}"
 									IsVisible="{Binding SavingInProgress}"
-									VerticalOptions="Center"/>
+									VerticalOptions="Center" />
 							</StackLayout>
 							<Label
 								Text="{Binding SavingFailure}"

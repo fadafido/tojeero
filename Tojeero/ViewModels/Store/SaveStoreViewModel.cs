@@ -37,7 +37,6 @@ namespace Tojeero.Core.ViewModels
 			this._categoryManager = categoryManager;
 			this.PropertyChanged += propertyChanged;
 			this.MainImage = new ImageViewModel();
-			this.MainImage.PropertyChanged += propertyChanged;
 		}
 
 		#endregion
@@ -209,9 +208,6 @@ namespace Tojeero.Core.ViewModels
 		#endregion
 
 		#region Properties
-
-
-		public Func<Task<IImage>> PickImageFunction;
 
 		public string Title
 		{ 
@@ -466,43 +462,6 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _pickMainImageCommand;
-
-		public System.Windows.Input.ICommand PickMainImageCommand
-		{
-			get
-			{
-				_pickMainImageCommand = _pickMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						await pickImage();
-					}, () => !IsPickingImage);
-				return _pickMainImageCommand;
-			}
-		}
-
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _removeMainImageCommand;
-
-		public System.Windows.Input.ICommand RemoveMainImageCommand
-		{
-			get
-			{
-				_removeMainImageCommand = _removeMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
-					{
-						this.MainImage.NewImage = null;
-						this.MainImage.ImageUrl = null;
-					}, () => CanExecuteRemoveMainImageCommand);
-				return _removeMainImageCommand;
-			}
-		}
-
-		public bool CanExecuteRemoveMainImageCommand
-		{
-			get
-			{
-				return this.MainImage != null && (this.MainImage.NewImage != null || this.MainImage.ImageUrl != null);
-			}
-		}
-
 		#endregion
 
 		#region Utility methods
@@ -582,20 +541,6 @@ namespace Tojeero.Core.ViewModels
 				failureMessage = handleException(ex);
 			}
 			StopLoading(failureMessage);
-		}
-
-		private async Task pickImage()
-		{
-			IsPickingImage = true;
-			if (PickImageFunction != null)
-			{
-				var image = await PickImageFunction();
-				if (image != null)
-				{
-					this.MainImage.NewImage = image;
-				}
-			}	
-			IsPickingImage = false;
 		}
 
 		private async Task reloadCities()
@@ -704,10 +649,6 @@ namespace Tojeero.Core.ViewModels
 			{				
 				this.RaisePropertyChanged(() => CanExecuteSaveCommand);
 
-			}
-			if (e.PropertyName == "MainImage" || e.PropertyName == "NewImage" || e.PropertyName == "ImageUrl")
-			{
-				this.RaisePropertyChanged(() => CanExecuteRemoveMainImageCommand);
 			}
 		}
 

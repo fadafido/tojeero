@@ -27,7 +27,6 @@ namespace Tojeero.Core
 		{
 			this._messenger = messenger;
 			this._manager = manager;
-
 		}
 
 		#endregion

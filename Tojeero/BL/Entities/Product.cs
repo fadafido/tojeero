@@ -2,6 +2,7 @@
 using Parse;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
@@ -135,7 +136,12 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				_categoryID = value; 
+				if (_categoryID != value)
+				{
+					_categoryID = value; 
+					_category = null;
+					this.ParseObject.Category = Parse.ParseObject.CreateWithoutData<ParseProductCategory>(_categoryID);
+				}
 			}
 		}
 
@@ -151,7 +157,12 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				_subcategoryID = value; 
+				if (_subcategoryID != value)
+				{
+					_subcategoryID = value; 
+					_subcategory = null;
+					this.ParseObject.Subcategory = Parse.ParseObject.CreateWithoutData<ParseProductSubcategory>(_subcategoryID);
+				}
 			}
 		}
 
@@ -167,7 +178,12 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				_storeID = value; 
+				if (_storeID != value)
+				{
+					_storeID = value; 
+					_store = null;
+					this.ParseObject.Store = Parse.ParseObject.CreateWithoutData<ParseStore>(_storeID);
+				}
 			}
 		}
 
@@ -348,6 +364,31 @@ namespace Tojeero.Core
 		public override string ToString()
 		{
 			return this.ID + " " + this.Name;	
+		}
+
+		#endregion
+
+		#region Methods
+
+		public async Task Save()
+		{
+			if (this.ParseObject != null)
+			{
+				var isFav = this.IsFavorite;
+				await this.ParseObject.SaveAsync();
+				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("subcategory").Include("store");
+				var product = await query.FirstOrDefaultAsync();
+				this.ParseObject = product;
+				this.IsFavorite = isFav;
+			}
+		}
+
+		public async Task SetMainImage(IImage image)
+		{
+			var imageFile = new ParseFile(image.Name, image.RawImage);
+			await imageFile.SaveAsync();
+			this.ParseObject.Image = imageFile;
+			this.ImageUrl = null;
 		}
 
 		#endregion

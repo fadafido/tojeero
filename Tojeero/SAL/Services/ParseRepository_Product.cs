@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Tojeero.Core.Toolbox;
 using System.Collections;
+using Tojeero.Core.ViewModels;
 
 namespace Tojeero.Core
 {
@@ -63,6 +64,30 @@ namespace Tojeero.Core
 				parseQuery = getFilteredProductQuery(parseQuery, filter);
 				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
 				return result.Select(p => new Product(p) as IProduct);
+			}
+		}
+
+		public async Task<IProduct> SaveProduct(ISaveProductViewModel product)
+		{
+			if (product == null || product.Store == null)
+				throw new NullReferenceException("When saving product the ISaveProductViewModel parameter as well as product's store should be non null");
+			using (var tokenSource = new CancellationTokenSource(Constants.SaveProductTimeout))
+			{
+				var p = product.CurrentProduct != null ? product.CurrentProduct : new Product();
+				p.Name = product.Name;
+				p.Price = product.Price;
+				p.StoreID = product.Store.ID;
+				p.CategoryID = product.Category != null ? product.Category.ID : null;
+				p.SubcategoryID = product.Subcategory != null ? product.Subcategory.ID : null;
+				p.Description = product.Description;
+				p.LowercaseName = p.Name.ToLower();
+				p.SearchTokens = new string[] { p.Name, p.Description }.Tokenize();
+				if (product.MainImage.NewImage != null)
+				{
+					await p.SetMainImage(product.MainImage.NewImage);
+				}
+				await p.Save();
+				return p;
 			}
 		}
 			

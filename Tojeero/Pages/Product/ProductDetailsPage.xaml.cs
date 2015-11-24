@@ -13,7 +13,7 @@ namespace Tojeero.Forms
 		
 		#region Constructors
 
-		public ProductDetailsPage(IProduct product)
+		public ProductDetailsPage(IProduct product, ContentMode mode = ContentMode.View)
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<ProductDetailsViewModel>();
 			this.ViewModel.Product = product;

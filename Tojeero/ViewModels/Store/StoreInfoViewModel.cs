@@ -33,7 +33,7 @@ namespace Tojeero.Core.ViewModels
 		#region Properties
 
 		public Action<IStore> ShowStoreDetailsAction { get; set; }
-		public Action AddProductAction { get; set; }
+		public Action<IProduct> AddProductAction { get; set; }
 
 		private BaseCollectionViewModel<ProductViewModel> _products;
 
@@ -143,7 +143,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_addProductCommand = _addProductCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
 					{
-						AddProductAction.Fire();
+						AddProductAction.Fire(null);
 					}, () => true);
 				return _addProductCommand;
 			}

@@ -25,6 +25,11 @@ namespace Tojeero.Forms
 			{
 				await this.Navigation.PushAsync(new StoreDetailsPage(s, mode));
 			};
+
+			this.ViewModel.AddProductAction = async (p) =>
+			{
+					await this.Navigation.PushModalAsync(new NavigationPage(new SaveProductPage(p)));
+			};
 			
 			if (mode == ContentMode.Edit)
 			{

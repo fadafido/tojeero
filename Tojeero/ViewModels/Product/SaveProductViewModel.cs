@@ -197,6 +197,7 @@ namespace Tojeero.Core.ViewModels
 				_category = value; 
 				RaisePropertyChanged(() => Category); 
 				validateCategory();
+				reloadSubcategories();
 			}
 		}
 

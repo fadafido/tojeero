@@ -377,6 +377,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Product name.
+        /// </summary>
+        internal static string LabelProductName {
+            get {
+                return ResourceManager.GetString("LabelProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start price.
         /// </summary>
         internal static string LabelStartPrice {
@@ -629,7 +638,7 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select category..
+        ///   Looks up a localized string similar to Category is required..
         /// </summary>
         internal static string MessageValidateRequiredCategory {
             get {
@@ -638,7 +647,7 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select city..
+        ///   Looks up a localized string similar to City is required..
         /// </summary>
         internal static string MessageValidateRequiredCity {
             get {
@@ -647,7 +656,7 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select country..
+        ///   Looks up a localized string similar to Country is required..
         /// </summary>
         internal static string MessageValidateRequiredCountry {
             get {

@@ -341,13 +341,13 @@
     <comment>Message shown on save store screen to indicate that store is being saved</comment>
   </data>
   <data name="MessageValidateRequiredCategory" xml:space="preserve">
-    <value>Please select category.</value>
+    <value>Category is required.</value>
   </data>
   <data name="MessageValidateRequiredCity" xml:space="preserve">
-    <value>Please select city.</value>
+    <value>City is required.</value>
   </data>
   <data name="MessageValidateRequiredCountry" xml:space="preserve">
-    <value>Please select country.</value>
+    <value>Country is required.</value>
   </data>
   <data name="MessageValidateRequiredName" xml:space="preserve">
     <value>Please enter non-empty name.</value>
@@ -431,6 +431,9 @@
   </data>
   <data name="ButtonCreateProduct" xml:space="preserve">
     <value>Add product</value>
+  </data>
+  <data name="LabelProductName" xml:space="preserve">
+    <value>Product name</value>
   </data>
   <data name="MessageValidateProductName" xml:space="preserve">
     <value>Product name is required.</value>

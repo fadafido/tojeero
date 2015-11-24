@@ -24,6 +24,7 @@ namespace Tojeero.Core.ViewModels
 			this.ShouldSubscribeToSessionChange = true;
 			this.Store = store;
 			this.Mode = mode;
+			this.PropertyChanged += propertyChanged;
 		}
 
 		#endregion
@@ -31,7 +32,8 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		public Action<IStore> ShowStoreDetailsAction;
+		public Action<IStore> ShowStoreDetailsAction { get; set; }
+		public Action AddProductAction { get; set; }
 
 		private BaseCollectionViewModel<ProductViewModel> _products;
 
@@ -77,6 +79,32 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public bool IsAddFirstProductPlaceholderVisible
+		{
+			get
+			{
+				return true;
+				return this.Mode == ContentMode.Edit && this.IsPlaceholderVisible;
+			}
+		}
+
+		public bool IsNoProductsPlaceholderVisible
+		{
+			get
+			{ 
+				return this.Mode == ContentMode.View && this.IsPlaceholderVisible;
+			}
+		}
+
+		public bool IsPlaceholderVisible
+		{
+			get
+			{ 
+				return true;
+				return this.Products != null && this.Products.IsInitialDataLoaded && this.Products.Count == 0;
+			}
+		}
+
 		#endregion
 
 		#region Commands
@@ -104,6 +132,20 @@ namespace Tojeero.Core.ViewModels
 					ShowStoreDetailsAction.Fire(this.Store);
 				});
 				return _showStoreDetailsCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _addProductCommand;
+
+		public System.Windows.Input.ICommand AddProductCommand
+		{
+			get
+			{
+				_addProductCommand = _addProductCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
+					{
+						AddProductAction.Fire();
+					}, () => true);
+				return _addProductCommand;
 			}
 		}
 
@@ -161,10 +203,21 @@ namespace Tojeero.Core.ViewModels
 			if (this.Store != null)
 			{
 				this.Products = new BaseCollectionViewModel<ProductViewModel>(new StoreProductsQuery(productManager, this.Store), Constants.ProductsPageSize);
+				this.Products.PropertyChanged += propertyChanged;
 			}
 			else
 			{
 				this.Products = null;
+			}
+		}
+
+		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "Mode" || e.PropertyName == "Products" || e.PropertyName == "Count" || e.PropertyName == "IsInitialDataLoaded")
+			{
+				RaisePropertyChanged(() => IsAddFirstProductPlaceholderVisible);
+				RaisePropertyChanged(() => IsNoProductsPlaceholderVisible);
+				RaisePropertyChanged(() => IsPlaceholderVisible);
 			}
 		}
 

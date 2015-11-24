@@ -80,6 +80,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string ButtonAdd {
+            get {
+                return ResourceManager.GetString("ButtonAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add image.
         /// </summary>
         internal static string ButtonAddImage {
@@ -449,6 +458,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap here to add your first product.
+        /// </summary>
+        internal static string MessageAddFirstProduct {
+            get {
+                return ResourceManager.GetString("MessageAddFirstProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         internal static string MessageGeneralLoading {
@@ -544,6 +562,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageSavingStore {
             get {
                 return ResourceManager.GetString("MessageSavingStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Store doesn&apos;t have any products..
+        /// </summary>
+        internal static string MessageStoreNoProducts {
+            get {
+                return ResourceManager.GetString("MessageStoreNoProducts", resourceCulture);
             }
         }
         

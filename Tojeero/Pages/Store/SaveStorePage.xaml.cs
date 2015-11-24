@@ -35,6 +35,7 @@ namespace Tojeero.Forms
 			{
 				this.DisplayAlert(t, m, accept);
 			};
+			
 			this.ViewModel.DidSaveStoreAction = async (savedStore, isNew) => {
 				if(isNew)
 				{

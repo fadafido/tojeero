@@ -18,83 +18,137 @@
 				FailureMessage="{Binding Products.LoadingFailureMessage}"
 				IsNetworkAvailable="{Binding Products.IsNetworkAvailable}"
 				TryAgainCommand="{Binding Products.TryAgainCommand}" />
-			<local:InfiniteListView
-				x:Name="listView"
-				ItemsSource="{Binding Products.Collection}"
-				BackgroundColor="Transparent"
-				RowHeight="100"
-				SeparatorVisibility="None"
-				IsPullToRefreshEnabled="true"
-				RefreshCommand="{Binding Products.ReloadCommand}"
-				LoadMoreCommand="{Binding Products.LoadNextPageCommand}">
-				<local:InfiniteListView.ItemTemplate>
-					<DataTemplate>
-						<local:ProductListCell />
-					</DataTemplate>
-				</local:InfiniteListView.ItemTemplate>
-				<local:InfiniteListView.Header>
-					<StackLayout
-						x:Name="HeaderView"
-						Spacing="0">
-						<!--STORE DETAILS-->
-						<Grid
-							ColumnSpacing="10"
-							RowSpacing="10"
-							Padding="10"
-							HorizontalOptions="FillAndExpand">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition
-									Width="50" />
-								<ColumnDefinition
-									Width="*" />
-							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition
-									Height="Auto" />
-								<RowDefinition
-									Height="40" />
-							</Grid.RowDefinitions>
+			<Grid
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand">
+				<local:InfiniteListView
+					x:Name="listView"
+					ItemsSource="{Binding Products.Collection}"
+					BackgroundColor="Transparent"
+					RowHeight="100"
+					SeparatorVisibility="None"
+					IsPullToRefreshEnabled="true"
+					RefreshCommand="{Binding Products.ReloadCommand}"
+					LoadMoreCommand="{Binding Products.LoadNextPageCommand}">
+					<local:InfiniteListView.ItemTemplate>
+						<DataTemplate>
+							<local:ProductListCell />
+						</DataTemplate>
+					</local:InfiniteListView.ItemTemplate>
+					<local:InfiniteListView.Header>
+						<StackLayout
+							x:Name="HeaderView"
+							Spacing="0">
+							<!--STORE DETAILS-->
 							<Grid
-								VerticalOptions="Start"
-								HeightRequest="40">
-								<BoxView
-									BackgroundColor="{x:Static local:Colors.Placeholder}" />
-								<Image
-									Source="placeholder.png"
-									VerticalOptions="Center"
-									HorizontalOptions="Center"
-									HeightRequest="25"
-									WidthRequest="20" />
-								<Image
-									Aspect="AspectFill"
-									BackgroundColor="Transparent"
-									Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
+								ColumnSpacing="10"
+								RowSpacing="10"
+								Padding="10"
+								HorizontalOptions="FillAndExpand">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition
+										Width="50" />
+									<ColumnDefinition
+										Width="*" />
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition
+										Height="Auto" />
+									<RowDefinition
+										Height="40" />
+								</Grid.RowDefinitions>
+								<Grid
+									VerticalOptions="Start"
+									HeightRequest="40">
+									<BoxView
+										BackgroundColor="{x:Static local:Colors.Placeholder}" />
+									<Image
+										Source="placeholder.png"
+										VerticalOptions="Center"
+										HorizontalOptions="Center"
+										HeightRequest="25"
+										WidthRequest="20" />
+									<Image
+										Aspect="AspectFill"
+										BackgroundColor="Transparent"
+										Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
+								</Grid>
+								<Label
+									Grid.Column="1"
+									Text="{Binding Store.Name}"
+									TextColor="{x:Static local:Colors.Main}"
+									FontAttributes="Bold"
+									FontSize="15"
+									VerticalOptions="CenterAndExpand"
+									HorizontalOptions="FillAndExpand"
+									YAlign="Center" />
+								<Button
+									Grid.Row="1"
+									Grid.ColumnSpan="2"
+									Text="{local:Translate TitleStoreDetails}"
+									Command="{Binding ShowStoreDetailsCommand}"
+									VerticalOptions="FillAndExpand"
+									HorizontalOptions="FillAndExpand"
+									Style="{StaticResource Button1}" />
 							</Grid>
-							<Label
-								Grid.Column="1"
-								Text="{Binding Store.Name}"
-								TextColor="{x:Static local:Colors.Main}"
-								FontAttributes="Bold"
-								FontSize="15"
-								VerticalOptions="CenterAndExpand"
-								HorizontalOptions="FillAndExpand"
-								YAlign="Center" />
-							<Button
-								Grid.Row="1"
-								Grid.ColumnSpan="2"
-								Text="{local:Translate TitleStoreDetails}"
-								Command="{Binding ShowStoreDetailsCommand}"
-								VerticalOptions="FillAndExpand"
-								HorizontalOptions="FillAndExpand"
-								Style="{StaticResource Button1}" />
-						</Grid>
-						<!--FAVORITES AND SHARING-->
-						<local:FavoriteSocialView
-							SocialObject="{Binding Store}"
-							SocialViewModel="{Binding .}" />
-					</StackLayout>
-				</local:InfiniteListView.Header>
-			</local:InfiniteListView>
+							<!--FAVORITES AND SHARING-->
+							<local:FavoriteSocialView
+								SocialObject="{Binding Store}"
+								SocialViewModel="{Binding .}" />
+							<!--PLACEHOLDERS-->
+							<Grid
+								HeightRequest="250"
+								WidthRequest="250"
+								VerticalOptions="Center"
+								HorizontalOptions="Center"
+								IsVisible="{Binding IsPlaceholderVisible}"
+								Padding="20">
+								<Label
+									Text="{local:Translate MessageStoreNoProducts}"
+									IsVisible="{Binding IsNoProductsPlaceholderVisible}"
+									Style="{StaticResource LabelPlaceholder}"
+									XAlign="Center" />
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.Placeholder}"
+									BorderWidth="1"
+									BackgroundColor="Transparent"
+									VerticalOptions="FillAndExpand"
+									HorizontalOptions="FillAndExpand"
+									IsVisible="{Binding IsAddFirstProductPlaceholderVisible}" />
+								<Grid
+									IsVisible="{Binding IsAddFirstProductPlaceholderVisible}"
+									VerticalOptions="FillAndExpand"
+									HorizontalOptions="FillAndExpand"
+									Padding="10">
+									<Grid.RowDefinitions>
+										<RowDefinition
+											Height="*" />
+										<RowDefinition
+											Height="Auto" />
+									</Grid.RowDefinitions>
+									<Label
+										Text="+"
+										FontAttributes="Bold"
+										FontSize="150"
+										TextColor="{x:Static local:Colors.Placeholder}"
+										XAlign="Center"
+										VerticalOptions="Center" />
+									<Label
+										Grid.Row="1"
+										Text="{local:Translate MessageAddFirstProduct}"
+										Style="{StaticResource LabelPlaceholder}"
+										XAlign="Center" />
+									<Grid.GestureRecognizers>
+										<TapGestureRecognizer
+											Command="{Binding AddProductCommand}"
+											NumberOfTapsRequired="1" />
+									</Grid.GestureRecognizers>
+								</Grid>
+							</Grid>
+						</StackLayout>
+					</local:InfiniteListView.Header>
+				</local:InfiniteListView>
+			</Grid>
 			<StackLayout
 				Padding="5"
 				IsVisible="{Binding Products.IsLoadingNextPage}">

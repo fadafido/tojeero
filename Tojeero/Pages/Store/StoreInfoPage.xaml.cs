@@ -25,13 +25,22 @@ namespace Tojeero.Forms
 			{
 				await this.Navigation.PushAsync(new StoreDetailsPage(s, mode));
 			};
-			if (mode == ContentMode.Edit && store != null)
+			
+			if (mode == ContentMode.Edit)
 			{
-				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
-						{
-							var editStorePage = new SaveStorePage(store);
-							await this.Navigation.PushAsync(editStorePage);
+				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonAdd, "", () =>
+					{
+						this.ViewModel.AddProductCommand.Execute(null);
+					}));
+				
+				if (store != null)
+				{
+					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
+							{
+								var editStorePage = new SaveStorePage(store);
+								await this.Navigation.PushAsync(editStorePage);
 						}));
+				}
 			}
 		}
 

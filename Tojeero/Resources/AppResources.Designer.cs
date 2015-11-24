@@ -125,6 +125,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string ButtonEdit {
+            get {
+                return ResourceManager.GetString("ButtonEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit my store.
         /// </summary>
         internal static string ButtonEditStore {
@@ -148,6 +157,15 @@ namespace Tojeero.Forms.Resources {
         internal static string ButtonLogout {
             get {
                 return ResourceManager.GetString("ButtonLogout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string ButtonOK {
+            get {
+                return ResourceManager.GetString("ButtonOK", resourceCulture);
             }
         }
         
@@ -512,6 +530,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saving failure.
+        /// </summary>
+        internal static string MessageSavingFailure {
+            get {
+                return ResourceManager.GetString("MessageSavingFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saving store....
         /// </summary>
         internal static string MessageSavingStore {
@@ -607,6 +634,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageValidateStoreNameReserved {
             get {
                 return ResourceManager.GetString("MessageValidateStoreNameReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose your store name wisely, you won&apos;t be able to change it..
+        /// </summary>
+        internal static string MessageWarningStoreName {
+            get {
+                return ResourceManager.GetString("MessageWarningStoreName", resourceCulture);
             }
         }
         

@@ -21,6 +21,7 @@ namespace Tojeero.Core.ViewModels
 		private readonly ICityManager _cityManager;
 		private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
 		private Regex _nameValidationRegex = new Regex(@"[^A-Za-z0-9\u0600-\u06FF \-_'&]");
+		private Regex _whitespaceRegex = new Regex(@"\s+");
 
 		#endregion
 
@@ -37,7 +38,6 @@ namespace Tojeero.Core.ViewModels
 			this._categoryManager = categoryManager;
 			this.PropertyChanged += propertyChanged;
 			this.MainImage = new ImageViewModel();
-			this.MainImage.PropertyChanged += propertyChanged;
 		}
 
 		#endregion
@@ -210,8 +210,10 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-
-		public Func<Task<IImage>> PickImageFunction;
+		public Action<string, string, string> ShowAlert { get; set; }
+		//Action which will called as soon as store will be saved. 
+		//Bool parameter indicates wether this was new store creation or update of existing store
+		public Action<IStore, bool> DidSaveStoreAction { get; set; }
 
 		public string Title
 		{ 
@@ -449,6 +451,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_saveCommand = _saveCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
+						this.SavingFailure = null;
 						if (validate() && CanExecuteSaveCommand && HasChanged)
 						{
 							await save();
@@ -463,43 +466,6 @@ namespace Tojeero.Core.ViewModels
 			get
 			{
 				return this.IsLoggedIn && this.IsNetworkAvailable && !IsLoading && !SavingInProgress && IsValidForSaving;
-			}
-		}
-
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _pickMainImageCommand;
-
-		public System.Windows.Input.ICommand PickMainImageCommand
-		{
-			get
-			{
-				_pickMainImageCommand = _pickMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						await pickImage();
-					}, () => !IsPickingImage);
-				return _pickMainImageCommand;
-			}
-		}
-
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _removeMainImageCommand;
-
-		public System.Windows.Input.ICommand RemoveMainImageCommand
-		{
-			get
-			{
-				_removeMainImageCommand = _removeMainImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
-					{
-						this.MainImage.NewImage = null;
-						this.MainImage.ImageUrl = null;
-					}, () => CanExecuteRemoveMainImageCommand);
-				return _removeMainImageCommand;
-			}
-		}
-
-		public bool CanExecuteRemoveMainImageCommand
-		{
-			get
-			{
-				return this.MainImage != null && (this.MainImage.NewImage != null || this.MainImage.ImageUrl != null);
 			}
 		}
 
@@ -538,11 +504,13 @@ namespace Tojeero.Core.ViewModels
 		private async Task save()
 		{
 			this.SavingInProgress = true;
-			this.SavingFailure = null;
 			string failureMessage = null;
 			try
 			{
-				var nameIsReserved = await _storeManager.CheckNameIsReserved(this.Name);
+				bool wasNew = this.IsNew;
+				//Replace whitespaces with space
+				this.Name = _whitespaceRegex.Replace(this.Name, " ").Trim();
+				var nameIsReserved = await _storeManager.CheckNameIsReserved(this.Name, this.CurrentStore != null ? this.CurrentStore.ID : null);
 				if (nameIsReserved)
 				{
 					failureMessage = AppResources.MessageValidateStoreNameReserved;
@@ -550,6 +518,10 @@ namespace Tojeero.Core.ViewModels
 				else
 				{
 					this.CurrentStore = await _storeManager.Save(this);
+				}
+				if(this.CurrentStore != null && DidSaveStoreAction != null)
+				{
+					DidSaveStoreAction(this.CurrentStore, wasNew);
 				}
 			}
 			catch (OperationCanceledException ex)
@@ -563,6 +535,10 @@ namespace Tojeero.Core.ViewModels
 				failureMessage = AppResources.MessageSubmissionUnknownFailure;
 			}
 			this.SavingFailure = failureMessage;
+			if (failureMessage != null && this.ShowAlert != null)
+			{
+				this.ShowAlert(AppResources.MessageSavingFailure, failureMessage, AppResources.ButtonOK);
+			}
 			this.SavingInProgress = false;
 		}
 
@@ -582,20 +558,6 @@ namespace Tojeero.Core.ViewModels
 				failureMessage = handleException(ex);
 			}
 			StopLoading(failureMessage);
-		}
-
-		private async Task pickImage()
-		{
-			IsPickingImage = true;
-			if (PickImageFunction != null)
-			{
-				var image = await PickImageFunction();
-				if (image != null)
-				{
-					this.MainImage.NewImage = image;
-				}
-			}	
-			IsPickingImage = false;
 		}
 
 		private async Task reloadCities()
@@ -704,10 +666,6 @@ namespace Tojeero.Core.ViewModels
 			{				
 				this.RaisePropertyChanged(() => CanExecuteSaveCommand);
 
-			}
-			if (e.PropertyName == "MainImage" || e.PropertyName == "NewImage" || e.PropertyName == "ImageUrl")
-			{
-				this.RaisePropertyChanged(() => CanExecuteRemoveMainImageCommand);
 			}
 		}
 

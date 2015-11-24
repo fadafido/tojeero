@@ -293,7 +293,15 @@ namespace Tojeero.Core
 
 		public async Task Save()
 		{
-			await this.ParseObject.SaveAsync();
+			if (this.ParseObject != null)
+			{
+				var isFav = this.IsFavorite;
+				await this.ParseObject.SaveAsync();
+				var query = new ParseQuery<ParseStore>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("country").Include("city");
+				var store = await query.FirstOrDefaultAsync();
+				this.ParseObject = store;
+				this.IsFavorite = isFav;
+			}
 		}
 
 		public async Task SetMainImage(IImage image)

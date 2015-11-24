@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Core;
 using Tojeero.Forms.Toolbox;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -13,14 +14,23 @@ namespace Tojeero.Forms
 		
 		#region Constructors
 
-		public StoreDetailsPage(IStore store)
+		public StoreDetailsPage(IStore store, ContentMode mode = ContentMode.View)
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<StoreDetailsViewModel>();
 			this.ViewModel.Store = store;
+			this.ViewModel.Mode = mode;
 			InitializeComponent();
 			this.deliveryNotes.DidOpen += (sender, e) => {
 				this.scrollView.ScrollToAsync(this.deliveryNotes, ScrollToPosition.End, true);
 			};
+			if (mode == ContentMode.Edit && store != null)
+			{
+				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
+					{
+						var editStorePage = new SaveStorePage(store);
+						await this.Navigation.PushAsync(editStorePage);
+					}));
+			}
 		}
 
 		#endregion

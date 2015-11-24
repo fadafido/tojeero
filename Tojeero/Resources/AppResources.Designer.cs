@@ -116,6 +116,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add product.
+        /// </summary>
+        internal static string ButtonCreateProduct {
+            get {
+                return ResourceManager.GetString("ButtonCreateProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create my free store.
         /// </summary>
         internal static string ButtonCreateStore {
@@ -611,6 +620,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Product name is required..
+        /// </summary>
+        internal static string MessageValidateProductName {
+            get {
+                return ResourceManager.GetString("MessageValidateProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select category..
         /// </summary>
         internal static string MessageValidateRequiredCategory {
@@ -643,6 +661,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageValidateRequiredName {
             get {
                 return ResourceManager.GetString("MessageValidateRequiredName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subcategory is required..
+        /// </summary>
+        internal static string MessageValidateRequiredSubcategory {
+            get {
+                return ResourceManager.GetString("MessageValidateRequiredSubcategory", resourceCulture);
             }
         }
         
@@ -710,11 +737,29 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create product.
+        /// </summary>
+        internal static string TitleCreateProduct {
+            get {
+                return ResourceManager.GetString("TitleCreateProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create store.
         /// </summary>
         internal static string TitleCreateStore {
             get {
                 return ResourceManager.GetString("TitleCreateStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit product.
+        /// </summary>
+        internal static string TitleEditProduct {
+            get {
+                return ResourceManager.GetString("TitleEditProduct", resourceCulture);
             }
         }
         

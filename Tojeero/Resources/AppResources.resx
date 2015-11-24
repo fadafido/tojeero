@@ -429,4 +429,19 @@
   <data name="MessageWarningStoreName" xml:space="preserve">
     <value>Choose your store name wisely, you won't be able to change it.</value>
   </data>
+  <data name="ButtonCreateProduct" xml:space="preserve">
+    <value>Add product</value>
+  </data>
+  <data name="MessageValidateProductName" xml:space="preserve">
+    <value>Product name is required.</value>
+  </data>
+  <data name="MessageValidateRequiredSubcategory" xml:space="preserve">
+    <value>Subcategory is required.</value>
+  </data>
+  <data name="TitleCreateProduct" xml:space="preserve">
+    <value>Create product</value>
+  </data>
+  <data name="TitleEditProduct" xml:space="preserve">
+    <value>Edit product</value>
+  </data>
 </root>

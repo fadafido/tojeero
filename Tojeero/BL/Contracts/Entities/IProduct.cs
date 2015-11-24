@@ -21,6 +21,8 @@ namespace Tojeero.Core
 
 		string StoreID { get; }
 
+		string Description { get; set; }
+
 		string CityId { get; }
 
 		ICity City { get; }

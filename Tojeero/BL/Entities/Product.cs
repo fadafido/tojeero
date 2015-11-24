@@ -17,7 +17,7 @@ namespace Tojeero.Core
 		public Product(ParseProduct parseProduct = null)
 			: base(parseProduct)
 		{
-			
+
 		}
 
 		#endregion
@@ -81,6 +81,19 @@ namespace Tojeero.Core
 				_parseObject.Price = value;
 				RaisePropertyChanged(() => Price);
 				RaisePropertyChanged(() => FormattedPrice);
+			}
+		}
+
+		public string Description
+		{
+			get
+			{
+				return _parseObject.Description;
+			}
+			set
+			{
+				_parseObject.Description = value;
+				RaisePropertyChanged(() => Description);
 			}
 		}
 
@@ -313,7 +326,7 @@ namespace Tojeero.Core
 				return _store; 
 			}
 		}
-			
+
 		private bool? _isFavorite;
 		public bool? IsFavorite
 		{ 

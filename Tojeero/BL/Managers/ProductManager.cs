@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Parse;
 using System.Linq;
 using Tojeero.Core.Toolbox;
+using Tojeero.Core.ViewModels;
 
 namespace Tojeero.Core
 {
@@ -47,7 +48,13 @@ namespace Tojeero.Core
 		{
 			return _manager.Cache.Clear<Product>();
 		}
-			
+
+
+		public async Task<IProduct> Save(ISaveProductViewModel store)
+		{
+			return null;
+		}
+
 		#endregion
 	}
 

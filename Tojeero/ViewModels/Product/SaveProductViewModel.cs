@@ -11,15 +11,15 @@ using System.Text.RegularExpressions;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class SaveStoreViewModel : BaseUserViewModel, ISaveStoreViewModel
+	public class SaveProductViewModel : BaseUserViewModel, ISaveProductViewModel
 	{
 		#region Private fields and properties
 
-		private readonly IStoreManager _storeManager;
-		private readonly IStoreCategoryManager _categoryManager;
-		private readonly ICountryManager _countryManager;
-		private readonly ICityManager _cityManager;
-		private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
+		private readonly IProductManager _productManager;
+		private readonly IProductCategoryManager _categoryManager;
+		private readonly IProductSubcategoryManager _subcategoryManager;
+
+		private AsyncReaderWriterLock _subcategoriesLocker = new AsyncReaderWriterLock();
 		private Regex _nameValidationRegex = new Regex(@"[^A-Za-z0-9\u0600-\u06FF \-_'&]");
 		private Regex _whitespaceRegex = new Regex(@"\s+");
 
@@ -27,35 +27,34 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public SaveStoreViewModel(IStoreManager storeManager, IStoreCategoryManager categoryManager, ICountryManager countryManager, 
-			ICityManager cityManager, IAuthenticationService authService, IMvxMessenger messenger)
+		public SaveProductViewModel(IProductManager productManager, IProductCategoryManager categoryManager, IProductSubcategoryManager subcategoryManager,
+			IAuthenticationService authService, IMvxMessenger messenger)
 			: base(authService, messenger)
 		{
 			this.ShouldSubscribeToSessionChange = true;
-			this._storeManager = storeManager;
-			this._cityManager = cityManager;
-			this._countryManager = countryManager;
+			this._productManager = productManager;
 			this._categoryManager = categoryManager;
+			this._subcategoryManager = subcategoryManager;
 			this.PropertyChanged += propertyChanged;
 			this.MainImage = new ImageViewModel();
 		}
 
 		#endregion
 
-		#region ISaveStoreViewModel implementation
+		#region ISaveProductViewModel implementation
 
-		private IStore _currentStore;
+		private IProduct _currentProduct;
 
-		public IStore CurrentStore
+		public IProduct CurrentProduct
 		{ 
 			get
 			{
-				return _currentStore; 
+				return _currentProduct; 
 			}
 			set
 			{
-				_currentStore = value; 
-				RaisePropertyChanged(() => CurrentStore); 
+				_currentProduct = value; 
+				RaisePropertyChanged(() => CurrentProduct); 
 				RaisePropertyChanged(() => Title);
 				RaisePropertyChanged(() => IsNew);
 				RaisePropertyChanged(() => SaveCommandTitle);
@@ -63,11 +62,26 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private IStore _store;
+
+		public IStore Store
+		{ 
+			get
+			{
+				return _store; 
+			}
+			set
+			{
+				_store = value; 
+				RaisePropertyChanged(() => Store); 
+			}
+		}
+
 		public bool IsNew
 		{
 			get
 			{
-				return this.CurrentStore == null;
+				return this.CurrentProduct == null;
 			}
 		}
 
@@ -75,21 +89,18 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				if (this.CurrentStore == null &&
-					(Name != null || Category != null ||
-						Country != null || City != null ||
-						MainImage.NewImage != null || Description != null ||
-						DeliveryNotes != null))
+				if (this.CurrentProduct == null &&
+					(Name != null || Category != null || Subcategory != null ||
+						MainImage.NewImage != null || Description != null))
 				{
 					return true;
 				}
-				else if (CurrentStore != null && 
-					(Name != CurrentStore.Name || MainImage.NewImage != null ||
-						Category != null && Category.ID != CurrentStore.CategoryID ||
-						Country != null && Country.ID != CurrentStore.CountryId ||
-						City != null && City.ID != CurrentStore.CityId ||
-						Description != CurrentStore.Description ||
-						DeliveryNotes != CurrentStore.DeliveryNotes))
+				else if (CurrentProduct != null && 
+					(Name != CurrentProduct.Name || MainImage.NewImage != null ||
+						Category != null && Category.ID != CurrentProduct.CategoryID ||
+						Subcategory != null && Subcategory.ID != CurrentProduct.SubcategoryID ||
+						Subcategory != null && Subcategory.ID != CurrentProduct.CityId ||
+						Description != CurrentProduct.Description))
 				{
 					return true;
 				}
@@ -113,6 +124,21 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private double _price;
+
+		public double Price
+		{ 
+			get
+			{
+				return _price; 
+			}
+			set
+			{
+				_price = value; 
+				RaisePropertyChanged(() => Price); 
+			}
+		}
+
 		private string _description;
 
 		public string Description
@@ -125,21 +151,6 @@ namespace Tojeero.Core.ViewModels
 			{
 				_description = value; 
 				RaisePropertyChanged(() => Description); 
-			}
-		}
-
-		private string _deliveryNotes;
-
-		public string DeliveryNotes
-		{ 
-			get
-			{
-				return _deliveryNotes; 
-			}
-			set
-			{
-				_deliveryNotes = value; 
-				RaisePropertyChanged(() => DeliveryNotes); 
 			}
 		}
 
@@ -158,9 +169,24 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private IStoreCategory _category;
+		private ObservedCollection<IImageViewModel> _images;
 
-		public IStoreCategory Category
+		public ObservedCollection<IImageViewModel> Images
+		{ 
+			get
+			{
+				return _images; 
+			}
+			set
+			{
+				_images = value; 
+				RaisePropertyChanged(() => Images); 
+			}
+		}
+
+		private IProductCategory _category;
+
+		public IProductCategory Category
 		{ 
 			get
 			{
@@ -174,36 +200,19 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private ICountry _country;
+		private IProductSubcategory _subcategory;
 
-		public ICountry Country
+		public IProductSubcategory Subcategory
 		{ 
 			get
 			{
-				return _country; 
+				return _subcategory; 
 			}
 			set
 			{
-				_country = value; 
-				RaisePropertyChanged(() => Country); 
-				validateCountry();
-				reloadCities();
-			}
-		}
-
-		private ICity _city;
-
-		public ICity City
-		{ 
-			get
-			{
-				return _city; 
-			}
-			set
-			{
-				_city = value; 
-				RaisePropertyChanged(() => City); 
-				validateCity();
+				_subcategory = value; 
+				RaisePropertyChanged(() => Subcategory); 
+				validateSubcategory();
 			}
 		}
 
@@ -212,9 +221,9 @@ namespace Tojeero.Core.ViewModels
 		#region Properties
 
 		public Action<string, string, string> ShowAlert { get; set; }
-		//Action which will called as soon as store will be saved. 
-		//Bool parameter indicates wether this was new store creation or update of existing store
-		public Action<IStore, bool> DidSaveStoreAction { get; set; }
+		//Action which will called as soon as product will be saved. 
+		//Bool parameter indicates wether this was new product creation or update of existing product
+		public Action<IProduct, bool> DidSaveProductAction { get; set; }
 
 		public string Title
 		{ 
@@ -224,19 +233,19 @@ namespace Tojeero.Core.ViewModels
 
 				if (!this.IsNew)
 				{
-					title = !string.IsNullOrEmpty(this.CurrentStore.Name) ? this.CurrentStore.Name : AppResources.TitleEditStore;
+					title = !string.IsNullOrEmpty(this.CurrentProduct.Name) ? this.CurrentProduct.Name : AppResources.TitleEditProduct;
 				}
 				else
 				{
-					title = AppResources.TitleCreateStore;
+					title = AppResources.TitleCreateProduct;
 				}
 				return title.Truncate(20);
 			}
 		}
 
-		private IStoreCategory[] _categories;
+		private IProductCategory[] _categories;
 
-		public IStoreCategory[] Categories
+		public IProductCategory[] Categories
 		{ 
 			get
 			{
@@ -249,33 +258,18 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private ICountry[] _countries;
+		private IProductSubcategory[] _subcategories;
 
-		public ICountry[] Countries
+		public IProductSubcategory[] Subcategories
 		{ 
 			get
 			{
-				return _countries; 
+				return _subcategories; 
 			}
 			private set
 			{
-				_countries = value; 
-				RaisePropertyChanged(() => Countries); 
-			}
-		}
-
-		private ICity[] _cities;
-
-		public ICity[] Cities
-		{ 
-			get
-			{
-				return _cities; 
-			}
-			private set
-			{
-				_cities = value; 
-				RaisePropertyChanged(() => Cities); 
+				_subcategories = value; 
+				RaisePropertyChanged(() => Subcategories); 
 			}
 		}
 
@@ -309,11 +303,11 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		public bool IsCityEnabled
+		public bool IsSubcategoryEnabled
 		{
 			get
 			{ 
-				return this.Country != null && this.Cities != null && this.Cities.Length > 0;
+				return this.Category != null && this.Subcategories != null && this.Subcategories.Length > 0;
 			}
 		}
 
@@ -347,33 +341,18 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private string _cityInvalid;
+		private string _subcategoryInvalid;
 
-		public string CityInvalid
+		public string SubcategoryInvalid
 		{ 
 			get
 			{
-				return _cityInvalid; 
+				return _subcategoryInvalid; 
 			}
 			set
 			{
-				_cityInvalid = value; 
-				RaisePropertyChanged(() => CityInvalid); 
-			}
-		}
-
-		private string _countryInvalid;
-
-		public string CountryInvalid
-		{ 
-			get
-			{
-				return _countryInvalid; 
-			}
-			set
-			{
-				_countryInvalid = value; 
-				RaisePropertyChanged(() => CountryInvalid); 
+				_subcategoryInvalid = value; 
+				RaisePropertyChanged(() => SubcategoryInvalid); 
 			}
 		}
 
@@ -383,7 +362,7 @@ namespace Tojeero.Core.ViewModels
 		{ 
 			get
 			{
-				return NameInvalid == null && CategoryInvalid == null && CountryInvalid == null && CityInvalid == null; 
+				return NameInvalid == null && CategoryInvalid == null && SubcategoryInvalid == null; 
 			}
 		}
 
@@ -391,7 +370,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.IsNew ? AppResources.ButtonCreateStore : AppResources.ButtonSaveChanges;
+				return this.IsNew ? AppResources.ButtonCreateProduct : AppResources.ButtonSaveChanges;
 			}
 		}
 
@@ -476,19 +455,17 @@ namespace Tojeero.Core.ViewModels
 
 		private void updateViewModel()
 		{
-			if (this.CurrentStore == null)
+			if (this.CurrentProduct == null)
 			{
 				nullifyViewModel();
 				return;
 			}
 
-			this.MainImage.ImageUrl = this.CurrentStore.ImageUrl;
-			this.Name = this.CurrentStore.Name;
-			this.Description = this.CurrentStore.Description;
-			this.DeliveryNotes = this.CurrentStore.DeliveryNotes;
-			this.Country = this.CurrentStore.Country;
-			this.City = this.CurrentStore.City;
-			this.Category = this.CurrentStore.Category;
+			this.MainImage.ImageUrl = this.CurrentProduct.ImageUrl;
+			this.Name = this.CurrentProduct.Name;
+			this.Category = this.CurrentProduct.Category;
+			this.Subcategory = this.CurrentProduct.Subcategory;
+			this.Description = this.CurrentProduct.Description;
 		}
 
 		private void nullifyViewModel()
@@ -497,9 +474,8 @@ namespace Tojeero.Core.ViewModels
 			this.MainImage.ImageUrl = null;
 			this.Name = null;
 			this.Description = null;
-			this.DeliveryNotes = null;
-			this.Country = null;
-			this.City = null;
+			this.Category = null;
+			this.Subcategory = null;
 		}
 
 		private async Task save()
@@ -509,20 +485,10 @@ namespace Tojeero.Core.ViewModels
 			try
 			{
 				bool wasNew = this.IsNew;
-				//Replace whitespaces with space
-				this.Name = _whitespaceRegex.Replace(this.Name, " ").Trim();
-				var nameIsReserved = await _storeManager.CheckNameIsReserved(this.Name, this.CurrentStore != null ? this.CurrentStore.ID : null);
-				if (nameIsReserved)
+				this.CurrentProduct = await _productManager.Save(this);
+				if(this.CurrentProduct != null && DidSaveProductAction != null)
 				{
-					failureMessage = AppResources.MessageValidateStoreNameReserved;
-				}
-				else
-				{
-					this.CurrentStore = await _storeManager.Save(this);
-				}
-				if(this.CurrentStore != null && DidSaveStoreAction != null)
-				{
-					DidSaveStoreAction(this.CurrentStore, wasNew);
+					DidSaveProductAction(this.CurrentProduct, wasNew);
 				}
 			}
 			catch (OperationCanceledException ex)
@@ -532,7 +498,7 @@ namespace Tojeero.Core.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Tools.Logger.Log(ex, "Error occured while saving store.", LoggingLevel.Error, true);
+				Tools.Logger.Log(ex, "Error occured while saving product.", LoggingLevel.Error, true);
 				failureMessage = AppResources.MessageSubmissionUnknownFailure;
 			}
 			this.SavingFailure = failureMessage;
@@ -550,39 +516,14 @@ namespace Tojeero.Core.ViewModels
 			try
 			{
 
-				await loadCountries();
-				await reloadCities();
 				await loadCategories();
+				await reloadSubcategories();
 			}
 			catch (Exception ex)
 			{
 				failureMessage = handleException(ex);
 			}
 			StopLoading(failureMessage);
-		}
-
-		private async Task reloadCities()
-		{
-			this.StartLoading(AppResources.MessageGeneralLoading);
-			string failureMessage = null;
-			using (var writerLock = await _citiesLock.WriterLockAsync())
-			{
-				if (!(this.Country == null || this.Countries == null || this.Countries.Length == 0) &&
-					!(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.Country.ID))
-				{
-					try
-					{
-						var result = await _cityManager.Fetch(this.Country.ID);
-						this.Cities = result != null ? result.ToArray() : null;
-					}
-					catch (Exception ex)
-					{
-						failureMessage = handleException(ex);
-					}
-				}
-			}
-			StopLoading(failureMessage);
-			RaisePropertyChanged(() => IsCityEnabled);
 		}
 
 		private async Task loadCategories()
@@ -593,12 +534,28 @@ namespace Tojeero.Core.ViewModels
 			this.Categories = result != null ? result.ToArray() : null;
 		}
 
-		private async Task loadCountries()
+		private async Task reloadSubcategories()
 		{
-			if (this.Countries != null && this.Countries.Length > 0)
-				return;
-			var result = await _countryManager.Fetch();
-			this.Countries = result != null ? result.ToArray() : null;
+			this.StartLoading(AppResources.MessageGeneralLoading);
+			string failureMessage = null;
+			using (var writerLock = await _subcategoriesLocker.WriterLockAsync())
+			{
+				if (!(this.Category == null || this.Categories == null || this.Categories.Length == 0) &&
+					!(this.Subcategories != null && this.Subcategories.Length > 0 && this.Subcategories[0].ID == this.Category.ID))
+				{
+					try
+					{
+						var result = await _subcategoryManager.Fetch(this.Category.ID);
+						this.Subcategories = result != null ? result.ToArray() : null;
+					}
+					catch (Exception ex)
+					{
+						failureMessage = handleException(ex);
+					}
+				}
+			}
+			StopLoading(failureMessage);
+			RaisePropertyChanged(() => IsSubcategoryEnabled);
 		}
 
 		private string handleException(Exception exception)
@@ -614,7 +571,7 @@ namespace Tojeero.Core.ViewModels
 			}
 			catch (Exception ex)
 			{
-				Tools.Logger.Log(ex, "Error occured while loading data in save store screen.", LoggingLevel.Error, true);
+				Tools.Logger.Log(ex, "Error occured while loading data in save product screen.", LoggingLevel.Error, true);
 				return AppResources.MessageLoadingFailed;
 			}
 		}
@@ -623,8 +580,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			validateName();
 			validateCategory();
-			validateCountry();
-			validateCity();
+			validateSubcategory();
 			return IsValidForSaving;
 		}
 
@@ -635,7 +591,7 @@ namespace Tojeero.Core.ViewModels
 				this.Name.Length < 6 || this.Name.Length > 40 ||
 				this._nameValidationRegex.IsMatch(this.Name))
 			{
-				invalid = AppResources.MessageValidateStoreName;
+				invalid = AppResources.MessageValidateProductName;
 			}
 			this.NameInvalid = invalid;
 			RaisePropertyChanged(() => IsValidForSaving);
@@ -647,15 +603,9 @@ namespace Tojeero.Core.ViewModels
 			RaisePropertyChanged(() => IsValidForSaving);
 		}
 
-		private void validateCountry()
+		private void validateSubcategory()
 		{
-			this.CountryInvalid = this.Country == null ? AppResources.MessageValidateRequiredCountry : null; 
-			RaisePropertyChanged(() => IsValidForSaving);	
-		}
-
-		private void validateCity()
-		{
-			this.CityInvalid = this.City == null ? AppResources.MessageValidateRequiredCity : null; 
+			this.SubcategoryInvalid = this.Subcategory == null ? AppResources.MessageValidateRequiredSubcategory : null; 
 			RaisePropertyChanged(() => IsValidForSaving);
 		}
 

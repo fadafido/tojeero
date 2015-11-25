@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
-	public class Product : BaseModelEntity<ParseProduct>, IProduct
+	public class Product : BaseMultiImagelEntity<ParseProduct>, IProduct
 	{
 		#region Constructors
 
@@ -395,7 +395,7 @@ namespace Tojeero.Core
 	}
 
 	[ParseClassName("StoreItem")]
-	public class ParseProduct : SearchableParseObject
+	public class ParseProduct : SearchableParseObject, IParseMultiImageEntity
 	{
 		#region Constructors
 
@@ -490,6 +490,15 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<ParseFile>(value);
+			}
+		}
+
+		[ParseFieldName("images")]
+		public ParseRelation<ParseData> Images
+		{
+			get
+			{ 
+				return GetRelationProperty<ParseData>(); 
 			}
 		}
 

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Tojeero.Core.Toolbox;
 using System.IO;
 using System.Text.RegularExpressions;
+using Tojeero.Core.ViewModels;
 
 namespace Tojeero.iOS
 {
@@ -47,7 +48,7 @@ namespace Tojeero.iOS
 			var stores = await GenerateSampleStores();
 			await GenerateSampleProducts(stores);
 		}
-		
+
 		private static async Task GenerateSampleProducts(List<ParseStore> stores)
 		{
 			string stage = "";
@@ -222,7 +223,7 @@ namespace Tojeero.iOS
 				return null;
 			}
 		}
-			
+
 		public static async Task CreateSubcategories()
 		{
 			var subcategories = (await LoadFromJson<JsonSubcategory>("subcategories.json")).Select(s => new ParseProductSubcategory()
@@ -262,6 +263,42 @@ namespace Tojeero.iOS
 				}
 					
 				var csv = string.Join("\n", reservedNames);
+			}
+		}
+
+		public static async Task AddSampleImagesToProducts()
+		{
+			var imageCount = 100;
+			var imageRand = new Random();
+			var countRand = new Random();
+			string imageFormat = "image{0}.jpg";
+			string productsDir = "Samples/ProductSampleImages/";
+			var products = await new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName).FindAsync();
+			int k = 1;
+			foreach (var product in products)
+			{
+				Console.WriteLine("///////////////-----SAVING PRODUCT {0} FROM {1}-----///////////////", k++, products.Count());
+				var count = countRand.Next(3, 8);
+				for (int i = 1; i <= count; i++)
+				{
+					var j = imageRand.Next(1, imageCount + 1);
+					var name = string.Format(imageFormat, j);
+					var image = new PickedImage()
+					{ 
+						Name = name,
+						RawImage = UIImage.FromFile(string.Format("{0}{1}", productsDir, name)).GetRawBytes(ImageType.Jpeg)
+					};
+					var imageFile = new ParseFile(image.Name, image.RawImage);
+					await imageFile.SaveAsync();
+					var data = new ParseData()
+					{ 
+						File = imageFile
+					};
+					await data.SaveAsync();
+					product.Images.Add(data);
+					Console.WriteLine("----------Saved image {0} FROM {1}----------", i, count);
+				}
+				await product.SaveAsync();
 			}
 		}
 	}

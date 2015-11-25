@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Cirrious.CrossCore;
 using Tojeero.Core.Toolbox;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core.Messages;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -13,6 +15,7 @@ namespace Tojeero.Core.ViewModels
 		#region Private APIs and Fields
 
 		private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+		private readonly MvxSubscriptionToken _productChangeToken;
 
 		#endregion
 
@@ -25,6 +28,15 @@ namespace Tojeero.Core.ViewModels
 			this.Store = store;
 			this.Mode = mode;
 			this.PropertyChanged += propertyChanged;
+			var messenger = Mvx.Resolve<IMvxMessenger>();
+			_productChangeToken = messenger.Subscribe<ProductChangedMessage>((message) =>
+				{
+					if(this.Products != null && message.Product != null && 
+						this.Store != null && message.Product.StoreID == this.Store.ID)
+					{
+						this.Products.RefetchCommand.Execute(null);
+					}
+				});
 		}
 
 		#endregion

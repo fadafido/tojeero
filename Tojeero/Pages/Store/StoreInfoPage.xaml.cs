@@ -15,12 +15,23 @@ namespace Tojeero.Forms
 
 		public StoreInfoPage(IStore store, ContentMode mode = ContentMode.View)
 		{
+			//Setup view model
 			this.ViewModel = MvxToolbox.LoadViewModel<StoreInfoViewModel>();
 			this.ViewModel.Store = store;
 			this.ViewModel.Mode = mode;
+
 			InitializeComponent();
+
+			//Setup Header
 			this.HeaderView.BindingContext = this.ViewModel;
+
+			//Setup events
 			this.listView.ItemSelected += itemSelected;
+			this.ViewModel.Products.ReloadFinished += (sender, e) => {
+				this.listView.EndRefresh();
+			};
+
+			//Setup view model actions
 			this.ViewModel.ShowStoreDetailsAction = async (s) =>
 			{
 				await this.Navigation.PushAsync(new StoreDetailsPage(s, mode));

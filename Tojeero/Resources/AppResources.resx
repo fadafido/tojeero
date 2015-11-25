@@ -447,4 +447,10 @@
   <data name="TitleEditProduct" xml:space="preserve">
     <value>Edit product</value>
   </data>
+  <data name="LabelPrice" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="MessageValidationPriceInvalid" xml:space="preserve">
+    <value>Price should be a number greater than 0.</value>
+  </data>
 </root>

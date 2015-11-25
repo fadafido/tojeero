@@ -19,9 +19,12 @@ namespace Tojeero.Forms
 
 		#region Constructors
 
-		public SaveProductPage(IProduct product)
+		public SaveProductPage(IProduct product, IStore parentStore)
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<SaveProductViewModel>();
+			this.ViewModel.CurrentProduct = product;
+			this.ViewModel.Store = parentStore;
+
 			InitializeComponent();
 			setupPickers();
 			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>

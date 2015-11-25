@@ -22,6 +22,7 @@ namespace Tojeero.Core.ViewModels
 		private AsyncReaderWriterLock _subcategoriesLocker = new AsyncReaderWriterLock();
 		private Regex _nameValidationRegex = new Regex(@"[^A-Za-z0-9\u0600-\u06FF \-_'&]");
 		private Regex _whitespaceRegex = new Regex(@"\s+");
+		private Regex _doubleRegex = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
 
 		#endregion
 
@@ -37,6 +38,7 @@ namespace Tojeero.Core.ViewModels
 			this._subcategoryManager = subcategoryManager;
 			this.PropertyChanged += propertyChanged;
 			this.MainImage = new ImageViewModel();
+			validatePrice();
 		}
 
 		#endregion
@@ -136,6 +138,22 @@ namespace Tojeero.Core.ViewModels
 			{
 				_price = value; 
 				RaisePropertyChanged(() => Price); 
+			}
+		}
+
+		private string _priceString;
+
+		public string PriceString
+		{ 
+			get
+			{
+				return _priceString; 
+			}
+			set
+			{
+				_priceString = value; 
+				RaisePropertyChanged(() => PriceString); 
+				validatePrice();
 			}
 		}
 
@@ -327,6 +345,21 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private string _priceInvalid;
+
+		public string PriceInvalid
+		{ 
+			get
+			{
+				return _priceInvalid; 
+			}
+			set
+			{
+				_priceInvalid = value; 
+				RaisePropertyChanged(() => PriceInvalid); 
+			}
+		}
+
 		private string _categoryInvalid;
 
 		public string CategoryInvalid
@@ -363,7 +396,7 @@ namespace Tojeero.Core.ViewModels
 		{ 
 			get
 			{
-				return NameInvalid == null && CategoryInvalid == null && SubcategoryInvalid == null; 
+				return NameInvalid == null && PriceInvalid == null && CategoryInvalid == null && SubcategoryInvalid == null; 
 			}
 		}
 
@@ -464,6 +497,7 @@ namespace Tojeero.Core.ViewModels
 
 			this.MainImage.ImageUrl = this.CurrentProduct.ImageUrl;
 			this.Name = this.CurrentProduct.Name;
+			this.PriceString = this.CurrentProduct.Price.ToString();
 			this.Category = this.CurrentProduct.Category;
 			this.Subcategory = this.CurrentProduct.Subcategory;
 			this.Description = this.CurrentProduct.Description;
@@ -474,6 +508,7 @@ namespace Tojeero.Core.ViewModels
 			this.MainImage.NewImage = null;
 			this.MainImage.ImageUrl = null;
 			this.Name = null;
+			this.PriceString = null;
 			this.Description = null;
 			this.Category = null;
 			this.Subcategory = null;
@@ -595,6 +630,22 @@ namespace Tojeero.Core.ViewModels
 				invalid = AppResources.MessageValidateProductName;
 			}
 			this.NameInvalid = invalid;
+			RaisePropertyChanged(() => IsValidForSaving);
+		}
+
+		private void validatePrice()
+		{
+			if (this.PriceString != null && !_doubleRegex.IsMatch(this.PriceString))
+				this.PriceInvalid = AppResources.MessageValidationPriceInvalid;
+			else
+				this.PriceInvalid = null;
+			double price = 0;
+			if (this.PriceInvalid == null && this.PriceString != null)
+			{
+				double.TryParse(this.PriceString as string, out price);
+			}
+			this.Price = price;
+			this.PriceInvalid = this.Price <= 0 ? AppResources.MessageValidationPriceInvalid : null;
 			RaisePropertyChanged(() => IsValidForSaving);
 		}
 

@@ -332,6 +332,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Price.
+        /// </summary>
+        internal static string LabelPrice {
+            get {
+                return ResourceManager.GetString("LabelPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price range.
         /// </summary>
         internal static string LabelPriceRange {
@@ -697,6 +706,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageValidateStoreNameReserved {
             get {
                 return ResourceManager.GetString("MessageValidateStoreNameReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price should be a number greater than 0..
+        /// </summary>
+        internal static string MessageValidationPriceInvalid {
+            get {
+                return ResourceManager.GetString("MessageValidationPriceInvalid", resourceCulture);
             }
         }
         

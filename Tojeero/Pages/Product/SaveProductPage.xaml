@@ -69,6 +69,24 @@
 								BackgroundColor="{x:Static local:Colors.Placeholder}" />
 						</StackLayout>
 
+						<!--PRODUCT PRICE-->
+						<StackLayout
+							Spacing="5"
+							Padding="20,0,20,0">
+							<Label
+								Text="{local:Translate LabelPrice}"
+								Style="{StaticResource Label1}" />
+							<Entry
+								Text="{Binding PriceString, Mode=TwoWay}"
+								HorizontalOptions="FillAndExpand" 
+								Placeholder="{Binding LabelPrice}"
+								Keyboard="Numeric"/>
+							<Label
+								Text="{Binding PriceInvalid}"
+								Style="{StaticResource LabelInvalid}"
+								IsVisible="{Binding PriceInvalid, Converter={StaticResource visibility}}" />
+						</StackLayout>
+
 						<!--CATEGORY-->
 						<StackLayout
 							Spacing="0"

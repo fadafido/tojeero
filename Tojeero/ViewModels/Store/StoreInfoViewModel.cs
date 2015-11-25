@@ -33,7 +33,7 @@ namespace Tojeero.Core.ViewModels
 		#region Properties
 
 		public Action<IStore> ShowStoreDetailsAction { get; set; }
-		public Action<IProduct> AddProductAction { get; set; }
+		public Action<IProduct, IStore> AddProductAction { get; set; }
 
 		private BaseCollectionViewModel<ProductViewModel> _products;
 
@@ -83,7 +83,6 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return true;
 				return this.Mode == ContentMode.Edit && this.IsPlaceholderVisible;
 			}
 		}
@@ -100,7 +99,6 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{ 
-				return true;
 				return this.Products != null && this.Products.IsInitialDataLoaded && this.Products.Count == 0;
 			}
 		}
@@ -143,7 +141,8 @@ namespace Tojeero.Core.ViewModels
 			{
 				_addProductCommand = _addProductCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
 					{
-						AddProductAction.Fire(null);
+						if(AddProductAction != null)
+							AddProductAction(null, this.Store);
 					}, () => true);
 				return _addProductCommand;
 			}

@@ -37,13 +37,16 @@
 								Padding="20,5,5,0">
 							</local:ImageControl>
 							<StackLayout
-								Padding="20,0,20,20">
+								Padding="20,0,20,0">
 								<Label
 									Text="{local:Translate LabelAddMainImage}"
 									TextColor="{x:Static local:Colors.Main}"
 									FontSize="10"
 									XAlign="Center" />
 							</StackLayout>
+							<local:MultiImageControl
+								Images="{Binding Images}"
+								Padding="20,0,5,20" />
 						</StackLayout>
 
 						<!--PRODUCT NAME-->

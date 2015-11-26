@@ -15,7 +15,7 @@ namespace Tojeero.Core.ViewModels
 
 		IImageViewModel MainImage { get; set; }
 
-		ObservedCollection<IImageViewModel> Images { get; set; }
+		ObservableCollection<IImageViewModel> Images { get; set; }
 
 		string Name { get; set; }
 

@@ -8,6 +8,7 @@ using Tojeero.Forms.Resources;
 using Nito.AsyncEx;
 using Tojeero.Core.Toolbox;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -187,12 +188,14 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private ObservedCollection<IImageViewModel> _images;
+		private ObservableCollection<IImageViewModel> _images;
 
-		public ObservedCollection<IImageViewModel> Images
+		public ObservableCollection<IImageViewModel> Images
 		{ 
 			get
 			{
+				if(_images == null)
+					_images = new ObservableCollection<IImageViewModel>();
 				return _images; 
 			}
 			set

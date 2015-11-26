@@ -29,7 +29,6 @@ namespace Tojeero.Forms
 						await this.Navigation.PopModalAsync();
 					}));
 			this.ViewModel.CurrentStore = store;
-			this.mainImageControl.ParentPage = this;
 			this.mainImageControl.ViewModel = this.ViewModel.MainImage;
 			this.ViewModel.ShowAlert = (t, m, accept) =>
 			{

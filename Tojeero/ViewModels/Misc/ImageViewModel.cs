@@ -3,6 +3,7 @@ using Cirrious.MvvmCross.ViewModels;
 using Xamarin.Forms;
 using System.IO;
 using System.Threading.Tasks;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -10,29 +11,34 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Properties
 
+		public Action<IImageViewModel> RemoveImageAction { get; set; }
+
+		public Action<IImageViewModel> DidPickImageAction { get; set; }
+
 		public Func<Task<IImage>> PickImageFunction { get; set; }
 
+		ImageSource _image;
 		public ImageSource Image
 		{
 			get
 			{
+				if (_image != null)
+					return _image;
 				if (NewImage != null && NewImage.RawImage != null)
 				{
 					Stream stream = new MemoryStream(NewImage.RawImage);
-					var source = ImageSource.FromStream(() => stream);
-					return source;
+					_image = ImageSource.FromStream(() => stream);
 				}
 				else if (!string.IsNullOrEmpty(ImageUrl))
 				{
-					var source = new UriImageSource()
+					_image = new UriImageSource()
 					{
 						Uri = new Uri(ImageUrl),
 						CachingEnabled = true,
 						CacheValidity = Constants.ImageCacheTimespan
 					};
-					return source;
 				}
-				return null;
+				return _image;
 			}
 		}
 
@@ -47,10 +53,14 @@ namespace Tojeero.Core.ViewModels
 			}
 			set
 			{
-				_imageUrl = value; 
-				RaisePropertyChanged(() => ImageUrl); 
-				RaisePropertyChanged(() => Image);
-				RaisePropertyChanged(() => CanExecuteRemoveImageCommand);
+				if (_imageUrl != value)
+				{
+					_imageUrl = value; 
+					_image = null;
+					RaisePropertyChanged(() => ImageUrl); 
+					RaisePropertyChanged(() => Image);
+					RaisePropertyChanged(() => CanExecuteRemoveImageCommand);
+				}
 			}
 		}
 
@@ -64,10 +74,14 @@ namespace Tojeero.Core.ViewModels
 			}
 			set
 			{
-				_newImage = value; 
-				RaisePropertyChanged(() => NewImage); 
-				RaisePropertyChanged(() => Image);
-				RaisePropertyChanged(() => CanExecuteRemoveImageCommand);
+				if (_newImage != value)
+				{
+					_newImage = value; 
+					_image = null;
+					RaisePropertyChanged(() => NewImage); 
+					RaisePropertyChanged(() => Image);
+					RaisePropertyChanged(() => CanExecuteRemoveImageCommand);
+				}
 			}
 		}
 
@@ -112,6 +126,7 @@ namespace Tojeero.Core.ViewModels
 				_removeImageCommand = _removeImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
 					this.NewImage = null;
 					this.ImageUrl = null;
+					this.RemoveImageAction.Fire(this);
 				}, () => CanExecuteRemoveImageCommand);
 				return _removeImageCommand;
 			}
@@ -140,6 +155,7 @@ namespace Tojeero.Core.ViewModels
 					this.NewImage = image;
 				}
 			}	
+			DidPickImageAction.Fire(this);
 			IsPickingImage = false;
 		}
 

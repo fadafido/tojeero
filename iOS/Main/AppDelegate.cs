@@ -47,7 +47,7 @@ namespace Tojeero.iOS
 
 			//Initialize Misc Plugins
 			ImageCircleRenderer.Init();
-			BootstrapData.AddSampleImagesToProducts();
+
 			MakeAppearanceCustomizations();
 			base.FinishedLaunching(app, options);
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);

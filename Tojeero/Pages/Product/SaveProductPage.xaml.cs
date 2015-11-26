@@ -32,7 +32,7 @@ namespace Tojeero.Forms
 						await this.Navigation.PopModalAsync();
 					}));
 			this.ViewModel.CurrentProduct = product;
-			this.mainImageControl.ParentPage = this;
+
 			this.mainImageControl.ViewModel = this.ViewModel.MainImage;
 			this.ViewModel.ShowAlert = (t, m, accept) =>
 			{

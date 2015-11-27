@@ -294,21 +294,6 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private bool _isPickingImage;
-
-		public bool IsPickingImage
-		{ 
-			get
-			{
-				return _isPickingImage; 
-			}
-			set
-			{
-				_isPickingImage = value; 
-				RaisePropertyChanged(() => IsPickingImage); 
-			}
-		}
-
 		public bool IsCityEnabled
 		{
 			get

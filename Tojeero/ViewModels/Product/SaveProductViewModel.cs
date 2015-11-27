@@ -310,21 +310,6 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private bool _isPickingImage;
-
-		public bool IsPickingImage
-		{ 
-			get
-			{
-				return _isPickingImage; 
-			}
-			set
-			{
-				_isPickingImage = value; 
-				RaisePropertyChanged(() => IsPickingImage); 
-			}
-		}
-
 		public bool IsSubcategoryEnabled
 		{
 			get
@@ -488,6 +473,17 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
+		#region Methods
+
+		public IImageViewModel ImageViewModelFactory()
+		{
+			var image = new ImageViewModel();
+			image.RemoveImageAction = () => removeImage(image);
+			return image;
+		}
+
+		#endregion
+
 		#region Utility methods
 
 		private void updateViewModel()
@@ -557,6 +553,7 @@ namespace Tojeero.Core.ViewModels
 
 				await loadCategories();
 				await reloadSubcategories();
+				await loadImages();
 			}
 			catch (Exception ex)
 			{
@@ -673,6 +670,53 @@ namespace Tojeero.Core.ViewModels
 				this.RaisePropertyChanged(() => CanExecuteSaveCommand);
 
 			}
+		}
+
+		private async Task loadImages()
+		{
+			if (this.CurrentProduct == null || this.Images != null && this.Images.Count > 0)
+				return;
+			var images = await this.CurrentProduct.GetImages();
+			if (images != null)
+			{
+				this.Images = new ObservableCollection<IImageViewModel>();
+				foreach (var image in images)
+				{
+					var imageViewModel = ImageViewModelFactory();
+					imageViewModel.ImageID = image.ID;
+					imageViewModel.ImageUrl = image.Url;
+				}
+			}
+		}
+
+		private async Task<bool> removeImage(IImageViewModel image)
+		{
+			if (image == null)
+				return false;
+			
+			string failureMessage = null;
+			try
+			{
+				//If there is current set product and this image is coming from already
+				//existing file, i.e. it has set ID, then we should remove it from product relation
+				//and then only from Images collection
+				if(this.CurrentProduct != null && !string.IsNullOrEmpty(image.ImageID))
+				{
+					await this.CurrentProduct.RemoveImage(image.ImageID);
+				}
+				this.Images.Remove(image);
+			}
+			catch(Exception ex)
+			{
+				Tools.Logger.Log(ex, "Error occured while removing image.", LoggingLevel.Error, true);
+				failureMessage = AppResources.MessageRemoveImageFailure;
+			}
+
+			if (failureMessage != null && this.ShowAlert != null)
+			{
+				this.ShowAlert(AppResources.TitleFailure, failureMessage, AppResources.ButtonOK);
+			}
+			return failureMessage == null;
 		}
 
 		#endregion

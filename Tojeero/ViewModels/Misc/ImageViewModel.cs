@@ -11,11 +11,26 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Properties
 
-		public Action<IImageViewModel> RemoveImageAction { get; set; }
+		public Func<Task<bool>> RemoveImageAction { get; set; }
 
 		public Action<IImageViewModel> DidPickImageAction { get; set; }
 
 		public Func<Task<IImage>> PickImageFunction { get; set; }
+
+		private string _imageID;
+
+		public string ImageID
+		{ 
+			get
+			{
+				return _imageID; 
+			}
+			set
+			{
+				_imageID = value; 
+				RaisePropertyChanged(() => ImageID); 
+			}
+		}
 
 		ImageSource _image;
 		public ImageSource Image
@@ -85,18 +100,19 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private bool _isPickingImage;
+		private bool _isLoading;
 
-		public bool IsPickingImage
+		public bool IsLoading
 		{ 
 			get
 			{
-				return _isPickingImage; 
+				return _isLoading; 
 			}
 			set
 			{
-				_isPickingImage = value; 
-				RaisePropertyChanged(() => IsPickingImage); 
+				_isLoading = value; 
+				RaisePropertyChanged(() => IsLoading); 
+				RaisePropertyChanged(() => CanExecuteRemoveImageCommand);
 			}
 		}
 
@@ -112,7 +128,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_pickImageCommand = _pickImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
 					await pickImage();
-				}, () => !IsPickingImage);
+				}, () => !IsLoading);
 				return _pickImageCommand;
 			}
 		}
@@ -123,10 +139,8 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				_removeImageCommand = _removeImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					this.NewImage = null;
-					this.ImageUrl = null;
-					this.RemoveImageAction.Fire(this);
+				_removeImageCommand = _removeImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
+					await removeImage();
 				}, () => CanExecuteRemoveImageCommand);
 				return _removeImageCommand;
 			}
@@ -136,7 +150,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.NewImage != null || this.ImageUrl != null;
+				return !IsLoading && (this.NewImage != null || this.ImageUrl != null);
 			}
 		}
 
@@ -146,7 +160,7 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task pickImage()
 		{
-			IsPickingImage = true;
+			IsLoading = true;
 			if (PickImageFunction != null)
 			{
 				var image = await PickImageFunction();
@@ -156,7 +170,23 @@ namespace Tojeero.Core.ViewModels
 				}
 			}	
 			DidPickImageAction.Fire(this);
-			IsPickingImage = false;
+			IsLoading = false;
+		}
+
+		private async Task removeImage()
+		{
+			this.IsLoading = true;
+			var shouldRemove = true;
+			if(RemoveImageAction != null)
+			{
+				shouldRemove = await RemoveImageAction();
+			}
+			if(shouldRemove)
+			{
+				this.NewImage = null;
+				this.ImageUrl = null;
+			}
+			this.IsLoading = false;
 		}
 
 		#endregion

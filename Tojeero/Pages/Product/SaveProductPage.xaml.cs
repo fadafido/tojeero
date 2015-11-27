@@ -56,6 +56,8 @@ namespace Tojeero.Forms
 					await this.Navigation.PopAsync();
 				}
 			};
+
+			this.multiImagePicker.ImageFactory = this.ViewModel.ImageViewModelFactory;
 		}
 
 		#endregion

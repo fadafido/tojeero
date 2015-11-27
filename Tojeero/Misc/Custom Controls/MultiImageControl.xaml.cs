@@ -8,6 +8,8 @@ using Tojeero.Core.Toolbox;
 using Tojeero.Core.ViewModels;
 using System.Collections.Generic;
 using Tojeero.Forms.Toolbox;
+using System.Threading.Tasks;
+using Nito.AsyncEx;
 
 namespace Tojeero.Forms
 {
@@ -17,6 +19,7 @@ namespace Tojeero.Forms
 
 		private ObservedCollection<IImageViewModel> _images;
 		private int MaxCount { get; set; }
+		AsyncReaderWriterLock _removeLocker = new AsyncReaderWriterLock();
 
 		#endregion
 
@@ -33,6 +36,8 @@ namespace Tojeero.Forms
 		#endregion
 
 		#region Properties
+
+		public Func<IImageViewModel> ImageFactory { get; set; }
 
 		#region Images
 
@@ -77,7 +82,11 @@ namespace Tojeero.Forms
 			var image = await ImageToolbox.PickImage(parent);
 			if (image != null)
 			{
-				var imageViewModel = new ImageViewModel();
+				if (ImageFactory == null)
+				{
+					throw new NullReferenceException("MultiImageControl should have non-null ImageFactory.");
+				}
+				var imageViewModel = ImageFactory();
 				imageViewModel.NewImage = image;
 				if(this._images == null || this._images.Source == null)
 				{
@@ -148,17 +157,6 @@ namespace Tojeero.Forms
 			imageControl.HeightRequest = 95;
 			imageControl.WidthRequest = 95;
 			imageControl.ViewModel = image;
-			image.RemoveImageAction = (i) =>
-			{
-					if(this._images == null || this._images.Source == null)
-					{
-						throw new NullReferenceException("MultiImageControl should have non-empty binding for Images observable collection.");
-					}
-					var index = this.Images.IndexOf(i);
-					if (index >= 0)
-						this._images.Source.RemoveAt(index);
-				
-			};
 			
 			return imageControl;
 		}

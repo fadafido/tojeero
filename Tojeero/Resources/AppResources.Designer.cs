@@ -575,6 +575,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to remove image. Please try again..
+        /// </summary>
+        internal static string MessageRemoveImageFailure {
+            get {
+                return ResourceManager.GetString("MessageRemoveImageFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saving failure.
         /// </summary>
         internal static string MessageSavingFailure {
@@ -796,6 +805,24 @@ namespace Tojeero.Forms.Resources {
         internal static string TitleEditStore {
             get {
                 return ResourceManager.GetString("TitleEditStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string TitleError {
+            get {
+                return ResourceManager.GetString("TitleError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failure.
+        /// </summary>
+        internal static string TitleFailure {
+            get {
+                return ResourceManager.GetString("TitleFailure", resourceCulture);
             }
         }
         

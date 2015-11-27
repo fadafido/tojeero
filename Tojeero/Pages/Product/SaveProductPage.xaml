@@ -45,6 +45,7 @@
 									XAlign="Center" />
 							</StackLayout>
 							<local:MultiImageControl
+								x:Name="multiImagePicker"
 								Images="{Binding Images}"
 								Padding="20,0,5,20" />
 						</StackLayout>

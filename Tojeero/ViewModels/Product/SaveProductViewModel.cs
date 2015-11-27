@@ -9,6 +9,7 @@ using Nito.AsyncEx;
 using Tojeero.Core.Toolbox;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -204,7 +205,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Images); 
 			}
 		}
-
+			
 		private IProductCategory _category;
 
 		public IProductCategory Category
@@ -479,6 +480,8 @@ namespace Tojeero.Core.ViewModels
 		{
 			var image = new ImageViewModel();
 			image.RemoveImageAction = () => removeImage(image);
+			//Can only pick image if it wasn't picked previously
+			image.CanPickImage = () => image.ImageID == null;
 			return image;
 		}
 

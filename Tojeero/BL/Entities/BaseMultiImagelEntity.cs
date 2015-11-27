@@ -35,7 +35,7 @@ namespace Tojeero.Core
 			return images;
 		}
 
-		public async Task AddImage(IImage image)
+		public async Task AddImage(IImage image, bool shouldSave = true)
 		{
 			if (this.ParseObject == null)
 				return;
@@ -47,10 +47,11 @@ namespace Tojeero.Core
 				};
 			await data.SaveAsync();
 			this.ParseObject.Images.Add(data);
-			this.ParseObject.SaveAsync();
+			if(shouldSave)
+				await this.ParseObject.SaveAsync();
 		}
 
-		public async Task AddImages(IEnumerable<IImage> images)
+		public async Task AddImages(IEnumerable<IImage> images, bool shouldSave = true)
 		{
 			if (this.ParseObject == null)
 				return;
@@ -65,18 +66,20 @@ namespace Tojeero.Core
 				await data.SaveAsync();
 				this.ParseObject.Images.Add(data);
 			}
-			this.ParseObject.SaveAsync();
+			if(shouldSave)
+				await this.ParseObject.SaveAsync();
 		}
 
-		public async Task RemoveImage(string imageID)
+		public async Task RemoveImage(string imageID, bool shouldSave = true)
 		{
 			if (this.ParseObject == null)
 				return;
 			this.ParseObject.Images.Remove(Parse.ParseObject.CreateWithoutData<ParseData>(imageID));
-			await this.ParseObject.SaveAsync();
+			if(shouldSave)
+				await this.ParseObject.SaveAsync();
 		}
 
-		public async Task RemoveImages(IEnumerable<string> imageIDs)
+		public async Task RemoveImages(IEnumerable<string> imageIDs, bool shouldSave = true)
 		{
 			if (this.ParseObject == null)
 				return;
@@ -85,7 +88,8 @@ namespace Tojeero.Core
 			{
 				this.ParseObject.Images.Remove(Parse.ParseObject.CreateWithoutData<ParseData>(imageID));
 			}
-			await this.ParseObject.SaveAsync();
+			if(shouldSave)
+				await this.ParseObject.SaveAsync();
 		}
 			
 		#endregion

@@ -82,9 +82,16 @@ namespace Tojeero.Core
 				p.Description = product.Description;
 				p.LowercaseName = p.Name.ToLower();
 				p.SearchTokens = new string[] { p.Name, p.Description }.Tokenize();
+				p.CountryId = product.Store.CountryId;
+				p.CityId = product.Store.CityId;
 				if (product.MainImage.NewImage != null)
 				{
 					await p.SetMainImage(product.MainImage.NewImage);
+				}
+				if (product.Images != null)
+				{
+					var images = product.Images.Where(i => i.NewImage != null).Select(i => i.NewImage);
+					await p.AddImages(images, false);
 				}
 				await p.Save();
 				return p;

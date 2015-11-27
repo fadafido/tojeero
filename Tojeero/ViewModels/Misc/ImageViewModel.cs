@@ -13,6 +13,8 @@ namespace Tojeero.Core.ViewModels
 
 		public Func<Task<bool>> RemoveImageAction { get; set; }
 
+		public Func<bool> CanPickImage { get; set; }
+
 		public Action<IImageViewModel> DidPickImageAction { get; set; }
 
 		public Func<Task<IImage>> PickImageFunction { get; set; }
@@ -128,7 +130,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_pickImageCommand = _pickImageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
 					await pickImage();
-				}, () => !IsLoading);
+				}, () => !IsLoading && CanPickImage != null ? CanPickImage() : true);
 				return _pickImageCommand;
 			}
 		}

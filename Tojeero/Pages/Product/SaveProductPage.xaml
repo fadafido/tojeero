@@ -46,7 +46,7 @@
 							</StackLayout>
 							<local:MultiImageControl
 								x:Name="multiImagePicker"
-								Images="{Binding Images}"
+								Images="{Binding Images, Mode=TwoWay}"
 								Padding="20,0,5,20" />
 						</StackLayout>
 

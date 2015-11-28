@@ -121,26 +121,9 @@ namespace Tojeero.iOS
 
 		async void testQuery()
 		{
-			var query = new ParseQuery<ParseProduct>().Limit(10);
-			var result = await query.FindAsync();
-
-			var tagStrings = new string[]
-				{ "xamarin", "ios", "android", "forms", "cms",
-					"xamarin-forms", "C#", ".net", "apple", "fulltext", 
-					"sdk", "coredata", "coregraphics",
-					"javascript", "java", "jquery", "css", "c++", "mysql",
-					"asp.net", "ruby", "IPHONE4", "array", "php",
-					"ajax", "json", "xcode", "iOS", "xml", "database"
-				};
-			var tags = tagStrings.Select(t => new ParseTag(){ Text = t });
-			try
-			{
-				await tags.SaveAllAsync();	
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
-			}
+			var country = await new ParseQuery<ParseCountry>().FirstOrDefaultAsync();
+			var query = country.Cities.Query;
+			var citiest = await query.FindAsync();
 		}
 	}
 }

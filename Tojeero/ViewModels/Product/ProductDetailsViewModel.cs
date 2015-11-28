@@ -27,6 +27,21 @@ namespace Tojeero.Core.ViewModels
 
 		public Action<IStore> ShowStoreInfoPageAction;
 
+		private ContentMode _mode;
+
+		public ContentMode Mode
+		{ 
+			get
+			{
+				return _mode; 
+			}
+			set
+			{
+				_mode = value; 
+				RaisePropertyChanged(() => Mode); 
+			}
+		}
+
 		#endregion
 
 		#region Commands

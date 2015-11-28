@@ -104,7 +104,7 @@ namespace Tojeero.Forms
 			if (item != null)
 			{
 				((ListView)sender).SelectedItem = null;
-				var productDetails = new ProductDetailsPage(item.Product);
+				var productDetails = new ProductDetailsPage(item.Product, this.ViewModel.Mode);
 				await this.Navigation.PushAsync(productDetails);
 			}
 		}

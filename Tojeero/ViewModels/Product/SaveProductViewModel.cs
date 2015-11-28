@@ -688,6 +688,7 @@ namespace Tojeero.Core.ViewModels
 					var imageViewModel = ImageViewModelFactory();
 					imageViewModel.ImageID = image.ID;
 					imageViewModel.ImageUrl = image.Url;
+					this.Images.Add(imageViewModel);
 				}
 			}
 		}

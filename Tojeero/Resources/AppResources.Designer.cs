@@ -98,6 +98,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add tags.
+        /// </summary>
+        internal static string ButtonAddTags {
+            get {
+                return ResourceManager.GetString("ButtonAddTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string ButtonCancel {
@@ -472,6 +481,15 @@ namespace Tojeero.Forms.Resources {
         internal static string LabelSubcategory {
             get {
                 return ResourceManager.GetString("LabelSubcategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        internal static string LabelTags {
+            get {
+                return ResourceManager.GetString("LabelTags", resourceCulture);
             }
         }
         

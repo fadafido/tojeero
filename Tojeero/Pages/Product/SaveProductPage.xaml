@@ -133,6 +133,19 @@
 								IsVisible="{Binding SubcategoryInvalid, Converter={StaticResource visibility}}" />
 						</StackLayout>
 
+						<!--TAGS-->
+						<StackLayout
+							Spacing="0"
+							Padding="20,0,20,0"
+							HorizontalOptions="FillAndExpand">
+							<Label
+								Text="{local:Translate LabelTags}"
+								Style="{StaticResource Label1}" />
+							<local:TagCloud
+								Tags="{Binding Tags}"
+								HorizontalOptions="FillAndExpand"/>
+						</StackLayout>
+
 						<!--DESCRIPTION-->
 						<StackLayout
 							Spacing="5"

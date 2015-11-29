@@ -5,15 +5,16 @@ using Tojeero.Core;
 using Xamarin.Forms;
 using System.Collections.Specialized;
 using Tojeero.Core.Toolbox;
+using System.Collections.Generic;
 
 namespace Tojeero.Forms
 {
-	public class TagCloud : WrapLayout
+	public partial class TagCloud : StackLayout
 	{
 		#region Private properties and fields
 
 		private ObservedCollection<string> _tags;
-		private Button _addButton;
+
 		private NavigationPage _tagSelector;
 		private NavigationPage TagSelector
 		{
@@ -35,19 +36,8 @@ namespace Tojeero.Forms
 
 		public TagCloud()
 		{
-			this.Orientation = StackOrientation.Horizontal;
-			_addButton = new Button()
-				{ 
-					BackgroundColor = Colors.Green,
-					Text = "+",
-					TextColor = Color.White,
-					FontAttributes = FontAttributes.Bold,
-					HeightRequest = 30,
-					WidthRequest = 30,
-					BorderRadius = 15,
-					FontSize=24
-				};
-			_addButton.Clicked += addButtonClicked;
+			InitializeComponent();
+			this.wrapLayout.Orientation = StackOrientation.Horizontal;
 		}
 
 		#endregion
@@ -72,7 +62,7 @@ namespace Tojeero.Forms
 			control._tags = new ObservedCollection<string>(newvalue);
 			control.clear();
 			if (newvalue != null)
-				control.Children.InsertRange(0, newvalue.Select(t => control.create(t)));
+				control.TagControls.InsertRange(0, newvalue.Select(t => control.create(t)));
 			control.connectEvents();
 		}
 
@@ -88,6 +78,14 @@ namespace Tojeero.Forms
 		#endregion
 
 		#region Utility methods
+
+		private IList<View> TagControls
+		{
+			get
+			{
+				return this.wrapLayout.Children;
+			}
+		}
 
 		private void connectEvents()
 		{
@@ -115,24 +113,24 @@ namespace Tojeero.Forms
 
 		private void itemAdded(ObservableCollection<string> sender, int index, string tag)
 		{
-			this.Children.Insert(index, create(tag));
+			this.TagControls.Insert(index, create(tag));
 		}
 
 		private void itemMoved(ObservableCollection<string> sender, int oldIndex, int newIndex, string tag)
 		{
-			var oldItem = this.Children[oldIndex];
-			this.Children.Insert(newIndex, create(tag));
-			this.Children.Remove(oldItem);
+			var oldItem = this.TagControls[oldIndex];
+			this.TagControls.Insert(newIndex, create(tag));
+			this.TagControls.Remove(oldItem);
 		}
 
 		private void itemRemoved(ObservableCollection<string> sender, int index, string tag)
 		{
-			this.Children.RemoveAt(index);
+			this.TagControls.RemoveAt(index);
 		}
 
 		private void itemReplaced(ObservableCollection<string> sender, int index, string oldTag, string newTag)
 		{
-			var tag = this.Children[index];
+			var tag = this.TagControls[index];
 			tag.BindingContext = newTag;
 		}
 
@@ -147,7 +145,7 @@ namespace Tojeero.Forms
 			tagControl.BindingContext = tag;
 			tagControl.DeleteTagAction = (t) =>
 			{
-				var index = this.Children.IndexOf(tagControl);
+				var index = this.TagControls.IndexOf(tagControl);
 				if (index >= 0)
 					this._tags.Source.RemoveAt(index);
 			};
@@ -156,8 +154,7 @@ namespace Tojeero.Forms
 
 		private void clear()
 		{
-			Children.Clear();
-			Children.Add(_addButton);
+			TagControls.Clear();
 		}
 
 		private async void addButtonClicked (object sender, EventArgs e)

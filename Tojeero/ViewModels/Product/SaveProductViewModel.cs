@@ -95,7 +95,8 @@ namespace Tojeero.Core.ViewModels
 			{
 				if (this.CurrentProduct == null &&
 					(Name != null || Category != null || Subcategory != null ||
-						MainImage.NewImage != null || Description != null))
+						MainImage.NewImage != null || Description != null || this.Tags.Count > 0 ||
+						this.Images.Count > 0))
 				{
 					return true;
 				}
@@ -103,8 +104,9 @@ namespace Tojeero.Core.ViewModels
 					(Name != CurrentProduct.Name || MainImage.NewImage != null ||
 						Category != null && Category.ID != CurrentProduct.CategoryID ||
 						Subcategory != null && Subcategory.ID != CurrentProduct.SubcategoryID ||
-						Subcategory != null && Subcategory.ID != CurrentProduct.CityId ||
-						Description != CurrentProduct.Description))
+						Description != CurrentProduct.Description ||
+						this.CurrentProduct.TagList != string.Join(", ", Tags) ||
+						checkImagesChanged()))
 				{
 					return true;
 				}
@@ -236,6 +238,23 @@ namespace Tojeero.Core.ViewModels
 				_subcategory = value; 
 				RaisePropertyChanged(() => Subcategory); 
 				validateSubcategory();
+			}
+		}
+
+		private ObservableCollection<string> _tags;
+
+		public ObservableCollection<string> Tags
+		{ 
+			get
+			{
+				if (_tags == null)
+					_tags = new ObservableCollection<string>();
+				return _tags; 
+			}
+			set
+			{
+				_tags = value; 
+				RaisePropertyChanged(() => Tags); 
 			}
 		}
 
@@ -455,10 +474,15 @@ namespace Tojeero.Core.ViewModels
 				_saveCommand = _saveCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
 						this.SavingFailure = null;
+						bool wasNew = this.IsNew;
 						if (validate() && CanExecuteSaveCommand && HasChanged)
 						{
 							await save();
 						}	
+						if(this.CurrentProduct != null && DidSaveProductAction != null)
+						{
+							DidSaveProductAction(this.CurrentProduct, wasNew);
+						}
 					});
 				return _saveCommand;
 			}
@@ -503,6 +527,8 @@ namespace Tojeero.Core.ViewModels
 			this.Category = this.CurrentProduct.Category;
 			this.Subcategory = this.CurrentProduct.Subcategory;
 			this.Description = this.CurrentProduct.Description;
+			this.Tags = null;
+			this.Tags.AddRange(this.CurrentProduct.Tags);
 		}
 
 		private void nullifyViewModel()
@@ -522,12 +548,8 @@ namespace Tojeero.Core.ViewModels
 			string failureMessage = null;
 			try
 			{
-				bool wasNew = this.IsNew;
+				
 				this.CurrentProduct = await _productManager.Save(this);
-				if(this.CurrentProduct != null && DidSaveProductAction != null)
-				{
-					DidSaveProductAction(this.CurrentProduct, wasNew);
-				}
 			}
 			catch (OperationCanceledException ex)
 			{
@@ -722,7 +744,16 @@ namespace Tojeero.Core.ViewModels
 			}
 			return failureMessage == null;
 		}
-
+			
+		private bool checkImagesChanged()
+		{
+			foreach (var image in this.Images)
+			{
+				if (image.NewImage != null)
+					return true;
+			}
+			return false;
+		}
 		#endregion
 	}
 }

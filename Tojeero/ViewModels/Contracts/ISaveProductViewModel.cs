@@ -25,6 +25,8 @@ namespace Tojeero.Core.ViewModels
 
 		IProductSubcategory Subcategory { get; set; }
 
+		ObservableCollection<string> Tags { get; set; }
+
 		string Description { get; set; }
 
 		bool HasChanged { get; }

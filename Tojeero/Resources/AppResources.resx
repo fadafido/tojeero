@@ -462,4 +462,10 @@
   <data name="TitleFailure" xml:space="preserve">
     <value>Failure</value>
   </data>
+  <data name="LabelTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="ButtonAddTags" xml:space="preserve">
+    <value>Add tags</value>
+  </data>
 </root>

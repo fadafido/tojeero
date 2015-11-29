@@ -81,9 +81,10 @@ namespace Tojeero.Core
 				p.SubcategoryID = product.Subcategory != null ? product.Subcategory.ID : null;
 				p.Description = product.Description;
 				p.LowercaseName = p.Name.ToLower();
-				p.SearchTokens = new string[] { p.Name, p.Description }.Tokenize();
 				p.CountryId = product.Store.CountryId;
 				p.CityId = product.Store.CityId;
+				p.Tags = product.Tags.ToList();
+				p.SearchTokens = new string[] { p.Name, p.Description, p.TagList }.Tokenize();
 				if (product.MainImage.NewImage != null)
 				{
 					await p.SetMainImage(product.MainImage.NewImage);

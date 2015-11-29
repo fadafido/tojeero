@@ -530,6 +530,7 @@
     <Compile Include="..\Tojeero\BL\Contracts\Entities\IParseMultiImageEntity.cs">
       <Link>Core\BL\Contracts\Entities\IParseMultiImageEntity.cs</Link>
     </Compile>
+    <Compile Include="Misc\Custom Renderers\CarouselLayoutRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

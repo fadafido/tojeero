@@ -33,6 +33,8 @@ namespace Tojeero.Forms
 						await this.Navigation.PushAsync(editStorePage);
 					}));
 			}
+
+			this.carouselLayout.IndicatorStyle = CarouselLayout.IndicatorStyleEnum.Dots;
 		}
 
 		#endregion
@@ -55,6 +57,16 @@ namespace Tojeero.Forms
 					this.BindingContext = _viewModel;
 				}
 			}
+		}
+
+		#endregion
+
+		#region Parent 
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			this.ViewModel.ReloadCommand.Execute(null);
 		}
 
 		#endregion

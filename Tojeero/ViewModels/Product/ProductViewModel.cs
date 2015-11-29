@@ -156,7 +156,7 @@ namespace Tojeero.Core.ViewModels
 			StopLoading(failureMessage);
 		}
 
-		private void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		protected virtual void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
 				e.PropertyName == "IsFavorite" || e.PropertyName == IsLoadingProperty)

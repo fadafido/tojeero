@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Tojeero.Core.ViewModels;
 
 namespace Tojeero.Core
 {
@@ -10,6 +11,7 @@ namespace Tojeero.Core
 		Task<IEnumerable<IProduct>> Fetch(int pageSize, int offset, IProductFilter filter = null);
 		Task<IEnumerable<IProduct>> FetchFavorite(int pageSize, int offset);
 		Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset, IProductFilter filter = null);
+		Task<IProduct> Save(ISaveProductViewModel store);
 	}
 }
 

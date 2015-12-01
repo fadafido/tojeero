@@ -2,10 +2,11 @@
 using Parse;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
-	public class Product : BaseModelEntity<ParseProduct>, IProduct
+	public class Product : BaseMultiImagelEntity<ParseProduct>, IProduct
 	{
 		#region Constructors
 
@@ -17,7 +18,7 @@ namespace Tojeero.Core
 		public Product(ParseProduct parseProduct = null)
 			: base(parseProduct)
 		{
-			
+
 		}
 
 		#endregion
@@ -84,6 +85,19 @@ namespace Tojeero.Core
 			}
 		}
 
+		public string Description
+		{
+			get
+			{
+				return _parseObject.Description;
+			}
+			set
+			{
+				_parseObject.Description = value;
+				RaisePropertyChanged(() => Description);
+			}
+		}
+
 		[Ignore]
 		public string FormattedPrice
 		{
@@ -122,7 +136,12 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				_categoryID = value; 
+				if (_categoryID != value)
+				{
+					_categoryID = value; 
+					_category = null;
+					this.ParseObject.Category = Parse.ParseObject.CreateWithoutData<ParseProductCategory>(_categoryID);
+				}
 			}
 		}
 
@@ -138,7 +157,12 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				_subcategoryID = value; 
+				if (_subcategoryID != value)
+				{
+					_subcategoryID = value; 
+					_subcategory = null;
+					this.ParseObject.Subcategory = Parse.ParseObject.CreateWithoutData<ParseProductSubcategory>(_subcategoryID);
+				}
 			}
 		}
 
@@ -154,7 +178,12 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				_storeID = value; 
+				if (_storeID != value)
+				{
+					_storeID = value; 
+					_store = null;
+					this.ParseObject.Store = Parse.ParseObject.CreateWithoutData<ParseStore>(_storeID);
+				}
 			}
 		}
 
@@ -313,7 +342,7 @@ namespace Tojeero.Core
 				return _store; 
 			}
 		}
-			
+
 		private bool? _isFavorite;
 		public bool? IsFavorite
 		{ 
@@ -328,6 +357,46 @@ namespace Tojeero.Core
 			}
 		}
 
+		public ProductStatus Status
+		{
+			get
+			{
+				return (ProductStatus)_parseObject.Status;
+			}
+			set
+			{
+				_parseObject.Status = (int)value;
+				RaisePropertyChanged(() => Status);
+			}
+		}
+
+
+		public bool NotVisible
+		{
+			get
+			{
+				return _parseObject.NotVisible;
+			}
+			set
+			{
+				_parseObject.NotVisible = value;
+				RaisePropertyChanged(() => NotVisible);
+			}
+		}
+
+		public string DisapprovalReason
+		{
+			get
+			{
+				return _parseObject.DisapprovalReason;
+			}
+			set
+			{
+				_parseObject.DisapprovalReason = value;
+				RaisePropertyChanged(() => DisapprovalReason);
+			}
+		}
+
 		#endregion
 
 		#region Parent
@@ -338,10 +407,35 @@ namespace Tojeero.Core
 		}
 
 		#endregion
+
+		#region Methods
+
+		public async Task Save()
+		{
+			if (this.ParseObject != null)
+			{
+				var isFav = this.IsFavorite;
+				await this.ParseObject.SaveAsync();
+				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("subcategory").Include("store");
+				var product = await query.FirstOrDefaultAsync();
+				this.ParseObject = product;
+				this.IsFavorite = isFav;
+			}
+		}
+
+		public async Task SetMainImage(IImage image)
+		{
+			var imageFile = new ParseFile(image.Name, image.RawImage);
+			await imageFile.SaveAsync();
+			this.ParseObject.Image = imageFile;
+			this.ImageUrl = null;
+		}
+
+		#endregion
 	}
 
 	[ParseClassName("StoreItem")]
-	public class ParseProduct : SearchableParseObject
+	public class ParseProduct : SearchableParseObject, IParseMultiImageEntity
 	{
 		#region Constructors
 
@@ -439,6 +533,15 @@ namespace Tojeero.Core
 			}
 		}
 
+		[ParseFieldName("images")]
+		public ParseRelation<ParseData> Images
+		{
+			get
+			{ 
+				return GetRelationProperty<ParseData>(); 
+			}
+		}
+
 		[ParseFieldName("category")]
 		public ParseProductCategory Category
 		{
@@ -501,6 +604,43 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<ParseCity>(value);
+			}
+		}
+
+		[ParseFieldName("status")]
+		public int Status
+		{
+			get
+			{
+				return GetProperty<int>();
+			}
+			set
+			{
+				SetProperty<int>(value);
+			}
+		}
+
+		[ParseFieldName("notVisible")]
+		public bool NotVisible
+		{
+			get
+			{
+				return GetProperty<bool>();
+			}
+			set
+			{
+				SetProperty<bool>(value);
+			}
+		}		[ParseFieldName("disapprovalReason")]
+		public string DisapprovalReason
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
 			}
 		}
 

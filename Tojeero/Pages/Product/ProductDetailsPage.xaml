@@ -23,11 +23,23 @@
 					FailureMessage="{Binding LoadingFailureMessage}"
 					IsNetworkAvailable="{Binding IsNetworkAvailable}"
 					TryAgainCommand="{Binding ReloadCommand}" />
+				<StackLayout
+					IsVisible="{Binding StatusWarning, Converter={StaticResource visibility}}"
+					HorizontalOptions="FillAndExpand"
+					Padding="20,10,20,10">
+					<Label
+						Text="{Binding StatusWarning}"
+						TextColor="{Binding WarningColor}"
+						Style="{StaticResource LabelWarning}"
+						XAlign="Center"
+						FontSize="15" />
+				</StackLayout>
 				<!--STORE DETAILS-->
 				<Grid
 					ColumnSpacing="10"
 					Padding="10,10,5,10"
-					HorizontalOptions="FillAndExpand">
+					HorizontalOptions="FillAndExpand"
+					IsVisible="{Binding IsStoreDetailsVisible}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
 							Width="50" />
@@ -77,15 +89,45 @@
 						HeightRequest="1"
 						HorizontalOptions="FillAndExpand"
 						VerticalOptions="Start" />
-					<Image
-						BackgroundColor="{x:Static local:Colors.Placeholder}"
-						Source="placeholder.png"
-						VerticalOptions="Center"
-						HorizontalOptions="Center" />
-					<Image
-						Aspect="AspectFill"
-						BackgroundColor="Transparent"
-						Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}" />
+					<local:CarouselLayout
+						x:Name="carouselLayout"
+						ItemsSource="{Binding ImageUrls}"
+						SelectedItem="{Binding CurrentImageUrl, Mode=TwoWay}"
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="FillAndExpand">
+						<local:CarouselLayout.ItemTemplate>
+							<DataTemplate>
+								<Grid
+									BackgroundColor="{x:Static local:Colors.Placeholder}"
+									HorizontalOptions="FillAndExpand"
+									VerticalOptions="FillAndExpand">
+									<Image
+										Source="placeholder.png"
+										VerticalOptions="Center"
+										HorizontalOptions="Center" />
+									<Image
+										Aspect="AspectFill"
+										BackgroundColor="Transparent"
+										Source="{Binding ., Converter={StaticResource cachedImage}}"
+										VerticalOptions="FillAndExpand"
+										HorizontalOptions="FillAndExpand" />
+								</Grid>
+							</DataTemplate>
+						</local:CarouselLayout.ItemTemplate>
+					</local:CarouselLayout>
+					<StackLayout
+						Padding="0,10,0,10"
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="End"
+						BackgroundColor="#80000000">
+						<local:PagerIndicatorDots
+							DotSize="5"
+							DotColor="White"
+							ItemsSource="{Binding ImageUrls}"
+							SelectedItem="{Binding CurrentImageUrl}"
+							HorizontalOptions="Center"
+							VerticalOptions="Center" />
+					</StackLayout>
 				</Grid>
 				<!--PRODUCT NAME/PRICE-->
 				<StackLayout
@@ -114,7 +156,7 @@
 							LineBreakMode="TailTruncation"
 							FontSize="15" />
 						<Label
-							Text="AED"
+							Text="{Binding Product.Country.Currency}"
 							TextColor="{x:Static local:Colors.Main}"
 							FontAttributes="Bold"
 							FontSize="9"

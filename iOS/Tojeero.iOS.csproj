@@ -283,6 +283,106 @@
     <BundleResource Include="Resources\icon_arrow_right%402x.png" />
     <BundleResource Include="Resources\icon_corner_remove%402x.png" />
     <BundleResource Include="Resources\Samples\reservedStoreNames.txt" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image1.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image10.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image100.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image11.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image12.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image13.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image14.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image15.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image16.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image17.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image18.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image19.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image2.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image20.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image21.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image22.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image23.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image24.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image25.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image26.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image27.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image28.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image29.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image3.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image30.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image31.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image32.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image33.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image34.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image35.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image36.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image37.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image38.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image39.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image4.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image40.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image41.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image42.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image43.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image44.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image45.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image46.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image47.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image48.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image49.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image5.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image50.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image51.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image52.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image53.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image54.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image55.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image56.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image57.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image58.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image59.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image6.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image60.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image61.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image62.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image63.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image64.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image65.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image66.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image67.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image68.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image69.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image7.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image70.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image71.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image72.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image73.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image74.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image75.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image76.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image77.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image78.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image79.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image8.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image80.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image81.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image82.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image83.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image84.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image85.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image86.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image87.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image88.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image89.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image9.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image90.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image91.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image92.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image93.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image94.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image95.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image96.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image97.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image98.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image99.jpg" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -421,6 +521,16 @@
     <Compile Include="..\Tojeero\BL\Entities\ReservedName.cs">
       <Link>Core\BL\Entities\ReservedName.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Data.cs">
+      <Link>Core\BL\Entities\Data.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\BaseMultiImagelEntity.cs">
+      <Link>Core\BL\Entities\BaseMultiImagelEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Contracts\Entities\IParseMultiImageEntity.cs">
+      <Link>Core\BL\Contracts\Entities\IParseMultiImageEntity.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\CarouselLayoutRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

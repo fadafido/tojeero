@@ -84,6 +84,19 @@
 					Property="TextColor"
 					Value="{x:Static local:Colors.Warning}" />
 			</Style>
+			<Style
+				x:Key="LabelPlaceholder"
+				TargetType="Label">
+				<Setter
+					Property="FontSize"
+					Value="20" />
+				<Setter
+					Property="FontAttributes"
+					Value="Bold" />
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Placeholder}" />
+			</Style>
 			<local:VisibilityConverter
 				x:Key="visibility" />
 			<local:InverseVisibilityConverter

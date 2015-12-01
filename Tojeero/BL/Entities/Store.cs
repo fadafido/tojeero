@@ -4,11 +4,18 @@ using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cirrious.CrossCore;
+using Nito.AsyncEx;
 
 namespace Tojeero.Core
 {
 	public class Store : BaseModelEntity<ParseStore>, IStore
 	{
+		#region Private fields and properties
+
+		AsyncReaderWriterLock _countryLocker = new AsyncReaderWriterLock();
+
+		#endregion
+
 		#region Constructors
 
 		public Store()
@@ -111,6 +118,19 @@ namespace Tojeero.Core
 			{
 				_imageUrl = value;
 				RaisePropertyChanged(() => ImageUrl);
+			}
+		}
+
+		public bool NotVisible
+		{
+			get
+			{
+				return _parseObject.NotVisible;
+			}
+			set
+			{
+				_parseObject.NotVisible = value;
+				RaisePropertyChanged(() => NotVisible);
 			}
 		}
 
@@ -284,10 +304,10 @@ namespace Tojeero.Core
 
 		#region Methods
 
-		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
+		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, bool includeInvisible = false)
 		{
 			var manager = Mvx.Resolve<IModelEntityManager>();
-			var result = await manager.Fetch<IProduct, Product>(new StoreProductsQueryLoader(pageSize, offset, manager, this), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			var result = await manager.Fetch<IProduct, Product>(new StoreProductsQueryLoader(pageSize, offset, manager, this, includeInvisible), Constants.ProductsCacheTimespan.TotalMilliseconds);
 			return result;
 		}
 
@@ -310,6 +330,24 @@ namespace Tojeero.Core
 			await imageFile.SaveAsync();
 			this.ParseObject.Image = imageFile;
 			this.ImageUrl = null;
+		}
+
+		public async Task FetchCountry()
+		{
+			using (var writerLock = await _countryLocker.WriterLockAsync())
+			{
+
+				if (this.Country == null)
+					return;
+				if (this.Country.Name != null)
+					return;
+				var country = this.Country as Country;
+				if (country != null)
+				{
+					await country.ParseObject.FetchAsync();
+					this.RaisePropertyChanged(() => Country);
+				}
+			}
 		}
 
 		#endregion	
@@ -391,6 +429,19 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<ParseFile>(value);
+			}
+		}
+
+		[ParseFieldName("notVisible")]
+		public bool NotVisible
+		{
+			get
+			{
+				return GetProperty<bool>();
+			}
+			set
+			{
+				SetProperty<bool>(value);
 			}
 		}
 

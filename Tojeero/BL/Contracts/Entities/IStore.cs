@@ -16,6 +16,8 @@ namespace Tojeero.Core
 
 		string ImageUrl { get; }
 
+		bool NotVisible { get; set; }
+
 		string CategoryID { get; set; }
 
 		string OwnerID { get; set; }
@@ -32,11 +34,13 @@ namespace Tojeero.Core
 
 		ICountry Country { get; }
 
-		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
+		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, bool includeInvisible = false);
 
 		Task Save();
 
 		Task SetMainImage(IImage image);
+
+		Task FetchCountry();
 	}
 }
 

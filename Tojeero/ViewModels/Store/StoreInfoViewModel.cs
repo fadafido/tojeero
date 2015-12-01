@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Cirrious.CrossCore;
 using Tojeero.Core.Toolbox;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core.Messages;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -13,6 +15,8 @@ namespace Tojeero.Core.ViewModels
 		#region Private APIs and Fields
 
 		private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+		private readonly MvxSubscriptionToken _productChangeToken;
+		private StoreProductsQuery _query;
 
 		#endregion
 
@@ -24,6 +28,16 @@ namespace Tojeero.Core.ViewModels
 			this.ShouldSubscribeToSessionChange = true;
 			this.Store = store;
 			this.Mode = mode;
+			this.PropertyChanged += propertyChanged;
+			var messenger = Mvx.Resolve<IMvxMessenger>();
+			_productChangeToken = messenger.Subscribe<ProductChangedMessage>((message) =>
+				{
+					if(this.Products != null && message.Product != null && 
+						this.Store != null && message.Product.StoreID == this.Store.ID)
+					{
+						this.Products.RefetchCommand.Execute(null);
+					}
+				});
 		}
 
 		#endregion
@@ -31,7 +45,8 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		public Action<IStore> ShowStoreDetailsAction;
+		public Action<IStore> ShowStoreDetailsAction { get; set; }
+		public Action<IProduct, IStore> AddProductAction { get; set; }
 
 		private BaseCollectionViewModel<ProductViewModel> _products;
 
@@ -73,7 +88,33 @@ namespace Tojeero.Core.ViewModels
 			set
 			{
 				_mode = value; 
+				if (_query != null)
+					_query.includeInvisible = _mode == ContentMode.Edit;
 				RaisePropertyChanged(() => Mode); 
+			}
+		}
+
+		public bool IsAddFirstProductPlaceholderVisible
+		{
+			get
+			{
+				return this.Mode == ContentMode.Edit && this.IsPlaceholderVisible;
+			}
+		}
+
+		public bool IsNoProductsPlaceholderVisible
+		{
+			get
+			{ 
+				return this.Mode == ContentMode.View && this.IsPlaceholderVisible;
+			}
+		}
+
+		public bool IsPlaceholderVisible
+		{
+			get
+			{ 
+				return this.Products != null && this.Products.IsInitialDataLoaded && this.Products.Count == 0;
 			}
 		}
 
@@ -107,6 +148,21 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _addProductCommand;
+
+		public System.Windows.Input.ICommand AddProductCommand
+		{
+			get
+			{
+				_addProductCommand = _addProductCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
+					{
+						if(AddProductAction != null)
+							AddProductAction(null, this.Store);
+					}, () => true);
+				return _addProductCommand;
+			}
+		}
+
 		#endregion
 
 		#region Queries
@@ -115,9 +171,11 @@ namespace Tojeero.Core.ViewModels
 		{
 			IStore store;
 			IProductManager productManager;
+			public bool includeInvisible;
 
-			public StoreProductsQuery (IProductManager productManager, IStore store)
+			public StoreProductsQuery (IProductManager productManager, IStore store, bool includeInvisible = false)
 			{
+				this.includeInvisible = includeInvisible;
 				this.productManager = productManager;
 				this.store = store;
 
@@ -125,7 +183,7 @@ namespace Tojeero.Core.ViewModels
 
 			public async Task<IEnumerable<ProductViewModel>> Fetch(int pageSize = -1, int offset = -1)
 			{
-				var result = await store.FetchProducts(pageSize, offset);
+				var result = await store.FetchProducts(pageSize, offset, includeInvisible);
 				return result.Select(p => new ProductViewModel(p));
 			}
 
@@ -160,11 +218,23 @@ namespace Tojeero.Core.ViewModels
 			var productManager = Mvx.Resolve<IProductManager>();
 			if (this.Store != null)
 			{
-				this.Products = new BaseCollectionViewModel<ProductViewModel>(new StoreProductsQuery(productManager, this.Store), Constants.ProductsPageSize);
+				this._query = new StoreProductsQuery(productManager, this.Store, this.Mode == ContentMode.Edit);
+				this.Products = new BaseCollectionViewModel<ProductViewModel>(_query, Constants.ProductsPageSize);
+				this.Products.PropertyChanged += propertyChanged;
 			}
 			else
 			{
 				this.Products = null;
+			}
+		}
+
+		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "Mode" || e.PropertyName == "Products" || e.PropertyName == "Count" || e.PropertyName == "IsInitialDataLoaded")
+			{
+				RaisePropertyChanged(() => IsAddFirstProductPlaceholderVisible);
+				RaisePropertyChanged(() => IsNoProductsPlaceholderVisible);
+				RaisePropertyChanged(() => IsPlaceholderVisible);
 			}
 		}
 

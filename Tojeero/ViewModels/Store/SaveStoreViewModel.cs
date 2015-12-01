@@ -28,7 +28,7 @@ namespace Tojeero.Core.ViewModels
 		#region Constructors
 
 		public SaveStoreViewModel(IStoreManager storeManager, IStoreCategoryManager categoryManager, ICountryManager countryManager, 
-		                          ICityManager cityManager, IAuthenticationService authService, IMvxMessenger messenger)
+			ICityManager cityManager, IAuthenticationService authService, IMvxMessenger messenger)
 			: base(authService, messenger)
 		{
 			this.ShouldSubscribeToSessionChange = true;
@@ -76,10 +76,10 @@ namespace Tojeero.Core.ViewModels
 			get
 			{
 				if (this.CurrentStore == null &&
-				    (Name != null || Category != null ||
-				    Country != null || City != null ||
-				    MainImage.NewImage != null || Description != null ||
-				    DeliveryNotes != null))
+					(Name != null || Category != null ||
+						Country != null || City != null ||
+						MainImage.NewImage != null || Description != null ||
+						DeliveryNotes != null))
 				{
 					return true;
 				}
@@ -88,6 +88,7 @@ namespace Tojeero.Core.ViewModels
 						Category != null && Category.ID != CurrentStore.CategoryID ||
 						Country != null && Country.ID != CurrentStore.CountryId ||
 						City != null && City.ID != CurrentStore.CityId ||
+						Description != CurrentStore.Description ||
 						DeliveryNotes != CurrentStore.DeliveryNotes))
 				{
 					return true;
@@ -293,21 +294,6 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private bool _isPickingImage;
-
-		public bool IsPickingImage
-		{ 
-			get
-			{
-				return _isPickingImage; 
-			}
-			set
-			{
-				_isPickingImage = value; 
-				RaisePropertyChanged(() => IsPickingImage); 
-			}
-		}
-
 		public bool IsCityEnabled
 		{
 			get
@@ -480,7 +466,7 @@ namespace Tojeero.Core.ViewModels
 				nullifyViewModel();
 				return;
 			}
-			
+
 			this.MainImage.ImageUrl = this.CurrentStore.ImageUrl;
 			this.Name = this.CurrentStore.Name;
 			this.Description = this.CurrentStore.Description;
@@ -567,7 +553,7 @@ namespace Tojeero.Core.ViewModels
 			using (var writerLock = await _citiesLock.WriterLockAsync())
 			{
 				if (!(this.Country == null || this.Countries == null || this.Countries.Length == 0) &&
-				    !(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.Country.ID))
+					!(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.Country.ID))
 				{
 					try
 					{
@@ -631,8 +617,8 @@ namespace Tojeero.Core.ViewModels
 		{
 			string invalid = null;
 			if (string.IsNullOrEmpty(this.Name) ||
-			    this.Name.Length < 6 || this.Name.Length > 40 ||
-			    this._nameValidationRegex.IsMatch(this.Name))
+				this.Name.Length < 6 || this.Name.Length > 40 ||
+				this._nameValidationRegex.IsMatch(this.Name))
 			{
 				invalid = AppResources.MessageValidateStoreName;
 			}
@@ -661,8 +647,8 @@ namespace Tojeero.Core.ViewModels
 		private void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
-			    e.PropertyName == IsLoadingProperty || e.PropertyName == IsValidForSavingProperty ||
-			    e.PropertyName == SavingInProgressProperty)
+				e.PropertyName == IsLoadingProperty || e.PropertyName == IsValidForSavingProperty ||
+				e.PropertyName == SavingInProgressProperty)
 			{				
 				this.RaisePropertyChanged(() => CanExecuteSaveCommand);
 

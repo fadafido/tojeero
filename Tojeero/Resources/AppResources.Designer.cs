@@ -80,11 +80,29 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string ButtonAdd {
+            get {
+                return ResourceManager.GetString("ButtonAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add image.
         /// </summary>
         internal static string ButtonAddImage {
             get {
                 return ResourceManager.GetString("ButtonAddImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add tags.
+        /// </summary>
+        internal static string ButtonAddTags {
+            get {
+                return ResourceManager.GetString("ButtonAddTags", resourceCulture);
             }
         }
         
@@ -103,6 +121,15 @@ namespace Tojeero.Forms.Resources {
         internal static string ButtonClose {
             get {
                 return ResourceManager.GetString("ButtonClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add product.
+        /// </summary>
+        internal static string ButtonCreateProduct {
+            get {
+                return ResourceManager.GetString("ButtonCreateProduct", resourceCulture);
             }
         }
         
@@ -251,6 +278,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disapproved.
+        /// </summary>
+        internal static string LabelDisapproved {
+            get {
+                return ResourceManager.GetString("LabelDisapproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         internal static string LabelEmail {
@@ -314,6 +350,24 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pending.
+        /// </summary>
+        internal static string LabelPending {
+            get {
+                return ResourceManager.GetString("LabelPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price.
+        /// </summary>
+        internal static string LabelPrice {
+            get {
+                return ResourceManager.GetString("LabelPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price range.
         /// </summary>
         internal static string LabelPriceRange {
@@ -355,6 +409,24 @@ namespace Tojeero.Forms.Resources {
         internal static string LabelProductDetailsTags {
             get {
                 return ResourceManager.GetString("LabelProductDetailsTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product name.
+        /// </summary>
+        internal static string LabelProductName {
+            get {
+                return ResourceManager.GetString("LabelProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not visible.
+        /// </summary>
+        internal static string LabelProductNotVisible {
+            get {
+                return ResourceManager.GetString("LabelProductNotVisible", resourceCulture);
             }
         }
         
@@ -440,11 +512,29 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        internal static string LabelTags {
+            get {
+                return ResourceManager.GetString("LabelTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profile settings.
         /// </summary>
         internal static string MenuItemProfileSettings {
             get {
                 return ResourceManager.GetString("MenuItemProfileSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap here to add your first product.
+        /// </summary>
+        internal static string MessageAddFirstProduct {
+            get {
+                return ResourceManager.GetString("MessageAddFirstProduct", resourceCulture);
             }
         }
         
@@ -521,11 +611,38 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Product was disapproved. Reason: {0}.
+        /// </summary>
+        internal static string MessageProductDisapproved {
+            get {
+                return ResourceManager.GetString("MessageProductDisapproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product is pending for approval. It will be visible to the users as soon as we approve it..
+        /// </summary>
+        internal static string MessageProductPending {
+            get {
+                return ResourceManager.GetString("MessageProductPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please provide some details about you to improve your app experience..
         /// </summary>
         internal static string MessageProfileSettingsHint {
             get {
                 return ResourceManager.GetString("MessageProfileSettingsHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to remove image. Please try again..
+        /// </summary>
+        internal static string MessageRemoveImageFailure {
+            get {
+                return ResourceManager.GetString("MessageRemoveImageFailure", resourceCulture);
             }
         }
         
@@ -544,6 +661,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageSavingStore {
             get {
                 return ResourceManager.GetString("MessageSavingStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Store doesn&apos;t have any products..
+        /// </summary>
+        internal static string MessageStoreNoProducts {
+            get {
+                return ResourceManager.GetString("MessageStoreNoProducts", resourceCulture);
             }
         }
         
@@ -584,7 +710,16 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select category..
+        ///   Looks up a localized string similar to Product name should have 5 to 256 length..
+        /// </summary>
+        internal static string MessageValidateProductName {
+            get {
+                return ResourceManager.GetString("MessageValidateProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category is required..
         /// </summary>
         internal static string MessageValidateRequiredCategory {
             get {
@@ -593,7 +728,7 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select city..
+        ///   Looks up a localized string similar to City is required..
         /// </summary>
         internal static string MessageValidateRequiredCity {
             get {
@@ -602,7 +737,7 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select country..
+        ///   Looks up a localized string similar to Country is required..
         /// </summary>
         internal static string MessageValidateRequiredCountry {
             get {
@@ -616,6 +751,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageValidateRequiredName {
             get {
                 return ResourceManager.GetString("MessageValidateRequiredName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subcategory is required..
+        /// </summary>
+        internal static string MessageValidateRequiredSubcategory {
+            get {
+                return ResourceManager.GetString("MessageValidateRequiredSubcategory", resourceCulture);
             }
         }
         
@@ -634,6 +778,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageValidateStoreNameReserved {
             get {
                 return ResourceManager.GetString("MessageValidateStoreNameReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price should be a number greater than 0..
+        /// </summary>
+        internal static string MessageValidationPriceInvalid {
+            get {
+                return ResourceManager.GetString("MessageValidationPriceInvalid", resourceCulture);
             }
         }
         
@@ -683,6 +836,24 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        internal static string TextUnknown {
+            get {
+                return ResourceManager.GetString("TextUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create product.
+        /// </summary>
+        internal static string TitleCreateProduct {
+            get {
+                return ResourceManager.GetString("TitleCreateProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create store.
         /// </summary>
         internal static string TitleCreateStore {
@@ -692,11 +863,38 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit product.
+        /// </summary>
+        internal static string TitleEditProduct {
+            get {
+                return ResourceManager.GetString("TitleEditProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit store.
         /// </summary>
         internal static string TitleEditStore {
             get {
                 return ResourceManager.GetString("TitleEditStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string TitleError {
+            get {
+                return ResourceManager.GetString("TitleError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failure.
+        /// </summary>
+        internal static string TitleFailure {
+            get {
+                return ResourceManager.GetString("TitleFailure", resourceCulture);
             }
         }
         

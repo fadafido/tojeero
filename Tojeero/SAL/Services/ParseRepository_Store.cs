@@ -19,7 +19,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
 			{
-				var query = new ParseQuery<ParseStore>().OrderBy(s => s.LowercaseName).Include("category").Include("country").Include("city");
+				var query = new ParseQuery<ParseStore>().Where(s => s.NotVisible == false).OrderBy(s => s.LowercaseName).Include("category").Include("country").Include("city");
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);
@@ -37,7 +37,7 @@ namespace Tojeero.Core
 				var user = ParseUser.CurrentUser as TojeeroUser;
 				if (user == null)
 					return null;
-				var query = user.FavoriteStores.Query.OrderBy(p => p.LowercaseName).Include("category").Include("country").Include("city");
+				var query = user.FavoriteStores.Query.Where(s => s.NotVisible == false).OrderBy(p => p.LowercaseName).Include("category").Include("country").Include("city");
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);
@@ -51,7 +51,7 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindStoresTimeout))
 			{
-				var parseQuery = new ParseQuery<ParseStore>().OrderBy(s => s.LowercaseName).Include("category").Include("country").Include("city");
+				var parseQuery = new ParseQuery<ParseStore>().Where(s => s.NotVisible == false).OrderBy(s => s.LowercaseName).Include("category").Include("country").Include("city");
 				var tokens = query.Tokenize();
 				if (tokens != null && tokens.Count > 0)
 				{
@@ -67,12 +67,16 @@ namespace Tojeero.Core
 			}
 		}
 
-		public async Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset)
+		public async Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset, bool includeInvisible = false)
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
 			{
 				var store = ParseObject.CreateWithoutData<ParseStore>(storeID);
-				var query = new ParseQuery<ParseProduct>().Where(p => p.Store == store).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store");
+				var query = new ParseQuery<ParseProduct>().Where(p => p.Store == store).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store").Include("country");
+				if (!includeInvisible)
+				{
+					query = query.Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved);
+				}
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);
@@ -85,7 +89,7 @@ namespace Tojeero.Core
 		public async Task<IStore> SaveStore(ISaveStoreViewModel store)
 		{
 			if (store == null)
-				return null;
+				throw new NullReferenceException("When saving store the ISaveStoreViewModel should be non null");
 			using (var tokenSource = new CancellationTokenSource(Constants.SaveStoreTimeout))
 			{
 				var s = store.CurrentStore != null ? store.CurrentStore : new Store();

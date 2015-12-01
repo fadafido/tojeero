@@ -26,6 +26,7 @@ namespace Tojeero.Core.ViewModels
 		private int _pageSize;
 		private Commands _lastExecutedCommand;
 		private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+
 		#endregion
 
 
@@ -56,9 +57,21 @@ namespace Tojeero.Core.ViewModels
 			}
 			set
 			{
-				_collection = value; 
-				RaisePropertyChanged(() => Collection); 
-				RaisePropertyChanged(() => Count); 
+				if (_collection != value)
+				{
+					IsInitialDataLoaded = false;
+					if (_collection != null)
+					{
+						_collection.CollectionChanged -= collectionChanged;
+					}
+					_collection = value; 
+					if (_collection != null)
+					{
+						_collection.CollectionChanged += collectionChanged;
+					}
+					RaisePropertyChanged(() => Collection); 
+					RaisePropertyChanged(() => Count); 
+				}
 			}
 		}
 
@@ -100,6 +113,20 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private bool _isInitialDataLoaded;
+
+		public bool IsInitialDataLoaded
+		{
+			get
+			{
+				return _isInitialDataLoaded;
+			}
+			private set
+			{
+				_isInitialDataLoaded = value;
+				RaisePropertyChanged(() => IsInitialDataLoaded);
+			}
+		}
 		#endregion
 
 		#region Commands
@@ -226,6 +253,7 @@ namespace Tojeero.Core.ViewModels
 						var collection = new ModelEntityCollection<T>(_query, _pageSize);
 						await collection.FetchNextPageAsync();
 						this.Collection = collection;
+						IsInitialDataLoaded = true;
 					}
 					else
 					{
@@ -307,6 +335,11 @@ namespace Tojeero.Core.ViewModels
 			{
 				RaisePropertyChanged(() => CanExecuteLoadNextPageCommand);
 			}
+		}
+
+		void collectionChanged (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			RaisePropertyChanged(() => Count);
 		}
 
 		private string handleException(Exception ex)

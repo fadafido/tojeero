@@ -13,9 +13,11 @@ namespace Tojeero.Core
 		int offset;
 		IModelEntityManager manager;
 		IStore store;
+		bool includeInvisible;
 
-		public StoreProductsQueryLoader(int pageSize, int offset, IModelEntityManager manager, IStore store)
+		public StoreProductsQueryLoader(int pageSize, int offset, IModelEntityManager manager, IStore store, bool includeInvisible = false)
 		{
+			this.includeInvisible = includeInvisible;
 			this.store = store;
 			this.manager = manager;
 			this.offset = offset;
@@ -35,12 +37,12 @@ namespace Tojeero.Core
 
 		public async Task<IEnumerable<IProduct>> LocalQuery()
 		{
-			return await manager.Cache.FetchStoreProducts(store.ID, pageSize, offset);
+			return await manager.Cache.FetchStoreProducts(store.ID, pageSize, offset, includeInvisible);
 		}
 
 		public async Task<IEnumerable<IProduct>> RemoteQuery()
 		{
-			return await manager.Rest.FetchStoreProducts(store.ID, pageSize, offset);
+			return await manager.Rest.FetchStoreProducts(store.ID, pageSize, offset, includeInvisible);
 		}
 
 		public async Task PostProcess(IEnumerable<IProduct> items)

@@ -30,7 +30,8 @@ namespace Tojeero.Core
 		public static int FetchTagsTimeout = 10000;
 		public static int FindTagsTimeout = 10000;
 		public static int SearchTimeout = 1000;
-		public static int SaveStoreTimeout = 10000;
+		public static int SaveStoreTimeout = 20000;
+		public static int SaveProductTimeout = 20000;
 
 		/*****************PAGINATION*****************/
 		public static int ProductsPageSize = 50;

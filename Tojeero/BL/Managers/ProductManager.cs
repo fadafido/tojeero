@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using Parse;
 using System.Linq;
 using Tojeero.Core.Toolbox;
+using Tojeero.Core.ViewModels;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core.Messages;
 
 namespace Tojeero.Core
 {
@@ -13,15 +16,17 @@ namespace Tojeero.Core
 		#region Private fields and properties
 
 		private readonly IModelEntityManager _manager;
+		private readonly IMvxMessenger _messenger;
 
 		#endregion
 
 		#region Constructors
 
-		public ProductManager(IModelEntityManager manager)
+		public ProductManager(IModelEntityManager manager, IMvxMessenger messenger)
 			: base()
 		{
 			this._manager = manager;
+			this._messenger = messenger;
 		}
 
 		#endregion
@@ -47,7 +52,29 @@ namespace Tojeero.Core
 		{
 			return _manager.Cache.Clear<Product>();
 		}
-			
+
+
+		public async Task<IProduct> Save(ISaveProductViewModel product)
+		{
+			if (product != null)
+			{
+				if (product.HasChanged)
+				{
+					var result = await _manager.Rest.SaveProduct(product);
+					if (result != null)
+					{
+						_messenger.Publish<ProductChangedMessage>(new ProductChangedMessage(this, result, product.IsNew ? EntityChangeType.Create : EntityChangeType.Update));
+					}
+					return result;
+				}
+				else
+				{
+					return product.CurrentProduct;
+				}
+			}
+			return null;
+		}
+
 		#endregion
 	}
 

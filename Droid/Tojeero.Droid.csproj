@@ -341,6 +341,16 @@
     <Compile Include="..\Tojeero\BL\Entities\ReservedName.cs">
       <Link>Core\BL\Entities\ReservedName.cs</Link>
     </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Data.cs">
+      <Link>Core\BL\Entities\Data.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\BaseMultiImagelEntity.cs">
+      <Link>Core\BL\Entities\BaseMultiImagelEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Contracts\Entities\IParseMultiImageEntity.cs">
+      <Link>Core\BL\Contracts\Entities\IParseMultiImageEntity.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\CarouselLayoutRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

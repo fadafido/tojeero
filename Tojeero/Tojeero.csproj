@@ -171,7 +171,6 @@
     <Compile Include="BL\Entities\ProductFilter.cs" />
     <Compile Include="Misc\Messages\ProductFilterChangedMessage.cs" />
     <Compile Include="Misc\Custom Controls\WrapLayout.cs" />
-    <Compile Include="Misc\Custom Controls\TagCloud.cs" />
     <Compile Include="Misc\Custom Controls\ObservedCollection.cs" />
     <Compile Include="Misc\Custom Controls\TagControl.xaml.cs">
       <DependentUpon>TagControl.xaml</DependentUpon>
@@ -263,6 +262,25 @@
       <DependentUpon>ImageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Misc\Enums\ContentMode.cs" />
+    <Compile Include="ViewModels\Product\SaveProductViewModel.cs" />
+    <Compile Include="ViewModels\Contracts\ISaveProductViewModel.cs" />
+    <Compile Include="Pages\Product\SaveProductPage.xaml.cs">
+      <DependentUpon>SaveProductPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Messages\Entity change messages\ProductChangedMessage.cs" />
+    <Compile Include="BL\Contracts\Entities\IData.cs" />
+    <Compile Include="BL\Contracts\Entities\IMultiImageEntity.cs" />
+    <Compile Include="Misc\Custom Controls\MultiImageControl.xaml.cs">
+      <DependentUpon>MultiImageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Toolbox\ViewToolbox.cs" />
+    <Compile Include="Misc\Toolbox\ImageToolbox.cs" />
+    <Compile Include="Misc\Custom Controls\CarouselLayout.cs" />
+    <Compile Include="Misc\Custom Controls\PagerIndicatorDots.cs" />
+    <Compile Include="Misc\Custom Controls\TagCloud.xaml.cs">
+      <DependentUpon>TagCloud.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Enums\ProductStatus.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -458,6 +476,15 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\Custom Controls\ImageControl.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Product\SaveProductPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\MultiImageControl.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\TagCloud.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

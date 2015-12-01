@@ -75,11 +75,6 @@ namespace Tojeero.Core
 			throw new NotImplementedException();
 		}
 
-		public Task<IStore> SaveStore(ISaveStoreViewModel store)
-		{
-			throw new NotImplementedException();
-		}
-
 		public async Task<IEnumerable<T>> FetchAsync<T>(int pageSize, int offset, string orderBy = null) where T : new()
 		{
 			return await fetchAsync<T>(pageSize, offset, orderBy).ConfigureAwait(false);	
@@ -131,7 +126,7 @@ namespace Tojeero.Core
 			return result;
 		}
 
-		public Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset)
+		public Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset, bool includeInvisible = false)
 		{
 			throw new NotImplementedException();
 		}

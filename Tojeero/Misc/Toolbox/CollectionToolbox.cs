@@ -55,6 +55,8 @@ namespace Tojeero.Core.Toolbox
 		/// <typeparam name="T">The type of collection.</typeparam>
 		public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> items)
 		{
+			if (items == null)
+				return;
 			foreach (var item in items)
 				collection.Add(item);
 		}

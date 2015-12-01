@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
-	public interface IProduct : IModelEntity, ISearchableEntity, ISocialObject
+	public interface IProduct : IModelEntity, ISearchableEntity, ISocialObject, IMultiImageEntity
 	{
 		string Name { get; set; }
 
-		string LowercaseName { get; }
+		string LowercaseName { get; set; }
 
 		double Price { get; set; }
 
@@ -15,17 +16,25 @@ namespace Tojeero.Core
 
 		string FormattedPrice { get; }
 
-		string CategoryID { get; }
+		string CategoryID { get; set; }
 
-		string SubcategoryID { get; }
+		string SubcategoryID { get; set; }
 
-		string StoreID { get; }
+		string StoreID { get; set; }
 
-		string CityId { get; }
+		string Description { get; set; }
+
+		ProductStatus Status { get; set; }
+
+		bool NotVisible { get; set; }
+
+		string DisapprovalReason { get; }
+
+		string CityId { get; set; }
 
 		ICity City { get; }
 
-		string CountryId { get; }
+		string CountryId { get; set; }
 
 		ICountry Country { get; }
 
@@ -38,6 +47,10 @@ namespace Tojeero.Core
 		IProductSubcategory Subcategory { get; }
 
 		IStore Store { get; }
+
+		Task Save();
+
+		Task SetMainImage(IImage image);
 	}
 }
 

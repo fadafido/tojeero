@@ -15,23 +15,48 @@ namespace Tojeero.Forms
 
 		public StoreInfoPage(IStore store, ContentMode mode = ContentMode.View)
 		{
+			//Setup view model
 			this.ViewModel = MvxToolbox.LoadViewModel<StoreInfoViewModel>();
 			this.ViewModel.Store = store;
 			this.ViewModel.Mode = mode;
+
 			InitializeComponent();
+
+			//Setup Header
 			this.HeaderView.BindingContext = this.ViewModel;
+
+			//Setup events
 			this.listView.ItemSelected += itemSelected;
+			this.ViewModel.Products.ReloadFinished += (sender, e) => {
+				this.listView.EndRefresh();
+			};
+
+			//Setup view model actions
 			this.ViewModel.ShowStoreDetailsAction = async (s) =>
 			{
 				await this.Navigation.PushAsync(new StoreDetailsPage(s, mode));
 			};
-			if (mode == ContentMode.Edit && store != null)
+
+			this.ViewModel.AddProductAction = async (p, s) =>
 			{
-				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
-						{
-							var editStorePage = new SaveStorePage(store);
-							await this.Navigation.PushAsync(editStorePage);
+					await this.Navigation.PushModalAsync(new NavigationPage(new SaveProductPage(p, s)));
+			};
+			
+			if (mode == ContentMode.Edit)
+			{
+				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonAdd, "", () =>
+					{
+						this.ViewModel.AddProductCommand.Execute(null);
+					}));
+				
+				if (store != null)
+				{
+					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
+							{
+								var editStorePage = new SaveStorePage(store);
+								await this.Navigation.PushAsync(editStorePage);
 						}));
+				}
 			}
 		}
 
@@ -79,7 +104,7 @@ namespace Tojeero.Forms
 			if (item != null)
 			{
 				((ListView)sender).SelectedItem = null;
-				var productDetails = new ProductDetailsPage(item.Product);
+				var productDetails = new ProductDetailsPage(item.Product, this.ViewModel.Mode);
 				await this.Navigation.PushAsync(productDetails);
 			}
 		}

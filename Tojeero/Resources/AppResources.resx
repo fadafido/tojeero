@@ -341,13 +341,13 @@
     <comment>Message shown on save store screen to indicate that store is being saved</comment>
   </data>
   <data name="MessageValidateRequiredCategory" xml:space="preserve">
-    <value>Please select category.</value>
+    <value>Category is required.</value>
   </data>
   <data name="MessageValidateRequiredCity" xml:space="preserve">
-    <value>Please select city.</value>
+    <value>City is required.</value>
   </data>
   <data name="MessageValidateRequiredCountry" xml:space="preserve">
-    <value>Please select country.</value>
+    <value>Country is required.</value>
   </data>
   <data name="MessageValidateRequiredName" xml:space="preserve">
     <value>Please enter non-empty name.</value>
@@ -408,16 +408,82 @@
   <data name="MessageValidateStoreNameReserved" xml:space="preserve">
     <value>The name you've entered for your store is reserved. Please change it and try again.</value>
   </data>
+  <data name="ButtonAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
   <data name="ButtonEdit" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="ButtonOK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="MessageAddFirstProduct" xml:space="preserve">
+    <value>Tap here to add your first product</value>
+  </data>
   <data name="MessageSavingFailure" xml:space="preserve">
     <value>Saving failure</value>
   </data>
+  <data name="MessageStoreNoProducts" xml:space="preserve">
+    <value>Store doesn't have any products.</value>
+  </data>
   <data name="MessageWarningStoreName" xml:space="preserve">
     <value>Choose your store name wisely, you won't be able to change it.</value>
+  </data>
+  <data name="ButtonCreateProduct" xml:space="preserve">
+    <value>Add product</value>
+  </data>
+  <data name="LabelProductName" xml:space="preserve">
+    <value>Product name</value>
+  </data>
+  <data name="MessageValidateProductName" xml:space="preserve">
+    <value>Product name should have 5 to 256 length.</value>
+  </data>
+  <data name="MessageValidateRequiredSubcategory" xml:space="preserve">
+    <value>Subcategory is required.</value>
+  </data>
+  <data name="TitleCreateProduct" xml:space="preserve">
+    <value>Create product</value>
+  </data>
+  <data name="TitleEditProduct" xml:space="preserve">
+    <value>Edit product</value>
+  </data>
+  <data name="LabelPrice" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="MessageValidationPriceInvalid" xml:space="preserve">
+    <value>Price should be a number greater than 0.</value>
+  </data>
+  <data name="MessageRemoveImageFailure" xml:space="preserve">
+    <value>Failed to remove image. Please try again.</value>
+  </data>
+  <data name="TitleError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="TitleFailure" xml:space="preserve">
+    <value>Failure</value>
+  </data>
+  <data name="LabelTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="ButtonAddTags" xml:space="preserve">
+    <value>Add tags</value>
+  </data>
+  <data name="LabelDisapproved" xml:space="preserve">
+    <value>Disapproved</value>
+  </data>
+  <data name="LabelPending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="LabelProductNotVisible" xml:space="preserve">
+    <value>Not visible</value>
+  </data>
+  <data name="MessageProductDisapproved" xml:space="preserve">
+    <value>Product was disapproved. Reason: {0}</value>
+  </data>
+  <data name="MessageProductPending" xml:space="preserve">
+    <value>Product is pending for approval. It will be visible to the users as soon as we approve it.</value>
+  </data>
+  <data name="TextUnknown" xml:space="preserve">
+    <value>Unknown</value>
   </data>
 </root>

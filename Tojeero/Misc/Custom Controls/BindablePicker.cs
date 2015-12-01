@@ -80,11 +80,7 @@ namespace Tojeero.Forms {
 
 		private void OnSelectedIndexChanged(object sender, EventArgs eventArgs)
 		{
-			if (SelectedIndex < 0 || SelectedIndex > Items.Count - 1)
-			{
-				SelectedItem = default(T);
-			}
-			else
+			if (!(SelectedIndex < 0 || SelectedIndex > Items.Count - 1))
 			{
 				SelectedItem = objects[SelectedIndex];
 			}

@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Core;
 using Tojeero.Forms.Toolbox;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -13,15 +14,27 @@ namespace Tojeero.Forms
 		
 		#region Constructors
 
-		public ProductDetailsPage(IProduct product)
+		public ProductDetailsPage(IProduct product, ContentMode mode = ContentMode.View)
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<ProductDetailsViewModel>();
 			this.ViewModel.Product = product;
+			this.ViewModel.Mode = mode;
 			InitializeComponent();
 			this.ViewModel.ShowStoreInfoPageAction = async (s) =>
 			{
 				await this.Navigation.PushAsync(new StoreInfoPage(s));
 			};
+
+			if (mode == ContentMode.Edit)
+			{
+				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
+					{
+						var editStorePage = new SaveProductPage(product, product.Store);
+						await this.Navigation.PushAsync(editStorePage);
+					}));
+			}
+
+			this.carouselLayout.IndicatorStyle = CarouselLayout.IndicatorStyleEnum.Dots;
 		}
 
 		#endregion
@@ -44,6 +57,16 @@ namespace Tojeero.Forms
 					this.BindingContext = _viewModel;
 				}
 			}
+		}
+
+		#endregion
+
+		#region Parent 
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			this.ViewModel.ReloadCommand.Execute(null);
 		}
 
 		#endregion

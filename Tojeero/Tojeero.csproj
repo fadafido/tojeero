@@ -277,7 +277,7 @@
     <Compile Include="Misc\Toolbox\ImageToolbox.cs" />
     <Compile Include="Misc\Custom Controls\CarouselLayout.cs" />
     <Compile Include="Misc\Custom Controls\PagerIndicatorDots.cs" />
-    <Compile Include="Misc\Custom Controls\TagCloud.xaml.cs" >
+    <Compile Include="Misc\Custom Controls\TagCloud.xaml.cs">
       <DependentUpon>TagCloud.xaml</DependentUpon>
     </Compile>
   </ItemGroup>

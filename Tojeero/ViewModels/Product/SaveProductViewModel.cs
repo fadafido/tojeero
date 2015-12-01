@@ -649,7 +649,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			string invalid = null;
 			if (string.IsNullOrEmpty(this.Name) ||
-				this.Name.Length < 6 || this.Name.Length > 40 ||
+				this.Name.Length < 5 || this.Name.Length > 256 ||
 				this._nameValidationRegex.IsMatch(this.Name))
 			{
 				invalid = AppResources.MessageValidateProductName;

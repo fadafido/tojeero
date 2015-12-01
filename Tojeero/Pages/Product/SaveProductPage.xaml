@@ -60,9 +60,7 @@
 							<Editor
 								Text="{Binding Name, Mode=TwoWay}"
 								HeightRequest="50"
-								HorizontalOptions="FillAndExpand" 
-								IsEnabled="{Binding IsNew}"
-								Opacity="{Binding IsNew, Converter={StaticResource opacity}}"/>
+								HorizontalOptions="FillAndExpand" />
 							<Label
 								Text="{Binding NameInvalid}"
 								Style="{StaticResource LabelInvalid}"

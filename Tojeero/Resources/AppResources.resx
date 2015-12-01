@@ -436,7 +436,7 @@
     <value>Product name</value>
   </data>
   <data name="MessageValidateProductName" xml:space="preserve">
-    <value>Product name is required.</value>
+    <value>Product name should have 5 to 256 length.</value>
   </data>
   <data name="MessageValidateRequiredSubcategory" xml:space="preserve">
     <value>Subcategory is required.</value>

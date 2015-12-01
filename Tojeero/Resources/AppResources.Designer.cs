@@ -665,7 +665,7 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Product name is required..
+        ///   Looks up a localized string similar to Product name should have 5 to 256 length..
         /// </summary>
         internal static string MessageValidateProductName {
             get {

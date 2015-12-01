@@ -117,7 +117,7 @@
 					LineBreakMode="TailTruncation"
 					FontSize="15" />
 				<Label
-					Text="AED"
+					Text="{Binding Product.Country.Currency}"
 					TextColor="{x:Static local:Colors.Main}"
 					FontAttributes="Bold"
 					FontSize="9"

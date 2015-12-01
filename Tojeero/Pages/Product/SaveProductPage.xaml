@@ -36,7 +36,6 @@
 								XAlign="Center"
 								FontSize="15" />
 						</StackLayout>
-
 						<!--PRODUCT IMAGE-->
 						<StackLayout
 							Spacing="0">
@@ -86,11 +85,21 @@
 							<Label
 								Text="{local:Translate LabelPrice}"
 								Style="{StaticResource Label1}" />
-							<Entry
-								Text="{Binding PriceString, Mode=TwoWay}"
-								HorizontalOptions="FillAndExpand"
-								Placeholder="{Binding LabelPrice}"
-								Keyboard="Numeric" />
+							<StackLayout
+								Orientation="Horizontal"
+								HorizontalOptions="FillAndExpand">
+								<Entry
+									Text="{Binding PriceString, Mode=TwoWay}"
+									HorizontalOptions="FillAndExpand"
+									Placeholder="{Binding LabelPrice}"
+									Keyboard="Numeric" />
+								<Label
+									Text="{Binding Store.Country.Currency}"
+									TextColor="{x:Static local:Colors.Main}"
+									FontAttributes="Bold"
+									FontSize="18"
+									VerticalOptions="Center" />
+							</StackLayout>
 							<Label
 								Text="{Binding PriceInvalid}"
 								Style="{StaticResource LabelInvalid}"

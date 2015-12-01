@@ -39,6 +39,8 @@ namespace Tojeero.Core
 		Task Save();
 
 		Task SetMainImage(IImage image);
+
+		Task FetchCountry();
 	}
 }
 

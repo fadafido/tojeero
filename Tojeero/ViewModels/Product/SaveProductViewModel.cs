@@ -78,6 +78,8 @@ namespace Tojeero.Core.ViewModels
 			set
 			{
 				_store = value; 
+				if (_store != null)
+					_store.FetchCountry();
 				RaisePropertyChanged(() => Store); 
 			}
 		}

@@ -72,7 +72,7 @@ namespace Tojeero.Core
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
 			{
 				var store = ParseObject.CreateWithoutData<ParseStore>(storeID);
-				var query = new ParseQuery<ParseProduct>().Where(p => p.Store == store).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store");
+				var query = new ParseQuery<ParseProduct>().Where(p => p.Store == store).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store").Include("country");
 				if (!includeInvisible)
 				{
 					query = query.Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved);

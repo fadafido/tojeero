@@ -4,11 +4,18 @@ using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cirrious.CrossCore;
+using Nito.AsyncEx;
 
 namespace Tojeero.Core
 {
 	public class Store : BaseModelEntity<ParseStore>, IStore
 	{
+		#region Private fields and properties
+
+		AsyncReaderWriterLock _countryLocker = new AsyncReaderWriterLock();
+
+		#endregion
+
 		#region Constructors
 
 		public Store()
@@ -323,6 +330,24 @@ namespace Tojeero.Core
 			await imageFile.SaveAsync();
 			this.ParseObject.Image = imageFile;
 			this.ImageUrl = null;
+		}
+
+		public async Task FetchCountry()
+		{
+			using (var writerLock = await _countryLocker.WriterLockAsync())
+			{
+
+				if (this.Country == null)
+					return;
+				if (this.Country.Name != null)
+					return;
+				var country = this.Country as Country;
+				if (country != null)
+				{
+					await country.ParseObject.FetchAsync();
+					this.RaisePropertyChanged(() => Country);
+				}
+			}
 		}
 
 		#endregion	

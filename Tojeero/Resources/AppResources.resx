@@ -468,6 +468,12 @@
   <data name="ButtonAddTags" xml:space="preserve">
     <value>Add tags</value>
   </data>
+  <data name="LabelDisapproved" xml:space="preserve">
+    <value>Disapproved</value>
+  </data>
+  <data name="LabelPending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
   <data name="LabelProductNotVisible" xml:space="preserve">
     <value>Not visible</value>
   </data>

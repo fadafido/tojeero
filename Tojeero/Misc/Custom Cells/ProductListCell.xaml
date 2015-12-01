@@ -39,7 +39,7 @@
 				<RowDefinition
 					Height="*" />
 				<RowDefinition
-					Height="20" />
+					Height="Auto" />
 				<RowDefinition
 					Height="20" />
 			</Grid.RowDefinitions>
@@ -85,13 +85,19 @@
 				Grid.ColumnSpan="2"
 				VerticalOptions="Center"
 				Padding="0,0,6,0">
+				<Label
+					Text="{Binding StatusWarning}"
+					TextColor="{Binding WarningColor}"
+					IsVisible="{Binding StatusWarning, Converter={StaticResource visibility}}"
+					FontSize="10"
+					XAlign="End"/>
 				<BoxView
 					BackgroundColor="{x:Static local:Colors.Separator}"
 					HeightRequest="1" />
 				<local:LabelEx
 					Text="{Binding Product.TagList}"
 					TextColor="{x:Static local:Colors.Subtitle}"
-					FontSize="8"
+					FontSize="10"
 					LineCount="1"
 					LineBreakMode="TailTruncation" />
 			</StackLayout>

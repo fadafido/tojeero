@@ -5,6 +5,7 @@ using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using System.Threading.Tasks;
 using Nito.AsyncEx;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -50,6 +51,38 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public virtual string StatusWarning
+		{
+			get
+			{
+				string warning = null;
+				if (this.Product != null)
+				{
+					if (this.Product.Status == ProductStatus.Pending)
+						warning = AppResources.LabelPending;
+					else if (this.Product.Status == ProductStatus.Disapproved)
+						warning = AppResources.LabelDisapproved;
+				}
+				return warning;
+			}
+		}
+
+		public Xamarin.Forms.Color WarningColor
+		{
+			get
+			{
+				var color = Xamarin.Forms.Color.Transparent;
+				if (this.Product != null)
+				{
+					if (this.Product.Status == ProductStatus.Disapproved)
+						color = Tojeero.Forms.Colors.Invalid;
+					else if (this.Product.Status == ProductStatus.Pending)
+						color = Tojeero.Forms.Colors.Warning;
+				}
+				return color;
+			}
+		}
+			
 		#endregion
 
 		#region Commands

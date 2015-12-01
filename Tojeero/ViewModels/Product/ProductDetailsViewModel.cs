@@ -88,7 +88,7 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		public string StatusWarning
+		public override string StatusWarning
 		{
 			get
 			{

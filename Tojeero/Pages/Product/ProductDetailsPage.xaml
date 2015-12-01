@@ -29,6 +29,7 @@
 					Padding="20,10,20,10">
 					<Label
 						Text="{Binding StatusWarning}"
+						TextColor="{Binding WarningColor}"
 						Style="{StaticResource LabelWarning}"
 						XAlign="Center"
 						FontSize="15" />

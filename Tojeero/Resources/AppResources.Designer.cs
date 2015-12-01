@@ -278,6 +278,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disapproved.
+        /// </summary>
+        internal static string LabelDisapproved {
+            get {
+                return ResourceManager.GetString("LabelDisapproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         internal static string LabelEmail {
@@ -337,6 +346,15 @@ namespace Tojeero.Forms.Resources {
         internal static string LabelMobilePhone {
             get {
                 return ResourceManager.GetString("LabelMobilePhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pending.
+        /// </summary>
+        internal static string LabelPending {
+            get {
+                return ResourceManager.GetString("LabelPending", resourceCulture);
             }
         }
         

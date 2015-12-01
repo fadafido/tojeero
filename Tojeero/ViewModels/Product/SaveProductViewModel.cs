@@ -62,7 +62,6 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Title);
 				RaisePropertyChanged(() => IsNew);
 				RaisePropertyChanged(() => SaveCommandTitle);
-				RaisePropertyChanged(() => StatusWarning);
 				updateViewModel();
 			}
 		}
@@ -276,34 +275,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => NotVisible); 
 			}
 		}
-
-		public string StatusWarning
-		{
-			get
-			{
-				string warning = null;
-				if (this.CurrentProduct != null)
-				{
-					switch (this.CurrentProduct.Status)
-					{
-						case ProductStatus.Pending:
-							warning = AppResources.MessageProductPending;
-							break;
-						case ProductStatus.Disapproved:
-							{
-								string reason = !string.IsNullOrEmpty(this.CurrentProduct.DisapprovalReason) ? this.CurrentProduct.DisapprovalReason : AppResources.TextUnknown;
-								warning = string.Format(AppResources.MessageProductDisapproved, reason);
-							}
-							break;
-						default:
-							warning = null;
-							break;
-					}
-				}
-				return warning;
-			}
-		}
-
+			
 		#endregion
 
 		#region Properties

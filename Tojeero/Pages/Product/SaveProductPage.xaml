@@ -26,16 +26,6 @@
 					Padding="0">
 					<StackLayout
 						Spacing="10">
-						<StackLayout
-							IsVisible="{Binding StatusWarning, Converter={StaticResource visibility}}"
-							HorizontalOptions="FillAndExpand"
-							Padding="20,10,20,0">
-							<Label
-								Text="{Binding StatusWarning}"
-								Style="{StaticResource LabelWarning}"
-								XAlign="Center"
-								FontSize="15" />
-						</StackLayout>
 						<!--PRODUCT IMAGE-->
 						<StackLayout
 							Spacing="0">

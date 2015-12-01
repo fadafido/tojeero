@@ -126,7 +126,7 @@ namespace Tojeero.Core
 			return result;
 		}
 
-		public Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset)
+		public Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset, bool includeInvisible = false)
 		{
 			throw new NotImplementedException();
 		}

@@ -16,6 +16,7 @@ namespace Tojeero.Core.ViewModels
 
 		private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
 		private readonly MvxSubscriptionToken _productChangeToken;
+		private StoreProductsQuery _query;
 
 		#endregion
 
@@ -87,6 +88,8 @@ namespace Tojeero.Core.ViewModels
 			set
 			{
 				_mode = value; 
+				if (_query != null)
+					_query.includeInvisible = _mode == ContentMode.Edit;
 				RaisePropertyChanged(() => Mode); 
 			}
 		}
@@ -168,9 +171,11 @@ namespace Tojeero.Core.ViewModels
 		{
 			IStore store;
 			IProductManager productManager;
+			public bool includeInvisible;
 
-			public StoreProductsQuery (IProductManager productManager, IStore store)
+			public StoreProductsQuery (IProductManager productManager, IStore store, bool includeInvisible = false)
 			{
+				this.includeInvisible = includeInvisible;
 				this.productManager = productManager;
 				this.store = store;
 
@@ -178,7 +183,7 @@ namespace Tojeero.Core.ViewModels
 
 			public async Task<IEnumerable<ProductViewModel>> Fetch(int pageSize = -1, int offset = -1)
 			{
-				var result = await store.FetchProducts(pageSize, offset);
+				var result = await store.FetchProducts(pageSize, offset, includeInvisible);
 				return result.Select(p => new ProductViewModel(p));
 			}
 
@@ -213,7 +218,8 @@ namespace Tojeero.Core.ViewModels
 			var productManager = Mvx.Resolve<IProductManager>();
 			if (this.Store != null)
 			{
-				this.Products = new BaseCollectionViewModel<ProductViewModel>(new StoreProductsQuery(productManager, this.Store), Constants.ProductsPageSize);
+				this._query = new StoreProductsQuery(productManager, this.Store, this.Mode == ContentMode.Edit);
+				this.Products = new BaseCollectionViewModel<ProductViewModel>(_query, Constants.ProductsPageSize);
 				this.Products.PropertyChanged += propertyChanged;
 			}
 			else

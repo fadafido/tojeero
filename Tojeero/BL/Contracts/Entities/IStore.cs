@@ -34,7 +34,7 @@ namespace Tojeero.Core
 
 		ICountry Country { get; }
 
-		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset);
+		Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, bool includeInvisible = false);
 
 		Task Save();
 

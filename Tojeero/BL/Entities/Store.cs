@@ -297,10 +297,10 @@ namespace Tojeero.Core
 
 		#region Methods
 
-		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset)
+		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, bool includeInvisible = false)
 		{
 			var manager = Mvx.Resolve<IModelEntityManager>();
-			var result = await manager.Fetch<IProduct, Product>(new StoreProductsQueryLoader(pageSize, offset, manager, this), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			var result = await manager.Fetch<IProduct, Product>(new StoreProductsQueryLoader(pageSize, offset, manager, this, includeInvisible), Constants.ProductsCacheTimespan.TotalMilliseconds);
 			return result;
 		}
 

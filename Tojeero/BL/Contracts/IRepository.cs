@@ -22,7 +22,7 @@ namespace Tojeero.Core
 		Task<IEnumerable<IStore>> FetchStores(int pageSize, int offset, IStoreFilter filter = null);
 		Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset, IStoreFilter filter = null);
 		Task<IEnumerable<IStore>> FetchFavoriteStores(int pageSize, int offset);
-		Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset);
+		Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset, bool includeInvisible = false);
 
 		//Store categories
 		Task<IEnumerable<IStoreCategory>> FetchStoreCategories();

@@ -24,6 +24,7 @@ namespace Tojeero.Core.ViewModels
 			: base(product)
 		{
 			this.ShouldSubscribeToSessionChange = true;
+			this.PropertyChanged += propertyChanged;
 		}
 
 		#endregion
@@ -44,6 +45,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				_mode = value; 
 				RaisePropertyChanged(() => Mode); 
+				RaisePropertyChanged(() => IsStoreDetailsVisible);
 			}
 		}
 
@@ -77,6 +79,42 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => CurrentImageUrl); 
 			}
 		}
+
+		public bool IsStoreDetailsVisible
+		{
+			get
+			{
+				return this.Mode == ContentMode.View;
+			}
+		}
+
+		public string StatusWarning
+		{
+			get
+			{
+				string warning = null;
+				if (this.Mode == ContentMode.Edit && this.Product != null)
+				{
+					switch (this.Product.Status)
+					{
+						case ProductStatus.Pending:
+							warning = AppResources.MessageProductPending;
+							break;
+						case ProductStatus.Disapproved:
+							{
+								string reason = !string.IsNullOrEmpty(this.Product.DisapprovalReason) ? this.Product.DisapprovalReason : AppResources.TextUnknown;
+								warning = string.Format(AppResources.MessageProductDisapproved, reason);
+							}
+							break;
+						default:
+							warning = null;
+							break;
+					}
+				}
+				return warning;
+			}
+		}
+
 		#endregion
 
 		#region Commands
@@ -190,6 +228,11 @@ namespace Tojeero.Core.ViewModels
 					_currentProduct = this.Product;
 					loadImageUrls();
 				}
+			}
+
+			if (e.PropertyName == "Status" || e.PropertyName == "Mode")
+			{
+				RaisePropertyChanged(() => StatusWarning);
 			}
 		}
 

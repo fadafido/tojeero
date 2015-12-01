@@ -62,6 +62,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Title);
 				RaisePropertyChanged(() => IsNew);
 				RaisePropertyChanged(() => SaveCommandTitle);
+				RaisePropertyChanged(() => StatusWarning);
 				updateViewModel();
 			}
 		}
@@ -106,6 +107,7 @@ namespace Tojeero.Core.ViewModels
 						Subcategory != null && Subcategory.ID != CurrentProduct.SubcategoryID ||
 						Description != CurrentProduct.Description ||
 						this.CurrentProduct.TagList != string.Join(", ", Tags) ||
+						this.NotVisible != this.CurrentProduct.NotVisible ||
 						checkImagesChanged()))
 				{
 					return true;
@@ -255,6 +257,48 @@ namespace Tojeero.Core.ViewModels
 			{
 				_tags = value; 
 				RaisePropertyChanged(() => Tags); 
+			}
+		}
+
+		private bool _isVisible;
+
+		public bool NotVisible
+		{ 
+			get
+			{
+				return _isVisible; 
+			}
+			set
+			{
+				_isVisible = value; 
+				RaisePropertyChanged(() => NotVisible); 
+			}
+		}
+
+		public string StatusWarning
+		{
+			get
+			{
+				string warning = null;
+				if (this.CurrentProduct != null)
+				{
+					switch (this.CurrentProduct.Status)
+					{
+						case ProductStatus.Pending:
+							warning = AppResources.MessageProductPending;
+							break;
+						case ProductStatus.Disapproved:
+							{
+								string reason = !string.IsNullOrEmpty(this.CurrentProduct.DisapprovalReason) ? this.CurrentProduct.DisapprovalReason : AppResources.TextUnknown;
+								warning = string.Format(AppResources.MessageProductDisapproved, reason);
+							}
+							break;
+						default:
+							warning = null;
+							break;
+					}
+				}
+				return warning;
 			}
 		}
 
@@ -529,6 +573,7 @@ namespace Tojeero.Core.ViewModels
 			this.Description = this.CurrentProduct.Description;
 			this.Tags = null;
 			this.Tags.AddRange(this.CurrentProduct.Tags);
+			this.NotVisible = this.CurrentProduct.NotVisible;
 		}
 
 		private void nullifyViewModel()
@@ -540,6 +585,7 @@ namespace Tojeero.Core.ViewModels
 			this.Description = null;
 			this.Category = null;
 			this.Subcategory = null;
+			this.NotVisible = false;
 		}
 
 		private async Task save()
@@ -754,6 +800,7 @@ namespace Tojeero.Core.ViewModels
 			}
 			return false;
 		}
+
 		#endregion
 	}
 }

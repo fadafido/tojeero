@@ -114,6 +114,19 @@ namespace Tojeero.Core
 			}
 		}
 
+		public bool NotVisible
+		{
+			get
+			{
+				return _parseObject.NotVisible;
+			}
+			set
+			{
+				_parseObject.NotVisible = value;
+				RaisePropertyChanged(() => NotVisible);
+			}
+		}
+
 		private string _categoryID;
 		public string CategoryID
 		{ 
@@ -391,6 +404,19 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<ParseFile>(value);
+			}
+		}
+
+		[ParseFieldName("notVisible")]
+		public bool NotVisible
+		{
+			get
+			{
+				return GetProperty<bool>();
+			}
+			set
+			{
+				SetProperty<bool>(value);
 			}
 		}
 

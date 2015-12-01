@@ -16,6 +16,8 @@ namespace Tojeero.Core
 
 		string ImageUrl { get; }
 
+		bool NotVisible { get; set; }
+
 		string CategoryID { get; set; }
 
 		string OwnerID { get; set; }

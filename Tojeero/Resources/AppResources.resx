@@ -468,4 +468,16 @@
   <data name="ButtonAddTags" xml:space="preserve">
     <value>Add tags</value>
   </data>
+  <data name="LabelProductNotVisible" xml:space="preserve">
+    <value>Not visible</value>
+  </data>
+  <data name="MessageProductDisapproved" xml:space="preserve">
+    <value>Product was disapproved. Reason: {0}</value>
+  </data>
+  <data name="MessageProductPending" xml:space="preserve">
+    <value>Product is pending for approval. It will be visible to the users as soon as we approve it.</value>
+  </data>
+  <data name="TextUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
 </root>

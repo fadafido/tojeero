@@ -26,6 +26,16 @@
 					Padding="0">
 					<StackLayout
 						Spacing="10">
+						<StackLayout
+							IsVisible="{Binding StatusWarning, Converter={StaticResource visibility}}"
+							HorizontalOptions="FillAndExpand"
+							Padding="20,10,20,0">
+							<Label
+								Text="{Binding StatusWarning}"
+								Style="{StaticResource LabelWarning}"
+								XAlign="Center"
+								FontSize="15" />
+						</StackLayout>
 
 						<!--PRODUCT IMAGE-->
 						<StackLayout
@@ -49,7 +59,6 @@
 								Images="{Binding Images, Mode=TwoWay}"
 								Padding="20,0,5,20" />
 						</StackLayout>
-
 						<!--PRODUCT NAME-->
 						<StackLayout
 							Spacing="5"
@@ -70,7 +79,6 @@
 								HorizontalOptions="FillAndExpand"
 								BackgroundColor="{x:Static local:Colors.Placeholder}" />
 						</StackLayout>
-
 						<!--PRODUCT PRICE-->
 						<StackLayout
 							Spacing="5"
@@ -80,15 +88,14 @@
 								Style="{StaticResource Label1}" />
 							<Entry
 								Text="{Binding PriceString, Mode=TwoWay}"
-								HorizontalOptions="FillAndExpand" 
+								HorizontalOptions="FillAndExpand"
 								Placeholder="{Binding LabelPrice}"
-								Keyboard="Numeric"/>
+								Keyboard="Numeric" />
 							<Label
 								Text="{Binding PriceInvalid}"
 								Style="{StaticResource LabelInvalid}"
 								IsVisible="{Binding PriceInvalid, Converter={StaticResource visibility}}" />
 						</StackLayout>
-
 						<!--CATEGORY-->
 						<StackLayout
 							Spacing="0"
@@ -108,7 +115,6 @@
 								Style="{StaticResource LabelInvalid}"
 								IsVisible="{Binding CategoryInvalid, Converter={StaticResource visibility}}" />
 						</StackLayout>
-
 						<!--SUBCATEGORY-->
 						<StackLayout
 							Spacing="0"
@@ -130,7 +136,6 @@
 								Style="{StaticResource LabelInvalid}"
 								IsVisible="{Binding SubcategoryInvalid, Converter={StaticResource visibility}}" />
 						</StackLayout>
-
 						<!--TAGS-->
 						<StackLayout
 							Spacing="0"
@@ -141,9 +146,8 @@
 								Style="{StaticResource Label1}" />
 							<local:TagCloud
 								Tags="{Binding Tags}"
-								HorizontalOptions="FillAndExpand"/>
+								HorizontalOptions="FillAndExpand" />
 						</StackLayout>
-
 						<!--DESCRIPTION-->
 						<StackLayout
 							Spacing="5"
@@ -160,7 +164,19 @@
 								HorizontalOptions="FillAndExpand"
 								BackgroundColor="{x:Static local:Colors.Placeholder}" />
 						</StackLayout>
-
+						<StackLayout
+							Orientation="Horizontal"
+							Padding="20"
+							Spacing="10">
+							<Label
+								Text="{local:Translate LabelProductNotVisible}"
+								Style="{StaticResource Label1}"
+								HorizontalOptions="FillAndExpand"
+								VerticalOptions="Center" />
+							<Switch
+								IsToggled="{Binding NotVisible, Mode=TwoWay}"
+								VerticalOptions="Center" />
+						</StackLayout>
 						<!--CREATE PRODUCT BUTTON-->
 						<StackLayout
 							Spacing="5"

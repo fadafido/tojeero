@@ -404,6 +404,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not visible.
+        /// </summary>
+        internal static string LabelProductNotVisible {
+            get {
+                return ResourceManager.GetString("LabelProductNotVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start price.
         /// </summary>
         internal static string LabelStartPrice {
@@ -580,6 +589,24 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageNoInternetWarning {
             get {
                 return ResourceManager.GetString("MessageNoInternetWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product was disapproved. Reason: {0}.
+        /// </summary>
+        internal static string MessageProductDisapproved {
+            get {
+                return ResourceManager.GetString("MessageProductDisapproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product is pending for approval. It will be visible to the users as soon as we approve it..
+        /// </summary>
+        internal static string MessageProductPending {
+            get {
+                return ResourceManager.GetString("MessageProductPending", resourceCulture);
             }
         }
         
@@ -787,6 +814,15 @@ namespace Tojeero.Forms.Resources {
         internal static string PlaceholderSearchTags {
             get {
                 return ResourceManager.GetString("PlaceholderSearchTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        internal static string TextUnknown {
+            get {
+                return ResourceManager.GetString("TextUnknown", resourceCulture);
             }
         }
         

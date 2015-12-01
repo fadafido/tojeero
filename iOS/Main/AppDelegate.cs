@@ -121,9 +121,13 @@ namespace Tojeero.iOS
 
 		async void testQuery()
 		{
-			var country = await new ParseQuery<ParseCountry>().FirstOrDefaultAsync();
-			var query = country.Cities.Query;
-			var citiest = await query.FindAsync();
+			var products = await new ParseQuery<ParseProduct>().FindAsync();
+			foreach (var product in products)
+			{
+				product.Status = (int)ProductStatus.Approved;
+				product.NotVisible = false;
+				product.SaveAsync();
+			}
 		}
 	}
 }

@@ -357,6 +357,46 @@ namespace Tojeero.Core
 			}
 		}
 
+		public ProductStatus Status
+		{
+			get
+			{
+				return (ProductStatus)_parseObject.Status;
+			}
+			set
+			{
+				_parseObject.Status = (int)value;
+				RaisePropertyChanged(() => Status);
+			}
+		}
+
+
+		public bool NotVisible
+		{
+			get
+			{
+				return _parseObject.NotVisible;
+			}
+			set
+			{
+				_parseObject.NotVisible = value;
+				RaisePropertyChanged(() => NotVisible);
+			}
+		}
+
+		public string DisapprovalReason
+		{
+			get
+			{
+				return _parseObject.DisapprovalReason;
+			}
+			set
+			{
+				_parseObject.DisapprovalReason = value;
+				RaisePropertyChanged(() => DisapprovalReason);
+			}
+		}
+
 		#endregion
 
 		#region Parent
@@ -564,6 +604,43 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<ParseCity>(value);
+			}
+		}
+
+		[ParseFieldName("status")]
+		public int Status
+		{
+			get
+			{
+				return GetProperty<int>();
+			}
+			set
+			{
+				SetProperty<int>(value);
+			}
+		}
+
+		[ParseFieldName("notVisible")]
+		public bool NotVisible
+		{
+			get
+			{
+				return GetProperty<bool>();
+			}
+			set
+			{
+				SetProperty<bool>(value);
+			}
+		}		[ParseFieldName("disapprovalReason")]
+		public string DisapprovalReason
+		{
+			get
+			{
+				return GetProperty<string>();
+			}
+			set
+			{
+				SetProperty<string>(value);
 			}
 		}
 

@@ -24,6 +24,12 @@ namespace Tojeero.Core
 
 		string Description { get; set; }
 
+		ProductStatus Status { get; set; }
+
+		bool NotVisible { get; set; }
+
+		string DisapprovalReason { get; }
+
 		string CityId { get; set; }
 
 		ICity City { get; }

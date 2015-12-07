@@ -20,14 +20,20 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
 			{
-				var query = new ParseQuery<ParseProduct>().Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store").Include("country");
-				if (pageSize > 0 && offset >= 0)
+				var algoliaQuery = new Algolia.Search.Query();
+				algoliaQuery = getFilteredProductQuery(algoliaQuery, filter);
+				if (pageSize > 0)
 				{
-					query = query.Limit(pageSize).Skip(offset);
+					algoliaQuery.SetNbHitsPerPage(pageSize);
 				}
-				query = getFilteredProductQuery(query, filter);
-				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
-				return result.Select(p => new Product(p) as IProduct);
+				if (offset > 0)
+				{
+					algoliaQuery.SetPage(offset / pageSize);
+				}
+
+				var result = await _productIndex.SearchAsync(algoliaQuery, tokenSource.Token);
+				var products = result["hits"].ToObject<List<Product>>();
+				return products;
 			}
 		}
 
@@ -52,25 +58,17 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindProductsTimeout))
 			{				
-//				var parseQuery = new ParseQuery<ParseProduct>().Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store").Include("country");
-//				var tokens = query.Tokenize();
-//				if (tokens != null && tokens.Count > 0)
-//				{
-//					parseQuery = getContainsAllQuery(parseQuery, "searchTokens", tokens);
-//				}
-//				if (pageSize > 0 && offset >= 0)
-//				{
-//					parseQuery = parseQuery.Limit(pageSize).Skip(offset);
-//				}
-//				parseQuery = getFilteredProductQuery(parseQuery, filter);
-//				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
-//				return result.Select(p => new Product(p) as IProduct);
-
 				var algoliaQuery = new Algolia.Search.Query(query);
-				if (pageSize > 0 && offset > 0)
+				algoliaQuery = getFilteredProductQuery(algoliaQuery, filter);
+				if (pageSize > 0)
 				{
-					algoliaQuery = algoliaQuery.SetNbHitsPerPage(pageSize).SetPage((int)Math.Floor((float)offset / pageSize));
+					algoliaQuery.SetNbHitsPerPage(pageSize);
 				}
+				if (offset > 0)
+				{
+					algoliaQuery.SetPage(offset / pageSize);
+				}
+
 				var result = await _productIndex.SearchAsync(algoliaQuery, tokenSource.Token);
 				var products = result["hits"].ToObject<List<Product>>();
 				return products;
@@ -115,44 +113,55 @@ namespace Tojeero.Core
 
 		#region Utility methods
 
-		private ParseQuery<ParseProduct> getFilteredProductQuery(ParseQuery<ParseProduct> query, IProductFilter filter)
+		private Algolia.Search.Query getFilteredProductQuery(Algolia.Search.Query query, IProductFilter filter)
 		{
 			if (filter != null)
 			{
+				List<string> facets = new List<string>();
+				facets.Add("notVisible:false");
 				if (filter.Category != null)
 				{
-					query = query.Where(p => p.Category == ParseObject.CreateWithoutData<ParseProductCategory>(filter.Category.ID));
+					facets.Add("categoryID:"+filter.Category.ID);
 				}
 
 				if (filter.Subcategory != null)
 				{
-					query = query.Where(p => p.Subcategory == ParseObject.CreateWithoutData<ParseProductSubcategory>(filter.Subcategory.ID));
+					facets.Add("subcategoryID:"+filter.Subcategory.ID);
 				}
 
 				if (filter.Country != null)
 				{
-					query = query.Where(p => p.Country == ParseObject.CreateWithoutData<ParseCountry>(filter.Country.ID));
+					facets.Add("countryID:"+filter.Country.ID);
 				}
 
 				if (filter.City != null)
 				{
-					query = query.Where(p => p.City == ParseObject.CreateWithoutData<ParseCity>(filter.City.ID));
+					facets.Add("cityID:"+filter.City.ID);
 				}
+
+				if (facets.Count > 0)
+					query.SetFacetFilters(facets);
 
 				if (filter.Tags != null && filter.Tags.Count > 0)
 				{
-					query = getContainsAllQuery(query, "tags", filter.Tags);
+					query.SetTagFilters(string.Join(",", filter.Tags));
 				}
+
+				List<string> numericFilters = new List<string>();
+				numericFilters.Add("status=" + (int)ProductStatus.Approved);
 
 				if (filter.StartPrice != null)
 				{
-					query = query.Where(p => p.Price >= filter.StartPrice.Value);
+					numericFilters.Add("price>=" + filter.StartPrice);
 				}
 
 				if (filter.EndPrice != null)
 				{
-					query = query.Where(p => p.Price <= filter.EndPrice.Value);
+					numericFilters.Add("price<=" + filter.EndPrice);
 				}
+
+				if (numericFilters.Count > 0)
+					query.SetNumericFilters(string.Join(",", numericFilters));
 			}
 			return query;
 		}

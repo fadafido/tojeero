@@ -35,9 +35,11 @@ namespace Tojeero.Core
 
 		#region IProductManager implementation
 
-		public Task<IEnumerable<IProduct>> Fetch(int pageSize, int offset, IProductFilter filter = null)
+		public async Task<IEnumerable<IProduct>> Fetch(int pageSize, int offset, IProductFilter filter = null)
 		{
-			return _manager.Fetch<IProduct, Product>(new FetchProductsQuery(pageSize, offset, _manager, filter), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			var products = await _manager.Fetch<IProduct, Product>(new FetchProductsQuery(pageSize, offset, _manager, filter), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			await setCountries(products);
+			return products;
 		}
 
 		public Task<IEnumerable<IProduct>> FetchFavorite(int pageSize, int offset)
@@ -47,20 +49,9 @@ namespace Tojeero.Core
 
 		public async Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset, IProductFilter filter = null)
 		{
-			if (_countryManager.Countries == null)
-			{
-				await _countryManager.LoadCountries();
-			}
-
+			
 			var products = await _manager.Fetch<IProduct, Product>(new FindProductsQuery(query, pageSize, offset, _manager, filter), Constants.ProductsCacheTimespan.TotalMilliseconds);
-			if (_countryManager.Countries != null)
-			{
-				foreach (var product in products)
-				{
-					if(product.CountryId != null)
-						product.Country = _countryManager.Countries[product.CountryId];
-				}
-			}
+			await setCountries(products);
 			return products;
 		}
 
@@ -89,6 +80,26 @@ namespace Tojeero.Core
 				}
 			}
 			return null;
+		}
+
+		#endregion
+
+		#region Utility methods
+
+		private async Task setCountries(IEnumerable<IProduct> products)
+		{
+			if (_countryManager.Countries == null)
+			{
+				await _countryManager.LoadCountries();
+			}
+			if (_countryManager.Countries != null)
+			{
+				foreach (var product in products)
+				{
+					if(product.CountryId != null)
+						product.Country = _countryManager.Countries[product.CountryId];
+				}
+			}
 		}
 
 		#endregion

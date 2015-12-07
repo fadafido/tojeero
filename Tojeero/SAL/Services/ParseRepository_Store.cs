@@ -65,9 +65,13 @@ namespace Tojeero.Core
 //				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
 //				return result.Select(s => new Store(s) as IStore);
 				var algoliaQuery = new Algolia.Search.Query(query);
-				if (pageSize > 0 && offset > 0)
+				if (pageSize > 0)
 				{
-					algoliaQuery = algoliaQuery.SetNbHitsPerPage(pageSize).SetPage((int)Math.Floor((float)offset / pageSize));
+					algoliaQuery.SetNbHitsPerPage(pageSize);
+				}
+				if (offset > 0)
+				{
+					algoliaQuery.SetPage(offset / pageSize);
 				}
 				var result = await _storeIndex.SearchAsync(algoliaQuery, tokenSource.Token);
 				var stores = result["hits"].ToObject<List<Store>>();

@@ -69,45 +69,6 @@
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
 
-						<StackLayout
-							Spacing="0">
-							<Label
-								Text="{local:Translate LabelPriceRange}"
-								TextColor="{x:Static local:Colors.DarkGray}"
-								FontSize="Micro" />
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="*"/>
-								</Grid.ColumnDefinitions>
-								<Label
-									Text="{local:Translate LabelStartPrice}"
-									TextColor="{x:Static local:Colors.DarkGray}"
-									FontSize="Micro"
-									VerticalOptions="Center" />
-								<Entry
-									Grid.Column="1"
-									WidthRequest="100"
-									Text="{Binding StoreFilter.StartPrice, Mode=TwoWay, Converter={StaticResource double}}"
-									Keyboard="Numeric"
-									TextColor="{x:Static local:Colors.Black}" />
-								<Label
-									Grid.Column="2"
-									Text="{local:Translate LabelStartPrice}"
-									TextColor="{x:Static local:Colors.DarkGray}"
-									FontSize="Micro"
-									VerticalOptions="Center" />
-								<Entry
-									Grid.Column="3"
-									Text="{Binding StoreFilter.EndPrice, Mode=TwoWay, Converter={StaticResource double}}"
-									Keyboard="Numeric"
-									TextColor="{x:Static local:Colors.Black}" />
-							</Grid>
-						</StackLayout>
-						<local:TagCloud
-							Tags="{Binding StoreFilter.Tags}"/>
 					</StackLayout>
 				</StackLayout>
 			</StackLayout>

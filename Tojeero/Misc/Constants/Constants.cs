@@ -21,17 +21,17 @@ namespace Tojeero.Core
 
 		/*****************TIMEOUTS*****************/
 		public static int DefaultTimeout = 20000;
-		public static int FetchProductsTimeout = 10000;
-		public static int FetchStoresTimeout = 10000;
-		public static int FindProductsTimeout = 10000;
-		public static int FindStoresTimeout = 10000;
-		public static int FetchCountriesTimeout = 10000;
-		public static int FetchCitiesTimeout = 10000;
-		public static int FetchProductSubcategoriesTimeout = 10000;
-		public static int FetchStoreSubcategoriesTimeout = 10000;
+		public static int FetchProductsTimeout = 20000;
+		public static int FetchStoresTimeout = 20000;
+		public static int FindProductsTimeout = 20000;
+		public static int FindStoresTimeout = 20000;
+		public static int FetchCountriesTimeout = 20000;
+		public static int FetchCitiesTimeout = 20000;
+		public static int FetchProductSubcategoriesTimeout = 20000;
+		public static int FetchStoreSubcategoriesTimeout = 20000;
 		public static int FetchTagsTimeout = 10000;
 		public static int FindTagsTimeout = 10000;
-		public static int SearchTimeout = 1000;
+		public static int SearchTimeout = 20000;
 		public static int SaveStoreTimeout = 20000;
 		public static int SaveProductTimeout = 20000;
 

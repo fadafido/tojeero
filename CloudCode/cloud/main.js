@@ -151,6 +151,7 @@ function getProductObjectForAlgolia(product)
   jsonProduct.subcategoryID = jsonProduct.subcategory != null ? jsonProduct.subcategory.objectId : null;
   jsonProduct.countryID =  jsonProduct.country != null ? jsonProduct.country.objectId : null;
   jsonProduct.cityID = jsonProduct.city != null ? jsonProduct.city.objectId : null;
+  jsonProduct._tags = jsonProduct.tags;
 
   delete jsonProduct.store;
   delete jsonProduct.city;
@@ -160,6 +161,7 @@ function getProductObjectForAlgolia(product)
   delete jsonProduct.image;
   delete jsonProduct.searchTokens;
   delete jsonProduct.images;
-
+  delete jsonProduct.tags;
+  
   return jsonProduct;
 }

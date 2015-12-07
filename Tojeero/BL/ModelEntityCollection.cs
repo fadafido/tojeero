@@ -50,7 +50,7 @@ namespace Tojeero.Core
 					{
 						_isAllDataLoaded = true;
 					}
-					_previousCount = result.Count();
+					_previousCount = this.Count;
 				}
 				catch (OperationCanceledException ex)
 				{

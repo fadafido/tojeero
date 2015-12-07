@@ -281,7 +281,7 @@ namespace Tojeero.Core
 		}
 
 		[Ignore]
-		[JsonProperty("tags")]
+		[JsonProperty("_tags")]
 		public IList<string> Tags
 		{
 			get

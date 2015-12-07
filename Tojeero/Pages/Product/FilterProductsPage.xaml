@@ -108,7 +108,7 @@
 									TextColor="{x:Static local:Colors.Black}" />
 								<Label
 									Grid.Column="2"
-									Text="{local:Translate LabelStartPrice}"
+									Text="{local:Translate LabelEndPrice}"
 									TextColor="{x:Static local:Colors.DarkGray}"
 									FontSize="Micro"
 									VerticalOptions="Center" />

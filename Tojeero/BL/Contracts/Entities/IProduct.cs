@@ -36,7 +36,7 @@ namespace Tojeero.Core
 
 		string CountryId { get; set; }
 
-		ICountry Country { get; }
+		ICountry Country { get; set; }
 
 		IList<string> Tags { get; set; }
 

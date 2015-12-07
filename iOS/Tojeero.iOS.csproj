@@ -219,6 +219,7 @@
     <Reference Include="Algolia.Search">
       <HintPath>..\packages\Algolia.Search.3.4.2\lib\portable-net40+win+WindowsPhoneApp81\Algolia.Search.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tojeero\Tojeero.csproj">

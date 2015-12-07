@@ -3,6 +3,7 @@ using Parse;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Tojeero.Core
 {
@@ -45,6 +46,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("name")]
 		public string Name
 		{
 			get
@@ -58,6 +60,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("lowercase_name")]
 		public string LowercaseName
 		{
 			get
@@ -71,6 +74,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("price")]
 		public double Price
 		{
 			get
@@ -85,6 +89,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("description")]
 		public string Description
 		{
 			get
@@ -108,7 +113,7 @@ namespace Tojeero.Core
 		}
 
 		private string _imageUrl;
-
+		[JsonProperty("imageUrl")]
 		public string ImageUrl
 		{
 			get
@@ -125,7 +130,7 @@ namespace Tojeero.Core
 		}
 
 		private string _categoryID;
-
+		[JsonProperty("categoryID")]
 		public string CategoryID
 		{ 
 			get
@@ -146,7 +151,7 @@ namespace Tojeero.Core
 		}
 
 		private string _subcategoryID;
-
+		[JsonProperty("subcategoryID")]
 		public string SubcategoryID
 		{ 
 			get
@@ -167,7 +172,7 @@ namespace Tojeero.Core
 		}
 
 		private string _storeID;
-
+		[JsonProperty("storeID")]
 		public string StoreID
 		{ 
 			get
@@ -188,7 +193,7 @@ namespace Tojeero.Core
 		}
 
 		private string _cityId;
-
+		[JsonProperty("cityID")]
 		public string CityId
 		{
 			get
@@ -209,13 +214,13 @@ namespace Tojeero.Core
 		}
 
 		private string _countryId;
-
+		[JsonProperty("countryID")]
 		public string CountryId
 		{
 			get
 			{
-				if (_countryId == null && _parseObject != null && _parseObject.Country != null)
-					_countryId = _parseObject.Country.ObjectId;
+				if (_countryId == null && this.Country != null)
+					_countryId = this.Country.ID;
 				return _countryId;
 			}
 			set
@@ -235,9 +240,15 @@ namespace Tojeero.Core
 		{ 
 			get
 			{
-				if (_country == null)
+				if (_country == null && this.ParseObject.Country != null)
 					_country = new Country(this.ParseObject.Country);
 				return _country; 
+			}
+			set
+			{
+				_countryId = null;
+				_country = value;
+				RaisePropertyChanged(() => Country);
 			}
 		}
 
@@ -270,6 +281,7 @@ namespace Tojeero.Core
 		}
 
 		[Ignore]
+		[JsonProperty("tags")]
 		public IList<string> Tags
 		{
 			get
@@ -357,6 +369,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("status")]
 		public ProductStatus Status
 		{
 			get
@@ -370,7 +383,7 @@ namespace Tojeero.Core
 			}
 		}
 
-
+		[JsonProperty("notVisible")]
 		public bool NotVisible
 		{
 			get
@@ -383,7 +396,7 @@ namespace Tojeero.Core
 				RaisePropertyChanged(() => NotVisible);
 			}
 		}
-
+			
 		public string DisapprovalReason
 		{
 			get

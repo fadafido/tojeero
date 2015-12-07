@@ -83,6 +83,14 @@ namespace Tojeero.Core.ViewModels
 				}
 			}
 		}
+			
+		public virtual int SearchTimeout
+		{
+			get
+			{
+				return 0;
+			}
+		}
 
 		#endregion
 
@@ -109,7 +117,7 @@ namespace Tojeero.Core.ViewModels
 						_timer.Dispose();
 						_timer = null;
 						doSearch();
-					}, null, Constants.SearchTimeout);
+					}, null, this.SearchTimeout);
 			}
 		}
 

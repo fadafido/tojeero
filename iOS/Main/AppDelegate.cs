@@ -44,7 +44,7 @@ namespace Tojeero.iOS
 			global::Xamarin.Forms.Forms.Init();
 
 			LoadApplication(new FormsApp());
-			testQuery();
+
 			//Initialize Misc Plugins
 			ImageCircleRenderer.Init();
 

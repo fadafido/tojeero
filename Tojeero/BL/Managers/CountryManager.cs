@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Nito.AsyncEx;
+using System.Linq;
 
 namespace Tojeero.Core
 {
@@ -9,6 +11,7 @@ namespace Tojeero.Core
 		#region Private fields and properties
 
 		private readonly IModelEntityManager _manager;
+		private readonly AsyncReaderWriterLock _loadCountiesLock = new AsyncReaderWriterLock();
 
 		#endregion
 
@@ -37,6 +40,19 @@ namespace Tojeero.Core
 		public ICountry Create()
 		{
 			return new Country();
+		}
+
+		public Dictionary<string, ICountry> Countries { get; private set; }
+
+		public async Task LoadCountries()
+		{
+			using (var writerLock = await _loadCountiesLock.WriterLockAsync())
+			{
+				if (Countries != null)
+					return;
+				var countries = await Fetch();
+				Countries = countries.ToDictionary(c => c.ID, c => c);
+			}
 		}
 
 		#endregion

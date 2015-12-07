@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using Cirrious.CrossCore.Core;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
+using Newtonsoft.Json;
 
 namespace Tojeero.Core
 {
@@ -42,6 +43,7 @@ namespace Tojeero.Core
 		}
 
 		[PrimaryKey]
+		[JsonProperty("objectID")]
 		public string ID
 		{ 
 			get

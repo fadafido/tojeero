@@ -17,16 +17,18 @@ namespace Tojeero.Core
 
 		private readonly IModelEntityManager _manager;
 		private readonly IMvxMessenger _messenger;
+		private readonly ICountryManager _countryManager;
 
 		#endregion
 
 		#region Constructors
 
-		public ProductManager(IModelEntityManager manager, IMvxMessenger messenger)
+		public ProductManager(IModelEntityManager manager, IMvxMessenger messenger, ICountryManager countryManager)
 			: base()
 		{
 			this._manager = manager;
 			this._messenger = messenger;
+			this._countryManager = countryManager;
 		}
 
 		#endregion
@@ -43,9 +45,23 @@ namespace Tojeero.Core
 			return _manager.Fetch<IProduct, Product>(new FetchFavoriteProductsQuery(pageSize, offset, _manager), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}
 
-		public Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset, IProductFilter filter = null)
+		public async Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset, IProductFilter filter = null)
 		{
-			return _manager.Fetch<IProduct, Product>(new FindProductsQuery(query, pageSize, offset, _manager, filter), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			if (_countryManager.Countries == null)
+			{
+				await _countryManager.LoadCountries();
+			}
+
+			var products = await _manager.Fetch<IProduct, Product>(new FindProductsQuery(query, pageSize, offset, _manager, filter), Constants.ProductsCacheTimespan.TotalMilliseconds);
+			if (_countryManager.Countries != null)
+			{
+				foreach (var product in products)
+				{
+					if(product.CountryId != null)
+						product.Country = _countryManager.Countries[product.CountryId];
+				}
+			}
+			return products;
 		}
 
 		public Task ClearCache()

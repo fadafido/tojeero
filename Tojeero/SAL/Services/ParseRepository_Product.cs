@@ -8,6 +8,7 @@ using System.Threading;
 using Tojeero.Core.Toolbox;
 using System.Collections;
 using Tojeero.Core.ViewModels;
+using Newtonsoft.Json;
 
 namespace Tojeero.Core
 {
@@ -51,19 +52,28 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindProductsTimeout))
 			{				
-				var parseQuery = new ParseQuery<ParseProduct>().Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store").Include("country");
-				var tokens = query.Tokenize();
-				if (tokens != null && tokens.Count > 0)
+//				var parseQuery = new ParseQuery<ParseProduct>().Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store").Include("country");
+//				var tokens = query.Tokenize();
+//				if (tokens != null && tokens.Count > 0)
+//				{
+//					parseQuery = getContainsAllQuery(parseQuery, "searchTokens", tokens);
+//				}
+//				if (pageSize > 0 && offset >= 0)
+//				{
+//					parseQuery = parseQuery.Limit(pageSize).Skip(offset);
+//				}
+//				parseQuery = getFilteredProductQuery(parseQuery, filter);
+//				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
+//				return result.Select(p => new Product(p) as IProduct);
+
+				var algoliaQuery = new Algolia.Search.Query(query);
+				if (pageSize > 0 && offset > 0)
 				{
-					parseQuery = getContainsAllQuery(parseQuery, "searchTokens", tokens);
+					algoliaQuery = algoliaQuery.SetNbHitsPerPage(pageSize).SetPage((int)Math.Floor((float)offset / pageSize));
 				}
-				if (pageSize > 0 && offset >= 0)
-				{
-					parseQuery = parseQuery.Limit(pageSize).Skip(offset);
-				}
-				parseQuery = getFilteredProductQuery(parseQuery, filter);
-				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
-				return result.Select(p => new Product(p) as IProduct);
+				var result = await _productIndex.SearchAsync(algoliaQuery, tokenSource.Token);
+				var products = result["hits"].ToObject<List<Product>>();
+				return products;
 			}
 		}
 
@@ -100,7 +110,7 @@ namespace Tojeero.Core
 				return p;
 			}
 		}
-			
+
 		#endregion
 
 		#region Utility methods
@@ -146,7 +156,7 @@ namespace Tojeero.Core
 			}
 			return query;
 		}
-			
+
 		#endregion
 	}
 }

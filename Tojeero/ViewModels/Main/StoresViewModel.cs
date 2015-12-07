@@ -42,7 +42,15 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
-		#region implemented abstract members of BaseSearchViewModel
+		#region Parent override
+
+		public override int SearchTimeout
+		{
+			get
+			{
+				return 200;
+			}
+		}
 
 		protected override BaseCollectionViewModel<StoreViewModel> GetBrowsingViewModel()
 		{
@@ -109,7 +117,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				get
 				{
-					return Comparers.StoreName;
+					return null;
 				}
 			}
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cirrious.CrossCore;
 using Nito.AsyncEx;
+using Newtonsoft.Json;
 
 namespace Tojeero.Core
 {
@@ -53,6 +54,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("name")]
 		public string Name
 		{
 			get
@@ -66,6 +68,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("lowercase_name")]
 		public string LowercaseName
 		{
 			get
@@ -79,6 +82,7 @@ namespace Tojeero.Core
 			}
 		}
 			
+		[JsonProperty("description")]
 		public string Description
 		{
 			get
@@ -92,6 +96,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("deliveryNotes")]
 		public string DeliveryNotes
 		{
 			get
@@ -106,6 +111,7 @@ namespace Tojeero.Core
 		}
 
 		private string _imageUrl;
+		[JsonProperty("imageUrl")]
 		public string ImageUrl
 		{
 			get
@@ -121,6 +127,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("notVisible")]
 		public bool NotVisible
 		{
 			get
@@ -135,6 +142,7 @@ namespace Tojeero.Core
 		}
 
 		private string _categoryID;
+		[JsonProperty("categoryID")]
 		public string CategoryID
 		{ 
 			get
@@ -168,7 +176,7 @@ namespace Tojeero.Core
 		}
 
 		private string _cityId;
-
+		[JsonProperty("cityID")]
 		public string CityId
 		{
 			get
@@ -190,7 +198,7 @@ namespace Tojeero.Core
 		}
 
 		private string _countryId;
-
+		[JsonProperty("countryID")]
 		public string CountryId
 		{
 			get
@@ -268,7 +276,7 @@ namespace Tojeero.Core
 
 
 		private string _ownerID;
-
+		[JsonProperty("ownerID")]
 		public string OwnerID
 		{
 			get

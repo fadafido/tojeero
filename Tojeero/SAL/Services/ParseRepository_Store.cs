@@ -51,19 +51,27 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindStoresTimeout))
 			{
-				var parseQuery = new ParseQuery<ParseStore>().Where(s => s.NotVisible == false).OrderBy(s => s.LowercaseName).Include("category").Include("country").Include("city");
-				var tokens = query.Tokenize();
-				if (tokens != null && tokens.Count > 0)
+//				var parseQuery = new ParseQuery<ParseStore>().Where(s => s.NotVisible == false).OrderBy(s => s.LowercaseName).Include("category").Include("country").Include("city");
+//				var tokens = query.Tokenize();
+//				if (tokens != null && tokens.Count > 0)
+//				{
+//					parseQuery = getContainsAllQuery(parseQuery, "searchTokens", tokens);
+//				}
+//				if (pageSize > 0 && offset >= 0)
+//				{
+//					parseQuery = parseQuery.Limit(pageSize).Skip(offset);
+//				}
+//				parseQuery = getFilteredStoreQuery(parseQuery, filter);
+//				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
+//				return result.Select(s => new Store(s) as IStore);
+				var algoliaQuery = new Algolia.Search.Query(query);
+				if (pageSize > 0 && offset > 0)
 				{
-					parseQuery = getContainsAllQuery(parseQuery, "searchTokens", tokens);
+					algoliaQuery = algoliaQuery.SetNbHitsPerPage(pageSize).SetPage((int)Math.Floor((float)offset / pageSize));
 				}
-				if (pageSize > 0 && offset >= 0)
-				{
-					parseQuery = parseQuery.Limit(pageSize).Skip(offset);
-				}
-				parseQuery = getFilteredStoreQuery(parseQuery, filter);
-				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
-				return result.Select(s => new Store(s) as IStore);
+				var result = await _storeIndex.SearchAsync(algoliaQuery, tokenSource.Token);
+				var stores = result["hits"].ToObject<List<Store>>();
+				return stores;
 			}
 		}
 

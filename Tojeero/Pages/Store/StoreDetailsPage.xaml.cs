@@ -56,6 +56,16 @@ namespace Tojeero.Forms
 		}
 
 		#endregion
+
+		#region Lifecycle management
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			this.ViewModel.ReloadCommand.Execute(null);
+		}
+
+		#endregion
 	}
 }
 

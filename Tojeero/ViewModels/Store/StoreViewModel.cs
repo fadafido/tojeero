@@ -159,24 +159,24 @@ namespace Tojeero.Core.ViewModels
 		private void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
-				e.PropertyName == "IsFavorite" || e.PropertyName == IsLoadingProperty)
+				e.PropertyName == "IsFavorite" || e.PropertyName == IsLoadingProperty || e.PropertyName == "")
 			{				
 				this.RaisePropertyChanged(() => CanExecuteToggleFavoriteCommand);
 			}
 
 			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
-			         e.PropertyName == StoreProperty)
+				e.PropertyName == StoreProperty || e.PropertyName == "")
 			{
 				this.RaisePropertyChanged(() => CanExecuteLoadFavoriteCommand);
 			}		
 
-			if (e.PropertyName == CanExecuteLoadFavoriteCommandProperty)
+			if (e.PropertyName == CanExecuteLoadFavoriteCommandProperty || e.PropertyName == "")
 			{
 				this.LoadFavoriteCommand.Execute(null);
 			}
 
 			//If the user state has changed to logged off then we need to clean the favorite state
-			if (e.PropertyName == IsLoggedInProperty && !this.IsLoggedIn && this.Store != null)
+			if ((e.PropertyName == IsLoggedInProperty || e.PropertyName == "") && !this.IsLoggedIn && this.Store != null)
 			{
 				this.Store.IsFavorite = null;
 			}

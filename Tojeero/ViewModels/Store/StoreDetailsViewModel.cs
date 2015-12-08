@@ -68,6 +68,8 @@ namespace Tojeero.Core.ViewModels
 		{
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
+				if (this.Store != null)
+					await this.Store.LoadRelationships();
 				await loadFavorite();
 			}
 		}

@@ -41,6 +41,8 @@ namespace Tojeero.Core
 		Task SetMainImage(IImage image);
 
 		Task FetchCountry();
+
+		Task LoadRelationships();
 	}
 }
 

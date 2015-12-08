@@ -323,11 +323,15 @@ namespace Tojeero.Core
 		{
 			if (this.ParseObject != null)
 			{
+				//Save the current state
 				var isFav = this.IsFavorite;
+
 				await this.ParseObject.SaveAsync();
 				var query = new ParseQuery<ParseStore>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("country").Include("city");
 				var store = await query.FirstOrDefaultAsync();
 				this.ParseObject = store;
+
+				//Restore current state
 				this.IsFavorite = isFav;
 			}
 		}
@@ -355,6 +359,22 @@ namespace Tojeero.Core
 					await country.ParseObject.FetchAsync();
 					this.RaisePropertyChanged(() => Country);
 				}
+			}
+		}
+
+		public async Task LoadRelationships()
+		{
+			if (!string.IsNullOrEmpty(this.ID))
+			{
+				//Save the current state
+				var isFav = this.IsFavorite;
+
+				var query = new ParseQuery<ParseStore>().Where(s => s.ObjectId == this.ID).Include("category").Include("country").Include("city");
+				var store = await query.FirstOrDefaultAsync();
+				this.ParseObject = store;
+
+				//Restore current state
+				this.IsFavorite = isFav;
 			}
 		}
 

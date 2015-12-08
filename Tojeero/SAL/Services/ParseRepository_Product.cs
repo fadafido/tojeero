@@ -20,20 +20,14 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
 			{
-				var algoliaQuery = new Algolia.Search.Query();
-				algoliaQuery = getFilteredProductQuery(algoliaQuery, filter);
-				if (pageSize > 0)
+				var query = new ParseQuery<ParseProduct>().Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store").Include("country");
+				if (pageSize > 0 && offset >= 0)
 				{
-					algoliaQuery.SetNbHitsPerPage(pageSize);
+					query = query.Limit(pageSize).Skip(offset);
 				}
-				if (offset > 0)
-				{
-					algoliaQuery.SetPage(offset / pageSize);
-				}
-
-				var result = await _productIndex.SearchAsync(algoliaQuery, tokenSource.Token);
-				var products = result["hits"].ToObject<List<Product>>();
-				return products;
+				query = getFilteredProductQuery(query, filter);
+				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
+				return result.Select(p => new Product(p) as IProduct);
 			}
 		}
 
@@ -112,6 +106,48 @@ namespace Tojeero.Core
 		#endregion
 
 		#region Utility methods
+
+		private ParseQuery<ParseProduct> getFilteredProductQuery(ParseQuery<ParseProduct> query, IProductFilter filter)
+		{
+			if (filter != null)
+			{
+				if (filter.Category != null)
+				{
+					query = query.Where(p => p.Category == ParseObject.CreateWithoutData<ParseProductCategory>(filter.Category.ID));
+				}
+
+				if (filter.Subcategory != null)
+				{
+					query = query.Where(p => p.Subcategory == ParseObject.CreateWithoutData<ParseProductSubcategory>(filter.Subcategory.ID));
+				}
+
+				if (filter.Country != null)
+				{
+					query = query.Where(p => p.Country == ParseObject.CreateWithoutData<ParseCountry>(filter.Country.ID));
+				}
+
+				if (filter.City != null)
+				{
+					query = query.Where(p => p.City == ParseObject.CreateWithoutData<ParseCity>(filter.City.ID));
+				}
+
+				if (filter.Tags != null && filter.Tags.Count > 0)
+				{
+					query = getContainsAllQuery(query, "tags", filter.Tags);
+				}
+
+				if (filter.StartPrice != null)
+				{
+					query = query.Where(p => p.Price >= filter.StartPrice.Value);
+				}
+
+				if (filter.EndPrice != null)
+				{
+					query = query.Where(p => p.Price <= filter.EndPrice.Value);
+				}
+			}
+			return query;
+		}
 
 		private Algolia.Search.Query getFilteredProductQuery(Algolia.Search.Query query, IProductFilter filter)
 		{

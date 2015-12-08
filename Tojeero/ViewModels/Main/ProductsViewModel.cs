@@ -86,7 +86,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				get
 				{
-					return null;
+					return  Comparers.ProductName;
 				}
 			}
 

@@ -114,6 +114,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private bool _isInitialDataLoaded;
+		public static string IsInitialDataLoadedProperty = "IsInitialDataLoaded";
 
 		public bool IsInitialDataLoaded
 		{
@@ -127,6 +128,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => IsInitialDataLoaded);
 			}
 		}
+
 		#endregion
 
 		#region Commands
@@ -165,10 +167,12 @@ namespace Tojeero.Core.ViewModels
 			{
 				_refetchCommand = _refetchCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
-						await Task.Factory.StartNew(() => {
-							while(!CanExecuteLoadNextPageCommand)
-							{}
-						});
+						await Task.Factory.StartNew(() =>
+							{
+								while (!CanExecuteLoadNextPageCommand)
+								{
+								}
+							});
 						this.Collection = null;
 						await loadNextPage();
 					});
@@ -337,7 +341,7 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		void collectionChanged (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		void collectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
 			RaisePropertyChanged(() => Count);
 		}

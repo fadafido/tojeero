@@ -23,6 +23,7 @@ namespace Tojeero.Core.ViewModels
 		public BaseSearchViewModel(string initialSearchQuery = null)
 		{
 			_searchQuery = initialSearchQuery;
+			this.PropertyChanged += propertyChanged;
 		}
 
 		#endregion
@@ -33,6 +34,8 @@ namespace Tojeero.Core.ViewModels
 		public event EventHandler<EventArgs> ReloadFinished;
 
 		private BaseCollectionViewModel<T> _viewModel;
+		public static string ViewModelProperty = "ViewModel";
+
 		public BaseCollectionViewModel<T> ViewModel
 		{ 
 			get
@@ -65,13 +68,15 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private string _searchQuery;
+		public static string SearchQueryProperty = "SearchQuery";
+
 		public string SearchQuery
 		{ 
-			get  
+			get
 			{
 				return _searchQuery; 
 			}
-			set 
+			set
 			{
 				//If the value is empty or null stop searching.
 				//Start searching only if the search query contains at least 2 non whitespace characters
@@ -83,7 +88,7 @@ namespace Tojeero.Core.ViewModels
 				}
 			}
 		}
-			
+
 		public virtual int SearchTimeout
 		{
 			get
@@ -92,11 +97,20 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public bool IsSearchbarVisible
+		{
+			get
+			{
+				return this.ViewModel.IsInitialDataLoaded || !string.IsNullOrEmpty(this.SearchQuery);
+			}
+		}
+
 		#endregion
 
 		#region Protected API
 
 		protected abstract BaseCollectionViewModel<T> GetBrowsingViewModel();
+
 		protected abstract BaseCollectionViewModel<T> GetSearchViewModel(string searchQuery);
 
 		#endregion
@@ -135,7 +149,7 @@ namespace Tojeero.Core.ViewModels
 				this.ViewModel.LoadFirstPageCommand.Execute(null);
 			}
 		}
-			
+
 		BaseCollectionViewModel<T> getBrowsingViewModel()
 		{
 			return  _browsingViewModel ?? GetBrowsingViewModel();
@@ -148,6 +162,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				this.ViewModel.ReloadFinished += handleReloadFinished;
 				this.ViewModel.LoadingNextPageFinished += handleLoadingNextPageFinished;
+				this.ViewModel.PropertyChanged += propertyChanged;
 			}
 		}
 
@@ -157,18 +172,28 @@ namespace Tojeero.Core.ViewModels
 			{
 				this.ViewModel.ReloadFinished -= handleReloadFinished;
 				this.ViewModel.LoadingNextPageFinished -= handleLoadingNextPageFinished;
+				this.ViewModel.PropertyChanged += propertyChanged;
 			}
 		}
 
-		void handleLoadingNextPageFinished (object sender, EventArgs e)
+		void handleLoadingNextPageFinished(object sender, EventArgs e)
 		{
 			LoadingNextPageFinished.Fire(sender, e);
 		}
 
-		void handleReloadFinished (object sender, EventArgs e)
+		void handleReloadFinished(object sender, EventArgs e)
 		{
 			ReloadFinished.Fire(sender, e);
 		}
+
+		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == ViewModelProperty || e.PropertyName == SearchQueryProperty || e.PropertyName == BaseCollectionViewModel<T>.IsInitialDataLoadedProperty)
+			{
+				RaisePropertyChanged(() => IsSearchbarVisible);
+			}
+		}
+
 		#endregion
 	}
 }

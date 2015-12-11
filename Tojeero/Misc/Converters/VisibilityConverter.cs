@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using System.Collections;
 
 namespace Tojeero.Forms
 {
@@ -9,6 +10,11 @@ namespace Tojeero.Forms
 		{
 			if(value == null)
 				return false;
+			if (value is ICollection)
+			{
+				var collection = value as ICollection;
+				return collection.Count != 0;
+			}
 			if (string.IsNullOrEmpty(value.ToString()))
 				return false;
 			return true;

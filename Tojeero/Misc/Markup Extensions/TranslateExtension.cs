@@ -40,7 +40,7 @@ namespace Tojeero.Forms
 				throw ex;
 				#else
 				translation = Text; // HACK: returns the key, which GETS DISPLAYED TO THE USER
-				Tools.Logger.Log(ex, null, LoggingLevel.Error, true);
+				Tools.Logger.Log(ex, LoggingLevel.Error, true);
 				#endif
 			}
 			return translation;

@@ -74,6 +74,9 @@ namespace Tojeero.Droid
 			global::XLabs.Forms.Resource.Style.CalendarCell_CalendarDate = global::Tojeero.Droid.Resource.Style.CalendarCell_CalendarDate;
 			global::XLabs.Forms.Resource.Style.CalendarCell_DayHeader = global::Tojeero.Droid.Resource.Style.CalendarCell_DayHeader;
 			global::XLabs.Forms.Resource.Style.CalendarTitle = global::Tojeero.Droid.Resource.Style.CalendarTitle;
+			global::PCLCrypto.Resource.String.ApplicationName = global::Tojeero.Droid.Resource.String.ApplicationName;
+			global::PCLCrypto.Resource.String.Hello = global::Tojeero.Droid.Resource.String.Hello;
+			global::ModernHttpClient.Resource.String.library_name = global::Tojeero.Droid.Resource.String.library_name;
 		}
 		
 		public partial class Animation
@@ -2944,11 +2947,11 @@ namespace Tojeero.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f0a0019
-			public const int ApplicationName = 2131361817;
+			// aapt resource value: 0x7f0a0015
+			public const int ApplicationName = 2131361813;
 			
-			// aapt resource value: 0x7f0a0018
-			public const int Hello = 2131361816;
+			// aapt resource value: 0x7f0a0014
+			public const int Hello = 2131361812;
 			
 			// aapt resource value: 0x7f0a0001
 			public const int abc_action_bar_home_description = 2131361793;
@@ -3055,17 +3058,17 @@ namespace Tojeero.Droid
 			// aapt resource value: 0x7f0a0029
 			public const int com_facebook_tooltip_default = 2131361833;
 			
-			// aapt resource value: 0x7f0a0014
-			public const int day_name_format = 2131361812;
+			// aapt resource value: 0x7f0a0016
+			public const int day_name_format = 2131361814;
 			
 			// aapt resource value: 0x7f0a002c
 			public const int facebook_app_id = 2131361836;
 			
-			// aapt resource value: 0x7f0a0017
-			public const int full_date_format = 2131361815;
+			// aapt resource value: 0x7f0a0019
+			public const int full_date_format = 2131361817;
 			
-			// aapt resource value: 0x7f0a0015
-			public const int invalid_date = 2131361813;
+			// aapt resource value: 0x7f0a0017
+			public const int invalid_date = 2131361815;
 			
 			// aapt resource value: 0x7f0a0013
 			public const int library_name = 2131361811;
@@ -3073,8 +3076,8 @@ namespace Tojeero.Droid
 			// aapt resource value: 0x7f0a002a
 			public const int messenger_send_button_text = 2131361834;
 			
-			// aapt resource value: 0x7f0a0016
-			public const int month_name_format = 2131361814;
+			// aapt resource value: 0x7f0a0018
+			public const int month_name_format = 2131361816;
 			
 			// aapt resource value: 0x7f0a0012
 			public const int status_bar_notification_info_overflow = 2131361810;

@@ -9,6 +9,8 @@ using Tojeero.Core.Toolbox;
 using System.Collections;
 using Algolia.Search;
 using Cirrious.CrossCore;
+using System.Net.Http;
+using ModernHttpClient;
 
 namespace Tojeero.Core
 {
@@ -26,7 +28,7 @@ namespace Tojeero.Core
 
 		public ParseRepository()
 		{
-			_algoliaClient = new AlgoliaClient(Constants.AlgoliaApplicationId, Constants.AlgoliaSecurityKey);
+			_algoliaClient = new AlgoliaClient(Constants.AlgoliaApplicationId, Constants.AlgoliaSecurityKey, null, new NativeMessageHandler());
 			_storeIndex = _algoliaClient.InitIndex(Constants.StoreIndex);
 			_productIndex = _algoliaClient.InitIndex(Constants.ProductIndex);
 		}

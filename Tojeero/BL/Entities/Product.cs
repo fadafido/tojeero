@@ -41,7 +41,6 @@ namespace Tojeero.Core
 				_store = null;
 				_country = null;
 				_city = null;
-				_isFavorite = null;
 				base.ParseObject = value;
 			}
 		}
@@ -355,20 +354,6 @@ namespace Tojeero.Core
 			}
 		}
 
-		private bool? _isFavorite;
-		public bool? IsFavorite
-		{ 
-			get
-			{
-				return _isFavorite; 
-			}
-			set
-			{
-				_isFavorite = value; 
-				RaisePropertyChanged(() => IsFavorite); 
-			}
-		}
-
 		[JsonProperty("status")]
 		public ProductStatus Status
 		{
@@ -427,16 +412,10 @@ namespace Tojeero.Core
 		{
 			if (this.ParseObject != null)
 			{
-				//Save current state
-				var isFav = this.IsFavorite;
-
 				await this.ParseObject.SaveAsync();
 				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("subcategory").Include("store");
 				var product = await query.FirstOrDefaultAsync();
 				this.ParseObject = product;
-
-				//Restore current state
-				this.IsFavorite = isFav;
 			}
 		}
 
@@ -452,15 +431,9 @@ namespace Tojeero.Core
 		{
 			if (!string.IsNullOrEmpty(this.ID))
 			{
-				//Save the current state
-				var isFav = this.IsFavorite;
-
 				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ID).Include("category").Include("subcategory").Include("store");
 				var product = await query.FirstOrDefaultAsync();
 				this.ParseObject = product;
-
-				//Restore current state
-				this.IsFavorite = isFav;
 			}
 		}
 

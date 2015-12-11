@@ -14,8 +14,8 @@ namespace Tojeero.Core
 	{
 		#region Private fields and properties
 
-		private List<string> _favoriteProducts;
-		private List<string> _favoriteStores;
+		private List<IFavorite> _favoriteProducts;
+		private List<IFavorite> _favoriteStores;
 		private AsyncReaderWriterLock _productLocker = new AsyncReaderWriterLock();
 		private AsyncReaderWriterLock _storeLocker = new AsyncReaderWriterLock();
 
@@ -250,20 +250,21 @@ namespace Tojeero.Core
 
 		#region Methods
 
-		public async Task<bool> IsProductFavorite(string productID)
+		public async Task<IFavorite> GetProductFavorite(string productID)
 		{
 			await loadFavoriteProductsIfNeeded();
-			var result = _favoriteProducts.Contains(productID);
-			return result;
+			var favorite = getProductFavorite(productID);
+			return favorite;
 		}
 
-		public async Task AddProductToFavorites(string productID)
+		public async Task<IFavorite> AddProductToFavorites(string productID)
 		{
 			var user = ParseUser.CurrentUser as TojeeroUser;
 			user.FavoriteProducts.Add(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
 			await user.SaveAsync();
-			if (_favoriteProducts != null)
-				_favoriteProducts.Add(productID);
+			var favorite = getProductFavorite(productID);
+			favorite.IsFavorite = true;
+			return favorite;
 		}
 
 		public async Task RemoveProductFromFavorites(string productID)
@@ -271,24 +272,25 @@ namespace Tojeero.Core
 			var user = ParseUser.CurrentUser as TojeeroUser;
 			user.FavoriteProducts.Remove(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
 			await user.SaveAsync();
-			if (_favoriteProducts != null)
-				_favoriteProducts.Remove(productID);
+			var favorite = getProductFavorite(productID);
+			favorite.IsFavorite = false;
 		}
 
-		public async Task<bool> IsStoreFavorite(string storeID)
+		public async Task<IFavorite> GetStoreFavorite(string storeID)
 		{
 			await loadFavoriteStoresIfNeeded();
-			var result = _favoriteStores.Contains(storeID);
-			return result;
+			var favorite = getStoreFavorite(storeID);
+			return favorite;
 		}
 
-		public async Task AddStoreToFavorites(string storeID)
+		public async Task<IFavorite> AddStoreToFavorites(string storeID)
 		{
 			var user = ParseUser.CurrentUser as TojeeroUser;
 			user.FavoriteStores.Add(Parse.ParseObject.CreateWithoutData<ParseStore>(storeID));
 			await user.SaveAsync();
-			if (_favoriteStores != null)
-				_favoriteStores.Add(storeID);
+			var favorite = getStoreFavorite(storeID);
+			favorite.IsFavorite = true;
+			return favorite;
 		}
 
 		public async Task RemoveStoreFromFavorites(string storeID)
@@ -296,8 +298,8 @@ namespace Tojeero.Core
 			var user = ParseUser.CurrentUser as TojeeroUser;
 			user.FavoriteStores.Remove(Parse.ParseObject.CreateWithoutData<ParseStore>(storeID));
 			await user.SaveAsync();
-			if (_favoriteStores != null)
-				_favoriteStores.Remove(storeID);
+			var favorite = getStoreFavorite(storeID);
+			favorite.IsFavorite = false;
 		}
 
 		public async Task LoadDefaultStore()
@@ -321,7 +323,7 @@ namespace Tojeero.Core
 				{
 					var user = ParseUser.CurrentUser as TojeeroUser;
 					var result = await user.FavoriteProducts.Query.FindAsync();	
-					_favoriteProducts = result.Select(p => p.ObjectId).ToList();
+					_favoriteProducts = result.Select(p => new Favorite(p.ObjectId, true)).ToList<IFavorite>();
 				}
 			}
 		}
@@ -334,9 +336,31 @@ namespace Tojeero.Core
 				{
 					var user = ParseUser.CurrentUser as TojeeroUser;
 					var result = await user.FavoriteStores.Query.FindAsync();	
-					_favoriteStores = result.Select(p => p.ObjectId).ToList();
+					_favoriteStores = result.Select(p => new Favorite(p.ObjectId, true)).ToList<IFavorite>();
 				}
 			}
+		}
+
+		private IFavorite getProductFavorite(string productID)
+		{
+			var favorite = _favoriteProducts.Where(f => f.ObjectID == productID).FirstOrDefault();
+			if (favorite == null)
+			{
+				favorite = new Favorite(productID);
+				_favoriteProducts.Add(favorite);
+			}
+			return favorite;
+		}
+
+		private IFavorite getStoreFavorite(string storeID)
+		{
+			var favorite = _favoriteStores.Where(f => f.ObjectID == storeID).FirstOrDefault();
+			if (favorite == null)
+			{
+				favorite = new Favorite(storeID);
+				_favoriteStores.Add(favorite);
+			}
+			return favorite;
 		}
 
 		#endregion

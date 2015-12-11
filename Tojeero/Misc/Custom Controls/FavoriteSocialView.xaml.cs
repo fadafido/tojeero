@@ -15,67 +15,26 @@ namespace Tojeero.Forms
 		public FavoriteSocialView()
 		{			
 			InitializeComponent();
-			this.ViewModel = new FavoriteSocialViewModel();
-		}
-
-		#endregion
-
-		#region Properties
-
-		private FavoriteSocialViewModel _viewModel;
-
-		public FavoriteSocialViewModel ViewModel
-		{ 
-			get
-			{
-				return _viewModel; 
-			}
-			private set
-			{
-				_viewModel = value; 
-				this.rootContent.BindingContext = value;
-			}
-		}
-
-		#endregion
-
-		#region Bindable properties
-
-		#region SocialObject
-
-		public static BindableProperty SocialObjectProperty = BindableProperty.Create<FavoriteSocialView, ISocialObject>(o => o.SocialObject, null, propertyChanged: OnSocialObjectChanged);
-
-		public ISocialObject SocialObject
-		{
-			get { return (ISocialObject)GetValue(SocialObjectProperty); }
-			set { SetValue(SocialObjectProperty, value); }
-		}
-
-		private static void OnSocialObjectChanged(BindableObject bindable, ISocialObject oldvalue, ISocialObject newvalue)
-		{
-			var view = (FavoriteSocialView)bindable;
-			view.ViewModel.SocialObject = newvalue;
 		}
 
 		#endregion
 
 		#region Social view model
 
-		public static BindableProperty SocialViewModelProperty = BindableProperty.Create<FavoriteSocialView, ISocialViewModel>(o => o.SocialViewModel, null, propertyChanged: OnSocialViewModelChanged);
+		public static BindableProperty ViewModelProperty = BindableProperty.Create<FavoriteSocialView, ISocialViewModel>(o => o.ViewModel, null, propertyChanged: OnViewModelChanged);
 
-		public ISocialViewModel SocialViewModel
+		public ISocialViewModel ViewModel
 		{
-			get { return (ISocialViewModel)GetValue(SocialViewModelProperty); }
-			set { SetValue(SocialViewModelProperty, value); }
+			get { return (ISocialViewModel)GetValue(ViewModelProperty); }
+			set { SetValue(ViewModelProperty, value); }
 		}
 
-		private static void OnSocialViewModelChanged(BindableObject bindable, ISocialViewModel oldvalue, ISocialViewModel newvalue)
+		private static void OnViewModelChanged(BindableObject bindable, ISocialViewModel oldvalue, ISocialViewModel newvalue)
 		{
 			var view = (FavoriteSocialView)bindable;
-			view.ViewModel.SocialViewModel = newvalue;
+			if(view.rootContent != null)
+				view.rootContent.BindingContext = newvalue;
 		}
-
-		#endregion
 
 		#endregion
 	}

@@ -10,7 +10,7 @@
 		Padding="10,0,10,0"
 		RowSpacing="0"
 		ColumnSpacing="0"
-		IsVisible="{Binding SocialViewModel.IsLoggedIn}">
+		IsVisible="{Binding IsLoggedIn}">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition
 				Width="*" />
@@ -38,10 +38,10 @@
 			Grid.Row="1"
 			Image="icon_favorite_deselected.png"
 			SelectedImage="icon_favorite_selected.png"
-			IsSelected="{Binding SocialObject.IsFavorite, Converter={StaticResource bool}}"
-			IsEnabled="{Binding SocialViewModel.CanExecuteToggleFavoriteCommand}"
-			IsVisible="{Binding SocialObject.IsFavorite, Converter={StaticResource visibility}}"
-			Command="{Binding SocialViewModel.ToggleFavoriteCommand}"
+			IsSelected="{Binding Favorite.IsFavorite}"
+			IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
+			IsVisible="{Binding Favorite.IsFavorite, Converter={StaticResource visibility}}"
+			Command="{Binding ToggleFavoriteCommand}"
 			VerticalOptions="FillAndExpand" />
 		<BoxView
 			Grid.Row="1"

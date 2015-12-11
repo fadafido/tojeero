@@ -46,7 +46,6 @@ namespace Tojeero.Core
 			{
 				_imageUrl = null;
 				_category = null;
-				_isFavorite = null;
 				_country = null;
 				_city = null;
 				_owner = null;
@@ -260,21 +259,6 @@ namespace Tojeero.Core
 			}
 		}
 
-		private bool? _isFavorite;
-		public bool? IsFavorite
-		{ 
-			get
-			{
-				return _isFavorite; 
-			}
-			set
-			{
-				_isFavorite = value; 
-				RaisePropertyChanged(() => IsFavorite); 
-			}
-		}
-
-
 		private string _ownerID;
 		[JsonProperty("ownerID")]
 		public string OwnerID
@@ -323,16 +307,10 @@ namespace Tojeero.Core
 		{
 			if (this.ParseObject != null)
 			{
-				//Save the current state
-				var isFav = this.IsFavorite;
-
 				await this.ParseObject.SaveAsync();
 				var query = new ParseQuery<ParseStore>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("country").Include("city");
 				var store = await query.FirstOrDefaultAsync();
 				this.ParseObject = store;
-
-				//Restore current state
-				this.IsFavorite = isFav;
 			}
 		}
 
@@ -366,15 +344,9 @@ namespace Tojeero.Core
 		{
 			if (!string.IsNullOrEmpty(this.ID))
 			{
-				//Save the current state
-				var isFav = this.IsFavorite;
-
 				var query = new ParseQuery<ParseStore>().Where(s => s.ObjectId == this.ID).Include("category").Include("country").Include("city");
 				var store = await query.FirstOrDefaultAsync();
 				this.ParseObject = store;
-
-				//Restore current state
-				this.IsFavorite = isFav;
 			}
 		}
 

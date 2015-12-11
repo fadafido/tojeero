@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
-	public interface IProduct : IModelEntity, ISearchableEntity, ISocialObject, IMultiImageEntity
+	public interface IProduct : IModelEntity, ISearchableEntity, IMultiImageEntity
 	{
 		string Name { get; set; }
 

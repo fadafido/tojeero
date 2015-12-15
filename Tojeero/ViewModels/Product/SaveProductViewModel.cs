@@ -108,7 +108,7 @@ namespace Tojeero.Core.ViewModels
 						Subcategory != null && Subcategory.ID != CurrentProduct.SubcategoryID ||
 						Description != CurrentProduct.Description ||
 						this.CurrentProduct.TagList != string.Join(", ", Tags) ||
-						this.NotVisible != this.CurrentProduct.NotVisible ||
+						!this.Visible != this.CurrentProduct.NotVisible ||
 						checkImagesChanged()))
 				{
 					return true;
@@ -263,7 +263,7 @@ namespace Tojeero.Core.ViewModels
 
 		private bool _isVisible;
 
-		public bool NotVisible
+		public bool Visible
 		{ 
 			get
 			{
@@ -272,7 +272,7 @@ namespace Tojeero.Core.ViewModels
 			set
 			{
 				_isVisible = value; 
-				RaisePropertyChanged(() => NotVisible); 
+				RaisePropertyChanged(() => Visible); 
 			}
 		}
 			
@@ -547,7 +547,7 @@ namespace Tojeero.Core.ViewModels
 			this.Description = this.CurrentProduct.Description;
 			this.Tags = null;
 			this.Tags.AddRange(this.CurrentProduct.Tags);
-			this.NotVisible = this.CurrentProduct.NotVisible;
+			this.Visible = !this.CurrentProduct.NotVisible;
 		}
 
 		private void nullifyViewModel()
@@ -559,7 +559,7 @@ namespace Tojeero.Core.ViewModels
 			this.Description = null;
 			this.Category = null;
 			this.Subcategory = null;
-			this.NotVisible = false;
+			this.Visible = true;
 		}
 
 		private async Task save()

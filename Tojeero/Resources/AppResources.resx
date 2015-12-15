@@ -474,8 +474,8 @@
   <data name="LabelPending" xml:space="preserve">
     <value>Pending</value>
   </data>
-  <data name="LabelProductNotVisible" xml:space="preserve">
-    <value>Not visible</value>
+  <data name="LabelVisible" xml:space="preserve">
+    <value>Visible</value>
   </data>
   <data name="MessageProductDisapproved" xml:space="preserve">
     <value>Product was disapproved. Reason: {0}</value>

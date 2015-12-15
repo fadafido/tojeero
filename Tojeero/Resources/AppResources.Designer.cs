@@ -422,15 +422,6 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not visible.
-        /// </summary>
-        internal static string LabelProductNotVisible {
-            get {
-                return ResourceManager.GetString("LabelProductNotVisible", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Start price.
         /// </summary>
         internal static string LabelStartPrice {
@@ -517,6 +508,15 @@ namespace Tojeero.Forms.Resources {
         internal static string LabelTags {
             get {
                 return ResourceManager.GetString("LabelTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visible.
+        /// </summary>
+        internal static string LabelVisible {
+            get {
+                return ResourceManager.GetString("LabelVisible", resourceCulture);
             }
         }
         

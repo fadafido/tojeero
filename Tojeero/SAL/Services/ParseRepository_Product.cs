@@ -82,7 +82,7 @@ namespace Tojeero.Core
 				p.CategoryID = product.Category != null ? product.Category.ID : null;
 				p.SubcategoryID = product.Subcategory != null ? product.Subcategory.ID : null;
 				p.Description = product.Description;
-				p.NotVisible = product.NotVisible;
+				p.NotVisible = !product.Visible;
 				p.Status = ProductStatus.Pending;
 				p.LowercaseName = p.Name.ToLower();
 				p.CountryId = product.Store.CountryId;

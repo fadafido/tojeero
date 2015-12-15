@@ -8,8 +8,6 @@
 	<string>com.objectx.test</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleVersion</key>
-	<string>0</string>
 	<key>MinimumOSVersion</key>
 	<string>7.0</string>
 	<key>NSAppTransportSecurity</key>
@@ -68,5 +66,7 @@
 		<string>en</string>
 		<string>ar</string>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>2</string>
 </dict>
 </plist>

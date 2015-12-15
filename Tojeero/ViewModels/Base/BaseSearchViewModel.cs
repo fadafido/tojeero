@@ -10,8 +10,8 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Private fields and properties
 
-		private BaseCollectionViewModel<T> _browsingViewModel;
-		private BaseCollectionViewModel<T> _searchViewModel;
+		protected BaseCollectionViewModel<T> _browsingViewModel;
+		protected BaseCollectionViewModel<T> _searchViewModel;
 		private Timer _timer;
 		private readonly object _lockObject = new object();
 		private string _previousSearchQuery = null;

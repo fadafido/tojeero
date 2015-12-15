@@ -65,6 +65,14 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public bool IsFavoriteToggleVisible
+		{
+			get
+			{
+				return this.Favorite != null;
+			}
+		}
+
 		#endregion
 
 		#region Commands

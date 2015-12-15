@@ -40,7 +40,7 @@
 			SelectedImage="icon_favorite_selected.png"
 			IsSelected="{Binding Favorite.IsFavorite}"
 			IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
-			IsVisible="{Binding Favorite.IsFavorite, Converter={StaticResource visibility}}"
+			IsVisible="{Binding IsFavoriteToggleVisible}"
 			Command="{Binding ToggleFavoriteCommand}"
 			VerticalOptions="FillAndExpand" />
 		<BoxView

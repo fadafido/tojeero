@@ -95,6 +95,15 @@ namespace Tojeero.Core.ViewModels
 			{
 				_favorite = value; 
 				RaisePropertyChanged(() => Favorite); 
+				RaisePropertyChanged(() => IsFavoriteToggleVisible); 
+			}
+		}
+
+		public bool IsFavoriteToggleVisible
+		{
+			get
+			{
+				return this.Favorite != null;
 			}
 		}
 

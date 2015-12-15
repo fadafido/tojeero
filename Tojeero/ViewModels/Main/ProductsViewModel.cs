@@ -26,17 +26,25 @@ namespace Tojeero.Core.ViewModels
 			: base()
 		{
 			_manager = manager;
+			Action refetchAction = () =>
+			{
+					if(_browsingViewModel != null)
+						this._browsingViewModel.RefetchCommand.Execute(null);
+					if(_searchViewModel != null)
+						this._searchViewModel.RefetchCommand.Execute(null);
+			};
+			
 			_filterChangedToken = messenger.Subscribe<ProductFilterChangedMessage>((m) =>
 				{
-					this.ViewModel.RefetchCommand.Execute(null);
+					refetchAction();
 				});
 			_productChangeToken = messenger.Subscribe<ProductChangedMessage>((message) =>
 				{
-					this.ViewModel.RefetchCommand.Execute(null);
+					refetchAction();
 				});
 			_sessionChangedToken = messenger.Subscribe<SessionStateChangedMessage>((m) =>
 				{
-					this.ViewModel.RefetchCommand.Execute(null);
+					refetchAction();
 				});
 		}
 

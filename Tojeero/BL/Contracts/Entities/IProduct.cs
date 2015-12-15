@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
-	public interface IProduct : IModelEntity, ISearchableEntity, ISocialObject, IMultiImageEntity
+	public interface IProduct : IModelEntity, ISearchableEntity, IMultiImageEntity
 	{
 		string Name { get; set; }
 
@@ -36,7 +36,7 @@ namespace Tojeero.Core
 
 		string CountryId { get; set; }
 
-		ICountry Country { get; }
+		ICountry Country { get; set; }
 
 		IList<string> Tags { get; set; }
 
@@ -51,6 +51,8 @@ namespace Tojeero.Core
 		Task Save();
 
 		Task SetMainImage(IImage image);
+
+		Task LoadRelationships();
 	}
 }
 

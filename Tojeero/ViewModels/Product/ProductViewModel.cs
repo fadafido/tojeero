@@ -83,6 +83,30 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 			
+		private IFavorite _favorite;
+
+		public IFavorite Favorite
+		{ 
+			get
+			{
+				return _favorite; 
+			}
+			set
+			{
+				_favorite = value; 
+				RaisePropertyChanged(() => Favorite); 
+				RaisePropertyChanged(() => IsFavoriteToggleVisible); 
+			}
+		}
+
+		public bool IsFavoriteToggleVisible
+		{
+			get
+			{
+				return this.Favorite != null;
+			}
+		}
+
 		#endregion
 
 		#region Commands
@@ -106,7 +130,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.Product != null && this.Product.ID != null && this.Product.IsFavorite == null && this.IsNetworkAvailable && this.IsLoggedIn;
+				return this.Product != null && this.Product.ID != null && this.Favorite == null && this.IsNetworkAvailable && this.IsLoggedIn;
 			}
 		}
 
@@ -130,7 +154,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.Product != null && this.Product.IsFavorite != null && this.IsNetworkAvailable && !this.IsLoading && this.IsLoggedIn;
+				return this.Product != null && this.Product.ID != null && this.Favorite != null && this.IsNetworkAvailable && !this.IsLoading && this.IsLoggedIn;
 			}
 		}
 
@@ -148,7 +172,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				try
 				{
-					this.Product.IsFavorite = await _authService.CurrentUser.IsProductFavorite(this.Product.ID);
+					this.Favorite = await _authService.CurrentUser.GetProductFavorite(this.Product.ID);
 				}
 				catch (Exception ex)
 				{
@@ -169,8 +193,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				try
 				{
-					var isFav = this.Product.IsFavorite.Value;
-					if(isFav)
+					if(this.Favorite.IsFavorite)
 					{
 						await _authService.CurrentUser.RemoveProductFromFavorites(this.Product.ID);
 					}
@@ -178,7 +201,6 @@ namespace Tojeero.Core.ViewModels
 					{
 						await _authService.CurrentUser.AddProductToFavorites(this.Product.ID);
 					}
-					this.Product.IsFavorite = !isFav;
 				}
 				catch (Exception ex)
 				{
@@ -192,7 +214,7 @@ namespace Tojeero.Core.ViewModels
 		protected virtual void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
-				e.PropertyName == "IsFavorite" || e.PropertyName == IsLoadingProperty)
+				e.PropertyName == "Favorite" || e.PropertyName == IsLoadingProperty)
 			{				
 				this.RaisePropertyChanged(() => CanExecuteToggleFavoriteCommand);
 			}
@@ -211,7 +233,7 @@ namespace Tojeero.Core.ViewModels
 			//If the user state has changed to logged off then we need to clean the favorite state
 			if (e.PropertyName == IsLoggedInProperty && !this.IsLoggedIn && this.Product != null)
 			{
-				this.Product.IsFavorite = null;
+				this.Favorite = null;
 			}
 		}
 

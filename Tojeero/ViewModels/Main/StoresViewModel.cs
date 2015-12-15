@@ -28,21 +28,29 @@ namespace Tojeero.Core.ViewModels
 			_manager = manager;
 			_filterChangeToken = messenger.Subscribe<StoreFilterChangedMessage>((m) =>
 				{
-					this.ViewModel.RefetchCommand.Execute(null);
+					this.RefetchCommand.Execute(null);
 				});
 			_storeChangeToken = messenger.Subscribe<StoreChangedMessage>((message) =>
 				{
-					this.ViewModel.RefetchCommand.Execute(null);
+					this.RefetchCommand.Execute(null);
 				});
 			_sessionChangedToken = messenger.Subscribe<SessionStateChangedMessage>((m) =>
 				{
-					this.ViewModel.RefetchCommand.Execute(null);
+					this.RefetchCommand.Execute(null);
 				});
 		}
 
 		#endregion
 
-		#region implemented abstract members of BaseSearchViewModel
+		#region Parent override
+
+		public override int SearchTimeout
+		{
+			get
+			{
+				return 200;
+			}
+		}
 
 		protected override BaseCollectionViewModel<StoreViewModel> GetBrowsingViewModel()
 		{
@@ -109,7 +117,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				get
 				{
-					return Comparers.StoreName;
+					return null;
 				}
 			}
 

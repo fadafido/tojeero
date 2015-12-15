@@ -15,7 +15,7 @@
 			"file": "cloud/main.js",
 			"settings":
 			{
-				"buffer_size": 938,
+				"buffer_size": 1805,
 				"line_ending": "Unix"
 			}
 		}
@@ -44,6 +44,9 @@
 	},
 	"file_history":
 	[
+		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Clients' Projects/Tojeero/iOS/Tojeero.iOS.csproj",
+		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Clients' Projects/Tojeero/Droid/Tojeero.Droid.csproj",
+		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Libraries/Xamarin-Forms-Labs/src/Platform/XLabs.Platform.Droid/Services/Media/MediaPicker.cs",
 		"/Users/ObjectX/Library/Developer/CoreSimulator/Devices/02C468F4-B919-4879-9F7E-F1D0A509AB89/data/Containers/Data/Application/DDC6FB64-765A-46CA-A0C4-ECE27D7AC021/Documents/index/_0.cfs",
 		"/Users/ObjectX/Library/Developer/CoreSimulator/Devices/02C468F4-B919-4879-9F7E-F1D0A509AB89/data/Containers/Data/Application/DDC6FB64-765A-46CA-A0C4-ECE27D7AC021/Documents/index/_0.cfx",
 		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Clients' Projects/Nutro/Nutro.Touch/Nutro.Touch.csproj",
@@ -72,6 +75,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"TakeMediaAsync",
+			"FetchStoreProd",
 			"IBActionSheet",
 			"IBAc",
 			"IsRead",
@@ -107,15 +112,15 @@
 					"file": "cloud/main.js",
 					"settings":
 					{
-						"buffer_size": 938,
+						"buffer_size": 1805,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								495,
-								495
+								1805,
+								1805
 							]
 						],
 						"settings":
@@ -125,7 +130,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 321.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

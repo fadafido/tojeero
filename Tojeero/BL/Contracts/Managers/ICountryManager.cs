@@ -8,6 +8,8 @@ namespace Tojeero.Core
 	{
 		Task<IEnumerable<ICountry>> Fetch();
 		ICountry Create();
+		Dictionary<string, ICountry> Countries { get; }
+		Task LoadCountries();
 	}
 }
 

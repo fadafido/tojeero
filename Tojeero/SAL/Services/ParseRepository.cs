@@ -7,15 +7,30 @@ using System.Collections.Generic;
 using System.Threading;
 using Tojeero.Core.Toolbox;
 using System.Collections;
+using Algolia.Search;
+using Cirrious.CrossCore;
+using System.Net.Http;
+using ModernHttpClient;
 
 namespace Tojeero.Core
 {
 	public partial class ParseRepository : IRestRepository
 	{
+		#region Private fields and properties
+
+		private readonly AlgoliaClient _algoliaClient;
+		private readonly Index _storeIndex;
+		private readonly Index _productIndex;
+
+		#endregion
+
 		#region Constructors
 
 		public ParseRepository()
 		{
+			_algoliaClient = new AlgoliaClient(Constants.AlgoliaApplicationId, Constants.AlgoliaSecurityKey, null, new NativeMessageHandler());
+			_storeIndex = _algoliaClient.InitIndex(Constants.StoreIndex);
+			_productIndex = _algoliaClient.InitIndex(Constants.ProductIndex);
 		}
 
 		#endregion

@@ -31,15 +31,15 @@ namespace Tojeero.Core
 
 		bool IsProfileSubmitted { get; set; }
 
-		Task<bool> IsProductFavorite(string productID);
+		Task<IFavorite> GetProductFavorite(string productID);
 
-		Task AddProductToFavorites(string productID);
+		Task<IFavorite> AddProductToFavorites(string productID);
 
 		Task RemoveProductFromFavorites(string productID);
 
-		Task<bool> IsStoreFavorite(string storeID);
+		Task<IFavorite> GetStoreFavorite(string storeID);
 
-		Task AddStoreToFavorites(string storeID);
+		Task<IFavorite> AddStoreToFavorites(string storeID);
 
 		Task RemoveStoreFromFavorites(string storeID);
 

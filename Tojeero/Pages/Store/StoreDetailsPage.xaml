@@ -56,8 +56,7 @@
 				</StackLayout>
 				<!--FAVORITES AND SHARING-->
 				<local:FavoriteSocialView
-					SocialObject="{Binding Store}"
-					SocialViewModel="{Binding .}" />
+					ViewModel="{Binding .}" />
 				<!--STORE DETAILS-->
 				<BoxView
 					BackgroundColor="{x:Static local:Colors.Separator}"

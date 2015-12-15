@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cirrious.CrossCore;
 using Nito.AsyncEx;
+using Newtonsoft.Json;
 
 namespace Tojeero.Core
 {
@@ -45,7 +46,6 @@ namespace Tojeero.Core
 			{
 				_imageUrl = null;
 				_category = null;
-				_isFavorite = null;
 				_country = null;
 				_city = null;
 				_owner = null;
@@ -53,6 +53,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("name")]
 		public string Name
 		{
 			get
@@ -66,6 +67,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("lowercase_name")]
 		public string LowercaseName
 		{
 			get
@@ -79,6 +81,7 @@ namespace Tojeero.Core
 			}
 		}
 			
+		[JsonProperty("description")]
 		public string Description
 		{
 			get
@@ -92,6 +95,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("deliveryNotes")]
 		public string DeliveryNotes
 		{
 			get
@@ -106,6 +110,7 @@ namespace Tojeero.Core
 		}
 
 		private string _imageUrl;
+		[JsonProperty("imageUrl")]
 		public string ImageUrl
 		{
 			get
@@ -121,6 +126,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("notVisible")]
 		public bool NotVisible
 		{
 			get
@@ -135,6 +141,7 @@ namespace Tojeero.Core
 		}
 
 		private string _categoryID;
+		[JsonProperty("categoryID")]
 		public string CategoryID
 		{ 
 			get
@@ -168,7 +175,7 @@ namespace Tojeero.Core
 		}
 
 		private string _cityId;
-
+		[JsonProperty("cityID")]
 		public string CityId
 		{
 			get
@@ -190,7 +197,7 @@ namespace Tojeero.Core
 		}
 
 		private string _countryId;
-
+		[JsonProperty("countryID")]
 		public string CountryId
 		{
 			get
@@ -252,23 +259,8 @@ namespace Tojeero.Core
 			}
 		}
 
-		private bool? _isFavorite;
-		public bool? IsFavorite
-		{ 
-			get
-			{
-				return _isFavorite; 
-			}
-			set
-			{
-				_isFavorite = value; 
-				RaisePropertyChanged(() => IsFavorite); 
-			}
-		}
-
-
 		private string _ownerID;
-
+		[JsonProperty("ownerID")]
 		public string OwnerID
 		{
 			get
@@ -315,12 +307,10 @@ namespace Tojeero.Core
 		{
 			if (this.ParseObject != null)
 			{
-				var isFav = this.IsFavorite;
 				await this.ParseObject.SaveAsync();
 				var query = new ParseQuery<ParseStore>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("country").Include("city");
 				var store = await query.FirstOrDefaultAsync();
 				this.ParseObject = store;
-				this.IsFavorite = isFav;
 			}
 		}
 
@@ -347,6 +337,16 @@ namespace Tojeero.Core
 					await country.ParseObject.FetchAsync();
 					this.RaisePropertyChanged(() => Country);
 				}
+			}
+		}
+
+		public async Task LoadRelationships()
+		{
+			if (!string.IsNullOrEmpty(this.ID))
+			{
+				var query = new ParseQuery<ParseStore>().Where(s => s.ObjectId == this.ID).Include("category").Include("country").Include("city");
+				var store = await query.FirstOrDefaultAsync();
+				this.ParseObject = store;
 			}
 		}
 

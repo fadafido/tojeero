@@ -3,6 +3,7 @@ using Parse;
 using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Tojeero.Core
 {
@@ -40,11 +41,11 @@ namespace Tojeero.Core
 				_store = null;
 				_country = null;
 				_city = null;
-				_isFavorite = null;
 				base.ParseObject = value;
 			}
 		}
 
+		[JsonProperty("name")]
 		public string Name
 		{
 			get
@@ -58,6 +59,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("lowercase_name")]
 		public string LowercaseName
 		{
 			get
@@ -71,6 +73,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("price")]
 		public double Price
 		{
 			get
@@ -85,6 +88,7 @@ namespace Tojeero.Core
 			}
 		}
 
+		[JsonProperty("description")]
 		public string Description
 		{
 			get
@@ -108,7 +112,7 @@ namespace Tojeero.Core
 		}
 
 		private string _imageUrl;
-
+		[JsonProperty("imageUrl")]
 		public string ImageUrl
 		{
 			get
@@ -125,7 +129,7 @@ namespace Tojeero.Core
 		}
 
 		private string _categoryID;
-
+		[JsonProperty("categoryID")]
 		public string CategoryID
 		{ 
 			get
@@ -146,7 +150,7 @@ namespace Tojeero.Core
 		}
 
 		private string _subcategoryID;
-
+		[JsonProperty("subcategoryID")]
 		public string SubcategoryID
 		{ 
 			get
@@ -167,7 +171,7 @@ namespace Tojeero.Core
 		}
 
 		private string _storeID;
-
+		[JsonProperty("storeID")]
 		public string StoreID
 		{ 
 			get
@@ -188,7 +192,7 @@ namespace Tojeero.Core
 		}
 
 		private string _cityId;
-
+		[JsonProperty("cityID")]
 		public string CityId
 		{
 			get
@@ -209,13 +213,13 @@ namespace Tojeero.Core
 		}
 
 		private string _countryId;
-
+		[JsonProperty("countryID")]
 		public string CountryId
 		{
 			get
 			{
-				if (_countryId == null && _parseObject != null && _parseObject.Country != null)
-					_countryId = _parseObject.Country.ObjectId;
+				if (_countryId == null && this.Country != null)
+					_countryId = this.Country.ID;
 				return _countryId;
 			}
 			set
@@ -235,9 +239,15 @@ namespace Tojeero.Core
 		{ 
 			get
 			{
-				if (_country == null)
+				if (_country == null && this.ParseObject.Country != null)
 					_country = new Country(this.ParseObject.Country);
 				return _country; 
+			}
+			set
+			{
+				_countryId = null;
+				_country = value;
+				RaisePropertyChanged(() => Country);
 			}
 		}
 
@@ -270,6 +280,7 @@ namespace Tojeero.Core
 		}
 
 		[Ignore]
+		[JsonProperty("_tags")]
 		public IList<string> Tags
 		{
 			get
@@ -343,20 +354,7 @@ namespace Tojeero.Core
 			}
 		}
 
-		private bool? _isFavorite;
-		public bool? IsFavorite
-		{ 
-			get
-			{
-				return _isFavorite; 
-			}
-			set
-			{
-				_isFavorite = value; 
-				RaisePropertyChanged(() => IsFavorite); 
-			}
-		}
-
+		[JsonProperty("status")]
 		public ProductStatus Status
 		{
 			get
@@ -370,7 +368,7 @@ namespace Tojeero.Core
 			}
 		}
 
-
+		[JsonProperty("notVisible")]
 		public bool NotVisible
 		{
 			get
@@ -383,7 +381,7 @@ namespace Tojeero.Core
 				RaisePropertyChanged(() => NotVisible);
 			}
 		}
-
+			
 		public string DisapprovalReason
 		{
 			get
@@ -414,12 +412,10 @@ namespace Tojeero.Core
 		{
 			if (this.ParseObject != null)
 			{
-				var isFav = this.IsFavorite;
 				await this.ParseObject.SaveAsync();
 				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("subcategory").Include("store");
 				var product = await query.FirstOrDefaultAsync();
 				this.ParseObject = product;
-				this.IsFavorite = isFav;
 			}
 		}
 
@@ -429,6 +425,16 @@ namespace Tojeero.Core
 			await imageFile.SaveAsync();
 			this.ParseObject.Image = imageFile;
 			this.ImageUrl = null;
+		}
+
+		public async Task LoadRelationships()
+		{
+			if (!string.IsNullOrEmpty(this.ID))
+			{
+				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ID).Include("category").Include("subcategory").Include("store");
+				var product = await query.FirstOrDefaultAsync();
+				this.ParseObject = product;
+			}
 		}
 
 		#endregion

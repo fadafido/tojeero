@@ -45,7 +45,6 @@ namespace Tojeero.Core.ViewModels
 			{
 				_mode = value; 
 				RaisePropertyChanged(() => Mode); 
-				RaisePropertyChanged(() => IsStoreDetailsVisible);
 			}
 		}
 
@@ -84,7 +83,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.Mode == ContentMode.View;
+				return this.Mode == ContentMode.View && this.Product != null && this.Product.Store != null && !string.IsNullOrEmpty(this.Product.Store.Name);
 			}
 		}
 
@@ -153,6 +152,8 @@ namespace Tojeero.Core.ViewModels
 		{
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
+				if (this.Product != null)
+					await this.Product.LoadRelationships();
 				await loadFavorite();
 				await loadImages();
 			}
@@ -221,7 +222,7 @@ namespace Tojeero.Core.ViewModels
 		protected override void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			base.propertyChanged(sender, e);
-			if (e.PropertyName == ProductProperty)
+			if (e.PropertyName == ProductProperty || e.PropertyName == "")
 			{
 				if (_currentProduct != this.Product)
 				{
@@ -230,9 +231,14 @@ namespace Tojeero.Core.ViewModels
 				}
 			}
 
-			if (e.PropertyName == "Status" || e.PropertyName == "Mode")
+			if (e.PropertyName == "Status" || e.PropertyName == "Mode" || e.PropertyName == "")
 			{
 				RaisePropertyChanged(() => StatusWarning);
+			}
+
+			if (e.PropertyName == "Product" || e.PropertyName == "Store" || e.PropertyName == "Name" || e.PropertyName == "Mode" || e.PropertyName == "")
+			{
+				RaisePropertyChanged(() => IsStoreDetailsVisible);
 			}
 		}
 

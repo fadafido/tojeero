@@ -10,8 +10,8 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Private fields and properties
 
-		private BaseCollectionViewModel<T> _browsingViewModel;
-		private BaseCollectionViewModel<T> _searchViewModel;
+		protected BaseCollectionViewModel<T> _browsingViewModel;
+		protected BaseCollectionViewModel<T> _searchViewModel;
 		private Timer _timer;
 		private readonly object _lockObject = new object();
 		private string _previousSearchQuery = null;
@@ -23,6 +23,7 @@ namespace Tojeero.Core.ViewModels
 		public BaseSearchViewModel(string initialSearchQuery = null)
 		{
 			_searchQuery = initialSearchQuery;
+			this.PropertyChanged += propertyChanged;
 		}
 
 		#endregion
@@ -33,6 +34,8 @@ namespace Tojeero.Core.ViewModels
 		public event EventHandler<EventArgs> ReloadFinished;
 
 		private BaseCollectionViewModel<T> _viewModel;
+		public static string ViewModelProperty = "ViewModel";
+
 		public BaseCollectionViewModel<T> ViewModel
 		{ 
 			get
@@ -65,13 +68,15 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private string _searchQuery;
+		public static string SearchQueryProperty = "SearchQuery";
+
 		public string SearchQuery
 		{ 
-			get  
+			get
 			{
 				return _searchQuery; 
 			}
-			set 
+			set
 			{
 				//If the value is empty or null stop searching.
 				//Start searching only if the search query contains at least 2 non whitespace characters
@@ -84,11 +89,48 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public virtual int SearchTimeout
+		{
+			get
+			{
+				return 0;
+			}
+		}
+
+		public bool IsSearchbarVisible
+		{
+			get
+			{
+				return this.ViewModel.IsInitialDataLoaded || !string.IsNullOrEmpty(this.SearchQuery);
+			}
+		}
+
+		#endregion
+
+		#region Commands
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _refetchCommand;
+
+		public System.Windows.Input.ICommand RefetchCommand
+		{
+			get
+			{
+				_refetchCommand = _refetchCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
+					if(_browsingViewModel != null)
+						_browsingViewModel.RefetchCommand.Execute(null);
+					if(_searchViewModel != null)
+						_searchViewModel.RefetchCommand.Execute(null);
+				});
+				return _refetchCommand;
+			}
+		}
+			
 		#endregion
 
 		#region Protected API
 
 		protected abstract BaseCollectionViewModel<T> GetBrowsingViewModel();
+
 		protected abstract BaseCollectionViewModel<T> GetSearchViewModel(string searchQuery);
 
 		#endregion
@@ -109,7 +151,7 @@ namespace Tojeero.Core.ViewModels
 						_timer.Dispose();
 						_timer = null;
 						doSearch();
-					}, null, Constants.SearchTimeout);
+					}, null, this.SearchTimeout);
 			}
 		}
 
@@ -118,21 +160,20 @@ namespace Tojeero.Core.ViewModels
 			if (string.IsNullOrWhiteSpace(SearchQuery))
 			{
 				this.ViewModel = getBrowsingViewModel();
-				return;
+				_searchViewModel = null;
 			}
-
-			if (_previousSearchQuery != this.SearchQuery)
+			else if (_previousSearchQuery != this.SearchQuery)
 			{
-				this.ViewModel = GetSearchViewModel(this.SearchQuery);
-				this.ViewModel.LoadFirstPageCommand.Execute(null);
+				this.ViewModel = _searchViewModel = GetSearchViewModel(this.SearchQuery);
 			}
 		}
-			
+
 		BaseCollectionViewModel<T> getBrowsingViewModel()
 		{
-			return  _browsingViewModel ?? GetBrowsingViewModel();
+			if (_browsingViewModel == null)
+				_browsingViewModel = GetBrowsingViewModel();
+			return  _browsingViewModel;
 		}
-
 
 		private void connectEvents()
 		{
@@ -140,6 +181,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				this.ViewModel.ReloadFinished += handleReloadFinished;
 				this.ViewModel.LoadingNextPageFinished += handleLoadingNextPageFinished;
+				this.ViewModel.PropertyChanged += propertyChanged;
 			}
 		}
 
@@ -149,18 +191,28 @@ namespace Tojeero.Core.ViewModels
 			{
 				this.ViewModel.ReloadFinished -= handleReloadFinished;
 				this.ViewModel.LoadingNextPageFinished -= handleLoadingNextPageFinished;
+				this.ViewModel.PropertyChanged += propertyChanged;
 			}
 		}
 
-		void handleLoadingNextPageFinished (object sender, EventArgs e)
+		void handleLoadingNextPageFinished(object sender, EventArgs e)
 		{
 			LoadingNextPageFinished.Fire(sender, e);
 		}
 
-		void handleReloadFinished (object sender, EventArgs e)
+		void handleReloadFinished(object sender, EventArgs e)
 		{
 			ReloadFinished.Fire(sender, e);
 		}
+
+		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == ViewModelProperty || e.PropertyName == SearchQueryProperty || e.PropertyName == BaseCollectionViewModel<T>.IsInitialDataLoadedProperty)
+			{
+				RaisePropertyChanged(() => IsSearchbarVisible);
+			}
+		}
+
 		#endregion
 	}
 }

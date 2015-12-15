@@ -8,6 +8,7 @@ using System.Threading;
 using Tojeero.Core.Toolbox;
 using System.Collections;
 using Tojeero.Core.ViewModels;
+using Newtonsoft.Json;
 
 namespace Tojeero.Core
 {
@@ -51,19 +52,20 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindProductsTimeout))
 			{				
-				var parseQuery = new ParseQuery<ParseProduct>().Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store").Include("country");
-				var tokens = query.Tokenize();
-				if (tokens != null && tokens.Count > 0)
+				var algoliaQuery = new Algolia.Search.Query(query);
+				algoliaQuery = getFilteredProductQuery(algoliaQuery, filter);
+				if (pageSize > 0)
 				{
-					parseQuery = getContainsAllQuery(parseQuery, "searchTokens", tokens);
+					algoliaQuery.SetNbHitsPerPage(pageSize);
 				}
-				if (pageSize > 0 && offset >= 0)
+				if (offset > 0)
 				{
-					parseQuery = parseQuery.Limit(pageSize).Skip(offset);
+					algoliaQuery.SetPage(offset / pageSize);
 				}
-				parseQuery = getFilteredProductQuery(parseQuery, filter);
-				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
-				return result.Select(p => new Product(p) as IProduct);
+
+				var result = await _productIndex.SearchAsync(algoliaQuery, tokenSource.Token);
+				var products = result["hits"].ToObject<List<Product>>();
+				return products;
 			}
 		}
 
@@ -100,7 +102,7 @@ namespace Tojeero.Core
 				return p;
 			}
 		}
-			
+
 		#endregion
 
 		#region Utility methods
@@ -146,7 +148,60 @@ namespace Tojeero.Core
 			}
 			return query;
 		}
-			
+
+		private Algolia.Search.Query getFilteredProductQuery(Algolia.Search.Query query, IProductFilter filter)
+		{
+			if (filter != null)
+			{
+				List<string> facets = new List<string>();
+				facets.Add("notVisible:false");
+				if (filter.Category != null)
+				{
+					facets.Add("categoryID:"+filter.Category.ID);
+				}
+
+				if (filter.Subcategory != null)
+				{
+					facets.Add("subcategoryID:"+filter.Subcategory.ID);
+				}
+
+				if (filter.Country != null)
+				{
+					facets.Add("countryID:"+filter.Country.ID);
+				}
+
+				if (filter.City != null)
+				{
+					facets.Add("cityID:"+filter.City.ID);
+				}
+
+				if (facets.Count > 0)
+					query.SetFacetFilters(facets);
+
+				if (filter.Tags != null && filter.Tags.Count > 0)
+				{
+					query.SetTagFilters(string.Join(",", filter.Tags));
+				}
+
+				List<string> numericFilters = new List<string>();
+				numericFilters.Add("status=" + (int)ProductStatus.Approved);
+
+				if (filter.StartPrice != null)
+				{
+					numericFilters.Add("price>=" + filter.StartPrice);
+				}
+
+				if (filter.EndPrice != null)
+				{
+					numericFilters.Add("price<=" + filter.EndPrice);
+				}
+
+				if (numericFilters.Count > 0)
+					query.SetNumericFilters(string.Join(",", numericFilters));
+			}
+			return query;
+		}
+
 		#endregion
 	}
 }

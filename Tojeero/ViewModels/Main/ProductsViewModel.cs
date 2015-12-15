@@ -28,21 +28,30 @@ namespace Tojeero.Core.ViewModels
 			_manager = manager;
 			_filterChangedToken = messenger.Subscribe<ProductFilterChangedMessage>((m) =>
 				{
-					this.ViewModel.RefetchCommand.Execute(null);
+					this.RefetchCommand.Execute(null);
 				});
 			_productChangeToken = messenger.Subscribe<ProductChangedMessage>((message) =>
 				{
-					this.ViewModel.RefetchCommand.Execute(null);
+					this.RefetchCommand.Execute(null);
 				});
 			_sessionChangedToken = messenger.Subscribe<SessionStateChangedMessage>((m) =>
 				{
-					this.ViewModel.RefetchCommand.Execute(null);
+					this.RefetchCommand.Execute(null);
 				});
 		}
 
 		#endregion
 
-		#region implemented abstract members of BaseSearchViewModel
+
+		#region Parent override
+
+		public override int SearchTimeout
+		{
+			get
+			{
+				return 200;
+			}
+		}
 
 		protected override BaseCollectionViewModel<ProductViewModel> GetBrowsingViewModel()
 		{
@@ -77,7 +86,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				get
 				{
-					return Comparers.ProductName;
+					return  Comparers.ProductName;
 				}
 			}
 
@@ -109,7 +118,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				get
 				{
-					return Comparers.ProductName;
+					return null;
 				}
 			}
 
@@ -118,6 +127,7 @@ namespace Tojeero.Core.ViewModels
 				return manager.ClearCache();
 			}
 		}
+
 		#endregion
 	}
 }

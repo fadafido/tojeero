@@ -114,6 +114,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private bool _isInitialDataLoaded;
+		public static string IsInitialDataLoadedProperty = "IsInitialDataLoaded";
 
 		public bool IsInitialDataLoaded
 		{
@@ -127,6 +128,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => IsInitialDataLoaded);
 			}
 		}
+
 		#endregion
 
 		#region Commands
@@ -165,10 +167,12 @@ namespace Tojeero.Core.ViewModels
 			{
 				_refetchCommand = _refetchCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
-						await Task.Factory.StartNew(() => {
-							while(!CanExecuteLoadNextPageCommand)
-							{}
-						});
+						await Task.Factory.StartNew(() =>
+							{
+								while (!CanExecuteLoadNextPageCommand)
+								{
+								}
+							});
 						this.Collection = null;
 						await loadNextPage();
 					});
@@ -206,9 +210,13 @@ namespace Tojeero.Core.ViewModels
 			{
 				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
-						_lastExecutedCommand = Commands.Reload;
-						await reload();
-					}, () => CanExecuteReloadCommand);
+						if(CanExecuteReloadCommand)
+						{
+							_lastExecutedCommand = Commands.Reload;
+							await reload();
+						}
+						ReloadFinished.Fire(this, new EventArgs());
+					});
 				return _reloadCommand;
 			}
 		}
@@ -291,6 +299,7 @@ namespace Tojeero.Core.ViewModels
 					var collection = new ModelEntityCollection<T>(_query, _pageSize);
 					await collection.FetchNextPageAsync();
 					this.Collection = collection;
+					IsInitialDataLoaded = true;
 					//If no data was fetched and there was no network connection available warn user
 					if (this.Count == 0 && !this.IsNetworkAvailable)
 					{
@@ -303,7 +312,6 @@ namespace Tojeero.Core.ViewModels
 				}
 
 				this.StopLoading(failureMessage);
-				ReloadFinished.Fire(this, new EventArgs());
 			}
 		}
 
@@ -334,10 +342,11 @@ namespace Tojeero.Core.ViewModels
 			if (e.PropertyName == IsLoadingProperty || e.PropertyName == IsNetworkAvailableProperty)
 			{
 				RaisePropertyChanged(() => CanExecuteLoadNextPageCommand);
+				RaisePropertyChanged(() => CanExecuteReloadCommand);
 			}
 		}
 
-		void collectionChanged (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		void collectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
 			RaisePropertyChanged(() => Count);
 		}

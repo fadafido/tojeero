@@ -93,8 +93,7 @@
 							</Grid>
 							<!--FAVORITES AND SHARING-->
 							<local:FavoriteSocialView
-								SocialObject="{Binding Store}"
-								SocialViewModel="{Binding .}" />
+								ViewModel="{Binding .}" />
 							<!--PLACEHOLDERS-->
 							<Grid
 								HeightRequest="250"

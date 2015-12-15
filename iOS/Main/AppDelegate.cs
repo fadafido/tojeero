@@ -118,17 +118,6 @@ namespace Tojeero.iOS
 		public event EventHandler<MvxLifetimeEventArgs> LifetimeChanged;
 
 		#endregion
-
-		async void testQuery()
-		{
-			var products = await new ParseQuery<ParseProduct>().FindAsync();
-			foreach (var product in products)
-			{
-				product.Status = (int)ProductStatus.Approved;
-				product.NotVisible = false;
-				product.SaveAsync();
-			}
-		}
 	}
 }
 

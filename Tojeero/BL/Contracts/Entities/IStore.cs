@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Tojeero.Core
 {
-	public interface IStore : IModelEntity, ISearchableEntity, ISocialObject
+	public interface IStore : IModelEntity, ISearchableEntity
 	{
 		string Name { get; set; }
 
@@ -41,6 +41,8 @@ namespace Tojeero.Core
 		Task SetMainImage(IImage image);
 
 		Task FetchCountry();
+
+		Task LoadRelationships();
 	}
 }
 

@@ -42,12 +42,15 @@ namespace Tojeero.Core
 					if (_isAllDataLoaded)
 						return;
 					var result = await _query.Fetch(_pageSize, this.Count);	
-					this.InsertSorted(result, _query.Comparer);
-					if (this.Count == _previousCount)
+					if(_query.Comparer != null)
+						this.InsertSorted(result, _query.Comparer);
+					else
+						this.AddRange(result);
+					if (this.Count - _previousCount < _pageSize)
 					{
 						_isAllDataLoaded = true;
 					}
-					_previousCount = result.Count();
+					_previousCount = this.Count;
 				}
 				catch (OperationCanceledException ex)
 				{

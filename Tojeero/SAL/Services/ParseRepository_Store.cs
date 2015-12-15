@@ -51,19 +51,19 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FindStoresTimeout))
 			{
-				var parseQuery = new ParseQuery<ParseStore>().Where(s => s.NotVisible == false).OrderBy(s => s.LowercaseName).Include("category").Include("country").Include("city");
-				var tokens = query.Tokenize();
-				if (tokens != null && tokens.Count > 0)
+				var algoliaQuery = new Algolia.Search.Query(query);
+				algoliaQuery = getFilteredStoreQuery(algoliaQuery, filter);
+				if (pageSize > 0)
 				{
-					parseQuery = getContainsAllQuery(parseQuery, "searchTokens", tokens);
+					algoliaQuery.SetNbHitsPerPage(pageSize);
 				}
-				if (pageSize > 0 && offset >= 0)
+				if (offset > 0)
 				{
-					parseQuery = parseQuery.Limit(pageSize).Skip(offset);
+					algoliaQuery.SetPage(offset / pageSize);
 				}
-				parseQuery = getFilteredStoreQuery(parseQuery, filter);
-				var result = await parseQuery.FindAsync(tokenSource.Token).ConfigureAwait(false);
-				return result.Select(s => new Store(s) as IStore);
+				var result = await _storeIndex.SearchAsync(algoliaQuery, tokenSource.Token);
+				var stores = result["hits"].ToObject<List<Store>>();
+				return stores;
 			}
 		}
 
@@ -173,6 +173,38 @@ namespace Tojeero.Core
 			return query;
 		}
 			
+		private Algolia.Search.Query getFilteredStoreQuery(Algolia.Search.Query query, IStoreFilter filter)
+		{
+			if (filter != null)
+			{
+				List<string> facets = new List<string>();
+				facets.Add("notVisible:false");
+				if (filter.Category != null)
+				{
+					facets.Add("categoryID:"+filter.Category.ID);
+				}
+
+				if (filter.Country != null)
+				{
+					facets.Add("countryID:"+filter.Country.ID);
+				}
+
+				if (filter.City != null)
+				{
+					facets.Add("cityID:"+filter.City.ID);
+				}
+
+				if (facets.Count > 0)
+					query.SetFacetFilters(facets);
+
+				if (filter.Tags != null && filter.Tags.Count > 0)
+				{
+					query.SetTagFilters(string.Join(",", filter.Tags));
+				}
+			}
+			return query;
+		}
+
 		#endregion
 	}
 }

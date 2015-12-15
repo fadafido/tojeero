@@ -68,6 +68,7 @@ namespace Tojeero.Forms
 		{
 			base.OnAppearing();
 			this.ViewModel.Products.LoadFirstPageCommand.Execute(null);
+			this.ViewModel.ReloadCommand.Execute(null);
 		}
 
 		#endregion

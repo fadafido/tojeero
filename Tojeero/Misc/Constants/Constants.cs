@@ -10,26 +10,28 @@ namespace Tojeero.Core
 		public static string FacebookRedirectUrl = "http://www.facebook.com/connect/login_success.html"; 
 		public const int FBProfilePicSize = 300;
 
-		/*****************PARSE.COM*****************/
+		/*****************BACKEND KEYS*****************/
 		public static string ParseApplicationId = "1gNtcAK31ETKoYCeDAKpaBfjh82FQQR3etWWVTHa";
 		public static string ParseDotNetKey = "qcdEV2teifcnFbmeLIBPMlUkcz0WgGPAJ9kAvGD2";
+		public static string AlgoliaApplicationId = "I72QVLIB9D";
+		public static string AlgoliaSecurityKey = "92e4f8a9553b57b20d4d50f37d3232dc";
 
 		/*****************MESSAGES*****************/
 		public static string SessionStateChangedMessage = "com.tojeero.tojeero:SessionStateChangedMessage";
 
 		/*****************TIMEOUTS*****************/
 		public static int DefaultTimeout = 20000;
-		public static int FetchProductsTimeout = 10000;
-		public static int FetchStoresTimeout = 10000;
-		public static int FindProductsTimeout = 10000;
-		public static int FindStoresTimeout = 10000;
-		public static int FetchCountriesTimeout = 10000;
-		public static int FetchCitiesTimeout = 10000;
-		public static int FetchProductSubcategoriesTimeout = 10000;
-		public static int FetchStoreSubcategoriesTimeout = 10000;
+		public static int FetchProductsTimeout = 20000;
+		public static int FetchStoresTimeout = 20000;
+		public static int FindProductsTimeout = 20000;
+		public static int FindStoresTimeout = 20000;
+		public static int FetchCountriesTimeout = 20000;
+		public static int FetchCitiesTimeout = 20000;
+		public static int FetchProductSubcategoriesTimeout = 20000;
+		public static int FetchStoreSubcategoriesTimeout = 20000;
 		public static int FetchTagsTimeout = 10000;
 		public static int FindTagsTimeout = 10000;
-		public static int SearchTimeout = 1000;
+		public static int SearchTimeout = 20000;
 		public static int SaveStoreTimeout = 20000;
 		public static int SaveProductTimeout = 20000;
 
@@ -51,6 +53,10 @@ namespace Tojeero.Core
 
 		/*****************DATABASE*****************/
 		public static string DatabaseFileName = "Tojeero.sqlite";
+
+		/*****************ALGOLIA*****************/
+		public static string ProductIndex = "Products";
+		public static string StoreIndex = "Stores";
 	}
 }
 

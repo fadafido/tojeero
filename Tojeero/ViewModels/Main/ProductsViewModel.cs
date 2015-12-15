@@ -127,6 +127,7 @@ namespace Tojeero.Core.ViewModels
 				return manager.ClearCache();
 			}
 		}
+
 		#endregion
 	}
 }

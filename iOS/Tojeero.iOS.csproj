@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,7 +8,6 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Tojeero.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Tojeero.iOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +22,7 @@
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <AssemblyName>TojeeroiOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -34,6 +34,10 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <IpaPackageName>
+    </IpaPackageName>
+    <AssemblyName>TojeeroiOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -44,6 +48,7 @@
     <MtouchArch>i386</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <MtouchLink>None</MtouchLink>
+    <AssemblyName>TojeeroiOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,6 +68,20 @@
     </IpaPackageName>
     <MtouchI18n>
     </MtouchI18n>
+    <AssemblyName>TojeeroiOS</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AdHoc|iPhone' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\AdHoc</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>Tojeero.iOS</AssemblyName>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <BuildIpa>true</BuildIpa>
+    <IpaPackageName>
+    </IpaPackageName>
+    <MtouchArch>ARMv7, ARM64</MtouchArch>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -150,12 +169,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net45+win8\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net45+win8\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="Facebook">
       <HintPath>..\packages\Xamarin.Facebook.iOS.4.5.1.0\lib\Xamarin.iOS10\Facebook.dll</HintPath>
     </Reference>
@@ -168,12 +181,6 @@
     <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
       <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\Xamarin.iOS10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Refractored.MvxPlugins.Settings.TouchUnified">
-      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\Xamarin.iOS10\Refractored.MvxPlugins.Settings.TouchUnified.dll</HintPath>
-    </Reference>
-    <Reference Include="Refractored.MvxPlugins.Settings">
-      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\monotouch\Refractored.MvxPlugins.Settings.dll</HintPath>
-    </Reference>
     <Reference Include="Connectivity.Plugin">
       <HintPath>..\packages\Xam.Plugin.Connectivity.1.0.4\lib\Xamarin.iOS10\Connectivity.Plugin.dll</HintPath>
     </Reference>
@@ -185,6 +192,55 @@
     </Reference>
     <Reference Include="PLCrashReporterUnifiedBinding">
       <HintPath>..\packages\Xamarin.Insights.1.11.1\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\Xamarin.iOS10\Refractored.Xam.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\Xamarin.iOS10\Refractored.Xam.Settings.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Ioc">
+      <HintPath>..\packages\XLabs.IoC.2.0.5679\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+Xamarin.iOS10\XLabs.Ioc.dll</HintPath>
+    </Reference>
+    <Reference Include="ExifLib">
+      <HintPath>..\packages\ExifLib.PCL.1.0.1\lib\portable-net45+sl50+win+WindowsPhoneApp81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\ExifLib.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Core">
+      <HintPath>..\packages\XLabs.Core.2.0.5679\lib\Xamarin.iOS10\XLabs.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform.iOS">
+      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\Xamarin.iOS10\XLabs.Platform.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform">
+      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\Xamarin.iOS10\XLabs.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Serialization">
+      <HintPath>..\packages\XLabs.Serialization.2.0.5679\lib\Xamarin.iOS10\XLabs.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms.iOS">
+      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\Xamarin.iOS10\XLabs.Forms.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms">
+      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\Xamarin.iOS10\XLabs.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Validation">
+      <HintPath>..\packages\Validation.2.0.6.15003\lib\portable-net40+sl50+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLCrypto">
+      <HintPath>..\packages\PCLCrypto.1.0.1.15115\lib\Xamarin.iOS\PCLCrypto.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\packages\modernhttpclient.2.4.2\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Algolia.Search">
+      <HintPath>..\packages\Algolia.Search.3.4.2\lib\portable-net40+win+WindowsPhoneApp81\Algolia.Search.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -242,15 +298,132 @@
     <BundleResource Include="Resources\Samples\Stores\Store 8.PNG" />
     <BundleResource Include="Resources\Samples\Stores\Store 9.PNG" />
     <BundleResource Include="Resources\Samples\Stores\Store 1.PNG" />
+    <BundleResource Include="Resources\Samples\products.json" />
+    <BundleResource Include="Resources\Samples\stores.json" />
+    <BundleResource Include="Resources\checkmark%403x.png" />
+    <BundleResource Include="Resources\closeTag%402x.png" />
+    <BundleResource Include="Resources\Samples\subcategories.json" />
+    <BundleResource Include="Resources\placeholder%402x.png" />
+    <BundleResource Include="Resources\favorite_selected%402x.png" />
+    <BundleResource Include="Resources\favorite_deselected%402x.png" />
+    <BundleResource Include="Resources\icon_send_to_friend%402x.png" />
+    <BundleResource Include="Resources\icon_share%402x.png" />
+    <BundleResource Include="Resources\icon_favorite_deselected%402x.png" />
+    <BundleResource Include="Resources\icon_favorite_selected%402x.png" />
+    <BundleResource Include="Resources\icon_arrow_down%402x.png" />
+    <BundleResource Include="Resources\icon_arrow_up%402x.png" />
+    <BundleResource Include="Resources\icon_arrow_right%402x.png" />
+    <BundleResource Include="Resources\icon_corner_remove%402x.png" />
+    <BundleResource Include="Resources\Samples\reservedStoreNames.txt" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image1.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image10.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image100.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image11.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image12.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image13.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image14.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image15.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image16.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image17.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image18.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image19.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image2.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image20.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image21.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image22.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image23.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image24.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image25.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image26.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image27.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image28.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image29.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image3.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image30.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image31.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image32.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image33.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image34.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image35.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image36.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image37.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image38.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image39.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image4.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image40.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image41.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image42.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image43.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image44.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image45.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image46.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image47.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image48.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image49.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image5.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image50.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image51.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image52.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image53.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image54.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image55.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image56.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image57.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image58.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image59.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image6.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image60.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image61.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image62.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image63.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image64.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image65.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image66.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image67.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image68.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image69.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image7.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image70.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image71.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image72.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image73.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image74.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image75.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image76.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image77.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image78.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image79.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image8.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image80.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image81.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image82.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image83.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image84.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image85.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image86.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image87.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image88.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image89.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image9.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image90.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image91.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image92.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image93.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image94.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image95.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image96.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image97.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image98.jpg" />
+    <BundleResource Include="Resources\Samples\ProductSampleImages\image99.jpg" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <InterfaceDefinition Include="Misc\Toolbox\InputToolboxView.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
-    <None Include="Properties\_SettingsStarted.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main\AppDelegate.cs" />
@@ -267,14 +440,10 @@
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateToolbox.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
-    <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Misc\Custom Renderers\ButtonRenderer.cs" />
     <Compile Include="Misc\Services\LocalizationService.cs" />
     <Compile Include="..\Tojeero\BL\Entities\BaseModelEntity.cs">
       <Link>Core\BL\Entities\BaseModelEntity.cs</Link>
-    </Compile>
-    <Compile Include="..\Tojeero\BL\Entities\Product.cs">
-      <Link>Core\BL\Entities\Product.cs</Link>
     </Compile>
     <Compile Include="..\Tojeero\BL\Entities\Store.cs">
       <Link>Core\BL\Entities\Store.cs</Link>
@@ -293,6 +462,107 @@
     </Compile>
     <Compile Include="Misc\Toolbox\UIImageToolbox.cs" />
     <Compile Include="Misc\BootstrapData.cs" />
+    <Compile Include="Misc\Services\DeviceContextService.cs" />
+    <Compile Include="..\Tojeero\DAL\CacheRepository.cs">
+      <Link>Core\DAL\CacheRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository.cs">
+      <Link>Core\SAL\Services\ParseRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\BaseModelEntityManager.cs">
+      <Link>Core\BL\Managers\BaseModelEntityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Product.cs">
+      <Link>Core\BL\Entities\Product.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Country.cs">
+      <Link>Core\BL\Entities\Country.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\CountryManager.cs">
+      <Link>Core\BL\Managers\CountryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\BaseLocalizableModelEntity.cs">
+      <Link>Core\BL\Entities\BaseLocalizableModelEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\City.cs">
+      <Link>Core\BL\Entities\City.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\CityManager.cs">
+      <Link>Core\BL\Managers\CityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\SearchableParseObject.cs">
+      <Link>Core\BL\Entities\SearchableParseObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\ProductCategory.cs">
+      <Link>Core\BL\Entities\ProductCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\ProductCategoryManager.cs">
+      <Link>Core\BL\Managers\ProductCategoryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\ProductSubcategoryManager.cs">
+      <Link>Core\BL\Managers\ProductSubcategoryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\ProductSubcategory.cs">
+      <Link>Core\BL\Entities\ProductSubcategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\StoreCategory.cs">
+      <Link>Core\BL\Entities\StoreCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\StoreCategoryManager.cs">
+      <Link>Core\BL\Managers\StoreCategoryManager.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\SearchBarRenderer.cs" />
+    <Compile Include="Misc\Toolbox\InputToolboxView.cs" />
+    <Compile Include="Misc\Toolbox\UIViewToolbox.cs" />
+    <Compile Include="Misc\Toolbox\InputToolboxView.designer.cs">
+      <DependentUpon>InputToolboxView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\TagManager.cs">
+      <Link>Core\BL\Managers\TagManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Tag.cs">
+      <Link>Core\BL\Entities\Tag.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\SelectableButtonRenderer.cs" />
+    <Compile Include="..\Tojeero\BL\Managers\UserManager.cs">
+      <Link>Core\BL\Managers\UserManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\User.cs">
+      <Link>Core\BL\Entities\User.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\BorderViewRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\ImageButtonRenderer.cs" />
+    <Compile Include="..\Tojeero\Misc\Custom Controls\ImageButtonRenderer.shared.cs">
+      <Link>Misc\Custom Renderers\ImageButtonRenderer.shared.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Product.cs">
+      <Link>Core\SAL\Services\ParseRepository_Product.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Store.cs">
+      <Link>Core\SAL\Services\ParseRepository_Store.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Tag.cs">
+      <Link>Core\SAL\Services\ParseRepository_Tag.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Queries\StoreProductsQueryLoader.cs">
+      <Link>Core\BL\Queries\StoreProductsQueryLoader.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Services\ImageService.cs" />
+    <Compile Include="..\Tojeero\BL\Entities\ReservedName.cs">
+      <Link>Core\BL\Entities\ReservedName.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Data.cs">
+      <Link>Core\BL\Entities\Data.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\BaseMultiImagelEntity.cs">
+      <Link>Core\BL\Entities\BaseMultiImagelEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Contracts\Entities\IParseMultiImageEntity.cs">
+      <Link>Core\BL\Contracts\Entities\IParseMultiImageEntity.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\CarouselLayoutRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />
@@ -313,5 +583,7 @@
     <Folder Include="Resources\Samples\" />
     <Folder Include="Resources\Samples\Products\" />
     <Folder Include="Resources\Samples\Stores\" />
+    <Folder Include="Core\DAL\" />
+    <Folder Include="Core\BL\Queries\" />
   </ItemGroup>
 </Project>

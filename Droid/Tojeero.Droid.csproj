@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -15,7 +15,7 @@
     <AndroidApplication>True</AndroidApplication>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <AssemblyName>Tojeero.Droid</AssemblyName>
-    <TargetFrameworkVersion>v5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,6 +28,7 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <JavaOptions>-Xmx1024M</JavaOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -37,15 +38,13 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\packages\Xamarin.Android.Support.v4.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Forms.Platform.Android">
       <HintPath>..\packages\Xamarin.Forms.1.5.0.6446\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
     </Reference>
@@ -130,18 +129,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\monoandroid\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\monoandroid\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="Xamarin.Auth.Android">
       <HintPath>..\Components\xamarin.auth-1.2.3.1\lib\android\Xamarin.Auth.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Facebook">
-      <HintPath>..\packages\Xamarin.Facebook.Android.4.5.1.0\lib\MonoAndroid403\Xamarin.Facebook.dll</HintPath>
     </Reference>
     <Reference Include="ImageCircle.Forms.Plugin.Android">
       <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Android.dll</HintPath>
@@ -151,12 +141,6 @@
     </Reference>
     <Reference Include="MvvmCross.Plugins.Settings">
       <HintPath>..\packages\MvvmCross.Plugins.Settings.0.0.0.2\lib\portable-net45+sl5+wp8+win8\MvvmCross.Plugins.Settings.dll</HintPath>
-    </Reference>
-    <Reference Include="Refractored.MvxPlugins.Settings.Droid">
-      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\monoandroid\Refractored.MvxPlugins.Settings.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="Refractored.MvxPlugins.Settings">
-      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\monoandroid\Refractored.MvxPlugins.Settings.dll</HintPath>
     </Reference>
     <Reference Include="Connectivity.Plugin">
       <HintPath>..\packages\Xam.Plugin.Connectivity.1.0.4\lib\MonoAndroid10\Connectivity.Plugin.dll</HintPath>
@@ -171,8 +155,71 @@
       <HintPath>..\packages\ExifLib.PCL.1.0.1\lib\portable-net45+sl50+win+WindowsPhoneApp81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\ExifLib.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android.Export" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
-      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Facebook">
+      <HintPath>..\packages\Xamarin.Facebook.Android.4.7.0.0\lib\MonoAndroid403\Xamarin.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.CardView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.CardView.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.CardView.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\MonoAndroid10\Refractored.Xam.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\MonoAndroid10\Refractored.Xam.Settings.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Design">
+      <HintPath>..\packages\Xamarin.Android.Support.Design.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Ioc">
+      <HintPath>..\packages\XLabs.IoC.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Ioc.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Core">
+      <HintPath>..\packages\XLabs.Core.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform.Droid">
+      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\MonoAndroid\XLabs.Platform.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform">
+      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\MonoAndroid\XLabs.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Serialization">
+      <HintPath>..\packages\XLabs.Serialization.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms.Droid">
+      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\MonoAndroid\XLabs.Forms.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms">
+      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\MonoAndroid\XLabs.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Validation">
+      <HintPath>..\packages\Validation.2.0.6.15003\lib\portable-net40+sl50+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLCrypto">
+      <HintPath>..\packages\PCLCrypto.1.0.1.15115\lib\monoandroid\PCLCrypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Algolia.Search">
+      <HintPath>..\packages\Algolia.Search.3.4.2\lib\portable-net40+win+WindowsPhoneApp81\Algolia.Search.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\packages\modernhttpclient.2.4.2\lib\MonoAndroid\ModernHttpClient.dll</HintPath>
+    </Reference>
+    <Reference Include="OkHttp">
+      <HintPath>..\packages\modernhttpclient.2.4.2\lib\MonoAndroid\OkHttp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -200,7 +247,6 @@
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateTimeToolbox.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
-    <Compile Include="Setup\Bootstrap\SettingsPluginBootstrap.cs" />
     <Compile Include="Misc\Custom Renderers\ButtonRenderer.cs" />
     <Compile Include="Misc\Services\LocalizationService.cs" />
     <Compile Include="..\Tojeero\BL\Entities\BaseModelEntity.cs">
@@ -221,13 +267,112 @@
     <Compile Include="..\Tojeero\Setup\ParseInitialize.cs">
       <Link>Setup\ParseInitialize.cs</Link>
     </Compile>
+    <Compile Include="Misc\Services\DeviceContextService.cs" />
+    <Compile Include="..\Tojeero\DAL\CacheRepository.cs">
+      <Link>Core\DAL\CacheRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository.cs">
+      <Link>Core\SAL\Services\ParseRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\BaseModelEntityManager.cs">
+      <Link>Core\BL\Managers\BaseModelEntityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Country.cs">
+      <Link>Core\BL\Entities\Country.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\CountryManager.cs">
+      <Link>Core\BL\Managers\CountryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\BaseLocalizableModelEntity.cs">
+      <Link>Core\BL\Entities\BaseLocalizableModelEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\City.cs">
+      <Link>Core\BL\Entities\City.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\CityManager.cs">
+      <Link>Core\BL\Managers\CityManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\SearchableParseObject.cs">
+      <Link>Core\BL\Entities\SearchableParseObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\ProductCategory.cs">
+      <Link>Core\BL\Entities\ProductCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\ProductCategoryManager.cs">
+      <Link>Core\BL\Managers\ProductCategoryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\ProductSubcategoryManager.cs">
+      <Link>Core\BL\Managers\ProductSubcategoryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\ProductSubcategory.cs">
+      <Link>Core\BL\Entities\ProductSubcategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\StoreCategory.cs">
+      <Link>Core\BL\Entities\StoreCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\StoreCategoryManager.cs">
+      <Link>Core\BL\Managers\StoreCategoryManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\TagManager.cs">
+      <Link>Core\BL\Managers\TagManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Tag.cs">
+      <Link>Core\BL\Entities\Tag.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\RoundedBoxRenderer.cs" />
+    <Compile Include="..\Tojeero\BL\Entities\User.cs">
+      <Link>Core\BL\Entities\User.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Managers\UserManager.cs">
+      <Link>Core\BL\Managers\UserManager.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\LabelExRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\SelectableButtonRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\BorderViewRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\ImageButtonRenderer.cs" />
+    <Compile Include="..\Tojeero\Misc\Custom Controls\ImageButtonRenderer.shared.cs">
+      <Link>Misc\Custom Renderers\ImageButtonRenderer.shared.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Product.cs">
+      <Link>Core\SAL\Services\ParseRepository_Product.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Store.cs">
+      <Link>Core\SAL\Services\ParseRepository_Store.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Tag.cs">
+      <Link>Core\SAL\Services\ParseRepository_Tag.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Queries\StoreProductsQueryLoader.cs">
+      <Link>Core\BL\Queries\StoreProductsQueryLoader.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Toolbox\BitmapToolbox.cs" />
+    <Compile Include="Misc\Images\PhotoGaleryActivity.cs" />
+    <Compile Include="Misc\Images\CameraActivity.cs" />
+    <Compile Include="Misc\Images\SquareRelativeLayout.cs" />
+    <Compile Include="Misc\Images\GridAutofitLayoutManager.cs" />
+    <Compile Include="Misc\Images\PhotoGalery.cs" />
+    <Compile Include="Misc\Services\ImageService.cs" />
+    <Compile Include="Misc\Messages\CameraImageSelectedMessage.cs" />
+    <Compile Include="Misc\Messages\LibraryImageSelectedMessage.cs" />
+    <Compile Include="..\Tojeero\BL\Entities\ReservedName.cs">
+      <Link>Core\BL\Entities\ReservedName.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\Data.cs">
+      <Link>Core\BL\Entities\Data.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Entities\BaseMultiImagelEntity.cs">
+      <Link>Core\BL\Entities\BaseMultiImagelEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Tojeero\BL\Contracts\Entities\IParseMultiImageEntity.cs">
+      <Link>Core\BL\Contracts\Entities\IParseMultiImageEntity.cs</Link>
+    </Compile>
+    <Compile Include="Misc\Custom Renderers\CarouselLayoutRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <None Include="Properties\_SettingsStarted.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\layout\" />
@@ -241,6 +386,10 @@
     <Folder Include="Core\" />
     <Folder Include="Core\BL\" />
     <Folder Include="Core\SAL\" />
+    <Folder Include="Core\DAL\" />
+    <Folder Include="Core\BL\Queries\" />
+    <Folder Include="Misc\Images\" />
+    <Folder Include="Misc\Messages\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
@@ -288,8 +437,29 @@
     <AndroidResource Include="Resources\drawable\tab_indicator_ab_tojeero.xml" />
     <AndroidResource Include="Resources\drawable-xhdpi\menuIcon.png" />
     <AndroidResource Include="Resources\drawable\actionbar_titletext_tojeero.xml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\checkmark.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\closeTag.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\favorite_deselected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\favorite_selected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_send_to_friend.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_share.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\placeholder.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_favorite_deselected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_favorite_selected.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_arrow_down.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_arrow_up.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_arrow_right.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_corner_remove.png" />
+    <AndroidResource Include="Resources\layout\activity_camera.axml" />
+    <AndroidResource Include="Resources\layout\activity_photo_galery.axml" />
+    <AndroidResource Include="Resources\layout\grid_cell_photo_galery_item.axml" />
+    <AndroidResource Include="Resources\drawable\FlashButton.png" />
+    <AndroidResource Include="Resources\drawable\NoFlashButton.png" />
+    <AndroidResource Include="Resources\drawable\TakePhotoButton.png" />
+    <AndroidResource Include="Resources\drawable\ToggleCameraButton.png" />
+    <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

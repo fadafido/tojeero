@@ -1,35 +1,126 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ViewCell
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="Tojeero.Forms.StoreListCell"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms">
-	<StackLayout BackgroundColor="Transparent" Padding="10,5,10,0">
-		<StackLayout 
-			BackgroundColor="{x:Static local:Colors.UltraLightGray}" 
-			Orientation="Horizontal">
+	<AbsoluteLayout
+		Padding="12,3,12,3"
+		VerticalOptions="FillAndExpand"
+		HorizontalOptions="FillAndExpand">
+		<local:BorderView
+			Grid.RowSpan="3"
+			Grid.ColumnSpan="4"
+			BorderColor="{x:Static local:Colors.CellBorder}"
+			BorderWidth="1"
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+			BackgroundColor="{x:Static local:Colors.CellBackground}"/>
+		<Grid
+			ColumnSpacing="0"
+			RowSpacing="0"
+			Padding="3,3,0,3"
+			VerticalOptions="FillAndExpand"
+			HorizontalOptions="FillAndExpand"
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0.01, 0.01, 0.98, 0.98">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition
+					Width="120" />
+				<ColumnDefinition
+					Width="5" />
+				<ColumnDefinition
+					Width="*" />
+				<ColumnDefinition
+					Width="30" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition
+					Height="25" />
+				<RowDefinition
+					Height="20" />
+				<RowDefinition
+					Height="*" />
+			</Grid.RowDefinitions>
+			<BoxView
+				Grid.RowSpan="3"
+				BackgroundColor="{x:Static local:Colors.Placeholder}"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand" />
 			<Image
-				x:Name="Image"
+				Grid.RowSpan="3"
+				Source="placeholder.png"
+				VerticalOptions="Center"
+				HorizontalOptions="Center" />
+			<Image
+				Grid.RowSpan="3"
 				Aspect="AspectFill"
-				WidthRequest="95"
-				HeightRequest="95"
-				VerticalOptions="Start"
-				BackgroundColor="Transparent">
-				 <Image.Source>
-				 	<UriImageSource 
-				 		CacheValidity="{x:Static core:Constants.ImageCacheTimespan}"
-				 		Uri= "{Binding ImageUrl}"
-				 		CachingEnabled="true"/>
-				 </Image.Source>
-			</Image>
-
-			<Label
-				x:Name="NameLabel"
-				Text="{Binding Name}"
-				TextColor="{x:Static local:Colors.Black}"
+				BackgroundColor="Transparent"
+				Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand" />
+			<local:LabelEx
+				Grid.Column="2"
+				Text="{Binding Store.Name}"
+				TextColor="{x:Static local:Colors.Main}"
 				FontAttributes="Bold"
-				VerticalOptions="Center"/>
-		</StackLayout>
-	</StackLayout>
+				LineBreakMode="TailTruncation"
+				LineCount="1"
+				FontSize="12"
+				VerticalOptions="Start"
+				HorizontalOptions="FillAndExpand" />
+			<local:ImageButton
+				Grid.Column="3"
+				VerticalOptions="Start"
+				HeightRequest="25"
+				WidthRequest="30"
+				SelectedImage="favorite_selected.png"
+				Image="favorite_deselected.png"
+				IsSelected="{Binding Favorite.IsFavorite}"
+				IsEnabled="{Binding CanExecuteToggleFavoriteCommand}"
+				IsVisible="{Binding IsFavoriteToggleVisible}"
+				Command="{Binding ToggleFavoriteCommand}" />
+			<StackLayout
+				Grid.Row="1"
+				Grid.Column="2"
+				Grid.ColumnSpan="2"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand"
+				Padding="0,0,6,0">
+				<BoxView
+					BackgroundColor="{x:Static local:Colors.Separator}"
+					HeightRequest="1"
+					VerticalOptions="Start" />
+				<local:LabelEx
+					Text="{Binding Store.Category.Name}"
+					TextColor="{x:Static local:Colors.Subtitle}"
+					FontSize="8"
+					LineCount="1"
+					LineBreakMode="TailTruncation"
+					VerticalOptions="Center"
+					HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+			<StackLayout
+				Grid.Row="2"
+				Grid.Column="2"
+				Grid.ColumnSpan="2"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand"
+				Padding="0,0,6,0">
+				<BoxView
+					BackgroundColor="{x:Static local:Colors.Separator}"
+					HeightRequest="1"
+					VerticalOptions="Start" />
+				<local:LabelEx
+					Text="{Binding Store.Description}"
+					TextColor="{x:Static local:Colors.Main}"
+					FontSize="8"
+					LineCount="3"
+					LineBreakMode="WordWrap"
+					VerticalOptions="Center"
+					HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+		</Grid>
+	</AbsoluteLayout>
 </ViewCell>

@@ -5,6 +5,7 @@ using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Droid.Views;
 using Cirrious.CrossCore;
 using Cirrious.CrossCore.IoC;
+using XLabs.Platform.Services.Media;
 
 namespace Tojeero.Droid
 {
@@ -35,6 +36,13 @@ namespace Tojeero.Droid
 				.EndingWith("Manager")
 				.AsInterfaces()
 				.RegisterAsLazySingleton();
+
+			CreatableTypes()
+				.EndingWith("Repository")
+				.AsInterfaces()
+				.RegisterAsLazySingleton();
+			
+			Mvx.LazyConstructAndRegisterSingleton<IMediaPicker, MediaPicker>();
 		}
 	}
 }

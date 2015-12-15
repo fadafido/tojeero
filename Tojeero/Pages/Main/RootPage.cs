@@ -3,21 +3,21 @@
 using Xamarin.Forms;
 using Tojeero.Core.Services;
 using Cirrious.CrossCore;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
 	public class RootPage : MasterDetailPage
 	{
 		public RootPage()
-		{			
-			Mvx.Resolve<IAuthenticationService>().RestoreSavedSession();
+		{						
 			this.Master = new SideMenuPage()
 			{
-				Title = "Tojeero",
+				Title = AppResources.AppName
 			};
-			var tabs = new TabbedPage(){ Title = "Tojeero" };
-			tabs.Children.Add(new ProductsPage() { Title = "Products" });
-			tabs.Children.Add(new StoresPage() { Title = "Stores" });
+			var tabs = new TabbedPage(){ Title = AppResources.AppName };
+			tabs.Children.Add(new ProductsPage() { Title = AppResources.TitleProducts });
+			tabs.Children.Add(new StoresPage() { Title = AppResources.TitleStores });
 			this.Detail = new NavigationPage(tabs);
 		}
 	}

@@ -5,94 +5,57 @@ using Cirrious.MvvmCross;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using Cirrious.CrossCore.Core;
+using Cirrious.MvvmCross.Community.Plugins.Sqlite;
+using Newtonsoft.Json;
 
 namespace Tojeero.Core
 {
-	public abstract class BaseModelEntity : ParseObject, IModelEntity
+	public abstract class BaseModelEntity<T> : MvxNotifyPropertyChanged where T : ParseObject
 	{
-		public BaseModelEntity()
+		#region Constructors
+
+		public BaseModelEntity(T parseObject = null)
 		{
+			_parseObject = parseObject ?? Parse.ParseObject.Create<T>(); ;
 			var alwaysOnUIThread = (MvxSingletonCache.Instance == null)
 				? true
 				: MvxSingletonCache.Instance.Settings.AlwaysRaiseInpcOnUserInterfaceThread;
 			ShouldAlwaysRaiseInpcOnUserInterfaceThread(alwaysOnUIThread);
 		}
 
-		#region IMvxNotifyPropertyChanged implementation
+		#endregion
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		#region Properties
 
-		private bool _shouldAlwaysRaiseInpcOnUserInterfaceThread;
-		public bool ShouldAlwaysRaiseInpcOnUserInterfaceThread()
-		{
-			return _shouldAlwaysRaiseInpcOnUserInterfaceThread;
-		}
-
-		public void ShouldAlwaysRaiseInpcOnUserInterfaceThread(bool value)
-		{
-			_shouldAlwaysRaiseInpcOnUserInterfaceThread = value;
-		}
-
-		public void RaisePropertyChanged<T>(Expression<Func<T>> property)
-		{
-			var name = this.GetPropertyNameFromExpression(property);
-			RaisePropertyChanged(name);
-		}
-
-		public void RaisePropertyChanged(string whichProperty)
-		{
-			var changedArgs = new PropertyChangedEventArgs(whichProperty);
-			RaisePropertyChanged(changedArgs);
-		}
-
-		public virtual void RaiseAllPropertiesChanged()
-		{
-			var changedArgs = new PropertyChangedEventArgs(string.Empty);
-			RaisePropertyChanged(changedArgs);
-		}
-
-		public virtual void RaisePropertyChanged(PropertyChangedEventArgs changedArgs)
-		{
-			// check for interception before broadcasting change
-			if (InterceptRaisePropertyChanged(changedArgs)
-				== MvxInpcInterceptionResult.DoNotRaisePropertyChanged) 
-				return;
-
-			var raiseAction = new Action(() =>
-				{
-					var handler = PropertyChanged;
-
-					if (handler != null)
-						handler(this, changedArgs);
-				});
-
-			if (ShouldAlwaysRaiseInpcOnUserInterfaceThread())
+		protected T _parseObject;
+		[Ignore]
+		public virtual T ParseObject
+		{ 
+			get
 			{
-				// check for subscription before potentially causing a cross-threaded call
-				if (PropertyChanged == null)
-					return;
-				Xamarin.Forms.Device.BeginInvokeOnMainThread(raiseAction);
+				return _parseObject; 
 			}
-			else
+			set
 			{
-				raiseAction();
+				_parseObject = value ?? Parse.ParseObject.Create<T>(); 
+				RaiseAllPropertiesChanged();
 			}
 		}
 
-		protected virtual MvxInpcInterceptionResult InterceptRaisePropertyChanged(PropertyChangedEventArgs changedArgs)
-		{
-			if (MvxSingletonCache.Instance != null)
+		[PrimaryKey]
+		[JsonProperty("objectID")]
+		public string ID
+		{ 
+			get
 			{
-				var interceptor = MvxSingletonCache.Instance.InpcInterceptor;
-				if (interceptor != null)
-				{
-					return interceptor.Intercept(this, changedArgs);
-				}
+				return _parseObject.ObjectId;
 			}
-
-			return MvxInpcInterceptionResult.NotIntercepted;
+			set
+			{
+				_parseObject.ObjectId = value;
+				RaisePropertyChanged(() => ID); 
+			}
 		}
-
 
 		#endregion
 

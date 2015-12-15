@@ -3,21 +3,36 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
 using Tojeero.Core.Toolbox;
+using Tojeero.Forms.Resources;
+using Nito.AsyncEx;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class BaseCollectionViewModel<T> : LoadableNetworkViewModel 
-		where T : IModelEntity
+
+	public class BaseCollectionViewModel<T> : LoadableNetworkViewModel, ICollectionViewModel<T>
 	{
 		#region Private fields and properties
-		QueryDelegate<T> _query;
+
+		private enum Commands
+		{
+			Unknown,
+			LoadFirstPage,
+			LoadNextPage,
+			Reload,
+			Search
+		}
+
+		IModelQuery<T> _query;
 		private int _pageSize;
+		private Commands _lastExecutedCommand;
+		private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+
 		#endregion
 
 
 		#region Constructors
 
-		public BaseCollectionViewModel(QueryDelegate<T> query, int pageSize = 10)
+		public BaseCollectionViewModel(IModelQuery<T> query, int pageSize = 50)
 			: base()
 		{			
 			_pageSize = pageSize;
@@ -33,6 +48,7 @@ namespace Tojeero.Core.ViewModels
 		public event EventHandler<EventArgs> ReloadFinished;
 
 		private IModelEntityCollection<T> _collection;
+
 		public IModelEntityCollection<T> Collection
 		{ 
 			get
@@ -41,9 +57,21 @@ namespace Tojeero.Core.ViewModels
 			}
 			set
 			{
-				_collection = value; 
-				RaisePropertyChanged(() => Collection); 
-				RaisePropertyChanged(() => Count); 
+				if (_collection != value)
+				{
+					IsInitialDataLoaded = false;
+					if (_collection != null)
+					{
+						_collection.CollectionChanged -= collectionChanged;
+					}
+					_collection = value; 
+					if (_collection != null)
+					{
+						_collection.CollectionChanged += collectionChanged;
+					}
+					RaisePropertyChanged(() => Collection); 
+					RaisePropertyChanged(() => Count); 
+				}
 			}
 		}
 
@@ -56,13 +84,14 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private bool _isLoadingInitialData;
+
 		public bool IsLoadingInitialData
 		{ 
 			get
 			{
 				return _isLoadingInitialData; 
 			}
-			set
+			private set
 			{
 				_isLoadingInitialData = value; 
 				RaisePropertyChanged(() => IsLoadingInitialData); 
@@ -70,23 +99,89 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private bool _isLoadingNextPage;
+
 		public bool IsLoadingNextPage
 		{ 
 			get
 			{
 				return _isLoadingNextPage; 
 			}
-			set
+			private set
 			{
 				_isLoadingNextPage = value; 
 				RaisePropertyChanged(() => IsLoadingNextPage); 
 			}
 		}
+
+		private bool _isInitialDataLoaded;
+		public static string IsInitialDataLoadedProperty = "IsInitialDataLoaded";
+
+		public bool IsInitialDataLoaded
+		{
+			get
+			{
+				return _isInitialDataLoaded;
+			}
+			private set
+			{
+				_isInitialDataLoaded = value;
+				RaisePropertyChanged(() => IsInitialDataLoaded);
+			}
+		}
+
 		#endregion
 
 		#region Commands
 
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _tryAgainCommand;
+
+		public System.Windows.Input.ICommand TryAgainCommand
+		{
+			get
+			{
+				_tryAgainCommand = _tryAgainCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(tryAgain, () => !IsLoading);
+				return _tryAgainCommand;
+			}
+		}
+
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadFirstPageCommand;
+
+		public System.Windows.Input.ICommand LoadFirstPageCommand
+		{
+			get
+			{
+				_loadFirstPageCommand = _loadFirstPageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{						
+						await loadNextPage();
+					}, () => CanExecuteLoadNextPageCommand && this.Count == 0);
+				return _loadFirstPageCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _refetchCommand;
+
+		public System.Windows.Input.ICommand RefetchCommand
+		{
+			get
+			{
+				_refetchCommand = _refetchCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						await Task.Factory.StartNew(() =>
+							{
+								while (!CanExecuteLoadNextPageCommand)
+								{
+								}
+							});
+						this.Collection = null;
+						await loadNextPage();
+					});
+				return _refetchCommand;
+			}
+		}
+
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadNextPageCommand;
+
 		public System.Windows.Input.ICommand LoadNextPageCommand
 		{
 			get
@@ -103,19 +198,25 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return !this.IsLoading && this.IsNetworkAvailable;
+				return !this.IsLoading;
 			}
 		}
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+
 		public System.Windows.Input.ICommand ReloadCommand
 		{
 			get
 			{
 				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
-						await reload();
-					}, () => CanExecuteReloadCommand);
+						if(CanExecuteReloadCommand)
+						{
+							_lastExecutedCommand = Commands.Reload;
+							await reload();
+						}
+						ReloadFinished.Fire(this, new EventArgs());
+					});
 				return _reloadCommand;
 			}
 		}
@@ -130,62 +231,124 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
+		#region Protected
+
+		protected override void handleNetworkConnectionChanged(object sender, Connectivity.Plugin.Abstractions.ConnectivityChangedEventArgs e)
+		{
+			base.handleNetworkConnectionChanged(sender, e);
+			//Try to refetch data if there is internet connection now
+			if (e.IsConnected)
+				this.TryAgainCommand.Execute(null);
+		}
+
+		#endregion
+
 		#region Utility Methods
 
 		private async Task loadNextPage()
 		{
-			this.StartLoading("Loading...");
-			string failureMessage = "";
-			try
+			using (var writerLock = await _locker.WriterLockAsync())
 			{
-				if(_collection == null)
+				_lastExecutedCommand = Commands.LoadNextPage;
+				this.StartLoading(AppResources.MessageGeneralLoading);
+				string failureMessage = "";
+				try
 				{
-					this.IsLoadingInitialData = true;
-					var collection = new ModelEntityCollection<T>(_query, _pageSize);
-					await collection.FetchNextPageAsync();
-					this.Collection = collection;
+					int initialCount = this.Count;
+					if (_collection == null)
+					{
+						this.IsLoadingInitialData = true;
+						var collection = new ModelEntityCollection<T>(_query, _pageSize);
+						await collection.FetchNextPageAsync();
+						this.Collection = collection;
+						IsInitialDataLoaded = true;
+					}
+					else
+					{
+						this.IsLoadingNextPage = true;
+						await _collection.FetchNextPageAsync();
+					}
+					//If no data was fetched and there was no network connection available warn user
+					if (initialCount == this.Count && !this.IsNetworkAvailable)
+					{
+						failureMessage = AppResources.MessageLoadingFailedNoInternet;
+					}
 				}
-				else
+				catch (Exception ex)
 				{
-					this.IsLoadingNextPage = true;
-					await _collection.FetchNextPageAsync();
+					failureMessage = handleException(ex);
 				}
+				
+				this.IsLoadingNextPage = false;
+				this.IsLoadingInitialData = false;
+				this.StopLoading(failureMessage);
+				LoadingNextPageFinished.Fire(this, new EventArgs());
 			}
-			catch(Exception ex)
-			{
-				failureMessage = handleException(ex);
-			}
-
-			this.IsLoadingNextPage = false;
-			this.IsLoadingInitialData = false;
-			this.StopLoading(failureMessage);
-			LoadingNextPageFinished.Fire(this, new EventArgs());
 		}
 
 		private async Task reload()
 		{
-			this.StartLoading("Loading...");
-			string failureMessage = "";
-			try
+			using (var writerLock = await _locker.WriterLockAsync())
 			{
-				var collection = new ModelEntityCollection<T>(_query, _pageSize);
-				await collection.FetchNextPageAsync();
-				this.Collection = collection;
+				this.StartLoading(AppResources.MessageGeneralLoading);
+				string failureMessage = "";
+
+				try
+				{
+					await _query.ClearCache();
+					var collection = new ModelEntityCollection<T>(_query, _pageSize);
+					await collection.FetchNextPageAsync();
+					this.Collection = collection;
+					IsInitialDataLoaded = true;
+					//If no data was fetched and there was no network connection available warn user
+					if (this.Count == 0 && !this.IsNetworkAvailable)
+					{
+						failureMessage = AppResources.MessageLoadingFailedNoInternet;
+					}
+				}
+				catch (Exception ex)
+				{
+					failureMessage = handleException(ex);
+				}
+
+				this.StopLoading(failureMessage);
 			}
-			catch(Exception ex)
-			{
-				failureMessage = handleException(ex);
-			}
-			this.StopLoading(failureMessage);
-			ReloadFinished.Fire(this, new EventArgs());
 		}
 
-		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		void tryAgain()
+		{
+			//Try again only if previously something went wrong,
+			//that is LoadingFailureMessage is not empty
+			if (string.IsNullOrEmpty(this.LoadingFailureMessage))
+				return;
+			switch (_lastExecutedCommand)
+			{
+				case Commands.LoadFirstPage:
+					LoadFirstPageCommand.Execute(null);
+					break;
+				case Commands.LoadNextPage:
+					LoadNextPageCommand.Execute(null);
+					break;
+				case Commands.Reload:
+					ReloadCommand.Execute(null);
+					break;
+				default:
+					break;
+			}
+		}
+
+		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{			
-			if(e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
+			if (e.PropertyName == IsLoadingProperty || e.PropertyName == IsNetworkAvailableProperty)
 			{
 				RaisePropertyChanged(() => CanExecuteLoadNextPageCommand);
+				RaisePropertyChanged(() => CanExecuteReloadCommand);
 			}
+		}
+
+		void collectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			RaisePropertyChanged(() => Count);
 		}
 
 		private string handleException(Exception ex)
@@ -195,16 +358,17 @@ namespace Tojeero.Core.ViewModels
 			{
 				throw ex;
 			}
-			catch(OperationCanceledException)
+			catch (OperationCanceledException)
 			{
-				failureMessage = "Loading timed out. Please try again.";
+				failureMessage = AppResources.MessageLoadingTimeOut;
 			}
-			catch(Exception)
+			catch (Exception)
 			{
-				failureMessage = "Data loading failed. Please try again.";
+				failureMessage = AppResources.MessageLoadingFailed;
 			}	
 			return failureMessage;
 		}
+
 		#endregion
 	}
 }

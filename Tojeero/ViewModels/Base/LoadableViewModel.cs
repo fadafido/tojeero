@@ -15,7 +15,7 @@ namespace Tojeero.Core.ViewModels
 
 		#region ILoadableViewModel Implementation
 
-		public static string IsLoadingPropertyName = "IsLoading";
+		public static string IsLoadingProperty = "IsLoading";
 		private bool _isLoading;
 		public bool IsLoading
 		{ 

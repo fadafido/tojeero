@@ -134,27 +134,27 @@
     <comment>Submit button title.</comment>
   </data>
   <data name="LabelCity" xml:space="preserve">
-    <value>مدينة:</value>
+    <value>مدينة</value>
     <comment>City label text.</comment>
   </data>
   <data name="LabelCountry" xml:space="preserve">
-    <value>بلد:</value>
+    <value>بلد</value>
     <comment>Country label text.</comment>
   </data>
   <data name="LabelEmail" xml:space="preserve">
-    <value>البريد الإلكتروني:</value>
+    <value>البريد الإلكتروني</value>
     <comment>Email label text.</comment>
   </data>
   <data name="LabelFirstName" xml:space="preserve">
-    <value>الاسم الاول:</value>
+    <value>الاسم الاول</value>
     <comment>First name label text.</comment>
   </data>
   <data name="LabelLastName" xml:space="preserve">
-    <value>اسم العائلة:</value>
+    <value>اسم العائلة</value>
     <comment>Last name label text.</comment>
   </data>
   <data name="LabelMobilePhone" xml:space="preserve">
-    <value>الجوال:</value>
+    <value>الجوال</value>
     <comment>Mobile phone label text.</comment>
   </data>
   <data name="MenuItemProfileSettings" xml:space="preserve">

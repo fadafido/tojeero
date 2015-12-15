@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -31,23 +31,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup\FormsApp.cs" />
     <Compile Include="Setup\MvxApp.cs" />
     <Compile Include="ViewModels\Base\BaseUserViewModel.cs" />
     <Compile Include="ViewModels\Base\LoadableViewModel.cs" />
     <Compile Include="ViewModels\Base\ReloadableViewModel.cs" />
     <Compile Include="ViewModels\Contracts\ILoadableViewModel.cs" />
     <Compile Include="ViewModels\Contracts\IReloadableViewModel.cs" />
-    <Compile Include="SAL\Api Model\User.cs" />
     <Compile Include="SAL\Contracts\IAuthenticationService.cs" />
-    <Compile Include="ViewModels\Authentication\LogInViewModel.cs" />
     <Compile Include="Setup\swp8\Bootstrap\CommunitySqlitePluginBootstrap.cs" />
     <Compile Include="SAL\AuthenticationException.cs" />
     <Compile Include="SAL\Contracts\IFacebookService.cs" />
     <Compile Include="Pages\Main\RootPage.cs" />
-    <Compile Include="Pages\Main\HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Main\SideMenuPage.xaml.cs">
       <DependentUpon>SideMenuPage.xaml</DependentUpon>
     </Compile>
@@ -65,7 +59,6 @@
     <Compile Include="Misc\Toolbox\MvxToolbox.cs" />
     <Compile Include="SAL\Api Model\FacebookUser.cs" />
     <Compile Include="Misc\Settings.cs" />
-    <Compile Include="ViewModels\Base\BaseUserDetailsViewModel.cs" />
     <Compile Include="Misc\Constants\Images.cs" />
     <Compile Include="Misc\Converters\InverseBoolConverter.cs" />
     <Compile Include="Misc\Converters\BoolToOpacityConverter.cs" />
@@ -97,7 +90,6 @@
     <Compile Include="BL\Contracts\Entities\IModelEntity.cs" />
     <Compile Include="BL\Contracts\Entities\IStore.cs" />
     <Compile Include="BL\Contracts\Entities\IProduct.cs" />
-    <Compile Include="ViewModels\Base\ReloadableNetworkViewModel.cs" />
     <Compile Include="BL\Contracts\Managers\IProductManager.cs" />
     <Compile Include="BL\Contracts\Managers\IStoreManager.cs" />
     <Compile Include="BL\Contracts\IModelEntityCollection.cs" />
@@ -122,6 +114,174 @@
     </Compile>
     <Compile Include="Misc\Custom Controls\InfinteListView.cs" />
     <Compile Include="Misc\Converters\UrlToCachedImageSourceConverter.cs" />
+    <Compile Include="BL\Contracts\IRepository.cs" />
+    <Compile Include="DAL\Contracts\ICacheRepository.cs" />
+    <Compile Include="Misc\Services\Contracts\IDeviceContextService.cs" />
+    <Compile Include="Misc\Toolbox\ReflectionExtensions.cs" />
+    <Compile Include="SAL\Contracts\IRestRepository.cs" />
+    <Compile Include="BL\Contracts\Managers\IModelEntityManager.cs" />
+    <Compile Include="BL\Entities\CachedQuery.cs" />
+    <Compile Include="BL\Contracts\Entities\ICachedQuery.cs" />
+    <Compile Include="BL\Contracts\Entities\IUniqueEntity.cs" />
+    <Compile Include="BL\Contracts\Managers\IBaseModelEntityManager.cs" />
+    <Compile Include="Misc\Toolbox\LocalizationToolbox.cs" />
+    <Compile Include="BL\Contracts\Entities\ICountry.cs" />
+    <Compile Include="BL\Contracts\Managers\ICountryManager.cs" />
+    <Compile Include="Misc\Services\BaseLocalizationService.cs" />
+    <Compile Include="ViewModels\Main\BoostrapViewModel.cs" />
+    <Compile Include="Pages\Main\BootstrapPage.xaml.cs">
+      <DependentUpon>BootstrapPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BL\Contracts\Entities\ICity.cs" />
+    <Compile Include="BL\Contracts\Managers\ICityManager.cs" />
+    <Compile Include="Misc\Converters\LanguageToCultureConverter.cs" />
+    <Compile Include="Misc\Messages\LanguageChangedMessage.cs" />
+    <Compile Include="Setup\FormsApp.xaml.cs">
+      <DependentUpon>FormsApp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Toolbox\CollectionToolbox.cs" />
+    <Compile Include="Misc\Toolbox\StringToolbox.cs" />
+    <Compile Include="BL\Contracts\Managers\IProductCategoryManager.cs" />
+    <Compile Include="BL\Contracts\Managers\IProductSubcategoryManager.cs" />
+    <Compile Include="BL\Contracts\Managers\IStoreCategoryManager.cs" />
+    <Compile Include="BL\Contracts\Entities\IProductCategory.cs" />
+    <Compile Include="BL\Contracts\Entities\IProductSubcategory.cs" />
+    <Compile Include="BL\Contracts\Entities\IStoreCategory.cs" />
+    <Compile Include="ViewModels\Base\BaseSearchViewModel.cs" />
+    <Compile Include="Misc\Timer.cs" />
+    <Compile Include="Pages\Base\BaseSearchablePage.xaml.cs">
+      <DependentUpon>BaseSearchablePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BL\Contracts\Entities\ISearchToken.cs" />
+    <Compile Include="BL\Entities\SearchToken.cs" />
+    <Compile Include="BL\Contracts\Entities\ISearchableEntity.cs" />
+    <Compile Include="BL\Contracts\Entities\ITag.cs" />
+    <Compile Include="BL\Contracts\Managers\ITagManager.cs" />
+    <Compile Include="ViewModels\Misc\TagsViewModel.cs" />
+    <Compile Include="Pages\Misc\TagsPage.xaml.cs">
+      <DependentUpon>TagsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Base\BaseSelectableCollectionViewModel.cs" />
+    <Compile Include="BL\Contracts\Entities\ISelectableEntity.cs" />
+    <Compile Include="Misc\Custom Cells\TagListCell.xaml.cs">
+      <DependentUpon>TagListCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\RuntimeSettings.cs" />
+    <Compile Include="BL\Contracts\Entities\IProductFilter.cs" />
+    <Compile Include="BL\Entities\ProductFilter.cs" />
+    <Compile Include="Misc\Messages\ProductFilterChangedMessage.cs" />
+    <Compile Include="Misc\Custom Controls\WrapLayout.cs" />
+    <Compile Include="Misc\Custom Controls\ObservedCollection.cs" />
+    <Compile Include="Misc\Custom Controls\TagControl.xaml.cs">
+      <DependentUpon>TagControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Custom Controls\RoundedBox.cs" />
+    <Compile Include="Misc\Converters\DoubleConverter.cs" />
+    <Compile Include="BL\Entities\ProductTag.cs" />
+    <Compile Include="BL\Entities\StoreFilter.cs" />
+    <Compile Include="BL\Contracts\Entities\IStoresFilter.cs" />
+    <Compile Include="Misc\Messages\StoreFilterChangedMessage.cs" />
+    <Compile Include="Misc\Custom Controls\LabelEx.cs" />
+    <Compile Include="Misc\Custom Controls\SelectableButton.cs" />
+    <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="BL\Contracts\Managers\IUserManager.cs" />
+    <Compile Include="BL\Contracts\Entities\IUser.cs" />
+    <Compile Include="Misc\Custom Controls\BorderView.cs" />
+    <Compile Include="Misc\Custom Controls\ImageButton.cs" />
+    <Compile Include="Misc\Converters\NullableBoolConverter.cs" />
+    <Compile Include="Pages\Product\ProductDetailsPage.xaml.cs">
+      <DependentUpon>..\Misc\Product\ProductDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Product\FilterProductsPage.xaml.cs">
+      <DependentUpon>FilterProductsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Store\FilterStoresPage.xaml.cs">
+      <DependentUpon>FilterStoresPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Misc\FavoritesPage.xaml.cs">
+      <DependentUpon>FavoritesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Product\ProductDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Product\ProductViewModel.cs" />
+    <Compile Include="ViewModels\Product\FilterProductsViewModel.cs" />
+    <Compile Include="ViewModels\Store\FilterStoresViewModel.cs" />
+    <Compile Include="ViewModels\Store\StoreViewModel.cs" />
+    <Compile Include="ViewModels\Product\FavoriteProductsViewModel.cs" />
+    <Compile Include="ViewModels\Contracts\ICollectionViewModel.cs" />
+    <Compile Include="ViewModels\Contracts\ISearchViewModel.cs" />
+    <Compile Include="Pages\Base\BaseCollectionPage.cs">
+      <DependentUpon>BaseCollectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Product\FavoriteProductsPage.xaml.cs">
+      <DependentUpon>FavoriteProductsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Misc\FavoritesViewModel.cs" />
+    <Compile Include="ViewModels\Store\FavoriteStoresViewModel.cs" />
+    <Compile Include="Pages\Store\FavoriteStoresPage.xaml.cs">
+      <DependentUpon>FavoriteStoresPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Comparers.cs" />
+    <Compile Include="ViewModels\Contracts\ISocialViewModel.cs" />
+    <Compile Include="Misc\Custom Controls\FavoriteSocialView.xaml.cs">
+      <DependentUpon>FavoriteSocialView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Store\StoreInfoPage.xaml.cs">
+      <DependentUpon>StoreInfoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Store\StoreInfoViewModel.cs" />
+    <Compile Include="Pages\Store\StoreDetailsPage.xaml.cs">
+      <DependentUpon>StoreDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Store\StoreDetailsViewModel.cs" />
+    <Compile Include="Misc\Custom Controls\NetworkPageHeader.xaml.cs">
+      <DependentUpon>NetworkPageHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Custom Controls\CollapsibleView.xaml.cs">
+      <DependentUpon>CollapsibleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Contracts\IUserViewModel.cs" />
+    <Compile Include="ViewModels\Contracts\IImageViewModel.cs" />
+    <Compile Include="BL\Contracts\Entities\IImage.cs" />
+    <Compile Include="ViewModels\Contracts\ISaveStoreViewModel.cs" />
+    <Compile Include="ViewModels\Store\SaveStoreViewModel.cs" />
+    <Compile Include="Pages\Store\SaveStorePage.xaml.cs">
+      <DependentUpon>SaveStorePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Custom Controls\RemovableContainerView.xaml.cs">
+      <DependentUpon>RemovableContainerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Misc\ImageViewModel.cs" />
+    <Compile Include="ViewModels\Misc\PickedImage.cs" />
+    <Compile Include="Misc\Services\Contracts\IImageService.cs" />
+    <Compile Include="Misc\Converters\InverseVisibilityConverter.cs" />
+    <Compile Include="Misc\Messages\Entity change messages\StoreChangedMessage.cs" />
+    <Compile Include="Misc\Messages\Entity change messages\EntityChangeType.cs" />
+    <Compile Include="Misc\Custom Controls\ImageControl.xaml.cs">
+      <DependentUpon>ImageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Enums\ContentMode.cs" />
+    <Compile Include="ViewModels\Product\SaveProductViewModel.cs" />
+    <Compile Include="ViewModels\Contracts\ISaveProductViewModel.cs" />
+    <Compile Include="Pages\Product\SaveProductPage.xaml.cs">
+      <DependentUpon>SaveProductPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Messages\Entity change messages\ProductChangedMessage.cs" />
+    <Compile Include="BL\Contracts\Entities\IData.cs" />
+    <Compile Include="BL\Contracts\Entities\IMultiImageEntity.cs" />
+    <Compile Include="Misc\Custom Controls\MultiImageControl.xaml.cs">
+      <DependentUpon>MultiImageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Toolbox\ViewToolbox.cs" />
+    <Compile Include="Misc\Toolbox\ImageToolbox.cs" />
+    <Compile Include="Misc\Custom Controls\CarouselLayout.cs" />
+    <Compile Include="Misc\Custom Controls\PagerIndicatorDots.cs" />
+    <Compile Include="Misc\Custom Controls\TagCloud.xaml.cs">
+      <DependentUpon>TagCloud.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Enums\ProductStatus.cs" />
+    <Compile Include="BL\Contracts\Managers\IFavoriteManager.cs" />
+    <Compile Include="BL\Contracts\Entities\IFavorite.cs" />
+    <Compile Include="BL\Entities\Favorite.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -181,9 +341,6 @@
     <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
       <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\portable-net45+wp8+win8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Refractored.MvxPlugins.Settings">
-      <HintPath>..\packages\Mvx.Plugins.Settings.1.4.0.3\lib\portable-net45+wp8+wpa81+win8+monoandroid+monotouch+Xamarin.iOS10\Refractored.MvxPlugins.Settings.dll</HintPath>
-    </Reference>
     <Reference Include="Connectivity.Plugin">
       <HintPath>..\packages\Xam.Plugin.Connectivity.1.0.4\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Connectivity.Plugin.dll</HintPath>
     </Reference>
@@ -192,6 +349,30 @@
     </Reference>
     <Reference Include="Xamarin.Insights">
       <HintPath>..\packages\Xamarin.Insights.1.11.1\lib\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Refractored.Xam.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Settings.1.5.2\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Refractored.Xam.Settings.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Ioc">
+      <HintPath>..\packages\XLabs.IoC.2.0.5679\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+Xamarin.iOS10\XLabs.Ioc.dll</HintPath>
+    </Reference>
+    <Reference Include="ExifLib">
+      <HintPath>..\packages\ExifLib.PCL.1.0.1\lib\portable-net45+sl50+win+WindowsPhoneApp81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\ExifLib.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Core">
+      <HintPath>..\packages\XLabs.Core.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform">
+      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Serialization">
+      <HintPath>..\packages\XLabs.Serialization.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms">
+      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Forms.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -207,11 +388,15 @@
     <Folder Include="BL\Entities\" />
     <Folder Include="BL\Managers\" />
     <Folder Include="Misc\Custom Cells\" />
+    <Folder Include="DAL\Contracts\" />
+    <Folder Include="ViewModels\Misc\" />
+    <Folder Include="Pages\Misc\" />
+    <Folder Include="Pages\Store\" />
+    <Folder Include="ViewModels\Product\" />
+    <Folder Include="ViewModels\Store\" />
+    <Folder Include="Misc\Messages\Entity change messages\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\Main\HomePage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -233,6 +418,74 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\Main\StoresPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Main\BootstrapPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\FormsApp.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Base\BaseSearchablePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Misc\TagsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Cells\TagListCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\TagControl.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Product\ProductDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Product\FilterProductsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Store\FilterStoresPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Misc\FavoritesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Base\BaseCollectionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Product\FavoriteProductsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Store\FavoriteStoresPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\FavoriteSocialView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Store\StoreInfoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Store\StoreDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\NetworkPageHeader.xaml" />
+    <EmbeddedResource Include="Misc\Custom Controls\CollapsibleView.xaml" />
+    <EmbeddedResource Include="Pages\Store\SaveStorePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\RemovableContainerView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\ImageControl.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Product\SaveProductPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\MultiImageControl.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\TagCloud.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

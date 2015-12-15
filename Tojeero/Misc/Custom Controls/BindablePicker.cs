@@ -1,66 +1,117 @@
 ﻿using System;
+using System.Linq;
 using Xamarin.Forms;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Tojeero.Forms {
-	public class BindablePicker : Tojeero.Forms.Picker
+	public class BindablePicker<T> : Tojeero.Forms.Picker
 	{
+		#region Private fields
+		private IList<T> objects;
+		#endregion
+
+		#region Construtors
+
 		public BindablePicker()
 		{
 			this.SelectedIndexChanged += OnSelectedIndexChanged;
 		}
 
+		#endregion
+
+		#region Properties
+
+		public Func<T, T, bool> Comparer { get; set; }
+		public Func<T,string> StringFormat { get; set; }
+
+		#region Items source
+
 		public static BindableProperty ItemsSourceProperty =
-			BindableProperty.Create<BindablePicker, IEnumerable>(o => o.ItemsSource, default(IEnumerable), propertyChanged: OnItemsSourceChanged);
+			BindableProperty.Create<BindablePicker<T>, IList<T>>(o => o.ItemsSource, null, propertyChanged: OnItemsSourceChanged);
 
-		public static BindableProperty SelectedItemProperty =
-			BindableProperty.Create<BindablePicker, object>(o => o.SelectedItem, default(object),propertyChanged: OnSelectedItemChanged);
 
-		public IEnumerable ItemsSource
+		public IList<T> ItemsSource
 		{
-			get { return (IEnumerable)GetValue(ItemsSourceProperty); }
+			get { return (IList<T>)GetValue(ItemsSourceProperty); }
 			set { SetValue(ItemsSourceProperty, value); }
 		}
 
-		public object SelectedItem
-		{
-			get { return (object)GetValue(SelectedItemProperty); }
-			set { SetValue(SelectedItemProperty, value); }
-		}
-
-		private static void OnItemsSourceChanged(BindableObject bindable, IEnumerable oldvalue, IEnumerable newvalue)
-		{
-			var picker = bindable as BindablePicker;
+		private static void OnItemsSourceChanged(BindableObject bindable, IList<T> oldvalue, IList<T> newvalue)
+		{			
+			var picker = bindable as BindablePicker<T>;
+			picker.objects = newvalue;
 			picker.Items.Clear();
 			if (newvalue != null)
 			{
-				//now it works like "subscribe once" but you can improve
-				foreach (var item in newvalue)
+				foreach (var item in picker.objects)
 				{
-					picker.Items.Add(item.ToString());
+					var value = picker.StringFormat != null ? picker.StringFormat(item) : item.ToString();
+					picker.Items.Add(value);
 				}
+				setSelectedItem(picker, picker.SelectedItem);
 			}
 		}
+
+		#endregion
+
+		#region Selected item
+
+		public static BindableProperty SelectedItemProperty =
+			BindableProperty.Create<BindablePicker<T>, T>(o => o.SelectedItem, default(T), propertyChanged: OnSelectedItemChanged);
+
+		public T SelectedItem
+		{
+			get { return (T)GetValue(SelectedItemProperty); }
+			set { SetValue(SelectedItemProperty, value); }
+		}
+
+		private static void OnSelectedItemChanged(BindableObject bindable, T oldvalue, T newvalue)
+		{
+			var picker = bindable as BindablePicker<T>;
+			setSelectedItem(picker, newvalue);
+		}
+
+		#endregion
+
+		#endregion
+
+		#region Utility methods
 
 		private void OnSelectedIndexChanged(object sender, EventArgs eventArgs)
 		{
-			if (SelectedIndex < 0 || SelectedIndex > Items.Count - 1)
+			if (!(SelectedIndex < 0 || SelectedIndex > Items.Count - 1))
 			{
-				SelectedItem = null;
-			}
-			else
-			{
-				SelectedItem = Items[SelectedIndex];
+				SelectedItem = objects[SelectedIndex];
 			}
 		}
 
-		private static void OnSelectedItemChanged(BindableObject bindable, object oldvalue, object newvalue)
+
+		static void setSelectedItem(BindablePicker<T> picker, T newvalue)
 		{
-			var picker = bindable as BindablePicker;
-			if (newvalue != null)
+			if (newvalue != null && picker.objects != null)
 			{
-				picker.SelectedIndex = picker.Items.IndexOf(newvalue.ToString());
+				if (picker.Comparer == null)
+				{ 
+					picker.SelectedIndex = picker.objects.IndexOf(newvalue);
+				}
+				else
+				{
+					int i = 0;
+					foreach (var item in picker.objects)
+					{
+						if (picker.Comparer(item, newvalue) == true)
+							break;
+						i++;
+					}
+					picker.SelectedIndex = i < picker.objects.Count ? i : -1;
+				}
+			}
+			else
+			{
+				picker.SelectedIndex = -1;
 			}
 		}
+		#endregion
 	}
 }

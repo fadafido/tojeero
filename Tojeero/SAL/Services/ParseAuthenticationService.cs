@@ -29,7 +29,7 @@ namespace Tojeero.Core.Services
 		#region IAuthenticationService implementation
 
 		private User _currentUser;
-		public User CurrentUser
+		public IUser CurrentUser
 		{
 			get
 			{
@@ -37,7 +37,7 @@ namespace Tojeero.Core.Services
 			}
 			private set
 			{
-				_currentUser = value;
+				_currentUser = value as User;
 				updateCurrentUser();
 			}
 		}
@@ -76,25 +76,26 @@ namespace Tojeero.Core.Services
 					{
 						handleException(ex);	
 					}
-				});			
+				}).ConfigureAwait(false);			
 		}
 
-		public async Task<User> LogInWithFacebook()
+		public async Task<IUser> LogInWithFacebook()
 		{
 			try
 			{
-				var fbUser = await _facebookService.GetFacebookToken();
+				var fbUser = await _facebookService.GetFacebookToken().ConfigureAwait(false);
 				if(fbUser == null)
 					return null;
 				
-				var parseUser = await ParseFacebookUtils.LogInAsync(fbUser.User.ID, fbUser.Token, fbUser.ExpiryDate);
+				var parseUser = await ParseFacebookUtils.LogInAsync(fbUser.User.ID, fbUser.Token, fbUser.ExpiryDate) as TojeeroUser;
 				parseUser.Email = fbUser.User.Email;
-				parseUser["firstName"] = fbUser.User.FirstName;
-				parseUser["lastName"] = fbUser.User.LastName;
-				parseUser["profilePictureUri"] = fbUser.User.ProfilePictureUrl;
-				await parseUser.SaveAsync();
+				parseUser.FirstName = fbUser.User.FirstName;
+				parseUser.LastName = fbUser.User.LastName;
+				parseUser.ProfilePictureUrl = fbUser.User.ProfilePictureUrl;
+				populateUserPreferances(parseUser);
+				await parseUser.SaveAsync().ConfigureAwait(false);
 
-				CurrentUser = getCurrentUser();
+				CurrentUser = new User(parseUser);
 				State = SessionState.LoggedIn;
 
 				return this.CurrentUser;
@@ -120,24 +121,50 @@ namespace Tojeero.Core.Services
 						fireCurrentUserChanged();
 					}
 					this.State = CurrentUser == null ? SessionState.LoggedOut : SessionState.LoggedIn;
-				});
+				}).ConfigureAwait(false);
 		}
 
-		public async Task UpdateUserDetails(User user, CancellationToken token)
+		public async Task UpdateUserDetails(IUser user, CancellationToken token)
 		{
-			var currentUser = ParseUser.CurrentUser;
-			if (currentUser == null)
+			if (_currentUser == null)
 				return;
-			currentUser["firstName"] = user.FirstName;
-			currentUser["lastName"] = user.LastName;
-			currentUser["country"] = user.Country;
-			currentUser["city"] = user.City;
-			currentUser["mobile"] = user.Mobile;
-			currentUser["isProfileSubmitted"] = true;
-			await currentUser.SaveAsync(token);
-
-			this.CurrentUser = getCurrentUser();
+			_currentUser.FirstName = user.FirstName;
+			_currentUser.LastName = user.LastName;
+			_currentUser.CountryId = user.CountryId;
+			_currentUser.CityId = user.CityId;
+			_currentUser.Mobile = user.Mobile;
+			_currentUser.IsProfileSubmitted = true;
+			await _currentUser.ParseObject.SaveAsync(token).ConfigureAwait(false);
+			//Update the local settings
+			Settings.CityId = user.CityId;
+			Settings.CountryId = user.CountryId;
+			updateCurrentUser();
 		}
+
+		//Update settings bases on user profile
+		private void populateUserPreferances(TojeeroUser user)
+		{
+			
+			//If the user has already selected country then we need to override Settings with values from user entity
+			if (user.Country != null)
+			{
+				Settings.CountryId = user.Country.ObjectId;
+			}
+			else if(Settings.CountryId != null)
+			{
+				user.Country = ParseObject.CreateWithoutData<ParseCountry>(Settings.CountryId);
+			}
+
+			if (user.City != null)
+			{
+				Settings.CityId = user.City.ObjectId;
+			}
+			else if(Settings.CityId != null)
+			{
+				user.City = ParseObject.CreateWithoutData<ParseCity>(Settings.CityId);
+			}
+		}
+			
 
 		#endregion
 
@@ -159,46 +186,14 @@ namespace Tojeero.Core.Services
 					{
 						Settings.CurrentUser = JsonConvert.SerializeObject(CurrentUser);
 					}
-				});
+				}).ConfigureAwait(false);
 		}
 
 		private void fireCurrentUserChanged()
 		{
 			_messenger.Publish<CurrentUserChangedMessage>(new CurrentUserChangedMessage(this, this.CurrentUser));
 		}
-
-		private User getCurrentUser()
-		{
-			var currentUser = ParseUser.CurrentUser;
-			if (currentUser == null)
-				return null;	
-			string first, last, pic, country, city, mobile;
-			bool submitted;
-
-			currentUser.TryGetValue<String>("firstName", out first);
-			currentUser.TryGetValue<String>("lastName", out last);
-			currentUser.TryGetValue<String>("profilePictureUri", out pic);
-			currentUser.TryGetValue<String>("country", out country);
-			currentUser.TryGetValue<String>("city", out city);
-			currentUser.TryGetValue<String>("mobile", out mobile);
-			currentUser.TryGetValue<bool>("isProfileSubmitted", out submitted);
-
-			var user = new User()
-				{
-					ID = currentUser.ObjectId,
-					UserName = currentUser.Username,
-					Email = currentUser.Email,
-					FirstName = first,
-					LastName = last,
-					ProfilePictureUrl = pic,
-					Country = country,
-					City = city,
-					Mobile = mobile,
-					IsProfileSubmitted = submitted
-				};
-			return user;
-		}
-
+			
 		private void handleException(Exception exception)
 		{
 			try

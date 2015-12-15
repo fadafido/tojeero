@@ -17,6 +17,21 @@ namespace Tojeero.Forms
 		public static Color Orange = Color.FromHex("#f6846a");
 		public static Color Blue = Color.FromHex("#67b0d6");
 		public static Color Green = Color.FromHex("#88cb56");
+
+		public static Color CellBackground = Color.White;
+		public static Color CellBorder = Color.FromHex("#dbdfdf");
+		public static Color Separator = Color.FromHex("#e6e8e9");
+
+		public static Color Main = Color.FromHex("#2a414e");
+		public static Color Secondary = Color.FromHex("#f15a24");
+		public static Color Subtitle = Color.FromHex("#9e9e9e");
+		public static Color Placeholder = Color.FromHex("#dde4e6");
+		public static Color Invalid = Color.Red;
+		public static Color Warning = Color.FromHex("#f6846a");
+
+		public static Color Button1 = Color.FromHex("#08d2c1");
+		public static Color Button2 = Color.FromHex("#f6846a");
+
 	}
 }
 

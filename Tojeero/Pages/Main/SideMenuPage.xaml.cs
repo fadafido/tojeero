@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Core;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -24,7 +25,7 @@ namespace Tojeero.Forms
 				if (_viewModel != value)
 				{
 					_viewModel = value;
-					this.BindingContext = _viewModel;
+					setupViewModel();
 				}
 			}
 		}
@@ -37,18 +38,51 @@ namespace Tojeero.Forms
 			: base()
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<SideMenuViewModel>();
-			this.ViewModel.ShowProfileSettings += showProfileSettings;
 			InitializeComponent();
 			this.Icon = "menuIcon.png";
 		}
 
 		#endregion
 
-		#region Utility Methods
+		#region View lifecycle management
 
-		private async void showProfileSettings(object sender, EventArgs<bool> e)
+		protected override void OnAppearing()
 		{
-			await this.Navigation.PushModalAsync(new NavigationPage(new ProfileSettingsPage(e.Data)));
+			base.OnAppearing();
+			this.ViewModel.LoadUserStoreCommand.Execute(null);
+		}
+
+		#endregion
+
+		#region Utility methods
+
+		private void setupViewModel()
+		{			
+			this.ViewModel.ShowProfileSettings = async (arg) => {
+				await this.Navigation.PushModalAsync(new NavigationPage(new ProfileSettingsPage(arg)));
+			};
+			this.ViewModel.ShowLanguageChangeWarning = (arg) => {
+				DisplayAlert(AppResources.AlertTitleWarning, arg, AppResources.OK);
+			};
+			this.ViewModel.ShowFavorites = async () => {
+				await this.Navigation.PushModalAsync(new NavigationPage(new FavoritesPage()));
+			};
+			this.ViewModel.ShowSaveStoreAction = async (s) => {
+				if(s == null)
+				{
+					await this.Navigation.PushModalAsync(new NavigationPage(new SaveStorePage(s)));
+				}
+				else
+				{
+					var storeInfoPage = new StoreInfoPage(s, ContentMode.Edit);
+					storeInfoPage.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
+						{
+							await storeInfoPage.Navigation.PopModalAsync();
+						}));
+					await this.Navigation.PushModalAsync(new NavigationPage(storeInfoPage));
+				}
+			};
+			this.BindingContext = _viewModel;
 		}
 
 		#endregion

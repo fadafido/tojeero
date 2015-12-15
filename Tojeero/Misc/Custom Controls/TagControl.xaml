@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.TagControl"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	HeightRequest="30">
+	<local:RoundedBox
+		BackgroundColor="{x:Static local:Colors.DarkGray}"
+		CornerRadius="5" />
+	<StackLayout
+		Orientation="Horizontal"
+		Padding="5,2,5,2"
+		Spacing="2">
+		<Label
+			Text="{Binding .}"
+			TextColor="White"
+			VerticalOptions="Center"/>
+		<Image
+			Source="closeTag.png"
+			VerticalOptions="Center">
+			<Image.GestureRecognizers>
+				<TapGestureRecognizer
+					Tapped="deleteTagTapped"
+					NumberOfTapsRequired="1" />
+			</Image.GestureRecognizers>
+		</Image>
+	</StackLayout>
+</Grid>

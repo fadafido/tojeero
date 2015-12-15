@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.FilterProductsPage"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
+	BackgroundColor="{x:Static local:Colors.UltraLightGray}"
+	Title="{local:Translate TitleFilterProducts}">
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout
+				Spacing="0"
+				VerticalOptions="FillAndExpand">
+				<local:NetworkPageHeader
+					NoNetworkPadding="0,5,0,5"
+					Tint="{x:Static local:Colors.DarkGray}"
+					IsLoading="{Binding IsLoading}"
+					LoadingText="{Binding LoadingText}"
+					FailureMessage="{Binding LoadingFailureMessage}"
+					IsNetworkAvailable="{Binding IsNetworkAvailable}"
+					TryAgainCommand="{Binding ReloadCommand}" />
+				<StackLayout
+					Orientation="Vertical"
+					Spacing="5"
+					Padding="10">
+					<StackLayout
+						Spacing="10">
+						<StackLayout
+							Spacing="0">
+							<Label
+								Text="{local:Translate LabelCountry}"
+								TextColor="{x:Static local:Colors.DarkGray}"
+								FontSize="Micro" />
+							<local:BindablePicker
+								x:Name="countriesPicker"
+								x:TypeArguments="core:ICountry"
+								Title="{local:Translate LabelCountry}"
+								ItemsSource="{Binding Countries}"
+								SelectedItem="{Binding ProductFilter.Country, Mode=TwoWay}"
+								TextColor="{x:Static local:Colors.Black}" />
+						</StackLayout>
+						<StackLayout
+							Spacing="0">
+							<Label
+								Text="{local:Translate LabelCity}"
+								TextColor="{x:Static local:Colors.DarkGray}"
+								FontSize="Micro" />
+							<local:BindablePicker
+								x:Name="citiesPicker"
+								x:TypeArguments="core:ICity"
+								Title="{local:Translate LabelCity}"
+								ItemsSource="{Binding Cities}"
+								SelectedItem="{Binding ProductFilter.City, Mode=TwoWay}"
+								TextColor="{x:Static local:Colors.Black}" />
+						</StackLayout>
+						<StackLayout
+							Spacing="0">
+							<Label
+								Text="{local:Translate LabelCategory}"
+								TextColor="{x:Static local:Colors.DarkGray}"
+								FontSize="Micro" />
+							<local:BindablePicker
+								x:Name="categoriesPicker"
+								x:TypeArguments="core:IProductCategory"
+								Title="{local:Translate LabelCategory}"
+								ItemsSource="{Binding Categories}"
+								SelectedItem="{Binding ProductFilter.Category, Mode=TwoWay}"
+								TextColor="{x:Static local:Colors.Black}" />
+						</StackLayout>
+						<StackLayout
+							Spacing="0">
+							<Label
+								Text="{local:Translate LabelSubcategory}"
+								TextColor="{x:Static local:Colors.DarkGray}"
+								FontSize="Micro" />
+							<local:BindablePicker
+								x:Name="subcategoriesPicker"
+								x:TypeArguments="core:IProductSubcategory"
+								Title="{local:Translate LabelSubcategory}"
+								ItemsSource="{Binding Subcategories}"
+								SelectedItem="{Binding ProductFilter.Subcategory, Mode=TwoWay}"
+								TextColor="{x:Static local:Colors.Black}" />
+						</StackLayout>
+						<StackLayout
+							Spacing="0">
+							<Label
+								Text="{local:Translate LabelPriceRange}"
+								TextColor="{x:Static local:Colors.DarkGray}"
+								FontSize="Micro" />
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+								<Label
+									Text="{local:Translate LabelStartPrice}"
+									TextColor="{x:Static local:Colors.DarkGray}"
+									FontSize="Micro"
+									VerticalOptions="Center" />
+								<Entry
+									Grid.Column="1"
+									WidthRequest="100"
+									Text="{Binding ProductFilter.StartPrice, Mode=TwoWay, Converter={StaticResource double}}"
+									Keyboard="Numeric"
+									TextColor="{x:Static local:Colors.Black}" />
+								<Label
+									Grid.Column="2"
+									Text="{local:Translate LabelEndPrice}"
+									TextColor="{x:Static local:Colors.DarkGray}"
+									FontSize="Micro"
+									VerticalOptions="Center" />
+								<Entry
+									Grid.Column="3"
+									Text="{Binding ProductFilter.EndPrice, Mode=TwoWay, Converter={StaticResource double}}"
+									Keyboard="Numeric"
+									TextColor="{x:Static local:Colors.Black}" />
+							</Grid>
+						</StackLayout>
+						<local:TagCloud
+							Tags="{Binding ProductFilter.Tags}"/>
+					</StackLayout>
+				</StackLayout>
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

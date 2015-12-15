@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.BootstrapPage"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	BackgroundColor="{x:Static local:Colors.UltraLightGray}">
+	<ContentPage.Content>
+		<StackLayout>
+			<local:NetworkPageHeader
+				NoNetworkPadding="0,5,0,5"
+				Tint="{x:Static local:Colors.DarkGray}"
+				IsLoading="{Binding IsLoading}"
+				LoadingText="{Binding LoadingText}"
+				FailureMessage="{Binding LoadingFailureMessage}"
+				IsNetworkAvailable="{Binding IsNetworkAvailable}"
+				TryAgainCommand="{Binding BootstrapCommand}" />
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

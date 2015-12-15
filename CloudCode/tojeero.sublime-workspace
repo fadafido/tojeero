@@ -1,0 +1,199 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"HEA",
+				"HEADER	Tag"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "cloud/main.js",
+			"settings":
+			{
+				"buffer_size": 1805,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Clients' Projects/Tojeero/iOS/Tojeero.iOS.csproj",
+		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Clients' Projects/Tojeero/Droid/Tojeero.Droid.csproj",
+		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Libraries/Xamarin-Forms-Labs/src/Platform/XLabs.Platform.Droid/Services/Media/MediaPicker.cs",
+		"/Users/ObjectX/Library/Developer/CoreSimulator/Devices/02C468F4-B919-4879-9F7E-F1D0A509AB89/data/Containers/Data/Application/DDC6FB64-765A-46CA-A0C4-ECE27D7AC021/Documents/index/_0.cfs",
+		"/Users/ObjectX/Library/Developer/CoreSimulator/Devices/02C468F4-B919-4879-9F7E-F1D0A509AB89/data/Containers/Data/Application/DDC6FB64-765A-46CA-A0C4-ECE27D7AC021/Documents/index/_0.cfx",
+		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Clients' Projects/Nutro/Nutro.Touch/Nutro.Touch.csproj",
+		"/Users/ObjectX/Downloads/MessagesViewController.cs",
+		"/Users/ObjectX/Downloads/Response",
+		"/Users/ObjectX/Downloads/Request",
+		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Libraries/monotouch-bindings/MBProgressHUD/binding/ApiDefinition.cs",
+		"/Users/ObjectX/Downloads/Request.txt",
+		"/Users/ObjectX/Downloads/Response.txt",
+		"/Users/ObjectX/Downloads/untitled.html",
+		"/Users/ObjectX/Downloads/ААААААА/Bible Books/16. yfdsjz/book.manifest"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"TakeMediaAsync",
+			"FetchStoreProd",
+			"IBActionSheet",
+			"IBAc",
+			"IsRead",
+			"Ad-Hoc",
+			"AdHoc",
+			"AdHoc-Demo",
+			"AdS",
+			"AdSupport",
+			"REST REQUEST",
+			"backgroundColor"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "cloud/main.js",
+					"settings":
+					{
+						"buffer_size": 1805,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1805,
+								1805
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 321.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}

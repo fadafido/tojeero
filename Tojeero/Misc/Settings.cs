@@ -1,29 +1,26 @@
 using System.Collections.Generic;
 using Cirrious.CrossCore;
-using Refractored.MvxPlugins.Settings;
+using Tojeero.Core.Services;
+using Tojeero.Core.Toolbox;
+using Refractored.Xam.Settings.Abstractions;
+using Refractored.Xam.Settings;
 
 namespace Tojeero.Core
 {
-	/// <summary>
-	/// This is the Settings static class that can be used in your Core solution or in any
-	/// of your client applications. All settings are laid out the same exact way with getters
-	/// and setters. 
-	/// </summary>
 	public static class Settings
 	{
-		/// <summary>
-		/// Simply setup your settings once when it is initialized.
-		/// </summary>
-		private static ISettings _settings;
 		private static ISettings AppSettings
 		{
 			get
 			{
-				return _settings ?? (_settings = Mvx.GetSingleton<ISettings>());
+				return CrossSettings.Current;
 			}
 		}
 
 		#region User Settings
+
+		#region Current user
+
 		/// <summary>
 		/// Key for your setting
 		/// </summary>
@@ -44,12 +41,16 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(CurrentUserKey, value))
-					AppSettings.Save();
+				if (value == null)
+					AppSettings.Remove(CurrentUserKey);
+				else
+					AppSettings.AddOrUpdateValue(CurrentUserKey, value);
 			}
 		}
 
+		#endregion
+
+		#region Analytics
 		/// <summary>
 		/// Key for your setting
 		/// </summary>
@@ -70,14 +71,111 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(IsAnalyticsPermittedByUserKey, value))
-					AppSettings.Save();
+				AppSettings.AddOrUpdateValue(IsAnalyticsPermittedByUserKey, value);
 			}
 		}
 		#endregion
 
+		#region Country ID
+
+		/// <summary>
+		/// Key for your setting
+		/// </summary>
+		public const string CountryIdKey = "CountryId";
+		/// <summary>
+		/// default value for your setting
+		/// </summary>
+		public static readonly string CountryIdDefault = null;
+
+		/// <summary>
+		/// Gets or sets the CountryId value
+		/// </summary>
+		public static string CountryId
+		{
+			get
+			{
+				return AppSettings.GetValueOrDefault(CountryIdKey, CountryIdDefault);
+			}
+			set
+			{
+				if (value == null)
+					AppSettings.Remove(CountryIdKey);
+				else
+					AppSettings.AddOrUpdateValue(CountryIdKey, value);
+			}
+		}
+
+		#endregion
+
+		#region City ID
+
+		/// <summary>
+		/// Key for your setting
+		/// </summary>
+		public const string CityIdKey = "CityId";
+		/// <summary>
+		/// default value for your setting
+		/// </summary>
+		public static readonly string CityIdDefault = null;
+
+		/// <summary>
+		/// Gets or sets the CityId value
+		/// </summary>
+		public static string CityId
+		{
+			get
+			{
+				return AppSettings.GetValueOrDefault(CityIdKey, CityIdDefault);
+			}
+			set
+			{
+				
+				if (value == null)
+					AppSettings.Remove(CityIdKey);
+				else
+					AppSettings.AddOrUpdateValue(CityIdKey, value);
+			}
+		}
+
+		#endregion
+
+		#region Language
+
+		/// <summary>
+		/// Key for your setting
+		/// </summary>
+		public const string LanguageKey = "Language";
+		/// <summary>
+		/// default value for your setting
+		/// </summary>
+		public static readonly LanguageCode LanguageDefault = LanguageCode.Unknown;
+
+		/// <summary>
+		/// Gets or sets the Language value
+		/// </summary>
+		public static LanguageCode Language
+		{
+			get
+			{
+				return AppSettings.GetValueOrDefault(LanguageKey, LanguageDefault);
+			}
+			set
+			{
+				if (value == null)
+					AppSettings.Remove(LanguageKey);
+				else
+					AppSettings.AddOrUpdateValue(LanguageKey, value);
+			}
+		}
+
+		#endregion
+
+		#endregion
+
 		#region Internal settings
+
+		#region Database Schema Version
+
 		/// <summary>
 		/// Key for your setting
 		/// </summary>
@@ -98,11 +196,11 @@ namespace Tojeero.Core
 			}
 			set
 			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(DatabaseSchemaVersionKey, value))
-					AppSettings.Save();
+				AppSettings.AddOrUpdateValue(DatabaseSchemaVersionKey, value);
 			}
 		}
+
+		#endregion
 			
 		#endregion
 	}

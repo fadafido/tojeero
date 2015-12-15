@@ -8,7 +8,7 @@ namespace Tojeero.Core.Messages
 	{
 		#region Constructors
 
-		public CurrentUserChangedMessage(object sender, User currentUser)
+		public CurrentUserChangedMessage(object sender, IUser currentUser)
 			: base(sender)
 		{
 			CurrentUser = currentUser;
@@ -18,7 +18,7 @@ namespace Tojeero.Core.Messages
 
 		#region Properties
 
-		public User CurrentUser { get; set; }
+		public IUser CurrentUser { get; set; }
 
 		#endregion
 	}

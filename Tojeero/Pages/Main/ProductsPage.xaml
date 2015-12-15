@@ -1,76 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage
+<local:BaseSearchablePage
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
-	x:Class="Tojeero.Forms.ProductsPage"
-	BackgroundColor="{x:Static local:Colors.LightGray}">
-	<ContentPage.Resources>
-		<ResourceDictionary>
-			<local:InverseBoolConverter
-				x:Key="inverse" />
-			<local:VisibilityConverter
-				x:Key="visibility" />
-		</ResourceDictionary>
-	</ContentPage.Resources>
-	<ContentPage.Content>
-		<StackLayout
-			BackgroundColor="Transparent">
-			<StackLayout
-				Padding="0,5,0,5"
-				BackgroundColor="{x:Static local:Colors.Orange}"
-				IsVisible="{Binding IsNetworkAvailable, Converter={StaticResource inverse}}">
-				<Label
-					Text="{local:Translate MessageNoInternetWarning}"
-					TextColor="White"
-					FontAttributes="Bold"
-					FontSize="Small"
-					XAlign="Center" />
-			</StackLayout>
-			<StackLayout
-				Padding="0,5,0,5"
-				BackgroundColor="{x:Static local:Colors.Black}"
-				IsVisible="{Binding LoadingFailureMessage, Converter={StaticResource visibility}}">
-				<Label
-					Text="{Binding LoadingFailureMessage}"
-					TextColor="White"
-					FontAttributes="Bold"
-					FontSize="Small"
-					XAlign="Center" />
-			</StackLayout>
-			<StackLayout
-				Padding="5"
-				IsVisible="{Binding IsLoadingInitialData}">
-				<ActivityIndicator
-					IsRunning="{Binding IsLoadingInitialData}"
-					HorizontalOptions="Center"
-					VerticalOptions="Center"
-					Color="{x:Static local:Colors.DarkGray}" />
-			</StackLayout>
-			<local:InfiniteListView
-				x:Name="ProductsListView"
-				ItemsSource="{Binding Collection}"
-				BackgroundColor="Transparent"
-				RowHeight="100"
-				SeparatorVisibility="None"
-				IsPullToRefreshEnabled="true"
-				RefreshCommand="{Binding ReloadCommand}"
-				LoadMoreCommand="{Binding LoadNextPageCommand}">
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<local:ProductListCell />
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</local:InfiniteListView>
-			<StackLayout
-				Padding="5"
-				IsVisible="{Binding IsLoadingNextPage}">
-				<ActivityIndicator
-					IsRunning="{Binding IsLoadingNextPage}"
-					HorizontalOptions="Center"
-					VerticalOptions="Center"
-					Color="{x:Static local:Colors.DarkGray}" />
-			</StackLayout>
-		</StackLayout>
-	</ContentPage.Content>
-</ContentPage>
+	x:Class="Tojeero.Forms.ProductsPage">
+	<local:BaseSearchablePage.ItemTemplate>
+		<DataTemplate>
+			<local:ProductListCell />
+		</DataTemplate>
+	</local:BaseSearchablePage.ItemTemplate>
+</local:BaseSearchablePage>

@@ -15,9 +15,7 @@ namespace Tojeero.Core.ViewModels
 			: base()
 		{
 			var connectivity = CrossConnectivity.Current;
-			connectivity.ConnectivityChanged+= (object sender, ConnectivityChangedEventArgs e) => {
-				IsNetworkAvailable = e.IsConnected;
-			};
+			connectivity.ConnectivityChanged += handleNetworkConnectionChanged;
 			IsNetworkAvailable = connectivity.IsConnected;
 		}
 
@@ -25,7 +23,7 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		public static string IsNetworkAvailablePropertyName = "IsNetworkAvailable";
+		public static string IsNetworkAvailableProperty = "IsNetworkAvailable";
 		private bool _isNetworkAvailable;
 		public bool IsNetworkAvailable
 		{ 
@@ -53,6 +51,15 @@ namespace Tojeero.Core.ViewModels
 				return IsNetworkAvailable ? null : _noNetworkLabel; 
 			}
 		}
+		#endregion
+
+		#region Protected API
+
+		protected virtual void handleNetworkConnectionChanged (object sender, ConnectivityChangedEventArgs e)
+		{
+			IsNetworkAvailable = e.IsConnected;
+		}
+
 		#endregion
 	}
 }

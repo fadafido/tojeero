@@ -4,27 +4,23 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
-	public partial class StoresPage : ContentPage
+	public partial class StoresPage : BaseSearchablePage
 	{
 		#region Properties
 
-		private StoresViewModel _viewModel;
-		public StoresViewModel ViewModel
+		public new StoresViewModel ViewModel
 		{
 			get
 			{
-				return _viewModel;
+				return base.ViewModel as StoresViewModel;
 			}
 			set
 			{
-				if (_viewModel != value)
-				{
-					_viewModel = value;
-					this.BindingContext = _viewModel;
-				}
+				base.ViewModel = value;
 			}
 		}
 
@@ -35,10 +31,14 @@ namespace Tojeero.Forms
 		public StoresPage()
 			: base()
 		{
-			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
-			this.ViewModel.ReloadFinished += reloadFinished;
 			InitializeComponent();
-			StoresListView.ItemSelected += storeSelected;
+			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
+			this.ToolbarItems.Add(new ToolbarItem("Filter", "", async () =>
+				{
+					await this.Navigation.PushModalAsync(new NavigationPage(new FilterStoresPage()));
+				}));
+			this.SearchBar.Placeholder = AppResources.PlaceholderSearchStores;
+			ListView.ItemSelected += itemSelected;
 		}
 
 		#endregion
@@ -48,21 +48,22 @@ namespace Tojeero.Forms
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			this.ViewModel.LoadNextPageCommand.Execute(null);
+			this.ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
 		}
 
 		#endregion
 
-		#region Event Handlers
+		#region UI Events
 
-		void storeSelected (object sender, SelectedItemChangedEventArgs e)
+		private async void itemSelected (object sender, SelectedItemChangedEventArgs e)
 		{
-			((ListView)sender).SelectedItem = null;
-		}
-
-		void reloadFinished (object sender, EventArgs e)
-		{
-			this.StoresListView.EndRefresh();
+			var item = ((ListView)sender).SelectedItem as StoreViewModel; 
+			if (item != null)
+			{
+				((ListView)sender).SelectedItem = null;
+				var storeInfo = new StoreInfoPage(item.Store);
+				await this.Navigation.PushAsync(storeInfo);
+			}
 		}
 
 		#endregion

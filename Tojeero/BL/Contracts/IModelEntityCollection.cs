@@ -7,11 +7,21 @@ using System.Threading;
 
 namespace Tojeero.Core
 {
-	public delegate Task<IEnumerable<T>> QueryDelegate<T>(int pageSize, int offset) where T : IModelEntity;
+	public interface IModelQuery<T>
+	{
+		Task<IEnumerable<T>> Fetch(int pageSize = - 1, int offset = -1);
+		Comparison<T> Comparer { get; }
+		Task ClearCache();
+	}
 
-	public interface IModelEntityCollection<T> : ICollection<T>, INotifyCollectionChanged, INotifyPropertyChanged
+	public interface IModelEntityCollection : INotifyCollectionChanged, INotifyPropertyChanged
 	{
 		Task FetchNextPageAsync();
+	}
+
+	public interface IModelEntityCollection<T> : IModelEntityCollection, ICollection<T>
+	{
+		
 	}
 }
 

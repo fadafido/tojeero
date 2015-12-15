@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Application
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.FormsApp">
+	<Application.Resources>
+		<ResourceDictionary>
+			<Style
+				x:Key="BaseButton"
+				TargetType="Button">
+				<Setter
+					Property="BorderRadius"
+					Value="3" />
+				<Setter
+					Property="HeightRequest"
+					Value="40" />
+				<Setter
+					Property="TextColor"
+					Value="White" />
+				<Setter
+					Property="FontAttributes"
+					Value="Bold" />
+			</Style>
+			<Style
+				x:Key="BaseLabel"
+				TargetType="Label">
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Main}" />
+			</Style>
+			<Style
+				x:Key="Button1"
+				TargetType="Button"
+				BaseResourceKey="BaseButton">
+				<Setter
+					Property="BackgroundColor"
+					Value="{x:Static local:Colors.Button1}" />
+			</Style>
+			<Style
+				x:Key="Button2"
+				TargetType="Button"
+				BaseResourceKey="BaseButton">
+				<Setter
+					Property="BackgroundColor"
+					Value="{x:Static local:Colors.Orange}" />
+			</Style>
+			<Style
+				x:Key="DarkButton"
+				TargetType="Button"
+				BaseResourceKey="BaseButton">
+				<Setter
+					Property="BackgroundColor"
+					Value="{x:Static local:Colors.DarkBlack}" />
+			</Style>
+			<Style
+				x:Key="Label1"
+				TargetType="Label"
+				BaseResourceKey="BaseLabel">
+				<Setter
+					Property="FontSize"
+					Value="17" />
+				<Setter
+					Property="FontAttributes"
+					Value="Bold" />
+			</Style>
+			<Style
+				x:Key="LabelInvalid"
+				TargetType="Label">
+				<Setter
+					Property="FontSize"
+					Value="14" />
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Invalid}" />
+			</Style>
+			<Style
+				x:Key="LabelWarning"
+				TargetType="Label">
+				<Setter
+					Property="FontSize"
+					Value="10" />
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Warning}" />
+			</Style>
+			<Style
+				x:Key="LabelPlaceholder"
+				TargetType="Label">
+				<Setter
+					Property="FontSize"
+					Value="20" />
+				<Setter
+					Property="FontAttributes"
+					Value="Bold" />
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Placeholder}" />
+			</Style>
+			<local:VisibilityConverter
+				x:Key="visibility" />
+			<local:InverseVisibilityConverter
+				x:Key="inverseVisibility" />
+			<local:InverseBoolConverter
+				x:Key="inverse" />
+			<local:BoolToOpacityConverter
+				x:Key="opacity" />
+			<local:InverseBoolToOpacityConverter
+				x:Key="inverseOpacity" />
+			<local:UrlToCachedImageSourceConverter
+				x:Key="cachedImage" />
+			<local:DoubleConverter
+				x:Key="double" />
+			<local:NullableBoolConverter
+				x:Key="bool" />
+		</ResourceDictionary>
+	</Application.Resources>
+</Application>

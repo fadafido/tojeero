@@ -13,28 +13,41 @@ using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class ProfileSettingsViewModel : BaseUserDetailsViewModel
+	public class ProfileSettingsViewModel : BaseUserViewModel
 	{
 		#region Private Fields and Properties
 
+		private enum Commands
+		{
+			Unknown,
+			LoadCountries,
+			LoadCities,
+			Submit
+		}
+
 		CancellationTokenSource _tokenSource;
 		CancellationToken _token;
-		private List<string> _countryList = new List<string> {"Armenia", "United Arab Emirates"};
-		private Dictionary<string, List<string>> _countries;
+		private Commands _lastExecutedCommand;
+		private readonly ICountryManager _countryManager;
+		private readonly ICityManager _cityManager;
+		private readonly IUserManager _userManager;
+		Dictionary<int, ICity[]> _citiesCache;
 
 		#endregion
 
 		#region Constructors
 
-		public ProfileSettingsViewModel(IAuthenticationService authService, IMvxMessenger messenger)
+		public ProfileSettingsViewModel(IAuthenticationService authService, IMvxMessenger messenger, 
+			ICountryManager countryManager, ICityManager cityManager,
+			IUserManager userManager)
 			: base(authService, messenger)
 		{
+			this.ShouldSubscribeToSessionChange = true;
+			this._countryManager = countryManager;
+			this._cityManager = cityManager;
+			this._userManager = userManager;
 			PropertyChanged += propertyChanged;
-			_countries = new Dictionary<string, List<string>>
-			{
-				[_countryList[0]] = new List<string> {"Yerevan", "Armavir", "Kapan", "Goris", "Sisian"},
-				[_countryList[1]] = new List<string> {"Dubai", "Abu Dhabi", "Sharjah", "Al Ain", "Ajman"}
-			};
+			updateUserData();
 		}
 
 		public void Init(bool userShouldProvideProfileDetails)
@@ -49,6 +62,7 @@ namespace Tojeero.Core.ViewModels
 		public event EventHandler<EventArgs> Close;
 
 		private string _hint;
+
 		public string Hint
 		{ 
 			get
@@ -62,38 +76,183 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		public List<string> Countries
-		{
-			get
-			{
-				return this._countryList;
-			}
-		}
+		private string _firstName;
 
-		private List<string> _cities;
-		public List<string> Cities
+		public string FirstName
 		{ 
 			get
 			{
-				return _cities; 
+				return _firstName; 
 			}
-			private set
+			set
 			{
-				_cities = value; 
-				RaisePropertyChanged(() => Cities); 
+				_firstName = value; 
+				RaisePropertyChanged(() => FirstName); 
+				RaisePropertyChanged(() => FullName); 
 			}
 		}
-			
+
+		private string _lastName;
+
+		public string LastName
+		{ 
+			get
+			{
+				return _lastName; 
+			}
+			set
+			{
+				_lastName = value; 
+				RaisePropertyChanged(() => LastName); 
+				RaisePropertyChanged(() => FullName); 
+			}
+		}
+
+		public string FullName
+		{ 
+			get
+			{
+				return string.Format("{0} {1}", FirstName, LastName); 
+			}
+		}
+
+		private string _email;
+
+		public string Email
+		{ 
+			get
+			{
+				return _email; 
+			}
+			set
+			{
+				_email = value; 
+				RaisePropertyChanged(() => Email); 
+			}
+		}
+
+		private string _profilePicture;
+
+		public string ProfilePicture
+		{ 
+			get
+			{
+				return _profilePicture; 
+			}
+			set
+			{
+				_profilePicture = value; 
+				RaisePropertyChanged(() => ProfilePicture); 
+			}
+		}
+
+
+		private ICountry _country;
+
+		public ICountry Country
+		{ 
+			get
+			{
+				return _country; 
+			}
+			set
+			{
+				if (_country != value)
+				{
+					_country = value; 
+					RaisePropertyChanged(() => Country); 
+				}
+			}
+		}
+
+		private ICity _city;
+
+		public ICity City
+		{ 
+			get
+			{
+				return _city; 
+			}
+			set
+			{
+				if (_city != value)
+				{
+					_city = value; 
+					RaisePropertyChanged(() => City); 
+				}
+			}
+		}
+
+		private string _mobile;
+
+		public string Mobile
+		{ 
+			get
+			{
+				return _mobile; 
+			}
+			set
+			{
+				_mobile = value; 
+				RaisePropertyChanged(() => Mobile); 
+			}
+		}
+
+		private ICountry[] _countries;
+
+		public ICountry[] Countries
+		{
+			get
+			{
+				return _countries;
+			}
+			set
+			{
+				_countries = value;
+				RaisePropertyChanged(() => Countries);
+			}
+		}
+
 		#endregion
 
 		#region Commands
 
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _tryAgainCommand;
+
+		public System.Windows.Input.ICommand TryAgainCommand
+		{
+			get
+			{
+				_tryAgainCommand = _tryAgainCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(tryAgain, () => !IsLoading);
+				return _tryAgainCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+
+		public System.Windows.Input.ICommand ReloadCommand
+		{
+			get
+			{
+				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{						
+						await reloadCountries();
+					}, () => (this.Countries == null || this.Countries.Length == 0) && !IsLoading);
+				return _reloadCommand;
+			}
+		}
+
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _submitCommand;
+
 		public System.Windows.Input.ICommand SubmitCommand
 		{
 			get
 			{
-				_submitCommand = _submitCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => await submit(), () => CanExecuteSubmitCommand);
+				_submitCommand = _submitCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+					{
+						_lastExecutedCommand = Commands.Submit;
+						await submit();
+					}, () => CanExecuteSubmitCommand);
 				return _submitCommand;
 			}
 		}
@@ -107,6 +266,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		private Cirrious.MvvmCross.ViewModels.MvxCommand _cancelCommand;
+
 		public System.Windows.Input.ICommand CancelCommand
 		{
 			get
@@ -118,27 +278,46 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
+		#region Protected API
+
+		protected override void handleNetworkConnectionChanged(object sender, Connectivity.Plugin.Abstractions.ConnectivityChangedEventArgs e)
+		{
+			base.handleNetworkConnectionChanged(sender, e);
+			if (e.IsConnected)
+			{
+				this.TryAgainCommand.Execute(null);
+			}
+		}
+
+		#endregion
+
 		#region Utility Methods
 
 		private async Task submit()
 		{
-			this.IsLoading = true;
-			using (_tokenSource = new CancellationTokenSource())
+			this.StartLoading(AppResources.MessageSubmitting);
+			using (_tokenSource = new CancellationTokenSource(Constants.DefaultTimeout))
 			{
 				_token = _tokenSource.Token;
 				try
 				{
 					var user = getUpdatedUser();
 					await _authService.UpdateUserDetails(user, _token);
+					this.StopLoading();
+					this.Close.Fire(this, new EventArgs());
+				}
+				catch (OperationCanceledException ex)
+				{
+					Tools.Logger.Log(ex, LoggingLevel.Warning);
+					StopLoading(AppResources.MessageSubmissionTimeoutFailure);
 				}
 				catch (Exception ex)
 				{
 					Tools.Logger.Log("Error occured while saving user details. {0}", ex.ToString(), LoggingLevel.Error);
+					StopLoading(AppResources.MessageSubmissionUnknownFailure);
 				}
-
-				this.IsLoading = false;
-				this.Close.Fire(this, new EventArgs());
 			}
+			_tokenSource = null;
 		}
 
 		private void cancel()
@@ -156,33 +335,144 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private User getUpdatedUser()
+		private IUser getUpdatedUser()
 		{
-			var user = new User();
+			var user = _userManager.Create();
 			user.FirstName = this.FirstName;
 			user.LastName = this.LastName;
-			user.Country = this.Country;
-			user.City = this.City;
+			user.CountryId = this.Country != null ? this.Country.ID : null;
+			user.CityId = this.City != null ? this.City.ID : null;
 			user.Mobile = this.Mobile;
 			return user;
 		}
 
 
-		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == "Country")
+			if (e.PropertyName == CurrentUserProperty)
 			{
-				var country = this.Country ?? "";
-				if (this._countries.ContainsKey(country))
-				{
-					this.Cities = _countries[country];
-					this.City = this.Cities.Count > 0 ? this.Cities[0] : null;
-				}
+				updateUserData();
 			}
-			else if(e.PropertyName == IsLoadingPropertyName || e.PropertyName == IsNetworkAvailablePropertyName)
+			else if (e.PropertyName == "Countries")
 			{
-				_submitCommand.RaiseCanExecuteChanged();
+				updateCountrySelection();
+			}
+			else if (e.PropertyName == "Country")
+			{
+				await updateCitySelection();
+			}
+			else if (e.PropertyName == IsLoadingProperty || e.PropertyName == IsNetworkAvailableProperty)
+			{
 				RaisePropertyChanged(() => CanExecuteSubmitCommand);
+			}
+		}
+
+		private async Task reloadCountries()
+		{
+			_lastExecutedCommand = Commands.LoadCountries;
+			this.StartLoading(AppResources.MessageGeneralLoading);
+			try
+			{
+				var countries = await _countryManager.Fetch();
+				this.Countries = countries.OrderBy(c => c.Name).ToArray();
+			}
+			catch (OperationCanceledException ex)
+			{
+				Tools.Logger.Log(ex, LoggingLevel.Warning);
+				StopLoading(AppResources.MessageLoadingTimeOut);
+			}
+			catch (Exception ex)
+			{
+				Tools.Logger.Log(ex, "Error occurred while loading countries in ProfileSettings screen.", LoggingLevel.Error, true);
+				StopLoading(AppResources.MessageLoadingFailed);
+			}
+			this.IsLoading = false;
+		}
+
+		private async Task reloadCities()
+		{
+			_lastExecutedCommand = Commands.LoadCities;
+			if (this.Country == null)
+				return;
+			this.StartLoading(AppResources.MessageGeneralLoading);
+			try
+			{
+				if(this.Country.Cities == null)
+					await this.Country.LoadCities();
+			}
+			catch (OperationCanceledException ex)
+			{
+				Tools.Logger.Log(ex, LoggingLevel.Warning);
+				StopLoading(AppResources.MessageLoadingTimeOut);
+			}
+			catch (Exception ex)
+			{
+				Tools.Logger.Log(ex, "Error occured while loading cities in ProfileSettings screen.", LoggingLevel.Error, true);
+				StopLoading(AppResources.MessageLoadingFailed);
+			}
+			this.IsLoading = false;
+		}
+
+		private async void tryAgain()
+		{
+			//Try again only if previously something went wrong,
+			//that is LoadingFailureMessage is not empty
+			if (string.IsNullOrEmpty(this.LoadingFailureMessage))
+				return;
+			switch (_lastExecutedCommand)
+			{
+				case Commands.LoadCountries:
+					ReloadCommand.Execute(null);
+					break;
+				case Commands.LoadCities:
+					await reloadCities();
+					break;
+				case Commands.Submit:
+					SubmitCommand.Execute(null);
+					break;
+				default:
+					break;
+			}
+		}
+
+		void updateUserData()
+		{
+			var user = this.CurrentUser ?? _userManager.Create();
+			this.FirstName = user.FirstName;
+			this.LastName = user.LastName;
+			this.Email = user.Email;
+			this.ProfilePicture = user.ProfilePictureUrl;
+			this.Mobile = user.Mobile;
+			updateCountrySelection();
+		}
+
+		void updateCountrySelection()
+		{
+			if (Countries != null && Settings.CountryId != null)
+			{
+				var country = this.Countries.Where(c => c.ID == Settings.CountryId).FirstOrDefault();
+				this.Country = country;
+			}
+		}
+
+		private async Task updateCitySelection()
+		{
+			if (this.Country == null)
+			{
+				this.City = null;
+			}
+			else
+			{	
+				await reloadCities();
+				if (this.Country != null && this.Country.Cities != null)
+				{
+					var city = this.Country.Cities.Where(c => c.ID == Settings.CityId).FirstOrDefault();
+					this.City = city;
+				}
+				else
+				{
+					this.City = null;
+				}
 			}
 		}
 		#endregion

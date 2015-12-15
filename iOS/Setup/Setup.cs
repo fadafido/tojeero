@@ -5,12 +5,14 @@ using UIKit;
 using Tojeero.Core;
 using Cirrious.MvvmCross.Touch.Views.Presenters;
 using Cirrious.CrossCore.IoC;
+using Cirrious.CrossCore;
+using XLabs.Platform.Services.Media;
 
 namespace Tojeero.iOS
 {
 	public class Setup : MvxTouchSetup
 	{
-		public Setup(MvxApplicationDelegate applicationDelegate, UIWindow window)
+		public Setup(IMvxApplicationDelegate applicationDelegate, UIWindow window)
 			: base(applicationDelegate, window)
 		{
 		}
@@ -36,6 +38,13 @@ namespace Tojeero.iOS
 				.EndingWith("Manager")
 				.AsInterfaces()
 				.RegisterAsLazySingleton();
+
+			CreatableTypes()
+				.EndingWith("Repository")
+				.AsInterfaces()
+				.RegisterAsLazySingleton();
+
+			Mvx.LazyConstructAndRegisterSingleton<IMediaPicker, MediaPicker>();
 		}
 	}
 }

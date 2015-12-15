@@ -1,0 +1,17 @@
+{
+    "folders":
+    [
+        {
+
+            "path": "cloud"
+        }
+    ],
+    "ternjs": {
+        "include": ["*.js"],
+        "loadEagerly": [
+            "Parse.js"
+        ],
+            "plugins": {
+            }
+        }
+}

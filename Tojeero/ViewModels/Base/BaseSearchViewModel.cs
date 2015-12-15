@@ -107,6 +107,26 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
+		#region Commands
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _refetchCommand;
+
+		public System.Windows.Input.ICommand RefetchCommand
+		{
+			get
+			{
+				_refetchCommand = _refetchCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
+					if(_browsingViewModel != null)
+						_browsingViewModel.RefetchCommand.Execute(null);
+					if(_searchViewModel != null)
+						_searchViewModel.RefetchCommand.Execute(null);
+				});
+				return _refetchCommand;
+			}
+		}
+			
+		#endregion
+
 		#region Protected API
 
 		protected abstract BaseCollectionViewModel<T> GetBrowsingViewModel();
@@ -140,21 +160,20 @@ namespace Tojeero.Core.ViewModels
 			if (string.IsNullOrWhiteSpace(SearchQuery))
 			{
 				this.ViewModel = getBrowsingViewModel();
-				return;
+				_searchViewModel = null;
 			}
-
-			if (_previousSearchQuery != this.SearchQuery)
+			else if (_previousSearchQuery != this.SearchQuery)
 			{
-				this.ViewModel = GetSearchViewModel(this.SearchQuery);
-				this.ViewModel.LoadFirstPageCommand.Execute(null);
+				this.ViewModel = _searchViewModel = GetSearchViewModel(this.SearchQuery);
 			}
 		}
 
 		BaseCollectionViewModel<T> getBrowsingViewModel()
 		{
-			return  _browsingViewModel ?? GetBrowsingViewModel();
+			if (_browsingViewModel == null)
+				_browsingViewModel = GetBrowsingViewModel();
+			return  _browsingViewModel;
 		}
-
 
 		private void connectEvents()
 		{

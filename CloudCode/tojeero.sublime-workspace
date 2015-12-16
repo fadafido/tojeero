@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"To",
+				"toJSON"
+			],
+			[
+				"object",
+				"object	(?)"
+			],
+			[
+				"ob",
+				"object	(?)"
+			],
+			[
+				"get",
+				"getProductObjectForAlgolia(product)"
+			],
+			[
+				"store",
+				"storeToSave	{}"
+			],
+			[
+				"Store",
+				"StoreItem"
+			],
+			[
+				"Sto",
+				"StoreItem"
+			],
+			[
 				"HEA",
 				"HEADER	Tag"
 			]
@@ -15,7 +43,7 @@
 			"file": "cloud/main.js",
 			"settings":
 			{
-				"buffer_size": 1805,
+				"buffer_size": 5277,
 				"line_ending": "Unix"
 			}
 		}
@@ -44,6 +72,8 @@
 	},
 	"file_history":
 	[
+		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Ubicross/Agent/Ubicross Agent.sln",
+		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Ubicross/Core/Core.sln",
 		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Clients' Projects/Tojeero/iOS/Tojeero.iOS.csproj",
 		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Clients' Projects/Tojeero/Droid/Tojeero.Droid.csproj",
 		"/Users/ObjectX/Documents/My Projects/Xamarin Projects/Libraries/Xamarin-Forms-Labs/src/Platform/XLabs.Platform.Droid/Services/Media/MediaPicker.cs",
@@ -68,6 +98,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -75,6 +106,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"indexClass",
+			"getStoreObjectForAlgolia",
+			"io",
+			"firebase",
+			"getStoreObjectForAlgolia",
+			"getProductObjectForAlgolia",
+			"jsonStore",
+			"saveObjectToIndex",
 			"TakeMediaAsync",
 			"FetchStoreProd",
 			"IBActionSheet",
@@ -94,6 +133,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"jsonProduct"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -112,15 +152,15 @@
 					"file": "cloud/main.js",
 					"settings":
 					{
-						"buffer_size": 1805,
+						"buffer_size": 5277,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1805,
-								1805
+								1962,
+								1962
 							]
 						],
 						"settings":
@@ -130,7 +170,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 321.0,
+						"translation.y": 603.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -171,7 +211,7 @@
 	"menu_visible": true,
 	"replace":
 	{
-		"height": 0.0
+		"height": 64.0
 	},
 	"save_all_on_build": true,
 	"select_file":

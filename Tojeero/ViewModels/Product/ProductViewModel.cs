@@ -86,11 +86,12 @@ namespace Tojeero.Core.ViewModels
 				var color = Xamarin.Forms.Color.Transparent;
 				if (this.Product != null)
 				{
+					if (this.Product.IsBlocked)
+						color = Tojeero.Forms.Colors.Invalid;
 					if (this.Product.Status == ProductStatus.Pending)
 						color = Tojeero.Forms.Colors.Warning;
-					else if (this.Product.Status == ProductStatus.Declined || this.Product.IsBlocked)
+					else if (this.Product.Status == ProductStatus.Declined)
 						color = Tojeero.Forms.Colors.Invalid;
-						
 				}
 				return color;
 			}

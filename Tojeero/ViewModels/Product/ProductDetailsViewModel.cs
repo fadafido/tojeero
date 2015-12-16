@@ -238,7 +238,10 @@ namespace Tojeero.Core.ViewModels
 			if (e.PropertyName == "Status" || e.PropertyName == "Mode" || e.PropertyName == "")
 			{
 				RaisePropertyChanged(() => StatusWarning);
-			}		if (e.PropertyName == "Product" || e.PropertyName == "Store" || e.PropertyName == "Name" || e.PropertyName == "Mode" || e.PropertyName == "")
+				RaisePropertyChanged(() => WarningColor);
+			}		
+
+			if (e.PropertyName == "Product" || e.PropertyName == "Store" || e.PropertyName == "Name" || e.PropertyName == "Mode" || e.PropertyName == "")
 			{
 				RaisePropertyChanged(() => IsStoreDetailsVisible);
 			}

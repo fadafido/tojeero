@@ -22,7 +22,6 @@ namespace Tojeero.Core.ViewModels
 		private readonly IProductSubcategoryManager _subcategoryManager;
 
 		private AsyncReaderWriterLock _subcategoriesLocker = new AsyncReaderWriterLock();
-		private Regex _nameValidationRegex = new Regex(@"[^A-Za-z0-9\u0600-\u06FF \-_'&]");
 		private Regex _whitespaceRegex = new Regex(@"\s+");
 		private Regex _doubleRegex = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
 
@@ -109,6 +108,7 @@ namespace Tojeero.Core.ViewModels
 						Description != CurrentProduct.Description ||
 						this.CurrentProduct.TagList != string.Join(", ", Tags) ||
 						!this.Visible != this.CurrentProduct.NotVisible ||
+						this.Price != this.CurrentProduct.Price ||
 						checkImagesChanged()))
 				{
 					return true;
@@ -670,8 +670,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			string invalid = null;
 			if (string.IsNullOrEmpty(this.Name) ||
-				this.Name.Length < 5 || this.Name.Length > 256 ||
-				this._nameValidationRegex.IsMatch(this.Name))
+				this.Name.Length < 5 || this.Name.Length > 256)
 			{
 				invalid = AppResources.MessageValidateProductName;
 			}

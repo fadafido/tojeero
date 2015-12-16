@@ -23,7 +23,7 @@ namespace Tojeero.Core.Toolbox
 				return null;
 			var tokens = stringTokenizer.Split(value);
 			HashSet<string> uniqueTokens = new HashSet<string>();
-			uniqueTokens.AddRange(tokens.Where(t => t.Length >= 1).Select(t => t.ToLower()));
+			uniqueTokens.AddRange(tokens.Where(t => t.Length >= 2).Select(t => t.ToLower()));
 			var sorted = uniqueTokens.ToList();
 			sorted.Sort();
 			return sorted;

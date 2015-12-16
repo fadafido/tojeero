@@ -381,6 +381,20 @@ namespace Tojeero.Core
 				RaisePropertyChanged(() => NotVisible);
 			}
 		}
+
+		[JsonProperty("isBlocked")]
+		public bool IsBlocked
+		{
+			get
+			{
+				return _parseObject.IsBlocked;
+			}
+			set
+			{
+				_parseObject.IsBlocked = value;
+				RaisePropertyChanged(() => IsBlocked);
+			}
+		}
 			
 		public string DisapprovalReason
 		{
@@ -637,7 +651,22 @@ namespace Tojeero.Core
 			{
 				SetProperty<bool>(value);
 			}
-		}		[ParseFieldName("disapprovalReason")]
+		}		
+
+		[ParseFieldName("isBlocked")]
+		public bool IsBlocked
+		{
+			get
+			{
+				return GetProperty<bool>();
+			}
+			set
+			{
+				SetProperty<bool>(value);
+			}
+		}
+
+		[ParseFieldName("disapprovalReason")]
 		public string DisapprovalReason
 		{
 			get

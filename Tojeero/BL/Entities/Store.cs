@@ -126,17 +126,17 @@ namespace Tojeero.Core
 			}
 		}
 
-		[JsonProperty("notVisible")]
-		public bool NotVisible
+		[JsonProperty("isBlocked")]
+		public bool IsBlocked
 		{
 			get
 			{
-				return _parseObject.NotVisible;
+				return _parseObject.IsBlocked;
 			}
 			set
 			{
-				_parseObject.NotVisible = value;
-				RaisePropertyChanged(() => NotVisible);
+				_parseObject.IsBlocked = value;
+				RaisePropertyChanged(() => IsBlocked);
 			}
 		}
 
@@ -432,8 +432,8 @@ namespace Tojeero.Core
 			}
 		}
 
-		[ParseFieldName("notVisible")]
-		public bool NotVisible
+		[ParseFieldName("isBlocked")]
+		public bool IsBlocked
 		{
 			get
 			{

@@ -58,10 +58,22 @@ namespace Tojeero.Core.ViewModels
 				string warning = null;
 				if (this.Product != null)
 				{
-					if (this.Product.Status == ProductStatus.Pending)
-						warning = AppResources.LabelPending;
-					else if (this.Product.Status == ProductStatus.Disapproved)
-						warning = AppResources.LabelDisapproved;
+					if (Product.IsBlocked)
+					{
+						warning = AppResources.LabelBlocked;
+					}
+					else
+					{
+						switch (this.Product.Status)
+						{
+							case ProductStatus.Pending:
+								warning = AppResources.LabelPending;
+								break;
+							case ProductStatus.Declined:
+								warning = AppResources.LabelDeclined;
+								break;
+						}
+					}
 				}
 				return warning;
 			}
@@ -74,15 +86,16 @@ namespace Tojeero.Core.ViewModels
 				var color = Xamarin.Forms.Color.Transparent;
 				if (this.Product != null)
 				{
-					if (this.Product.Status == ProductStatus.Disapproved)
-						color = Tojeero.Forms.Colors.Invalid;
-					else if (this.Product.Status == ProductStatus.Pending)
+					if (this.Product.Status == ProductStatus.Pending)
 						color = Tojeero.Forms.Colors.Warning;
+					else if (this.Product.Status == ProductStatus.Declined || this.Product.IsBlocked)
+						color = Tojeero.Forms.Colors.Invalid;
+						
 				}
 				return color;
 			}
 		}
-			
+
 		private IFavorite _favorite;
 
 		public IFavorite Favorite
@@ -126,6 +139,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		public static string CanExecuteLoadFavoriteCommandProperty = "CanExecuteLoadFavoriteCommand";
+
 		public bool CanExecuteLoadFavoriteCommand
 		{
 			get
@@ -150,6 +164,7 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		public static string CanExecuteToggleFavoriteCommandProperty = "CanExecuteToggleFavoriteCommand";
+
 		public bool CanExecuteToggleFavoriteCommand
 		{
 			get
@@ -193,7 +208,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				try
 				{
-					if(this.Favorite.IsFavorite)
+					if (this.Favorite.IsFavorite)
 					{
 						await _authService.CurrentUser.RemoveProductFromFavorites(this.Product.ID);
 					}
@@ -214,13 +229,13 @@ namespace Tojeero.Core.ViewModels
 		protected virtual void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
-				e.PropertyName == "Favorite" || e.PropertyName == IsLoadingProperty)
+			    e.PropertyName == "Favorite" || e.PropertyName == IsLoadingProperty)
 			{				
 				this.RaisePropertyChanged(() => CanExecuteToggleFavoriteCommand);
 			}
 
 			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
-			         e.PropertyName == ProductProperty)
+			    e.PropertyName == ProductProperty)
 			{
 				this.RaisePropertyChanged(() => CanExecuteLoadFavoriteCommand);
 			}		

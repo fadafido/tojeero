@@ -16,7 +16,7 @@ namespace Tojeero.Core
 
 		string ImageUrl { get; }
 
-		bool NotVisible { get; set; }
+		bool IsBlocked { get; }
 
 		string CategoryID { get; set; }
 

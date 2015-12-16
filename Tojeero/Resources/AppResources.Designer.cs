@@ -233,6 +233,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blocked.
+        /// </summary>
+        internal static string LabelBlocked {
+            get {
+                return ResourceManager.GetString("LabelBlocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category.
         /// </summary>
         internal static string LabelCategory {
@@ -260,6 +269,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Declined.
+        /// </summary>
+        internal static string LabelDeclined {
+            get {
+                return ResourceManager.GetString("LabelDeclined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delivery notes.
         /// </summary>
         internal static string LabelDeliveryNotes {
@@ -274,15 +292,6 @@ namespace Tojeero.Forms.Resources {
         internal static string LabelDescription {
             get {
                 return ResourceManager.GetString("LabelDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Disapproved.
-        /// </summary>
-        internal static string LabelDisapproved {
-            get {
-                return ResourceManager.GetString("LabelDisapproved", resourceCulture);
             }
         }
         
@@ -611,11 +620,11 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Product was disapproved. Reason: {0}.
+        ///   Looks up a localized string similar to Product was declined. Reason: {0}.
         /// </summary>
-        internal static string MessageProductDisapproved {
+        internal static string MessageProductDeclined {
             get {
-                return ResourceManager.GetString("MessageProductDisapproved", resourceCulture);
+                return ResourceManager.GetString("MessageProductDeclined", resourceCulture);
             }
         }
         
@@ -661,6 +670,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageSavingStore {
             get {
                 return ResourceManager.GetString("MessageSavingStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your store has been blocked..
+        /// </summary>
+        internal static string MessageStoreBlocked {
+            get {
+                return ResourceManager.GetString("MessageStoreBlocked", resourceCulture);
             }
         }
         

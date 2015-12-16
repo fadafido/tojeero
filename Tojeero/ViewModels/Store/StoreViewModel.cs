@@ -5,6 +5,7 @@ using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using System.Threading.Tasks;
 using Nito.AsyncEx;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -32,7 +33,7 @@ namespace Tojeero.Core.ViewModels
 		public static string StoreProperty = "Store";
 		private IStore _store;
 
-		public IStore Store
+		public virtual IStore Store
 		{ 
 			get
 			{
@@ -71,6 +72,20 @@ namespace Tojeero.Core.ViewModels
 			get
 			{
 				return this.Favorite != null;
+			}
+		}
+
+		public virtual string StatusWarning
+		{
+			get
+			{
+				string warning = null;
+				if (this.Store != null)
+				{
+					if (this.Store.IsBlocked)
+						warning = AppResources.MessageStoreBlocked;
+				}
+				return warning;
 			}
 		}
 
@@ -195,6 +210,11 @@ namespace Tojeero.Core.ViewModels
 			if (e.PropertyName == CanExecuteLoadFavoriteCommandProperty || e.PropertyName == "")
 			{
 				this.LoadFavoriteCommand.Execute(null);
+			}
+
+			if (e.PropertyName == "Status" || e.PropertyName == "Mode" || e.PropertyName == "")
+			{
+				RaisePropertyChanged(() => StatusWarning);
 			}
 
 			//If the user state has changed to logged off then we need to clean the favorite state

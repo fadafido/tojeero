@@ -63,7 +63,7 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		public IStore Store
+		public override IStore Store
 		{
 			get
 			{

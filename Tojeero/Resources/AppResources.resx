@@ -468,8 +468,8 @@
   <data name="ButtonAddTags" xml:space="preserve">
     <value>Add tags</value>
   </data>
-  <data name="LabelDisapproved" xml:space="preserve">
-    <value>Disapproved</value>
+  <data name="LabelDeclined" xml:space="preserve">
+    <value>Declined</value>
   </data>
   <data name="LabelPending" xml:space="preserve">
     <value>Pending</value>
@@ -477,13 +477,19 @@
   <data name="LabelVisible" xml:space="preserve">
     <value>Visible</value>
   </data>
-  <data name="MessageProductDisapproved" xml:space="preserve">
-    <value>Product was disapproved. Reason: {0}</value>
+  <data name="MessageProductDeclined" xml:space="preserve">
+    <value>Product was declined. Reason: {0}</value>
   </data>
   <data name="MessageProductPending" xml:space="preserve">
     <value>Product is pending for approval. It will be visible to the users as soon as we approve it.</value>
   </data>
   <data name="TextUnknown" xml:space="preserve">
     <value>Unknown</value>
+  </data>
+  <data name="MessageStoreBlocked" xml:space="preserve">
+    <value>Your store has been blocked.</value>
+  </data>
+  <data name="LabelBlocked" xml:space="preserve">
+    <value>Blocked</value>
   </data>
 </root>

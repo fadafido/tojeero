@@ -6,7 +6,7 @@ namespace Tojeero.Core
 	{
 		Pending = 0,
 		Approved = 1,
-		Disapproved = 2
+		Declined = 2
 	}
 }
 

@@ -23,9 +23,9 @@ namespace Tojeero.Core.Toolbox
 				return null;
 			var tokens = stringTokenizer.Split(value);
 			HashSet<string> uniqueTokens = new HashSet<string>();
-			uniqueTokens.AddRange(tokens.Where(t => t.Length >= 2).Select(t => t.ToLower()));
+			uniqueTokens.AddRange(tokens.Where(t => t.Length >= 1).Select(t => t.ToLower()));
 			var sorted = uniqueTokens.ToList();
-			sorted.Sort(new Comparison<string>((x, y) => x.CompareIgnoreCase(y)));
+			sorted.Sort();
 			return sorted;
 		}
 
@@ -46,12 +46,12 @@ namespace Tojeero.Core.Toolbox
 			{
 				if (value != null)
 				{
-					var tokens = stringTokenizer.Split(value);
+					var tokens = Tokenize(value);
 					uniqueTokens.AddRange(tokens);
 				}
 			}
 			var sorted = uniqueTokens.ToList();
-			sorted.Sort(new Comparison<string>((x, y) => x.CompareIgnoreCase(y)));
+			sorted.Sort();
 			return sorted;
 		}
 

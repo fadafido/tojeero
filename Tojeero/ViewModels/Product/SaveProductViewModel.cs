@@ -628,6 +628,7 @@ namespace Tojeero.Core.ViewModels
 					{
 						var result = await _subcategoryManager.Fetch(this.Category.ID);
 						this.Subcategories = result != null ? result.ToArray() : null;
+						this.Subcategory = this.Subcategories != null ? this.Subcategories.FirstOrDefault() : null;
 					}
 					catch (Exception ex)
 					{

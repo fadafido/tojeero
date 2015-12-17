@@ -168,12 +168,12 @@
 							Padding="20"
 							Spacing="10">
 							<Label
-								Text="{local:Translate LabelProductNotVisible}"
+								Text="{local:Translate LabelVisible}"
 								Style="{StaticResource Label1}"
 								HorizontalOptions="FillAndExpand"
 								VerticalOptions="Center" />
 							<Switch
-								IsToggled="{Binding NotVisible, Mode=TwoWay}"
+								IsToggled="{Binding Visible, Mode=TwoWay}"
 								VerticalOptions="Center" />
 						</StackLayout>
 						<!--CREATE PRODUCT BUTTON-->

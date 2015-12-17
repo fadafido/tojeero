@@ -94,20 +94,24 @@ namespace Tojeero.Core.ViewModels
 				string warning = null;
 				if (this.Mode == ContentMode.Edit && this.Product != null)
 				{
-					switch (this.Product.Status)
+					if (this.Product.IsBlocked)
 					{
-						case ProductStatus.Pending:
-							warning = AppResources.MessageProductPending;
-							break;
-						case ProductStatus.Disapproved:
-							{
-								string reason = !string.IsNullOrEmpty(this.Product.DisapprovalReason) ? this.Product.DisapprovalReason : AppResources.TextUnknown;
-								warning = string.Format(AppResources.MessageProductDisapproved, reason);
-							}
-							break;
-						default:
-							warning = null;
-							break;
+						warning = AppResources.MessageStoreBlocked;
+					}
+					else
+					{
+						switch (this.Product.Status)
+						{
+							case ProductStatus.Pending:
+								warning = AppResources.MessageProductPending;
+								break;
+							case ProductStatus.Declined:
+								{
+									string reason = !string.IsNullOrEmpty(this.Product.DisapprovalReason) ? this.Product.DisapprovalReason : AppResources.TextUnknown;
+									warning = string.Format(AppResources.MessageProductDeclined, reason);
+								}
+								break;
+						}
 					}
 				}
 				return warning;
@@ -234,7 +238,8 @@ namespace Tojeero.Core.ViewModels
 			if (e.PropertyName == "Status" || e.PropertyName == "Mode" || e.PropertyName == "")
 			{
 				RaisePropertyChanged(() => StatusWarning);
-			}
+				RaisePropertyChanged(() => WarningColor);
+			}		
 
 			if (e.PropertyName == "Product" || e.PropertyName == "Store" || e.PropertyName == "Name" || e.PropertyName == "Mode" || e.PropertyName == "")
 			{

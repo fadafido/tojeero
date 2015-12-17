@@ -559,6 +559,7 @@ namespace Tojeero.Core.ViewModels
 					{
 						var result = await _cityManager.Fetch(this.Country.ID);
 						this.Cities = result != null ? result.ToArray() : null;
+						this.City = this.Cities != null ? this.Cities.FirstOrDefault() : null;
 					}
 					catch (Exception ex)
 					{

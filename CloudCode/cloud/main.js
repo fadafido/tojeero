@@ -188,29 +188,43 @@ function toggleStoreBlocking(request, response, isBlocked)
 
       var query = new Parse.Query(Product);
       query.equalTo("store", store);
-      query.find({
-        success: function(result) {
-          var products = [];
-          var productIDs = "";
-          for(var i = 0 ; i < result.length ; i++)
-          {
-            result[i].set("isBlocked", isBlocked);
-            products.push(result[i]);
-            productIDs = productIDs + " " + result[i].id;
+      var queryLimit = 1000;
+      query.limit(queryLimit);
+      var abc = "";
+      var performQuery = function() {
+          query.find({
+          success: function(result) {
+            var products = [];
+            var productIDs = "";
+            for(var i = 0 ; i < result.length ; i++)
+            {
+              result[i].set("isBlocked", isBlocked);
+              products.push(result[i]);
+              productIDs = productIDs + " " + result[i].id;
+            }
+            if(productIDs.length != 0)
+            {
+               Parse.Object.saveAll(products, {
+                  success: function(objs) {  
+                      if(result.length >= queryLimit)
+                        performQuery();
+                      else
+                      {
+                        response.success("Successfully blocked store with ID "+storeID);
+                      }                                    
+                  },
+                  error: function(error) { 
+                      throw error;
+                  }
+               });
+            }
+          },
+          error: function(object, error) {
+            throw error;
           }
-          Parse.Object.saveAll(products, {
-              success: function(objs) {                  
-                  response.success("Successfully blocked store with ID "+storeID);
-              },
-              error: function(error) { 
-                  throw error;
-              }
-          });
-        },
-        error: function(object, error) {
-          throw error;
-        }
-      });
+        });  
+      }
+    performQuery();   
     },
     error: function(object, error) {
       throw error;

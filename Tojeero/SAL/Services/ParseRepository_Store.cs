@@ -104,7 +104,7 @@ namespace Tojeero.Core
 				s.DeliveryNotes = store.DeliveryNotes;
 				s.OwnerID = ParseUser.CurrentUser.ObjectId;
 				s.LowercaseName = s.Name.ToLower();
-				s.SearchTokens = new string[] { s.Name, s.Description }.Tokenize();
+				s.SearchTokens = new string[] { s.Name }.Tokenize();
 				if (store.MainImage.NewImage != null)
 				{
 					await s.SetMainImage(store.MainImage.NewImage);

@@ -92,7 +92,7 @@ namespace Tojeero.Core
 				p.CountryId = product.Store.CountryId;
 				p.CityId = product.Store.CityId;
 				p.Tags = product.Tags.ToList();
-				p.SearchTokens = new string[] { p.Name, p.Description, p.TagList }.Tokenize();
+				p.SearchTokens = new string[] { p.Name, p.TagList }.Tokenize();
 				if (product.MainImage.NewImage != null)
 				{
 					await p.SetMainImage(product.MainImage.NewImage);

@@ -282,6 +282,12 @@
     <Compile Include="BL\Contracts\Managers\IFavoriteManager.cs" />
     <Compile Include="BL\Contracts\Entities\IFavorite.cs" />
     <Compile Include="BL\Entities\Favorite.cs" />
+    <Compile Include="Pages\Main\TopTabPage.cs" />
+    <Compile Include="Pages\Base\BaseSearchableTabPage.xaml.cs">
+      <DependentUpon>BaseSearchableTabPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Custom Controls\TabButton.cs" />
+    <Compile Include="Misc\Custom Controls\SearchbarEx.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -486,6 +492,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\Custom Controls\TagCloud.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Base\BaseSearchableTabPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

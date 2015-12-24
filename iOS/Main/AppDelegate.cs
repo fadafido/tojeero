@@ -15,6 +15,8 @@ using Tojeero.Core;
 using ImageCircle.Forms.Plugin.iOS;
 using Xamarin.Forms.Platform.iOS;
 using Cirrious.MvvmCross.Platform;
+using ObjCRuntime;
+using System.Runtime.InteropServices;
 
 
 namespace Tojeero.iOS
@@ -47,7 +49,6 @@ namespace Tojeero.iOS
 
 			//Initialize Misc Plugins
 			ImageCircleRenderer.Init();
-
 			MakeAppearanceCustomizations();
 			base.FinishedLaunching(app, options);
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
@@ -64,8 +65,8 @@ namespace Tojeero.iOS
 
 		private void MakeAppearanceCustomizations()
 		{
-			UINavigationBar.Appearance.BarTintColor = Colors.Blue.ToUIColor();
-			UINavigationBar.Appearance.TintColor = Colors.Black.ToUIColor();
+			UINavigationBar.Appearance.BarTintColor = Colors.Secondary.ToUIColor();
+			UINavigationBar.Appearance.TintColor = UIColor.White;
 			UITextAttributes attr = new UITextAttributes();
 			attr.Font = UIFont.FromName("System", 16);
 			attr.TextColor = UIColor.White;

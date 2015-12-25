@@ -8,7 +8,7 @@ using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
-	public partial class StoresPage : BaseSearchablePage
+	public partial class StoresPage : BaseSearchableTabPage
 	{
 		#region Properties
 
@@ -32,8 +32,12 @@ namespace Tojeero.Forms
 			: base()
 		{
 			InitializeComponent();
+
+			this.ProductsButton.IsSelected = false;
+			this.StoresButton.IsSelected = true;
+
 			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
-			this.ToolbarItems.Add(new ToolbarItem("Filter", "", async () =>
+			this.ToolbarItems.Add(new ToolbarItem("", "filterIcon.png", async () =>
 				{
 					await this.Navigation.PushModalAsync(new NavigationPage(new FilterStoresPage()));
 				}));

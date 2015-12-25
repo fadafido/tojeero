@@ -1,7 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
 using Tojeero.Forms;
-using Tojeero.Droid;
 using Xamarin.Forms.Platform.Android;
 using System.ComponentModel;
 using System.Threading.Tasks;

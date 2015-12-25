@@ -1,3 +1,10 @@
+var algoliasearch = require('cloud/algoliasearch.parse.js');
+var client = algoliasearch('I72QVLIB9D', '1bbda88eb37f712280d29416e5278d59');
+var storeIndex = client.initIndex('Stores');
+var productIndex = client.initIndex('Products');
+var Store = Parse.Object.extend("Store");
+var Product = Parse.Object.extend("StoreItem");
+
 Parse.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
@@ -27,10 +34,6 @@ Parse.Cloud.beforeSave("Tag", function(request, response) {
   }
 });
  
-var algoliasearch = require('cloud/algoliasearch.parse.js');
-var client = algoliasearch('I72QVLIB9D', '1bbda88eb37f712280d29416e5278d59');
-var storeIndex = client.initIndex('Stores');
-var productIndex = client.initIndex('Products');
   
 Parse.Cloud.define("uploadStoresToAlgolia", function(request, response) {
     indexClass('Store', storeIndex, response, getStoreObjectForAlgolia);
@@ -55,6 +58,14 @@ Parse.Cloud.afterDelete('Store', function(request) {
 
 Parse.Cloud.afterDelete('StoreItem', function(request) {
   deleteObjectFromIndex(productIndex, request)
+});
+
+Parse.Cloud.define("blockStore", function(request, response){
+  toggleStoreBlocking(request, response, true);
+});
+
+Parse.Cloud.define("unblockStore", function(request, response){
+  toggleStoreBlocking(request, response, false);
 });
  
 function indexClass(className, classIndex, response, getObjectForAlgolia){
@@ -164,4 +175,59 @@ function getProductObjectForAlgolia(product)
   delete jsonProduct.tags;
   
   return jsonProduct;
+}
+
+function toggleStoreBlocking(request, response, isBlocked)
+{
+  var storeID = request.params["storeID"];
+  var query = new Parse.Query(Store);
+  query.get(storeID, {
+    success: function(store) {
+      store.set("isBlocked", isBlocked);
+      store.save();
+
+      var query = new Parse.Query(Product);
+      query.equalTo("store", store);
+      var queryLimit = 1000;
+      query.limit(queryLimit);
+      var abc = "";
+      var performQuery = function() {
+          query.find({
+          success: function(result) {
+            var products = [];
+            var productIDs = "";
+            for(var i = 0 ; i < result.length ; i++)
+            {
+              result[i].set("isBlocked", isBlocked);
+              products.push(result[i]);
+              productIDs = productIDs + " " + result[i].id;
+            }
+            if(productIDs.length != 0)
+            {
+               Parse.Object.saveAll(products, {
+                  success: function(objs) {  
+                      if(result.length >= queryLimit)
+                        performQuery();
+                      else
+                      {
+                        response.success("Successfully "+ (isBlocked ? "blocked" : "unblocked") + " store with ID "+storeID);
+                      }                                    
+                  },
+                  error: function(error) { 
+                      throw error;
+                  }
+               });
+            }
+          },
+          error: function(object, error) {
+            throw error;
+          }
+        });  
+      }
+    performQuery();   
+    },
+    error: function(object, error) {
+      throw error;
+    }
+  });
 }

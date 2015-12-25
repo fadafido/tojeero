@@ -20,7 +20,9 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
 			{
-				var query = new ParseQuery<ParseProduct>().Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store").Include("country");
+				var query = new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName);
+				query = addProductVisibilityConditions(query);
+				query = addProductIncludedFields(query);
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);
@@ -38,7 +40,9 @@ namespace Tojeero.Core
 				var user = ParseUser.CurrentUser as TojeeroUser;
 				if (user == null)
 					return null;
-				var query = user.FavoriteProducts.Query.Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved).OrderBy(p => p.LowercaseName).Include("category").Include("subcategory").Include("store").Include("country");
+				var query = user.FavoriteProducts.Query.OrderBy(p => p.LowercaseName);
+				query = addProductVisibilityConditions(query);
+				query = addProductIncludedFields(query);
 				if (pageSize > 0 && offset >= 0)
 				{
 					query = query.Limit(pageSize).Skip(offset);
@@ -82,13 +86,13 @@ namespace Tojeero.Core
 				p.CategoryID = product.Category != null ? product.Category.ID : null;
 				p.SubcategoryID = product.Subcategory != null ? product.Subcategory.ID : null;
 				p.Description = product.Description;
-				p.NotVisible = product.NotVisible;
+				p.NotVisible = !product.Visible;
 				p.Status = ProductStatus.Pending;
 				p.LowercaseName = p.Name.ToLower();
 				p.CountryId = product.Store.CountryId;
 				p.CityId = product.Store.CityId;
 				p.Tags = product.Tags.ToList();
-				p.SearchTokens = new string[] { p.Name, p.Description, p.TagList }.Tokenize();
+				p.SearchTokens = new string[] { p.Name, p.TagList }.Tokenize();
 				if (product.MainImage.NewImage != null)
 				{
 					await p.SetMainImage(product.MainImage.NewImage);
@@ -154,7 +158,9 @@ namespace Tojeero.Core
 			if (filter != null)
 			{
 				List<string> facets = new List<string>();
+				facets.Add("status:"+(int)ProductStatus.Approved);
 				facets.Add("notVisible:false");
+				facets.Add("isBlocked:false");
 				if (filter.Category != null)
 				{
 					facets.Add("categoryID:"+filter.Category.ID);
@@ -200,6 +206,19 @@ namespace Tojeero.Core
 					query.SetNumericFilters(string.Join(",", numericFilters));
 			}
 			return query;
+		}
+
+
+		ParseQuery<ParseProduct> addProductVisibilityConditions(ParseQuery<ParseProduct> query)
+		{
+			var result = query.Where(p => p.NotVisible == false && p.Status == (int)ProductStatus.Approved && p.IsBlocked == false);
+			return result;
+		}
+
+		ParseQuery<ParseProduct> addProductIncludedFields(ParseQuery<ParseProduct> query)
+		{
+			var result = query.Include("category").Include("subcategory").Include("store").Include("country");
+			return result;
 		}
 
 		#endregion

@@ -53,7 +53,7 @@ namespace Tojeero.Forms
 
 		private async Task<IImage> pickImage()
 		{
-			var parent = this.FindParentPage();
+			var parent = this.FindParentPage<Page>();
 			var image = await ImageToolbox.PickImage(parent);
 			return image;
 		}

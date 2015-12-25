@@ -29,7 +29,7 @@ namespace Tojeero.Core.ViewModels
 
 		string Description { get; set; }
 
-		bool NotVisible { get; set; }
+		bool Visible { get; set; }
 
 		bool HasChanged { get; }
 	}

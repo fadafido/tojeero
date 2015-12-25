@@ -22,7 +22,6 @@ namespace Tojeero.Core.ViewModels
 		private readonly IProductSubcategoryManager _subcategoryManager;
 
 		private AsyncReaderWriterLock _subcategoriesLocker = new AsyncReaderWriterLock();
-		private Regex _nameValidationRegex = new Regex(@"[^A-Za-z0-9\u0600-\u06FF \-_'&]");
 		private Regex _whitespaceRegex = new Regex(@"\s+");
 		private Regex _doubleRegex = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
 
@@ -108,7 +107,8 @@ namespace Tojeero.Core.ViewModels
 						Subcategory != null && Subcategory.ID != CurrentProduct.SubcategoryID ||
 						Description != CurrentProduct.Description ||
 						this.CurrentProduct.TagList != string.Join(", ", Tags) ||
-						this.NotVisible != this.CurrentProduct.NotVisible ||
+						!this.Visible != this.CurrentProduct.NotVisible ||
+						this.Price != this.CurrentProduct.Price ||
 						checkImagesChanged()))
 				{
 					return true;
@@ -263,7 +263,7 @@ namespace Tojeero.Core.ViewModels
 
 		private bool _isVisible;
 
-		public bool NotVisible
+		public bool Visible
 		{ 
 			get
 			{
@@ -272,7 +272,7 @@ namespace Tojeero.Core.ViewModels
 			set
 			{
 				_isVisible = value; 
-				RaisePropertyChanged(() => NotVisible); 
+				RaisePropertyChanged(() => Visible); 
 			}
 		}
 			
@@ -547,7 +547,7 @@ namespace Tojeero.Core.ViewModels
 			this.Description = this.CurrentProduct.Description;
 			this.Tags = null;
 			this.Tags.AddRange(this.CurrentProduct.Tags);
-			this.NotVisible = this.CurrentProduct.NotVisible;
+			this.Visible = !this.CurrentProduct.NotVisible;
 		}
 
 		private void nullifyViewModel()
@@ -559,7 +559,7 @@ namespace Tojeero.Core.ViewModels
 			this.Description = null;
 			this.Category = null;
 			this.Subcategory = null;
-			this.NotVisible = false;
+			this.Visible = true;
 		}
 
 		private async Task save()
@@ -628,6 +628,7 @@ namespace Tojeero.Core.ViewModels
 					{
 						var result = await _subcategoryManager.Fetch(this.Category.ID);
 						this.Subcategories = result != null ? result.ToArray() : null;
+						this.Subcategory = this.Subcategories != null ? this.Subcategories.FirstOrDefault() : null;
 					}
 					catch (Exception ex)
 					{
@@ -669,8 +670,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			string invalid = null;
 			if (string.IsNullOrEmpty(this.Name) ||
-				this.Name.Length < 5 || this.Name.Length > 256 ||
-				this._nameValidationRegex.IsMatch(this.Name))
+				this.Name.Length < 5 || this.Name.Length > 256)
 			{
 				invalid = AppResources.MessageValidateProductName;
 			}

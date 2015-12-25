@@ -210,7 +210,7 @@ function toggleStoreBlocking(request, response, isBlocked)
                         performQuery();
                       else
                       {
-                        response.success("Successfully blocked store with ID "+storeID);
+                        response.success("Successfully "+ (isBlocked ? "blocked" : "unblocked") + " store with ID "+storeID);
                       }                                    
                   },
                   error: function(error) { 

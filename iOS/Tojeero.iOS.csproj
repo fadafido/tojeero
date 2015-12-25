@@ -415,6 +415,11 @@
     <BundleResource Include="Resources\Samples\ProductSampleImages\image97.jpg" />
     <BundleResource Include="Resources\Samples\ProductSampleImages\image98.jpg" />
     <BundleResource Include="Resources\Samples\ProductSampleImages\image99.jpg" />
+    <BundleResource Include="Resources\deselectedTab%402x.png" />
+    <BundleResource Include="Resources\selectedTab%402x.png" />
+    <BundleResource Include="Resources\searchbarBackground%402x.png" />
+    <BundleResource Include="Resources\filterIcon%402x.png" />
+    <BundleResource Include="Resources\tojeero%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -563,6 +568,8 @@
       <Link>Core\BL\Contracts\Entities\IParseMultiImageEntity.cs</Link>
     </Compile>
     <Compile Include="Misc\Custom Renderers\CarouselLayoutRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\TabButtonRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\SearchBarExRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

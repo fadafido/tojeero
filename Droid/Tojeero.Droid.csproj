@@ -367,6 +367,8 @@
       <Link>Core\BL\Contracts\Entities\IParseMultiImageEntity.cs</Link>
     </Compile>
     <Compile Include="Misc\Custom Renderers\CarouselLayoutRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\TabButtonRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\SearchBarExRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -435,7 +437,6 @@
     <AndroidResource Include="Resources\drawable\selectable_background_tojeero.xml" />
     <AndroidResource Include="Resources\drawable\spinner_background_ab_tojeero.xml" />
     <AndroidResource Include="Resources\drawable\tab_indicator_ab_tojeero.xml" />
-    <AndroidResource Include="Resources\drawable-xhdpi\menuIcon.png" />
     <AndroidResource Include="Resources\drawable\actionbar_titletext_tojeero.xml" />
     <AndroidResource Include="Resources\drawable-xxhdpi\checkmark.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\closeTag.png" />
@@ -458,6 +459,9 @@
     <AndroidResource Include="Resources\drawable\TakePhotoButton.png" />
     <AndroidResource Include="Resources\drawable\ToggleCameraButton.png" />
     <AndroidResource Include="Resources\values\colors.xml" />
+    <AndroidResource Include="Resources\drawable-xhdpi\filterIcon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menuIcon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tojeero.png" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets')" />

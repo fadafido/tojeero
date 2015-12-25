@@ -9,8 +9,14 @@ namespace Tojeero.iOS.Renderers
 {
 	public class SearchBarExRenderer : SearchBarRenderer
 	{
+		#region Private fields
+
 		private UIImage _backgroundImage = null;
+
+		#endregion
 		
+		#region Parent override
+
 		protected override void OnElementChanged(Xamarin.Forms.Platform.iOS.ElementChangedEventArgs<SearchBar> e)
 		{
 			base.OnElementChanged(e);
@@ -19,13 +25,9 @@ namespace Tojeero.iOS.Renderers
 			updateBackground();
 		}
 
-		protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged(sender, e);
-			if (this.Control == null || this.Element == null)
-				return;
-			updateBackground();
-		}
+		#endregion
+
+		#region Utility methods
 
 		private void updateBackground()
 		{
@@ -36,6 +38,8 @@ namespace Tojeero.iOS.Renderers
 				this.Control.BackgroundImage = _backgroundImage;
 			}
 		}
+
+		#endregion
 	}
 }
 

@@ -12,14 +12,13 @@ namespace Tojeero.Forms
 		#region Private fields
 
 		private NavigationPage _productsPage;
-		private ProductsPage productsPage;
 		private NavigationPage ProductsPage
 		{
 			get
 			{
 				if (_productsPage == null)
 				{
-					_productsPage = new NavigationPage(productsPage = new ProductsPage() { Title = AppResources.TitleProducts });
+					_productsPage = new NavigationPage(new ProductsPage());
 				}
 				return _productsPage;
 			}
@@ -32,7 +31,7 @@ namespace Tojeero.Forms
 			{
 				if (_storesPage == null)
 				{
-					_storesPage = new NavigationPage(new StoresPage() { Title = AppResources.TitleStores });
+					_storesPage = new NavigationPage(new StoresPage());
 				}
 				return _storesPage;
 			}

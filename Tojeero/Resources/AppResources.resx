@@ -492,4 +492,7 @@
   <data name="LabelBlocked" xml:space="preserve">
     <value>Blocked</value>
   </data>
+  <data name="TitleShop" xml:space="preserve">
+    <value>Shop</value>
+  </data>
 </root>

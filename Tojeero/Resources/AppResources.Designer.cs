@@ -998,6 +998,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shop.
+        /// </summary>
+        internal static string TitleShop {
+            get {
+                return ResourceManager.GetString("TitleShop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Store details.
         /// </summary>
         internal static string TitleStoreDetails {

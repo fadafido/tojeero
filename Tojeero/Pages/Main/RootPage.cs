@@ -11,6 +11,8 @@ namespace Tojeero.Forms
 	{
 		#region Private fields
 
+		private TabbedPage _tabs;
+
 		private NavigationPage _productsPage;
 		private NavigationPage ProductsPage
 		{
@@ -19,6 +21,8 @@ namespace Tojeero.Forms
 				if (_productsPage == null)
 				{
 					_productsPage = new NavigationPage(new ProductsPage());
+					_productsPage.Icon = "shopIcon.png";
+					_productsPage.Title = AppResources.TitleShop;
 				}
 				return _productsPage;
 			}
@@ -32,10 +36,28 @@ namespace Tojeero.Forms
 				if (_storesPage == null)
 				{
 					_storesPage = new NavigationPage(new StoresPage());
+					_storesPage.Icon = "shopIcon.png";
+					_storesPage.Title = AppResources.TitleShop;
 				}
 				return _storesPage;
 			}
 		}
+
+		private NavigationPage _favoritesPage;
+		private NavigationPage FavoritesPage
+		{
+			get
+			{
+				if (_favoritesPage == null)
+				{
+					_favoritesPage = new NavigationPage(new FavoritesPage());
+					_favoritesPage.Icon = "favoritesIcon.png";
+					_favoritesPage.Title = AppResources.TitleFavorites;
+				}
+				return _favoritesPage;
+			}
+		}
+
 
 		#endregion
 
@@ -48,7 +70,11 @@ namespace Tojeero.Forms
 				Title = AppResources.AppName
 			};
 						
-			this.Detail = ProductsPage;
+			_tabs = new TabbedPage();
+			_tabs.Children.Add(ProductsPage);
+			_tabs.Children.Add(FavoritesPage);
+
+			this.Detail = _tabs;
 		}
 
 		#endregion
@@ -57,12 +83,16 @@ namespace Tojeero.Forms
 
 		public void SelectProductsPage()
 		{
-			this.Detail = this.ProductsPage;
+			_tabs.Children.Remove(StoresPage);
+			_tabs.Children.Insert(0, this.ProductsPage);
+			_tabs.CurrentPage = ProductsPage;
 		}
 
 		public void SelectStoresPage()
 		{
-			this.Detail = this.StoresPage;
+			_tabs.Children.Remove(ProductsPage);
+			_tabs.Children.Insert(0, this.StoresPage);
+			_tabs.CurrentPage = StoresPage;
 		}
 
 		#endregion

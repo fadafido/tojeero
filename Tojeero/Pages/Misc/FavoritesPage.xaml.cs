@@ -15,10 +15,7 @@ namespace Tojeero.Forms
 		{			
 			this.ViewModel = MvxToolbox.LoadViewModel<FavoritesViewModel>();
 			InitializeComponent();
-			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
-					{
-						await this.Navigation.PopModalAsync();
-					}));
+			NavigationPage.SetTitleIcon(this, "tojeero.png");
 		}
 
 		#endregion

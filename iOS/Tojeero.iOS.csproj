@@ -420,6 +420,8 @@
     <BundleResource Include="Resources\searchbarBackground%402x.png" />
     <BundleResource Include="Resources\filterIcon%402x.png" />
     <BundleResource Include="Resources\tojeero%402x.png" />
+    <BundleResource Include="Resources\shopIcon%402x.png" />
+    <BundleResource Include="Resources\favoritesIcon%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

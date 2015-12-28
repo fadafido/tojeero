@@ -64,9 +64,7 @@ namespace Tojeero.Forms
 			this.ViewModel.ShowLanguageChangeWarning = (arg) => {
 				DisplayAlert(AppResources.AlertTitleWarning, arg, AppResources.OK);
 			};
-			this.ViewModel.ShowFavorites = async () => {
-				await this.Navigation.PushModalAsync(new NavigationPage(new FavoritesPage()));
-			};
+
 			this.ViewModel.ShowSaveStoreAction = async (s) => {
 				if(s == null)
 				{

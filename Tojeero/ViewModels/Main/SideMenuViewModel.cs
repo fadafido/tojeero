@@ -55,7 +55,6 @@ namespace Tojeero.Core.ViewModels
 
 		public Action<IStore> ShowSaveStoreAction;
 		public Action<bool> ShowProfileSettings;
-		public Action ShowFavorites;
 		public Action<string> ShowLanguageChangeWarning;
 
 		public LanguageCode NewLanguage
@@ -195,19 +194,6 @@ namespace Tojeero.Core.ViewModels
 						ShowLanguageChangeWarning.Fire(AppResources.MessageLanguageChangeWarning);
 					});
 				return _changeLanguageCommand;
-			}
-		}
-
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _showFavoritesCommand;
-
-		public System.Windows.Input.ICommand ShowFavoritesCommand
-		{
-			get
-			{
-				_showFavoritesCommand = _showFavoritesCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					this.ShowFavorites.Fire();
-				});
-				return _showFavoritesCommand;
 			}
 		}
 

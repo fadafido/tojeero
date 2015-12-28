@@ -46,13 +46,17 @@
 					Value="{x:Static local:Colors.Orange}" />
 			</Style>
 			<Style
-				x:Key="DarkButton"
+				x:Key="Button3"
 				TargetType="Button"
 				BaseResourceKey="BaseButton">
 				<Setter
 					Property="BackgroundColor"
-					Value="{x:Static local:Colors.DarkBlack}" />
+					Value="{x:Static local:Colors.Button3}" />
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Main}" />
 			</Style>
+
 			<Style
 				x:Key="Label1"
 				TargetType="Label"

@@ -201,6 +201,36 @@ namespace Tojeero.Core
 		}
 
 		#endregion
+
+		#region IsUserPreferancesSet
+
+		/// <summary>
+		/// Key for your setting
+		/// </summary>
+		public const string IsUserPreferancesSetKey = "IsUserPreferancesSet";
+		/// <summary>
+		/// default value for your setting
+		/// </summary>
+		public static readonly bool IsUserPreferancesSetDefault = false;
+
+		/// <summary>
+		/// Gets or sets the IsUserPreferancesSet value
+		/// </summary>
+		public static bool IsUserPreferancesSet
+		{
+			get
+			{
+				return AppSettings.GetValueOrDefault(IsUserPreferancesSetKey, IsUserPreferancesSetDefault);
+			}
+			set
+			{
+				//if value has changed then save it!
+				if (AppSettings.AddOrUpdateValue(IsUserPreferancesSetKey, value))
+					AppSettings.Save();
+			}
+		}
+
+		#endregion
 			
 		#endregion
 	}

@@ -425,6 +425,7 @@
     <BundleResource Include="Resources\settingsIcon%402x.png" />
     <BundleResource Include="Resources\myProductsIcon%402x.png" />
     <BundleResource Include="Resources\myStoreIcon%402x.png" />
+    <BundleResource Include="Resources\tojeeroLarge%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

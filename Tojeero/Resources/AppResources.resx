@@ -170,6 +170,10 @@
     <value>First name</value>
     <comment>First name label text.</comment>
   </data>
+  <data name="LabelLanguage" xml:space="preserve">
+    <value>Language</value>
+    <comment>Language label text.</comment>
+  </data>
   <data name="LabelLastName" xml:space="preserve">
     <value>Last name</value>
     <comment>Last name label text.</comment>
@@ -494,5 +498,8 @@
   </data>
   <data name="TitleShop" xml:space="preserve">
     <value>Shop</value>
+  </data>
+  <data name="ButtonApply" xml:space="preserve">
+    <value>Apply</value>
   </data>
 </root>

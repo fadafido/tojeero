@@ -3775,8 +3775,8 @@ namespace Tojeero.Droid
 			// aapt resource value: 0x7f0200a1
 			public const int NoFlashButton = 2130837665;
 			
-			// aapt resource value: 0x7f0200ba
-			public const int notification_template_icon_bg = 2130837690;
+			// aapt resource value: 0x7f0200bb
+			public const int notification_template_icon_bg = 2130837691;
 			
 			// aapt resource value: 0x7f0200a2
 			public const int placeholder = 2130837666;
@@ -3849,6 +3849,9 @@ namespace Tojeero.Droid
 			
 			// aapt resource value: 0x7f0200b9
 			public const int tojeero = 2130837689;
+			
+			// aapt resource value: 0x7f0200ba
+			public const int tojeeroLarge = 2130837690;
 			
 			static Drawable()
 			{

@@ -15,6 +15,8 @@ namespace Tojeero.Forms
 			InitializeComponent();
 			this.FailureContainer.IsVisible = false;
 			this.LoadingContainer.IsVisible = false;
+			this.LoadingLabel.TextColor = Colors.White;
+			this.ActivityIndicator.Color = Colors.White;
 		}
 
 		#endregion

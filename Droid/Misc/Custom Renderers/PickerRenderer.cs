@@ -3,18 +3,13 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Android.Graphics.Drawables;
 using Android.Graphics.Drawables.Shapes;
+using System.Linq;
 
 [assembly:ExportRenderer(typeof(Tojeero.Forms.Picker), typeof(Tojeero.Droid.Renderers.PickerRenderer))]
 namespace Tojeero.Droid.Renderers
 {	
 	public class PickerRenderer : Xamarin.Forms.Platform.Android.PickerRenderer
 	{
-		#region Private fields
-
-		private ShapeDrawable _background = null;
-
-		#endregion
-
 		#region Parent override
 
 		protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Xamarin.Forms.Picker> e)
@@ -47,13 +42,10 @@ namespace Tojeero.Droid.Renderers
 
 		private void updateBackground()
 		{
-			if (_background == null)
-			{
-				var shape = new RoundRectShape(new float[]{ 10, 10, 10, 10, 10, 10, 10, 10 }, null, null);
-				_background = new ShapeDrawable(shape);
-				_background.Paint.Color = global::Android.Graphics.Color.White;
-			}	
-			this.Control.Background = _background;
+			var shape = new RoundRectShape(Enumerable.Repeat(5f, 8).ToArray(), null, null);
+			var background = new ShapeDrawable(shape);
+			background.Paint.Color = global::Android.Graphics.Color.White;
+			this.Control.Background = background;
 		}
 
 		#endregion

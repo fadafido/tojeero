@@ -113,7 +113,7 @@
 							IsEnabled="{Binding CanExecuteLoadUserStoreCommand}"
 							TextColor="{x:Static local:Colors.Orange}"
 							FontAttributes="Bold"
-							IsVisible="{Binding IsShowSaveStoreVisible, Converter={StaticResource inverse}}"
+							IsVisible="{Binding IsLoadingUserStoreFailed}"
 							BackgroundColor="Transparent"
 							HorizontalOptions="Start"
 							VerticalOptions="Center" />
@@ -175,7 +175,6 @@
 							Width="Auto" />
 					</Grid.ColumnDefinitions>
 					<Button
-						HeightRequest="40"
 						Grid.Column="0"
 						Text="{local:Translate ButtonLogin}"
 						Command="{Binding LoginCommand}"
@@ -186,7 +185,6 @@
 						IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverse}}">
 					</Button>
 					<Button
-						HeightRequest="40"
 						Grid.Column="0"
 						Text="{local:Translate ButtonLogout}"
 						Command="{Binding LogoutCommand}"

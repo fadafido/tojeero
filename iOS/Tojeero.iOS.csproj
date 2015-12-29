@@ -576,6 +576,7 @@
     <Compile Include="Misc\Custom Renderers\CarouselLayoutRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\TabButtonRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\SearchBarExRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\EntryRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

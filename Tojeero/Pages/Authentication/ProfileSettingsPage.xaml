@@ -162,14 +162,12 @@
 										Width="*" />
 								</Grid.ColumnDefinitions>
 								<Button
-									HeightRequest="40"
 									Grid.Column="0"
 									Text="{local:Translate ButtonCancel}"
 									Command="{Binding CancelCommand}"
 									VerticalOptions="Center"
 									Style="{StaticResource Button2}" />
 								<Button
-									HeightRequest="40"
 									Grid.Column="1"
 									Text="{local:Translate ButtonSubmit}"
 									Command="{Binding SubmitCommand}"

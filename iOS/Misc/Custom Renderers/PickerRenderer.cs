@@ -15,6 +15,7 @@ namespace Tojeero.iOS.Renderers
 				return;
 			var element = (Tojeero.Forms.Picker)this.Element;
 			this.Control.TextColor = element.TextColor.ToUIColor();
+			this.Control.BorderStyle = UIKit.UITextBorderStyle.None;
 		}
 
 		protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

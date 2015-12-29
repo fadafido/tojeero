@@ -33,6 +33,15 @@ namespace Tojeero.Forms
 			set { SetValue(BorderWidthProperty, value); }
 		}
 
+		public static BindableProperty RadiusProperty = BindableProperty.Create<BorderView, float>(o => o.Radius, 0);
+
+		public float Radius
+		{
+			get { return (float)GetValue(RadiusProperty); }
+			set { SetValue(RadiusProperty, value); }
+		}
+
+
 		#endregion
 	}
 }

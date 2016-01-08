@@ -14,7 +14,7 @@
 					Value="3" />
 				<Setter
 					Property="HeightRequest"
-					Value="50" />
+					Value="40" />
 				<Setter
 					Property="TextColor"
 					Value="White" />

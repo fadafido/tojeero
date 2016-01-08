@@ -42,14 +42,26 @@
 									FontAttributes="Bold"
 									FontSize="18" />
 							</StackLayout>
-							<local:BindablePicker
-								x:Name="countriesPicker"
-								x:TypeArguments="core:ICountry"
-								Title="{local:Translate LabelCountry}"
-								ItemsSource="{Binding Countries}"
-								SelectedItem="{Binding Country, Mode=TwoWay}"
-								TextColor="{x:Static local:Colors.Main}"
-								HeightRequest="50" />
+							<Grid
+								HeightRequest="50">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<local:BindablePicker
+										x:Name="countriesPicker"
+										x:TypeArguments="core:ICountry"
+										Title="{local:Translate LabelCountry}"
+										ItemsSource="{Binding Countries}"
+										SelectedItem="{Binding Country, Mode=TwoWay}"
+										TextColor="{x:Static local:Colors.Main}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
 						</StackLayout>
 						<StackLayout
 							Spacing="5">
@@ -61,14 +73,26 @@
 									FontAttributes="Bold"
 									FontSize="18" />
 							</StackLayout>
-							<local:BindablePicker
-								x:Name="citiesPicker"
-								x:TypeArguments="core:ICity"
-								Title="{local:Translate LabelCity}"
-								ItemsSource="{Binding Country.Cities}"
-								SelectedItem="{Binding City, Mode=TwoWay}"
-								TextColor="{x:Static local:Colors.Main}"
-								HeightRequest="50" />
+							<Grid
+								HeightRequest="50">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<local:BindablePicker
+										x:Name="citiesPicker"
+										x:TypeArguments="core:ICity"
+										Title="{local:Translate LabelCity}"
+										ItemsSource="{Binding Country.Cities}"
+										SelectedItem="{Binding City, Mode=TwoWay}"
+										TextColor="{x:Static local:Colors.Main}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
 						</StackLayout>
 						<StackLayout
 							Spacing="5">
@@ -80,19 +104,30 @@
 									FontAttributes="Bold"
 									FontSize="18" />
 							</StackLayout>
-							<local:BindablePicker
-								x:Name="languagesPicker"
-								x:TypeArguments="services:LanguageCode"
-								Title="{local:Translate LabelLanguage}"
-								ItemsSource="{Binding Languages}"
-								SelectedItem="{Binding Language, Mode=TwoWay}"
-								TextColor="{x:Static local:Colors.Main}"
-								HeightRequest="50" />
+							<Grid
+								HeightRequest="50">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<local:BindablePicker
+										x:Name="languagesPicker"
+										x:TypeArguments="services:LanguageCode"
+										Title="{local:Translate LabelLanguage}"
+										ItemsSource="{Binding Languages}"
+										SelectedItem="{Binding Language, Mode=TwoWay}"
+										TextColor="{x:Static local:Colors.Main}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
 						</StackLayout>
 						<StackLayout
 							Padding="0,10,0,0">
 							<Button
-								HeightRequest="50"
 								Text="{local:Translate ButtonApply}"
 								Command="{Binding ApplyCommand}"
 								Style="{StaticResource Button1}"

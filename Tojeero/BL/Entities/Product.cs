@@ -427,7 +427,7 @@ namespace Tojeero.Core
 			if (this.ParseObject != null)
 			{
 				await this.ParseObject.SaveAsync();
-				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("subcategory").Include("store");
+				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("subcategory").Include("store").Include("country");
 				var product = await query.FirstOrDefaultAsync();
 				this.ParseObject = product;
 			}
@@ -445,7 +445,7 @@ namespace Tojeero.Core
 		{
 			if (!string.IsNullOrEmpty(this.ID))
 			{
-				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ID).Include("category").Include("subcategory").Include("store");
+				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ID).Include("category").Include("subcategory").Include("store").Include("country");
 				var product = await query.FirstOrDefaultAsync();
 				this.ParseObject = product;
 			}

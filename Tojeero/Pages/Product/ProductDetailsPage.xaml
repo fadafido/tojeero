@@ -73,12 +73,15 @@
 						FontSize="15"
 						VerticalOptions="Center"
 						HorizontalOptions="FillAndExpand" />
-					<local:ImageButton
+					<Image
 						Grid.Column="2"
-						Image="icon_arrow_right.png"
-						VerticalOptions="FillAndExpand"
-						HorizontalOptions="FillAndExpand"
-						Command="{Binding ShowStoreInfoPageCommand}" />
+						Source="icon_arrow_right.png"
+						VerticalOptions="Center" />
+					<Grid.GestureRecognizers>
+						<TapGestureRecognizer
+							Command="{Binding ShowStoreInfoPageCommand}"
+							NumberOfTapsRequired="1" />
+					</Grid.GestureRecognizers>
 				</Grid>
 				<!--PRODUCT IMAGE-->
 				<Grid
@@ -250,7 +253,7 @@
 						Grid.Column="0"
 						Padding="0,6,0,6">
 						<Label
-							Text="{local:Translate LabelProductDetailsTags}"
+							Text="{local:Translate LabelProductDetailsDescription}"
 							TextColor="{x:Static local:Colors.Subtitle}"
 							FontAttributes="Bold"
 							FontSize="14" />
@@ -260,7 +263,7 @@
 						Grid.Row="2"
 						Padding="0,6,0,6">
 						<Label
-							Text="{Binding Product.TagList}"
+							Text="{Binding Product.Description}"
 							TextColor="{x:Static local:Colors.Main}"
 							FontAttributes="Bold"
 							FontSize="14" />
@@ -277,7 +280,7 @@
 						Grid.Column="0"
 						Padding="0,6,0,6">
 						<Label
-							Text="{local:Translate LabelProductDetailsDescription}"
+							Text="{local:Translate LabelProductDetailsTags}"
 							TextColor="{x:Static local:Colors.Subtitle}"
 							FontAttributes="Bold"
 							FontSize="14" />
@@ -287,14 +290,14 @@
 						Grid.Row="3"
 						Padding="0,6,0,6">
 						<Label
-							Text="{Binding Product.Description}"
+							Text="{Binding Product.TagList}"
 							TextColor="{x:Static local:Colors.Main}"
 							FontAttributes="Bold"
 							FontSize="14" />
 					</ContentView>
 					<BoxView
 						Grid.ColumnSpan="2"
-						Grid.Row="3"
+						Grid.Row="4"
 						BackgroundColor="{x:Static local:Colors.Separator}"
 						HeightRequest="1"
 						HorizontalOptions="FillAndExpand"

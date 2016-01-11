@@ -245,7 +245,6 @@
       <Link>Core\SAL\Services\ParseAuthenticationService.cs</Link>
     </Compile>
     <Compile Include="Main\MainActivity.cs" />
-    <Compile Include="Main\SplashScreen.cs" />
     <Compile Include="Main\TojeeroApplication.cs" />
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateTimeToolbox.cs" />
@@ -402,7 +401,6 @@
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
-    <AndroidResource Include="Resources\layout\SplashScreen.axml" />
     <AndroidResource Include="Resources\values\MvxBindingAttributes.xml" />
     <AndroidResource Include="Resources\values\SplashStyle.xml" />
     <AndroidResource Include="Resources\drawable\splash.png" />

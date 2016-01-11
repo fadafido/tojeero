@@ -4583,13 +4583,10 @@ namespace Tojeero.Droid
 			public const int select_dialog_singlechoice_material = 2130903102;
 			
 			// aapt resource value: 0x7f03003f
-			public const int SplashScreen = 2130903103;
+			public const int support_simple_spinner_dropdown_item = 2130903103;
 			
 			// aapt resource value: 0x7f030040
-			public const int support_simple_spinner_dropdown_item = 2130903104;
-			
-			// aapt resource value: 0x7f030041
-			public const int week = 2130903105;
+			public const int week = 2130903104;
 			
 			static Layout()
 			{

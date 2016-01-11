@@ -245,7 +245,6 @@
       <Link>Core\SAL\Services\ParseAuthenticationService.cs</Link>
     </Compile>
     <Compile Include="Main\MainActivity.cs" />
-    <Compile Include="Main\TojeeroApplication.cs" />
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateTimeToolbox.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
@@ -373,6 +372,7 @@
     <Compile Include="Misc\Custom Renderers\SearchBarExRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\EditorRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\EntryRenderer.cs" />
+    <Compile Include="Main\SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -403,7 +403,6 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
     <AndroidResource Include="Resources\values\MvxBindingAttributes.xml" />
     <AndroidResource Include="Resources\values\SplashStyle.xml" />
-    <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable-xhdpi\profilePicturePlaceholder.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ab_bottom_solid_tojeero.9.png" />
@@ -469,6 +468,9 @@
     <AndroidResource Include="Resources\drawable-xhdpi\myProductsIcon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\tojeeroLarge.png" />
     <AndroidResource Include="Resources\drawable-mdpi\icon.png" />
+    <AndroidResource Include="Resources\layout\activity_splash.axml" />
+    <AndroidResource Include="Resources\drawable-xhdpi\splash.png" />
+    <AndroidResource Include="Resources\drawable\background_splash.xml" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

@@ -589,7 +589,7 @@
     <Folder Include="Core\BL\Queries\" />
   </ItemGroup>
   <ItemGroup>
-    <ITunesArtwork Include="iTunesArtwork%402x" />
     <ITunesArtwork Include="iTunesArtwork" />
+    <ITunesArtwork Include="iTunesArtwork%402x.png" />
   </ItemGroup>
 </Project>

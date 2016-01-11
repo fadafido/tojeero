@@ -4,18 +4,91 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	x:Class="Tojeero.Forms.FavoritesPage"
-	BackgroundColor="White">
+	BackgroundColor="{x:Static local:Colors.LightBackground}">
 	<ContentPage.Content>
-		<StackLayout
-			Padding="20"
-			VerticalOptions="Start"
-			HorizontalOptions="FillAndExpand">
-			<Button
-				Text="{local:Translate TitleFavoriteProducts}"
-				Command="{Binding ShowFavoriteProductsCommand}" />
-			<Button
-				Text="{local:Translate TitleFavoriteStores}"
-				Command="{Binding ShowFavoriteStoresCommand}" />
-		</StackLayout>
+		<ScrollView>
+			<StackLayout
+				Padding="12,30,12,30"
+				VerticalOptions="Start"
+				HorizontalOptions="FillAndExpand"
+				Spacing="12">
+				<!--FAVORITE STORES-->
+				<Grid
+					HeightRequest="100">
+					<local:BorderView
+						BorderColor="{x:Static local:Colors.CellBorder}"
+						BorderWidth="1"
+						BackgroundColor="White" />
+					<StackLayout
+						Orientation="Horizontal"
+						Spacing="25"
+						Padding="25"
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="FillAndExpand">
+						<Image
+							Source="favoriteStoresIcon.png"
+							VerticalOptions="Center" />
+						<StackLayout
+							Padding="0"
+							Spacing="3"
+							VerticalOptions="Center"
+							HorizontalOptions="FillAndExpand">
+							<Label
+								Text="Favorite stores"
+								Style="{StaticResource Label1}"
+								FontSize="15"
+								HorizontalOptions="FillAndExpand" />
+							<Label
+								Text="26 items in this list"
+								Style="{StaticResource LabelSubtitle}"
+								HorizontalOptions="FillAndExpand" />
+						</StackLayout>
+					</StackLayout>
+					<Grid.GestureRecognizers>
+						<TapGestureRecognizer
+							Command="{Binding ShowFavoriteStoresCommand}"
+							NumberOfTapsRequired="1" />
+					</Grid.GestureRecognizers>
+				</Grid>
+				<!--FAVORITE PRODUCTS-->
+				<Grid
+					HeightRequest="100">
+					<local:BorderView
+						BorderColor="{x:Static local:Colors.CellBorder}"
+						BorderWidth="1"
+						BackgroundColor="White" />
+					<StackLayout
+						Orientation="Horizontal"
+						Spacing="25"
+						Padding="25"
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="FillAndExpand">
+						<Image
+							Source="favoriteProductsIcon.png"
+							VerticalOptions="Center" />
+						<StackLayout
+							Padding="0"
+							Spacing="3"
+							VerticalOptions="Center"
+							HorizontalOptions="FillAndExpand">
+							<Label
+								Text="Favorite products"
+								Style="{StaticResource Label1}"
+								FontSize="15"
+								HorizontalOptions="FillAndExpand" />
+							<Label
+								Text="26 items in this list"
+								Style="{StaticResource LabelSubtitle}"
+								HorizontalOptions="FillAndExpand" />
+						</StackLayout>
+					</StackLayout>
+					<Grid.GestureRecognizers>
+						<TapGestureRecognizer
+							Command="{Binding ShowFavoriteProductsCommand}"
+							NumberOfTapsRequired="1" />
+					</Grid.GestureRecognizers>
+				</Grid>
+			</StackLayout>
+		</ScrollView>
 	</ContentPage.Content>
 </ContentPage>

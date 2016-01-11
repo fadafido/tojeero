@@ -41,6 +41,8 @@ namespace Tojeero.Core.ViewModels
 			public async Task<IEnumerable<ProductViewModel>> Fetch(int pageSize = -1, int offset = -1)
 			{
 				var result = await manager.FetchFavorite(pageSize, offset);
+				if (result == null)
+					return null;
 				return result.Select(p => new ProductViewModel(p));
 			}
 

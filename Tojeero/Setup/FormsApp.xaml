@@ -101,6 +101,17 @@
 					Property="TextColor"
 					Value="{x:Static local:Colors.Placeholder}" />
 			</Style>
+
+			<Style
+				x:Key="LabelSubtitle"
+				TargetType="Label">
+				<Setter
+					Property="FontSize"
+					Value="10" />
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Subtitle}" />
+			</Style>
 			<local:VisibilityConverter
 				x:Key="visibility" />
 			<local:InverseVisibilityConverter

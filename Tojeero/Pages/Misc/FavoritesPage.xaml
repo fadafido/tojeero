@@ -34,7 +34,7 @@
 							VerticalOptions="Center"
 							HorizontalOptions="FillAndExpand">
 							<Label
-								Text="Favorite stores"
+								Text="{local:Translate TitleFavoriteStores}"
 								Style="{StaticResource Label1}"
 								FontSize="15"
 								HorizontalOptions="FillAndExpand" />
@@ -72,7 +72,7 @@
 							VerticalOptions="Center"
 							HorizontalOptions="FillAndExpand">
 							<Label
-								Text="Favorite products"
+								Text="{local:Translate TitleFavoriteProducts}"
 								Style="{StaticResource Label1}"
 								FontSize="15"
 								HorizontalOptions="FillAndExpand" />

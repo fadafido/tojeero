@@ -233,6 +233,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Try again.
+        /// </summary>
+        internal static string ButtonTryAgain {
+            get {
+                return ResourceManager.GetString("ButtonTryAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to add main image.
         /// </summary>
         internal static string LabelAddMainImage {
@@ -364,6 +373,15 @@ namespace Tojeero.Forms.Resources {
         internal static string LabelLastName {
             get {
                 return ResourceManager.GetString("LabelLastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mobile number.
+        /// </summary>
+        internal static string LabelMobileNumber {
+            get {
+                return ResourceManager.GetString("LabelMobileNumber", resourceCulture);
             }
         }
         

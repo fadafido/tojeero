@@ -6,9 +6,13 @@
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-	BackgroundColor="{x:Static local:Colors.UltraLightGray}"
+	BackgroundColor="White"
 	Title="{local:Translate TitleProfileSettings}"
 	Padding="0">
+	<ContentPage.ToolbarItems>
+	  <ToolbarItem Name="{local:Translate ButtonDone}" Command="{Binding SubmitCommand}"  Order="Primary" Priority="1" />
+	  <ToolbarItem Name="{local:Translate ButtonCancel}" Command="{Binding CancelCommand}"  Order="Primary" Priority="10" />
+	 </ContentPage.ToolbarItems>
 	<ContentPage.Content>
 		<ScrollView>
 			<StackLayout
@@ -32,10 +36,12 @@
 						XAlign="Center" />
 					<StackLayout
 						Orientation="Vertical"
-						Spacing="5">
+						Spacing="15">
+						<!--PROFILE PICTURE AND NAME-->
 						<StackLayout
 							Orientation="Horizontal"
-							Spacing="5">
+							Spacing="5"
+							HorizontalOptions="FillAndExpand">
 							<Grid
 								HeightRequest="100"
 								WidthRequest="100"
@@ -47,106 +53,190 @@
 								</Grid.RowDefinitions>
 								<controls:CircleImage
 									Source="{x:Static local:Images.ProfilePicturePlaceholder}"
-									BorderColor="{x:Static local:Colors.Blue}"
-									BorderThickness="2"
 									Aspect="AspectFill" />
 								<controls:CircleImage
 									Source="{Binding ProfilePicture, Converter={StaticResource cachedImage}}"
-									BorderColor="{x:Static local:Colors.Blue}"
-									BorderThickness="2"
 									Aspect="AspectFill" />
 							</Grid>
 							<StackLayout
-								Spacing="5">
+								Spacing="5"
+								HorizontalOptions="FillAndExpand">
 								<StackLayout
 									Spacing="0">
-									<Label
-										Text="{local:Translate LabelFirstName}"
-										TextColor="{x:Static local:Colors.DarkGray}"
-										FontSize="Micro" />
 									<Entry
 										Text="{Binding FirstName, Mode=TwoWay}"
 										Placeholder="{local:Translate LabelFirstName}"
-										TextColor="{x:Static local:Colors.Black}" />
+										TextColor="{x:Static local:Colors.Main}"
+										HeightRequest="40"
+										HorizontalOptions="FillAndExpand" />
+									<BoxView
+										BackgroundColor="{x:Static local:Colors.Separator}"
+										HeightRequest="1"
+										HorizontalOptions="FillAndExpand" />
 								</StackLayout>
 								<StackLayout
-									Spacing="0">
-									<Label
-										Text="{local:Translate LabelLastName}"
-										TextColor="{x:Static local:Colors.DarkGray}"
-										FontSize="Micro" />
+									Spacing="0"
+									HorizontalOptions="FillAndExpand">
 									<Entry
 										Text="{Binding LastName, Mode=TwoWay}"
 										Placeholder="{local:Translate LabelLastName}"
-										TextColor="{x:Static local:Colors.Black}" />
+										TextColor="{x:Static local:Colors.Main}"
+										HeightRequest="40"
+										HorizontalOptions="FillAndExpand" />
+									<BoxView
+										BackgroundColor="{x:Static local:Colors.Separator}"
+										HeightRequest="1"
+										HorizontalOptions="FillAndExpand" />
 								</StackLayout>
 							</StackLayout>
 						</StackLayout>
+						<!--EMAIL-->
 						<StackLayout
-							Spacing="10"
-							Orientation="Horizontal"
-							Padding="0,10,0,10">
-							<Label
-								Text="{local:Translate LabelEmail}"
-								VerticalOptions="Center"
-								LineBreakMode="NoWrap"
-								TextColor="{x:Static local:Colors.DarkGray}"
-								FontSize="Micro" />
-							<Label
-								Text="{Binding Email}"
-								TextColor="{x:Static local:Colors.Black}"
-								FontSize="Small" />
+							Spacing="5"
+							Padding="10,0,10,0">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{local:Translate LabelEmail}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="50">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BackgroundColor="{x:Static local:Colors.Placeholder}"
+									BorderWidth="1"
+									Radius="5" />
+								<StackLayout
+									Padding="15,2,15,2">
+									<local:LabelEx
+										Text="{Binding Email}"
+										TextColor="#afb8bb"
+										FontSize="18"
+										LineBreakMode="TailTruncation"
+										LineCount="1"
+										VerticalOptions="FillAndExpand"
+										YAlign="Center" />
+								</StackLayout>
+							</Grid>
 						</StackLayout>
 						<StackLayout
-							Spacing="10"
+							Spacing="15"
 							Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
 							IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}">
+							<!--COUNTRY-->
 							<StackLayout
-								Spacing="0">
-								<Label
-									Text="{local:Translate LabelCountry}"
-									TextColor="{x:Static local:Colors.DarkGray}"
-									FontSize="Micro" />
-								<local:BindablePicker
-									x:TypeArguments="core:ICountry"
-									Title="{local:Translate LabelCountry}"
-									ItemsSource="{Binding Countries}"
-									SelectedItem="{Binding Country, Mode=TwoWay}"
-									TextColor="{x:Static local:Colors.Black}" />
+								Spacing="5"
+								Padding="10,0,10,0">
+								<StackLayout
+									Padding="5,0,0,0">
+									<Label
+										Text="{local:Translate LabelCountry}"
+										Style="{StaticResource Label1}" />
+								</StackLayout>
+								<Grid
+									HeightRequest="50">
+									<local:BorderView
+										BorderColor="{x:Static local:Colors.CellBorder}"
+										BackgroundColor="White"
+										BorderWidth="1"
+										Radius="5" />
+									<StackLayout
+										Padding="15,2,15,2">
+										<local:BindablePicker
+											x:TypeArguments="core:ICountry"
+											Title="{local:Translate LabelCountry}"
+											ItemsSource="{Binding Countries}"
+											SelectedItem="{Binding Country, Mode=TwoWay}"
+											TextColor="{x:Static local:Colors.Main}"
+											HorizontalOptions="FillAndExpand"
+											VerticalOptions="FillAndExpand" />
+									</StackLayout>
+								</Grid>
 							</StackLayout>
+							<!--CITY-->
 							<StackLayout
-								Spacing="0">
-								<Label
-									Text="{local:Translate LabelCity}"
-									TextColor="{x:Static local:Colors.DarkGray}"
-									FontSize="Micro" />
-								<local:BindablePicker
-									x:TypeArguments="core:ICity"
-									Title="{local:Translate LabelCity}"
-									ItemsSource="{Binding Country.Cities}"
-									SelectedItem="{Binding City, Mode=TwoWay}"
-									TextColor="{x:Static local:Colors.Black}" />
+								Spacing="5"
+								Padding="10,0,10,0">
+								<StackLayout
+									Padding="5,0,0,0">
+									<Label
+										Text="{local:Translate LabelCity}"
+										Style="{StaticResource Label1}" />
+								</StackLayout>
+								<Grid
+									HeightRequest="50">
+									<local:BorderView
+										BorderColor="{x:Static local:Colors.CellBorder}"
+										BackgroundColor="White"
+										BorderWidth="1"
+										Radius="5" />
+									<StackLayout
+										Padding="15,2,15,2">
+										<local:BindablePicker
+											x:TypeArguments="core:ICity"
+											Title="{local:Translate LabelCity}"
+											ItemsSource="{Binding Country.Cities}"
+											SelectedItem="{Binding City, Mode=TwoWay}"
+											TextColor="{x:Static local:Colors.Main}"
+											HorizontalOptions="FillAndExpand"
+											VerticalOptions="FillAndExpand" />
+									</StackLayout>
+								</Grid>
 							</StackLayout>
+							<!--MOBILE PHONE-->
 							<StackLayout
-								Spacing="0">
-								<Label
-									Text="{local:Translate LabelMobilePhone}"
-									TextColor="{x:Static local:Colors.DarkGray}"
-									FontSize="Micro" />
+								Spacing="5"
+								Padding="10,0,10,0">
+								<StackLayout
+									Padding="5,0,0,0">
+									<Label
+										Text="{local:Translate LabelMobilePhone}"
+										Style="{StaticResource Label1}" />
+								</StackLayout>
 								<StackLayout
 									Orientation="Horizontal"
 									Spacing="10"
-									HorizontalOptions="FillAndExpand">
-									<Entry
+									HorizontalOptions="FillAndExpand"
+									HeightRequest="50">
+									<Grid
 										WidthRequest="100"
-										Text="{Binding Country.CountryPhoneCode}"
-										IsEnabled="false"
-										TextColor="{x:Static local:Colors.Black}" />
-									<Entry
-										Text="{Binding Mobile, Mode=TwoWay}"
-										Placeholder="Mobile"
-										Keyboard="Numeric"
-										TextColor="{x:Static local:Colors.Black}" />
+										VerticalOptions="FillAndExpand">
+										<local:BorderView
+											BorderColor="{x:Static local:Colors.CellBorder}"
+											BackgroundColor="{x:Static local:Colors.Placeholder}"
+											BorderWidth="1"
+											Radius="5" />
+										<local:LabelEx
+											Text="{Binding Country.CountryPhoneCode}"
+											TextColor="#afb8bb"
+											FontSize="18"
+											LineBreakMode="TailTruncation"
+											LineCount="1"
+											VerticalOptions="FillAndExpand"
+											HorizontalOptions="FillAndExpand"
+											XAlign="Center"
+											YAlign="Center" />
+									</Grid>
+									<Grid
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand">
+										<local:BorderView
+											BorderColor="{x:Static local:Colors.CellBorder}"
+											BorderWidth="1"
+											Radius="5"
+											BackgroundColor="White" />
+										<StackLayout
+											Padding="15,2,15,2">
+											<Entry
+												Text="{Binding Mobile, Mode=TwoWay}"
+												Placeholder="{local:Translate LabelMobileNumber}"
+												Keyboard="Numeric"
+												TextColor="{x:Static local:Colors.Main}"
+												HorizontalOptions="FillAndExpand"
+												VerticalOptions="FillAndExpand" />
+										</StackLayout>
+									</Grid>
 								</StackLayout>
 							</StackLayout>
 						</StackLayout>
@@ -161,19 +251,6 @@
 									<ColumnDefinition
 										Width="*" />
 								</Grid.ColumnDefinitions>
-								<Button
-									Grid.Column="0"
-									Text="{local:Translate ButtonCancel}"
-									Command="{Binding CancelCommand}"
-									VerticalOptions="Center"
-									Style="{StaticResource Button2}" />
-								<Button
-									Grid.Column="1"
-									Text="{local:Translate ButtonSubmit}"
-									Command="{Binding SubmitCommand}"
-									VerticalOptions="Center"
-									Style="{StaticResource Button1}"
-									IsEnabled="{Binding CanExecuteSubmitCommand}" />
 							</Grid>
 						</StackLayout>
 					</StackLayout>

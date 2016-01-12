@@ -571,6 +571,7 @@
     <Compile Include="Misc\Custom Renderers\TabButtonRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\SearchBarExRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\EntryRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\ContentPageRenderer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\Xamarin.iOS10\Xamarin.Insights.targets')" />

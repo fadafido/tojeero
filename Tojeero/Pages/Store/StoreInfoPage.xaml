@@ -73,14 +73,8 @@
 									<BoxView
 										BackgroundColor="{x:Static local:Colors.Placeholder}" />
 									<Image
-										Source="placeholder.png"
-										VerticalOptions="Center"
-										HorizontalOptions="Center"
-										HeightRequest="25"
-										WidthRequest="20" />
-									<Image
-										Aspect="AspectFill"
-										BackgroundColor="Transparent"
+										Aspect="AspectFit"
+										BackgroundColor="{x:Static local:Colors.Placeholder}"
 										Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
 								</Grid>
 								<Label

@@ -50,13 +50,8 @@
 				HorizontalOptions="FillAndExpand" />
 			<Image
 				Grid.RowSpan="3"
-				Source="placeholder.png"
-				VerticalOptions="Center"
-				HorizontalOptions="Center" />
-			<Image
-				Grid.RowSpan="3"
-				Aspect="AspectFill"
-				BackgroundColor="Transparent"
+				Aspect="AspectFit"
+				BackgroundColor="{x:Static local:Colors.Placeholder}"
 				Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}"
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand" />
@@ -91,15 +86,6 @@
 					IsVisible="{Binding StatusWarning, Converter={StaticResource visibility}}"
 					FontSize="10"
 					XAlign="End"/>
-				<BoxView
-					BackgroundColor="{x:Static local:Colors.Separator}"
-					HeightRequest="1" />
-				<local:LabelEx
-					Text="{Binding Product.TagList}"
-					TextColor="{x:Static local:Colors.Subtitle}"
-					FontSize="10"
-					LineCount="1"
-					LineBreakMode="TailTruncation" />
 			</StackLayout>
 			<StackLayout
 				Grid.Row="2"

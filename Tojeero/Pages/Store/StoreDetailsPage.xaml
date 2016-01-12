@@ -39,13 +39,8 @@
 					HorizontalOptions="FillAndExpand"
 					BackgroundColor="{x:Static local:Colors.Placeholder}">
 					<Image
+						Aspect="AspectFit"
 						BackgroundColor="{x:Static local:Colors.Placeholder}"
-						Source="placeholder.png"
-						VerticalOptions="Center"
-						HorizontalOptions="Center" />
-					<Image
-						Aspect="AspectFill"
-						BackgroundColor="Transparent"
 						Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
 				</Grid>
 				<!--STORE NAME-->

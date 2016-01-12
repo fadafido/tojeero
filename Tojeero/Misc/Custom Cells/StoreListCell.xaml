@@ -16,7 +16,7 @@
 			BorderWidth="1"
 			AbsoluteLayout.LayoutFlags="All"
 			AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-			BackgroundColor="{x:Static local:Colors.CellBackground}"/>
+			BackgroundColor="{x:Static local:Colors.CellBackground}" />
 		<Grid
 			ColumnSpacing="0"
 			RowSpacing="0"
@@ -39,7 +39,7 @@
 				<RowDefinition
 					Height="25" />
 				<RowDefinition
-					Height="20" />
+					Height="25" />
 				<RowDefinition
 					Height="*" />
 			</Grid.RowDefinitions>
@@ -50,13 +50,8 @@
 				HorizontalOptions="FillAndExpand" />
 			<Image
 				Grid.RowSpan="3"
-				Source="placeholder.png"
-				VerticalOptions="Center"
-				HorizontalOptions="Center" />
-			<Image
-				Grid.RowSpan="3"
-				Aspect="AspectFill"
-				BackgroundColor="Transparent"
+				Aspect="AspectFit"
+				BackgroundColor="{x:Static local:Colors.Placeholder}"
 				Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}"
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand" />
@@ -67,12 +62,13 @@
 				FontAttributes="Bold"
 				LineBreakMode="TailTruncation"
 				LineCount="1"
-				FontSize="12"
-				VerticalOptions="Start"
-				HorizontalOptions="FillAndExpand" />
+				FontSize="14"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand"
+				YAlign="Center" />
 			<local:ImageButton
 				Grid.Column="3"
-				VerticalOptions="Start"
+				VerticalOptions="Center"
 				HeightRequest="25"
 				WidthRequest="30"
 				SelectedImage="favorite_selected.png"
@@ -87,7 +83,8 @@
 				Grid.ColumnSpan="2"
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand"
-				Padding="0,0,6,0">
+				Padding="0,0,6,0"
+				Spacing ="0">
 				<BoxView
 					BackgroundColor="{x:Static local:Colors.Separator}"
 					HeightRequest="1"
@@ -95,19 +92,21 @@
 				<local:LabelEx
 					Text="{Binding Store.Category.Name}"
 					TextColor="{x:Static local:Colors.Subtitle}"
-					FontSize="8"
+					FontSize="10"
 					LineCount="1"
 					LineBreakMode="TailTruncation"
-					VerticalOptions="Center"
-					HorizontalOptions="FillAndExpand" />
+					VerticalOptions="FillAndExpand"
+					HorizontalOptions="FillAndExpand"
+					YAlign="Center" />
 			</StackLayout>
 			<StackLayout
 				Grid.Row="2"
 				Grid.Column="2"
 				Grid.ColumnSpan="2"
-				VerticalOptions="FillAndExpand"
-				HorizontalOptions="FillAndExpand"
-				Padding="0,0,6,0">
+				VerticalOptions="Fill"
+				HorizontalOptions="Fill"
+				Padding="0,0,6,0"
+				Spacing="0">
 				<BoxView
 					BackgroundColor="{x:Static local:Colors.Separator}"
 					HeightRequest="1"
@@ -115,11 +114,11 @@
 				<local:LabelEx
 					Text="{Binding Store.Description}"
 					TextColor="{x:Static local:Colors.Main}"
-					FontSize="8"
+					FontSize="10"
 					LineCount="3"
 					LineBreakMode="WordWrap"
 					VerticalOptions="Center"
-					HorizontalOptions="FillAndExpand" />
+					HorizontalOptions="Fill" />
 			</StackLayout>
 		</Grid>
 	</AbsoluteLayout>

@@ -83,16 +83,24 @@ namespace Tojeero.Forms
 
 		public void SelectProductsPage()
 		{
-			_tabs.Children.Remove(StoresPage);
-			_tabs.Children.Insert(0, this.ProductsPage);
-			_tabs.CurrentPage = ProductsPage;
+			if (_productsPage == null || _tabs.CurrentPage != _productsPage)
+			{
+				if(_storesPage != null)
+					_tabs.Children.Remove(_storesPage);
+				_tabs.Children.Insert(0, this.ProductsPage);
+				_tabs.CurrentPage = ProductsPage;
+			}
 		}
 
 		public void SelectStoresPage()
 		{
-			_tabs.Children.Remove(ProductsPage);
-			_tabs.Children.Insert(0, this.StoresPage);
-			_tabs.CurrentPage = StoresPage;
+			if (_storesPage == null || _tabs.CurrentPage != _storesPage)
+			{
+				if(_productsPage != null)
+					_tabs.Children.Remove(_productsPage);
+				_tabs.Children.Insert(0, this.StoresPage);
+				_tabs.CurrentPage = StoresPage;
+			}
 		}
 
 		#endregion

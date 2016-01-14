@@ -45,14 +45,6 @@ namespace Tojeero.Core.ViewModels
 
 		#region Parent override
 
-		public override int SearchTimeout
-		{
-			get
-			{
-				return 200;
-			}
-		}
-
 		protected override BaseCollectionViewModel<ProductViewModel> GetBrowsingViewModel()
 		{
 			return new BaseCollectionViewModel<ProductViewModel>(new ProductsQuery(_manager), Constants.ProductsPageSize);

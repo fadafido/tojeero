@@ -55,21 +55,6 @@ namespace Tojeero.Core
 				this.RaisePropertyChanged(() => Text);
 			}
 		}
-			
-		private bool _isSelected;
-		[Ignore]
-		public bool IsSelected
-		{ 
-			get
-			{
-				return _isSelected; 
-			}
-			set
-			{
-				_isSelected = value; 
-				RaisePropertyChanged(() => IsSelected); 
-			}
-		}
 
 		#endregion
 

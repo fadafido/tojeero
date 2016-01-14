@@ -10,9 +10,9 @@
 			BackgroundColor="Transparent"
 			Spacing="0">
 			<SearchBar
-    			x:Name="searchBar"
-    			IsVisible="{Binding IsSearchbarVisible}"
-				Text="{Binding SearchQuery}"/>
+				x:Name="searchBar"
+				IsVisible="{Binding IsSearchbarVisible}"
+				Text="{Binding SearchQuery}" />
 			<local:NetworkPageHeader
 				NoNetworkPadding="0,5,0,5"
 				Tint="{x:Static local:Colors.DarkGray}"
@@ -21,6 +21,10 @@
 				FailureMessage="{Binding ViewModel.LoadingFailureMessage}"
 				IsNetworkAvailable="{Binding ViewModel.IsNetworkAvailable}"
 				TryAgainCommand="{Binding ViewModel.TryAgainCommand}" />
+			<StackLayout
+				x:Name="headerContainer"
+				HorizontalOptions="FillAndExpand">
+			</StackLayout>
 			<local:InfiniteListView
 				x:Name="listView"
 				ItemsSource="{Binding ViewModel.Collection}"

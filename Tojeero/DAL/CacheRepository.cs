@@ -182,7 +182,8 @@ namespace Tojeero.Core
 					using (var readerLock = readerWriterLock.ReaderLock(source.Token))
 					using (var connection = getConnection())
 					{
-						var result = connection.Table<Tag>().Where(t => t.Text.StartsWith(searchQuery.Trim())).ToList();
+						var trimmed = searchQuery.Trim();
+						var result = connection.Table<Tag>().Where(t => t.Text.StartsWith(trimmed)).ToList();
 						return result;
 					}
 				});

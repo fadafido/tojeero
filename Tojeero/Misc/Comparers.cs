@@ -28,18 +28,20 @@ namespace Tojeero.Core
 			}
 		}
 
-		private static Comparison<ITag> _tagText;
-		public static Comparison<ITag> TagText
+		private static Comparison<TagViewModel> _tagText;
+		public static Comparison<TagViewModel> TagText
 		{
 			get
 			{
 				if (_tagText == null)
 				{
-					_tagText = new Comparison<ITag>((x, y) =>
+					_tagText = new Comparison<TagViewModel>((x, y) =>
 						{
-							if (x.ID == y.ID)
+							if(x == null || y == null || x.Tag == null || y.Tag == null)
+								return -1;
+							if (x.Tag.ID == y.Tag.ID)
 								return 0;
-							return x.Text.CompareTo(y.Text);
+							return x.Tag.Text.CompareTo(y.Tag.Text);
 						});
 				}
 				return _tagText;

@@ -439,7 +439,6 @@
     <AndroidResource Include="Resources\drawable\spinner_background_ab_tojeero.xml" />
     <AndroidResource Include="Resources\drawable\tab_indicator_ab_tojeero.xml" />
     <AndroidResource Include="Resources\drawable\actionbar_titletext_tojeero.xml" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\checkmark.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\closeTag.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\favorite_deselected.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\favorite_selected.png" />
@@ -473,6 +472,7 @@
     <AndroidResource Include="Resources\drawable\background_splash.xml" />
     <AndroidResource Include="Resources\drawable-xhdpi\favoriteProductsIcon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\favoriteStoresIcon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\checkmark.png" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

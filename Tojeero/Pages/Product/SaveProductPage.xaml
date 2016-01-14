@@ -203,6 +203,7 @@
 									Style="{StaticResource Label1}" />
 							</StackLayout>
 							<local:TagCloud
+								EnableTagCreation="true"
 								Tags="{Binding Tags}"
 								HorizontalOptions="FillAndExpand" />
 						</StackLayout>

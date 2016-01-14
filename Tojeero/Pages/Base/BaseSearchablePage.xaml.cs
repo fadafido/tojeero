@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Core;
+using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Forms
 {
@@ -69,6 +70,19 @@ namespace Tojeero.Forms
 			get
 			{
 				return this.searchBar;
+			}
+		}
+
+		public IList<View> Header
+		{
+			get
+			{
+				return this.headerContainer.Children; 
+			}
+			set
+			{
+				this.headerContainer.Children.Clear();
+				this.headerContainer.Children.AddRange(value);
 			}
 		}
 

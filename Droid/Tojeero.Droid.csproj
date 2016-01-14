@@ -373,6 +373,7 @@
     <Compile Include="Misc\Custom Renderers\EditorRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\EntryRenderer.cs" />
     <Compile Include="Main\SplashActivity.cs" />
+    <Compile Include="Main\TojeeroApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

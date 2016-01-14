@@ -24,25 +24,6 @@ namespace Tojeero.Droid
 		{
 			base.OnCreate(bundle);
 
-			//Initialize Xamarin Insights
-			string key = Constants.XamarinInsightsApiKey;
-			#if DEBUG
-			key = Insights.DebugModeKey;
-			#endif
-			Insights.Initialize(key, this);
-
-			//Initialize Facebook
-			FacebookSdk.SdkInitialize(this);
-
-			//Initialize Parse
-			ParseInitialize.Initialize();
-
-			//Setup MvvmCross
-			var setup = new Setup(this);
-			setup.Initialize();
-
-			//Initialize Misc Plugins
-			ImageCircleRenderer.Init();
 			StartActivity(typeof(MainActivity));
 		}
 	}

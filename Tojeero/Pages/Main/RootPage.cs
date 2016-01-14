@@ -3,7 +3,11 @@
 using Xamarin.Forms;
 using Tojeero.Core.Services;
 using Cirrious.CrossCore;
+
 using Tojeero.Forms.Resources;
+using Tojeero.Core;
+using Cirrious.MvvmCross.Plugins.Messenger;
+using Tojeero.Core.Messages;
 
 namespace Tojeero.Forms
 {
@@ -12,6 +16,8 @@ namespace Tojeero.Forms
 		#region Private fields
 
 		private TabbedPage _tabs;
+		private readonly IAuthenticationService _authService;
+		private readonly MvxSubscriptionToken _sessionChangedToken;
 
 		private NavigationPage _productsPage;
 		private NavigationPage ProductsPage
@@ -64,7 +70,13 @@ namespace Tojeero.Forms
 		#region Constructors
 
 		public RootPage()
-		{						
+		{				
+			_authService = Mvx.Resolve<IAuthenticationService>();
+			var messenger = Mvx.Resolve<IMvxMessenger>();
+			_sessionChangedToken = messenger.SubscribeOnMainThread<SessionStateChangedMessage>((m) =>
+				{
+					reloadFavorites();
+				});
 			this.Master = new SideMenuPage()
 			{
 				Title = AppResources.AppName
@@ -72,7 +84,8 @@ namespace Tojeero.Forms
 						
 			_tabs = new TabbedPage();
 			_tabs.Children.Add(ProductsPage);
-			_tabs.Children.Add(FavoritesPage);
+
+			reloadFavorites();
 
 			this.Detail = _tabs;
 		}
@@ -104,6 +117,19 @@ namespace Tojeero.Forms
 		}
 
 		#endregion
+
+		void reloadFavorites()
+		{
+			if (_authService.State == SessionState.LoggedIn)
+			{
+				_tabs.Children.Add(FavoritesPage);
+			}
+			else if(_favoritesPage != null)
+			{
+				_tabs.Children.Remove(_favoritesPage);
+				_favoritesPage = null;
+			}
+		}
 	}
 }
 

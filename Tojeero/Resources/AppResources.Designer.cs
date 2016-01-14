@@ -170,15 +170,6 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit my store.
-        /// </summary>
-        internal static string ButtonEditStore {
-            get {
-                return ResourceManager.GetString("ButtonEditStore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Log in.
         /// </summary>
         internal static string ButtonLogin {
@@ -193,6 +184,15 @@ namespace Tojeero.Forms.Resources {
         internal static string ButtonLogout {
             get {
                 return ResourceManager.GetString("ButtonLogout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My store.
+        /// </summary>
+        internal static string ButtonMyStore {
+            get {
+                return ResourceManager.GetString("ButtonMyStore", resourceCulture);
             }
         }
         

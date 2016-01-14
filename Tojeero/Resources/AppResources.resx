@@ -388,9 +388,6 @@
     <value>Create my free store</value>
     <comment>Create store button title</comment>
   </data>
-  <data name="ButtonEditStore" xml:space="preserve">
-    <value>Edit my store</value>
-  </data>
   <data name="ButtonRefetchStore" xml:space="preserve">
     <value>Refetch store</value>
   </data>
@@ -501,6 +498,9 @@
   </data>
   <data name="ButtonApply" xml:space="preserve">
     <value>Apply</value>
+  </data>
+  <data name="ButtonMyStore" xml:space="preserve">
+    <value>My store</value>
   </data>
   <data name="ButtonTryAgain" xml:space="preserve">
     <value>Try again</value>

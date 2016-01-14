@@ -120,7 +120,7 @@ namespace Tojeero.Core.ViewModels
 
 				if (this.UserStore != null)
 				{
-					title = !string.IsNullOrEmpty(this.UserStore.Name) ? this.UserStore.Name : AppResources.ButtonEditStore;
+					title = AppResources.ButtonMyStore;
 				}
 				else
 				{

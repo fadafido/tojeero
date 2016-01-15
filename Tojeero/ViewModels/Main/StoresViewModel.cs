@@ -26,15 +26,15 @@ namespace Tojeero.Core.ViewModels
 			: base()
 		{
 			_manager = manager;
-			_filterChangeToken = messenger.Subscribe<StoreFilterChangedMessage>((m) =>
+			_filterChangeToken = messenger.SubscribeOnMainThread<StoreFilterChangedMessage>((m) =>
 				{
 					this.RefetchCommand.Execute(null);
 				});
-			_storeChangeToken = messenger.Subscribe<StoreChangedMessage>((message) =>
+			_storeChangeToken = messenger.SubscribeOnMainThread<StoreChangedMessage>((message) =>
 				{
 					this.RefetchCommand.Execute(null);
 				});
-			_sessionChangedToken = messenger.Subscribe<SessionStateChangedMessage>((m) =>
+			_sessionChangedToken = messenger.SubscribeOnMainThread<SessionStateChangedMessage>((m) =>
 				{
 					this.RefetchCommand.Execute(null);
 				});

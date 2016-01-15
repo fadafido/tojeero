@@ -16,6 +16,11 @@ namespace Tojeero.Forms
 {
 	public partial class SaveStorePage : ContentPage
 	{
+		#region Private fields and properties
+
+		private bool _toolbarButtonsAdded = false;
+
+		#endregion
 
 		#region Constructors
 
@@ -24,32 +29,13 @@ namespace Tojeero.Forms
 			this.ViewModel = MvxToolbox.LoadViewModel<SaveStoreViewModel>();
 			InitializeComponent();
 			setupPickers();
-			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
-					{
-						await this.Navigation.PopModalAsync();
-					}));
+
+
 			this.ViewModel.CurrentStore = store;
 			this.mainImageControl.ViewModel = this.ViewModel.MainImage;
 			this.ViewModel.ShowAlert = (t, m, accept) =>
 			{
 				this.DisplayAlert(t, m, accept);
-			};
-			
-			this.ViewModel.DidSaveStoreAction = async (savedStore, isNew) => {
-				if(isNew)
-				{
-					await this.Navigation.PopModalAsync();
-					var storeInfoPage = new StoreInfoPage(savedStore, ContentMode.Edit);
-					storeInfoPage.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
-						{
-							await storeInfoPage.Navigation.PopModalAsync();
-						}));
-					FormsApp.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(storeInfoPage));
-				}
-				else
-				{
-					await this.Navigation.PopAsync();
-				}
 			};
 		}
 
@@ -82,6 +68,43 @@ namespace Tojeero.Forms
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
+
+			if (!_toolbarButtonsAdded)
+			{
+				//if this view is not inside root page add close button
+				var root = this.FindParentPage<RootPage>();
+				if (root == null)
+				{
+					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
+							{
+								await this.Navigation.PopModalAsync();
+							}));
+				}
+
+
+				this.ViewModel.DidSaveStoreAction = async (savedStore, isNew) =>
+				{
+					if (isNew)
+					{
+						//If the view isn't inside tabs, pop it
+						if (root == null)
+						{
+							await this.Navigation.PopModalAsync();
+
+							var storeInfoPage = new StoreInfoPage(savedStore, ContentMode.Edit);
+							await FormsApp.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(storeInfoPage));
+						}
+					}
+					else
+					{
+						//If the view isn't inside tabs, pop it
+						if (root == null)
+							await this.Navigation.PopAsync();
+					}
+				};
+				_toolbarButtonsAdded = true;
+			}
+			
 			this.ViewModel.ReloadCommand.Execute(null);
 		}
 

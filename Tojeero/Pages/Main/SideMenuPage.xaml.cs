@@ -73,10 +73,6 @@ namespace Tojeero.Forms
 				else
 				{
 					var storeInfoPage = new StoreInfoPage(s, ContentMode.Edit);
-					storeInfoPage.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
-						{
-							await storeInfoPage.Navigation.PopModalAsync();
-						}));
 					await this.Navigation.PushModalAsync(new NavigationPage(storeInfoPage));
 				}
 			};

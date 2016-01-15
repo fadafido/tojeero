@@ -8,6 +8,9 @@ using Tojeero.Forms.Resources;
 using Tojeero.Core;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Messages;
+using Tojeero.Core.ViewModels;
+using Tojeero.Forms.Toolbox;
+using System.Threading.Tasks;
 
 namespace Tojeero.Forms
 {
@@ -15,9 +18,9 @@ namespace Tojeero.Forms
 	{
 		#region Private fields
 
+		private bool _wasUserStoreShown;
 		private TabbedPage _tabs;
-		private readonly IAuthenticationService _authService;
-		private readonly MvxSubscriptionToken _sessionChangedToken;
+		private NavigationPage _userStorePage;
 
 		private NavigationPage _productsPage;
 		private NavigationPage ProductsPage
@@ -64,19 +67,13 @@ namespace Tojeero.Forms
 			}
 		}
 
-
 		#endregion
 
 		#region Constructors
 
 		public RootPage()
 		{				
-			_authService = Mvx.Resolve<IAuthenticationService>();
-			var messenger = Mvx.Resolve<IMvxMessenger>();
-			_sessionChangedToken = messenger.SubscribeOnMainThread<SessionStateChangedMessage>((m) =>
-				{
-					reloadFavorites();
-				});
+			this.ViewModel = MvxToolbox.LoadViewModel<RootViewModel>();
 			this.Master = new SideMenuPage()
 			{
 				Title = AppResources.AppName
@@ -85,14 +82,32 @@ namespace Tojeero.Forms
 			_tabs = new TabbedPage();
 			_tabs.Children.Add(ProductsPage);
 
-			reloadFavorites();
-
 			this.Detail = _tabs;
+
+			this.ViewModel.Initialize();
 		}
 
 		#endregion
 
 		#region Public API
+
+		private RootViewModel _viewModel;
+
+		public RootViewModel ViewModel
+		{ 
+			get
+			{
+				return _viewModel; 
+			}
+			set
+			{
+				if (_viewModel != value)
+				{
+					_viewModel = value;
+					setupViewModel();
+				}
+			}
+		}
 
 		public void SelectProductsPage()
 		{
@@ -118,18 +133,59 @@ namespace Tojeero.Forms
 
 		#endregion
 
-		void reloadFavorites()
+		#region Utility methods
+
+		private void showFavorites()
 		{
-			if (_authService.State == SessionState.LoggedIn)
-			{
+			if(!_tabs.Children.Contains(FavoritesPage))
 				_tabs.Children.Add(FavoritesPage);
-			}
-			else if(_favoritesPage != null)
+		}
+
+		private void hideFavorites()
+		{
+			if(_favoritesPage != null)
 			{
 				_tabs.Children.Remove(_favoritesPage);
 				_favoritesPage = null;
 			}
 		}
+
+		private void showUserStore(IStore store)
+		{
+			if (_userStorePage == null)
+			{
+				if (store == null)
+					_userStorePage = new NavigationPage(new SaveStorePage(null));
+				else
+					_userStorePage = new NavigationPage(new StoreInfoPage(store, ContentMode.Edit));
+				_userStorePage.Title = this.ViewModel.UserStoreViewModel.ShowSaveStoreTitle;
+				_tabs.Children.Add(_userStorePage);
+				if (_wasUserStoreShown)
+					_tabs.CurrentPage = _userStorePage;
+			}
+		}
+
+		private void hideUserStore()
+		{
+			if(_userStorePage != null)
+			{
+				if(_tabs.CurrentPage == _userStorePage)
+					_wasUserStoreShown = true;			
+				_tabs.Children.Remove(_userStorePage);
+				_userStorePage = null;
+			}
+		}
+
+		private void setupViewModel()
+		{			
+			this.ViewModel.ShowFavorites = showFavorites;
+			this.ViewModel.HideFavorites = hideFavorites;
+			this.ViewModel.UserStoreViewModel.DidLoadUserStoreAction = showUserStore;
+			this.ViewModel.UserStoreViewModel.IsLoadingStoreAction = hideUserStore;
+			this.BindingContext = _viewModel;
+		}
+
+		#endregion
 	}
 }
 

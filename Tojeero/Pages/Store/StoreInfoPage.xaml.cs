@@ -11,6 +11,12 @@ namespace Tojeero.Forms
 {
 	public partial class StoreInfoPage : ContentPage
 	{
+		#region Private fields and properties
+
+		private bool _toolbarButtonsAdded = false;
+
+		#endregion
+
 		#region Constructors
 
 		public StoreInfoPage(IStore store, ContentMode mode = ContentMode.View)
@@ -27,7 +33,8 @@ namespace Tojeero.Forms
 
 			//Setup events
 			this.listView.ItemSelected += itemSelected;
-			this.ViewModel.Products.ReloadFinished += (sender, e) => {
+			this.ViewModel.Products.ReloadFinished += (sender, e) =>
+			{
 				this.listView.EndRefresh();
 			};
 
@@ -39,25 +46,8 @@ namespace Tojeero.Forms
 
 			this.ViewModel.AddProductAction = async (p, s) =>
 			{
-					await this.Navigation.PushModalAsync(new NavigationPage(new SaveProductPage(p, s)));
+				await this.Navigation.PushModalAsync(new NavigationPage(new SaveProductPage(p, s)));
 			};
-			
-			if (mode == ContentMode.Edit)
-			{
-				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonAdd, "", () =>
-					{
-						this.ViewModel.AddProductCommand.Execute(null);
-					}));
-				
-				if (store != null)
-				{
-					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
-							{
-								var editStorePage = new SaveStorePage(store);
-								await this.Navigation.PushAsync(editStorePage);
-						}));
-				}
-			}
 		}
 
 		#endregion
@@ -67,6 +57,37 @@ namespace Tojeero.Forms
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
+
+			if (!_toolbarButtonsAdded)
+			{
+				if (this.ViewModel.Mode == ContentMode.Edit)
+				{
+					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonAdd, "", () =>
+							{
+								this.ViewModel.AddProductCommand.Execute(null);
+							}));
+
+					if (this.ViewModel.Store != null)
+					{
+						this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
+								{
+									var editStorePage = new SaveStorePage(this.ViewModel.Store);
+									await this.Navigation.PushAsync(editStorePage);
+								}));
+					}
+				}
+
+				//if this view is not inside root page add close button
+				var root = this.FindParentPage<RootPage>();
+				if (root == null)
+				{
+					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
+							{
+								await this.Navigation.PopModalAsync();
+							}));
+				}
+				_toolbarButtonsAdded = true;
+			}
 			this.ViewModel.Products.LoadFirstPageCommand.Execute(null);
 			this.ViewModel.ReloadCommand.Execute(null);
 		}

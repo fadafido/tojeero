@@ -647,11 +647,56 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have any favorite products..
+        /// </summary>
+        internal static string MessageNoFavoriteProducts {
+            get {
+                return ResourceManager.GetString("MessageNoFavoriteProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have any favorite stores..
+        /// </summary>
+        internal static string MessageNoFavoriteStores {
+            get {
+                return ResourceManager.GetString("MessageNoFavoriteStores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No network connection available..
         /// </summary>
         internal static string MessageNoInternetWarning {
             get {
                 return ResourceManager.GetString("MessageNoInternetWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No products available..
+        /// </summary>
+        internal static string MessageNoProducts {
+            get {
+                return ResourceManager.GetString("MessageNoProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No stores available..
+        /// </summary>
+        internal static string MessageNoStores {
+            get {
+                return ResourceManager.GetString("MessageNoStores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No tags available.
+        /// </summary>
+        internal static string MessageNoTags {
+            get {
+                return ResourceManager.GetString("MessageNoTags", resourceCulture);
             }
         }
         

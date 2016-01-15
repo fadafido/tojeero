@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tojeero.Core.Toolbox;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Messages;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -46,12 +47,16 @@ namespace Tojeero.Core.ViewModels
 
 		protected override BaseCollectionViewModel<StoreViewModel> GetBrowsingViewModel()
 		{
-			return new BaseCollectionViewModel<StoreViewModel>(new StoresQuery(_manager), Constants.StoresPageSize);
+			var viewModel = new BaseCollectionViewModel<StoreViewModel>(new StoresQuery(_manager), Constants.StoresPageSize);
+			viewModel.Placeholder = AppResources.MessageNoStores;
+			return viewModel;
 		}
 
 		protected override BaseCollectionViewModel<StoreViewModel> GetSearchViewModel(string searchQuery)
 		{
-			return new BaseCollectionViewModel<StoreViewModel>(new SearchStoresQuery(searchQuery, _manager), Constants.StoresPageSize);
+			var viewModel = new BaseCollectionViewModel<StoreViewModel>(new SearchStoresQuery(searchQuery, _manager), Constants.StoresPageSize);
+			viewModel.Placeholder = AppResources.MessageNoStores;
+			return viewModel;
 		}
 
 		#endregion

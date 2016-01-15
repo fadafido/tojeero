@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tojeero.Core.Toolbox;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Messages;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -23,6 +24,7 @@ namespace Tojeero.Core.ViewModels
 			: base(new FavoriteProductsQuery(manager), Constants.ProductsPageSize)
 		{
 			_manager = manager;
+			this.Placeholder = AppResources.MessageNoFavoriteProducts;
 		}
 
 		#endregion

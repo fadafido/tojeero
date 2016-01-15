@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Tojeero.Core.Toolbox;
 using System.Linq;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -107,12 +108,16 @@ namespace Tojeero.Core.ViewModels
 
 		protected override BaseCollectionViewModel<TagViewModel> GetBrowsingViewModel()
 		{
-			return new BaseSelectableCollectionViewModel<TagViewModel>(new TagsQuery(_manager), Constants.TagsPageSize);
+			var viewModel = new BaseSelectableCollectionViewModel<TagViewModel>(new TagsQuery(_manager), Constants.TagsPageSize);
+			viewModel.Placeholder = AppResources.MessageNoTags;
+			return viewModel;
 		}
 
 		protected override BaseCollectionViewModel<TagViewModel> GetSearchViewModel(string searchQuery)
 		{
-			return new BaseSelectableCollectionViewModel<TagViewModel>(new SearchTagsQuery(searchQuery, _manager), Constants.TagsPageSize);
+			var viewModel = new BaseSelectableCollectionViewModel<TagViewModel>(new SearchTagsQuery(searchQuery, _manager), Constants.TagsPageSize);
+			viewModel.Placeholder = AppResources.MessageNoTags;
+			return viewModel;
 		}
 
 		protected override void HandleLoadingNextPageFinished(object sender, EventArgs e)

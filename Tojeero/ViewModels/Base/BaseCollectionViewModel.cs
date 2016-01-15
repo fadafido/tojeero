@@ -126,6 +126,30 @@ namespace Tojeero.Core.ViewModels
 			{
 				_isInitialDataLoaded = value;
 				RaisePropertyChanged(() => IsInitialDataLoaded);
+				RaisePropertyChanged(() => IsPlaceholderVisible);
+			}
+		}
+			
+		private string _placeholder;
+
+		public string Placeholder
+		{ 
+			get
+			{
+				return _placeholder; 
+			}
+			set
+			{
+				_placeholder = value; 
+				RaisePropertyChanged(() => Placeholder); 
+			}
+		}
+
+		public bool IsPlaceholderVisible
+		{
+			get
+			{
+				return IsInitialDataLoaded && this.Count == 0;
 			}
 		}
 
@@ -349,6 +373,7 @@ namespace Tojeero.Core.ViewModels
 		void collectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
 			RaisePropertyChanged(() => Count);
+			RaisePropertyChanged(() => IsPlaceholderVisible);
 		}
 
 		private string handleException(Exception ex)

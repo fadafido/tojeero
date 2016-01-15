@@ -455,7 +455,7 @@ namespace Tojeero.Core
 	}
 
 	[ParseClassName("StoreItem")]
-	public class ParseProduct : SearchableParseObject, IParseMultiImageEntity
+	public class ParseProduct : ParseObject, IParseMultiImageEntity
 	{
 		#region Constructors
 
@@ -679,6 +679,18 @@ namespace Tojeero.Core
 			}
 		}
 
+		[ParseFieldName("searchTokens")]
+		public IList<string> SearchTokens
+		{
+			get
+			{
+				return GetProperty<IList<string>>();
+			}
+			set
+			{
+				SetProperty<IList<string>>(value);
+			}
+		}
 		#endregion
 	}
 }

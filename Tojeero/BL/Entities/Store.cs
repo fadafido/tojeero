@@ -355,7 +355,7 @@ namespace Tojeero.Core
 	}
 		
 	[ParseClassName("Store")]
-	public class ParseStore : SearchableParseObject
+	public class ParseStore : ParseObject
 	{
 		#region Constructors
 
@@ -520,6 +520,19 @@ namespace Tojeero.Core
 			set
 			{
 				SetProperty<TojeeroUser>(value);
+			}
+		}
+
+		[ParseFieldName("searchTokens")]
+		public IList<string> SearchTokens
+		{
+			get
+			{
+				return GetProperty<IList<string>>();
+			}
+			set
+			{
+				SetProperty<IList<string>>(value);
 			}
 		}
 		#endregion

@@ -8,6 +8,7 @@ namespace Tojeero.Core
 		public static void Initialize()
 		{
 			//Register custom subclasses
+			ParseObject.RegisterSubclass<TojeeroUser>();
 			ParseObject.RegisterSubclass<ParseProduct>();
 			ParseObject.RegisterSubclass<ParseStore>();
 			ParseObject.RegisterSubclass<ParseCountry>();
@@ -16,7 +17,6 @@ namespace Tojeero.Core
 			ParseObject.RegisterSubclass<ParseProductSubcategory>();
 			ParseObject.RegisterSubclass<ParseStoreCategory>();
 			ParseObject.RegisterSubclass<ParseTag>();
-			ParseObject.RegisterSubclass<TojeeroUser>();
 			ParseObject.RegisterSubclass<ReservedName>();
 			ParseObject.RegisterSubclass<ParseData>();
 

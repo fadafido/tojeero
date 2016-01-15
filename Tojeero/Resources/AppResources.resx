@@ -508,4 +508,24 @@
   <data name="LabelMobileNumber" xml:space="preserve">
     <value>Mobile number</value>
   </data>
+  <data name="MessageNoFavoriteProducts" xml:space="preserve">
+    <value>You don't have any favorite products.</value>
+    <comment>Placeholder shown when there are no favorite products to be shown in the list</comment>
+  </data>
+  <data name="MessageNoFavoriteStores" xml:space="preserve">
+    <value>You don't have any favorite stores.</value>
+    <comment>Placeholder shown when there are no favorite stores to be shown in the list</comment>
+  </data>
+  <data name="MessageNoProducts" xml:space="preserve">
+    <value>No products available.</value>
+    <comment>Placeholder shown when there are no products to be shown in the list</comment>
+  </data>
+  <data name="MessageNoStores" xml:space="preserve">
+    <value>No stores available.</value>
+    <comment>Placeholder shown when there are no stores to be shown in the list</comment>
+  </data>
+  <data name="MessageNoTags" xml:space="preserve">
+    <value>No tags available</value>
+    <comment>Placeholder shown when there are no tags to be shown in the list</comment>
+  </data>
 </root>

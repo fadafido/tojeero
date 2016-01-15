@@ -5,6 +5,7 @@ using Tojeero.Core.Toolbox;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -22,6 +23,7 @@ namespace Tojeero.Forms
 			: base(new FavoriteStoresQuery(manager), Constants.StoresPageSize)
 		{
 			_manager = manager;
+			this.Placeholder = AppResources.MessageNoFavoriteStores;
 		}
 
 		#endregion

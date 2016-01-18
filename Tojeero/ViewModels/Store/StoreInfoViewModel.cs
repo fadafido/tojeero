@@ -118,6 +118,14 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public bool IsInEditMode
+		{
+			get
+			{
+				return this.Mode == ContentMode.Edit;
+			}
+		}
+
 		#endregion
 
 		#region Commands
@@ -237,6 +245,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => IsAddFirstProductPlaceholderVisible);
 				RaisePropertyChanged(() => IsNoProductsPlaceholderVisible);
 				RaisePropertyChanged(() => IsPlaceholderVisible);
+				RaisePropertyChanged(() => IsInEditMode);
 			}
 		}
 

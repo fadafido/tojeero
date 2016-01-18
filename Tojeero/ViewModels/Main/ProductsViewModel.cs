@@ -10,6 +10,7 @@ using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
+	
 	public class ProductsViewModel : BaseSearchViewModel<ProductViewModel>
 	{
 		#region Private fields and properties
@@ -43,6 +44,71 @@ namespace Tojeero.Core.ViewModels
 
 		#endregion
 
+		#region Properties
+
+		public Action ShowFiltersAction { get; set; }
+		public Action<ListMode> ChangeListModeAction { get; set; }
+
+		private ListMode _listMode = Settings.ProductListMode;
+
+		public ListMode ListMode
+		{ 
+			get
+			{
+				return _listMode; 
+			}
+			private set
+			{
+				if (_listMode != value)
+				{
+					_listMode = value; 
+					updateListMode();
+					RaisePropertyChanged(() => ListMode); 
+					RaisePropertyChanged(() => ListModeIcon);
+				}
+
+			}
+		}
+
+		public string ListModeIcon
+		{
+			get
+			{
+				return this.ListMode == ListMode.Normal ? "listLargeCellIcon.png" : "listCellIcon.png";
+			}
+		}
+
+		#endregion
+
+		#region Commands
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _filterCommand;
+
+		public System.Windows.Input.ICommand FilterCommand
+		{
+			get
+			{
+				_filterCommand = _filterCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
+					ShowFiltersAction.Fire();
+				});
+				return _filterCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _toggleListModeCommand;
+
+		public System.Windows.Input.ICommand ToggleListModeCommand
+		{
+			get
+			{
+				_toggleListModeCommand = _toggleListModeCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(()=>{
+					this.ListMode = this.ListMode == ListMode.Normal ? ListMode.Large : ListMode.Normal;
+				});
+				return _toggleListModeCommand;
+			}
+		}
+
+		#endregion
 
 		#region Parent override
 
@@ -123,6 +189,16 @@ namespace Tojeero.Core.ViewModels
 			{
 				return manager.ClearCache();
 			}
+		}
+
+		#endregion
+
+		#region Utility methods
+
+		private void updateListMode()
+		{
+			Settings.ProductListMode = this.ListMode;
+			ChangeListModeAction.Fire(this.ListMode);
 		}
 
 		#endregion

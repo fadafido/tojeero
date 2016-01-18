@@ -471,6 +471,8 @@
     <AndroidResource Include="Resources\drawable-xhdpi\favoriteProductsIcon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\favoriteStoresIcon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\checkmark.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\listLargeCellIcon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\listCellIcon.png" />
   </ItemGroup>
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

@@ -56,6 +56,17 @@
 					Property="TextColor"
 					Value="{x:Static local:Colors.Main}" />
 			</Style>
+			<Style
+				x:Key="Button4"
+				TargetType="Button"
+				BaseResourceKey="BaseButton">
+				<Setter
+					Property="BackgroundColor"
+					Value="{x:Static local:Colors.Main}" />
+				<Setter
+					Property="HeightRequest"
+					Value="50" />
+			</Style>
 
 			<Style
 				x:Key="Label1"
@@ -99,7 +110,7 @@
 					Value="Bold" />
 				<Setter
 					Property="TextColor"
-					Value="{x:Static local:Colors.Placeholder}" />
+					Value="{x:Static local:Colors.PlaceholderDark}" />
 			</Style>
 
 			<Style

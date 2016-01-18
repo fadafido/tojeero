@@ -420,6 +420,10 @@
     <BundleResource Include="Resources\favoriteProductsIcon%402x.png" />
     <BundleResource Include="Resources\favoriteStoresIcon%402x.png" />
     <BundleResource Include="Resources\checkmark%402x.png" />
+    <BundleResource Include="Resources\userStoreIcon%402x.png" />
+    <BundleResource Include="Resources\createUserStoreIcon%402x.png" />
+    <BundleResource Include="Resources\listCellIcon%402x.png" />
+    <BundleResource Include="Resources\listLargeCellIcon%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

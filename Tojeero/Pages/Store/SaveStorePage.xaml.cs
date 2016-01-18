@@ -78,7 +78,7 @@ namespace Tojeero.Forms
 					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
 							{
 								await this.Navigation.PopModalAsync();
-							}));
+						}));
 				}
 
 

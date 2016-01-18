@@ -155,9 +155,15 @@ namespace Tojeero.Forms
 			if (_userStorePage == null)
 			{
 				if (store == null)
+				{
 					_userStorePage = new NavigationPage(new SaveStorePage(null));
+					_userStorePage.Icon = "createUserStoreIcon.png";
+				}
 				else
+				{
 					_userStorePage = new NavigationPage(new StoreInfoPage(store, ContentMode.Edit));
+					_userStorePage.Icon = "userStoreIcon.png";
+				}
 				_userStorePage.Title = this.ViewModel.UserStoreViewModel.ShowSaveStoreTitle;
 				_tabs.Children.Add(_userStorePage);
 				if (_wasUserStoreShown)

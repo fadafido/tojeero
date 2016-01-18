@@ -5,26 +5,20 @@
 	x:Class="Tojeero.Forms.StoreListCell"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms">
-	<AbsoluteLayout
+	<Grid
 		Padding="12,3,12,3"
 		VerticalOptions="FillAndExpand"
 		HorizontalOptions="FillAndExpand">
 		<local:BorderView
-			Grid.RowSpan="3"
-			Grid.ColumnSpan="4"
 			BorderColor="{x:Static local:Colors.CellBorder}"
 			BorderWidth="1"
-			AbsoluteLayout.LayoutFlags="All"
-			AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
 			BackgroundColor="{x:Static local:Colors.CellBackground}" />
 		<Grid
 			ColumnSpacing="0"
 			RowSpacing="0"
 			Padding="3,3,0,3"
 			VerticalOptions="FillAndExpand"
-			HorizontalOptions="FillAndExpand"
-			AbsoluteLayout.LayoutFlags="All"
-			AbsoluteLayout.LayoutBounds="0.01, 0.01, 0.98, 0.98">
+			HorizontalOptions="FillAndExpand">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition
 					Width="120" />
@@ -121,5 +115,5 @@
 					HorizontalOptions="Fill" />
 			</StackLayout>
 		</Grid>
-	</AbsoluteLayout>
+	</Grid>
 </ViewCell>

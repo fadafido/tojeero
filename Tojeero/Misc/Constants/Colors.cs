@@ -20,6 +20,7 @@ namespace Tojeero.Forms
 		public static Color White = Color.White;
 
 		public static Color CellBackground = Color.White;
+		public static Color LargeCellBackground = Color.FromHex("#f2f4f4");
 		public static Color CellBorder = Color.FromHex("#dbdfdf");
 		public static Color LightBackground = Color.FromHex("#eaeeef");
 		public static Color Separator = Color.FromHex("#e6e8e9");
@@ -29,6 +30,7 @@ namespace Tojeero.Forms
 		public static Color Secondary = Color.FromHex("#f15a24");
 		public static Color Subtitle = Color.FromHex("#9e9e9e");
 		public static Color Placeholder = Color.FromHex("#dde4e6");
+		public static Color PlaceholderDark = Color.FromHex("#afb8bb");
 		public static Color Invalid = Color.Red;
 		public static Color Warning = Color.FromHex("#f6846a");
 		public static Color SideMenuText = Color.FromHex("#96a9b4");

@@ -62,11 +62,6 @@ namespace Tojeero.Forms
 			{
 				if (this.ViewModel.Mode == ContentMode.Edit)
 				{
-					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonAdd, "", () =>
-							{
-								this.ViewModel.AddProductCommand.Execute(null);
-							}));
-
 					if (this.ViewModel.Store != null)
 					{
 						this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
@@ -84,7 +79,7 @@ namespace Tojeero.Forms
 					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
 							{
 								await this.Navigation.PopModalAsync();
-							}));
+						}, priority: 15));
 				}
 				_toolbarButtonsAdded = true;
 			}

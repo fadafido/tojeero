@@ -3710,160 +3710,166 @@ namespace Tojeero.Droid
 			public const int list_pressed_tojeero = 2130837642;
 			
 			// aapt resource value: 0x7f02008b
-			public const int menu_dropdown_panel_tojeero = 2130837643;
+			public const int listCellIcon = 2130837643;
 			
 			// aapt resource value: 0x7f02008c
-			public const int menuIcon = 2130837644;
+			public const int listLargeCellIcon = 2130837644;
 			
 			// aapt resource value: 0x7f02008d
-			public const int messenger_bubble_large_blue = 2130837645;
+			public const int menu_dropdown_panel_tojeero = 2130837645;
 			
 			// aapt resource value: 0x7f02008e
-			public const int messenger_bubble_large_white = 2130837646;
+			public const int menuIcon = 2130837646;
 			
 			// aapt resource value: 0x7f02008f
-			public const int messenger_bubble_small_blue = 2130837647;
+			public const int messenger_bubble_large_blue = 2130837647;
 			
 			// aapt resource value: 0x7f020090
-			public const int messenger_bubble_small_white = 2130837648;
+			public const int messenger_bubble_large_white = 2130837648;
 			
 			// aapt resource value: 0x7f020091
-			public const int messenger_button_blue_bg_round = 2130837649;
+			public const int messenger_bubble_small_blue = 2130837649;
 			
 			// aapt resource value: 0x7f020092
-			public const int messenger_button_blue_bg_selector = 2130837650;
+			public const int messenger_bubble_small_white = 2130837650;
 			
 			// aapt resource value: 0x7f020093
-			public const int messenger_button_send_round_shadow = 2130837651;
+			public const int messenger_button_blue_bg_round = 2130837651;
 			
 			// aapt resource value: 0x7f020094
-			public const int messenger_button_white_bg_round = 2130837652;
+			public const int messenger_button_blue_bg_selector = 2130837652;
 			
 			// aapt resource value: 0x7f020095
-			public const int messenger_button_white_bg_selector = 2130837653;
+			public const int messenger_button_send_round_shadow = 2130837653;
 			
 			// aapt resource value: 0x7f020096
-			public const int mr_ic_cast_dark = 2130837654;
+			public const int messenger_button_white_bg_round = 2130837654;
 			
 			// aapt resource value: 0x7f020097
-			public const int mr_ic_cast_light = 2130837655;
+			public const int messenger_button_white_bg_selector = 2130837655;
 			
 			// aapt resource value: 0x7f020098
-			public const int mr_ic_media_route_connecting_mono_dark = 2130837656;
+			public const int mr_ic_cast_dark = 2130837656;
 			
 			// aapt resource value: 0x7f020099
-			public const int mr_ic_media_route_connecting_mono_light = 2130837657;
+			public const int mr_ic_cast_light = 2130837657;
 			
 			// aapt resource value: 0x7f02009a
-			public const int mr_ic_media_route_mono_dark = 2130837658;
+			public const int mr_ic_media_route_connecting_mono_dark = 2130837658;
 			
 			// aapt resource value: 0x7f02009b
-			public const int mr_ic_media_route_mono_light = 2130837659;
+			public const int mr_ic_media_route_connecting_mono_light = 2130837659;
 			
 			// aapt resource value: 0x7f02009c
-			public const int mr_ic_pause_dark = 2130837660;
+			public const int mr_ic_media_route_mono_dark = 2130837660;
 			
 			// aapt resource value: 0x7f02009d
-			public const int mr_ic_pause_light = 2130837661;
+			public const int mr_ic_media_route_mono_light = 2130837661;
 			
 			// aapt resource value: 0x7f02009e
-			public const int mr_ic_play_dark = 2130837662;
+			public const int mr_ic_pause_dark = 2130837662;
 			
 			// aapt resource value: 0x7f02009f
-			public const int mr_ic_play_light = 2130837663;
+			public const int mr_ic_pause_light = 2130837663;
 			
 			// aapt resource value: 0x7f0200a0
-			public const int mr_ic_settings_dark = 2130837664;
+			public const int mr_ic_play_dark = 2130837664;
 			
 			// aapt resource value: 0x7f0200a1
-			public const int mr_ic_settings_light = 2130837665;
+			public const int mr_ic_play_light = 2130837665;
 			
 			// aapt resource value: 0x7f0200a2
-			public const int myProductsIcon = 2130837666;
+			public const int mr_ic_settings_dark = 2130837666;
 			
 			// aapt resource value: 0x7f0200a3
-			public const int myStoreIcon = 2130837667;
+			public const int mr_ic_settings_light = 2130837667;
 			
 			// aapt resource value: 0x7f0200a4
-			public const int NoFlashButton = 2130837668;
-			
-			// aapt resource value: 0x7f0200be
-			public const int notification_template_icon_bg = 2130837694;
+			public const int myProductsIcon = 2130837668;
 			
 			// aapt resource value: 0x7f0200a5
-			public const int placeholder = 2130837669;
+			public const int myStoreIcon = 2130837669;
 			
 			// aapt resource value: 0x7f0200a6
-			public const int profilePicturePlaceholder = 2130837670;
+			public const int NoFlashButton = 2130837670;
+			
+			// aapt resource value: 0x7f0200c0
+			public const int notification_template_icon_bg = 2130837696;
 			
 			// aapt resource value: 0x7f0200a7
-			public const int progress_bg_tojeero = 2130837671;
+			public const int placeholder = 2130837671;
 			
 			// aapt resource value: 0x7f0200a8
-			public const int progress_horizontal_tojeero = 2130837672;
+			public const int profilePicturePlaceholder = 2130837672;
 			
 			// aapt resource value: 0x7f0200a9
-			public const int progress_primary_tojeero = 2130837673;
+			public const int progress_bg_tojeero = 2130837673;
 			
 			// aapt resource value: 0x7f0200aa
-			public const int progress_secondary_tojeero = 2130837674;
+			public const int progress_horizontal_tojeero = 2130837674;
 			
 			// aapt resource value: 0x7f0200ab
-			public const int selectable_background_tojeero = 2130837675;
+			public const int progress_primary_tojeero = 2130837675;
 			
 			// aapt resource value: 0x7f0200ac
-			public const int settingsIcon = 2130837676;
+			public const int progress_secondary_tojeero = 2130837676;
 			
 			// aapt resource value: 0x7f0200ad
-			public const int spinner_ab_default_tojeero = 2130837677;
+			public const int selectable_background_tojeero = 2130837677;
 			
 			// aapt resource value: 0x7f0200ae
-			public const int spinner_ab_disabled_tojeero = 2130837678;
+			public const int settingsIcon = 2130837678;
 			
 			// aapt resource value: 0x7f0200af
-			public const int spinner_ab_focused_tojeero = 2130837679;
+			public const int spinner_ab_default_tojeero = 2130837679;
 			
 			// aapt resource value: 0x7f0200b0
-			public const int spinner_ab_pressed_tojeero = 2130837680;
+			public const int spinner_ab_disabled_tojeero = 2130837680;
 			
 			// aapt resource value: 0x7f0200b1
-			public const int spinner_background_ab_tojeero = 2130837681;
+			public const int spinner_ab_focused_tojeero = 2130837681;
 			
 			// aapt resource value: 0x7f0200b2
-			public const int splash = 2130837682;
+			public const int spinner_ab_pressed_tojeero = 2130837682;
 			
 			// aapt resource value: 0x7f0200b3
-			public const int tab_indicator_ab_tojeero = 2130837683;
+			public const int spinner_background_ab_tojeero = 2130837683;
 			
 			// aapt resource value: 0x7f0200b4
-			public const int tab_selected_focused_tojeero = 2130837684;
+			public const int splash = 2130837684;
 			
 			// aapt resource value: 0x7f0200b5
-			public const int tab_selected_pressed_tojeero = 2130837685;
+			public const int tab_indicator_ab_tojeero = 2130837685;
 			
 			// aapt resource value: 0x7f0200b6
-			public const int tab_selected_tojeero = 2130837686;
+			public const int tab_selected_focused_tojeero = 2130837686;
 			
 			// aapt resource value: 0x7f0200b7
-			public const int tab_unselected_focused_tojeero = 2130837687;
+			public const int tab_selected_pressed_tojeero = 2130837687;
 			
 			// aapt resource value: 0x7f0200b8
-			public const int tab_unselected_pressed_tojeero = 2130837688;
+			public const int tab_selected_tojeero = 2130837688;
 			
 			// aapt resource value: 0x7f0200b9
-			public const int tab_unselected_tojeero = 2130837689;
+			public const int tab_unselected_focused_tojeero = 2130837689;
 			
 			// aapt resource value: 0x7f0200ba
-			public const int TakePhotoButton = 2130837690;
+			public const int tab_unselected_pressed_tojeero = 2130837690;
 			
 			// aapt resource value: 0x7f0200bb
-			public const int ToggleCameraButton = 2130837691;
+			public const int tab_unselected_tojeero = 2130837691;
 			
 			// aapt resource value: 0x7f0200bc
-			public const int tojeero = 2130837692;
+			public const int TakePhotoButton = 2130837692;
 			
 			// aapt resource value: 0x7f0200bd
-			public const int tojeeroLarge = 2130837693;
+			public const int ToggleCameraButton = 2130837693;
+			
+			// aapt resource value: 0x7f0200be
+			public const int tojeero = 2130837694;
+			
+			// aapt resource value: 0x7f0200bf
+			public const int tojeeroLarge = 2130837695;
 			
 			static Drawable()
 			{

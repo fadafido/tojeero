@@ -385,7 +385,7 @@
     <value>Pick image</value>
   </data>
   <data name="ButtonCreateStore" xml:space="preserve">
-    <value>Create my free store</value>
+    <value>Create a store</value>
     <comment>Create store button title</comment>
   </data>
   <data name="ButtonRefetchStore" xml:space="preserve">
@@ -527,5 +527,8 @@
   <data name="MessageNoTags" xml:space="preserve">
     <value>No tags available</value>
     <comment>Placeholder shown when there are no tags to be shown in the list</comment>
+  </data>
+  <data name="ButtonAddProduct" xml:space="preserve">
+    <value>Add product</value>
   </data>
 </root>

@@ -2,7 +2,7 @@
 <ViewCell
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="Tojeero.Forms.ProductListCell"
+	x:Class="Tojeero.Forms.ProductListLargeCell"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms">
 	<Grid
@@ -12,16 +12,14 @@
 		<local:BorderView
 			BorderColor="{x:Static local:Colors.CellBorder}"
 			BorderWidth="1"
-			BackgroundColor="{x:Static local:Colors.CellBackground}" />
+			BackgroundColor="{x:Static local:Colors.LargeCellBackground}" />
 		<Grid
 			ColumnSpacing="0"
-			RowSpacing="0"
-			Padding="3,3,0,3"
+			RowSpacing="5"
+			Padding="3"
 			VerticalOptions="FillAndExpand"
 			HorizontalOptions="FillAndExpand">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition
-					Width="120" />
 				<ColumnDefinition
 					Width="5" />
 				<ColumnDefinition
@@ -33,27 +31,31 @@
 				<RowDefinition
 					Height="*" />
 				<RowDefinition
-					Height="Auto" />
+					Height="45" />
 				<RowDefinition
 					Height="20" />
 			</Grid.RowDefinitions>
 			<Image
-				Grid.RowSpan="3"
+				Grid.ColumnSpan="3"
 				Aspect="AspectFit"
 				BackgroundColor="{x:Static local:Colors.Placeholder}"
 				Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}"
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand" />
 			<local:LabelEx
-				Grid.Column="2"
+				Grid.Row="1"
+				Grid.Column="1"
 				Text="{Binding Product.Name}"
 				TextColor="{x:Static local:Colors.Main}"
 				FontAttributes="Bold"
 				LineCount="2"
-				FontSize="12"
-				VerticalOptions="FillAndExpand" />
+				FontSize="15"
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand"
+				YAlign="Center" />
 			<local:ImageButton
-				Grid.Column="3"
+				Grid.Row="1"
+				Grid.Column="2"
 				VerticalOptions="Start"
 				HeightRequest="25"
 				WidthRequest="30"
@@ -64,21 +66,8 @@
 				IsVisible="{Binding IsFavoriteToggleVisible}"
 				Command="{Binding ToggleFavoriteCommand}" />
 			<StackLayout
-				Grid.Row="1"
-				Grid.Column="2"
-				Grid.ColumnSpan="2"
-				VerticalOptions="Center"
-				Padding="0,0,6,0">
-				<Label
-					Text="{Binding StatusWarning}"
-					TextColor="{Binding WarningColor}"
-					IsVisible="{Binding StatusWarning, Converter={StaticResource visibility}}"
-					FontSize="10"
-					XAlign="End"/>
-			</StackLayout>
-			<StackLayout
 				Grid.Row="2"
-				Grid.Column="2"
+				Grid.Column="1"
 				Grid.ColumnSpan="2"
 				Orientation="Horizontal"
 				HorizontalOptions="EndAndExpand"

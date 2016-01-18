@@ -98,6 +98,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add product.
+        /// </summary>
+        internal static string ButtonAddProduct {
+            get {
+                return ResourceManager.GetString("ButtonAddProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add tags.
         /// </summary>
         internal static string ButtonAddTags {
@@ -143,7 +152,7 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create my free store.
+        ///   Looks up a localized string similar to Create a store.
         /// </summary>
         internal static string ButtonCreateStore {
             get {

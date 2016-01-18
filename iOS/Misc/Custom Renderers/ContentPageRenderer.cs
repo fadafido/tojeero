@@ -10,9 +10,9 @@ namespace Tojeero.iOS.Renderers
 {
 	public class ContentPageRenderer : PageRenderer
 	{
-		public override void ViewWillAppear(bool animated)
+		public override void ViewDidAppear(bool animated)
 		{
-			base.ViewWillAppear(animated);
+			base.ViewDidAppear(animated);
 
 			var itemsInfo = (this.Element as ContentPage).ToolbarItems;
 			if (itemsInfo == null || this.NavigationController == null)
@@ -31,7 +31,7 @@ namespace Tojeero.iOS.Renderers
 						itemsToMove.Add(nativeItem);
 					}
 				});
-			
+
 			foreach (var item in itemsToMove)
 			{
 				rightNativeButtons.Remove(item);
@@ -39,6 +39,11 @@ namespace Tojeero.iOS.Renderers
 			}
 			navigationItem.RightBarButtonItems = rightNativeButtons.ToArray();
 			navigationItem.LeftBarButtonItems = leftNativeButtons.ToArray();
+		}
+
+		public override void ViewWillAppear(bool animated)
+		{
+			base.ViewWillAppear(animated);
 		}
 
 		private ToolbarItem GetButtonInfo(IList<ToolbarItem> items, string name)

@@ -291,6 +291,10 @@
     <Compile Include="ViewModels\Misc\TagViewModel.cs" />
     <Compile Include="ViewModels\Base\BaseUserStoreViewModel.cs" />
     <Compile Include="ViewModels\Main\RootViewModel.cs" />
+    <Compile Include="Misc\Custom Cells\ProductListLargeCell.xaml.cs">
+      <DependentUpon>ProductListLargeCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Enums\ListMode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -499,6 +503,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\Base\BaseSearchableTabPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Cells\ProductListLargeCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

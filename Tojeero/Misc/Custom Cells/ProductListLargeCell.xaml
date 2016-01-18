@@ -12,7 +12,9 @@
 		<local:BorderView
 			BorderColor="{x:Static local:Colors.CellBorder}"
 			BorderWidth="1"
-			BackgroundColor="{x:Static local:Colors.LargeCellBackground}" />
+			BackgroundColor="{x:Static local:Colors.LargeCellBackground}" 
+			HorizontalOptions="FillAndExpand"
+			VerticalOptions="FillAndExpand"/>
 		<Grid
 			ColumnSpacing="0"
 			RowSpacing="5"

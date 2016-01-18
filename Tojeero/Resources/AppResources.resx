@@ -531,10 +531,19 @@
   <data name="ButtonAddProduct" xml:space="preserve">
     <value>Add product</value>
   </data>
+  <data name="ButtonReadTerms" xml:space="preserve">
+    <value>Read our Terms of Service</value>
+  </data>
+  <data name="ButtonTerms" xml:space="preserve">
+    <value>Terms of Service</value>
+  </data>
   <data name="LabelEmptyList" xml:space="preserve">
     <value>There are no items in this list.</value>
   </data>
   <data name="LabelListCount" xml:space="preserve">
     <value>{0} items in this list.</value>
+  </data>
+  <data name="MessageTermsWarning" xml:space="preserve">
+    <value>By submitting this form you confirm that you agree to our Terms of Service</value>
   </data>
 </root>

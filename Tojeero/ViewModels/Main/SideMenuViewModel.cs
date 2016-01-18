@@ -43,8 +43,9 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		public Action<bool> ShowProfileSettings;
-		public Action<string> ShowLanguageChangeWarning;
+		public Action<bool> ShowProfileSettings { get; set; }
+		public Action<string> ShowLanguageChangeWarning { get; set; }
+		public Action ShowTermsAction { get; set; }
 
 		public LanguageCode NewLanguage
 		{ 
@@ -110,6 +111,19 @@ namespace Tojeero.Core.ViewModels
 						ShowLanguageChangeWarning.Fire(AppResources.MessageLanguageChangeWarning);
 					});
 				return _changeLanguageCommand;
+			}
+		}
+
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _showTermsCommand;
+
+		public System.Windows.Input.ICommand ShowTermsCommand
+		{
+			get
+			{
+				_showTermsCommand = _showTermsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>{
+					ShowTermsAction.Fire();
+				});
+				return _showTermsCommand;
 			}
 		}
 			

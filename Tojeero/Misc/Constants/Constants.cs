@@ -15,6 +15,7 @@ namespace Tojeero.Core
 		public static string ParseDotNetKey = "qcdEV2teifcnFbmeLIBPMlUkcz0WgGPAJ9kAvGD2";
 		public static string AlgoliaApplicationId = "I72QVLIB9D";
 		public static string AlgoliaSecurityKey = "92e4f8a9553b57b20d4d50f37d3232dc";
+		public static string BackendRequestKey = "AN524MNHR";
 
 		/*****************MESSAGES*****************/
 		public static string SessionStateChangedMessage = "com.tojeero.tojeero:SessionStateChangedMessage";

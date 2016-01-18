@@ -76,6 +76,11 @@ namespace Tojeero.Forms
 					await this.Navigation.PushModalAsync(new NavigationPage(storeInfoPage));
 				}
 			};
+
+			this.ViewModel.ShowTermsAction = async () =>
+			{
+					await this.Navigation.PushModalAsync(new NavigationPage(new TermsPage()));
+			};
 			this.BindingContext = _viewModel;
 		}
 

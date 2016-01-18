@@ -215,6 +215,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read our Terms of Service.
+        /// </summary>
+        internal static string ButtonReadTerms {
+            get {
+                return ResourceManager.GetString("ButtonReadTerms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refetch store.
         /// </summary>
         internal static string ButtonRefetchStore {
@@ -238,6 +247,15 @@ namespace Tojeero.Forms.Resources {
         internal static string ButtonSubmit {
             get {
                 return ResourceManager.GetString("ButtonSubmit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terms of Service.
+        /// </summary>
+        internal static string ButtonTerms {
+            get {
+                return ResourceManager.GetString("ButtonTerms", resourceCulture);
             }
         }
         
@@ -823,6 +841,15 @@ namespace Tojeero.Forms.Resources {
         internal static string MessageSubmitting {
             get {
                 return ResourceManager.GetString("MessageSubmitting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By submitting this form you confirm that you agree to our Terms of Service.
+        /// </summary>
+        internal static string MessageTermsWarning {
+            get {
+                return ResourceManager.GetString("MessageTermsWarning", resourceCulture);
             }
         }
         

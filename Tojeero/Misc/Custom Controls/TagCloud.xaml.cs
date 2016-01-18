@@ -15,6 +15,7 @@ namespace Tojeero.Forms
 
 		private ObservedCollection<string> _tags;
 
+		private TagsPage _tagsPage;
 		private NavigationPage _tagSelector;
 		private NavigationPage TagSelector
 		{
@@ -22,9 +23,10 @@ namespace Tojeero.Forms
 			{
 				if (_tagSelector == null)
 				{
-					var tags = new TagsPage();
-					tags.DidClose += tagSelected;
-					_tagSelector = new NavigationPage(tags);
+					_tagsPage = new TagsPage();
+					_tagsPage.DidClose += tagSelected;
+					_tagsPage.ViewModel.EnableTagCreation = this.EnableTagCreation;
+					_tagSelector = new NavigationPage(_tagsPage);
 				}
 				return _tagSelector;
 			}
@@ -66,6 +68,25 @@ namespace Tojeero.Forms
 			control.connectEvents();
 		}
 
+
+		#endregion
+
+		#region EnableTagCreation
+
+		public static BindableProperty EnableTagCreationProperty = BindableProperty.Create<TagCloud, bool>(o => o.EnableTagCreation, false, propertyChanged: OnEnableTagCreationChanged);
+
+		public bool EnableTagCreation
+		{
+			get { return (bool)GetValue(EnableTagCreationProperty); }
+			set { SetValue(EnableTagCreationProperty, value); }
+		}
+
+		private static void OnEnableTagCreationChanged(BindableObject bindable, bool oldvalue, bool newvalue)
+		{
+			var tagCloud = bindable as TagCloud;
+			if(tagCloud._tagsPage != null)
+				tagCloud._tagsPage.ViewModel.EnableTagCreation = newvalue;
+		}
 
 		#endregion
 
@@ -162,11 +183,11 @@ namespace Tojeero.Forms
 			await this.Navigation.PushModalAsync(this.TagSelector);
 		}
 
-		private void tagSelected (object sender, EventArgs<ITag> e)
+		private void tagSelected (object sender, EventArgs<string> e)
 		{
-			if (e.Data != null && !this.Tags.Contains(e.Data.Text))
+			if (e.Data != null && !this.Tags.Contains(e.Data))
 			{
-				this.Tags.Add(e.Data.Text);
+				this.Tags.Add(e.Data);
 			}
 		}
 

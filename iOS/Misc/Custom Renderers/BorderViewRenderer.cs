@@ -11,6 +11,8 @@ namespace Tojeero.iOS.Renderers
 {
 	public class BorderViewRenderer : ViewRenderer
 	{
+		#region Parent override
+
 		protected override void OnElementChanged(ElementChangedEventArgs<View> e)
 		{
 			base.OnElementChanged(e);
@@ -22,6 +24,7 @@ namespace Tojeero.iOS.Renderers
 				}
 				updateBorderWidth();
 				updateBorderColor();
+				updateBorderRadius();
 			}
 		}
 
@@ -38,7 +41,15 @@ namespace Tojeero.iOS.Renderers
 			{
 				updateBorderColor();
 			}
+			else if (e.PropertyName == BorderView.RadiusProperty.PropertyName)
+			{
+				updateBorderRadius();
+			}
 		}
+
+		#endregion
+
+		#region Utility methods
 
 		private void updateBorderWidth()
 		{
@@ -51,6 +62,14 @@ namespace Tojeero.iOS.Renderers
 			var borderView = this.Element as BorderView;
 			this.Control.Layer.BorderColor = borderView.BorderColor.ToUIColor().CGColor;
 		}
+
+		private void updateBorderRadius()
+		{
+			var borderView = this.Element as BorderView;
+			this.Control.Layer.CornerRadius = (nfloat)borderView.Radius;
+		}
+
+		#endregion
 	}
 }
 

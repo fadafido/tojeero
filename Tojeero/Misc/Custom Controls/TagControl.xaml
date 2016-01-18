@@ -4,18 +4,20 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="Tojeero.Forms.TagControl"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
-	HeightRequest="30">
+	HeightRequest="40">
 	<local:RoundedBox
 		BackgroundColor="{x:Static local:Colors.DarkGray}"
 		CornerRadius="5" />
 	<StackLayout
 		Orientation="Horizontal"
-		Padding="5,2,5,2"
-		Spacing="2">
-		<Label
+		Padding="8,5,8,5"
+		Spacing="5">
+		<local:LabelEx
 			Text="{Binding .}"
 			TextColor="White"
-			VerticalOptions="Center"/>
+			FontSize="15"
+			LineCount="1"
+			VerticalOptions="Center" />
 		<Image
 			Source="closeTag.png"
 			VerticalOptions="Center">

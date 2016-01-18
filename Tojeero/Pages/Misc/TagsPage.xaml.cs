@@ -15,12 +15,13 @@ namespace Tojeero.Forms
 		#region Private fields
 
 		private ITag _selectedTag;
+		private string _newTag;
 
 		#endregion
 
 		#region Properties
 
-		public event EventHandler<EventArgs<ITag>> DidClose;
+		public event EventHandler<EventArgs<string>> DidClose;
 
 		public new TagsViewModel ViewModel
 		{
@@ -44,8 +45,9 @@ namespace Tojeero.Forms
 			InitializeComponent();
 			this.ViewModel = MvxToolbox.LoadViewModel<TagsViewModel>();
 			this.SearchBar.Placeholder = "Search for tags";
-			this.ListView.RowHeight = 30;
+			this.ListView.RowHeight = 50;
 			this.ListView.ItemSelected += itemSelected;
+			this.ViewModel.CreateTagAction = createTag;
 			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "", async () =>
 				{
 					await this.Navigation.PopModalAsync();
@@ -65,7 +67,17 @@ namespace Tojeero.Forms
 		protected override void OnDisappearing()
 		{
 			base.OnDisappearing();
-			this.DidClose.Fire(this, new EventArgs<ITag>(this.ViewModel.ViewModel.SelectedItem));
+			string selectedTag = null;
+			if (_newTag != null)
+			{
+				selectedTag = _newTag;
+			}
+			else
+			{
+				var selected = this.ViewModel.ViewModel.SelectedItem;
+				selectedTag = selected != null ? selected.Tag.Text : null;
+			}
+			this.DidClose.Fire(this, new EventArgs<string>(selectedTag));	
 		}
 
 		#endregion
@@ -75,8 +87,18 @@ namespace Tojeero.Forms
 		private void itemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
 			if (e.SelectedItem != null)
-				this.ViewModel.ViewModel.SelectedItem = e.SelectedItem as ITag;
+				this.ViewModel.ViewModel.SelectedItem = e.SelectedItem as TagViewModel;
 			this.ListView.SelectedItem = null;
+		}
+
+		#endregion
+
+		#region Utility methods
+
+		private async void createTag(string tag)
+		{
+			_newTag = tag;
+			await this.Navigation.PopModalAsync();
 		}
 
 		#endregion

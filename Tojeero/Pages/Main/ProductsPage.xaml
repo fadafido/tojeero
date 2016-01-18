@@ -4,9 +4,16 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	x:Class="Tojeero.Forms.ProductsPage">
-	<local:BaseSearchableTabPage.ItemTemplate>
-		<DataTemplate>
-			<local:ProductListCell />
-		</DataTemplate>
-	</local:BaseSearchableTabPage.ItemTemplate>
+	<local:BaseSearchableTabPage.ToolbarItems>
+		<ToolbarItem
+			Icon="filterIcon.png"
+			Command="{Binding FilterCommand}"
+			Order="Primary"
+			Priority="2" />
+		<ToolbarItem
+			Icon="{Binding ListModeIcon}"
+			Command="{Binding ToggleListModeCommand}"
+			Order="Primary"
+			Priority="1" />
+	</local:BaseSearchableTabPage.ToolbarItems>
 </local:BaseSearchableTabPage>

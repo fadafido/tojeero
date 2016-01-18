@@ -48,6 +48,16 @@ namespace Tojeero.Core
 				return result.Select(p => new Store(p) as IStore);
 			}
 		}
+
+		public async Task<int> CountFavoriteStores()
+		{
+			var user = ParseUser.CurrentUser as TojeeroUser;
+			if (user == null)
+				return 0;
+			var query = user.FavoriteStores.Query.Where(s => s.IsBlocked == false);
+			var count = await query.CountAsync();
+			return count;
+		}
 			
 		public async Task<IEnumerable<IStore>> FindStores(string query, int pageSize, int offset, IStoreFilter filter = null)
 		{

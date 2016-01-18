@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tojeero.Core.Toolbox;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Messages;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -26,15 +27,15 @@ namespace Tojeero.Core.ViewModels
 			: base()
 		{
 			_manager = manager;
-			_filterChangeToken = messenger.Subscribe<StoreFilterChangedMessage>((m) =>
+			_filterChangeToken = messenger.SubscribeOnMainThread<StoreFilterChangedMessage>((m) =>
 				{
 					this.RefetchCommand.Execute(null);
 				});
-			_storeChangeToken = messenger.Subscribe<StoreChangedMessage>((message) =>
+			_storeChangeToken = messenger.SubscribeOnMainThread<StoreChangedMessage>((message) =>
 				{
 					this.RefetchCommand.Execute(null);
 				});
-			_sessionChangedToken = messenger.Subscribe<SessionStateChangedMessage>((m) =>
+			_sessionChangedToken = messenger.SubscribeOnMainThread<SessionStateChangedMessage>((m) =>
 				{
 					this.RefetchCommand.Execute(null);
 				});
@@ -44,22 +45,18 @@ namespace Tojeero.Core.ViewModels
 
 		#region Parent override
 
-		public override int SearchTimeout
-		{
-			get
-			{
-				return 200;
-			}
-		}
-
 		protected override BaseCollectionViewModel<StoreViewModel> GetBrowsingViewModel()
 		{
-			return new BaseCollectionViewModel<StoreViewModel>(new StoresQuery(_manager), Constants.StoresPageSize);
+			var viewModel = new BaseCollectionViewModel<StoreViewModel>(new StoresQuery(_manager), Constants.StoresPageSize);
+			viewModel.Placeholder = AppResources.MessageNoStores;
+			return viewModel;
 		}
 
 		protected override BaseCollectionViewModel<StoreViewModel> GetSearchViewModel(string searchQuery)
 		{
-			return new BaseCollectionViewModel<StoreViewModel>(new SearchStoresQuery(searchQuery, _manager), Constants.StoresPageSize);
+			var viewModel = new BaseCollectionViewModel<StoreViewModel>(new SearchStoresQuery(searchQuery, _manager), Constants.StoresPageSize);
+			viewModel.Placeholder = AppResources.MessageNoStores;
+			return viewModel;
 		}
 
 		#endregion

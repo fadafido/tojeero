@@ -45,21 +45,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
-    <Reference Include="Xamarin.Forms.Platform.Android">
-      <HintPath>..\packages\Xamarin.Forms.1.5.0.6446\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="FormsViewGroup">
-      <HintPath>..\packages\Xamarin.Forms.1.5.0.6446\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Core">
-      <HintPath>..\packages\Xamarin.Forms.1.5.0.6446\lib\MonoAndroid10\Xamarin.Forms.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Xaml">
-      <HintPath>..\packages\Xamarin.Forms.1.5.0.6446\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Platform">
-      <HintPath>..\packages\Xamarin.Forms.1.5.0.6446\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
-    </Reference>
     <Reference Include="Beezy.MvvmCross.Plugins.SecureStorage">
       <HintPath>..\packages\Beezy.MvvmCross.Plugins.SecureStorage.1.0.0\lib\MonoAndroid\Beezy.MvvmCross.Plugins.SecureStorage.dll</HintPath>
     </Reference>
@@ -132,12 +117,6 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="Xamarin.Auth.Android">
       <HintPath>..\Components\xamarin.auth-1.2.3.1\lib\android\Xamarin.Auth.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageCircle.Forms.Plugin.Android">
-      <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
-      <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.4\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="MvvmCross.Plugins.Settings">
       <HintPath>..\packages\MvvmCross.Plugins.Settings.0.0.0.2\lib\portable-net45+sl5+wp8+win8\MvvmCross.Plugins.Settings.dll</HintPath>
@@ -221,6 +200,30 @@
     <Reference Include="OkHttp">
       <HintPath>..\packages\modernhttpclient.2.4.2\lib\MonoAndroid\OkHttp.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.MediaRouter">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.MediaRouter.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.Android">
+      <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.5\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.5\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform.Android">
+      <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="FormsViewGroup">
+      <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\MonoAndroid10\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform">
+      <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tojeero\Tojeero.csproj">
@@ -242,8 +245,6 @@
       <Link>Core\SAL\Services\ParseAuthenticationService.cs</Link>
     </Compile>
     <Compile Include="Main\MainActivity.cs" />
-    <Compile Include="Main\SplashScreen.cs" />
-    <Compile Include="Main\TojeeroApplication.cs" />
     <Compile Include="Misc\Services\FacebookService.cs" />
     <Compile Include="Misc\Toolbox\DateTimeToolbox.cs" />
     <Compile Include="Misc\Custom Renderers\PickerRenderer.cs" />
@@ -291,9 +292,6 @@
     </Compile>
     <Compile Include="..\Tojeero\BL\Managers\CityManager.cs">
       <Link>Core\BL\Managers\CityManager.cs</Link>
-    </Compile>
-    <Compile Include="..\Tojeero\BL\Entities\SearchableParseObject.cs">
-      <Link>Core\BL\Entities\SearchableParseObject.cs</Link>
     </Compile>
     <Compile Include="..\Tojeero\BL\Entities\ProductCategory.cs">
       <Link>Core\BL\Entities\ProductCategory.cs</Link>
@@ -369,6 +367,10 @@
     <Compile Include="Misc\Custom Renderers\CarouselLayoutRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\TabButtonRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\SearchBarExRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\EditorRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\EntryRenderer.cs" />
+    <Compile Include="Main\SplashActivity.cs" />
+    <Compile Include="Main\TojeeroApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -394,14 +396,11 @@
     <Folder Include="Misc\Messages\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icon.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
-    <AndroidResource Include="Resources\layout\SplashScreen.axml" />
     <AndroidResource Include="Resources\values\MvxBindingAttributes.xml" />
     <AndroidResource Include="Resources\values\SplashStyle.xml" />
-    <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable-xhdpi\profilePicturePlaceholder.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ab_bottom_solid_tojeero.9.png" />
@@ -438,7 +437,6 @@
     <AndroidResource Include="Resources\drawable\spinner_background_ab_tojeero.xml" />
     <AndroidResource Include="Resources\drawable\tab_indicator_ab_tojeero.xml" />
     <AndroidResource Include="Resources\drawable\actionbar_titletext_tojeero.xml" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\checkmark.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\closeTag.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\favorite_deselected.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\favorite_selected.png" />
@@ -462,8 +460,21 @@
     <AndroidResource Include="Resources\drawable-xhdpi\filterIcon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\menuIcon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\tojeero.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\myStoreIcon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\settingsIcon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\myProductsIcon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\tojeeroLarge.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon.png" />
+    <AndroidResource Include="Resources\layout\activity_splash.axml" />
+    <AndroidResource Include="Resources\drawable-xhdpi\splash.png" />
+    <AndroidResource Include="Resources\drawable\background_splash.xml" />
+    <AndroidResource Include="Resources\drawable-xhdpi\favoriteProductsIcon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\favoriteStoresIcon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\checkmark.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\listLargeCellIcon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\listCellIcon.png" />
   </ItemGroup>
-  <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\MonoAndroid10\Xamarin.Insights.targets')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
 </Project>

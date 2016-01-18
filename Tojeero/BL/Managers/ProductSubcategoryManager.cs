@@ -62,7 +62,7 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				return "productSubcategories";
+				return "productSubcategories-c"+categoryID;
 			}
 		}
 

@@ -64,9 +64,7 @@ namespace Tojeero.Forms
 			this.ViewModel.ShowLanguageChangeWarning = (arg) => {
 				DisplayAlert(AppResources.AlertTitleWarning, arg, AppResources.OK);
 			};
-			this.ViewModel.ShowFavorites = async () => {
-				await this.Navigation.PushModalAsync(new NavigationPage(new FavoritesPage()));
-			};
+
 			this.ViewModel.ShowSaveStoreAction = async (s) => {
 				if(s == null)
 				{
@@ -75,12 +73,13 @@ namespace Tojeero.Forms
 				else
 				{
 					var storeInfoPage = new StoreInfoPage(s, ContentMode.Edit);
-					storeInfoPage.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
-						{
-							await storeInfoPage.Navigation.PopModalAsync();
-						}));
 					await this.Navigation.PushModalAsync(new NavigationPage(storeInfoPage));
 				}
+			};
+
+			this.ViewModel.ShowTermsAction = async () =>
+			{
+					await this.Navigation.PushModalAsync(new NavigationPage(new TermsPage()));
 			};
 			this.BindingContext = _viewModel;
 		}

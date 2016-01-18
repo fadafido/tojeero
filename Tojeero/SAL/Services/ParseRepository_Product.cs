@@ -73,6 +73,17 @@ namespace Tojeero.Core
 			}
 		}
 
+		public async Task<int> CountFavoriteProducts()
+		{
+			var user = ParseUser.CurrentUser as TojeeroUser;
+			if (user == null)
+				return 0;
+			var query = user.FavoriteProducts.Query;
+			query = addProductVisibilityConditions(query);
+			var count = await query.CountAsync();
+			return count;
+		}
+
 		public async Task<IProduct> SaveProduct(ISaveProductViewModel product)
 		{
 			if (product == null || product.Store == null)

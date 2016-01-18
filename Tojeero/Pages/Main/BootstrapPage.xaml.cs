@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
+using Cirrious.CrossCore;
+using Tojeero.Core.Services;
 
 namespace Tojeero.Forms
 {
@@ -11,8 +13,8 @@ namespace Tojeero.Forms
 	{
 		#region Properties
 
-		private BoostrapViewModel _viewModel;
-		public BoostrapViewModel ViewModel
+		private BootstrapViewModel _viewModel;
+		public BootstrapViewModel ViewModel
 		{
 			get
 			{
@@ -35,8 +37,14 @@ namespace Tojeero.Forms
 		public BootstrapPage()
 			: base()
 		{
-			this.ViewModel = MvxToolbox.LoadViewModel<BoostrapViewModel>();
+			this.ViewModel = MvxToolbox.LoadViewModel<BootstrapViewModel>();
 			InitializeComponent();
+
+			var localizationService = Mvx.Resolve<ILocalizationService>();
+			this.languagesPicker.StringFormat = (language) =>
+			{
+					return localizationService.GetNativeLanguageName(language);
+			};
 		}
 
 		#endregion

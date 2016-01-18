@@ -6,6 +6,7 @@ using Android.Graphics.Drawables;
 using Android.Graphics.Drawables.Shapes;
 using Android.Views;
 using Android.Widget;
+using System.Linq;
 
 [assembly:ExportRenderer(typeof(SearchBarEx), typeof(Tojeero.Droid.Renderers.SearchBarExRenderer))]
 
@@ -13,13 +14,6 @@ namespace Tojeero.Droid.Renderers
 {
 	public class SearchBarExRenderer : SearchBarRenderer
 	{
-		#region Private fields
-
-		private ShapeDrawable _background = null;
-		private ShapeDrawable _searchBackground = null;
-
-		#endregion
-		
 		#region Parent Override
 
 		protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<SearchBar> e)
@@ -38,28 +32,22 @@ namespace Tojeero.Droid.Renderers
 
 		private void updateBackground()
 		{
-			if (_background == null)
-			{
-				var shape = new RoundRectShape(new float[]{ 10, 10, 10, 10, 10, 10, 10, 10 }, null, null);
-				_background = new ShapeDrawable(shape);
-				_background.Paint.Color = global::Android.Graphics.Color.White;
-			}	
-			this.Control.Background = _background;
+			var shape = new RoundRectShape(Enumerable.Repeat(10f, 8).ToArray(), null, null);
+			var background = new ShapeDrawable(shape);
+			background.Paint.Color = global::Android.Graphics.Color.White;
+			this.Control.Background = background;
 		}
 
 		private void updateSearchBackground()
 		{
-			if (_searchBackground == null)
-			{
-				var shape = new RectShape();
-				_searchBackground = new ShapeDrawable(shape);
-				_searchBackground.Paint.Color = global::Android.Graphics.Color.White;
-			}	
+			var shape = new RectShape();
+			var searchBackground = new ShapeDrawable(shape);
+			searchBackground.Paint.Color = global::Android.Graphics.Color.White;
 
 			int searchPlateId = this.Control.Context.Resources.GetIdentifier("android:id/search_plate", null, null);
 			var searchPlateView = this.Control.FindViewById(searchPlateId);
 			if (searchPlateView != null) {
-				searchPlateView.Background = _searchBackground;
+				searchPlateView.Background = searchBackground;
 			}
 
 			int textId = this.Control.Context.Resources.GetIdentifier("android:id/search_src_text", null, null);

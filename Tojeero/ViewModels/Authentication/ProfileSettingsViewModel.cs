@@ -52,14 +52,16 @@ namespace Tojeero.Core.ViewModels
 
 		public void Init(bool userShouldProvideProfileDetails)
 		{
-			Hint = userShouldProvideProfileDetails ? AppResources.MessageProfileSettingsHint : null;
+			UserShouldProvideProfileDetails = userShouldProvideProfileDetails;
+			Hint = UserShouldProvideProfileDetails ? AppResources.MessageProfileSettingsHint : null;
 		}
 
 		#endregion
 
 		#region Properties
 
-		public event EventHandler<EventArgs> Close;
+		public Action CloseAction { get; set; }
+		public Action ShowTermsAction { get; set; }
 
 		private string _hint;
 
@@ -73,6 +75,21 @@ namespace Tojeero.Core.ViewModels
 			{
 				_hint = value; 
 				RaisePropertyChanged(() => Hint); 
+			}
+		}
+
+		private bool _userShouldProvideProfileDetails;
+
+		public bool UserShouldProvideProfileDetails
+		{ 
+			get
+			{
+				return _userShouldProvideProfileDetails; 
+			}
+			private set
+			{
+				_userShouldProvideProfileDetails = value; 
+				RaisePropertyChanged(() => UserShouldProvideProfileDetails); 
 			}
 		}
 
@@ -276,6 +293,19 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _showTermsCommand;
+
+		public System.Windows.Input.ICommand ShowTermsCommand
+		{
+			get
+			{
+				_showTermsCommand = _showTermsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>{
+					ShowTermsAction.Fire();
+				});
+				return _showTermsCommand;
+			}
+		}
+
 		#endregion
 
 		#region Protected API
@@ -304,7 +334,7 @@ namespace Tojeero.Core.ViewModels
 					var user = getUpdatedUser();
 					await _authService.UpdateUserDetails(user, _token);
 					this.StopLoading();
-					this.Close.Fire(this, new EventArgs());
+					this.CloseAction.Fire();
 				}
 				catch (OperationCanceledException ex)
 				{
@@ -331,7 +361,7 @@ namespace Tojeero.Core.ViewModels
 			//Otherwise just close the view
 			else
 			{
-				this.Close.Fire(this, new EventArgs());
+				this.CloseAction.Fire();
 			}
 		}
 

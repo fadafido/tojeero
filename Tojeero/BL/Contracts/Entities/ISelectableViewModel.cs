@@ -2,7 +2,7 @@
 
 namespace Tojeero.Core
 {
-	public interface ISelectableEntity
+	public interface ISelectableViewModel
 	{
 		bool IsSelected { get; set; }
 	}

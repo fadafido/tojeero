@@ -24,11 +24,7 @@ namespace Tojeero.iOS.Renderers
 
 			if (this.Element == null || this.Control == null)
 				return;
-
-			if (e.PropertyName == LabelEx.LineCountProperty.PropertyName)
-			{
-				updateLineCount();
-			}
+			updateLineCount();
 		}
 
 		void updateLineCount()

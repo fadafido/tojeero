@@ -9,10 +9,6 @@
 	BackgroundColor="White"
 	Title="{local:Translate TitleProfileSettings}"
 	Padding="0">
-	<ContentPage.ToolbarItems>
-	  <ToolbarItem Name="{local:Translate ButtonDone}" Command="{Binding SubmitCommand}"  Order="Primary" Priority="1" />
-	  <ToolbarItem Name="{local:Translate ButtonCancel}" Command="{Binding CancelCommand}"  Order="Primary" Priority="10" />
-	 </ContentPage.ToolbarItems>
 	<ContentPage.Content>
 		<ScrollView>
 			<StackLayout
@@ -29,9 +25,9 @@
 					Padding="10">
 					<Label
 						Text="{Binding Hint}"
-						IsVisible="{Binding Hint, Converter={StaticResource visibility}}"
-						TextColor="{x:Static local:Colors.Orange}"
-						FontSize="Medium"
+						IsVisible="{Binding UserShouldProvideProfileDetails}"
+						Style="{StaticResource LabelWarning}"
+						FontSize="15"
 						HorizontalOptions="Center"
 						XAlign="Center" />
 					<StackLayout
@@ -241,17 +237,25 @@
 							</StackLayout>
 						</StackLayout>
 						<StackLayout
-							Spacing="5">
-							<Grid
-								HeightRequest="40"
-								VerticalOptions="Center">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition
-										Width="*" />
-									<ColumnDefinition
-										Width="*" />
-								</Grid.ColumnDefinitions>
-							</Grid>
+							Spacing="5"
+							HorizontalOptions="FillAndExpand"
+							IsVisible="{Binding UserShouldProvideProfileDetails}">
+							<Label
+								Text="{local:Translate MessageTermsWarning}"
+								Style="{StaticResource LabelWarning}"
+								FontSize="15"
+								XAlign="Center" />
+							<Button
+								Text="{local:Translate ButtonReadTerms}"
+								Command="{Binding ShowTermsCommand}"
+								Style="{StaticResource ButtonHyperlink}"
+								HorizontalOptions="Center" />
+							<Button
+								Text="{local:Translate ButtonSubmit}"
+								Command="{Binding SubmitCommand}"
+								VerticalOptions="Center"
+								Style="{StaticResource Button1}"
+								IsEnabled="{Binding CanExecuteSubmitCommand}" />
 						</StackLayout>
 					</StackLayout>
 				</StackLayout>

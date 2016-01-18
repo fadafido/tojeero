@@ -52,13 +52,13 @@
 							BorderColor="{x:Static local:Colors.Orange}"
 							BorderThickness="5"
 							BackgroundColor="Transparent"
-							Aspect="AspectFill"/>
+							Aspect="AspectFill" />
 						<controls:CircleImage
 							Source="{Binding CurrentUser.ProfilePictureUrl, Converter={StaticResource cachedImage}}"
 							BorderColor="{x:Static local:Colors.MainDark}"
 							BorderThickness="5"
 							BackgroundColor="Transparent"
-							Aspect="AspectFill"/>
+							Aspect="AspectFill" />
 					</Grid>
 					<Label
 						Text="{Binding CurrentUser.FullName}"
@@ -141,24 +141,6 @@
 						HeightRequest="1"
 						HorizontalOptions="FillAndExpand"
 						BackgroundColor="{x:Static local:Colors.MainDark}" />
-					<StackLayout
-						HorizontalOptions="Start"
-						HeightRequest="50"
-						Padding="16,0,0,0">
-						<Button
-							HeightRequest="40"
-							Text="{local:Translate ButtonTerms}"
-							Command="{Binding ShowTermsCommand}"
-							TextColor="{x:Static local:Colors.SideMenuText}"
-							FontAttributes="Bold"
-							BackgroundColor="Transparent"
-							HorizontalOptions="Start"
-							VerticalOptions="Center" />
-					</StackLayout>
-					<BoxView
-						HeightRequest="1"
-						HorizontalOptions="FillAndExpand"
-						BackgroundColor="{x:Static local:Colors.MainDark}" />
 				</StackLayout>
 			</ScrollView>
 			<StackLayout
@@ -183,7 +165,7 @@
 						HorizontalOptions="FillAndExpand" />
 				</StackLayout>
 				<Grid
-					Padding="10,10,10,20"
+					Padding="10,10,10,0"
 					HeightRequest="50"
 					ColumnSpacing="0">
 					<Grid.ColumnDefinitions>
@@ -221,6 +203,15 @@
 							Color="White" />
 					</StackLayout>
 				</Grid>
+				<Button
+					HeightRequest="50"
+					Text="{local:Translate ButtonTerms}"
+					Command="{Binding ShowTermsCommand}"
+					TextColor="{x:Static local:Colors.SideMenuText}"
+					FontAttributes="Bold"
+					BackgroundColor="Transparent"
+					HorizontalOptions="Center"
+					VerticalOptions="Center" />
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

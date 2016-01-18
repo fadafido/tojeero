@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
+using Tojeero.Forms.Resources;
 
 namespace Tojeero.Forms
 {
@@ -12,6 +13,7 @@ namespace Tojeero.Forms
 		#region Properties
 
 		private ProfileSettingsViewModel _viewModel;
+
 		public ProfileSettingsViewModel ViewModel
 		{
 			get
@@ -37,9 +39,27 @@ namespace Tojeero.Forms
 		public ProfileSettingsPage(bool userShouldProvideDetails = false)
 			: base()
 		{
-			this.ViewModel = MvxToolbox.LoadViewModel<ProfileSettingsViewModel>(new {userShouldProvideProfileDetails =  userShouldProvideDetails});
-			this.ViewModel.Close += closeProfileSettings;
+			this.ViewModel = MvxToolbox.LoadViewModel<ProfileSettingsViewModel>(new {userShouldProvideProfileDetails = userShouldProvideDetails});
+			this.ViewModel.CloseAction = async () =>
+			{
+				await this.Navigation.PopModalAsync();
+			};
+			this.ViewModel.ShowTermsAction = async () =>
+			{
+				await this.Navigation.PushModalAsync(new NavigationPage(new TermsPage()));
+			};
 			InitializeComponent();
+			if (!this.ViewModel.UserShouldProvideProfileDetails)
+			{
+				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, null, () =>
+						{
+							this.ViewModel.SubmitCommand.Execute(null);
+						}));
+				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonCancel, null, async () =>
+						{
+							await this.Navigation.PopModalAsync();
+						}, priority: 15));
+			}
 		}
 
 		#endregion
@@ -50,15 +70,6 @@ namespace Tojeero.Forms
 		{
 			base.OnAppearing();
 			this.ViewModel.ReloadCommand.Execute(null);
-		}
-
-		#endregion
-
-		#region Utility Methods
-
-		private async void closeProfileSettings(object sender, EventArgs e)
-		{
-			await this.Navigation.PopModalAsync();
 		}
 
 		#endregion

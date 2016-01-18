@@ -67,6 +67,17 @@
 					Property="HeightRequest"
 					Value="50" />
 			</Style>
+			<Style
+				x:Key="ButtonHyperlink"
+				TargetType="Button"
+				BaseResourceKey="BaseButton">
+				<Setter
+					Property="BackgroundColor"
+					Value="Transparent" />
+				<Setter
+					Property="TextColor"
+					Value="{x:Static local:Colors.Hyperlink}" />
+			</Style>
 
 			<Style
 				x:Key="Label1"

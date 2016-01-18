@@ -38,6 +38,7 @@ namespace Tojeero.Forms
 		public static Color Button1 = Color.FromHex("#08d2c1");
 		public static Color Button2 = Color.FromHex("#f6846a");
 		public static Color Button3 = Color.FromHex("#eaeeef");
+		public static Color Hyperlink = Color.FromHex("#007aff");
 	}
 }
 

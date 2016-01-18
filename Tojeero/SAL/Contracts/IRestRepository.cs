@@ -8,9 +8,11 @@ namespace Tojeero.Core
 	{
 		Task<IStore> FetchDefaultStoreForUser(string userID);
 		Task<bool> CheckStoreNameIsReserved(string storeName, string currentStoreID = null);
+		Task<int> CountFavoriteProducts();
 
 		Task<IStore> SaveStore(ISaveStoreViewModel store);
 		Task<IProduct> SaveProduct(ISaveProductViewModel product);
+		Task<int> CountFavoriteStores();
 	}
 }
 

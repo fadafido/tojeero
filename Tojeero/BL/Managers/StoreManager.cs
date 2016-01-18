@@ -43,6 +43,11 @@ namespace Tojeero.Core
 			return _manager.Fetch<IStore, Store>(new FetchFavoriteStoresQuery(pageSize, offset, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
+		public Task<int> CountFavorite()
+		{
+			return _manager.Rest.CountFavoriteStores();
+		}
+
 		public Task<IEnumerable<IStore>> Find(string query, int pageSize, int offset, IStoreFilter filter = null)
 		{
 			return _manager.Fetch<IStore, Store>(new FindStoresQuery(query, pageSize, offset, _manager, filter), Constants.StoresCacheTimespan.TotalMilliseconds);

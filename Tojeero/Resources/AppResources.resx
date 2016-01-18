@@ -531,4 +531,10 @@
   <data name="ButtonAddProduct" xml:space="preserve">
     <value>Add product</value>
   </data>
+  <data name="LabelEmptyList" xml:space="preserve">
+    <value>There are no items in this list.</value>
+  </data>
+  <data name="LabelListCount" xml:space="preserve">
+    <value>{0} items in this list.</value>
+  </data>
 </root>

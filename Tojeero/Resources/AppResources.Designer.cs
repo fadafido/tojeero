@@ -332,6 +332,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no items in this list..
+        /// </summary>
+        internal static string LabelEmptyList {
+            get {
+                return ResourceManager.GetString("LabelEmptyList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End price.
         /// </summary>
         internal static string LabelEndPrice {
@@ -382,6 +391,15 @@ namespace Tojeero.Forms.Resources {
         internal static string LabelLastName {
             get {
                 return ResourceManager.GetString("LabelLastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} items in this list..
+        /// </summary>
+        internal static string LabelListCount {
+            get {
+                return ResourceManager.GetString("LabelListCount", resourceCulture);
             }
         }
         

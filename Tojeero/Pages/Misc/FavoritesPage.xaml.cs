@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Forms.Resources;
 using Tojeero.Forms.Toolbox;
+using Tojeero.Core.ViewModels;
 
 namespace Tojeero.Forms
 {
@@ -16,6 +17,16 @@ namespace Tojeero.Forms
 			this.ViewModel = MvxToolbox.LoadViewModel<FavoritesViewModel>();
 			InitializeComponent();
 			NavigationPage.SetTitleIcon(this, "tojeero.png");
+		}
+
+		#endregion
+
+		#region View lifecycle management
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			this.ViewModel.LoadFavoriteCountsCommand.Execute(null);
 		}
 
 		#endregion

@@ -121,6 +121,43 @@ namespace Tojeero.iOS
 		public event EventHandler<MvxLifetimeEventArgs> LifetimeChanged;
 
 		#endregion
+
+		private async void test()
+		{
+			await System.Threading.Tasks.Task.Delay(3000);
+			var rest = Mvx.Resolve<IRestRepository>();
+			Dictionary<string, int> facets;
+			facets = await rest.GetProductCategoryFacets(null);
+			printFacets(facets, "ProductCategory");
+			facets = await rest.GetProductSubcategoryFacets(null);
+			printFacets(facets, "ProductSubcategory");
+			facets = await rest.GetProductCountryFacets(null);
+			printFacets(facets, "ProductCountry");
+			facets = await rest.GetProductCityFacets(null);
+			printFacets(facets, "ProductCity");
+
+			facets = await rest.GetStoreCategoryFacets(null);
+			printFacets(facets, "StoreCategory");
+			facets = await rest.GetStoreCountryFacets(null);
+			printFacets(facets, "StoreCountry");
+			facets = await rest.GetStoreCityFacets(null);
+			printFacets(facets, "StoreCity");
+		}
+
+		private void printFacets(Dictionary<string, int> facets, string name)
+		{
+			Console.WriteLine("///////////////////// FACETS FOR {0} /////////////////////", name);
+			if (facets == null || facets.Count == 0)
+				Console.WriteLine("**************** NO FACETS ****************");
+			else
+			{
+				foreach (var facet in facets)
+				{
+					Console.WriteLine(facet.Key + "    " + facet.Value);
+				}
+			}
+			Console.WriteLine("///////////////////////////////////////////////////////////////////////", name);
+		}
 	}
 }
 

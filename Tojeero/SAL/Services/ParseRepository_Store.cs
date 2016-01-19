@@ -156,6 +156,24 @@ namespace Tojeero.Core
 			}
 		}
 
+		public async Task<Dictionary<string, int>> GetStoreCategoryFacets(string query, IStoreFilter filter = null)
+		{
+			var result = await getStoreAttributeFacets(query, "categoryID", filter);
+			return result;
+		}
+
+		public async Task<Dictionary<string, int>> GetStoreCountryFacets(string query, IStoreFilter filter = null)
+		{
+			var result = await getStoreAttributeFacets(query, "countryID", filter);
+			return result;
+		}
+
+		public async Task<Dictionary<string, int>> GetStoreCityFacets(string query, IStoreFilter filter = null)
+		{
+			var result = await getStoreAttributeFacets(query, "cityID", filter);
+			return result;
+		}
+
 		#endregion
 
 		#region Utility methods
@@ -187,23 +205,23 @@ namespace Tojeero.Core
 			return query;
 		}
 			
-		private Algolia.Search.Query getFilteredStoreQuery(Algolia.Search.Query query, IStoreFilter filter)
+		private Algolia.Search.Query getFilteredStoreQuery(Algolia.Search.Query query, IStoreFilter filter, params string[] excludeFacets)
 		{
 			if (filter != null)
 			{
 				List<string> facets = new List<string>();
 				facets.Add("isBlocked:false");
-				if (filter.Category != null)
+				if (filter.Category != null && !excludeFacets.Contains("categoryID"))
 				{
 					facets.Add("categoryID:"+filter.Category.ID);
 				}
 
-				if (filter.Country != null)
+				if (filter.Country != null && !excludeFacets.Contains("countryID"))
 				{
 					facets.Add("countryID:"+filter.Country.ID);
 				}
 
-				if (filter.City != null)
+				if (filter.City != null && !excludeFacets.Contains("cityID"))
 				{
 					facets.Add("cityID:"+filter.City.ID);
 				}
@@ -217,6 +235,25 @@ namespace Tojeero.Core
 				}
 			}
 			return query;
+		}
+
+		private async Task<Dictionary<string, int>> getStoreAttributeFacets(string query, string facetAttribute, IStoreFilter filter = null)
+		{
+			var algoliaQuery = new Algolia.Search.Query();
+			algoliaQuery = getFilteredStoreQuery(algoliaQuery, filter, facetAttribute);
+			algoliaQuery.SetNbHitsPerPage(0);
+			algoliaQuery.SetFacets(new string[] {facetAttribute});
+			var result = await _productIndex.SearchAsync(algoliaQuery);
+			var json = result.ToString();
+			try
+			{
+				var facets = result["facets"][facetAttribute].ToObject<Dictionary<string, int>>();
+				return facets;
+			}
+			catch
+			{
+			}
+			return null;
 		}
 
 		ParseQuery<ParseStore> addStoreIncludedFields(ParseQuery<ParseStore> query)

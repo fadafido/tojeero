@@ -97,6 +97,7 @@ namespace Tojeero.Core
 			query = query.WhereContainsAll(propertyName, newItems);
 			return query;
 		}
+
 		#endregion
 	}
 }

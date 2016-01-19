@@ -69,6 +69,7 @@ namespace Tojeero.Core
 
 				var result = await _productIndex.SearchAsync(algoliaQuery, tokenSource.Token);
 				var products = result["hits"].ToObject<List<Product>>();
+				await GetProductCategoryFacets(query, filter);
 				return products;
 			}
 		}
@@ -118,6 +119,30 @@ namespace Tojeero.Core
 			}
 		}
 
+		public async Task<Dictionary<string, int>> GetProductCategoryFacets(string query, IProductFilter filter = null)
+		{
+			var result = await getProductAttributeFacets(query, "categoryID", filter);
+			return result;
+		}
+
+		public async Task<Dictionary<string, int>> GetProductSubcategoryFacets(string query, IProductFilter filter = null)
+		{
+			var result = await getProductAttributeFacets(query, "subcategoryID", filter);
+			return result;
+		}
+
+		public async Task<Dictionary<string, int>> GetProductCountryFacets(string query, IProductFilter filter = null)
+		{
+			var result = await getProductAttributeFacets(query, "countryID", filter);
+			return result;
+		}
+
+		public async Task<Dictionary<string, int>> GetProductCityFacets(string query, IProductFilter filter = null)
+		{
+			var result = await getProductAttributeFacets(query, "cityID", filter);
+			return result;
+		}
+
 		#endregion
 
 		#region Utility methods
@@ -164,7 +189,7 @@ namespace Tojeero.Core
 			return query;
 		}
 
-		private Algolia.Search.Query getFilteredProductQuery(Algolia.Search.Query query, IProductFilter filter)
+		private Algolia.Search.Query getFilteredProductQuery(Algolia.Search.Query query, IProductFilter filter, params string[] excludeFacets )
 		{
 			if (filter != null)
 			{
@@ -172,22 +197,22 @@ namespace Tojeero.Core
 				facets.Add("status:"+(int)ProductStatus.Approved);
 				facets.Add("notVisible:false");
 				facets.Add("isBlocked:false");
-				if (filter.Category != null)
+				if (filter.Category != null && !excludeFacets.Contains("categoryID"))
 				{
 					facets.Add("categoryID:"+filter.Category.ID);
 				}
 
-				if (filter.Subcategory != null)
+				if (filter.Subcategory != null && !excludeFacets.Contains("subcategoryID"))
 				{
 					facets.Add("subcategoryID:"+filter.Subcategory.ID);
 				}
 
-				if (filter.Country != null)
+				if (filter.Country != null && !excludeFacets.Contains("countryID"))
 				{
 					facets.Add("countryID:"+filter.Country.ID);
 				}
 
-				if (filter.City != null)
+				if (filter.City != null && !excludeFacets.Contains("cityID"))
 				{
 					facets.Add("cityID:"+filter.City.ID);
 				}
@@ -219,6 +244,24 @@ namespace Tojeero.Core
 			return query;
 		}
 
+		private async Task<Dictionary<string, int>> getProductAttributeFacets(string query, string facetAttribute, IProductFilter filter = null)
+		{
+			var algoliaQuery = new Algolia.Search.Query();
+			algoliaQuery = getFilteredProductQuery(algoliaQuery, filter, facetAttribute);
+			algoliaQuery.SetNbHitsPerPage(0);
+			algoliaQuery.SetFacets(new string[] {facetAttribute});
+			var result = await _productIndex.SearchAsync(algoliaQuery);
+			var json = result.ToString();
+			try
+			{
+				var facets = result["facets"][facetAttribute].ToObject<Dictionary<string, int>>();
+				return facets;
+			}
+			catch
+			{
+			}
+			return null;
+		}
 
 		ParseQuery<ParseProduct> addProductVisibilityConditions(ParseQuery<ParseProduct> query)
 		{

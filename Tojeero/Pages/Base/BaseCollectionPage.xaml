@@ -6,36 +6,50 @@
 	x:Class="Tojeero.Forms.BaseCollectionPage"
 	BackgroundColor="White">
 	<ContentPage.Content>
-		<StackLayout
-			BackgroundColor="Transparent"
-			Spacing="0">
-			<local:NetworkPageHeader
-				NoNetworkPadding="0,5,0,5"
-				Tint="{x:Static local:Colors.DarkGray}"
-				IsLoading="{Binding IsLoadingInitialData}"
-				LoadingText="{Binding LoadingText}"
-				FailureMessage="{Binding LoadingFailureMessage}"
-				IsNetworkAvailable="{Binding IsNetworkAvailable}"
-				TryAgainCommand="{Binding TryAgainCommand}" />
-			<local:InfiniteListView
-				x:Name="listView"
-				ItemsSource="{Binding Collection}"
-				BackgroundColor="Transparent"
-				RowHeight="100"
-				SeparatorVisibility="None"
-				IsPullToRefreshEnabled="true"
-				RefreshCommand="{Binding ReloadCommand}"
-				LoadMoreCommand="{Binding LoadNextPageCommand}">
-			</local:InfiniteListView>
+		<Grid
+			HorizontalOptions="FillAndExpand"
+			VerticalOptions="FillAndExpand">
+			<Label
+				Text="{Binding Placeholder}"
+				IsVisible="{Binding IsPlaceholderVisible}"
+				Style="{StaticResource LabelPlaceholder}"
+				XAlign="Center"
+				YAlign="Center"
+				VerticalOptions="Center"
+				HorizontalOptions="Center" />
 			<StackLayout
-				Padding="5"
-				IsVisible="{Binding IsLoadingNextPage}">
-				<ActivityIndicator
-					IsRunning="{Binding IsLoadingNextPage}"
-					HorizontalOptions="Center"
-					VerticalOptions="Center"
-					Color="{x:Static local:Colors.DarkGray}" />
+				BackgroundColor="Transparent"
+				Spacing="0"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="FillAndExpand">
+				<local:NetworkPageHeader
+					NoNetworkPadding="0,5,0,5"
+					Tint="{x:Static local:Colors.DarkGray}"
+					IsLoading="{Binding IsLoadingInitialData}"
+					LoadingText="{Binding LoadingText}"
+					FailureMessage="{Binding LoadingFailureMessage}"
+					IsNetworkAvailable="{Binding IsNetworkAvailable}"
+					TryAgainCommand="{Binding TryAgainCommand}" />
+				<local:InfiniteListView
+					x:Name="listView"
+					ItemsSource="{Binding Collection}"
+					BackgroundColor="Transparent"
+					RowHeight="100"
+					SeparatorVisibility="None"
+					IsPullToRefreshEnabled="true"
+					RefreshCommand="{Binding ReloadCommand}"
+					LoadMoreCommand="{Binding LoadNextPageCommand}">
+				</local:InfiniteListView>
+				<StackLayout
+					Padding="5"
+					IsVisible="{Binding IsLoadingNextPage}">
+					<ActivityIndicator
+						IsRunning="{Binding IsLoadingNextPage}"
+						HorizontalOptions="Center"
+						VerticalOptions="Center"
+						Color="{x:Static local:Colors.DarkGray}" />
+				</StackLayout>
 			</StackLayout>
-		</StackLayout>
+		</Grid>
 	</ContentPage.Content>
 </ContentPage>

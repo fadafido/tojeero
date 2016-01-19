@@ -170,6 +170,10 @@
     <value>First name</value>
     <comment>First name label text.</comment>
   </data>
+  <data name="LabelLanguage" xml:space="preserve">
+    <value>Language</value>
+    <comment>Language label text.</comment>
+  </data>
   <data name="LabelLastName" xml:space="preserve">
     <value>Last name</value>
     <comment>Last name label text.</comment>
@@ -381,11 +385,8 @@
     <value>Pick image</value>
   </data>
   <data name="ButtonCreateStore" xml:space="preserve">
-    <value>Create my free store</value>
+    <value>Create a store</value>
     <comment>Create store button title</comment>
-  </data>
-  <data name="ButtonEditStore" xml:space="preserve">
-    <value>Edit my store</value>
   </data>
   <data name="ButtonRefetchStore" xml:space="preserve">
     <value>Refetch store</value>
@@ -491,5 +492,58 @@
   </data>
   <data name="LabelBlocked" xml:space="preserve">
     <value>Blocked</value>
+  </data>
+  <data name="TitleShop" xml:space="preserve">
+    <value>Shop</value>
+  </data>
+  <data name="ButtonApply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ButtonMyStore" xml:space="preserve">
+    <value>My store</value>
+  </data>
+  <data name="ButtonTryAgain" xml:space="preserve">
+    <value>Try again</value>
+  </data>
+  <data name="LabelMobileNumber" xml:space="preserve">
+    <value>Mobile number</value>
+  </data>
+  <data name="MessageNoFavoriteProducts" xml:space="preserve">
+    <value>You don't have any favorite products.</value>
+    <comment>Placeholder shown when there are no favorite products to be shown in the list</comment>
+  </data>
+  <data name="MessageNoFavoriteStores" xml:space="preserve">
+    <value>You don't have any favorite stores.</value>
+    <comment>Placeholder shown when there are no favorite stores to be shown in the list</comment>
+  </data>
+  <data name="MessageNoProducts" xml:space="preserve">
+    <value>No products available.</value>
+    <comment>Placeholder shown when there are no products to be shown in the list</comment>
+  </data>
+  <data name="MessageNoStores" xml:space="preserve">
+    <value>No stores available.</value>
+    <comment>Placeholder shown when there are no stores to be shown in the list</comment>
+  </data>
+  <data name="MessageNoTags" xml:space="preserve">
+    <value>No tags available</value>
+    <comment>Placeholder shown when there are no tags to be shown in the list</comment>
+  </data>
+  <data name="ButtonAddProduct" xml:space="preserve">
+    <value>Add product</value>
+  </data>
+  <data name="ButtonReadTerms" xml:space="preserve">
+    <value>Read our Terms of Service</value>
+  </data>
+  <data name="ButtonTerms" xml:space="preserve">
+    <value>Terms of Service</value>
+  </data>
+  <data name="LabelEmptyList" xml:space="preserve">
+    <value>There are no items in this list.</value>
+  </data>
+  <data name="LabelListCount" xml:space="preserve">
+    <value>{0} items in this list.</value>
+  </data>
+  <data name="MessageTermsWarning" xml:space="preserve">
+    <value>By submitting this form you confirm that you agree to our Terms of Service</value>
   </data>
 </root>

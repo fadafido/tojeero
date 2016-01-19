@@ -71,6 +71,8 @@ namespace Tojeero.iOS
 			attr.Font = UIFont.FromName("System", 16);
 			attr.TextColor = UIColor.White;
 			UINavigationBar.Appearance.SetTitleTextAttributes(attr);
+
+			UITabBar.Appearance.SelectedImageTintColor = Colors.Secondary.ToUIColor();
 		}
 
 		#endregion

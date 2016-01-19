@@ -70,7 +70,7 @@ namespace Tojeero.Core.ViewModels
 		private string _searchQuery;
 		public static string SearchQueryProperty = "SearchQuery";
 
-		public string SearchQuery
+		public virtual string SearchQuery
 		{ 
 			get
 			{
@@ -80,7 +80,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				//If the value is empty or null stop searching.
 				//Start searching only if the search query contains at least 2 non whitespace characters
-				if (_searchQuery != value && (string.IsNullOrEmpty(value) || value.Trim().Length >= 2))
+				if (_searchQuery != value && (string.IsNullOrEmpty(value) || value.Trim().Length >= MinSearchCharacters))
 				{
 					_searchQuery = value;
 					RaisePropertyChanged(() => SearchQuery); 
@@ -93,7 +93,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return 0;
+				return 200;
 			}
 		}
 
@@ -102,6 +102,14 @@ namespace Tojeero.Core.ViewModels
 			get
 			{
 				return this.ViewModel.IsInitialDataLoaded || !string.IsNullOrEmpty(this.SearchQuery);
+			}
+		}
+
+		public virtual int MinSearchCharacters
+		{
+			get
+			{
+				return 2;
 			}
 		}
 
@@ -148,9 +156,9 @@ namespace Tojeero.Core.ViewModels
 				}
 				_timer = new Timer(state =>
 					{
+						doSearch();
 						_timer.Dispose();
 						_timer = null;
-						doSearch();
 					}, null, this.SearchTimeout);
 			}
 		}
@@ -179,8 +187,8 @@ namespace Tojeero.Core.ViewModels
 		{
 			if (this.ViewModel != null)
 			{
-				this.ViewModel.ReloadFinished += handleReloadFinished;
-				this.ViewModel.LoadingNextPageFinished += handleLoadingNextPageFinished;
+				this.ViewModel.ReloadFinished += HandleReloadFinished;
+				this.ViewModel.LoadingNextPageFinished += HandleLoadingNextPageFinished;
 				this.ViewModel.PropertyChanged += propertyChanged;
 			}
 		}
@@ -189,23 +197,23 @@ namespace Tojeero.Core.ViewModels
 		{
 			if (this.ViewModel != null)
 			{
-				this.ViewModel.ReloadFinished -= handleReloadFinished;
-				this.ViewModel.LoadingNextPageFinished -= handleLoadingNextPageFinished;
+				this.ViewModel.ReloadFinished -= HandleReloadFinished;
+				this.ViewModel.LoadingNextPageFinished -= HandleLoadingNextPageFinished;
 				this.ViewModel.PropertyChanged += propertyChanged;
 			}
 		}
 
-		void handleLoadingNextPageFinished(object sender, EventArgs e)
+		protected virtual void HandleLoadingNextPageFinished(object sender, EventArgs e)
 		{
 			LoadingNextPageFinished.Fire(sender, e);
 		}
 
-		void handleReloadFinished(object sender, EventArgs e)
+		protected virtual void HandleReloadFinished(object sender, EventArgs e)
 		{
 			ReloadFinished.Fire(sender, e);
 		}
 
-		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		protected virtual void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == ViewModelProperty || e.PropertyName == SearchQueryProperty || e.PropertyName == BaseCollectionViewModel<T>.IsInitialDataLoadedProperty)
 			{

@@ -52,44 +52,67 @@
 						<StackLayout
 							Spacing="5"
 							Padding="20,0,20,0">
-							<Label
-								Text="{local:Translate LabelProductName}"
-								Style="{StaticResource Label1}" />
-							<Editor
-								Text="{Binding Name, Mode=TwoWay}"
-								HeightRequest="50"
-								HorizontalOptions="FillAndExpand" />
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{local:Translate LabelProductName}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="80">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="2">
+									<Editor
+										Text="{Binding Name, Mode=TwoWay}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
 							<Label
 								Text="{Binding NameInvalid}"
 								Style="{StaticResource LabelInvalid}"
 								IsVisible="{Binding NameInvalid, Converter={StaticResource visibility}}" />
-							<BoxView
-								HeightRequest="1"
-								HorizontalOptions="FillAndExpand"
-								BackgroundColor="{x:Static local:Colors.Placeholder}" />
 						</StackLayout>
 						<!--PRODUCT PRICE-->
 						<StackLayout
 							Spacing="5"
 							Padding="20,0,20,0">
-							<Label
-								Text="{local:Translate LabelPrice}"
-								Style="{StaticResource Label1}" />
 							<StackLayout
-								Orientation="Horizontal"
-								HorizontalOptions="FillAndExpand">
-								<Entry
-									Text="{Binding PriceString, Mode=TwoWay}"
-									HorizontalOptions="FillAndExpand"
-									Placeholder="{Binding LabelPrice}"
-									Keyboard="Numeric" />
+								Padding="5,0,0,0">
 								<Label
-									Text="{Binding Store.Country.Currency}"
-									TextColor="{x:Static local:Colors.Main}"
-									FontAttributes="Bold"
-									FontSize="18"
-									VerticalOptions="Center" />
+									Text="{local:Translate LabelPrice}"
+									Style="{StaticResource Label1}" />
 							</StackLayout>
+							<Grid
+								HeightRequest="50">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="15,2,15,2"
+									Orientation="Horizontal"
+									HorizontalOptions="FillAndExpand">
+									<Entry
+										Text="{Binding PriceString, Mode=TwoWay}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand"
+										Placeholder="{local:Translate LabelPrice}"
+										Keyboard="Numeric" />
+									<Label
+										Text="{Binding Store.Country.Currency}"
+										TextColor="{x:Static local:Colors.Main}"
+										FontAttributes="Bold"
+										FontSize="18"
+										VerticalOptions="Center" />
+								</StackLayout>
+							</Grid>
 							<Label
 								Text="{Binding PriceInvalid}"
 								Style="{StaticResource LabelInvalid}"
@@ -97,18 +120,35 @@
 						</StackLayout>
 						<!--CATEGORY-->
 						<StackLayout
-							Spacing="0"
+							Spacing="5"
 							Padding="20,0,20,0">
-							<Label
-								Text="{local:Translate LabelCategory}"
-								Style="{StaticResource Label1}" />
-							<local:BindablePicker
-								x:Name="categoriesPicker"
-								x:TypeArguments="core:IProductCategory"
-								Title="{local:Translate LabelCategory}"
-								ItemsSource="{Binding Categories}"
-								SelectedItem="{Binding Category, Mode=TwoWay}"
-								TextColor="{x:Static local:Colors.Black}" />
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{local:Translate LabelCategory}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="50">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<local:BindablePicker
+										x:Name="categoriesPicker"
+										x:TypeArguments="core:IProductCategory"
+										Title="{local:Translate LabelCategory}"
+										ItemsSource="{Binding Categories}"
+										SelectedItem="{Binding Category, Mode=TwoWay}"
+										IsEnabled="{Binding IsCategoryEnabled}"
+										TextColor="{x:Static local:Colors.Black}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
 							<Label
 								Text="{Binding CategoryInvalid}"
 								Style="{StaticResource LabelInvalid}"
@@ -116,20 +156,36 @@
 						</StackLayout>
 						<!--SUBCATEGORY-->
 						<StackLayout
-							Spacing="0"
+							Spacing="5"
 							Padding="20,0,20,0"
 							Opacity="{Binding IsSubcategoryEnabled, Converter={StaticResource opacity}}">
-							<Label
-								Text="{local:Translate LabelSubcategory}"
-								Style="{StaticResource Label1}" />
-							<local:BindablePicker
-								x:Name="subcategoriesPicker"
-								x:TypeArguments="core:IProductSubcategory"
-								Title="{local:Translate LabelSubcategory}"
-								ItemsSource="{Binding Subcategories}"
-								SelectedItem="{Binding Subcategory, Mode=TwoWay}"
-								TextColor="{x:Static local:Colors.Black}"
-								IsEnabled="{Binding IsSubcategoryEnabled}" />
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{local:Translate LabelSubcategory}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="50">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<local:BindablePicker
+										x:Name="subcategoriesPicker"
+										x:TypeArguments="core:IProductSubcategory"
+										Title="{local:Translate LabelSubcategory}"
+										ItemsSource="{Binding Subcategories}"
+										SelectedItem="{Binding Subcategory, Mode=TwoWay}"
+										TextColor="{x:Static local:Colors.Black}"
+										IsEnabled="{Binding IsSubcategoryEnabled}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
 							<Label
 								Text="{Binding SubcategoryInvalid}"
 								Style="{StaticResource LabelInvalid}"
@@ -137,13 +193,17 @@
 						</StackLayout>
 						<!--TAGS-->
 						<StackLayout
-							Spacing="0"
+							Spacing="5"
 							Padding="20,0,20,0"
 							HorizontalOptions="FillAndExpand">
-							<Label
-								Text="{local:Translate LabelTags}"
-								Style="{StaticResource Label1}" />
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{local:Translate LabelTags}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
 							<local:TagCloud
+								EnableTagCreation="true"
 								Tags="{Binding Tags}"
 								HorizontalOptions="FillAndExpand" />
 						</StackLayout>
@@ -151,21 +211,31 @@
 						<StackLayout
 							Spacing="5"
 							Padding="20,0,20,0">
-							<Label
-								Text="{local:Translate LabelDescription}"
-								Style="{StaticResource Label1}" />
-							<Editor
-								Text="{Binding Description, Mode=TwoWay}"
-								HeightRequest="100"
-								HorizontalOptions="FillAndExpand" />
-							<BoxView
-								HeightRequest="1"
-								HorizontalOptions="FillAndExpand"
-								BackgroundColor="{x:Static local:Colors.Placeholder}" />
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{local:Translate LabelDescription}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="100">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="2">
+									<Editor
+										Text="{Binding Description, Mode=TwoWay}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
 						</StackLayout>
 						<StackLayout
 							Orientation="Horizontal"
-							Padding="20"
+							Padding="25"
 							Spacing="10">
 							<Label
 								Text="{local:Translate LabelVisible}"

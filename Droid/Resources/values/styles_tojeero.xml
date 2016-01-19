@@ -30,7 +30,6 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_tojeero</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_tojeero</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Tojeero</item>
-        
                 <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Tojeero.Widget</item>
 

@@ -19,6 +19,36 @@ namespace Tojeero.Core
 
 		#region User Settings
 
+		#region Product list mode
+
+		/// <summary>
+		/// Key for your setting
+		/// </summary>
+		public const string ProductListModeKey = "ProductListMode";
+		/// <summary>
+		/// default value for your setting
+		/// </summary>
+		public static readonly ListMode ProductListModeDefault = ListMode.Large;
+
+		/// <summary>
+		/// Gets or sets the ProductListMode value
+		/// </summary>
+		public static ListMode ProductListMode
+		{
+			get
+			{
+				return AppSettings.GetValueOrDefault(ProductListModeKey, ProductListModeDefault);
+			}
+			set
+			{
+				//if value has changed then save it!
+				if (AppSettings.AddOrUpdateValue(ProductListModeKey, value))
+					AppSettings.Save();
+			}
+		}
+
+		#endregion
+
 		#region Current user
 
 		/// <summary>
@@ -197,6 +227,36 @@ namespace Tojeero.Core
 			set
 			{
 				AppSettings.AddOrUpdateValue(DatabaseSchemaVersionKey, value);
+			}
+		}
+
+		#endregion
+
+		#region IsUserPreferancesSet
+
+		/// <summary>
+		/// Key for your setting
+		/// </summary>
+		public const string IsUserPreferancesSetKey = "IsUserPreferancesSet";
+		/// <summary>
+		/// default value for your setting
+		/// </summary>
+		public static readonly bool IsUserPreferancesSetDefault = false;
+
+		/// <summary>
+		/// Gets or sets the IsUserPreferancesSet value
+		/// </summary>
+		public static bool IsUserPreferancesSet
+		{
+			get
+			{
+				return AppSettings.GetValueOrDefault(IsUserPreferancesSetKey, IsUserPreferancesSetDefault);
+			}
+			set
+			{
+				//if value has changed then save it!
+				if (AppSettings.AddOrUpdateValue(IsUserPreferancesSetKey, value))
+					AppSettings.Save();
 			}
 		}
 

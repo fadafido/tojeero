@@ -22,12 +22,11 @@ namespace Tojeero.Forms
 			InitializeComponent();
 			// The root page of your application
 			var bootstrap = new BootstrapPage() { Title = AppResources.AppName };
-			rootNavigation = new NavigationPage(bootstrap);
 			bootstrap.ViewModel.BootstrapFinished = () =>
 				{
 					this.MainPage = new RootPage();
 				};
-			MainPage = rootNavigation;
+			MainPage = bootstrap;
 		}
 
 		#endregion

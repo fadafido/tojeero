@@ -15,14 +15,12 @@ using System.Threading;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class SideMenuViewModel : BaseUserViewModel
+	public class SideMenuViewModel : BaseUserStoreViewModel
 	{
 		#region Private fields and properties
 
 		private readonly ILocalizationService _localizationService;
 		private readonly MvxSubscriptionToken _languageChangeToken;
-		private readonly MvxSubscriptionToken _storeChangeToken;
-		private bool _isLoggedIn;
 
 		#endregion
 
@@ -37,15 +35,7 @@ namespace Tojeero.Core.ViewModels
 				{
 					RaisePropertyChanged(() => NewLanguage);
 				});
-			_storeChangeToken = messenger.Subscribe<StoreChangedMessage>((message) =>
-				{
-					//If the changed store is related to current user then refetch the user store to reflect the change
-					if(message.Store != null && this.CurrentUser != null &&
-						message.Store.OwnerID == this.CurrentUser.ID)
-					{
-						reloadUserStore();
-					}
-				});
+
 			PropertyChanged += propertyChanged;
 		}
 
@@ -53,10 +43,9 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		public Action<IStore> ShowSaveStoreAction;
-		public Action<bool> ShowProfileSettings;
-		public Action ShowFavorites;
-		public Action<string> ShowLanguageChangeWarning;
+		public Action<bool> ShowProfileSettings { get; set; }
+		public Action<string> ShowLanguageChangeWarning { get; set; }
+		public Action ShowTermsAction { get; set; }
 
 		public LanguageCode NewLanguage
 		{ 
@@ -65,80 +54,7 @@ namespace Tojeero.Core.ViewModels
 				return _localizationService.Language == LanguageCode.Arabic ? LanguageCode.English : LanguageCode.Arabic; 
 			}
 		}
-
-		private bool _isLoadingUserStore;
-		public static string IsLoadingUserStoreProperty = "IsLoadingUserStore";
-
-		public bool IsLoadingUserStore
-		{ 
-			get
-			{
-				return _isLoadingUserStore; 
-			}
-			set
-			{
-				_isLoadingUserStore = value; 
-				RaisePropertyChanged(() => IsLoadingUserStore); 
-			}
-		}
-
-		private bool _isLoadingUserStoreFailed;
-		public static string IsLoadingUserStoreFailedProperty = "IsLoadingUserStoreFailed";
-		public bool IsLoadingUserStoreFailed
-		{ 
-			get
-			{
-				return _isLoadingUserStoreFailed; 
-			}
-			set
-			{
-				_isLoadingUserStoreFailed = value; 
-				RaisePropertyChanged(() => IsLoadingUserStoreFailed); 
-			}
-		}
-
-		private IStore _userStore;
-		public static string UserStoreProperty = "UserStore";
-		public IStore UserStore
-		{ 
-			get
-			{
-				return _userStore; 
-			}
-			set
-			{
-				_userStore = value; 
-				RaisePropertyChanged(() => UserStore); 
-				RaisePropertyChanged(() => ShowSaveStoreTitle);
-			}
-		}
-
-		public string ShowSaveStoreTitle
-		{
-			get
-			{
-				string title;
-
-				if (this.UserStore != null)
-				{
-					title = !string.IsNullOrEmpty(this.UserStore.Name) ? this.UserStore.Name : AppResources.ButtonEditStore;
-				}
-				else
-				{
-					title = AppResources.ButtonCreateStore;
-				}
-				return title;
-			}
-		}
-
-		public bool IsShowSaveStoreVisible
-		{
-			get
-			{
-				return !IsLoadingUserStore && !IsLoadingUserStoreFailed;
-			}
-		}
-
+			
 		#endregion
 
 		#region Commands
@@ -198,54 +114,19 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _showFavoritesCommand;
+		private Cirrious.MvvmCross.ViewModels.MvxCommand _showTermsCommand;
 
-		public System.Windows.Input.ICommand ShowFavoritesCommand
+		public System.Windows.Input.ICommand ShowTermsCommand
 		{
 			get
 			{
-				_showFavoritesCommand = _showFavoritesCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					this.ShowFavorites.Fire();
+				_showTermsCommand = _showTermsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>{
+					ShowTermsAction.Fire();
 				});
-				return _showFavoritesCommand;
-			}
-		}
-
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _showSaveStoreCommand;
-
-		public System.Windows.Input.ICommand ShowSaveStoreCommand
-		{
-			get
-			{
-				_showSaveStoreCommand = _showSaveStoreCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					this.ShowSaveStoreAction.Fire(this.UserStore);
-				});
-				return _showSaveStoreCommand;
-			}
-		}
-
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadUserStoreCommand;
-
-		public System.Windows.Input.ICommand LoadUserStoreCommand
-		{
-			get
-			{
-				_loadUserStoreCommand = _loadUserStoreCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						await loadUserStore();
-					}, () => CanExecuteLoadUserStoreCommand);
-				return _loadUserStoreCommand;
+				return _showTermsCommand;
 			}
 		}
 			
-		public bool CanExecuteLoadUserStoreCommand
-		{
-			get
-			{
-				return this.IsLoggedIn && this.IsNetworkAvailable && !IsLoadingUserStore && this.UserStore == null;
-			}
-		}
-
 		#endregion
 
 		#region Utility Methods
@@ -267,29 +148,6 @@ namespace Tojeero.Core.ViewModels
 			await this._authService.LogOut();
 			this.IsLoading = false;
 		}
-
-		private async Task loadUserStore()
-		{
-			this.IsLoadingUserStore = true;
-			this.IsLoadingUserStoreFailed = false;
-			try
-			{
-				if(this.CurrentUser.DefaultStore == null)
-					await this.CurrentUser.LoadDefaultStore();
-				this.UserStore = this.CurrentUser.DefaultStore;
-			}
-			catch(OperationCanceledException ex)
-			{
-				this.IsLoadingUserStoreFailed = true;
-				Tools.Logger.Log(ex, LoggingLevel.Debug);
-			}
-			catch (Exception ex)
-			{
-				this.IsLoadingUserStoreFailed = true;
-				Tools.Logger.Log(ex, LoggingLevel.Error, true);
-			}
-			this.IsLoadingUserStore = false;
-		}
 			
 		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{			
@@ -297,32 +155,8 @@ namespace Tojeero.Core.ViewModels
 			{
 				RaisePropertyChanged(() => CanExecuteLoginCommand);
 			}
-
-			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty || 
-				e.PropertyName == IsLoadingUserStoreProperty || e.PropertyName == UserStoreProperty)
-			{
-				RaisePropertyChanged(() => CanExecuteLoadUserStoreCommand);
-			}
-
-			if (e.PropertyName == IsLoadingUserStoreProperty || e.PropertyName == IsLoadingUserStoreFailedProperty)
-			{
-				RaisePropertyChanged(() => IsShowSaveStoreVisible);
-			}
-
-			//If the logged in property has changed we need to reload user store.
-			if (e.PropertyName == IsLoggedInProperty && _isLoggedIn != this.IsLoggedIn)
-			{
-				_isLoggedIn = this.IsLoggedIn;
-				reloadUserStore();
-			}
 		}
 
-
-		void reloadUserStore()
-		{
-			this.UserStore = null;
-			LoadUserStoreCommand.Execute(null);
-		}
 
 		#endregion
 	}

@@ -3,7 +3,7 @@
 namespace Tojeero.Core.ViewModels
 {
 	public class BaseSelectableCollectionViewModel<T> : BaseCollectionViewModel<T>
-		where T : ISelectableEntity
+		where T : ISelectableViewModel
 	{
 		#region Constructors
 

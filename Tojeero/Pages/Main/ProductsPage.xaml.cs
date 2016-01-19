@@ -38,12 +38,19 @@ namespace Tojeero.Forms
 			this.StoresButton.IsSelected = false;
 
 			this.ViewModel = MvxToolbox.LoadViewModel<ProductsViewModel>();
-			this.ToolbarItems.Add(new ToolbarItem("", "filterIcon.png", async () =>
-					{
-						await this.Navigation.PushModalAsync(new NavigationPage(new FilterProductsPage()));
-					}));
+			this.ViewModel.ShowFiltersAction = async () =>
+			{
+				await this.Navigation.PushModalAsync(new NavigationPage(new FilterProductsPage()));
+			};
+
+			this.ViewModel.ChangeListModeAction = (mode) =>
+			{
+				updateListLayout(mode);
+			};
 			this.SearchBar.Placeholder = AppResources.PlaceholderSearchProducts;
 			ListView.ItemSelected += itemSelected;
+			updateListLayout(this.ViewModel.ListMode);
+
 		}
 
 		#endregion
@@ -69,6 +76,17 @@ namespace Tojeero.Forms
 				var productDetails = new ProductDetailsPage(item.Product);
 				await this.Navigation.PushAsync(productDetails);
 			}
+		}
+
+		#endregion
+
+		#region Utility methods
+
+		private void updateListLayout(ListMode mode)
+		{
+			this.ListView.RowHeight = mode == ListMode.Normal ? 100 : 350;
+			var type = mode == ListMode.Normal ? typeof(ProductListCell) : typeof(ProductListLargeCell);
+			this.ListView.ItemTemplate = new DataTemplate(type);
 		}
 
 		#endregion

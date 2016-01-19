@@ -4,17 +4,138 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="Tojeero.Forms.BootstrapPage"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
-	BackgroundColor="{x:Static local:Colors.UltraLightGray}">
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
+	xmlns:services="clr-namespace:Tojeero.Core.Services;assembly=Tojeero.Forms"
+	BackgroundColor="{x:Static local:Colors.Secondary}">
 	<ContentPage.Content>
-		<StackLayout>
-			<local:NetworkPageHeader
-				NoNetworkPadding="0,5,0,5"
-				Tint="{x:Static local:Colors.DarkGray}"
-				IsLoading="{Binding IsLoading}"
-				LoadingText="{Binding LoadingText}"
-				FailureMessage="{Binding LoadingFailureMessage}"
-				IsNetworkAvailable="{Binding IsNetworkAvailable}"
-				TryAgainCommand="{Binding BootstrapCommand}" />
-		</StackLayout>
+		<ScrollView>
+			<ScrollView.Padding>
+				<OnPlatform
+					x:TypeArguments="Thickness"
+					iOS="0,20,0,0"
+					Android="0" />
+			</ScrollView.Padding>
+			<StackLayout
+				Spacing="0">
+				<local:NetworkPageHeader
+					NoNetworkPadding="0,5,0,5"
+					IsLoading="{Binding IsLoading}"
+					LoadingText="{Binding LoadingText}"
+					FailureMessage="{Binding LoadingFailureMessage}"
+					IsNetworkAvailable="{Binding IsNetworkAvailable}"
+					TryAgainCommand="{Binding TryAgainCommand}" />
+				<StackLayout
+					Spacing="20"
+					Padding="10,20,10,20">
+					<Image
+						Source="tojeeroLarge.png" />
+					<StackLayout
+						IsVisible="{Binding ShouldShowUsePrefs}"
+						Spacing="15">
+						<StackLayout
+							Spacing="5">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{local:Translate LabelCountry}"
+									TextColor="White"
+									FontAttributes="Bold"
+									FontSize="18" />
+							</StackLayout>
+							<Grid
+								HeightRequest="50">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<local:BindablePicker
+										x:Name="countriesPicker"
+										x:TypeArguments="core:ICountry"
+										Title="{local:Translate LabelCountry}"
+										ItemsSource="{Binding Countries}"
+										SelectedItem="{Binding Country, Mode=TwoWay}"
+										TextColor="{x:Static local:Colors.Main}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
+						</StackLayout>
+						<StackLayout
+							Spacing="5">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{local:Translate LabelCity}"
+									TextColor="White"
+									FontAttributes="Bold"
+									FontSize="18" />
+							</StackLayout>
+							<Grid
+								HeightRequest="50">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<local:BindablePicker
+										x:Name="citiesPicker"
+										x:TypeArguments="core:ICity"
+										Title="{local:Translate LabelCity}"
+										ItemsSource="{Binding Country.Cities}"
+										SelectedItem="{Binding City, Mode=TwoWay}"
+										TextColor="{x:Static local:Colors.Main}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
+						</StackLayout>
+						<StackLayout
+							Spacing="5">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{local:Translate LabelLanguage}"
+									TextColor="White"
+									FontAttributes="Bold"
+									FontSize="18" />
+							</StackLayout>
+							<Grid
+								HeightRequest="50">
+								<local:BorderView
+									BorderColor="{x:Static local:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<local:BindablePicker
+										x:Name="languagesPicker"
+										x:TypeArguments="services:LanguageCode"
+										Title="{local:Translate LabelLanguage}"
+										ItemsSource="{Binding Languages}"
+										SelectedItem="{Binding Language, Mode=TwoWay}"
+										TextColor="{x:Static local:Colors.Main}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
+						</StackLayout>
+						<StackLayout
+							Padding="0,10,0,0">
+							<Button
+								Text="{local:Translate ButtonApply}"
+								Command="{Binding ApplyCommand}"
+								Style="{StaticResource Button1}"
+								IsEnabled="{Binding CanExecuteApplyCommand}" />
+						</StackLayout>
+					</StackLayout>
+				</StackLayout>
+			</StackLayout>
+		</ScrollView>
 	</ContentPage.Content>
 </ContentPage>

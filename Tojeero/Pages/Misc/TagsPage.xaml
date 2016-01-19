@@ -10,4 +10,12 @@
 			<local:TagListCell/>
 		</DataTemplate>
 	</local:BaseSearchablePage.ItemTemplate>
+	<local:BaseSearchablePage.Header>
+			<Button
+				Text="{Binding CreateTagButtonTitle}"
+				TextColor="{x:Static local:Colors.Green}"
+				BackgroundColor="Transparent"
+				IsVisible="{Binding CreateTagVisible}"
+				Command="{Binding CreateTagCommand}"/>
+	</local:BaseSearchablePage.Header>
 </local:BaseSearchablePage>

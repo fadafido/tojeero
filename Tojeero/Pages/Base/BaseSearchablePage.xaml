@@ -10,9 +10,9 @@
 			BackgroundColor="Transparent"
 			Spacing="0">
 			<SearchBar
-    			x:Name="searchBar"
-    			IsVisible="{Binding IsSearchbarVisible}"
-				Text="{Binding SearchQuery}"/>
+				x:Name="searchBar"
+				IsVisible="{Binding IsSearchbarVisible}"
+				Text="{Binding SearchQuery}" />
 			<local:NetworkPageHeader
 				NoNetworkPadding="0,5,0,5"
 				Tint="{x:Static local:Colors.DarkGray}"
@@ -21,16 +21,34 @@
 				FailureMessage="{Binding ViewModel.LoadingFailureMessage}"
 				IsNetworkAvailable="{Binding ViewModel.IsNetworkAvailable}"
 				TryAgainCommand="{Binding ViewModel.TryAgainCommand}" />
-			<local:InfiniteListView
-				x:Name="listView"
-				ItemsSource="{Binding ViewModel.Collection}"
-				BackgroundColor="Transparent"
-				RowHeight="100"
-				SeparatorVisibility="None"
-				IsPullToRefreshEnabled="true"
-				RefreshCommand="{Binding ViewModel.ReloadCommand}"
-				LoadMoreCommand="{Binding ViewModel.LoadNextPageCommand}">
-			</local:InfiniteListView>
+			<StackLayout
+				x:Name="headerContainer"
+				HorizontalOptions="FillAndExpand">
+			</StackLayout>
+			<Grid
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="FillAndExpand">
+				<Label
+					Text="{Binding ViewModel.Placeholder}"
+					IsVisible="{Binding ViewModel.IsPlaceholderVisible}"
+					Style="{StaticResource LabelPlaceholder}"
+					XAlign="Center"
+					YAlign="Center"
+					VerticalOptions="Center"
+					HorizontalOptions="Center" />
+				<local:InfiniteListView
+					x:Name="listView"
+					ItemsSource="{Binding ViewModel.Collection}"
+					BackgroundColor="Transparent"
+					RowHeight="100"
+					SeparatorVisibility="None"
+					IsPullToRefreshEnabled="true"
+					RefreshCommand="{Binding ViewModel.ReloadCommand}"
+					LoadMoreCommand="{Binding ViewModel.LoadNextPageCommand}"
+					HorizontalOptions="FillAndExpand"
+					VerticalOptions="FillAndExpand">
+				</local:InfiniteListView>
+			</Grid>
 			<StackLayout
 				Padding="5"
 				IsVisible="{Binding ViewModel.IsLoadingNextPage}">

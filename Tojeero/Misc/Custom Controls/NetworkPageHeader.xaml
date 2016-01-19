@@ -41,7 +41,7 @@
 			XAlign="Center" />
 		<Button
 			x:Name="TryAgainButton"
-			Text="Try again"
+			Text="{local:Translate ButtonTryAgain}"
 			Style="{StaticResource Button2}"/>
 	</StackLayout>
 </StackLayout>

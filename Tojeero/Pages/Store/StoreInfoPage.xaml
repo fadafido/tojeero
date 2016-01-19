@@ -65,7 +65,9 @@
 									<RowDefinition
 										Height="Auto" />
 									<RowDefinition
-										Height="40" />
+										Height="Auto" />
+									<RowDefinition
+										Height="Auto" />
 								</Grid.RowDefinitions>
 								<Grid
 									VerticalOptions="Start"
@@ -73,14 +75,8 @@
 									<BoxView
 										BackgroundColor="{x:Static local:Colors.Placeholder}" />
 									<Image
-										Source="placeholder.png"
-										VerticalOptions="Center"
-										HorizontalOptions="Center"
-										HeightRequest="25"
-										WidthRequest="20" />
-									<Image
-										Aspect="AspectFill"
-										BackgroundColor="Transparent"
+										Aspect="AspectFit"
+										BackgroundColor="{x:Static local:Colors.Placeholder}"
 										Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
 								</Grid>
 								<Label
@@ -100,6 +96,15 @@
 									VerticalOptions="FillAndExpand"
 									HorizontalOptions="FillAndExpand"
 									Style="{StaticResource Button1}" />
+								<Button
+									Grid.Row="2"
+									Grid.ColumnSpan="2"
+									Text="{local:Translate ButtonAddProduct}"
+									Command="{Binding AddProductCommand}"
+									IsVisible="{Binding IsInEditMode}"
+									VerticalOptions="FillAndExpand"
+									HorizontalOptions="FillAndExpand"
+									Style="{StaticResource Button4}" />
 							</Grid>
 							<!--FAVORITES AND SHARING-->
 							<local:FavoriteSocialView

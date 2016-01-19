@@ -17,6 +17,7 @@ using Xamarin.Forms.Platform.iOS;
 using Cirrious.MvvmCross.Platform;
 using ObjCRuntime;
 using System.Runtime.InteropServices;
+using Tojeero.Core.ViewModels;
 
 
 namespace Tojeero.iOS
@@ -51,6 +52,7 @@ namespace Tojeero.iOS
 			ImageCircleRenderer.Init();
 			MakeAppearanceCustomizations();
 			base.FinishedLaunching(app, options);
+			test();
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
 		}
 
@@ -122,41 +124,45 @@ namespace Tojeero.iOS
 
 		#endregion
 
-		private async void test()
+		private class ProductFacetQuery : IFacetQuery<IProductCategory>
 		{
-			await System.Threading.Tasks.Task.Delay(3000);
-			var rest = Mvx.Resolve<IRestRepository>();
-			Dictionary<string, int> facets;
-			facets = await rest.GetProductCategoryFacets(null);
-			printFacets(facets, "ProductCategory");
-			facets = await rest.GetProductSubcategoryFacets(null);
-			printFacets(facets, "ProductSubcategory");
-			facets = await rest.GetProductCountryFacets(null);
-			printFacets(facets, "ProductCountry");
-			facets = await rest.GetProductCityFacets(null);
-			printFacets(facets, "ProductCity");
+			#region IFacetQuery implementation
 
-			facets = await rest.GetStoreCategoryFacets(null);
-			printFacets(facets, "StoreCategory");
-			facets = await rest.GetStoreCountryFacets(null);
-			printFacets(facets, "StoreCountry");
-			facets = await rest.GetStoreCityFacets(null);
-			printFacets(facets, "StoreCity");
+			public System.Threading.Tasks.Task<IEnumerable<IProductCategory>> FetchObjects()
+			{
+				var rest = Mvx.Resolve<IRestRepository>();
+				return rest.FetchProductCategories();
+			}
+
+			public System.Threading.Tasks.Task<Dictionary<string, int>> FetchFacets()
+			{
+				var rest = Mvx.Resolve<IRestRepository>();
+				return rest.GetProductCategoryFacets(null);
+			}
+
+			#endregion
 		}
 
-		private void printFacets(Dictionary<string, int> facets, string name)
+		private async void test()
 		{
-			Console.WriteLine("///////////////////// FACETS FOR {0} /////////////////////", name);
+			var facetsVM = new BaseFacetedCollectionViewModel<IProductCategory>(new ProductFacetQuery());
+			await facetsVM.reload();
+			printFacets(facetsVM.Facets);
+		}
+
+		private void printFacets(List<FacetViewModel<IProductCategory>> facets)
+		{
+			Console.WriteLine("///////////////////////////////////////////////////////////////////////");
 			if (facets == null || facets.Count == 0)
 				Console.WriteLine("**************** NO FACETS ****************");
 			else
 			{
 				foreach (var facet in facets)
 				{
-					Console.WriteLine(facet.Key + "    " + facet.Value);
+					Console.WriteLine(facet.Data + "    " + facet.Count);
 				}
 			}
-			Console.WriteLine("///////////////////////////////////////////////////////////////////////", name);
+			Console.WriteLine("///////////////////////////////////////////////////////////////////////");
 		}
 	}
 }

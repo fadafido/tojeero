@@ -595,6 +595,5 @@
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork%402x.png" />
-    <ITunesArtwork Include="iTunesArtwork" />
   </ItemGroup>
 </Project>

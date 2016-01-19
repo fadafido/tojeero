@@ -75,8 +75,6 @@
 		<string>en</string>
 		<string>ar</string>
 	</array>
-	<key>CFBundleVersion</key>
-	<string>3</string>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon</string>
@@ -89,5 +87,7 @@
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
+	<key>CFBundleVersion</key>
+	<string>4</string>
 </dict>
 </plist>

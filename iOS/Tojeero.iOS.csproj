@@ -424,6 +424,7 @@
     <BundleResource Include="Resources\createUserStoreIcon%402x.png" />
     <BundleResource Include="Resources\listCellIcon%402x.png" />
     <BundleResource Include="Resources\listLargeCellIcon%402x.png" />
+    <BundleResource Include="ITunesArtwork.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -593,7 +594,7 @@
     <Folder Include="Core\BL\Queries\" />
   </ItemGroup>
   <ItemGroup>
-    <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork%402x.png" />
+    <ITunesArtwork Include="iTunesArtwork" />
   </ItemGroup>
 </Project>

@@ -112,13 +112,13 @@ namespace Tojeero.Forms
 			{
 				if (oldvalue != default(T))
 				{
-					var oldItem = picker._items.Where(i => i.Item == oldvalue).FirstOrDefault();
+					var oldItem = picker._items.Where(i => picker.Comparer(i.Item, oldvalue)).FirstOrDefault();
 					if (oldItem != null)
 						oldItem.IsSelected = false;
 				}
 				if (newvalue != default(T))
 				{
-					var newItem = picker._items.Where(i => i.Item == newvalue).FirstOrDefault();
+					var newItem = picker._items.Where(i => picker.Comparer(i.Item, newvalue)).FirstOrDefault();
 					if (newItem != null)
 						newItem.IsSelected = true;
 				}
@@ -147,9 +147,10 @@ namespace Tojeero.Forms
 			await parent.Navigation.PushModalAsync(_objectPickerPage);
 		}
 
-		void itemSelected (object sender, EventArgs<T> e)
+		async void itemSelected (object sender, EventArgs<T> e)
 		{
 			this.SelectedItem = e.Data;
+			await this._objectPickerPage.Navigation.PopModalAsync();
 		}
 
 		#endregion

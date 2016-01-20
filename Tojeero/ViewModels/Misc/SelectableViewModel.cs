@@ -8,10 +8,11 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Constructors
 
-		public SelectableViewModel(T item = default(T), bool isSelected = false)
+		public SelectableViewModel(T item = default(T), bool isSelected = false, Func<T, string> itemCaption = null)
 		{
 			Item = item;
 			IsSelected = isSelected;
+			ItemCaption = itemCaption;
 		}
 
 		#endregion
@@ -56,7 +57,25 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return Item != null ? Item.ToString() : "";
+				return ItemCaption(Item);
+			}
+		}
+
+		private Func<T, string> _itemCaption;
+
+		public Func<T, string> ItemCaption
+		{
+			get
+			{
+				if (_itemCaption == null)
+				{
+					_itemCaption = (x) => x != null ? x.ToString() : "";
+				}
+				return _itemCaption;
+			}
+			set
+			{
+				_itemCaption = value;
 			}
 		}
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Tojeero.Forms
 {
 	public class ObjectPicker<T, CellType> : Entry 
-		where T : class, IUniqueEntity
+		where T : class
 		where CellType : ObjectPickerCell
 	{
 		#region Private fields and properties
@@ -37,6 +37,42 @@ namespace Tojeero.Forms
 
 		#region Properties
 
+		private Func<T,T,bool> _comparer;
+
+		public Func<T,T,bool> Comparer
+		{
+			get
+			{
+				if (_comparer == null)
+				{
+					_comparer = (x, y) => x == y;
+				}
+				return _comparer;
+			}
+			set
+			{
+				_comparer = value;
+			}
+		}
+
+		private Func<T, string> _itemCaption;
+
+		public Func<T, string> ItemCaption
+		{
+			get
+			{
+				if (_itemCaption == null)
+				{
+					_itemCaption = (x) => x != null ? x.ToString() : "";
+				}
+				return _itemCaption;
+			}
+			set
+			{
+				_itemCaption = value;
+			}
+		}
+
 		#region Items
 
 		public static BindableProperty ItemsProperty = BindableProperty.Create<ObjectPicker<T, CellType>, IList<T>>(o => o.Items, null, propertyChanged: OnItemsChanged);
@@ -52,7 +88,7 @@ namespace Tojeero.Forms
 			var picker = bindable as ObjectPicker<T, CellType>;
 			if (picker._objectPicker != null)
 			{
-				picker._items = picker.Items.Select(i => new SelectableViewModel<T>(i, picker.compare(i, picker.SelectedItem))).ToArray();
+				picker._items = picker.Items.Select(i => new SelectableViewModel<T>(i, picker.Comparer(i, picker.SelectedItem), picker.ItemCaption)).ToArray();
 				picker._objectPicker.ListView.ItemsSource = picker._items;
 			}
 		}
@@ -103,7 +139,7 @@ namespace Tojeero.Forms
 				_objectPicker = new ObjectPickerPage<T, CellType>();
 				_objectPickerPage = new NavigationPage(_objectPicker);
 				_objectPicker.ListView.ItemTemplate = new DataTemplate(typeof(CellType));
-				_items = this.Items.Select(i => new SelectableViewModel<T>(i, compare(i,this.SelectedItem))).ToArray();;
+				_items = this.Items.Select(i => new SelectableViewModel<T>(i, this.Comparer(i,this.SelectedItem), this.ItemCaption)).ToArray();;
 				_objectPicker.ListView.ItemsSource = _items;
 				_objectPicker.ItemSelected += itemSelected;
 			}
@@ -114,13 +150,6 @@ namespace Tojeero.Forms
 		void itemSelected (object sender, EventArgs<T> e)
 		{
 			this.SelectedItem = e.Data;
-		}
-
-		private bool compare(T x, T y)
-		{
-			if(x == null || y == null)
-				return false;
-			return x == y || x.ID == y.ID;
 		}
 
 		#endregion

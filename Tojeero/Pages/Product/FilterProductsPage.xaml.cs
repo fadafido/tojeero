@@ -17,7 +17,7 @@ namespace Tojeero.Forms
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<FilterProductsViewModel>();
 			InitializeComponent();
-
+			setupPickers();
 			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "", async () =>
 				{
 					await this.Navigation.PopModalAsync();
@@ -57,6 +57,18 @@ namespace Tojeero.Forms
 			this.ViewModel.ReloadCommand.Execute(null);
 		}
 
+		#endregion
+
+		#region Utility methods
+
+		private void setupPickers()
+		{
+			citiesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
+			countriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
+			categoriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
+			subcategoriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
+		}
+			
 		#endregion
 	}
 }

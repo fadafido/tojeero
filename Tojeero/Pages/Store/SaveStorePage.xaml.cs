@@ -72,7 +72,7 @@ namespace Tojeero.Forms
 			if (!_toolbarButtonsAdded)
 			{
 				//if this view is not inside root page add close button
-				var root = this.FindParentPage<RootPage>();
+				var root = this.FindParent<RootPage>();
 				if (root == null)
 				{
 					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>

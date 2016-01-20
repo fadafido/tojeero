@@ -32,11 +32,11 @@
 								Text="{local:Translate LabelCountry}"
 								TextColor="{x:Static local:Colors.DarkGray}"
 								FontSize="Micro" />
-							<local:BindablePicker
+							<local:ObjectPicker
 								x:Name="countriesPicker"
-								x:TypeArguments="core:ICountry"
-								Title="{local:Translate LabelCountry}"
-								ItemsSource="{Binding Countries}"
+								x:TypeArguments="core:ICountry, local:ObjectPickerCell"
+								Placeholder="{local:Translate LabelCountry}"
+								Items="{Binding Countries}"
 								SelectedItem="{Binding ProductFilter.Country, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
@@ -46,11 +46,11 @@
 								Text="{local:Translate LabelCity}"
 								TextColor="{x:Static local:Colors.DarkGray}"
 								FontSize="Micro" />
-							<local:BindablePicker
+							<local:ObjectPicker
 								x:Name="citiesPicker"
-								x:TypeArguments="core:ICity"
-								Title="{local:Translate LabelCity}"
-								ItemsSource="{Binding Cities}"
+								x:TypeArguments="core:ICity, local:ObjectPickerCell"
+								Placeholder="{local:Translate LabelCity}"
+								Items="{Binding Cities}"
 								SelectedItem="{Binding ProductFilter.City, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
@@ -60,11 +60,11 @@
 								Text="{local:Translate LabelCategory}"
 								TextColor="{x:Static local:Colors.DarkGray}"
 								FontSize="Micro" />
-							<local:BindablePicker
+							<local:ObjectPicker
 								x:Name="categoriesPicker"
-								x:TypeArguments="core:IProductCategory"
-								Title="{local:Translate LabelCategory}"
-								ItemsSource="{Binding Categories}"
+								x:TypeArguments="core:IProductCategory, local:ObjectPickerCell"
+								Placeholder="{local:Translate LabelCategory}"
+								Items="{Binding Categories}"
 								SelectedItem="{Binding ProductFilter.Category, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
@@ -74,11 +74,11 @@
 								Text="{local:Translate LabelSubcategory}"
 								TextColor="{x:Static local:Colors.DarkGray}"
 								FontSize="Micro" />
-							<local:BindablePicker
+							<local:ObjectPicker
 								x:Name="subcategoriesPicker"
-								x:TypeArguments="core:IProductSubcategory"
-								Title="{local:Translate LabelSubcategory}"
-								ItemsSource="{Binding Subcategories}"
+								x:TypeArguments="core:IProductSubcategory, local:ObjectPickerCell"
+								Placeholder="{local:Translate LabelSubcategory}"
+								Items="{Binding Subcategories}"
 								SelectedItem="{Binding ProductFilter.Subcategory, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>

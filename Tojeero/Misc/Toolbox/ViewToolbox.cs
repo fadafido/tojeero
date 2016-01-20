@@ -5,7 +5,7 @@ namespace Tojeero.Forms.Toolbox
 {
 	public static class ViewToolbox
 	{
-		public static T FindParentPage<T>(this VisualElement view) where T : Page
+		public static T FindParent<T>(this VisualElement view) where T : VisualElement
 		{
 			if (view == null)
 				return null;

@@ -17,7 +17,7 @@ namespace Tojeero.Forms
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<FilterProductsViewModel>();
 			InitializeComponent();
-			setupPickers();
+
 			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "", async () =>
 				{
 					await this.Navigation.PopModalAsync();
@@ -55,38 +55,6 @@ namespace Tojeero.Forms
 		{
 			base.OnAppearing();
 			this.ViewModel.ReloadCommand.Execute(null);
-		}
-
-		#endregion
-
-		#region Utility methods
-
-		private void setupPickers()
-		{
-			citiesPicker.Comparer = (c1, c2) =>
-				{
-					if(c1 == null || c2 == null)
-						return false;
-					return c1 == c2 || c1.ID == c2.ID;
-				};
-			countriesPicker.Comparer = (c1, c2) =>
-				{
-					if(c1 == null || c2 == null)
-						return false;
-					return c1 == c2 || c1.ID == c2.ID;
-				};
-			categoriesPicker.Comparer = (x, y) =>
-				{
-					if(x == null || y == null)
-						return false;
-					return x == y || x.ID == y.ID;
-				};
-			subcategoriesPicker.Comparer = (x, y) =>
-				{
-					if(x == null || y == null)
-						return false;
-					return x == y || x.ID == y.ID;
-				};
 		}
 
 		#endregion

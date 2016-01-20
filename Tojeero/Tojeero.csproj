@@ -287,7 +287,6 @@
     <Compile Include="Misc\Custom Controls\TabButton.cs" />
     <Compile Include="Misc\Custom Controls\SearchbarEx.cs" />
     <Compile Include="ViewModels\Main\BootstrapViewModel.cs" />
-    <Compile Include="BL\Contracts\Entities\ISelectableViewModel.cs" />
     <Compile Include="ViewModels\Misc\TagViewModel.cs" />
     <Compile Include="ViewModels\Base\BaseUserStoreViewModel.cs" />
     <Compile Include="ViewModels\Main\RootViewModel.cs" />
@@ -303,6 +302,13 @@
     <Compile Include="ViewModels\Misc\FacetViewModel.cs" />
     <Compile Include="BL\Contracts\IModelQuery.cs" />
     <Compile Include="BL\Contracts\IFacetQuery.cs" />
+    <Compile Include="Misc\Custom Controls\Object picker\ObjectPicker.cs" />
+    <Compile Include="Misc\Custom Controls\Object picker\ObjectPickerPage.cs" />
+    <Compile Include="Misc\Custom Controls\Object picker\ObjectPickerCell.xaml.cs">
+      <DependentUpon>ObjectPickerCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Misc\SelectableViewModel.cs" />
+    <Compile Include="BL\Contracts\Entities\ISelectableViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -417,6 +423,7 @@
     <Folder Include="ViewModels\Product\" />
     <Folder Include="ViewModels\Store\" />
     <Folder Include="Misc\Messages\Entity change messages\" />
+    <Folder Include="Misc\Custom Controls\Object picker\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">
@@ -517,6 +524,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\Misc\TermsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\Custom Controls\Object picker\ObjectPickerCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

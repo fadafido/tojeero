@@ -78,7 +78,7 @@ namespace Tojeero.Forms
 
 		private async void addImageButtonTapped(object sender, EventArgs args)
 		{
-			var parent = this.FindParentPage<Page>();
+			var parent = this.FindParent<Page>();
 			var image = await ImageToolbox.PickImage(parent);
 			if (image != null)
 			{

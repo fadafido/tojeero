@@ -34,6 +34,11 @@ namespace Tojeero.Core
 			return _manager.Rest.GetProductCityFacets(query, filter);
 		}
 
+		public Task<Dictionary<string, int>> GetStoreCityFacets(string query, IStoreFilter filter = null)
+		{
+			return _manager.Rest.GetStoreCityFacets(query, filter);
+		}
+
 		public Task ClearCache()
 		{
 			return _manager.Cache.Clear<City>();

@@ -6,6 +6,7 @@ using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.Resources;
 using Tojeero.Core;
+using System.Threading.Tasks;
 
 namespace Tojeero.Forms
 {
@@ -63,24 +64,14 @@ namespace Tojeero.Forms
 
 		private void setupPickers()
 		{
-			citiesPicker.Comparer = (c1, c2) =>
-				{
-					if(c1 == null || c2 == null)
-						return false;
-					return c1 == c2 || c1.ID == c2.ID;
-				};
-			countriesPicker.Comparer = (c1, c2) =>
-				{
-					if(c1 == null || c2 == null)
-						return false;
-					return c1 == c2 || c1.ID == c2.ID;
-				};
-			categoriesPicker.Comparer = (x, y) =>
-				{
-					if(x == null || y == null)
-						return false;
-					return x == y || x.ID == y.ID;
-				};
+			countriesPicker.FacetsLoader = this.ViewModel.FetchCountryFacets;
+			countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => this.ViewModel.Countries);
+
+			citiesPicker.FacetsLoader = this.ViewModel.FetchCityFacets;
+			citiesPicker.ObjectsLoader = () => Task<IList<ICity>>.Factory.StartNew(() => this.ViewModel.Cities);
+
+			categoriesPicker.FacetsLoader = this.ViewModel.FetchCategoryFacets;
+			categoriesPicker.ObjectsLoader = () => Task<IList<IStoreCategory>>.Factory.StartNew(() => this.ViewModel.Categories);
 		}
 
 		#endregion

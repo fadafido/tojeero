@@ -61,6 +61,11 @@ namespace Tojeero.Core
 			return _manager.Rest.GetProductCountryFacets(query, filter);
 		}
 
+		public Task<Dictionary<string, int>> GetStoreCountryFacets(string query, IStoreFilter filter = null)
+		{
+			return _manager.Rest.GetStoreCountryFacets(query, filter);
+		}
+
 		#endregion
 	}
 

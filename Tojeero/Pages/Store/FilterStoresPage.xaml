@@ -32,12 +32,11 @@
 								Text="{local:Translate LabelCountry}"
 								TextColor="{x:Static local:Colors.DarkGray}"
 								FontSize="Micro" />
-							<local:BindablePicker
+							<local:FacetObjectPicker
 								x:Name="countriesPicker"
 								x:TypeArguments="core:ICountry"
-								Title="{local:Translate LabelCountry}"
-								ItemsSource="{Binding Countries}"
-								SelectedItem="{Binding StoreFilter.Country, Mode=TwoWay}"
+								Placeholder="{local:Translate LabelCountry}"
+								SelectedObject="{Binding StoreFilter.Country, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
 						<StackLayout
@@ -46,12 +45,11 @@
 								Text="{local:Translate LabelCity}"
 								TextColor="{x:Static local:Colors.DarkGray}"
 								FontSize="Micro" />
-							<local:BindablePicker
+							<local:FacetObjectPicker
 								x:Name="citiesPicker"
 								x:TypeArguments="core:ICity"
-								Title="{local:Translate LabelCity}"
-								ItemsSource="{Binding Cities}"
-								SelectedItem="{Binding StoreFilter.City, Mode=TwoWay}"
+								Placeholder="{local:Translate LabelCity}"
+								SelectedObject="{Binding StoreFilter.City, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
 						<StackLayout
@@ -60,12 +58,11 @@
 								Text="{local:Translate LabelCategory}"
 								TextColor="{x:Static local:Colors.DarkGray}"
 								FontSize="Micro" />
-							<local:BindablePicker
+							<local:FacetObjectPicker
 								x:Name="categoriesPicker"
 								x:TypeArguments="core:IStoreCategory"
-								Title="{local:Translate LabelCategory}"
-								ItemsSource="{Binding Categories}"
-								SelectedItem="{Binding StoreFilter.Category, Mode=TwoWay}"
+								Placeholder="{local:Translate LabelCategory}"
+								SelectedObject="{Binding StoreFilter.Category, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
 

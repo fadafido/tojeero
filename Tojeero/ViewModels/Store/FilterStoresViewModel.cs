@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Tojeero.Forms.Resources;
 using System.Linq;
 using Nito.AsyncEx;
+using System.Collections.Generic;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -81,6 +82,14 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Categories); 
 			}
 		}
+
+		public Func<Task<Dictionary<string,int>>> FetchCategoryFacets
+		{
+			get
+			{
+				return () => _categoryManager.GetFacets("", this.StoreFilter);
+			}
+		}
 			
 		private ICountry[] _countries;
 
@@ -97,6 +106,15 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public Func<Task<Dictionary<string,int>>> FetchCountryFacets
+		{
+			get
+			{
+				return () => _countryManager.GetStoreCountryFacets("", this.StoreFilter);
+			}
+		}
+
+
 		private ICity[] _cities;
 
 		public ICity[] Cities
@@ -109,6 +127,14 @@ namespace Tojeero.Core.ViewModels
 			{
 				_cities = value; 
 				RaisePropertyChanged(() => Cities); 
+			}
+		}
+
+		public Func<Task<Dictionary<string,int>>> FetchCityFacets
+		{
+			get
+			{
+				return () => _cityManager.GetStoreCityFacets("", this.StoreFilter);
 			}
 		}
 

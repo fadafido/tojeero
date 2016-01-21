@@ -7,6 +7,7 @@ namespace Tojeero.Core
 	public interface IProductCategoryManager : IBaseModelEntityManager
 	{
 		Task<IEnumerable<IProductCategory>> Fetch();
+		Task<Dictionary<string, int>> GetFacets(string query, IProductFilter filter = null);
 		IProductCategory Create();
 	}
 }

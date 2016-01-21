@@ -6,6 +6,7 @@ using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.Resources;
 using Tojeero.Core;
+using System.Threading.Tasks;
 
 namespace Tojeero.Forms
 {
@@ -63,10 +64,17 @@ namespace Tojeero.Forms
 
 		private void setupPickers()
 		{
-			citiesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
-			countriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
-			categoriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
-			subcategoriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
+			countriesPicker.FacetsLoader = this.ViewModel.FetchCountryFacets;
+			countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => this.ViewModel.Countries);
+
+			citiesPicker.FacetsLoader = this.ViewModel.FetchCityFacets;
+			citiesPicker.ObjectsLoader = () => Task<IList<ICity>>.Factory.StartNew(() => this.ViewModel.Cities);
+
+			categoriesPicker.FacetsLoader = this.ViewModel.FetchCategoryFacets;
+			categoriesPicker.ObjectsLoader = () => Task<IList<IProductCategory>>.Factory.StartNew(() => this.ViewModel.Categories);
+
+			subcategoriesPicker.FacetsLoader = this.ViewModel.FetchSubcategoryFacets;
+			subcategoriesPicker.ObjectsLoader = () => Task<IList<IProductSubcategory>>.Factory.StartNew(() => this.ViewModel.Subcategories);
 		}
 			
 		#endregion

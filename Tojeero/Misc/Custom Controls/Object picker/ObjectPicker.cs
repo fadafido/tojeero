@@ -6,6 +6,7 @@ using System.Linq;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Tojeero.Forms
 {
@@ -29,7 +30,7 @@ namespace Tojeero.Forms
 			this.HorizontalOptions = LayoutOptions.FillAndExpand;
 			this.VerticalOptions = LayoutOptions.FillAndExpand;
 			this.GestureRecognizers.Add(new TapGestureRecognizer(async (v) => {
-				await showObjectPicker();
+				await ShowObjectPicker();
 			}));
 		}
 
@@ -73,27 +74,7 @@ namespace Tojeero.Forms
 			}
 		}
 
-		#region Items
-
-		public static BindableProperty ItemsProperty = BindableProperty.Create<ObjectPicker<T, CellType>, IList<T>>(o => o.Items, null, propertyChanged: OnItemsChanged);
-
-		public IList<T> Items
-		{
-			get { return (IList<T>)GetValue(ItemsProperty); }
-			set { SetValue(ItemsProperty, value); }
-		}
-
-		private static void OnItemsChanged(BindableObject bindable, IList<T> oldvalue, IList<T> newvalue)
-		{
-			var picker = bindable as ObjectPicker<T, CellType>;
-			if (picker._objectPicker != null)
-			{
-				picker._items = picker.Items.Select(i => new SelectableViewModel<T>(i, picker.Comparer(i, picker.SelectedItem), picker.ItemCaption)).ToArray();
-				picker._objectPicker.ListView.ItemsSource = picker._items;
-			}
-		}
-
-		#endregion
+		public Func<Task<IList<T>>> ItemsLoader { get; set; }
 
 		#region SelectedItem
 
@@ -123,34 +104,40 @@ namespace Tojeero.Forms
 						newItem.IsSelected = true;
 				}
 			}
-			picker.Text = newvalue.ToString();
+			picker.Text = picker.ItemCaption(newvalue);
 		}
 
 		#endregion
 
 		#endregion
 
-		#region Utility methods
+		#region Protected methods
 
-		private async Task showObjectPicker()
+		protected virtual async Task ShowObjectPicker()
 		{
 			if (_objectPicker == null)
 			{
 				_objectPicker = new ObjectPickerPage<T, CellType>();
 				_objectPickerPage = new NavigationPage(_objectPicker);
 				_objectPicker.ListView.ItemTemplate = new DataTemplate(typeof(CellType));
-				_items = this.Items.Select(i => new SelectableViewModel<T>(i, this.Comparer(i,this.SelectedItem), this.ItemCaption)).ToArray();;
-				_objectPicker.ListView.ItemsSource = _items;
-				_objectPicker.ItemSelected += itemSelected;
+				_objectPicker.LoaderAction = async () => {
+					var items = ItemsLoader != null ? await ItemsLoader() : null;
+					_items = items == null ? null : 
+						items.Select(i => new SelectableViewModel<T>(i, this.Comparer(i,this.SelectedItem), this.ItemCaption)).ToArray();
+					return _items;
+				};
+				_objectPicker.ItemSelected += ItemSelected;
 			}
 			var parent = this.FindParent<Page>();
 			await parent.Navigation.PushModalAsync(_objectPickerPage);
 		}
 
-		async void itemSelected (object sender, EventArgs<T> e)
+		protected virtual async void ItemSelected (object sender, EventArgs<T> e)
 		{
 			this.SelectedItem = e.Data;
 			await this._objectPickerPage.Navigation.PopModalAsync();
+			this._objectPickerPage = null;
+			this._objectPicker = null;
 		}
 
 		#endregion

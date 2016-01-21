@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Tojeero.Forms.Resources;
 using System.Linq;
 using Nito.AsyncEx;
+using Tojeero.Core.Toolbox;
+using System.Collections.Generic;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -85,6 +87,14 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public Func<Task<Dictionary<string,int>>> FetchCategoryFacets
+		{
+			get
+			{
+				return () => _categoryManager.GetFacets("", this.ProductFilter);
+			}
+		}
+
 		private IProductSubcategory[] _subcategories;
 
 		public IProductSubcategory[] Subcategories
@@ -97,6 +107,14 @@ namespace Tojeero.Core.ViewModels
 			{
 				_subcategories = value; 
 				RaisePropertyChanged(() => Subcategories); 
+			}
+		}
+
+		public Func<Task<Dictionary<string,int>>> FetchSubcategoryFacets
+		{
+			get
+			{
+				return () => _subcategoryManager.GetFacets("", this.ProductFilter);
 			}
 		}
 
@@ -114,6 +132,14 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Countries); 
 			}
 		}
+			
+		public Func<Task<Dictionary<string,int>>> FetchCountryFacets
+		{
+			get
+			{
+				return () => _countryManager.GetProductCountryFacets("", this.ProductFilter);
+			}
+		}
 
 		private ICity[] _cities;
 
@@ -127,6 +153,14 @@ namespace Tojeero.Core.ViewModels
 			{
 				_cities = value; 
 				RaisePropertyChanged(() => Cities); 
+			}
+		}
+
+		public Func<Task<Dictionary<string,int>>> FetchCityFacets
+		{
+			get
+			{
+				return () => _cityManager.GetProductCityFacets("", this.ProductFilter);
 			}
 		}
 

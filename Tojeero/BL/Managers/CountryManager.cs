@@ -55,6 +55,12 @@ namespace Tojeero.Core
 			}
 		}
 
+
+		public Task<Dictionary<string, int>> GetProductCountryFacets(string query, IProductFilter filter = null)
+		{
+			return _manager.Rest.GetProductCountryFacets(query, filter);
+		}
+
 		#endregion
 	}
 

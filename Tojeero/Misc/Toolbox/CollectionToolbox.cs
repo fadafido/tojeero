@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tojeero.Core.ViewModels;
 
 namespace Tojeero.Core.Toolbox
 {
@@ -96,6 +97,13 @@ namespace Tojeero.Core.Toolbox
 			var result = string.Join(joinString, items);
 			Tools.Logger.Log(result);
 			return result;
+		}
+
+		public static IEnumerable<FacetViewModel<T>> ApplyFacets<T>(this IEnumerable<T> objects, Dictionary<string, int> facets) where T : IUniqueEntity
+		{
+			if (objects == null || facets == null)
+				return null;
+			return objects.Join(facets, i => i.ID, f => f.Key, (i, f) => new FacetViewModel<T>(i, f.Value)).ToList();
 		}
 			
 	}

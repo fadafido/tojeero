@@ -7,9 +7,9 @@ using Tojeero.Core.ViewModels;
 
 namespace Tojeero.Forms
 {
-	public partial class ObjectPickerCell : ViewCell
+	public partial class FacetPickerCell : ObjectPickerCell
 	{
-		public ObjectPickerCell()
+		public FacetPickerCell()
 		{
 			InitializeComponent();
 		}

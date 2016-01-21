@@ -21,6 +21,13 @@
 					IsNetworkAvailable="{Binding IsNetworkAvailable}"
 					TryAgainCommand="{Binding ReloadCommand}" />
 				<StackLayout
+					Padding="10,5,10,5"
+					IsVisible="{Binding CountLabel, Converter={StaticResource visibility}}">
+					<Label
+						Text="{Binding CountLabel}"
+						XAlign="Center" />
+				</StackLayout>
+				<StackLayout
 					Orientation="Vertical"
 					Spacing="5"
 					Padding="10">
@@ -86,10 +93,14 @@
 								FontSize="Micro" />
 							<Grid>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="*"/>
+									<ColumnDefinition
+										Width="*" />
+									<ColumnDefinition
+										Width="*" />
+									<ColumnDefinition
+										Width="*" />
+									<ColumnDefinition
+										Width="*" />
 								</Grid.ColumnDefinitions>
 								<Label
 									Text="{local:Translate LabelStartPrice}"
@@ -116,7 +127,7 @@
 							</Grid>
 						</StackLayout>
 						<local:TagCloud
-							Tags="{Binding ProductFilter.Tags}"/>
+							Tags="{Binding ProductFilter.Tags}" />
 					</StackLayout>
 				</StackLayout>
 			</StackLayout>

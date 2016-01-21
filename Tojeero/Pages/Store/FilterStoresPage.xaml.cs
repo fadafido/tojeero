@@ -53,10 +53,11 @@ namespace Tojeero.Forms
 
 		#region View Lifecycle
 
-		protected override void OnAppearing()
+		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
 			this.ViewModel.ReloadCommand.Execute(null);
+			await this.ViewModel.ReloadCount();
 		}
 
 		#endregion

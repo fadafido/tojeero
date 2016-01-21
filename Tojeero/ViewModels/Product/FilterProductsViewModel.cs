@@ -13,6 +13,7 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Private fields
 
+		private readonly IProductManager _productManager;
 		private readonly IProductCategoryManager _categoryManager;
 		private readonly IProductSubcategoryManager _subcategoryManager;
 		private readonly ICountryManager _countryManager;
@@ -25,10 +26,15 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public FilterProductsViewModel(IProductCategoryManager categoryManager, IProductSubcategoryManager subcategoryManager, 
-		                               ICountryManager countryManager, ICityManager cityManager, ITagManager tagManager)
+		public FilterProductsViewModel(IProductManager productManager, 
+		                               IProductCategoryManager categoryManager,
+		                               IProductSubcategoryManager subcategoryManager, 
+		                               ICountryManager countryManager, 
+		                               ICityManager cityManager, 
+		                               ITagManager tagManager)
 			: base()
 		{
+			this._productManager = productManager;
 			this._tagManager = tagManager;
 			this._cityManager = cityManager;
 			this._countryManager = countryManager;
@@ -86,6 +92,36 @@ namespace Tojeero.Core.ViewModels
 			{
 				_query = value; 
 				RaisePropertyChanged(() => Query); 
+			}
+		}
+
+		private int _count = -1;
+
+		public int Count
+		{ 
+			get
+			{
+				return _count; 
+			}
+			set
+			{
+				_count = value; 
+				RaisePropertyChanged(() => Count); 
+				RaisePropertyChanged(() => CountLabel); 
+			}
+		}
+
+		public string CountLabel
+		{
+			get
+			{
+				if (Count < 0)
+					return "";
+				if (Count == 0)
+					return "There are no matching products.";
+				if (Count == 1)
+					return "There is 1 matching product.";
+				return string.Format("There are {0} matching products.", ((decimal)Count).GetShortString());
 			}
 		}
 
@@ -225,6 +261,20 @@ namespace Tojeero.Core.ViewModels
 						RuntimeSettings.ProductFilter = this.ProductFilter;
 					});
 				return _doneCommand;
+			}
+		}
+
+		public async Task ReloadCount()
+		{
+			this.Count = -1;
+			try
+			{
+				this.Count = await _productManager.Count(this.Query, this.ProductFilter);
+			}
+			catch (Exception ex)
+			{
+				Tools.Logger.Log(ex, "Error occurred while loading matching products count", LoggingLevel.Error, true);
+				this.Count = -1;
 			}
 		}
 

@@ -72,6 +72,23 @@ namespace Tojeero.Core
 			}
 		}
 
+		public async Task<int> CountStores(string query, IStoreFilter filter = null)
+		{
+			var algoliaQuery = new Algolia.Search.Query(query);
+			algoliaQuery = getFilteredStoreQuery(algoliaQuery, filter);
+			algoliaQuery.SetNbHitsPerPage(0);
+			var result = await _storeIndex.SearchAsync(algoliaQuery);
+			try
+			{
+				var count = result["nbHits"].ToObject<int>();
+				return count;
+			}
+			catch
+			{
+			}
+			return -1;
+		}
+
 		public async Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset, bool includeInvisible = false)
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
@@ -237,7 +254,6 @@ namespace Tojeero.Core
 			algoliaQuery.SetNbHitsPerPage(0);
 			algoliaQuery.SetFacets(new string[] {facetAttribute});
 			var result = await _storeIndex.SearchAsync(algoliaQuery);
-			var json = result.ToString();
 			try
 			{
 				var facets = result["facets"][facetAttribute].ToObject<Dictionary<string, int>>();

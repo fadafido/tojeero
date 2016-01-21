@@ -21,6 +21,13 @@
 					IsNetworkAvailable="{Binding IsNetworkAvailable}"
 					TryAgainCommand="{Binding ReloadCommand}" />
 				<StackLayout
+					Padding="10,5,10,5"
+					IsVisible="{Binding CountLabel, Converter={StaticResource visibility}}">
+					<Label
+						Text="{Binding CountLabel}"
+						XAlign="Center" />
+				</StackLayout>
+				<StackLayout
 					Orientation="Vertical"
 					Spacing="5"
 					Padding="10">
@@ -65,7 +72,6 @@
 								SelectedObject="{Binding StoreFilter.Category, Mode=TwoWay}"
 								TextColor="{x:Static local:Colors.Black}" />
 						</StackLayout>
-
 					</StackLayout>
 				</StackLayout>
 			</StackLayout>

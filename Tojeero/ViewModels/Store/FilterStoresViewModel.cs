@@ -23,7 +23,7 @@ namespace Tojeero.Core.ViewModels
 		#region Constructors
 
 		public FilterStoresViewModel(IStoreCategoryManager categoryManager, ICountryManager countryManager, 
-			ICityManager cityManager, ITagManager tagManager)
+		                             ICityManager cityManager, ITagManager tagManager)
 			: base()
 		{
 			this._tagManager = tagManager;
@@ -53,18 +53,35 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		#endregion
+
 		#region Properties
 
 		private IStoreFilter _storeFilter;
+
 		public IStoreFilter StoreFilter
 		{
 			get
 			{
-				if(_storeFilter == null)
+				if (_storeFilter == null)
 				{
 					_storeFilter = RuntimeSettings.StoreFilter.Clone();
 				}
 				return _storeFilter;
+			}
+		}
+
+		private string _query;
+
+		public string Query
+		{ 
+			get
+			{
+				return _query; 
+			}
+			set
+			{
+				_query = value; 
+				RaisePropertyChanged(() => Query); 
 			}
 		}
 
@@ -87,10 +104,10 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return () => _categoryManager.GetFacets("", this.StoreFilter);
+				return () => _categoryManager.GetFacets(this.Query, this.StoreFilter);
 			}
 		}
-			
+
 		private ICountry[] _countries;
 
 		public ICountry[] Countries
@@ -110,7 +127,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return () => _countryManager.GetStoreCountryFacets("", this.StoreFilter);
+				return () => _countryManager.GetStoreCountryFacets(this.Query, this.StoreFilter);
 			}
 		}
 
@@ -134,7 +151,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return () => _cityManager.GetStoreCityFacets("", this.StoreFilter);
+				return () => _cityManager.GetStoreCityFacets(this.Query, this.StoreFilter);
 			}
 		}
 
@@ -152,6 +169,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Tags); 
 			}
 		}
+
 		#endregion
 
 		#region Commands
@@ -226,7 +244,7 @@ namespace Tojeero.Core.ViewModels
 			using (var writerLock = await _citiesLock.WriterLockAsync())
 			{
 				if (!(this.StoreFilter.Country == null || this.Countries == null || this.Countries.Length == 0) &&
-					!(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.StoreFilter.Country.ID))
+				    !(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.StoreFilter.Country.ID))
 				{
 					try
 					{
@@ -258,7 +276,7 @@ namespace Tojeero.Core.ViewModels
 			this.Countries = result != null ? result.ToArray() : null;
 		}
 
-		private async void StoreFilter_PropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void StoreFilter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Country")
 			{
@@ -268,10 +286,10 @@ namespace Tojeero.Core.ViewModels
 
 		private string handleException(Exception exception)
 		{
-			try 
+			try
 			{
 				throw exception;
-			} 
+			}
 			catch (OperationCanceledException ex)
 			{
 				Tools.Logger.Log(ex, LoggingLevel.Warning);
@@ -283,6 +301,7 @@ namespace Tojeero.Core.ViewModels
 				return AppResources.MessageLoadingFailed;
 			}
 		}
+
 		#endregion
 	}
 }

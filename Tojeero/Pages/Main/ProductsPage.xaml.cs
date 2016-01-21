@@ -40,7 +40,7 @@ namespace Tojeero.Forms
 			this.ViewModel = MvxToolbox.LoadViewModel<ProductsViewModel>();
 			this.ViewModel.ShowFiltersAction = async () =>
 			{
-				await this.Navigation.PushModalAsync(new NavigationPage(new FilterProductsPage()));
+					await this.Navigation.PushModalAsync(new NavigationPage(new FilterProductsPage(this.ViewModel.SearchQuery)));
 			};
 
 			this.ViewModel.ChangeListModeAction = (mode) =>

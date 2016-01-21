@@ -19,15 +19,8 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
 			{
-				var query = new ParseQuery<ParseStore>().Where(s => s.IsBlocked == false).OrderBy(s => s.LowercaseName);
-				query = addStoreIncludedFields(query);
-				if (pageSize > 0 && offset >= 0)
-				{
-					query = query.Limit(pageSize).Skip(offset);
-				}
-				query = getFilteredStoreQuery(query, filter);
-				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
-				return result.Select(s => new Store(s) as IStore);
+				var result = await FindStores("", pageSize, offset, filter);
+				return result;
 			}
 		}
 
@@ -164,7 +157,7 @@ namespace Tojeero.Core
 
 		public async Task<Dictionary<string, int>> GetStoreCountryFacets(string query, IStoreFilter filter = null)
 		{
-			var result = await getStoreAttributeFacets(query, "countryID", filter);
+			var result = await getStoreAttributeFacets(query, "countryID", filter, "cityID");
 			return result;
 		}
 
@@ -237,13 +230,13 @@ namespace Tojeero.Core
 			return query;
 		}
 
-		private async Task<Dictionary<string, int>> getStoreAttributeFacets(string query, string facetAttribute, IStoreFilter filter = null)
+		private async Task<Dictionary<string, int>> getStoreAttributeFacets(string query, string facetAttribute, IStoreFilter filter = null, params string[] childFacets)
 		{
-			var algoliaQuery = new Algolia.Search.Query();
-			algoliaQuery = getFilteredStoreQuery(algoliaQuery, filter, facetAttribute);
+			var algoliaQuery = new Algolia.Search.Query(query);
+			algoliaQuery = getFilteredStoreQuery(algoliaQuery, filter, new string[] {facetAttribute}.Concatenate(childFacets));
 			algoliaQuery.SetNbHitsPerPage(0);
 			algoliaQuery.SetFacets(new string[] {facetAttribute});
-			var result = await _productIndex.SearchAsync(algoliaQuery);
+			var result = await _storeIndex.SearchAsync(algoliaQuery);
 			var json = result.ToString();
 			try
 			{

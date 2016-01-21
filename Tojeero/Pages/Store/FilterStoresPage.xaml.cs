@@ -14,9 +14,10 @@ namespace Tojeero.Forms
 	{
 		#region Constructors
 
-		public FilterStoresPage()
+		public FilterStoresPage(string query = null)
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<FilterStoresViewModel>();
+			this.ViewModel.Query = query;
 			InitializeComponent();
 			setupPickers();
 			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "", async () =>

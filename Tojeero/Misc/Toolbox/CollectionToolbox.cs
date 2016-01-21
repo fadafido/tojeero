@@ -105,6 +105,18 @@ namespace Tojeero.Core.Toolbox
 				return null;
 			return objects.Join(facets, i => i.ID, f => f.Key, (i, f) => new FacetViewModel<T>(i, f.Value)).ToList();
 		}
+
+		public static T[] Concatenate<T>(this T[] arr1, T[] arr2)
+		{
+			if (arr1 == null)
+				return arr2;
+			if (arr2 == null)
+				return arr1;
+			var z = new T[arr1.Length + arr2.Length];
+			arr1.CopyTo(z, 0);
+			arr2.CopyTo(z, arr1.Length);
+			return z;
+		}
 			
 	}
 }

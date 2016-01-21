@@ -20,16 +20,8 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchProductsTimeout))
 			{
-				var query = new ParseQuery<ParseProduct>().OrderBy(p => p.LowercaseName);
-				query = addProductVisibilityConditions(query);
-				query = addProductIncludedFields(query);
-				if (pageSize > 0 && offset >= 0)
-				{
-					query = query.Limit(pageSize).Skip(offset);
-				}
-				query = getFilteredProductQuery(query, filter);
-				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
-				return result.Select(p => new Product(p) as IProduct);
+				var result = await FindProducts("", pageSize, offset, filter);
+				return result;
 			}
 		}
 
@@ -121,7 +113,7 @@ namespace Tojeero.Core
 
 		public async Task<Dictionary<string, int>> GetProductCategoryFacets(string query, IProductFilter filter = null)
 		{
-			var result = await getProductAttributeFacets(query, "categoryID", filter);
+			var result = await getProductAttributeFacets(query, "categoryID", filter, "subcategoryID");
 			return result;
 		}
 
@@ -133,7 +125,7 @@ namespace Tojeero.Core
 
 		public async Task<Dictionary<string, int>> GetProductCountryFacets(string query, IProductFilter filter = null)
 		{
-			var result = await getProductAttributeFacets(query, "countryID", filter);
+			var result = await getProductAttributeFacets(query, "countryID", filter, "cityID");
 			return result;
 		}
 
@@ -244,10 +236,10 @@ namespace Tojeero.Core
 			return query;
 		}
 
-		private async Task<Dictionary<string, int>> getProductAttributeFacets(string query, string facetAttribute, IProductFilter filter = null)
+		private async Task<Dictionary<string, int>> getProductAttributeFacets(string query, string facetAttribute, IProductFilter filter = null, params string[] childFacets)
 		{
-			var algoliaQuery = new Algolia.Search.Query();
-			algoliaQuery = getFilteredProductQuery(algoliaQuery, filter, facetAttribute);
+			var algoliaQuery = new Algolia.Search.Query(query);
+			algoliaQuery = getFilteredProductQuery(algoliaQuery, filter, new string[] {facetAttribute}.Concatenate(childFacets));
 			algoliaQuery.SetNbHitsPerPage(0);
 			algoliaQuery.SetFacets(new string[] {facetAttribute});
 			var result = await _productIndex.SearchAsync(algoliaQuery);

@@ -26,7 +26,7 @@ namespace Tojeero.Core.ViewModels
 		#region Constructors
 
 		public FilterProductsViewModel(IProductCategoryManager categoryManager, IProductSubcategoryManager subcategoryManager, 
-			ICountryManager countryManager, ICityManager cityManager, ITagManager tagManager)
+		                               ICountryManager countryManager, ICityManager cityManager, ITagManager tagManager)
 			: base()
 		{
 			this._tagManager = tagManager;
@@ -57,18 +57,35 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		#endregion
+
 		#region Properties
 
 		private IProductFilter _productFilter;
+
 		public IProductFilter ProductFilter
 		{
 			get
 			{
-				if(_productFilter == null)
+				if (_productFilter == null)
 				{
 					_productFilter = RuntimeSettings.ProductFilter.Clone();
 				}
 				return _productFilter;
+			}
+		}
+
+		private string _query;
+
+		public string Query
+		{ 
+			get
+			{
+				return _query; 
+			}
+			set
+			{
+				_query = value; 
+				RaisePropertyChanged(() => Query); 
 			}
 		}
 
@@ -91,7 +108,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return () => _categoryManager.GetFacets("", this.ProductFilter);
+				return () => _categoryManager.GetFacets(this.Query, this.ProductFilter);
 			}
 		}
 
@@ -114,7 +131,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return () => _subcategoryManager.GetFacets("", this.ProductFilter);
+				return () => _subcategoryManager.GetFacets(this.Query, this.ProductFilter);
 			}
 		}
 
@@ -132,12 +149,12 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Countries); 
 			}
 		}
-			
+
 		public Func<Task<Dictionary<string,int>>> FetchCountryFacets
 		{
 			get
 			{
-				return () => _countryManager.GetProductCountryFacets("", this.ProductFilter);
+				return () => _countryManager.GetProductCountryFacets(this.Query, this.ProductFilter);
 			}
 		}
 
@@ -160,7 +177,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return () => _cityManager.GetProductCityFacets("", this.ProductFilter);
+				return () => _cityManager.GetProductCityFacets(this.Query, this.ProductFilter);
 			}
 		}
 
@@ -178,6 +195,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Tags); 
 			}
 		}
+
 		#endregion
 
 		#region Commands
@@ -253,7 +271,7 @@ namespace Tojeero.Core.ViewModels
 			using (var writerLock = await _citiesLock.WriterLockAsync())
 			{
 				if (!(this.ProductFilter.Country == null || this.Countries == null || this.Countries.Length == 0) &&
-					!(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.ProductFilter.Country.ID))
+				    !(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.ProductFilter.Country.ID))
 				{
 					try
 					{
@@ -276,7 +294,7 @@ namespace Tojeero.Core.ViewModels
 			using (var writerLock = await _subcategoriesLock.WriterLockAsync())
 			{
 				if (!(this.ProductFilter.Category == null || this.Categories == null || this.Categories.Length == 0) &&
-					!(this.Subcategories != null && this.Subcategories.Length > 0 && this.Subcategories[0].CategoryID == this.ProductFilter.Category.ID))
+				    !(this.Subcategories != null && this.Subcategories.Length > 0 && this.Subcategories[0].CategoryID == this.ProductFilter.Category.ID))
 				{
 					try
 					{
@@ -308,7 +326,7 @@ namespace Tojeero.Core.ViewModels
 			this.Countries = result != null ? result.ToArray() : null;
 		}
 
-		private async void ProductFilter_PropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void ProductFilter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Country")
 			{
@@ -322,10 +340,10 @@ namespace Tojeero.Core.ViewModels
 
 		private string handleException(Exception exception)
 		{
-			try 
+			try
 			{
 				throw exception;
-			} 
+			}
 			catch (OperationCanceledException ex)
 			{
 				Tools.Logger.Log(ex, LoggingLevel.Warning);
@@ -337,6 +355,7 @@ namespace Tojeero.Core.ViewModels
 				return AppResources.MessageLoadingFailed;
 			}
 		}
+
 		#endregion
 	}
 }

@@ -41,7 +41,7 @@
 									Text="{local:Translate LabelAddMainImage}"
 									TextColor="{x:Static local:Colors.Main}"
 									FontSize="10"
-									XAlign="Center" />
+									HorizontalTextAlignment="Center" />
 							</StackLayout>
 							<local:MultiImageControl
 								x:Name="multiImagePicker"

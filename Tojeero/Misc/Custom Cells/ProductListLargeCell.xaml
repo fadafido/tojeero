@@ -54,7 +54,7 @@
 				FontSize="15"
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand"
-				YAlign="Center" />
+				VerticalTextAlignment="Center" />
 			<local:ImageButton
 				Grid.Row="1"
 				Grid.Column="2"

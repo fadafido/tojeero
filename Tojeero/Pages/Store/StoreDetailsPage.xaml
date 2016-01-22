@@ -30,7 +30,7 @@
 					<Label
 						Text="{Binding StatusWarning}"
 						Style="{StaticResource LabelInvalid}"
-						XAlign="Center"
+						HorizontalTextAlignment="Center"
 						FontSize="15" />
 				</StackLayout>
 				<!--STORE IMAGE-->

@@ -59,7 +59,7 @@
 				FontSize="14"
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand"
-				YAlign="Center" />
+				VerticalTextAlignment="Center" />
 			<local:ImageButton
 				Grid.Column="3"
 				VerticalOptions="Center"
@@ -91,7 +91,7 @@
 					LineBreakMode="TailTruncation"
 					VerticalOptions="FillAndExpand"
 					HorizontalOptions="FillAndExpand"
-					YAlign="Center" />
+					VerticalTextAlignment="Center" />
 			</StackLayout>
 			<StackLayout
 				Grid.Row="2"

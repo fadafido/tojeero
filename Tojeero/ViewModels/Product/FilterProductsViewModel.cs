@@ -6,407 +6,579 @@ using System.Linq;
 using Nito.AsyncEx;
 using Tojeero.Core.Toolbox;
 using System.Collections.Generic;
+using System.Windows.Input;
+using Cirrious.MvvmCross.ViewModels;
+using Xamarin.Forms;
+using Tojeero.Forms;
 
 namespace Tojeero.Core.ViewModels
 {
-	public class FilterProductsViewModel : LoadableNetworkViewModel, IDisposable
-	{
-		#region Private fields
+    public class FilterProductsViewModel : LoadableNetworkViewModel, IDisposable
+    {
+        #region Private fields
 
-		private readonly IProductManager _productManager;
-		private readonly IProductCategoryManager _categoryManager;
-		private readonly IProductSubcategoryManager _subcategoryManager;
-		private readonly ICountryManager _countryManager;
-		private readonly ICityManager _cityManager;
-		private readonly ITagManager _tagManager;
-		private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
-		private AsyncReaderWriterLock _subcategoriesLock = new AsyncReaderWriterLock();
+        private readonly IProductManager _productManager;
+        private readonly IProductCategoryManager _categoryManager;
+        private readonly IProductSubcategoryManager _subcategoryManager;
+        private readonly ICountryManager _countryManager;
+        private readonly ICityManager _cityManager;
+        private readonly ITagManager _tagManager;
+        private AsyncReaderWriterLock _citiesLock = new AsyncReaderWriterLock();
+        private AsyncReaderWriterLock _subcategoriesLock = new AsyncReaderWriterLock();
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public FilterProductsViewModel(IProductManager productManager, 
-		                               IProductCategoryManager categoryManager,
-		                               IProductSubcategoryManager subcategoryManager, 
-		                               ICountryManager countryManager, 
-		                               ICityManager cityManager, 
-		                               ITagManager tagManager)
-			: base()
-		{
-			this._productManager = productManager;
-			this._tagManager = tagManager;
-			this._cityManager = cityManager;
-			this._countryManager = countryManager;
-			this._subcategoryManager = subcategoryManager;
-			this._categoryManager = categoryManager;
-			this.ProductFilter.PropertyChanged += ProductFilter_PropertyChanged;
-		}
+        public FilterProductsViewModel(IProductManager productManager,
+                                       IProductCategoryManager categoryManager,
+                                       IProductSubcategoryManager subcategoryManager,
+                                       ICountryManager countryManager,
+                                       ICityManager cityManager,
+                                       ITagManager tagManager)
+            : base()
+        {
+            this._productManager = productManager;
+            this._tagManager = tagManager;
+            this._cityManager = cityManager;
+            this._countryManager = countryManager;
+            this._subcategoryManager = subcategoryManager;
+            this._categoryManager = categoryManager;
+            this.ProductFilter.PropertyChanged += ProductFilter_PropertyChanged;
+        }
 
-		#endregion
+        #endregion
 
 
-		#region IDisposable implementation
+        #region IDisposable implementation
 
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		protected virtual void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				ProductFilter.PropertyChanged -= ProductFilter_PropertyChanged;	
-			}
-		}
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ProductFilter.PropertyChanged -= ProductFilter_PropertyChanged;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private IProductFilter _productFilter;
+        private IProductFilter _productFilter;
 
-		public IProductFilter ProductFilter
-		{
-			get
-			{
-				if (_productFilter == null)
-				{
-					_productFilter = RuntimeSettings.ProductFilter.Clone();
-				}
-				return _productFilter;
-			}
-		}
+        public IProductFilter ProductFilter
+        {
+            get
+            {
+                if (_productFilter == null)
+                {
+                    _productFilter = RuntimeSettings.ProductFilter.Clone();
+                }
+                return _productFilter;
+            }
+        }
 
-		private string _query;
+        private string _query;
 
-		public string Query
-		{ 
-			get
-			{
-				return _query; 
-			}
-			set
-			{
-				_query = value; 
-				RaisePropertyChanged(() => Query); 
-			}
-		}
+        public string Query
+        {
+            get
+            {
+                return _query;
+            }
+            set
+            {
+                _query = value;
+                RaisePropertyChanged(() => Query);
+            }
+        }
 
-		private int _count = -1;
+        private int _count = -1;
 
-		public int Count
-		{ 
-			get
-			{
-				return _count; 
-			}
-			set
-			{
-				_count = value; 
-				RaisePropertyChanged(() => Count); 
-				RaisePropertyChanged(() => CountLabel); 
-			}
-		}
+        public int Count
+        {
+            get
+            {
+                return _count;
+            }
+            set
+            {
+                _count = value;
+                RaisePropertyChanged(() => Count);
+                RaisePropertyChanged(() => CountLabel);
+            }
+        }
 
-		public string CountLabel
-		{
-			get
-			{
-				if (Count < 0)
-					return "";
-				if (Count == 0)
-					return "There are no matching products.";
-				if (Count == 1)
-					return "There is 1 matching product.";
-				return string.Format("There are {0} matching products.", ((decimal)Count).GetShortString());
-			}
-		}
+        private string _loadingCountLabel;
 
-		private IProductCategory[] _categories;
+        public string CountLabel
+        {
+            get
+            {
+                RaisePropertyChanged(() => CountLabelBackgroundColor);
+                RaisePropertyChanged(() => CountLabelTextColor);
 
-		public IProductCategory[] Categories
-		{ 
-			get
-			{
-				return _categories; 
-			}
-			set
-			{
-				_categories = value; 
-				RaisePropertyChanged(() => Categories); 
-			}
-		}
+                if (!string.IsNullOrEmpty(_loadingCountLabel))
+                    return _loadingCountLabel;
+                if (Count < 0)
+                    return "";
+                if (Count == 0)
+                    return AppResources.MessageNoMatchingProducts;
+                if (Count == 1)
+                    return AppResources.MessageSingleMatchingProduct;
+                return string.Format(AppResources.MessageMatchingProducts, ((decimal)Count).GetShortString());
+            }
+        }
 
-		public Func<Task<Dictionary<string,int>>> FetchCategoryFacets
-		{
-			get
-			{
-				return () => _categoryManager.GetFacets(this.Query, this.ProductFilter);
-			}
-		}
+        public Color CountLabelBackgroundColor
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_loadingCountLabel))
+                    return Colors.HeaderPositive;
+                if (Count < 0)
+                    return Color.Transparent;
+                if (Count == 0)
+                    return Colors.HeaderWarning;
+                return Colors.HeaderPositive;
+            }
+        }
 
-		private IProductSubcategory[] _subcategories;
+        public Color CountLabelTextColor
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_loadingCountLabel))
+                    return Colors.HeaderPositiveText;
+                if (Count < 0)
+                    return Color.Transparent;
+                if (Count == 0)
+                    return Colors.HeaderWarningText;
+                return Colors.HeaderPositiveText;
+            }
+        }
 
-		public IProductSubcategory[] Subcategories
-		{ 
-			get
-			{
-				return _subcategories; 
-			}
-			set
-			{
-				_subcategories = value; 
-				RaisePropertyChanged(() => Subcategories); 
-			}
-		}
+        private IProductCategory[] _categories;
 
-		public Func<Task<Dictionary<string,int>>> FetchSubcategoryFacets
-		{
-			get
-			{
-				return () => _subcategoryManager.GetFacets(this.Query, this.ProductFilter);
-			}
-		}
+        public IProductCategory[] Categories
+        {
+            get
+            {
+                return _categories;
+            }
+            set
+            {
+                _categories = value;
+                RaisePropertyChanged(() => Categories);
+            }
+        }
 
-		private ICountry[] _countries;
+        public Func<Task<Dictionary<string, int>>> FetchCategoryFacets
+        {
+            get
+            {
+                return () => _categoryManager.GetFacets(this.Query, this.ProductFilter);
+            }
+        }
 
-		public ICountry[] Countries
-		{ 
-			get
-			{
-				return _countries; 
-			}
-			set
-			{
-				_countries = value; 
-				RaisePropertyChanged(() => Countries); 
-			}
-		}
+        private IProductSubcategory[] _subcategories;
 
-		public Func<Task<Dictionary<string,int>>> FetchCountryFacets
-		{
-			get
-			{
-				return () => _countryManager.GetProductCountryFacets(this.Query, this.ProductFilter);
-			}
-		}
+        public IProductSubcategory[] Subcategories
+        {
+            get
+            {
+                return _subcategories;
+            }
+            set
+            {
+                _subcategories = value;
+                RaisePropertyChanged(() => Subcategories);
+                RaisePropertyChanged(() => IsSubcategoriesPickerEnabled);
+            }
+        }
 
-		private ICity[] _cities;
+        public Func<Task<Dictionary<string, int>>> FetchSubcategoryFacets
+        {
+            get
+            {
+                return () => _subcategoryManager.GetFacets(this.Query, this.ProductFilter);
+            }
+        }
 
-		public ICity[] Cities
-		{ 
-			get
-			{
-				return _cities; 
-			}
-			set
-			{
-				_cities = value; 
-				RaisePropertyChanged(() => Cities); 
-			}
-		}
+        public bool IsSubcategoriesPickerEnabled => ProductFilter.Category != null && Subcategories != null && this.Subcategories.Length > 0;
 
-		public Func<Task<Dictionary<string,int>>> FetchCityFacets
-		{
-			get
-			{
-				return () => _cityManager.GetProductCityFacets(this.Query, this.ProductFilter);
-			}
-		}
+        private ICountry[] _countries;
 
-		private ObservableCollection<ITag> _tags;
+        public ICountry[] Countries
+        {
+            get
+            {
+                return _countries;
+            }
+            set
+            {
+                _countries = value;
+                RaisePropertyChanged(() => Countries);
+            }
+        }
 
-		public ObservableCollection<ITag> Tags
-		{ 
-			get
-			{
-				return _tags; 
-			}
-			set
-			{
-				_tags = value; 
-				RaisePropertyChanged(() => Tags); 
-			}
-		}
+        public Func<Task<Dictionary<string, int>>> FetchCountryFacets
+        {
+            get
+            {
+                return () => _countryManager.GetProductCountryFacets(this.Query, this.ProductFilter);
+            }
+        }
 
-		#endregion
+        private ICity[] _cities;
 
-		#region Commands
+        public ICity[] Cities
+        {
+            get
+            {
+                return _cities;
+            }
+            set
+            {
+                _cities = value;
+                RaisePropertyChanged(() => Cities);
+                RaisePropertyChanged(() => IsCitiesPickerEnabled);
+            }
+        }
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+        public Func<Task<Dictionary<string, int>>> FetchCityFacets
+        {
+            get
+            {
+                return () => _cityManager.GetProductCityFacets(this.Query, this.ProductFilter);
+            }
+        }
 
-		public System.Windows.Input.ICommand ReloadCommand
-		{
-			get
-			{
-				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						await reload();
-					}, () => !IsLoading);
-				return _reloadCommand;
-			}
-		}
+        public bool IsCitiesPickerEnabled => ProductFilter.Country != null && this.Cities != null && this.Cities.Length > 0;
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _doneCommand;
+        private ObservableCollection<ITag> _tags;
 
-		public System.Windows.Input.ICommand DoneCommand
-		{
-			get
-			{
-				_doneCommand = _doneCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
-					{
-						RuntimeSettings.ProductFilter = this.ProductFilter;
-					});
-				return _doneCommand;
-			}
-		}
+        public ObservableCollection<ITag> Tags
+        {
+            get
+            {
+                return _tags;
+            }
+            set
+            {
+                _tags = value;
+                RaisePropertyChanged(() => Tags);
+            }
+        }
 
-		public async Task ReloadCount()
-		{
-			this.Count = -1;
-			try
-			{
-				this.Count = await _productManager.Count(this.Query, this.ProductFilter);
-			}
-			catch (Exception ex)
-			{
-				Tools.Logger.Log(ex, "Error occurred while loading matching products count", LoggingLevel.Error, true);
-				this.Count = -1;
-			}
-		}
+        #endregion
 
-		#endregion
+        #region Commands
 
-		#region Protected API
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
 
-		protected override void handleNetworkConnectionChanged(object sender, Connectivity.Plugin.Abstractions.ConnectivityChangedEventArgs e)
-		{
-			base.handleNetworkConnectionChanged(sender, e);
-			if (e.IsConnected)
-			{
-				this.ReloadCommand.Execute(null);
-			}
-		}
+        public System.Windows.Input.ICommand ReloadCommand
+        {
+            get
+            {
+                _reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+                    {
+                        await reload();
+                    }, () => !IsLoading);
+                return _reloadCommand;
+            }
+        }
 
-		#endregion
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _doneCommand;
 
-		#region Utility methods
+        public System.Windows.Input.ICommand DoneCommand
+        {
+            get
+            {
+                _doneCommand = _doneCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
+                    {
+                        RuntimeSettings.ProductFilter = this.ProductFilter;
+                    });
+                return _doneCommand;
+            }
+        }
 
-		private async Task reload()
-		{
-			this.StartLoading(AppResources.MessageGeneralLoading);
-			string failureMessage = null;
-			try
-			{
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _clearCountryCommand;
 
-				await loadCountries();
-				await reloadCities();
-				await loadCategories();
-				await reloadSubcategories();
-			}
-			catch (Exception ex)
-			{
-				failureMessage = handleException(ex);
-			}
-			StopLoading(failureMessage);
-		}
+        public System.Windows.Input.ICommand ClearCountryCommand
+        {
+            get
+            {
+                _clearCountryCommand = _clearCountryCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+                    {
+                        this.ProductFilter.Country = null;
+                        await ReloadCount();
+                    });
+                return _clearCountryCommand;
+            }
+        }
 
-		private async Task reloadCities()
-		{
-			this.StartLoading(AppResources.MessageGeneralLoading);
-			string failureMessage = null;
-			using (var writerLock = await _citiesLock.WriterLockAsync())
-			{
-				if (!(this.ProductFilter.Country == null || this.Countries == null || this.Countries.Length == 0) &&
-				    !(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.ProductFilter.Country.ID))
-				{
-					try
-					{
-						var result = await _cityManager.Fetch(this.ProductFilter.Country.ID);
-						this.Cities = result != null ? result.ToArray() : null;
-					}
-					catch (Exception ex)
-					{
-						failureMessage = handleException(ex);
-					}
-				}
-			}
-			StopLoading(failureMessage);
-		}
 
-		private async Task reloadSubcategories()
-		{
-			this.StartLoading(AppResources.MessageGeneralLoading);
-			string failureMessage = null;
-			using (var writerLock = await _subcategoriesLock.WriterLockAsync())
-			{
-				if (!(this.ProductFilter.Category == null || this.Categories == null || this.Categories.Length == 0) &&
-				    !(this.Subcategories != null && this.Subcategories.Length > 0 && this.Subcategories[0].CategoryID == this.ProductFilter.Category.ID))
-				{
-					try
-					{
-						var result = await _subcategoryManager.Fetch(this.ProductFilter.Category.ID);
-						this.Subcategories = result != null ? result.ToArray() : null;
-					}
-					catch (Exception ex)
-					{
-						failureMessage = handleException(ex);
-					}
-				}
-			}
-			StopLoading(failureMessage);
-		}
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _clearCityCommand;
 
-		private async Task loadCategories()
-		{
-			if (this.Categories != null && this.Categories.Length > 0)
-				return;
-			var result = await _categoryManager.Fetch();
-			this.Categories = result != null ? result.ToArray() : null;
-		}
+        public System.Windows.Input.ICommand ClearCityCommand
+        {
+            get
+            {
+                _clearCityCommand = _clearCityCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+                    {
+                        this.ProductFilter.City = null;
+                        await ReloadCount();
+                    });
+                return _clearCityCommand;
+            }
+        }
 
-		private async Task loadCountries()
-		{
-			if (this.Countries != null && this.Countries.Length > 0)
-				return;
-			var result = await _countryManager.Fetch();
-			this.Countries = result != null ? result.ToArray() : null;
-		}
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _clearCategoryCommand;
 
-		private async void ProductFilter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Country")
-			{
-				await reloadCities();
-			}
-			else if (e.PropertyName == "Category")
-			{
-				await reloadSubcategories();
-			}
-		}
+        public System.Windows.Input.ICommand ClearCategoryCommand
+        {
+            get
+            {
+                _clearCategoryCommand = _clearCategoryCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+                    {
+                        this.ProductFilter.Category = null;
+                        await ReloadCount();
+                    });
+                return _clearCategoryCommand;
+            }
+        }
 
-		private string handleException(Exception exception)
-		{
-			try
-			{
-				throw exception;
-			}
-			catch (OperationCanceledException ex)
-			{
-				Tools.Logger.Log(ex, LoggingLevel.Warning);
-				return AppResources.MessageLoadingTimeOut;
-			}
-			catch (Exception ex)
-			{
-				Tools.Logger.Log(ex, "Error occured while loading data in product filter screen.", LoggingLevel.Error, true);
-				return AppResources.MessageLoadingFailed;
-			}
-		}
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _clearSubcategoryCommand;
 
-		#endregion
-	}
+        public System.Windows.Input.ICommand ClearSubcategoryCommand
+        {
+            get
+            {
+                _clearSubcategoryCommand = _clearSubcategoryCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+                    {
+                        this.ProductFilter.Subcategory = null;
+                        await ReloadCount();
+                    });
+                return _clearSubcategoryCommand;
+            }
+        }
+
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _clearStartPriceCommand;
+
+        public System.Windows.Input.ICommand ClearStartPriceCommand
+        {
+            get
+            {
+                _clearStartPriceCommand = _clearStartPriceCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+                    {
+                        this.ProductFilter.StartPrice = null;
+                        await ReloadCount();
+                    }, () => true);
+                return _clearStartPriceCommand;
+            }
+        }
+
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _clearEndPriceCommand;
+
+        public System.Windows.Input.ICommand ClearEndPriceCommand
+        {
+            get
+            {
+                _clearEndPriceCommand = _clearEndPriceCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+                    {
+                        this.ProductFilter.EndPrice = null;
+                        await ReloadCount();
+                    });
+                return _clearEndPriceCommand;
+            }
+        }
+
+        private MvxCommand _resetFiltersCommand;
+
+        public ICommand ResetFiltersCommand
+        {
+            get
+            {
+                _resetFiltersCommand = _resetFiltersCommand ?? new MvxCommand( async () =>
+                {
+                    this.ProductFilter.Country = null;
+                    this.ProductFilter.City = null;
+                    this.ProductFilter.Category = null;
+                    this.ProductFilter.Subcategory = null;
+                    this.ProductFilter.Tags.Clear();
+                    this.ProductFilter.StartPrice = null;
+                    this.ProductFilter.EndPrice = null;
+                    await ReloadCount();
+                });
+                return _resetFiltersCommand;
+            }
+        }
+
+        public async Task ReloadCount()
+        {
+            _loadingCountLabel = "Loading matches...";
+            RaisePropertyChanged(() => CountLabel);
+            try
+            {
+                this.Count = await _productManager.Count(this.Query, this.ProductFilter);
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log(ex, "Error occurred while loading matching products count", LoggingLevel.Error, true);
+                this.Count = -1;
+            }
+            _loadingCountLabel = null;
+            RaisePropertyChanged(() => CountLabel);
+        }
+
+        #endregion
+
+        #region Protected API
+
+        protected override void handleNetworkConnectionChanged(object sender, Connectivity.Plugin.Abstractions.ConnectivityChangedEventArgs e)
+        {
+            base.handleNetworkConnectionChanged(sender, e);
+            if (e.IsConnected)
+            {
+                this.ReloadCommand.Execute(null);
+            }
+        }
+
+        #endregion
+
+        #region Utility methods
+
+        private async Task reload()
+        {
+            this.StartLoading(AppResources.MessageGeneralLoading);
+            string failureMessage = null;
+            try
+            {
+
+                await loadCountries();
+                await reloadCities();
+                await loadCategories();
+                await reloadSubcategories();
+            }
+            catch (Exception ex)
+            {
+                failureMessage = handleException(ex);
+            }
+            StopLoading(failureMessage);
+        }
+
+        private async Task reloadCities()
+        {
+            this.StartLoading(AppResources.MessageGeneralLoading);
+            string failureMessage = null;
+            using (var writerLock = await _citiesLock.WriterLockAsync())
+            {
+                if (this.ProductFilter.Country == null)
+                {
+                    this.Cities = null;
+                    this.ProductFilter.City = null;
+                }
+                else if (!(this.ProductFilter.Country == null || this.Countries == null || this.Countries.Length == 0) &&
+                         !(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.ProductFilter.Country.ID))
+                {
+                    try
+                    {
+                        var result = await _cityManager.Fetch(this.ProductFilter.Country.ID);
+                        this.Cities = result != null ? result.ToArray() : null;
+                    }
+                    catch (Exception ex)
+                    {
+                        failureMessage = handleException(ex);
+                    }
+                }
+            }
+            StopLoading(failureMessage);
+        }
+
+        private async Task reloadSubcategories()
+        {
+            this.StartLoading(AppResources.MessageGeneralLoading);
+            string failureMessage = null;
+            using (var writerLock = await _subcategoriesLock.WriterLockAsync())
+            {
+                if (this.ProductFilter.Category == null)
+                {
+                    this.Subcategories = null;
+                    this.ProductFilter.Subcategory = null;
+                }
+                else if (!(this.ProductFilter.Category == null || this.Categories == null || this.Categories.Length == 0) &&
+                         !(this.Subcategories != null && this.Subcategories.Length > 0 && this.Subcategories[0].CategoryID == this.ProductFilter.Category.ID))
+                {
+                    try
+                    {
+                        var result = await _subcategoryManager.Fetch(this.ProductFilter.Category.ID);
+                        this.Subcategories = result != null ? result.ToArray() : null;
+                    }
+                    catch (Exception ex)
+                    {
+                        failureMessage = handleException(ex);
+                    }
+                }
+            }
+            StopLoading(failureMessage);
+        }
+
+        private async Task loadCategories()
+        {
+            if (this.Categories != null && this.Categories.Length > 0)
+                return;
+            var result = await _categoryManager.Fetch();
+            this.Categories = result != null ? result.ToArray() : null;
+        }
+
+        private async Task loadCountries()
+        {
+            if (this.Countries != null && this.Countries.Length > 0)
+                return;
+            var result = await _countryManager.Fetch();
+            this.Countries = result != null ? result.ToArray() : null;
+        }
+
+        private async void ProductFilter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Country")
+            {
+                RaisePropertyChanged(() => IsCitiesPickerEnabled);
+                await reloadCities();
+            }
+            else if (e.PropertyName == "Category")
+            {
+                RaisePropertyChanged(() => IsSubcategoriesPickerEnabled);
+                await reloadSubcategories();
+            }
+        }
+
+        private string handleException(Exception exception)
+        {
+            try
+            {
+                throw exception;
+            }
+            catch (OperationCanceledException ex)
+            {
+                Tools.Logger.Log(ex, LoggingLevel.Warning);
+                return AppResources.MessageLoadingTimeOut;
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log(ex, "Error occured while loading data in product filter screen.", LoggingLevel.Error, true);
+                return AppResources.MessageLoadingFailed;
+            }
+        }
+
+        #endregion
+    }
 }
 

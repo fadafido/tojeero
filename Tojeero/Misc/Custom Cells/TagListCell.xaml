@@ -25,7 +25,7 @@
 			LineBreakMode="TailTruncation"
 			VerticalOptions="FillAndExpand"
 			HorizontalOptions="StartAndExpand"
-			YAlign="Center" />
+			VerticalTextAlignment="Center" />
 		<Image
 			Grid.Column="1"
 			x:Name="checkmark"

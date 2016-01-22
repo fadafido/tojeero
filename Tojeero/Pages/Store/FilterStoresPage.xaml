@@ -25,7 +25,7 @@
 					IsVisible="{Binding CountLabel, Converter={StaticResource visibility}}">
 					<Label
 						Text="{Binding CountLabel}"
-						XAlign="Center" />
+						HorizontalTextAlignment="Center" />
 				</StackLayout>
 				<StackLayout
 					Orientation="Vertical"

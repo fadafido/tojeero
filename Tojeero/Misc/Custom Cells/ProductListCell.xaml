@@ -74,7 +74,7 @@
 					TextColor="{Binding WarningColor}"
 					IsVisible="{Binding StatusWarning, Converter={StaticResource visibility}}"
 					FontSize="10"
-					XAlign="End"/>
+					HorizontalTextAlignment="End"/>
 			</StackLayout>
 			<StackLayout
 				Grid.Row="2"

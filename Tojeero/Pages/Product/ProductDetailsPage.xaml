@@ -31,7 +31,7 @@
 						Text="{Binding StatusWarning}"
 						TextColor="{Binding WarningColor}"
 						Style="{StaticResource LabelWarning}"
-						XAlign="Center"
+						HorizontalTextAlignment="Center"
 						FontSize="15" />
 				</StackLayout>
 				<!--STORE DETAILS-->

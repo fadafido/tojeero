@@ -29,7 +29,7 @@
 						Style="{StaticResource LabelWarning}"
 						FontSize="15"
 						HorizontalOptions="Center"
-						XAlign="Center" />
+						HorizontalTextAlignment="Center" />
 					<StackLayout
 						Orientation="Vertical"
 						Spacing="15">
@@ -112,14 +112,14 @@
 										LineBreakMode="TailTruncation"
 										LineCount="1"
 										VerticalOptions="FillAndExpand"
-										YAlign="Center" />
+										VerticalTextAlignment="Center" />
 								</StackLayout>
 							</Grid>
 						</StackLayout>
 						<StackLayout
 							Spacing="15"
-							Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
-							IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}">
+							Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}}"
+							IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}">
 							<!--COUNTRY-->
 							<StackLayout
 								Spacing="5"
@@ -211,8 +211,8 @@
 											LineCount="1"
 											VerticalOptions="FillAndExpand"
 											HorizontalOptions="FillAndExpand"
-											XAlign="Center"
-											YAlign="Center" />
+											HorizontalTextAlignment="Center"
+											VerticalTextAlignment="Center" />
 									</Grid>
 									<Grid
 										HorizontalOptions="FillAndExpand"
@@ -244,7 +244,7 @@
 								Text="{local:Translate MessageTermsWarning}"
 								Style="{StaticResource LabelWarning}"
 								FontSize="15"
-								XAlign="Center" />
+								HorizontalTextAlignment="Center" />
 							<Button
 								Text="{local:Translate ButtonReadTerms}"
 								Command="{Binding ShowTermsCommand}"

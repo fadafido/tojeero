@@ -107,18 +107,21 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		private string _loadingCountLabel;
 		public string CountLabel
 		{
 			get
 			{
+				if (!string.IsNullOrEmpty(_loadingCountLabel))
+					return _loadingCountLabel;
 				if (Count < 0)
 					return "";
-				if (Count == 0)
-					return "There are no matching stores.";
-				if (Count == 1)
-					return "There is 1 matching store.";
-				return string.Format("There are {0} matching stores.", ((decimal)Count).GetShortString());
-			}
+			    if (Count == 0)
+			        return AppResources.MessageNoMatchingStores;
+                if (Count == 1)
+                    return AppResources.MessageSingleMatchingStore;
+                return string.Format(AppResources.MessageMatchingStores, ((decimal)Count).GetShortString());
+            }
 		}
 
 		private IStoreCategory[] _categories;
@@ -240,7 +243,8 @@ namespace Tojeero.Core.ViewModels
 
 		public async Task ReloadCount()
 		{
-			this.Count = -1;
+			_loadingCountLabel = "Loading matches...";
+			RaisePropertyChanged(() => CountLabel);
 			try
 			{
 				this.Count = await _storeManager.Count(this.Query, this.StoreFilter);
@@ -250,6 +254,8 @@ namespace Tojeero.Core.ViewModels
 				Tools.Logger.Log(ex, "Error occurred while loading matching products count", LoggingLevel.Error, true);
 				this.Count = -1;
 			}
+			_loadingCountLabel = null;
+			RaisePropertyChanged(() => CountLabel);
 		}
 
 		#endregion

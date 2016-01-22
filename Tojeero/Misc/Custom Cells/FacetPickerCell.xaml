@@ -27,7 +27,7 @@
 			LineBreakMode="TailTruncation"
 			VerticalOptions="FillAndExpand"
 			HorizontalOptions="StartAndExpand"
-			YAlign="Center" />
+			VerticalTextAlignment="Center" />
 		<local:LabelEx
 			Grid.Column="1"
 			Text="{Binding Item.Count, Converter={StaticResource numberToString}}"
@@ -37,7 +37,7 @@
 			LineBreakMode="TailTruncation"
 			VerticalOptions="FillAndExpand"
 			HorizontalOptions="StartAndExpand"
-			YAlign="Center" />
+			VerticalTextAlignment="Center" />
 		<Image
 			Grid.Column="2"
 			x:Name="checkmark"

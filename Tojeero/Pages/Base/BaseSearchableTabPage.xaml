@@ -89,8 +89,8 @@
 					Text="{Binding ViewModel.Placeholder}"
 					IsVisible="{Binding ViewModel.IsPlaceholderVisible}"
 					Style="{StaticResource LabelPlaceholder}"
-					XAlign="Center"
-					YAlign="Center"
+					HorizontalTextAlignment="Center"
+					VerticalTextAlignment="Center"
 					VerticalOptions="Center"
 					HorizontalOptions="Center" />
 				<!--LIST VIEW-->

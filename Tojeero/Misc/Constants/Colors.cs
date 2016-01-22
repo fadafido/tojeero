@@ -22,6 +22,7 @@ namespace Tojeero.Forms
 		public static Color CellBackground = Color.White;
 		public static Color LargeCellBackground = Color.FromHex("#f2f4f4");
 		public static Color CellBorder = Color.FromHex("#dbdfdf");
+		public static Color Border = Color.FromHex("#c9cecf");
 		public static Color LightBackground = Color.FromHex("#eaeeef");
 		public static Color Separator = Color.FromHex("#e6e8e9");
 
@@ -34,6 +35,11 @@ namespace Tojeero.Forms
 		public static Color Invalid = Color.Red;
 		public static Color Warning = Color.FromHex("#f6846a");
 		public static Color SideMenuText = Color.FromHex("#96a9b4");
+
+		public static Color HeaderPositive = Color.FromHex("#dbeed3");
+		public static Color HeaderPositiveText = Color.FromHex("#356b35");
+		public static Color HeaderWarning = Color.FromHex("#fcf7df");
+		public static Color HeaderWarningText = Color.FromHex("#7f6234");
 
 		public static Color Button1 = Color.FromHex("#08d2c1");
 		public static Color Button2 = Color.FromHex("#f6846a");

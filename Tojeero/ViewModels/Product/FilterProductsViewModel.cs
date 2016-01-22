@@ -6,6 +6,7 @@ using System.Linq;
 using Nito.AsyncEx;
 using Tojeero.Core.Toolbox;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Windows.Input;
 using Cirrious.MvvmCross.ViewModels;
 using Xamarin.Forms;
@@ -45,6 +46,7 @@ namespace Tojeero.Core.ViewModels
             this._subcategoryManager = subcategoryManager;
             this._categoryManager = categoryManager;
             this.ProductFilter.PropertyChanged += ProductFilter_PropertyChanged;
+            this.ProductFilter.Tags.CollectionChanged += tagsChanged;
         }
 
         #endregion
@@ -63,6 +65,7 @@ namespace Tojeero.Core.ViewModels
             if (disposing)
             {
                 ProductFilter.PropertyChanged -= ProductFilter_PropertyChanged;
+                ProductFilter.Tags.CollectionChanged -= tagsChanged;
             }
         }
 
@@ -406,17 +409,17 @@ namespace Tojeero.Core.ViewModels
         {
             get
             {
-                _resetFiltersCommand = _resetFiltersCommand ?? new MvxCommand( async () =>
-                {
-                    this.ProductFilter.Country = null;
-                    this.ProductFilter.City = null;
-                    this.ProductFilter.Category = null;
-                    this.ProductFilter.Subcategory = null;
-                    this.ProductFilter.Tags.Clear();
-                    this.ProductFilter.StartPrice = null;
-                    this.ProductFilter.EndPrice = null;
-                    await ReloadCount();
-                });
+                _resetFiltersCommand = _resetFiltersCommand ?? new MvxCommand(async () =>
+               {
+                   this.ProductFilter.Country = null;
+                   this.ProductFilter.City = null;
+                   this.ProductFilter.Category = null;
+                   this.ProductFilter.Subcategory = null;
+                   this.ProductFilter.Tags.Clear();
+                   this.ProductFilter.StartPrice = null;
+                   this.ProductFilter.EndPrice = null;
+                   await ReloadCount();
+               });
                 return _resetFiltersCommand;
             }
         }
@@ -558,6 +561,15 @@ namespace Tojeero.Core.ViewModels
                 RaisePropertyChanged(() => IsSubcategoriesPickerEnabled);
                 await reloadSubcategories();
             }
+            else if (e.PropertyName == "StartPrice" || e.PropertyName == "EndPrice" || e.PropertyName == "Tags")
+            {
+                await ReloadCount();
+            }
+        }
+
+        private async void tagsChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        {
+            await ReloadCount();
         }
 
         private string handleException(Exception exception)

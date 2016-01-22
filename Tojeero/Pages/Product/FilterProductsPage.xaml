@@ -1,304 +1,304 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage
-	xmlns="http://xamarin.com/schemas/2014/forms"
-	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="Tojeero.Forms.FilterProductsPage"
-	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
-	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
-	BackgroundColor="{x:Static local:Colors.LightBackground}"
-	Title="{local:Translate TitleFilterProducts}">
-	<ContentPage.Content>
-		<ScrollView>
-			<StackLayout
-				Spacing="0"
-				VerticalOptions="FillAndExpand">
-				<local:NetworkPageHeader
-					NoNetworkPadding="0,5,0,5"
-					Tint="{x:Static local:Colors.DarkGray}"
-					IsLoading="{Binding IsLoading}"
-					LoadingText="{Binding LoadingText}"
-					FailureMessage="{Binding LoadingFailureMessage}"
-					IsNetworkAvailable="{Binding IsNetworkAvailable}"
-					TryAgainCommand="{Binding ReloadCommand}" />
-				<StackLayout
-					Padding="10"
-					IsVisible="{Binding CountLabel, Converter={StaticResource visibility}}"
-					BackgroundColor="{Binding CountLabelBackgroundColor}">
-					<Label
-						Text="{Binding CountLabel}"
-						TextColor="{Binding CountLabelTextColor}"
-						HorizontalTextAlignment="Center" />
-				</StackLayout>
-				<StackLayout
-					Orientation="Vertical"
-					Spacing="5"
-					Padding="10">
-					<StackLayout
-						Spacing="10">
-						<!--COUNTRY-->
-						<StackLayout
-							Spacing="5"
-							Padding="0">
-							<StackLayout
-								Padding="5,0,0,0">
-								<Label
-									Text="{local:Translate LabelCountry}"
-									Style="{StaticResource Label1}" />
-							</StackLayout>
-							<Grid
-								HeightRequest="50">
-								<local:BorderView
-									BorderColor="{x:Static local:Colors.Border}"
-									BorderWidth="1"
-									Radius="5"
-									BackgroundColor="White" />
-								<StackLayout
-									Orientation="Horizontal"
-									Padding="10,2,10,2"
-									Spacing="5">
-									<local:FacetObjectPicker
-										x:Name="countriesPicker"
-										x:TypeArguments="core:ICountry"
-										Placeholder="{local:Translate LabelCountry}"
-										SelectedObject="{Binding ProductFilter.Country, Mode=TwoWay}"
-										TextColor="{x:Static local:Colors.Black}"
-										HorizontalOptions="FillAndExpand"
-										VerticalOptions="FillAndExpand" />
-									<local:ImageButton
-										VerticalOptions="Center"
-										HeightRequest="30"
-										WidthRequest="30"
-										Image="clearIcon.png"
-										Command="{Binding ClearCountryCommand}" />
-								</StackLayout>
-							</Grid>
-						</StackLayout>
-						<!--CITY-->
-						<StackLayout
-							Spacing="5"
-							Padding="0"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Tojeero.Forms.FilterProductsPage"
+    xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+    xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
+    BackgroundColor="{x:Static local:Colors.LightBackground}"
+    Title="{local:Translate TitleFilterProducts}">
+    <ContentPage.Content>
+        <StackLayout
+            Spacing="0"
+            VerticalOptions="FillAndExpand">
+            <local:NetworkPageHeader
+                NoNetworkPadding="0,5,0,5"
+                Tint="{x:Static local:Colors.DarkGray}"
+                IsLoading="{Binding IsLoading}"
+                LoadingText="{Binding LoadingText}"
+                FailureMessage="{Binding LoadingFailureMessage}"
+                IsNetworkAvailable="{Binding IsNetworkAvailable}"
+                TryAgainCommand="{Binding ReloadCommand}" />
+            <StackLayout
+                Padding="10"
+                IsVisible="{Binding CountLabel, Converter={StaticResource visibility}}"
+                BackgroundColor="{Binding CountLabelBackgroundColor}">
+                <Label
+                    Text="{Binding CountLabel}"
+                    TextColor="{Binding CountLabelTextColor}"
+                    HorizontalTextAlignment="Center" />
+            </StackLayout>
+            <ScrollView>
+                <StackLayout
+                    Orientation="Vertical"
+                    Spacing="5"
+                    Padding="10">
+                    <StackLayout
+                        Spacing="10">
+                        <!--COUNTRY-->
+                        <StackLayout
+                            Spacing="5"
+                            Padding="0">
+                            <StackLayout
+                                Padding="5,0,0,0">
+                                <Label
+                                    Text="{local:Translate LabelCountry}"
+                                    Style="{StaticResource Label1}" />
+                            </StackLayout>
+                            <Grid
+                                HeightRequest="50">
+                                <local:BorderView
+                                    BorderColor="{x:Static local:Colors.Border}"
+                                    BorderWidth="1"
+                                    Radius="5"
+                                    BackgroundColor="White" />
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Padding="10,2,10,2"
+                                    Spacing="5">
+                                    <local:FacetObjectPicker
+                                        x:Name="countriesPicker"
+                                        x:TypeArguments="core:ICountry"
+                                        Placeholder="{local:Translate LabelCountry}"
+                                        SelectedObject="{Binding ProductFilter.Country, Mode=TwoWay}"
+                                        TextColor="{x:Static local:Colors.Black}"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand" />
+                                    <local:ImageButton
+                                        VerticalOptions="Center"
+                                        HeightRequest="30"
+                                        WidthRequest="30"
+                                        Image="clearIcon.png"
+                                        Command="{Binding ClearCountryCommand}" />
+                                </StackLayout>
+                            </Grid>
+                        </StackLayout>
+                        <!--CITY-->
+                        <StackLayout
+                            Spacing="5"
+                            Padding="0"
                             Opacity="{Binding IsCitiesPickerEnabled, Converter={StaticResource opacity}}">
-							<StackLayout
-								Padding="5,0,0,0">
-								<Label
-									Text="{local:Translate LabelCity}"
-									Style="{StaticResource Label1}" />
-							</StackLayout>
-							<Grid
-								HeightRequest="50">
-								<local:BorderView
-									BorderColor="{x:Static local:Colors.Border}"
-									BorderWidth="1"
-									Radius="5"
-									BackgroundColor="White" />
-								<StackLayout
-									Padding="10,2,10,2"
-									Orientation="Horizontal"
-									Spacing="5">
-									<local:FacetObjectPicker
-										x:Name="citiesPicker"
-										x:TypeArguments="core:ICity"
-										Placeholder="{local:Translate LabelCity}"
-										SelectedObject="{Binding ProductFilter.City, Mode=TwoWay}"
-										TextColor="{x:Static local:Colors.Black}"
+                            <StackLayout
+                                Padding="5,0,0,0">
+                                <Label
+                                    Text="{local:Translate LabelCity}"
+                                    Style="{StaticResource Label1}" />
+                            </StackLayout>
+                            <Grid
+                                HeightRequest="50">
+                                <local:BorderView
+                                    BorderColor="{x:Static local:Colors.Border}"
+                                    BorderWidth="1"
+                                    Radius="5"
+                                    BackgroundColor="White" />
+                                <StackLayout
+                                    Padding="10,2,10,2"
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+                                    <local:FacetObjectPicker
+                                        x:Name="citiesPicker"
+                                        x:TypeArguments="core:ICity"
+                                        Placeholder="{local:Translate LabelCity}"
+                                        SelectedObject="{Binding ProductFilter.City, Mode=TwoWay}"
+                                        TextColor="{x:Static local:Colors.Black}"
                                         IsEnabled="{Binding IsCitiesPickerEnabled}"
-										HorizontalOptions="FillAndExpand"
-										VerticalOptions="FillAndExpand" />
-									<local:ImageButton
-										VerticalOptions="Center"
-										HeightRequest="30"
-										WidthRequest="30"
-										Image="clearIcon.png"
-										Command="{Binding ClearCityCommand}" />
-								</StackLayout>
-							</Grid>
-						</StackLayout>
-						<!--CATEGORY-->
-						<StackLayout
-							Spacing="5"
-							Padding="0">
-							<StackLayout
-								Padding="5,0,0,0">
-								<Label
-									Text="{local:Translate LabelCategory}"
-									Style="{StaticResource Label1}" />
-							</StackLayout>
-							<Grid
-								HeightRequest="50">
-								<local:BorderView
-									BorderColor="{x:Static local:Colors.Border}"
-									BorderWidth="1"
-									Radius="5"
-									BackgroundColor="White" />
-								<StackLayout
-									Orientation="Horizontal"
-									Padding="10,2,10,2"
-									Spacing="5">
-									<local:FacetObjectPicker
-										x:Name="categoriesPicker"
-										x:TypeArguments="core:IProductCategory"
-										Placeholder="{local:Translate LabelCategory}"
-										SelectedObject="{Binding ProductFilter.Category, Mode=TwoWay}"
-										TextColor="{x:Static local:Colors.Black}"
-										HorizontalOptions="FillAndExpand"
-										VerticalOptions="FillAndExpand" />
-									<local:ImageButton
-										VerticalOptions="Center"
-										HeightRequest="30"
-										WidthRequest="30"
-										Image="clearIcon.png"
-										Command="{Binding ClearCategoryCommand}" />
-								</StackLayout>
-							</Grid>
-						</StackLayout>
-						<!--SUBCATEGORY-->
-						<StackLayout
-							Spacing="5"
-							Padding="0"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand" />
+                                    <local:ImageButton
+                                        VerticalOptions="Center"
+                                        HeightRequest="30"
+                                        WidthRequest="30"
+                                        Image="clearIcon.png"
+                                        Command="{Binding ClearCityCommand}" />
+                                </StackLayout>
+                            </Grid>
+                        </StackLayout>
+                        <!--CATEGORY-->
+                        <StackLayout
+                            Spacing="5"
+                            Padding="0">
+                            <StackLayout
+                                Padding="5,0,0,0">
+                                <Label
+                                    Text="{local:Translate LabelCategory}"
+                                    Style="{StaticResource Label1}" />
+                            </StackLayout>
+                            <Grid
+                                HeightRequest="50">
+                                <local:BorderView
+                                    BorderColor="{x:Static local:Colors.Border}"
+                                    BorderWidth="1"
+                                    Radius="5"
+                                    BackgroundColor="White" />
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Padding="10,2,10,2"
+                                    Spacing="5">
+                                    <local:FacetObjectPicker
+                                        x:Name="categoriesPicker"
+                                        x:TypeArguments="core:IProductCategory"
+                                        Placeholder="{local:Translate LabelCategory}"
+                                        SelectedObject="{Binding ProductFilter.Category, Mode=TwoWay}"
+                                        TextColor="{x:Static local:Colors.Black}"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand" />
+                                    <local:ImageButton
+                                        VerticalOptions="Center"
+                                        HeightRequest="30"
+                                        WidthRequest="30"
+                                        Image="clearIcon.png"
+                                        Command="{Binding ClearCategoryCommand}" />
+                                </StackLayout>
+                            </Grid>
+                        </StackLayout>
+                        <!--SUBCATEGORY-->
+                        <StackLayout
+                            Spacing="5"
+                            Padding="0"
                             Opacity="{Binding IsSubcategoriesPickerEnabled, Converter={StaticResource opacity}}">
-							<StackLayout
-								Padding="5,0,0,0">
-								<Label
-									Text="{local:Translate LabelSubcategory}"
-									Style="{StaticResource Label1}" />
-							</StackLayout>
-							<Grid
-								HeightRequest="50">
-								<local:BorderView
-									BorderColor="{x:Static local:Colors.Border}"
-									BorderWidth="1"
-									Radius="5"
-									BackgroundColor="White" />
-								<StackLayout
-									Orientation="Horizontal"
-									Padding="10,2,10,2"
-									Spacing="5">
-									<local:FacetObjectPicker
-										x:Name="subcategoriesPicker"
-										x:TypeArguments="core:IProductSubcategory"
-										Placeholder="{local:Translate LabelSubcategory}"
-										SelectedObject="{Binding ProductFilter.Subcategory, Mode=TwoWay}"
-										TextColor="{x:Static local:Colors.Black}"
+                            <StackLayout
+                                Padding="5,0,0,0">
+                                <Label
+                                    Text="{local:Translate LabelSubcategory}"
+                                    Style="{StaticResource Label1}" />
+                            </StackLayout>
+                            <Grid
+                                HeightRequest="50">
+                                <local:BorderView
+                                    BorderColor="{x:Static local:Colors.Border}"
+                                    BorderWidth="1"
+                                    Radius="5"
+                                    BackgroundColor="White" />
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Padding="10,2,10,2"
+                                    Spacing="5">
+                                    <local:FacetObjectPicker
+                                        x:Name="subcategoriesPicker"
+                                        x:TypeArguments="core:IProductSubcategory"
+                                        Placeholder="{local:Translate LabelSubcategory}"
+                                        SelectedObject="{Binding ProductFilter.Subcategory, Mode=TwoWay}"
+                                        TextColor="{x:Static local:Colors.Black}"
                                         IsEnabled="{Binding IsSubcategoriesPickerEnabled}"
-										HorizontalOptions="FillAndExpand"
-										VerticalOptions="FillAndExpand" />
-									<local:ImageButton
-										VerticalOptions="Center"
-										HeightRequest="30"
-										WidthRequest="30"
-										Image="clearIcon.png"
-										Command="{Binding ClearSubcategoryCommand}" />
-								</StackLayout>
-							</Grid>
-						</StackLayout>
-						<BoxView
-							HeightRequest="1"
-							BackgroundColor="{x:Static local:Colors.Border}"
-							HorizontalOptions="FillAndExpand" />
-						<!--PRICE RANGE-->
-						<StackLayout
-							Spacing="5">
-							<StackLayout
-								Padding="5,0,0,0">
-								<Label
-									Text="{local:Translate LabelPriceRange}"
-									Style="{StaticResource Label1}" />
-							</StackLayout>
-							<Grid
-								HeightRequest="50"
-								ColumnSpacing="0"
-								Padding="0"
-								HorizontalOptions="FillAndExpand">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition
-										Width="*" />
-									<ColumnDefinition
-										Width="15" />
-									<ColumnDefinition
-										Width="*" />
-								</Grid.ColumnDefinitions>
-								<local:BorderView
-									BorderColor="{x:Static local:Colors.Border}"
-									BorderWidth="1"
-									Radius="5"
-									BackgroundColor="White"
-									HorizontalOptions="FillAndExpand"
-									VerticalOptions="FillAndExpand" />
-								<StackLayout
-									Grid.Column="0"
-									Orientation="Horizontal"
-									Spacing="5"
-									Padding="5,0,0,0">
-									<Label
-										Text="{local:Translate LabelFrom}"
-										Style="{StaticResource LabelSubtitle}"
-										FontSize="Micro"
-										VerticalOptions="Center"
-										HorizontalTextAlignment="Center" />
-									<Entry
-										Text="{Binding ProductFilter.StartPrice, Mode=TwoWay, Converter={StaticResource double}}"
-										Keyboard="Numeric"
-										TextColor="{x:Static local:Colors.Main}"
-										HorizontalOptions="FillAndExpand"
-										VerticalOptions="FillAndExpand" />
-									<local:ImageButton
-										VerticalOptions="Center"
-										HeightRequest="30"
-										WidthRequest="30"
-										Image="clearIcon.png"
-										Command="{Binding ClearStartPriceCommand}" />
-								</StackLayout>
-								<local:BorderView
-									Grid.Column="2"
-									BorderColor="{x:Static local:Colors.Border}"
-									BorderWidth="1"
-									Radius="5"
-									BackgroundColor="White"
-									HorizontalOptions="FillAndExpand"
-									VerticalOptions="FillAndExpand" />
-								<StackLayout
-									Grid.Column="2"
-									Orientation="Horizontal"
-									Spacing="5"
-									Padding="5,0,0,0">
-									<Label
-										Text="{local:Translate LabelTo}"
-										Style="{StaticResource LabelSubtitle}"
-										FontSize="Micro"
-										VerticalOptions="Center"
-										VerticalTextAlignment="Center" />
-									<Entry
-										Text="{Binding ProductFilter.EndPrice, Mode=TwoWay, Converter={StaticResource double}}"
-										Keyboard="Numeric"
-										TextColor="{x:Static local:Colors.Main}"
-										HorizontalOptions="FillAndExpand"
-										VerticalOptions="FillAndExpand" />
-									<local:ImageButton
-										VerticalOptions="Center"
-										HeightRequest="30"
-										WidthRequest="30"
-										Image="clearIcon.png"
-										Command="{Binding ClearEndPriceCommand}" />
-								</StackLayout>
-							</Grid>
-						</StackLayout>
-						<BoxView
-							HeightRequest="1"
-							BackgroundColor="{x:Static local:Colors.Border}"
-							HorizontalOptions="FillAndExpand" />
-						<local:TagCloud
-							Tags="{Binding ProductFilter.Tags}" />
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand" />
+                                    <local:ImageButton
+                                        VerticalOptions="Center"
+                                        HeightRequest="30"
+                                        WidthRequest="30"
+                                        Image="clearIcon.png"
+                                        Command="{Binding ClearSubcategoryCommand}" />
+                                </StackLayout>
+                            </Grid>
+                        </StackLayout>
                         <BoxView
-							HeightRequest="1"
-							BackgroundColor="{x:Static local:Colors.Border}"
-							HorizontalOptions="FillAndExpand" />
+                            HeightRequest="1"
+                            BackgroundColor="{x:Static local:Colors.Border}"
+                            HorizontalOptions="FillAndExpand" />
+                        <!--PRICE RANGE-->
+                        <StackLayout
+                            Spacing="5">
+                            <StackLayout
+                                Padding="5,0,0,0">
+                                <Label
+                                    Text="{local:Translate LabelPriceRange}"
+                                    Style="{StaticResource Label1}" />
+                            </StackLayout>
+                            <Grid
+                                HeightRequest="50"
+                                ColumnSpacing="0"
+                                Padding="0"
+                                HorizontalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="*" />
+                                    <ColumnDefinition
+                                        Width="15" />
+                                    <ColumnDefinition
+                                        Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <local:BorderView
+                                    BorderColor="{x:Static local:Colors.Border}"
+                                    BorderWidth="1"
+                                    Radius="5"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="FillAndExpand" />
+                                <StackLayout
+                                    Grid.Column="0"
+                                    Orientation="Horizontal"
+                                    Spacing="5"
+                                    Padding="5,0,0,0">
+                                    <Label
+                                        Text="{local:Translate LabelFrom}"
+                                        Style="{StaticResource LabelSubtitle}"
+                                        FontSize="Micro"
+                                        VerticalOptions="Center"
+                                        HorizontalTextAlignment="Center" />
+                                    <Entry
+                                        Text="{Binding ProductFilter.StartPrice, Mode=TwoWay, Converter={StaticResource double}}"
+                                        Keyboard="Numeric"
+                                        TextColor="{x:Static local:Colors.Main}"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand" />
+                                    <local:ImageButton
+                                        VerticalOptions="Center"
+                                        HeightRequest="30"
+                                        WidthRequest="30"
+                                        Image="clearIcon.png"
+                                        Command="{Binding ClearStartPriceCommand}" />
+                                </StackLayout>
+                                <local:BorderView
+                                    Grid.Column="2"
+                                    BorderColor="{x:Static local:Colors.Border}"
+                                    BorderWidth="1"
+                                    Radius="5"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="FillAndExpand" />
+                                <StackLayout
+                                    Grid.Column="2"
+                                    Orientation="Horizontal"
+                                    Spacing="5"
+                                    Padding="5,0,0,0">
+                                    <Label
+                                        Text="{local:Translate LabelTo}"
+                                        Style="{StaticResource LabelSubtitle}"
+                                        FontSize="Micro"
+                                        VerticalOptions="Center"
+                                        VerticalTextAlignment="Center" />
+                                    <Entry
+                                        Text="{Binding ProductFilter.EndPrice, Mode=TwoWay, Converter={StaticResource double}}"
+                                        Keyboard="Numeric"
+                                        TextColor="{x:Static local:Colors.Main}"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand" />
+                                    <local:ImageButton
+                                        VerticalOptions="Center"
+                                        HeightRequest="30"
+                                        WidthRequest="30"
+                                        Image="clearIcon.png"
+                                        Command="{Binding ClearEndPriceCommand}" />
+                                </StackLayout>
+                            </Grid>
+                        </StackLayout>
+                        <BoxView
+                            HeightRequest="1"
+                            BackgroundColor="{x:Static local:Colors.Border}"
+                            HorizontalOptions="FillAndExpand" />
+                        <local:TagCloud
+                            Tags="{Binding ProductFilter.Tags}" />
+                        <BoxView
+                            HeightRequest="1"
+                            BackgroundColor="{x:Static local:Colors.Border}"
+                            HorizontalOptions="FillAndExpand" />
                         <Button
                             Text="{local:Translate ButtonResetFilters}"
                             Style="{StaticResource Button4}"
                             Command="{Binding ResetFiltersCommand}"/>
-					</StackLayout>
-				</StackLayout>
-			</StackLayout>
-		</ScrollView>
-	</ContentPage.Content>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

@@ -72,10 +72,6 @@
 										Command="{Binding ClearCountryCommand}" />
 								</StackLayout>
 							</Grid>
-							<Label
-								Text="{Binding CategoryInvalid}"
-								Style="{StaticResource LabelInvalid}"
-								IsVisible="{Binding CategoryInvalid, Converter={StaticResource visibility}}" />
 						</StackLayout>
 						<!--CITY-->
 						<StackLayout
@@ -116,10 +112,6 @@
 										Command="{Binding ClearCityCommand}" />
 								</StackLayout>
 							</Grid>
-							<Label
-								Text="{Binding CategoryInvalid}"
-								Style="{StaticResource LabelInvalid}"
-								IsVisible="{Binding CategoryInvalid, Converter={StaticResource visibility}}" />
 						</StackLayout>
 						<!--CATEGORY-->
 						<StackLayout
@@ -158,10 +150,6 @@
 										Command="{Binding ClearCategoryCommand}" />
 								</StackLayout>
 							</Grid>
-							<Label
-								Text="{Binding CategoryInvalid}"
-								Style="{StaticResource LabelInvalid}"
-								IsVisible="{Binding CategoryInvalid, Converter={StaticResource visibility}}" />
 						</StackLayout>
 						<!--SUBCATEGORY-->
 						<StackLayout
@@ -202,10 +190,6 @@
 										Command="{Binding ClearSubcategoryCommand}" />
 								</StackLayout>
 							</Grid>
-							<Label
-								Text="{Binding CategoryInvalid}"
-								Style="{StaticResource LabelInvalid}"
-								IsVisible="{Binding CategoryInvalid, Converter={StaticResource visibility}}" />
 						</StackLayout>
 						<BoxView
 							HeightRequest="1"

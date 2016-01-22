@@ -683,6 +683,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading matches....
+        /// </summary>
+        internal static string MessageLoadingMatches {
+            get {
+                return ResourceManager.GetString("MessageLoadingMatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading store....
         /// </summary>
         internal static string MessageLoadingStore {

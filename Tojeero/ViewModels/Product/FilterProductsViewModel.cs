@@ -423,7 +423,7 @@ namespace Tojeero.Core.ViewModels
 
         public async Task ReloadCount()
         {
-            _loadingCountLabel = "Loading matches...";
+            _loadingCountLabel = AppResources.MessageLoadingMatches;
             RaisePropertyChanged(() => CountLabel);
             try
             {

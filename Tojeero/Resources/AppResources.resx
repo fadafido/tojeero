@@ -566,4 +566,7 @@
   <data name="ButtonResetFilters" xml:space="preserve">
     <value>Reset all filters</value>
   </data>
+  <data name="MessageLoadingMatches" xml:space="preserve">
+    <value>Loading matches...</value>
+  </data>
 </root>

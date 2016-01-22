@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace Tojeero.Forms
 {
-    public class ObjectPicker<T, CellType> : Entry
+	public class ObjectPicker<T, CellType> : Grid
         where T : class
         where CellType : ObjectPickerCell
     {
@@ -20,6 +20,8 @@ namespace Tojeero.Forms
         private NavigationPage _objectPickerPage;
         private SelectableViewModel<T>[] _items;
         private TapGestureRecognizer _tapGesture;
+		private LabelEx _placeholderLabel;
+		private LabelEx _textLabel;
 
         #endregion
 
@@ -27,9 +29,23 @@ namespace Tojeero.Forms
 
         public ObjectPicker()
         {
-            base.IsEnabled = false;
-            this.HorizontalOptions = LayoutOptions.FillAndExpand;
-            this.VerticalOptions = LayoutOptions.FillAndExpand;
+			_placeholderLabel = new LabelEx();
+			_placeholderLabel.LineCount = 1;
+			_placeholderLabel.HorizontalOptions = LayoutOptions.FillAndExpand;
+			_placeholderLabel.VerticalOptions = LayoutOptions.FillAndExpand;
+			_placeholderLabel.VerticalTextAlignment = TextAlignment.Center;
+			_placeholderLabel.TextColor = Colors.Placeholder;
+			this.Children.Add(_placeholderLabel);
+
+			_textLabel = new LabelEx();
+			_textLabel.LineCount = 1;
+			_textLabel.HorizontalOptions = LayoutOptions.FillAndExpand;
+			_textLabel.VerticalOptions = LayoutOptions.FillAndExpand;
+			_textLabel.VerticalTextAlignment = TextAlignment.Center;
+			_textLabel.TextColor = Colors.Placeholder;
+			_textLabel.IsVisible = false;
+			this.Children.Add(_textLabel);
+
             _tapGesture = new TapGestureRecognizer(async (v) =>
             {
                 await ShowObjectPicker();
@@ -107,13 +123,17 @@ namespace Tojeero.Forms
                         newItem.IsSelected = true;
                 }
             }
-            picker.Text = picker.ItemCaption(newvalue);
+			var caption = picker.ItemCaption(newvalue);
+			picker._textLabel.Text = caption;
+			bool isEmpty = string.IsNullOrEmpty(caption);
+			picker._placeholderLabel.IsVisible = isEmpty;
+			picker._textLabel.IsVisible = !isEmpty;
         }
 
         #endregion
 
         #region IsEnabled
-        public static BindableProperty IsEnabledProperty = BindableProperty.Create<ObjectPicker<T, CellType>, bool>(o => o.IsEnabled, true, propertyChanged: OnIsEnabledChanged);
+		public static new BindableProperty IsEnabledProperty = BindableProperty.Create<ObjectPicker<T, CellType>, bool>(o => o.IsEnabled, true, propertyChanged: OnIsEnabledChanged);
 
         public new bool IsEnabled
         {
@@ -130,6 +150,38 @@ namespace Tojeero.Forms
                 picker.GestureRecognizers.Add(picker._tapGesture);
         } 
         #endregion
+
+		#region Placeholder
+		public static BindableProperty PlaceholderProperty = BindableProperty.Create<ObjectPicker<T, CellType>, string>(o => o.Placeholder, "", propertyChanged: OnPlaceholderChanged);
+
+		public string Placeholder
+		{
+			get { return (string)GetValue(PlaceholderProperty); }
+			set { SetValue(PlaceholderProperty, value); }
+		}
+
+		private static void OnPlaceholderChanged(BindableObject bindable, string oldvalue, string newvalue)
+		{
+			var picker = bindable as ObjectPicker<T, CellType>;
+			picker._placeholderLabel.Text = newvalue;
+		}
+		#endregion
+
+		#region TextColor
+		public static BindableProperty TextColorProperty = BindableProperty.Create<ObjectPicker<T, CellType>, Color>(o => o.TextColor, Color.Black, propertyChanged: OnTextColorChanged);
+
+		public Color TextColor
+		{
+			get { return (Color)GetValue(TextColorProperty); }
+			set { SetValue(TextColorProperty, value); }
+		}
+
+		private static void OnTextColorChanged(BindableObject bindable, Color oldvalue, Color newvalue)
+		{
+			var picker = bindable as ObjectPicker<T, CellType>;
+			picker._textLabel.TextColor = newvalue;
+		}
+		#endregion
 
         #endregion
 
@@ -162,7 +214,7 @@ namespace Tojeero.Forms
             this._objectPickerPage = null;
             this._objectPicker = null;
         }
-
+			
         #endregion
     }
 }

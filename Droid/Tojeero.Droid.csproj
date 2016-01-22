@@ -328,9 +328,6 @@
     <Compile Include="Misc\Custom Renderers\SelectableButtonRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\BorderViewRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\ImageButtonRenderer.cs" />
-    <Compile Include="..\Tojeero\Misc\Custom Controls\ImageButtonRenderer.shared.cs">
-      <Link>Misc\Custom Renderers\ImageButtonRenderer.shared.cs</Link>
-    </Compile>
     <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Product.cs">
       <Link>Core\SAL\Services\ParseRepository_Product.cs</Link>
     </Compile>
@@ -378,23 +375,7 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\layout\" />
-    <Folder Include="Resources\values\" />
-    <Folder Include="Setup\" />
-    <Folder Include="Main\" />
-    <Folder Include="Misc\" />
-    <Folder Include="Misc\Toolbox\" />
-    <Folder Include="Resources\drawable-mdpi\" />
-    <Folder Include="Misc\Custom Renderers\" />
-    <Folder Include="Core\" />
-    <Folder Include="Core\BL\" />
-    <Folder Include="Core\SAL\" />
-    <Folder Include="Core\DAL\" />
-    <Folder Include="Core\BL\Queries\" />
-    <Folder Include="Misc\Images\" />
-    <Folder Include="Misc\Messages\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />

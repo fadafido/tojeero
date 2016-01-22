@@ -72,10 +72,6 @@
                                         Command="{Binding ClearCountryCommand}" />
                                 </StackLayout>
                             </Grid>
-                            <Label
-                                Text="{Binding CategoryInvalid}"
-                                Style="{StaticResource LabelInvalid}"
-                                IsVisible="{Binding CategoryInvalid, Converter={StaticResource visibility}}" />
                         </StackLayout>
                         <!--CITY-->
                         <StackLayout

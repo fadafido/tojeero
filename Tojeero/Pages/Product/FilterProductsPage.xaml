@@ -240,7 +240,8 @@
                                         Keyboard="Numeric"
                                         TextColor="{x:Static local:Colors.Main}"
                                         HorizontalOptions="FillAndExpand"
-                                        VerticalOptions="FillAndExpand" />
+                                        VerticalOptions="Center"
+                                        HeightRequest="40" />
                                     <local:ImageButton
                                         VerticalOptions="Center"
                                         HeightRequest="30"
@@ -272,7 +273,8 @@
                                         Keyboard="Numeric"
                                         TextColor="{x:Static local:Colors.Main}"
                                         HorizontalOptions="FillAndExpand"
-                                        VerticalOptions="FillAndExpand" />
+                                        VerticalOptions="Center"
+                                        HeightRequest="40" />
                                     <local:ImageButton
                                         VerticalOptions="Center"
                                         HeightRequest="30"

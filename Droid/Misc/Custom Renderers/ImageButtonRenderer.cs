@@ -151,7 +151,24 @@ namespace Tojeero.Forms.Renderers
 			return returnValue;
 		}
 
-		#endregion
-	}
+        private static IImageSourceHandler GetHandler(ImageSource source)
+        {
+            IImageSourceHandler returnValue = null;
+            if (source is UriImageSource)
+            {
+                returnValue = new ImageLoaderSourceHandler();
+            }
+            else if (source is FileImageSource)
+            {
+                returnValue = new FileImageSourceHandler();
+            }
+            else if (source is StreamImageSource)
+            {
+                returnValue = new StreamImagesourceHandler();
+            }
+            return returnValue;
+        }
+        #endregion
+    }
 }
 

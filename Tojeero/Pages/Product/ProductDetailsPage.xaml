@@ -52,11 +52,9 @@
 						<RowDefinition
 							Height="40" />
 					</Grid.RowDefinitions>
-					<BoxView
-						BackgroundColor="{x:Static local:Colors.Placeholder}" />
 					<Image
 						Aspect="AspectFit"
-						BackgroundColor="{x:Static local:Colors.Placeholder}"
+						BackgroundColor="{x:Static local:Colors.ImagePlaceholder}"
 						Source="{Binding Product.Store.ImageUrl, Converter={StaticResource cachedImage}}" />
 					<local:LabelEx
 						Grid.Column="1"
@@ -95,12 +93,11 @@
 						<local:CarouselLayout.ItemTemplate>
 							<DataTemplate>
 								<Grid
-									BackgroundColor="{x:Static local:Colors.Placeholder}"
+									BackgroundColor="{x:Static local:Colors.ImagePlaceholder}"
 									HorizontalOptions="FillAndExpand"
 									VerticalOptions="FillAndExpand">
 									<Image
 										Aspect="AspectFit"
-										BackgroundColor="{x:Static local:Colors.Placeholder}"
 										Source="{Binding ., Converter={StaticResource cachedImage}}"
 										VerticalOptions="FillAndExpand"
 										HorizontalOptions="FillAndExpand" />

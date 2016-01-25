@@ -37,10 +37,9 @@
 				<Grid
 					HeightRequest="250"
 					HorizontalOptions="FillAndExpand"
-					BackgroundColor="{x:Static local:Colors.Placeholder}">
+					BackgroundColor="{x:Static local:Colors.ImagePlaceholder}">
 					<Image
 						Aspect="AspectFit"
-						BackgroundColor="{x:Static local:Colors.Placeholder}"
 						Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}" />
 				</Grid>
 				<!--STORE NAME-->

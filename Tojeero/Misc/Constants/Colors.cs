@@ -31,7 +31,8 @@ namespace Tojeero.Forms
 		public static Color Secondary = Color.FromHex("#f15a24");
 		public static Color Subtitle = Color.FromHex("#9e9e9e");
 		public static Color Placeholder = Color.FromHex("#dde4e6");
-		public static Color PlaceholderDark = Color.FromHex("#afb8bb");
+	    public static Color ImagePlaceholder = Color.White;
+        public static Color PlaceholderDark = Color.FromHex("#afb8bb");
 		public static Color Invalid = Color.Red;
 		public static Color Warning = Color.FromHex("#f6846a");
 		public static Color SideMenuText = Color.FromHex("#96a9b4");

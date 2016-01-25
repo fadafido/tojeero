@@ -561,10 +561,7 @@ namespace Tojeero.Core.ViewModels
                 RaisePropertyChanged(() => IsSubcategoriesPickerEnabled);
                 await reloadSubcategories();
             }
-            else if (e.PropertyName == "StartPrice" || e.PropertyName == "EndPrice" || e.PropertyName == "Tags")
-            {
-                await ReloadCount();
-            }
+            await ReloadCount();
         }
 
         private async void tagsChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)

@@ -446,7 +446,8 @@ namespace Tojeero.Core.ViewModels
                 RaisePropertyChanged(() => IsCitiesPickerEnabled);
                 await reloadCities();
 			}
-		}
+            await ReloadCount();
+        }
 
 		private string handleException(Exception exception)
 		{

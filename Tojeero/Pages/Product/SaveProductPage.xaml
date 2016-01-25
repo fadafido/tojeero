@@ -5,7 +5,7 @@
 	x:Class="Tojeero.Forms.SaveProductPage"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
-	BackgroundColor="White"
+	BackgroundColor="{x:Static local:Colors.LightBackground}"
 	Title="{Binding Title}">
 	<ContentPage.Content>
 		<ScrollView>
@@ -46,12 +46,12 @@
 							<local:MultiImageControl
 								x:Name="multiImagePicker"
 								Images="{Binding Images, Mode=TwoWay}"
-								Padding="20,0,5,20" />
+								Padding="20,0,5,10" />
 						</StackLayout>
 						<!--PRODUCT NAME-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -81,7 +81,7 @@
 						<!--PRODUCT PRICE-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -121,7 +121,7 @@
 						<!--CATEGORY-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -157,7 +157,7 @@
 						<!--SUBCATEGORY-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0"
+							Padding="10,0,10,0"
 							Opacity="{Binding IsSubcategoryEnabled, Converter={StaticResource opacity}}">
 							<StackLayout
 								Padding="5,0,0,0">
@@ -194,7 +194,7 @@
 						<!--TAGS-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0"
+							Padding="10,0,10,0"
 							HorizontalOptions="FillAndExpand">
 							<StackLayout
 								Padding="5,0,0,0">
@@ -210,7 +210,7 @@
 						<!--DESCRIPTION-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -249,7 +249,7 @@
 						<!--CREATE PRODUCT BUTTON-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,20">
+							Padding="10,0,10,10">
 							<StackLayout
 								Orientation="Horizontal"
 								Spacing="5"

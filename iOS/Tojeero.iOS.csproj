@@ -439,6 +439,7 @@
   <ItemGroup>
     <Compile Include="Main\AppDelegate.cs" />
     <Compile Include="Main\Main.cs" />
+    <Compile Include="Misc\Custom Renderers\WebViewRenderer.cs" />
     <Compile Include="Setup\DebugTrace.cs" />
     <Compile Include="Setup\LinkerPleaseInclude.cs" />
     <Compile Include="Setup\Setup.cs" />

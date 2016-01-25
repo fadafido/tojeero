@@ -5,7 +5,7 @@
 	x:Class="Tojeero.Forms.SaveStorePage"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
-	BackgroundColor="White"
+	BackgroundColor="{x:Static local:Colors.LightBackground}"
 	Title="{Binding Title}">
 	<ContentPage.Content>
 		<ScrollView>
@@ -36,7 +36,7 @@
 								Padding="20,5,5,0">
 							</local:ImageControl>
 							<StackLayout
-								Padding="20,0,20,20">
+								Padding="20,0,20,10">
 								<Label
 									Text="{local:Translate LabelAddMainImage}"
 									TextColor="{x:Static local:Colors.Main}"
@@ -47,7 +47,7 @@
 						<!--STORE NAME-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<Label
 								Text="{local:Translate MessageWarningStoreName}"
 								Style="{StaticResource LabelWarning}"
@@ -81,7 +81,7 @@
 						<!--CATEGORY-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -116,7 +116,7 @@
 						<!--COUNTRY-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -151,7 +151,7 @@
 						<!--CITY-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0"
+							Padding="10,0,10,0"
 							Opacity="{Binding IsCityEnabled, Converter={StaticResource opacity}}">
 							<StackLayout
 								Padding="5,0,0,0">
@@ -188,7 +188,7 @@
 						<!--DESCRIPTION-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -214,7 +214,7 @@
 						<!--DELIVERY NOTES-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -240,7 +240,7 @@
 						<!--CREATE STORE BUTTON-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,20">
+							Padding="10,0,10,10">
 							<StackLayout
 								Orientation="Horizontal"
 								Spacing="5"

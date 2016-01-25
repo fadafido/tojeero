@@ -92,6 +92,7 @@ namespace Tojeero.Core
 				p.Description = product.Description;
 				p.NotVisible = !product.Visible;
 				p.Status = ProductStatus.Pending;
+			    p.IsBlocked = false;
 				p.LowercaseName = p.Name.ToLower();
 				p.CountryId = product.Store.CountryId;
 				p.CityId = product.Store.CityId;

@@ -37,15 +37,10 @@
 				<RowDefinition
 					Height="*" />
 			</Grid.RowDefinitions>
-			<BoxView
-				Grid.RowSpan="3"
-				BackgroundColor="{x:Static local:Colors.Placeholder}"
-				VerticalOptions="FillAndExpand"
-				HorizontalOptions="FillAndExpand" />
 			<Image
 				Grid.RowSpan="3"
 				Aspect="AspectFit"
-				BackgroundColor="{x:Static local:Colors.Placeholder}"
+				BackgroundColor="{x:Static local:Colors.ImagePlaceholder}"
 				Source="{Binding Store.ImageUrl, Converter={StaticResource cachedImage}}"
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand" />

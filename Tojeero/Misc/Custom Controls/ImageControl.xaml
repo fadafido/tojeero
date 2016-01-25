@@ -13,12 +13,8 @@
 			<Grid
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand">
-				<BoxView
-					VerticalOptions="FillAndExpand"
-					HorizontalOptions="FillAndExpand"
-					BackgroundColor="{x:Static local:Colors.Placeholder}" />
 				<Image
-					BackgroundColor="{x:Static local:Colors.Placeholder}"
+					BackgroundColor="{x:Static local:Colors.ImagePlaceholder}"
 					Source="placeholder.png"
 					VerticalOptions="Center"
 					HorizontalOptions="Center" />

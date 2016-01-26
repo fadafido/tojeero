@@ -12,6 +12,7 @@ namespace Tojeero.Core
 		Task<IEnumerable<IProduct>> FetchFavorite(int pageSize, int offset);
 		Task<int> CountFavorite();
 		Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset, IProductFilter filter = null);
+		Task<int> Count(string query, IProductFilter filter = null);
 		Task<IProduct> Save(ISaveProductViewModel store);
 	}
 }

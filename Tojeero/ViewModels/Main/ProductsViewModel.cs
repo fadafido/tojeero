@@ -149,7 +149,7 @@ namespace Tojeero.Core.ViewModels
 			{
 				get
 				{
-					return  Comparers.ProductName;
+					return  null;
 				}
 			}
 

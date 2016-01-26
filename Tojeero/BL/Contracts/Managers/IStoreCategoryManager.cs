@@ -7,6 +7,7 @@ namespace Tojeero.Core
 	public interface IStoreCategoryManager : IBaseModelEntityManager
 	{
 		Task<IEnumerable<IStoreCategory>> Fetch();
+		Task<Dictionary<string, int>> GetFacets(string query, IStoreFilter filter = null);
 	}
 }
 

@@ -182,7 +182,6 @@ namespace Tojeero.Core.ViewModels
 		{
 			if (!CanExecuteLoadFavoriteCommand)
 				return;
-			StartLoading();
 			string failureMessage = null;
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
@@ -203,8 +202,6 @@ namespace Tojeero.Core.ViewModels
 		{
 			if (!CanExecuteToggleFavoriteCommand)
 				return;
-			StartLoading();
-			string failureMessage = null;
 			using (var writerLock = await _locker.WriterLockAsync())
 			{
 				try
@@ -220,11 +217,9 @@ namespace Tojeero.Core.ViewModels
 				}
 				catch (Exception ex)
 				{
-					failureMessage = "Failed to toggle favorite.";
 					Tools.Logger.Log(ex, "Failed to load favorite for product with ID '{0}'", LoggingLevel.Error, true, this.Product.ID);
 				}
 			}
-			StopLoading(failureMessage);
 		}
 
 		protected virtual void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

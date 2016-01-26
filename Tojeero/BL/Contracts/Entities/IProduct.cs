@@ -24,7 +24,7 @@ namespace Tojeero.Core
 
 		string Description { get; set; }
 
-		bool IsBlocked { get; }
+		bool IsBlocked { get; set;  }
 
 		ProductStatus Status { get; set; }
 

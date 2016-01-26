@@ -5,7 +5,7 @@
 	x:Class="Tojeero.Forms.SaveProductPage"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms"
-	BackgroundColor="White"
+	BackgroundColor="{x:Static local:Colors.LightBackground}"
 	Title="{Binding Title}">
 	<ContentPage.Content>
 		<ScrollView>
@@ -41,17 +41,17 @@
 									Text="{local:Translate LabelAddMainImage}"
 									TextColor="{x:Static local:Colors.Main}"
 									FontSize="10"
-									XAlign="Center" />
+									HorizontalTextAlignment="Center" />
 							</StackLayout>
 							<local:MultiImageControl
 								x:Name="multiImagePicker"
 								Images="{Binding Images, Mode=TwoWay}"
-								Padding="20,0,5,20" />
+								Padding="20,0,5,10" />
 						</StackLayout>
 						<!--PRODUCT NAME-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -81,7 +81,7 @@
 						<!--PRODUCT PRICE-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -121,7 +121,7 @@
 						<!--CATEGORY-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -137,11 +137,10 @@
 									BackgroundColor="White" />
 								<StackLayout
 									Padding="10,2,10,2">
-									<local:BindablePicker
+									<local:ObjectPicker
 										x:Name="categoriesPicker"
-										x:TypeArguments="core:IProductCategory"
-										Title="{local:Translate LabelCategory}"
-										ItemsSource="{Binding Categories}"
+										x:TypeArguments="core:IProductCategory, local:ObjectPickerCell"
+										Placeholder="{local:Translate LabelCategory}"
 										SelectedItem="{Binding Category, Mode=TwoWay}"
 										IsEnabled="{Binding IsCategoryEnabled}"
 										TextColor="{x:Static local:Colors.Black}"
@@ -157,7 +156,7 @@
 						<!--SUBCATEGORY-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0"
+							Padding="10,0,10,0"
 							Opacity="{Binding IsSubcategoryEnabled, Converter={StaticResource opacity}}">
 							<StackLayout
 								Padding="5,0,0,0">
@@ -174,11 +173,10 @@
 									BackgroundColor="White" />
 								<StackLayout
 									Padding="10,2,10,2">
-									<local:BindablePicker
+									<local:ObjectPicker
 										x:Name="subcategoriesPicker"
-										x:TypeArguments="core:IProductSubcategory"
-										Title="{local:Translate LabelSubcategory}"
-										ItemsSource="{Binding Subcategories}"
+										x:TypeArguments="core:IProductSubcategory, local:ObjectPickerCell"
+										Placeholder="{local:Translate LabelSubcategory}"
 										SelectedItem="{Binding Subcategory, Mode=TwoWay}"
 										TextColor="{x:Static local:Colors.Black}"
 										IsEnabled="{Binding IsSubcategoryEnabled}"
@@ -194,7 +192,7 @@
 						<!--TAGS-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0"
+							Padding="10,0,10,0"
 							HorizontalOptions="FillAndExpand">
 							<StackLayout
 								Padding="5,0,0,0">
@@ -210,7 +208,7 @@
 						<!--DESCRIPTION-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,0">
+							Padding="10,0,10,0">
 							<StackLayout
 								Padding="5,0,0,0">
 								<Label
@@ -249,7 +247,7 @@
 						<!--CREATE PRODUCT BUTTON-->
 						<StackLayout
 							Spacing="5"
-							Padding="20,0,20,20">
+							Padding="10,0,10,10">
 							<StackLayout
 								Orientation="Horizontal"
 								Spacing="5"

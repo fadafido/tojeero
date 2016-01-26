@@ -32,6 +32,11 @@ namespace Tojeero.Core
 			return _manager.Fetch<IProductSubcategory, ProductSubcategory>(new FetchProductSubcategoriesQuery(categoryID, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
+		public Task<Dictionary<string, int>> GetFacets(string query, IProductFilter filter = null)
+		{
+			return _manager.Rest.GetProductSubcategoryFacets(query, filter);
+		}
+
 		public async Task ClearCache()
 		{
 			await _manager.Cache.Clear<ProductSubcategory>();

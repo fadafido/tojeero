@@ -28,7 +28,7 @@ namespace Tojeero.Forms
 				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
 					{
 						var editStorePage = new SaveStorePage(store);
-						await this.Navigation.PushAsync(editStorePage);
+						await this.Navigation.PushModalAsync(new NavigationPage(editStorePage));
 					}));
 			}
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
+using Tojeero.Core;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
@@ -60,6 +61,7 @@ namespace Tojeero.Forms
 							await this.Navigation.PopModalAsync();
 						}, priority: 15));
 			}
+		    setupPickers();
 		}
 
 		#endregion
@@ -72,7 +74,20 @@ namespace Tojeero.Forms
 			this.ViewModel.ReloadCommand.Execute(null);
 		}
 
-		#endregion
-	}
+        #endregion
+
+        #region Utility methods
+
+        private void setupPickers()
+        {
+            countriesPicker.FacetsLoader = this.ViewModel.FetchCountryFacets;
+            countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => this.ViewModel.Countries);
+
+            citiesPicker.FacetsLoader = this.ViewModel.FetchCityFacets;
+            citiesPicker.ObjectsLoader = () => Task<IList<ICity>>.Factory.StartNew(() => this.ViewModel.Country?.Cities);
+        }
+
+        #endregion
+    }
 }
 

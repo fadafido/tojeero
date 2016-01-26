@@ -29,7 +29,7 @@
 						Style="{StaticResource LabelWarning}"
 						FontSize="15"
 						HorizontalOptions="Center"
-						XAlign="Center" />
+						HorizontalTextAlignment="Center" />
 					<StackLayout
 						Orientation="Vertical"
 						Spacing="15">
@@ -112,14 +112,14 @@
 										LineBreakMode="TailTruncation"
 										LineCount="1"
 										VerticalOptions="FillAndExpand"
-										YAlign="Center" />
+										VerticalTextAlignment="Center" />
 								</StackLayout>
 							</Grid>
 						</StackLayout>
 						<StackLayout
 							Spacing="15"
-							Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
-							IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}">
+							Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}}"
+							IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}">
 							<!--COUNTRY-->
 							<StackLayout
 								Spacing="5"
@@ -139,11 +139,12 @@
 										Radius="5" />
 									<StackLayout
 										Padding="15,2,15,2">
-										<local:BindablePicker
+										<local:FacetObjectPicker
 											x:TypeArguments="core:ICountry"
-											Title="{local:Translate LabelCountry}"
-											ItemsSource="{Binding Countries}"
-											SelectedItem="{Binding Country, Mode=TwoWay}"
+                      x:Name="countriesPicker"
+											Placeholder="{local:Translate LabelCountry}"
+											SelectedObject="{Binding Country, Mode=TwoWay}"
+                      CountVisible="False"
 											TextColor="{x:Static local:Colors.Main}"
 											HorizontalOptions="FillAndExpand"
 											VerticalOptions="FillAndExpand" />
@@ -169,11 +170,12 @@
 										Radius="5" />
 									<StackLayout
 										Padding="15,2,15,2">
-										<local:BindablePicker
+										<local:FacetObjectPicker
 											x:TypeArguments="core:ICity"
-											Title="{local:Translate LabelCity}"
-											ItemsSource="{Binding Country.Cities}"
-											SelectedItem="{Binding City, Mode=TwoWay}"
+                      x:Name="citiesPicker"
+											Placeholder="{local:Translate LabelCity}"
+											SelectedObject="{Binding City, Mode=TwoWay}"
+                      CountVisible="False"
 											TextColor="{x:Static local:Colors.Main}"
 											HorizontalOptions="FillAndExpand"
 											VerticalOptions="FillAndExpand" />
@@ -211,8 +213,8 @@
 											LineCount="1"
 											VerticalOptions="FillAndExpand"
 											HorizontalOptions="FillAndExpand"
-											XAlign="Center"
-											YAlign="Center" />
+											HorizontalTextAlignment="Center"
+											VerticalTextAlignment="Center" />
 									</Grid>
 									<Grid
 										HorizontalOptions="FillAndExpand"
@@ -244,7 +246,7 @@
 								Text="{local:Translate MessageTermsWarning}"
 								Style="{StaticResource LabelWarning}"
 								FontSize="15"
-								XAlign="Center" />
+								HorizontalTextAlignment="Center" />
 							<Button
 								Text="{local:Translate ButtonReadTerms}"
 								Command="{Binding ShowTermsCommand}"

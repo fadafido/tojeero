@@ -39,7 +39,7 @@ namespace Tojeero.Forms
 			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
 			this.ToolbarItems.Add(new ToolbarItem("", "filterIcon.png", async () =>
 				{
-					await this.Navigation.PushModalAsync(new NavigationPage(new FilterStoresPage()));
+					await this.Navigation.PushModalAsync(new NavigationPage(new FilterStoresPage(this.ViewModel.SearchQuery)));
 				}));
 			this.SearchBar.Placeholder = AppResources.PlaceholderSearchStores;
 			ListView.ItemSelected += itemSelected;

@@ -12,7 +12,7 @@
 		<local:BorderView
 			BorderColor="{x:Static local:Colors.CellBorder}"
 			BorderWidth="1"
-			BackgroundColor="{x:Static local:Colors.LargeCellBackground}" 
+			BackgroundColor="White" 
 			HorizontalOptions="FillAndExpand"
 			VerticalOptions="FillAndExpand"/>
 		<Grid
@@ -40,7 +40,7 @@
 			<Image
 				Grid.ColumnSpan="3"
 				Aspect="AspectFit"
-				BackgroundColor="{x:Static local:Colors.Placeholder}"
+				BackgroundColor="{x:Static local:Colors.ImagePlaceholder}"
 				Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}"
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand" />
@@ -54,7 +54,7 @@
 				FontSize="15"
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand"
-				YAlign="Center" />
+				VerticalTextAlignment="Center" />
 			<local:ImageButton
 				Grid.Row="1"
 				Grid.Column="2"

@@ -72,7 +72,7 @@ namespace Tojeero.Forms
 			if (!_toolbarButtonsAdded)
 			{
 				//if this view is not inside root page add close button
-				var root = this.FindParentPage<RootPage>();
+				var root = this.FindParent<RootPage>();
 				if (root == null)
 				{
 					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
@@ -114,25 +114,15 @@ namespace Tojeero.Forms
 
 		private void setupPickers()
 		{
-			citiesPicker.Comparer = (c1, c2) =>
-			{
-				if (c1 == null || c2 == null)
-					return false;
-				return c1 == c2 || c1.ID == c2.ID;
-			};
-			countriesPicker.Comparer = (c1, c2) =>
-			{
-				if (c1 == null || c2 == null)
-					return false;
-				return c1 == c2 || c1.ID == c2.ID;
-			};
-			categoriesPicker.Comparer = (x, y) =>
-			{
-				if (x == null || y == null)
-					return false;
-				return x == y || x.ID == y.ID;
-			};
-		}
+            categoriesPicker.ItemsLoader = () => Task<IList<IStoreCategory>>.Factory.StartNew(() => this.ViewModel.Categories);
+            categoriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
+
+            countriesPicker.ItemsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => this.ViewModel.Countries);
+            countriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
+
+            citiesPicker.ItemsLoader = () => Task<IList<ICity>>.Factory.StartNew(() => this.ViewModel.Cities);
+            citiesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
+        }
 
 		#endregion
 	}

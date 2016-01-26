@@ -69,6 +69,25 @@ namespace Tojeero.Core
 				return _storeName;
 			}
 		}
+
+		private static Func<IUniqueEntity, IUniqueEntity, bool> _uniqueEntityEqualityComparer;
+
+		public static Func<IUniqueEntity, IUniqueEntity, bool> UniqueEntityEqualityComparer
+		{
+			get
+			{
+				if (_uniqueEntityEqualityComparer == null)
+				{
+					_uniqueEntityEqualityComparer = (x, y) =>
+						{
+							if(x == null || y == null)
+								return false;
+							return x == y || x.ID == y.ID;
+						};
+				}
+				return _uniqueEntityEqualityComparer;
+			}
+		}
 	}
 }
 

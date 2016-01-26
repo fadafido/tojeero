@@ -230,11 +230,27 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		#endregion
+        public Func<Task<Dictionary<string, int>>> FetchCountryFacets
+        {
+            get
+            {
+                return () => _countryManager.GetProductCountryFacets("", null);
+            }
+        }
 
-		#region Commands
+        public Func<Task<Dictionary<string, int>>> FetchCityFacets
+        {
+            get
+            {
+                return () => _cityManager.GetProductCityFacets("", null);
+            }
+        }
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _tryAgainCommand;
+        #endregion
+
+        #region Commands
+
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _tryAgainCommand;
 
 		public System.Windows.Input.ICommand TryAgainCommand
 		{

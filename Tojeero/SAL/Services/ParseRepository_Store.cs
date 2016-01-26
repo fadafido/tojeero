@@ -19,15 +19,8 @@ namespace Tojeero.Core
 		{
 			using (var tokenSource = new CancellationTokenSource(Constants.FetchStoresTimeout))
 			{
-				var query = new ParseQuery<ParseStore>().Where(s => s.IsBlocked == false).OrderBy(s => s.LowercaseName);
-				query = addStoreIncludedFields(query);
-				if (pageSize > 0 && offset >= 0)
-				{
-					query = query.Limit(pageSize).Skip(offset);
-				}
-				query = getFilteredStoreQuery(query, filter);
-				var result = await query.FindAsync(tokenSource.Token).ConfigureAwait(false);
-				return result.Select(s => new Store(s) as IStore);
+				var result = await FindStores("", pageSize, offset, filter);
+				return result;
 			}
 		}
 
@@ -77,6 +70,23 @@ namespace Tojeero.Core
 				var stores = result["hits"].ToObject<List<Store>>();
 				return stores;
 			}
+		}
+
+		public async Task<int> CountStores(string query, IStoreFilter filter = null)
+		{
+			var algoliaQuery = new Algolia.Search.Query(query);
+			algoliaQuery = getFilteredStoreQuery(algoliaQuery, filter);
+			algoliaQuery.SetNbHitsPerPage(0);
+			var result = await _storeIndex.SearchAsync(algoliaQuery);
+			try
+			{
+				var count = result["nbHits"].ToObject<int>();
+				return count;
+			}
+			catch
+			{
+			}
+			return -1;
 		}
 
 		public async Task<IEnumerable<IProduct>> FetchStoreProducts(string storeID, int pageSize, int offset, bool includeInvisible = false)
@@ -156,6 +166,24 @@ namespace Tojeero.Core
 			}
 		}
 
+		public async Task<Dictionary<string, int>> GetStoreCategoryFacets(string query, IStoreFilter filter = null)
+		{
+			var result = await getStoreAttributeFacets(query, "categoryID", filter);
+			return result;
+		}
+
+		public async Task<Dictionary<string, int>> GetStoreCountryFacets(string query, IStoreFilter filter = null)
+		{
+			var result = await getStoreAttributeFacets(query, "countryID", filter, "cityID");
+			return result;
+		}
+
+		public async Task<Dictionary<string, int>> GetStoreCityFacets(string query, IStoreFilter filter = null)
+		{
+			var result = await getStoreAttributeFacets(query, "cityID", filter);
+			return result;
+		}
+
 		#endregion
 
 		#region Utility methods
@@ -187,23 +215,23 @@ namespace Tojeero.Core
 			return query;
 		}
 			
-		private Algolia.Search.Query getFilteredStoreQuery(Algolia.Search.Query query, IStoreFilter filter)
+		private Algolia.Search.Query getFilteredStoreQuery(Algolia.Search.Query query, IStoreFilter filter, params string[] excludeFacets)
 		{
 			if (filter != null)
 			{
 				List<string> facets = new List<string>();
 				facets.Add("isBlocked:false");
-				if (filter.Category != null)
+				if (filter.Category != null && !excludeFacets.Contains("categoryID"))
 				{
 					facets.Add("categoryID:"+filter.Category.ID);
 				}
 
-				if (filter.Country != null)
+				if (filter.Country != null && !excludeFacets.Contains("countryID"))
 				{
 					facets.Add("countryID:"+filter.Country.ID);
 				}
 
-				if (filter.City != null)
+				if (filter.City != null && !excludeFacets.Contains("cityID"))
 				{
 					facets.Add("cityID:"+filter.City.ID);
 				}
@@ -217,6 +245,24 @@ namespace Tojeero.Core
 				}
 			}
 			return query;
+		}
+
+		private async Task<Dictionary<string, int>> getStoreAttributeFacets(string query, string facetAttribute, IStoreFilter filter = null, params string[] childFacets)
+		{
+			var algoliaQuery = new Algolia.Search.Query(query);
+			algoliaQuery = getFilteredStoreQuery(algoliaQuery, filter, new string[] {facetAttribute}.Concatenate(childFacets));
+			algoliaQuery.SetNbHitsPerPage(0);
+			algoliaQuery.SetFacets(new string[] {facetAttribute});
+			var result = await _storeIndex.SearchAsync(algoliaQuery);
+			try
+			{
+				var facets = result["facets"][facetAttribute].ToObject<Dictionary<string, int>>();
+				return facets;
+			}
+			catch
+			{
+			}
+			return null;
 		}
 
 		ParseQuery<ParseStore> addStoreIncludedFields(ParseQuery<ParseStore> query)

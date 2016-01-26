@@ -29,6 +29,15 @@ namespace Tojeero.Core
 			return _manager.Fetch<ICity, City>(new FetchCitiesQuery(countryId, _manager), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
+		public Task<Dictionary<string, int>> GetProductCityFacets(string query, IProductFilter filter = null)
+		{
+			return _manager.Rest.GetProductCityFacets(query, filter);
+		}
+
+		public Task<Dictionary<string, int>> GetStoreCityFacets(string query, IStoreFilter filter = null)
+		{
+			return _manager.Rest.GetStoreCityFacets(query, filter);
+		}
 
 		public Task ClearCache()
 		{

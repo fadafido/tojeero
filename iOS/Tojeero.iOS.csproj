@@ -425,6 +425,7 @@
     <BundleResource Include="Resources\listCellIcon%402x.png" />
     <BundleResource Include="Resources\listLargeCellIcon%402x.png" />
     <BundleResource Include="ITunesArtwork.png" />
+    <BundleResource Include="Resources\clearIcon%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -438,6 +439,7 @@
   <ItemGroup>
     <Compile Include="Main\AppDelegate.cs" />
     <Compile Include="Main\Main.cs" />
+    <Compile Include="Misc\Custom Renderers\WebViewRenderer.cs" />
     <Compile Include="Setup\DebugTrace.cs" />
     <Compile Include="Setup\LinkerPleaseInclude.cs" />
     <Compile Include="Setup\Setup.cs" />
@@ -541,9 +543,6 @@
     </Compile>
     <Compile Include="Misc\Custom Renderers\BorderViewRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\ImageButtonRenderer.cs" />
-    <Compile Include="..\Tojeero\Misc\Custom Controls\ImageButtonRenderer.shared.cs">
-      <Link>Misc\Custom Renderers\ImageButtonRenderer.shared.cs</Link>
-    </Compile>
     <Compile Include="..\Tojeero\SAL\Services\ParseRepository_Product.cs">
       <Link>Core\SAL\Services\ParseRepository_Product.cs</Link>
     </Compile>
@@ -578,21 +577,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
   <Import Project="..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
-  <ItemGroup>
-    <Folder Include="Main\" />
-    <Folder Include="Setup\" />
-    <Folder Include="Setup\Bootstrap\Secure Storage\" />
-    <Folder Include="Misc\" />
-    <Folder Include="Misc\Custom Renderers\" />
-    <Folder Include="Core\" />
-    <Folder Include="Core\BL\" />
-    <Folder Include="Core\SAL\" />
-    <Folder Include="Resources\Samples\" />
-    <Folder Include="Resources\Samples\Products\" />
-    <Folder Include="Resources\Samples\Stores\" />
-    <Folder Include="Core\DAL\" />
-    <Folder Include="Core\BL\Queries\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork%402x.png" />
   </ItemGroup>

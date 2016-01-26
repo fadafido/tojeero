@@ -17,6 +17,7 @@ using Xamarin.Forms.Platform.iOS;
 using Cirrious.MvvmCross.Platform;
 using ObjCRuntime;
 using System.Runtime.InteropServices;
+using Tojeero.Core.ViewModels;
 
 
 namespace Tojeero.iOS
@@ -51,6 +52,7 @@ namespace Tojeero.iOS
 			ImageCircleRenderer.Init();
 			MakeAppearanceCustomizations();
 			base.FinishedLaunching(app, options);
+			test();
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
 		}
 
@@ -121,6 +123,47 @@ namespace Tojeero.iOS
 		public event EventHandler<MvxLifetimeEventArgs> LifetimeChanged;
 
 		#endregion
+
+		private class ProductFacetQuery : IFacetQuery<IProductCategory>
+		{
+			#region IFacetQuery implementation
+
+			public System.Threading.Tasks.Task<IEnumerable<IProductCategory>> FetchObjects()
+			{
+				var rest = Mvx.Resolve<IRestRepository>();
+				return rest.FetchProductCategories();
+			}
+
+			public System.Threading.Tasks.Task<Dictionary<string, int>> FetchFacets()
+			{
+				var rest = Mvx.Resolve<IRestRepository>();
+				return rest.GetProductCategoryFacets(null);
+			}
+
+			#endregion
+		}
+
+		private async void test()
+		{
+			var facetsVM = new BaseFacetedCollectionViewModel<IProductCategory>(new ProductFacetQuery());
+			await facetsVM.reload();
+			printFacets(facetsVM.Facets);
+		}
+
+		private void printFacets(List<FacetViewModel<IProductCategory>> facets)
+		{
+			Console.WriteLine("///////////////////////////////////////////////////////////////////////");
+			if (facets == null || facets.Count == 0)
+				Console.WriteLine("**************** NO FACETS ****************");
+			else
+			{
+				foreach (var facet in facets)
+				{
+					Console.WriteLine(facet.Data + "    " + facet.Count);
+				}
+			}
+			Console.WriteLine("///////////////////////////////////////////////////////////////////////");
+		}
 	}
 }
 

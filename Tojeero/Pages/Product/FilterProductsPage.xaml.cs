@@ -6,6 +6,7 @@ using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.Resources;
 using Tojeero.Core;
+using System.Threading.Tasks;
 
 namespace Tojeero.Forms
 {
@@ -13,9 +14,10 @@ namespace Tojeero.Forms
 	{
 		#region Constructors
 
-		public FilterProductsPage()
+		public FilterProductsPage(string query = null)
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<FilterProductsViewModel>();
+			this.ViewModel.Query = query;
 			InitializeComponent();
 			setupPickers();
 			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "", async () =>
@@ -51,10 +53,11 @@ namespace Tojeero.Forms
 
 		#region View Lifecycle
 
-		protected override void OnAppearing()
+		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
 			this.ViewModel.ReloadCommand.Execute(null);
+			await this.ViewModel.ReloadCount();
 		}
 
 		#endregion
@@ -63,32 +66,19 @@ namespace Tojeero.Forms
 
 		private void setupPickers()
 		{
-			citiesPicker.Comparer = (c1, c2) =>
-				{
-					if(c1 == null || c2 == null)
-						return false;
-					return c1 == c2 || c1.ID == c2.ID;
-				};
-			countriesPicker.Comparer = (c1, c2) =>
-				{
-					if(c1 == null || c2 == null)
-						return false;
-					return c1 == c2 || c1.ID == c2.ID;
-				};
-			categoriesPicker.Comparer = (x, y) =>
-				{
-					if(x == null || y == null)
-						return false;
-					return x == y || x.ID == y.ID;
-				};
-			subcategoriesPicker.Comparer = (x, y) =>
-				{
-					if(x == null || y == null)
-						return false;
-					return x == y || x.ID == y.ID;
-				};
-		}
+			countriesPicker.FacetsLoader = this.ViewModel.FetchCountryFacets;
+			countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => this.ViewModel.Countries);
 
+			citiesPicker.FacetsLoader = this.ViewModel.FetchCityFacets;
+			citiesPicker.ObjectsLoader = () => Task<IList<ICity>>.Factory.StartNew(() => this.ViewModel.Cities);
+
+			categoriesPicker.FacetsLoader = this.ViewModel.FetchCategoryFacets;
+			categoriesPicker.ObjectsLoader = () => Task<IList<IProductCategory>>.Factory.StartNew(() => this.ViewModel.Categories);
+
+			subcategoriesPicker.FacetsLoader = this.ViewModel.FetchSubcategoryFacets;
+			subcategoriesPicker.ObjectsLoader = () => Task<IList<IProductSubcategory>>.Factory.StartNew(() => this.ViewModel.Subcategories);
+		}
+			
 		#endregion
 	}
 }

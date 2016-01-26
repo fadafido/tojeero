@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<local:ObjectPickerCell
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.FacetPickerCell"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms">
+	<Grid
+		BackgroundColor="Transparent"
+		ColumnSpacing="5"
+		Padding="10,0,10,0"
+		HorizontalOptions="FillAndExpand"
+		VerticalOptions="FillAndExpand">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition
+				Width="*" />
+			<ColumnDefinition
+				Width="Auto" />
+			<ColumnDefinition
+				Width="20" />
+		</Grid.ColumnDefinitions>
+		<local:LabelEx
+			Text="{Binding Caption}"
+			TextColor="{x:Static local:Colors.Main}"
+			FontSize="15"
+			LineCount="1"
+			LineBreakMode="TailTruncation"
+			VerticalOptions="FillAndExpand"
+			HorizontalOptions="StartAndExpand"
+			VerticalTextAlignment="Center" />
+		<local:LabelEx
+			Grid.Column="1"
+			Text="{Binding Item.Count, Converter={StaticResource numberToString}}"
+      IsVisible="{Binding Item.CountVisible}"
+			TextColor="{x:Static local:Colors.Subtitle}"
+			FontSize="10"
+			LineCount="1"
+			LineBreakMode="TailTruncation"
+			VerticalOptions="FillAndExpand"
+			HorizontalOptions="StartAndExpand"
+			VerticalTextAlignment="Center" />
+		<Image
+			Grid.Column="2"
+			x:Name="checkmark"
+			Source="checkmark.png"
+			IsVisible="{Binding IsSelected}"
+			VerticalOptions="Center"
+			HorizontalOptions="End"
+			HeightRequest="16"
+			WidthRequest="15" />
+		<BoxView
+			Grid.ColumnSpan="3"
+			BackgroundColor="{x:Static local:Colors.Separator}"
+			HeightRequest="1"
+			HorizontalOptions="FillAndExpand"
+			VerticalOptions="End" />
+	</Grid>
+</local:ObjectPickerCell>

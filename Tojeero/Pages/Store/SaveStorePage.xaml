@@ -97,11 +97,10 @@
 									BackgroundColor="White" />
 								<StackLayout
 									Padding="10,2,10,2">
-									<local:BindablePicker
+									<local:ObjectPicker
 										x:Name="categoriesPicker"
-										x:TypeArguments="core:IStoreCategory"
-										Title="{local:Translate LabelCategory}"
-										ItemsSource="{Binding Categories}"
+										x:TypeArguments="core:IStoreCategory, local:ObjectPickerCell"
+										Placeholder="{local:Translate LabelCategory}"
 										SelectedItem="{Binding Category, Mode=TwoWay}"
 										TextColor="{x:Static local:Colors.Black}"
 										HorizontalOptions="FillAndExpand"
@@ -132,11 +131,10 @@
 									BackgroundColor="White" />
 								<StackLayout
 									Padding="10,2,10,2">
-									<local:BindablePicker
+									<local:ObjectPicker
 										x:Name="countriesPicker"
-										x:TypeArguments="core:ICountry"
-										Title="{local:Translate LabelCountry}"
-										ItemsSource="{Binding Countries}"
+										x:TypeArguments="core:ICountry, local:ObjectPickerCell"
+										Placeholder="{local:Translate LabelCountry}"
 										SelectedItem="{Binding Country, Mode=TwoWay}"
 										TextColor="{x:Static local:Colors.Black}"
 										HorizontalOptions="FillAndExpand"
@@ -168,11 +166,10 @@
 									BackgroundColor="White" />
 								<StackLayout
 									Padding="10,2,10,2">
-									<local:BindablePicker
+									<local:ObjectPicker
 										x:Name="citiesPicker"
-										x:TypeArguments="core:ICity"
-										Title="{local:Translate LabelCity}"
-										ItemsSource="{Binding Cities}"
+										x:TypeArguments="core:ICity, local:ObjectPickerCell"
+										Placeholder="{local:Translate LabelCity}"
 										SelectedItem="{Binding City, Mode=TwoWay}"
 										TextColor="{x:Static local:Colors.Black}"
 										IsEnabled="{Binding IsCityEnabled}"

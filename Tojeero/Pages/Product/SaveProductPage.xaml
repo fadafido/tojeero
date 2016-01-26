@@ -137,11 +137,10 @@
 									BackgroundColor="White" />
 								<StackLayout
 									Padding="10,2,10,2">
-									<local:BindablePicker
+									<local:ObjectPicker
 										x:Name="categoriesPicker"
-										x:TypeArguments="core:IProductCategory"
-										Title="{local:Translate LabelCategory}"
-										ItemsSource="{Binding Categories}"
+										x:TypeArguments="core:IProductCategory, local:ObjectPickerCell"
+										Placeholder="{local:Translate LabelCategory}"
 										SelectedItem="{Binding Category, Mode=TwoWay}"
 										IsEnabled="{Binding IsCategoryEnabled}"
 										TextColor="{x:Static local:Colors.Black}"
@@ -174,11 +173,10 @@
 									BackgroundColor="White" />
 								<StackLayout
 									Padding="10,2,10,2">
-									<local:BindablePicker
+									<local:ObjectPicker
 										x:Name="subcategoriesPicker"
-										x:TypeArguments="core:IProductSubcategory"
-										Title="{local:Translate LabelSubcategory}"
-										ItemsSource="{Binding Subcategories}"
+										x:TypeArguments="core:IProductSubcategory, local:ObjectPickerCell"
+										Placeholder="{local:Translate LabelSubcategory}"
 										SelectedItem="{Binding Subcategory, Mode=TwoWay}"
 										TextColor="{x:Static local:Colors.Black}"
 										IsEnabled="{Binding IsSubcategoryEnabled}"

@@ -168,10 +168,10 @@ namespace Tojeero.Core.ViewModels
 			}
 			set
 			{
-				_category = value; 
-				RaisePropertyChanged(() => Category); 
-				validateCategory();
-			}
+                _category = value;
+                RaisePropertyChanged(() => Category);
+                validateCategory();
+            }
 		}
 
 		private ICountry _country;
@@ -184,10 +184,15 @@ namespace Tojeero.Core.ViewModels
 			}
 			set
 			{
-				_country = value; 
-				RaisePropertyChanged(() => Country); 
-				validateCountry();
-				reloadCities();
+			    if (_country != value)
+			    {
+			        _country = value;
+			        RaisePropertyChanged(() => Country);
+			        validateCountry();
+			        this.Cities = null;
+			        this.City = null;
+			        reloadCities();
+			    }
 			}
 		}
 
@@ -548,7 +553,9 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task reloadCities()
 		{
-			this.StartLoading(AppResources.MessageGeneralLoading);
+            if (this.Cities != null && this.Cities.Length > 0)
+                return;
+            this.StartLoading(AppResources.MessageGeneralLoading);
 			string failureMessage = null;
 			using (var writerLock = await _citiesLock.WriterLockAsync())
 			{
@@ -559,7 +566,6 @@ namespace Tojeero.Core.ViewModels
 					{
 						var result = await _cityManager.Fetch(this.Country.ID);
 						this.Cities = result != null ? result.ToArray() : null;
-						this.City = this.Cities != null ? this.Cities.FirstOrDefault() : null;
 					}
 					catch (Exception ex)
 					{

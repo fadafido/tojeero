@@ -12,16 +12,8 @@
 		<local:RemovableContainerView.RootContent>
 			<Grid
 				VerticalOptions="FillAndExpand"
-				HorizontalOptions="FillAndExpand">
-				<BoxView
-					VerticalOptions="FillAndExpand"
-					HorizontalOptions="FillAndExpand"
-					BackgroundColor="{x:Static local:Colors.Placeholder}" />
-				<Image
-					BackgroundColor="{x:Static local:Colors.Placeholder}"
-					Source="placeholder.png"
-					VerticalOptions="Center"
-					HorizontalOptions="Center" />
+				HorizontalOptions="FillAndExpand"
+        BackgroundColor="White">
 				<Image
 					Aspect="AspectFill"
 					BackgroundColor="Transparent"

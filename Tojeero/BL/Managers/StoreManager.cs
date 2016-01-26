@@ -53,6 +53,11 @@ namespace Tojeero.Core
 			return _manager.Fetch<IStore, Store>(new FindStoresQuery(query, pageSize, offset, _manager, filter), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
+		public Task<int> Count(string query, IStoreFilter filter = null)
+		{
+			return _manager.Rest.CountStores(query, filter);
+		}
+
 		public async Task<IStore> Save(ISaveStoreViewModel store)
 		{
 			if (store != null)

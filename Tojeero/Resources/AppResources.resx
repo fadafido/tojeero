@@ -163,8 +163,8 @@
     <value>Email</value>
     <comment>Email label text.</comment>
   </data>
-  <data name="LabelEndPrice" xml:space="preserve">
-    <value>End price</value>
+  <data name="LabelTo" xml:space="preserve">
+    <value>To</value>
   </data>
   <data name="LabelFirstName" xml:space="preserve">
     <value>First name</value>
@@ -202,9 +202,8 @@
     <value>Tags:</value>
     <comment>Tags label shown on product details screen</comment>
   </data>
-  <data name="LabelStartPrice" xml:space="preserve">
-    <value>Start price</value>
-    <comment>Start price label</comment>
+  <data name="LabelFrom" xml:space="preserve">
+    <value>From</value>
   </data>
   <data name="LabelSubcategory" xml:space="preserve">
     <value>Subcategory</value>
@@ -427,8 +426,8 @@
   <data name="MessageStoreNoProducts" xml:space="preserve">
     <value>Store doesn't have any products.</value>
   </data>
-  <data name="MessageWarningStoreName" xml:space="preserve">
-    <value>Choose your store name wisely, you won't be able to change it.</value>
+  <data name="MessageWarningChangeStoreDetails" xml:space="preserve">
+    <value>Choose your store name, country and city wisely, you won't be able to change them later.</value>
   </data>
   <data name="ButtonCreateProduct" xml:space="preserve">
     <value>Add product</value>
@@ -545,5 +544,29 @@
   </data>
   <data name="MessageTermsWarning" xml:space="preserve">
     <value>By submitting this form you confirm that you agree to our Terms of Service</value>
+  </data>
+  <data name="MessageMatchingProducts" xml:space="preserve">
+    <value>There are {0} matching products.</value>
+  </data>
+  <data name="MessageMatchingStores" xml:space="preserve">
+    <value>There are {0} matching stores.</value>
+  </data>
+  <data name="MessageNoMatchingProducts" xml:space="preserve">
+    <value>There are no matching products.</value>
+  </data>
+  <data name="MessageNoMatchingStores" xml:space="preserve">
+    <value>There are no matching stores.</value>
+  </data>
+  <data name="MessageSingleMatchingProduct" xml:space="preserve">
+    <value>There is 1 matching product.</value>
+  </data>
+  <data name="MessageSingleMatchingStore" xml:space="preserve">
+    <value>There is 1 matching store.</value>
+  </data>
+  <data name="ButtonResetFilters" xml:space="preserve">
+    <value>Reset all filters</value>
+  </data>
+  <data name="MessageLoadingMatches" xml:space="preserve">
+    <value>Loading matches...</value>
   </data>
 </root>

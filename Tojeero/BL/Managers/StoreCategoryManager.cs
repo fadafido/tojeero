@@ -32,6 +32,11 @@ namespace Tojeero.Core
 			return _manager.Fetch<IStoreCategory, StoreCategory>(new FetchStoreCategoriesQuery(_manager), Constants.StoresCacheTimespan.TotalMilliseconds);
 		}
 
+		public Task<Dictionary<string, int>> GetFacets(string query, IStoreFilter filter = null)
+		{
+			return _manager.Rest.GetStoreCategoryFacets(query, filter);
+		}
+
 		public async Task ClearCache()
 		{
 			await _manager.Cache.Clear<StoreCategory>();

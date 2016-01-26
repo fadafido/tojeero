@@ -118,7 +118,7 @@ namespace Tojeero.Forms
 
 		protected void productButtonClicked(object sender, EventArgs e)
 		{
-			var root = this.FindParentPage<RootPage>();
+			var root = this.FindParent<RootPage>();
 			if (root != null)
 			{
 				root.SelectProductsPage();
@@ -127,7 +127,7 @@ namespace Tojeero.Forms
 
 		protected void storeButtonClicked(object sender, EventArgs e)
 		{
-			var root = this.FindParentPage<RootPage>();
+			var root = this.FindParent<RootPage>();
 			if (root != null)
 			{
 				root.SelectStoresPage();

@@ -150,6 +150,8 @@
 				x:Key="double" />
 			<local:NullableBoolConverter
 				x:Key="bool" />
+			<local:NumberToStringConverter
+				x:Key="numberToString" />
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

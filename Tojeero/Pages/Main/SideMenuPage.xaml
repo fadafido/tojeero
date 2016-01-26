@@ -27,7 +27,7 @@
 					TextColor="White"
 					FontAttributes="Bold"
 					FontSize="Small"
-					XAlign="Center" />
+					HorizontalTextAlignment="Center" />
 			</StackLayout>
 			<!--USER PROFILE-->
 			<StackLayout
@@ -179,7 +179,7 @@
 						Text="{local:Translate ButtonLogin}"
 						Command="{Binding LoginCommand}"
 						VerticalOptions="Center"
-						Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}"
+						Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}}"
 						Style="{StaticResource Button1}"
 						IsEnabled="{Binding CanExecuteLoginCommand}"
 						IsVisible="{Binding IsLoggedIn, Converter={StaticResource inverse}}">

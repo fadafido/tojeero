@@ -10,6 +10,7 @@ using Android.OS;
 using Tojeero.Forms;
 using Xamarin.Facebook;
 using Android.Graphics.Drawables;
+using Java.Security;
 
 namespace Tojeero.Droid
 {
@@ -32,8 +33,20 @@ namespace Tojeero.Droid
 		{
 			base.OnCreate(bundle);
 
-			//Setup Xamarin forms
-			global::Xamarin.Forms.Forms.Init(this, bundle);
+#if DEBUG
+            PackageInfo info = this.PackageManager.GetPackageInfo("com.tojeero.tojeero", PackageInfoFlags.Signatures);
+
+            foreach (Android.Content.PM.Signature signature in info.Signatures)
+            {
+                MessageDigest md = MessageDigest.GetInstance("SHA");
+                md.Update(signature.ToByteArray());
+
+                string keyhash = Convert.ToBase64String(md.Digest());
+                Console.WriteLine("KeyHash:", keyhash);
+            }
+#endif
+            //Setup Xamarin forms
+            global::Xamarin.Forms.Forms.Init(this, bundle);
 			LoadApplication(new FormsApp());
 
 			CallbackManager = CallbackManagerFactory.Create();

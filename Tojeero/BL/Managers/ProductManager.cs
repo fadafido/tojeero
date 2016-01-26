@@ -60,6 +60,11 @@ namespace Tojeero.Core
 			return products;
 		}
 
+		public Task<int> Count(string query, IProductFilter filter = null)
+		{
+			return _manager.Rest.CountProducts(query, filter);
+		}
+
 		public Task ClearCache()
 		{
 			return _manager.Cache.Clear<Product>();

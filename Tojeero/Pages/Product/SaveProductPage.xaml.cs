@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
@@ -98,20 +99,12 @@ namespace Tojeero.Forms
 
 		private void setupPickers()
 		{
-			categoriesPicker.Comparer = (x, y) =>
-			{
-				if (x == null || y == null)
-					return false;
-				return x == y || x.ID == y.ID;
-			};
+            categoriesPicker.ItemsLoader = () => Task<IList<IProductCategory>>.Factory.StartNew(() => this.ViewModel.Categories );
+		    categoriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
 
-			subcategoriesPicker.Comparer = (x, y) =>
-			{
-				if (x == null || y == null)
-					return false;
-				return x == y || x.ID == y.ID;
-			};
-		}
+            subcategoriesPicker.ItemsLoader = () => Task<IList<IProductSubcategory>>.Factory.StartNew(() => this.ViewModel.Subcategories);
+            subcategoriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
+        }
 
 		#endregion
 	}

@@ -221,11 +221,16 @@ namespace Tojeero.Core.ViewModels
 			}
 			set
 			{
-				_category = value; 
-				RaisePropertyChanged(() => Category); 
-				RaisePropertyChanged(() => IsSubcategoryEnabled);
-				validateCategory();
-				reloadSubcategories();
+			    if (_category != value)
+			    {
+			        _category = value;
+			        RaisePropertyChanged(() => Category);
+			        RaisePropertyChanged(() => IsSubcategoryEnabled);
+			        validateCategory();
+			        this.Subcategories = null;
+			        this.Subcategory = null;
+			        reloadSubcategories();
+			    }
 			}
 		}
 
@@ -627,9 +632,9 @@ namespace Tojeero.Core.ViewModels
 
 		private async Task reloadSubcategories()
 		{
-			this.StartLoading(AppResources.MessageGeneralLoading);
-			this.Subcategory = null;
-			this.Subcategories = null;
+            if (this.Subcategories != null && this.Subcategories.Length > 0)
+                return;
+            this.StartLoading(AppResources.MessageGeneralLoading);
 			RaisePropertyChanged(() => IsSubcategoryEnabled);
 
 			string failureMessage = null;
@@ -642,7 +647,6 @@ namespace Tojeero.Core.ViewModels
 					{
 						var result = await _subcategoryManager.Fetch(this.Category.ID);
 						this.Subcategories = result != null ? result.ToArray() : null;
-						this.Subcategory = this.Subcategories != null ? this.Subcategories.FirstOrDefault() : null;
 					}
 					catch (Exception ex)
 					{

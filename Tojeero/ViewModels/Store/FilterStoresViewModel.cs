@@ -4,6 +4,12 @@ using System.Threading.Tasks;
 using Tojeero.Forms.Resources;
 using System.Linq;
 using Nito.AsyncEx;
+using System.Collections.Generic;
+using System.Windows.Input;
+using Cirrious.MvvmCross.ViewModels;
+using Tojeero.Core.Toolbox;
+using Tojeero.Forms;
+using Xamarin.Forms;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -11,6 +17,7 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Private fields
 
+		private readonly IStoreManager _storeManager;
 		private readonly IStoreCategoryManager _categoryManager;
 		private readonly ICountryManager _countryManager;
 		private readonly ICityManager _cityManager;
@@ -21,10 +28,14 @@ namespace Tojeero.Core.ViewModels
 
 		#region Constructors
 
-		public FilterStoresViewModel(IStoreCategoryManager categoryManager, ICountryManager countryManager, 
-			ICityManager cityManager, ITagManager tagManager)
+		public FilterStoresViewModel(IStoreManager storeManager,
+		                             IStoreCategoryManager categoryManager,
+		                             ICountryManager countryManager, 
+		                             ICityManager cityManager, 
+		                             ITagManager tagManager)
 			: base()
 		{
+			this._storeManager = storeManager;
 			this._tagManager = tagManager;
 			this._cityManager = cityManager;
 			this._countryManager = countryManager;
@@ -52,14 +63,16 @@ namespace Tojeero.Core.ViewModels
 		}
 
 		#endregion
+
 		#region Properties
 
 		private IStoreFilter _storeFilter;
+
 		public IStoreFilter StoreFilter
 		{
 			get
 			{
-				if(_storeFilter == null)
+				if (_storeFilter == null)
 				{
 					_storeFilter = RuntimeSettings.StoreFilter.Clone();
 				}
@@ -67,7 +80,86 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private IStoreCategory[] _categories;
+		private string _query;
+
+		public string Query
+		{ 
+			get
+			{
+				return _query; 
+			}
+			set
+			{
+				_query = value; 
+				RaisePropertyChanged(() => Query); 
+			}
+		}
+
+		private int _count = -1;
+
+		public int Count
+		{ 
+			get
+			{
+				return _count; 
+			}
+			set
+			{
+				_count = value; 
+				RaisePropertyChanged(() => Count); 
+				RaisePropertyChanged(() => CountLabel); 
+			}
+		}
+
+		private string _loadingCountLabel;
+		public string CountLabel
+		{
+			get
+			{
+                RaisePropertyChanged(() => CountLabelBackgroundColor);
+                RaisePropertyChanged(() => CountLabelTextColor);
+
+                if (!string.IsNullOrEmpty(_loadingCountLabel))
+					return _loadingCountLabel;
+				if (Count < 0)
+					return "";
+			    if (Count == 0)
+			        return AppResources.MessageNoMatchingStores;
+                if (Count == 1)
+                    return AppResources.MessageSingleMatchingStore;
+                return string.Format(AppResources.MessageMatchingStores, ((decimal)Count).GetShortString());
+            }
+		}
+
+        public Color CountLabelBackgroundColor
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_loadingCountLabel))
+                    return Colors.HeaderPositive;
+                if (Count < 0)
+                    return Color.Transparent;
+                if (Count == 0)
+                    return Colors.HeaderWarning;
+                return Colors.HeaderPositive;
+            }
+        }
+
+        public Color CountLabelTextColor
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_loadingCountLabel))
+                    return Colors.HeaderPositiveText;
+                if (Count < 0)
+                    return Color.Transparent;
+                if (Count == 0)
+                    return Colors.HeaderWarningText;
+                return Colors.HeaderPositiveText;
+            }
+        }
+
+        private IStoreCategory[] _categories;
 
 		public IStoreCategory[] Categories
 		{ 
@@ -81,7 +173,15 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Categories); 
 			}
 		}
-			
+
+		public Func<Task<Dictionary<string,int>>> FetchCategoryFacets
+		{
+			get
+			{
+				return () => _categoryManager.GetFacets(this.Query, this.StoreFilter);
+			}
+		}
+
 		private ICountry[] _countries;
 
 		public ICountry[] Countries
@@ -97,6 +197,15 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
+		public Func<Task<Dictionary<string,int>>> FetchCountryFacets
+		{
+			get
+			{
+				return () => _countryManager.GetStoreCountryFacets(this.Query, this.StoreFilter);
+			}
+		}
+
+
 		private ICity[] _cities;
 
 		public ICity[] Cities
@@ -108,11 +217,22 @@ namespace Tojeero.Core.ViewModels
 			set
 			{
 				_cities = value; 
-				RaisePropertyChanged(() => Cities); 
+				RaisePropertyChanged(() => Cities);
+                RaisePropertyChanged(() => IsCitiesPickerEnabled);
+            }
+		}
+
+		public Func<Task<Dictionary<string,int>>> FetchCityFacets
+		{
+			get
+			{
+				return () => _cityManager.GetStoreCityFacets(this.Query, this.StoreFilter);
 			}
 		}
 
-		private ObservableCollection<ITag> _tags;
+        public bool IsCitiesPickerEnabled => StoreFilter.Country != null && this.Cities != null && this.Cities.Length > 0;
+
+        private ObservableCollection<ITag> _tags;
 
 		public ObservableCollection<ITag> Tags
 		{ 
@@ -126,6 +246,7 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Tags); 
 			}
 		}
+
 		#endregion
 
 		#region Commands
@@ -156,6 +277,87 @@ namespace Tojeero.Core.ViewModels
 					});
 				return _doneCommand;
 			}
+		}
+
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _clearCountryCommand;
+
+        public System.Windows.Input.ICommand ClearCountryCommand
+        {
+            get
+            {
+                _clearCountryCommand = _clearCountryCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+                {
+                    this.StoreFilter.Country = null;
+                    await ReloadCount();
+                });
+                return _clearCountryCommand;
+            }
+        }
+
+
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _clearCityCommand;
+
+        public System.Windows.Input.ICommand ClearCityCommand
+        {
+            get
+            {
+                _clearCityCommand = _clearCityCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+                {
+                    this.StoreFilter.City = null;
+                    await ReloadCount();
+                });
+                return _clearCityCommand;
+            }
+        }
+
+        private Cirrious.MvvmCross.ViewModels.MvxCommand _clearCategoryCommand;
+
+        public System.Windows.Input.ICommand ClearCategoryCommand
+        {
+            get
+            {
+                _clearCategoryCommand = _clearCategoryCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
+                {
+                    this.StoreFilter.Category = null;
+                    await ReloadCount();
+                });
+                return _clearCategoryCommand;
+            }
+        }
+
+        private MvxCommand _resetFiltersCommand;
+
+        public ICommand ResetFiltersCommand
+        {
+            get
+            {
+                _resetFiltersCommand = _resetFiltersCommand ?? new MvxCommand(async () =>
+                {
+                    this.StoreFilter.Country = null;
+                    this.StoreFilter.City = null;
+                    this.StoreFilter.Category = null;
+                    this.StoreFilter.Tags.Clear();
+                    await ReloadCount();
+                });
+                return _resetFiltersCommand;
+            }
+        }
+
+        public async Task ReloadCount()
+		{
+			_loadingCountLabel = AppResources.MessageLoadingMatches;
+			RaisePropertyChanged(() => CountLabel);
+			try
+			{
+				this.Count = await _storeManager.Count(this.Query, this.StoreFilter);
+			}
+			catch (Exception ex)
+			{
+				Tools.Logger.Log(ex, "Error occurred while loading matching products count", LoggingLevel.Error, true);
+				this.Count = -1;
+			}
+			_loadingCountLabel = null;
+			RaisePropertyChanged(() => CountLabel);
 		}
 
 		#endregion
@@ -199,8 +401,13 @@ namespace Tojeero.Core.ViewModels
 			string failureMessage = null;
 			using (var writerLock = await _citiesLock.WriterLockAsync())
 			{
-				if (!(this.StoreFilter.Country == null || this.Countries == null || this.Countries.Length == 0) &&
-					!(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.StoreFilter.Country.ID))
+                if (this.StoreFilter.Country == null)
+                {
+                    this.Cities = null;
+                    this.StoreFilter.City = null;
+                }
+                if (!(this.StoreFilter.Country == null || this.Countries == null || this.Countries.Length == 0) &&
+				    !(this.Cities != null && this.Cities.Length > 0 && this.Cities[0].CountryId == this.StoreFilter.Country.ID))
 				{
 					try
 					{
@@ -212,7 +419,18 @@ namespace Tojeero.Core.ViewModels
 						failureMessage = handleException(ex);
 					}
 				}
-			}
+                //If the city name is empty it means it has not been loaded from backend
+                //We need to update the product filter to include newly loaded data, 
+                //so the user will see the city name
+                var cityID = this.StoreFilter.City?.ID;
+                if (string.IsNullOrEmpty(this.StoreFilter.City?.Name) &&
+                    !string.IsNullOrEmpty(cityID) && this.Cities != null)
+                {
+                    var city = this.Cities.FirstOrDefault(c => c.ID == cityID);
+                    if (city != null)
+                        this.StoreFilter.City = city;
+                }
+            }
 			StopLoading(failureMessage);
 		}
 
@@ -230,22 +448,35 @@ namespace Tojeero.Core.ViewModels
 				return;
 			var result = await _countryManager.Fetch();
 			this.Countries = result != null ? result.ToArray() : null;
-		}
+            //If the country name is empty it means it has not been loaded from backend
+            //We need to update the product filter to include newly loaded data, 
+            //so the user will see the country name
+            var countryID = this.StoreFilter.Country?.ID;
+            if (string.IsNullOrEmpty(this.StoreFilter.Country?.Name) &&
+                !string.IsNullOrEmpty(countryID) && this.Countries != null)
+            {
+                var country = this.Countries.FirstOrDefault(c => c.ID == countryID);
+                if (country != null)
+                    this.StoreFilter.Country = country;
+            }
+        }
 
-		private async void StoreFilter_PropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void StoreFilter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Country")
 			{
-				await reloadCities();
+                RaisePropertyChanged(() => IsCitiesPickerEnabled);
+                await reloadCities();
 			}
-		}
+            await ReloadCount();
+        }
 
 		private string handleException(Exception exception)
 		{
-			try 
+			try
 			{
 				throw exception;
-			} 
+			}
 			catch (OperationCanceledException ex)
 			{
 				Tools.Logger.Log(ex, LoggingLevel.Warning);
@@ -257,6 +488,7 @@ namespace Tojeero.Core.ViewModels
 				return AppResources.MessageLoadingFailed;
 			}
 		}
+
 		#endregion
 	}
 }

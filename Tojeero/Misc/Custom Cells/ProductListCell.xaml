@@ -40,7 +40,7 @@
 			<Image
 				Grid.RowSpan="3"
 				Aspect="AspectFit"
-				BackgroundColor="{x:Static local:Colors.Placeholder}"
+				BackgroundColor="{x:Static local:Colors.ImagePlaceholder}"
 				Source="{Binding Product.ImageUrl, Converter={StaticResource cachedImage}}"
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand" />
@@ -74,7 +74,7 @@
 					TextColor="{Binding WarningColor}"
 					IsVisible="{Binding StatusWarning, Converter={StaticResource visibility}}"
 					FontSize="10"
-					XAlign="End"/>
+					HorizontalTextAlignment="End"/>
 			</StackLayout>
 			<StackLayout
 				Grid.Row="2"

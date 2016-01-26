@@ -125,7 +125,23 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		private LanguageCode[] _languages;
+        public Func<Task<Dictionary<string, int>>> FetchCountryFacets
+        {
+            get
+            {
+                return () => _countryManager.GetProductCountryFacets("", null);
+            }
+        }
+
+        public Func<Task<Dictionary<string, int>>> FetchCityFacets
+        {
+            get
+            {
+                return () => _cityManager.GetProductCityFacets("", null);
+            }
+        }
+
+        private LanguageCode[] _languages;
 		public LanguageCode[] Languages
 		{
 			get

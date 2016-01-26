@@ -139,11 +139,11 @@
 										Radius="5" />
 									<StackLayout
 										Padding="15,2,15,2">
-										<local:BindablePicker
+										<local:FacetObjectPicker
 											x:TypeArguments="core:ICountry"
-											Title="{local:Translate LabelCountry}"
-											ItemsSource="{Binding Countries}"
-											SelectedItem="{Binding Country, Mode=TwoWay}"
+                      x:Name="countriesPicker"
+											Placeholder="{local:Translate LabelCountry}"
+											SelectedObject="{Binding Country, Mode=TwoWay}"
 											TextColor="{x:Static local:Colors.Main}"
 											HorizontalOptions="FillAndExpand"
 											VerticalOptions="FillAndExpand" />
@@ -169,11 +169,11 @@
 										Radius="5" />
 									<StackLayout
 										Padding="15,2,15,2">
-										<local:BindablePicker
+										<local:FacetObjectPicker
 											x:TypeArguments="core:ICity"
-											Title="{local:Translate LabelCity}"
-											ItemsSource="{Binding Country.Cities}"
-											SelectedItem="{Binding City, Mode=TwoWay}"
+                      x:Name="citiesPicker"
+											Placeholder="{local:Translate LabelCity}"
+											SelectedObject="{Binding City, Mode=TwoWay}"
 											TextColor="{x:Static local:Colors.Main}"
 											HorizontalOptions="FillAndExpand"
 											VerticalOptions="FillAndExpand" />

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.Toolbox;
 using Cirrious.CrossCore;
+using Tojeero.Core;
 using Tojeero.Core.Services;
 
 namespace Tojeero.Forms
@@ -39,12 +40,8 @@ namespace Tojeero.Forms
 		{
 			this.ViewModel = MvxToolbox.LoadViewModel<BootstrapViewModel>();
 			InitializeComponent();
-
-			var localizationService = Mvx.Resolve<ILocalizationService>();
-			this.languagesPicker.StringFormat = (language) =>
-			{
-					return localizationService.GetNativeLanguageName(language);
-			};
+            
+            setupPickers();
 		}
 
 		#endregion
@@ -57,7 +54,26 @@ namespace Tojeero.Forms
 			this.ViewModel.BootstrapCommand.Execute(null);
 		}
 
-		#endregion
-	}
+        #endregion
+
+        #region Utility methods
+
+        private void setupPickers()
+        {
+            countriesPicker.FacetsLoader = this.ViewModel.FetchCountryFacets;
+            countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => this.ViewModel.Countries);
+
+            citiesPicker.FacetsLoader = this.ViewModel.FetchCityFacets;
+            citiesPicker.ObjectsLoader = () => Task<IList<ICity>>.Factory.StartNew(() => this.ViewModel.Country?.Cities);
+
+            var localizationService = Mvx.Resolve<ILocalizationService>();
+            this.languagesPicker.StringFormat = (language) =>
+            {
+                return localizationService.GetNativeLanguageName(language);
+            };
+        }
+
+        #endregion
+    }
 }
 

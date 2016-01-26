@@ -16,9 +16,11 @@ namespace Tojeero.Core
 		{
 			get
 			{
-				if (_productFilter == null)
-					_productFilter = new ProductFilter();
-				return _productFilter;
+			    if (_productFilter == null)
+			    {
+			        _productFilter = new ProductFilter();
+			    }
+			    return _productFilter;
 			}
 			set
 			{

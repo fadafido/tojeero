@@ -36,7 +36,7 @@ namespace Tojeero.Forms
 				var objects = this.ObjectsLoader == null ? null : await this.ObjectsLoader();
 				if (facets == null || objects == null)
 					return null;
-				var facetedObjects = objects.ApplyFacets(facets).ToList();
+				var facetedObjects = objects.ApplyFacets(facets, CountVisible).ToList();
 				return facetedObjects;
 			};
 			this.PropertyChanged += propertyChanged;
@@ -50,12 +50,15 @@ namespace Tojeero.Forms
 		/***************Facets***************/
 		public Func<Task<Dictionary<string,int>>> FacetsLoader { get; set; }
 
-		/***************Objects***************/
-		public Func<Task<IList<T>>> ObjectsLoader { get; set; }
 
+        /***************Objects***************/
+        public Func<Task<IList<T>>> ObjectsLoader { get; set; }
 
-		/***************SelectedObject***************/
-		public static BindableProperty SelectedObjectProperty = BindableProperty.Create<FacetObjectPicker<T>, T>(o => o.SelectedObject, null);
+        /***************Count Visible***************/
+        public bool CountVisible { get; set; }
+
+        /***************SelectedObject***************/
+        public static BindableProperty SelectedObjectProperty = BindableProperty.Create<FacetObjectPicker<T>, T>(o => o.SelectedObject, null);
 
 		public T SelectedObject
 		{
@@ -63,11 +66,12 @@ namespace Tojeero.Forms
 			set { SetValue(SelectedObjectProperty, value); }
 		}
 
-		#endregion
 
-		#region Utility methods
+        #endregion
 
-		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        #region Utility methods
+
+        void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == SelectedItemProperty.PropertyName)
 			{

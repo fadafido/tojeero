@@ -7,10 +7,11 @@ namespace Tojeero.Core.ViewModels
 	{
 		#region Constructors
 
-		public FacetViewModel(T data = default(T), int count = 0)
+		public FacetViewModel(T data = default(T), int count = 0, bool countVisible = true)
 		{
 			Data = data;
 			Count = count;
+		    CountVisible = countVisible;
 		}
 
 		#endregion
@@ -46,6 +47,20 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => Count); 
 			}
 		}
+
+	    private bool _countVisible;
+	    public bool CountVisible
+	    { 
+	        get  
+	        {
+	            return _countVisible; 
+	        }
+	        set 
+	        {
+	            _countVisible = value; 
+	            RaisePropertyChanged(() => CountVisible); 
+	        }
+	    }  
 
 		#endregion
 	}

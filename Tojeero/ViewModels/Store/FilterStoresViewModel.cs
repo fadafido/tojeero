@@ -419,7 +419,18 @@ namespace Tojeero.Core.ViewModels
 						failureMessage = handleException(ex);
 					}
 				}
-			}
+                //If the city name is empty it means it has not been loaded from backend
+                //We need to update the product filter to include newly loaded data, 
+                //so the user will see the city name
+                var cityID = this.StoreFilter.City?.ID;
+                if (string.IsNullOrEmpty(this.StoreFilter.City?.Name) &&
+                    !string.IsNullOrEmpty(cityID) && this.Cities != null)
+                {
+                    var city = this.Cities.FirstOrDefault(c => c.ID == cityID);
+                    if (city != null)
+                        this.StoreFilter.City = city;
+                }
+            }
 			StopLoading(failureMessage);
 		}
 
@@ -437,7 +448,18 @@ namespace Tojeero.Core.ViewModels
 				return;
 			var result = await _countryManager.Fetch();
 			this.Countries = result != null ? result.ToArray() : null;
-		}
+            //If the country name is empty it means it has not been loaded from backend
+            //We need to update the product filter to include newly loaded data, 
+            //so the user will see the country name
+            var countryID = this.StoreFilter.Country?.ID;
+            if (string.IsNullOrEmpty(this.StoreFilter.Country?.Name) &&
+                !string.IsNullOrEmpty(countryID) && this.Countries != null)
+            {
+                var country = this.Countries.FirstOrDefault(c => c.ID == countryID);
+                if (country != null)
+                    this.StoreFilter.Country = country;
+            }
+        }
 
 		private async void StoreFilter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{

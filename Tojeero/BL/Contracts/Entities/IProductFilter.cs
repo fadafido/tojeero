@@ -15,6 +15,9 @@ namespace Tojeero.Core
 		double? EndPrice { get; set; }
 		ObservableCollection<string> Tags { get; set; }
 		IProductFilter Clone();
+	    void SetCountryID(string countryId);
+	    void SetCityID(string cityId);
+
 	}
 }
 

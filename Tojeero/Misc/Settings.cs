@@ -132,7 +132,11 @@ namespace Tojeero.Core
 					AppSettings.Remove(CountryIdKey);
 				else
 					AppSettings.AddOrUpdateValue(CountryIdKey, value);
-			}
+                RuntimeSettings.ProductFilter.SetCountryID(value);
+                RuntimeSettings.StoreFilter.SetCountryID(value);
+			    RuntimeSettings.ProductFilter.City = null;
+                RuntimeSettings.StoreFilter.City = null;
+            }
 		}
 
 		#endregion
@@ -164,7 +168,7 @@ namespace Tojeero.Core
 					AppSettings.Remove(CityIdKey);
 				else
 					AppSettings.AddOrUpdateValue(CityIdKey, value);
-			}
+            }
 		}
 
 		#endregion

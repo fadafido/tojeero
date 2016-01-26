@@ -109,11 +109,39 @@ namespace Tojeero.Core
 			return filter;
 		}
 
-		#endregion
+        public void SetCountryID(string countryId)
+        {
+            if (!string.IsNullOrEmpty(countryId))
+            {
+                var country = _countryManager.Create();
+                country.ID = countryId;
+                this.Country = country;
+            }
+            else
+            {
+                this.Country = null;
+            }
+        }
 
-		#region Overriding Parent
+        public void SetCityID(string cityId)
+        {
+            if (!string.IsNullOrEmpty(cityId))
+            {
+                var city = _cityManager.Create();
+                city.ID = cityId;
+                this.City = city;
+            }
+            else
+            {
+                this.City = null;
+            }
+        }
 
-		public override string ToString()
+        #endregion
+
+        #region Overriding Parent
+
+        public override string ToString()
 		{
 			List<string> components = new List<string>();
 			if (this.Category != null)
@@ -214,27 +242,15 @@ namespace Tojeero.Core
 
 		private void initialize()
 		{
-			return;
-			if (_authService.CurrentUser != null)
-			{
-				
-				var countryId = _authService.CurrentUser != null ? _authService.CurrentUser.CountryId : Settings.CountryId;
-				if (countryId != null)
-				{
-					var country = _countryManager.Create();
-					country.ID = countryId;
-					this._country = country;
-				}
-					
-				var cityId = _authService.CurrentUser != null ? _authService.CurrentUser.CityId : Settings.CityId;
-				if (cityId != null)
-				{
-					var city = _cityManager.Create();
-					city.ID = cityId;
-					this._city = city;
-				}
-			}
-		}
+            string countryId = null;
+            if (_authService.CurrentUser != null)
+            {
+                countryId = _authService.CurrentUser?.CountryId;
+            }
+            countryId = !string.IsNullOrEmpty(countryId) ? countryId : Settings.CountryId;
+
+            SetCountryID(countryId);
+        }
 
 		#endregion
 

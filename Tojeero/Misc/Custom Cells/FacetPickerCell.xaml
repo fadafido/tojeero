@@ -31,6 +31,7 @@
 		<local:LabelEx
 			Grid.Column="1"
 			Text="{Binding Item.Count, Converter={StaticResource numberToString}}"
+      IsVisible="{Binding Item.CountVisible}"
 			TextColor="{x:Static local:Colors.Subtitle}"
 			FontSize="10"
 			LineCount="1"

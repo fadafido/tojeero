@@ -144,6 +144,7 @@
                       x:Name="countriesPicker"
 											Placeholder="{local:Translate LabelCountry}"
 											SelectedObject="{Binding Country, Mode=TwoWay}"
+                      CountVisible="False"
 											TextColor="{x:Static local:Colors.Main}"
 											HorizontalOptions="FillAndExpand"
 											VerticalOptions="FillAndExpand" />
@@ -174,6 +175,7 @@
                       x:Name="citiesPicker"
 											Placeholder="{local:Translate LabelCity}"
 											SelectedObject="{Binding City, Mode=TwoWay}"
+                      CountVisible="False"
 											TextColor="{x:Static local:Colors.Main}"
 											HorizontalOptions="FillAndExpand"
 											VerticalOptions="FillAndExpand" />

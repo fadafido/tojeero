@@ -58,7 +58,8 @@ namespace Tojeero.Core.ViewModels
 				RaisePropertyChanged(() => CurrentStore); 
 				RaisePropertyChanged(() => Title);
 				RaisePropertyChanged(() => IsNew);
-				RaisePropertyChanged(() => SaveCommandTitle);
+                RaisePropertyChanged(() => IsCityEnabled);
+                RaisePropertyChanged(() => SaveCommandTitle);
 				updateViewModel();
 			}
 		}
@@ -303,7 +304,7 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{ 
-				return this.Country != null && this.Cities != null && this.Cities.Length > 0;
+				return this.IsNew && this.Country != null && this.Cities != null && this.Cities.Length > 0;
 			}
 		}
 

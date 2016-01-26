@@ -426,8 +426,8 @@
   <data name="MessageStoreNoProducts" xml:space="preserve">
     <value>Store doesn't have any products.</value>
   </data>
-  <data name="MessageWarningStoreName" xml:space="preserve">
-    <value>Choose your store name wisely, you won't be able to change it.</value>
+  <data name="MessageWarningChangeStoreDetails" xml:space="preserve">
+    <value>Choose your store name, country and city wisely, you won't be able to change them later.</value>
   </data>
   <data name="ButtonCreateProduct" xml:space="preserve">
     <value>Add product</value>

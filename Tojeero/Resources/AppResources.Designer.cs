@@ -1016,11 +1016,11 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose your store name wisely, you won&apos;t be able to change it..
+        ///   Looks up a localized string similar to Choose your store name, country and city wisely, you won&apos;t be able to change them later..
         /// </summary>
-        internal static string MessageWarningStoreName {
+        internal static string MessageWarningChangeStoreDetails {
             get {
-                return ResourceManager.GetString("MessageWarningStoreName", resourceCulture);
+                return ResourceManager.GetString("MessageWarningChangeStoreDetails", resourceCulture);
             }
         }
         

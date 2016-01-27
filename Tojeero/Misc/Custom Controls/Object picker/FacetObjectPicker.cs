@@ -55,7 +55,7 @@ namespace Tojeero.Forms
         public Func<Task<IList<T>>> ObjectsLoader { get; set; }
 
         /***************Count Visible***************/
-        public bool CountVisible { get; set; }
+	    public bool CountVisible { get; set; } = true;
 
         /***************SelectedObject***************/
         public static BindableProperty SelectedObjectProperty = BindableProperty.Create<FacetObjectPicker<T>, T>(o => o.SelectedObject, null);

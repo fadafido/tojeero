@@ -134,6 +134,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chat with seller.
+        /// </summary>
+        internal static string ButtonChatWithSeller {
+            get {
+                return ResourceManager.GetString("ButtonChatWithSeller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string ButtonClose {

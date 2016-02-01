@@ -18,6 +18,7 @@ using Cirrious.MvvmCross.Platform;
 using ObjCRuntime;
 using System.Runtime.InteropServices;
 using Tojeero.Core.ViewModels;
+using Tojeero.Core.Services;
 
 
 namespace Tojeero.iOS
@@ -52,7 +53,7 @@ namespace Tojeero.iOS
 			ImageCircleRenderer.Init();
 			MakeAppearanceCustomizations();
 			base.FinishedLaunching(app, options);
-			test();
+			
 			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
 		}
 
@@ -141,28 +142,6 @@ namespace Tojeero.iOS
 			}
 
 			#endregion
-		}
-
-		private async void test()
-		{
-			var facetsVM = new BaseFacetedCollectionViewModel<IProductCategory>(new ProductFacetQuery());
-			await facetsVM.reload();
-			printFacets(facetsVM.Facets);
-		}
-
-		private void printFacets(List<FacetViewModel<IProductCategory>> facets)
-		{
-			Console.WriteLine("///////////////////////////////////////////////////////////////////////");
-			if (facets == null || facets.Count == 0)
-				Console.WriteLine("**************** NO FACETS ****************");
-			else
-			{
-				foreach (var facet in facets)
-				{
-					Console.WriteLine(facet.Data + "    " + facet.Count);
-				}
-			}
-			Console.WriteLine("///////////////////////////////////////////////////////////////////////");
 		}
 	}
 }

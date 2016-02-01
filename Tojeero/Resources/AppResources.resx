@@ -569,4 +569,7 @@
   <data name="MessageLoadingMatches" xml:space="preserve">
     <value>Loading matches...</value>
   </data>
+  <data name="ButtonChatWithSeller" xml:space="preserve">
+    <value>Chat with seller</value>
+  </data>
 </root>

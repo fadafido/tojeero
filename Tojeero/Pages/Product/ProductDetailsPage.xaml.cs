@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Tojeero.Core.ViewModels;
 using Tojeero.Core;
+using Tojeero.Forms.Pages.Chat;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.Resources;
 
@@ -33,7 +34,10 @@ namespace Tojeero.Forms
 						await this.Navigation.PushModalAsync(new NavigationPage(saveProductPage));
 					}));
 			}
-
+		    this.ViewModel.ShowChatPageAction = async (p, s) =>
+		    {
+		        await this.Navigation.PushAsync(new ChatPage());
+		    };
 			this.carouselLayout.IndicatorStyle = CarouselLayout.IndicatorStyleEnum.Dots;
 		}
 

@@ -16,9 +16,11 @@ namespace Tojeero.Core
 		public static string AlgoliaApplicationId = "I72QVLIB9D";
 		public static string AlgoliaSecurityKey = "92e4f8a9553b57b20d4d50f37d3232dc";
 		public static string BackendRequestKey = "AN524MNHR";
+	    public static string PubNubPublishKey = "pub-c-3fa3a8a7-66a0-4b02-b74d-4de8fe2b050a";
+        public static string PubNubSubscribeKey = "sub-c-5ec2cc14-c43e-11e5-a9aa-02ee2ddab7fe";
 
-		/*****************MESSAGES*****************/
-		public static string SessionStateChangedMessage = "com.tojeero.tojeero:SessionStateChangedMessage";
+        /*****************MESSAGES*****************/
+        public static string SessionStateChangedMessage = "com.tojeero.tojeero:SessionStateChangedMessage";
 
 		/*****************TIMEOUTS*****************/
 		public static int DefaultTimeout = 20000;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -30,11 +30,20 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BL\Contracts\Entities\IChatMessage.cs" />
+    <Compile Include="BL\Contracts\Entities\IChatResponseMessage.cs" />
+    <Compile Include="BL\Entities\ChatMessage.cs" />
+    <Compile Include="BL\Entities\ChatResponseMessage.cs" />
+    <Compile Include="Misc\Messages\Chat\ChatReceivedMessage.cs" />
+    <Compile Include="Pages\Chat\ChatPage.xaml.cs">
+      <DependentUpon>ChatPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup\MvxApp.cs" />
     <Compile Include="ViewModels\Base\BaseUserViewModel.cs" />
     <Compile Include="ViewModels\Base\LoadableViewModel.cs" />
     <Compile Include="ViewModels\Base\ReloadableViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatChannelViewModel.cs" />
     <Compile Include="ViewModels\Contracts\ILoadableViewModel.cs" />
     <Compile Include="ViewModels\Contracts\IReloadableViewModel.cs" />
     <Compile Include="SAL\Contracts\IAuthenticationService.cs" />
@@ -315,6 +324,8 @@
     <Compile Include="Misc\Converters\NumberToStringConverter.cs" />
     <Compile Include="Misc\Custom Controls\Object picker\FacetObjectPicker.cs" />
     <Compile Include="Misc\Toolbox\NumberToolbox.cs" />
+    <Compile Include="SAL\Contracts\IChatService.cs" />
+    <Compile Include="SAL\Services\PubNubChatService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -408,28 +419,21 @@
     <Reference Include="Xamarin.Forms.Platform">
       <HintPath>..\packages\Xamarin.Forms.2.0.0.6490\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="crypto">
+      <HintPath>..\packages\Portable.BouncyCastle-Signed.1.7.0.2\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="ConcurrentHashtable">
+      <HintPath>..\packages\PubnubPCL.3.7.0.1\lib\portable-net40+sl50+win+wp80+MonoAndroid10+xamarinios10+MonoTouch10\ConcurrentHashtable.dll</HintPath>
+    </Reference>
+    <Reference Include="PubNub-Messaging">
+      <HintPath>..\packages\PubnubPCL.3.7.0.1\lib\portable-net40+sl50+win+wp80+MonoAndroid10+xamarinios10+MonoTouch10\PubNub-Messaging.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DAL\" />
-    <Folder Include="Pages\Base\" />
-    <Folder Include="SAL\Services\" />
-    <Folder Include="BL\Contracts\Entities\" />
-    <Folder Include="BL\Contracts\Managers\" />
-    <Folder Include="Misc\Exceptions\" />
-    <Folder Include="BL\Entities\" />
     <Folder Include="BL\Managers\" />
-    <Folder Include="Misc\Custom Cells\" />
-    <Folder Include="DAL\Contracts\" />
-    <Folder Include="ViewModels\Misc\" />
-    <Folder Include="Pages\Misc\" />
-    <Folder Include="Pages\Store\" />
-    <Folder Include="ViewModels\Product\" />
-    <Folder Include="ViewModels\Store\" />
-    <Folder Include="Misc\Messages\Entity change messages\" />
-    <Folder Include="Misc\Custom Controls\Object picker\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Main\SideMenuPage.xaml">
@@ -537,6 +541,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\Custom Cells\FacetPickerCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\Chat\ChatPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -5,6 +5,8 @@ using Tojeero.Core.Toolbox;
 using Tojeero.Forms.Resources;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
+using Cirrious.MvvmCross.ViewModels;
 
 namespace Tojeero.Core.ViewModels
 {
@@ -31,7 +33,8 @@ namespace Tojeero.Core.ViewModels
 
 		#region Properties
 
-		public Action<IStore> ShowStoreInfoPageAction;
+		public Action<IStore> ShowStoreInfoPageAction { get; set; }
+        public Action<IProduct, IStore> ShowChatPageAction { get; set; }
 
 		private ContentMode _mode;
 
@@ -147,6 +150,19 @@ namespace Tojeero.Core.ViewModels
 				return _showStoreInfoPageCommand;
 			}
 		}
+
+	    private MvxCommand _chatCommand;
+	    public ICommand ChatCommand
+	    {
+	        get
+	        {
+	            _chatCommand = _chatCommand ?? new MvxCommand(() =>
+	            {
+                    ShowChatPageAction?.Invoke(this.Product, this.Product.Store);
+                });
+	            return _chatCommand;
+	        }
+	    }
 
 		#endregion
 

@@ -37,7 +37,10 @@ namespace Tojeero.Forms
 		public static Color Warning = Color.FromHex("#f6846a");
 		public static Color SideMenuText = Color.FromHex("#96a9b4");
 
-		public static Color HeaderPositive = Color.FromHex("#dbeed3");
+        public static Color ChatMessageSenderBackgroundColor = Colors.Placeholder;
+        public static Color ChatMessageReceiverBackgroundColor = Colors.Secondary;
+
+        public static Color HeaderPositive = Color.FromHex("#dbeed3");
 		public static Color HeaderPositiveText = Color.FromHex("#356b35");
 		public static Color HeaderWarning = Color.FromHex("#fcf7df");
 		public static Color HeaderWarningText = Color.FromHex("#7f6234");

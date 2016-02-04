@@ -36,7 +36,16 @@ namespace Tojeero.Forms
 			}
 		    this.ViewModel.ShowChatPageAction = async (p, s) =>
 		    {
-		        await this.Navigation.PushAsync(new ChatPage());
+                var channel = new ChatChannel()
+                {
+                    ChannelID = "test_channel",
+                    RecipientID = "3UrStgR0xf",
+                    RecipientProfilePictureUrl = "https://graph.facebook.com/132614200423948/picture?width=300&height=300",
+                    SenderID = "WolZCU1LjR",
+                    SenderProfilePictureUrl = "https://graph.facebook.com/965828503464964/picture?width=300&height=300"
+                };
+                var chatPage = new ChatPage(channel);
+                await this.Navigation.PushAsync(chatPage);
 		    };
 			this.carouselLayout.IndicatorStyle = CarouselLayout.IndicatorStyleEnum.Dots;
 		}

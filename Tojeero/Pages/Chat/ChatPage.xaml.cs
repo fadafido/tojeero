@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tojeero.Core;
 using Tojeero.Core.ViewModels;
+using Tojeero.Forms.BL.Contracts;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.ViewModels.Chat;
 using Xamarin.Forms;
@@ -14,17 +15,21 @@ namespace Tojeero.Forms.Pages.Chat
     public partial class ChatPage : ContentPage
     {
         #region Constructors
-        public ChatPage()
+        public ChatPage(IChatChannel channel = null)
         {
-            this.ViewModel = MvxToolbox.LoadViewModel<ChatChannelViewModel<ChatMessage>>();
-            this.ViewModel.ChannelID = "test_channel";
+            this.ViewModel = MvxToolbox.LoadViewModel<ChatChannelViewModel>();
+            this.ViewModel.Channel = channel;
+            this.ViewModel.ScrollToMessageAction = m =>
+            {
+                listView.ScrollTo(m, ScrollToPosition.MakeVisible, true);
+            };
             InitializeComponent();
         }
         #endregion
 
         #region Properties
-        private ChatChannelViewModel<ChatMessage> _viewModel;
-        public ChatChannelViewModel<ChatMessage> ViewModel  
+        private ChatChannelViewModel _viewModel;
+        public ChatChannelViewModel ViewModel  
         {
             get
             {

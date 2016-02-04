@@ -30,10 +30,15 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BL\Contracts\Entities\ChatChannel.cs" />
     <Compile Include="BL\Contracts\Entities\IChatMessage.cs" />
     <Compile Include="BL\Contracts\Entities\IChatResponseMessage.cs" />
+    <Compile Include="BL\Contracts\IChatChannel.cs" />
     <Compile Include="BL\Entities\ChatMessage.cs" />
     <Compile Include="BL\Entities\ChatResponseMessage.cs" />
+    <Compile Include="Misc\Custom Cells\ChatMessageCell.xaml.cs">
+      <DependentUpon>ChatMessageCell.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Misc\Messages\Chat\ChatReceivedMessage.cs" />
     <Compile Include="Pages\Chat\ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>
@@ -165,6 +170,7 @@
     <Compile Include="BL\Contracts\Entities\ISearchableEntity.cs" />
     <Compile Include="BL\Contracts\Entities\ITag.cs" />
     <Compile Include="BL\Contracts\Managers\ITagManager.cs" />
+    <Compile Include="ViewModels\Misc\ChatMessageViewModel.cs" />
     <Compile Include="ViewModels\Misc\TagsViewModel.cs" />
     <Compile Include="Pages\Misc\TagsPage.xaml.cs">
       <DependentUpon>TagsPage.xaml</DependentUpon>
@@ -545,6 +551,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\Chat\ChatPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Misc\Custom Cells\ChatMessageCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

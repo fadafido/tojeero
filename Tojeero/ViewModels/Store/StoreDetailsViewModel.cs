@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Nito.AsyncEx;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Cirrious.CrossCore;
+using Cirrious.MvvmCross.ViewModels;
 using Tojeero.Core.Messages;
 
 namespace Tojeero.Core.ViewModels
@@ -24,11 +26,13 @@ namespace Tojeero.Core.ViewModels
 			var messenger = Mvx.Resolve<IMvxMessenger>();
 		}
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private ContentMode _mode;
+        public Action<IStore> ShowChatPageAction { get; set; }
+
+        private ContentMode _mode;
 
 		public ContentMode Mode
 		{ 
@@ -60,11 +64,24 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		#endregion
+        private MvxCommand _chatCommand;
+        public ICommand ChatCommand
+        {
+            get
+            {
+                _chatCommand = _chatCommand ?? new MvxCommand(() =>
+                {
+                    ShowChatPageAction?.Invoke(this.Store);
+                });
+                return _chatCommand;
+            }
+        }
 
-		#region Utility methods
+        #endregion
 
-		private async Task reload()
+        #region Utility methods
+
+        private async Task reload()
 		{
 			using (var writerLock = await _locker.WriterLockAsync())
 			{

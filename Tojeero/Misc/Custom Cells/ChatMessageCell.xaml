@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.ChatMessageCell"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Forms">
+  <Grid
+    HorizontalOptions="FillAndExpand"
+    VerticalOptions="FillAndExpand">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="25"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Label
+      Grid.Row="0"
+      Text="{Binding FormattedDeliveryDate}"
+      Style="{StaticResource LabelSubtitle}"
+      HorizontalOptions="Center"
+      HorizontalTextAlignment="Center"
+      VerticalTextAlignment="Center"/>
+    <Grid
+      Grid.Row="1"
+		  BackgroundColor="Transparent"
+		  Padding="40,0,10,0"
+		  HorizontalOptions="FillAndExpand"
+		  VerticalOptions="FillAndExpand"
+      IsVisible="{Binding IsSentByCurrentUser}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <StackLayout
+          BackgroundColor="{x:Static local:Colors.ChatMessageSenderBackgroundColor}"
+          Padding="10,5,10,5"
+          HorizontalOptions="EndAndExpand"
+          VerticalOptions="FillAndExpand">
+        <Label
+          x:Name="sentMessageLabel"
+          Text="{Binding Message.Text}"
+          Style="{StaticResource ChatLabel}"
+          TextColor="{x:Static local:Colors.Main}"
+          HorizontalOptions="FillAndExpand"
+          VerticalOptions="FillAndExpand"/>
+      </StackLayout>
+    </Grid>
+
+    <Grid
+       Grid.Row="1"
+       BackgroundColor="Transparent"
+       ColumnSpacing="8"
+       RowSpacing="0"
+       Padding="10, 0, 40, 0"
+       HorizontalOptions="FillAndExpand"
+       VerticalOptions="FillAndExpand"
+       IsVisible="{Binding IsSentByCurrentUser, Converter={StaticResource inverse}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Image
+        Grid.Column="0"
+        Grid.Row="1"
+        Source="{Binding ProfilePictureUrl}"
+        BackgroundColor="{x:Static local:Colors.Placeholder}"
+        Aspect="AspectFill"
+        HeightRequest="40"
+        WidthRequest="40"/>
+      <Image
+        Grid.Column="0"
+        Grid.Row="1"
+        Source="circleImageFrame.png"
+        BackgroundColor="Transparent"
+        IsVisible="{Binding IsSentByCurrentUser, Converter={StaticResource inverse}}"
+        HeightRequest="40"
+        WidthRequest="40"/>
+      <StackLayout
+          Grid.Row="0"
+          Grid.Column="1"
+          Grid.RowSpan="2"
+          BackgroundColor="{x:Static local:Colors.ChatMessageReceiverBackgroundColor}"
+          Padding="10,5,10,5"
+          HorizontalOptions="StartAndExpand"
+          VerticalOptions="StartAndExpand">
+        <Label
+          x:Name="receivedMessageLabel"
+          Text="{Binding Message.Text}"
+          Style="{StaticResource ChatLabel}"
+          TextColor="White"
+          HorizontalOptions="FillAndExpand"
+          VerticalOptions="FillAndExpand"/>
+      </StackLayout>
+    </Grid>
+
+  </Grid>
+</ViewCell>

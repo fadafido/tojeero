@@ -61,6 +61,15 @@
 				<!--FAVORITES AND SHARING-->
 				<local:FavoriteSocialView
 					ViewModel="{Binding .}" />
+        <Button
+          Text="{local:Translate ButtonChatWithSeller}"
+          Command="{Binding ChatCommand}"
+          BackgroundColor="{x:Static local:Colors.Main}"
+          TextColor="White"
+          FontSize="20"
+          FontAttributes="Bold"
+          HeightRequest="50"
+          HorizontalOptions="FillAndExpand"/>
 				<!--STORE DETAILS-->
 				<BoxView
 					BackgroundColor="{x:Static local:Colors.Separator}"

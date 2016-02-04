@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
              x:Class="Tojeero.Forms.Pages.Chat.ChatPage">
   <StackLayout>
     <ListView
-       RowHeight="50"
-       ItemsSource="{Binding Messages}">
+       x:Name="listView"
+       HasUnevenRows="True"
+       RowHeight="-1"
+       ItemsSource="{Binding Messages}"
+       SeparatorVisibility="None">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <TextCell
-            Text="{Binding Text}"/>
+          <local:ChatMessageCell/>
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>

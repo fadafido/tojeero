@@ -134,7 +134,17 @@
 					Property="TextColor"
 					Value="{x:Static local:Colors.Subtitle}" />
 			</Style>
-			<local:VisibilityConverter
+      
+      <Style
+				x:Key="ChatLabel"
+				TargetType="Label"
+				BaseResourceKey="BaseLabel">
+        <Setter
+					Property="FontSize"
+					Value="12" />
+      </Style>
+
+      <local:VisibilityConverter
 				x:Key="visibility" />
 			<local:InverseVisibilityConverter
 				x:Key="inverseVisibility" />

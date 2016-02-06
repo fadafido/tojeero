@@ -29,19 +29,33 @@
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
-      <StackLayout
-          BackgroundColor="{x:Static local:Colors.ChatMessageSenderBackgroundColor}"
-          Padding="10,5,10,5"
-          HorizontalOptions="EndAndExpand"
-          VerticalOptions="FillAndExpand">
-        <Label
-          x:Name="sentMessageLabel"
-          Text="{Binding Message.Text}"
-          Style="{StaticResource ChatLabel}"
-          TextColor="{x:Static local:Colors.Main}"
+      <Grid
+        HorizontalOptions="EndAndExpand"
+        VerticalOptions="FillAndExpand">
+        <local:StretchableImage
+          Path="senderBubble.png"
           HorizontalOptions="FillAndExpand"
-          VerticalOptions="FillAndExpand"/>
-      </StackLayout>
+          VerticalOptions="FillAndExpand">
+          <local:StretchableImage.Caps>
+            <Size
+              Width="15"
+              Height="20"/>
+          </local:StretchableImage.Caps>
+        </local:StretchableImage>
+        <StackLayout
+          Padding="12,10,12,18"
+          HorizontalOptions="StartAndExpand"
+          VerticalOptions="StartAndExpand">
+          <Label
+            x:Name="sentMessageLabel"
+            Text="{Binding Message.Text}"
+            Style="{StaticResource ChatLabel}"
+            TextColor="{x:Static local:Colors.Main}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center"/>
+        </StackLayout>
+      </Grid>
     </Grid>
 
     <Grid
@@ -78,22 +92,36 @@
         IsVisible="{Binding IsSentByCurrentUser, Converter={StaticResource inverse}}"
         HeightRequest="40"
         WidthRequest="40"/>
-      <StackLayout
-          Grid.Row="0"
-          Grid.Column="1"
-          Grid.RowSpan="2"
-          BackgroundColor="{x:Static local:Colors.ChatMessageReceiverBackgroundColor}"
-          Padding="10,5,10,5"
+      <Grid
+        Grid.Row="0"
+        Grid.Column="1"
+        Grid.RowSpan="2"
+        HorizontalOptions="StartAndExpand"
+        VerticalOptions="StartAndExpand">
+        <local:StretchableImage
+          Path="receiverBubble.png"
+          HorizontalOptions="FillAndExpand"
+          VerticalOptions="FillAndExpand">
+          <local:StretchableImage.Caps>
+            <Size
+              Width="15"
+              Height="20"/>
+          </local:StretchableImage.Caps>
+        </local:StretchableImage>
+        <StackLayout
+          Padding="12,10,12,18"
           HorizontalOptions="StartAndExpand"
           VerticalOptions="StartAndExpand">
-        <Label
-          x:Name="receivedMessageLabel"
-          Text="{Binding Message.Text}"
-          Style="{StaticResource ChatLabel}"
-          TextColor="White"
-          HorizontalOptions="FillAndExpand"
-          VerticalOptions="FillAndExpand"/>
-      </StackLayout>
+          <Label
+            x:Name="receivedMessageLabel"
+            Text="{Binding Message.Text}"
+            Style="{StaticResource ChatLabel}"
+            TextColor="White"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center"/>
+        </StackLayout>
+      </Grid>
     </Grid>
 
   </Grid>

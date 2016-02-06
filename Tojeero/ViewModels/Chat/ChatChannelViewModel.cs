@@ -141,8 +141,6 @@ namespace Tojeero.Forms.ViewModels.Chat
             var receivedMessage = message.Message.GetContent<ChatMessage>();
             if (receivedMessage == null)
                 return;
-            receivedMessage.Text =
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus lectus at cursus convallis. Nullam varius quis felis vitae venenatis. Fusce aliquam iaculis felis, sit amet gravida lorem commodo eu. Maecenas id turpis in ex ultrices aliquam. Morbi feugiat ipsum id auctor elementum. Integer id ante eu est imperdiet euismod.";
             receivedMessage.DeliveryDate = DateTimeOffset.Now;
             var isSentByCurrentUser = receivedMessage.SenderID == Channel?.SenderID;
             var profilePictureUrl = isSentByCurrentUser

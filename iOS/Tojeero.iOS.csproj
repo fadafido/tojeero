@@ -433,6 +433,7 @@
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork%402x" />
     <ITunesArtwork Include="iTunesArtwork" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
@@ -442,6 +443,7 @@
     <Compile Include="Main\Main.cs" />
     <Compile Include="Misc\Custom Renderers\ChatMessageCellRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\DynamicRowHeightListViewRenderer.cs" />
+    <Compile Include="Misc\Custom Renderers\StretchableImageRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\WebViewRenderer.cs" />
     <Compile Include="Setup\DebugTrace.cs" />
     <Compile Include="Setup\LinkerPleaseInclude.cs" />
@@ -577,8 +579,13 @@
     <Compile Include="Misc\Custom Renderers\EntryRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\ContentPageRenderer.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\receiverBubble%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\senderBubble%402x.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
   <Import Project="..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
-  <ItemGroup />
 </Project>

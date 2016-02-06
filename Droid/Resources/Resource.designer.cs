@@ -3796,8 +3796,8 @@ namespace Tojeero.Droid
 			// aapt resource value: 0x7f0200a7
 			public const int NoFlashButton = 2130837671;
 			
-			// aapt resource value: 0x7f0200c1
-			public const int notification_template_icon_bg = 2130837697;
+			// aapt resource value: 0x7f0200c3
+			public const int notification_template_icon_bg = 2130837699;
 			
 			// aapt resource value: 0x7f0200a8
 			public const int placeholder = 2130837672;
@@ -3818,61 +3818,67 @@ namespace Tojeero.Droid
 			public const int progress_secondary_tojeero = 2130837677;
 			
 			// aapt resource value: 0x7f0200ae
-			public const int selectable_background_tojeero = 2130837678;
+			public const int receiverbubble = 2130837678;
 			
 			// aapt resource value: 0x7f0200af
-			public const int settingsIcon = 2130837679;
+			public const int selectable_background_tojeero = 2130837679;
 			
 			// aapt resource value: 0x7f0200b0
-			public const int spinner_ab_default_tojeero = 2130837680;
+			public const int senderbubble = 2130837680;
 			
 			// aapt resource value: 0x7f0200b1
-			public const int spinner_ab_disabled_tojeero = 2130837681;
+			public const int settingsIcon = 2130837681;
 			
 			// aapt resource value: 0x7f0200b2
-			public const int spinner_ab_focused_tojeero = 2130837682;
+			public const int spinner_ab_default_tojeero = 2130837682;
 			
 			// aapt resource value: 0x7f0200b3
-			public const int spinner_ab_pressed_tojeero = 2130837683;
+			public const int spinner_ab_disabled_tojeero = 2130837683;
 			
 			// aapt resource value: 0x7f0200b4
-			public const int spinner_background_ab_tojeero = 2130837684;
+			public const int spinner_ab_focused_tojeero = 2130837684;
 			
 			// aapt resource value: 0x7f0200b5
-			public const int splash = 2130837685;
+			public const int spinner_ab_pressed_tojeero = 2130837685;
 			
 			// aapt resource value: 0x7f0200b6
-			public const int tab_indicator_ab_tojeero = 2130837686;
+			public const int spinner_background_ab_tojeero = 2130837686;
 			
 			// aapt resource value: 0x7f0200b7
-			public const int tab_selected_focused_tojeero = 2130837687;
+			public const int splash = 2130837687;
 			
 			// aapt resource value: 0x7f0200b8
-			public const int tab_selected_pressed_tojeero = 2130837688;
+			public const int tab_indicator_ab_tojeero = 2130837688;
 			
 			// aapt resource value: 0x7f0200b9
-			public const int tab_selected_tojeero = 2130837689;
+			public const int tab_selected_focused_tojeero = 2130837689;
 			
 			// aapt resource value: 0x7f0200ba
-			public const int tab_unselected_focused_tojeero = 2130837690;
+			public const int tab_selected_pressed_tojeero = 2130837690;
 			
 			// aapt resource value: 0x7f0200bb
-			public const int tab_unselected_pressed_tojeero = 2130837691;
+			public const int tab_selected_tojeero = 2130837691;
 			
 			// aapt resource value: 0x7f0200bc
-			public const int tab_unselected_tojeero = 2130837692;
+			public const int tab_unselected_focused_tojeero = 2130837692;
 			
 			// aapt resource value: 0x7f0200bd
-			public const int TakePhotoButton = 2130837693;
+			public const int tab_unselected_pressed_tojeero = 2130837693;
 			
 			// aapt resource value: 0x7f0200be
-			public const int ToggleCameraButton = 2130837694;
+			public const int tab_unselected_tojeero = 2130837694;
 			
 			// aapt resource value: 0x7f0200bf
-			public const int tojeero = 2130837695;
+			public const int TakePhotoButton = 2130837695;
 			
 			// aapt resource value: 0x7f0200c0
-			public const int tojeeroLarge = 2130837696;
+			public const int ToggleCameraButton = 2130837696;
+			
+			// aapt resource value: 0x7f0200c1
+			public const int tojeero = 2130837697;
+			
+			// aapt resource value: 0x7f0200c2
+			public const int tojeeroLarge = 2130837698;
 			
 			static Drawable()
 			{

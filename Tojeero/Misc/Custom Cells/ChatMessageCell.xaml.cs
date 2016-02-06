@@ -15,11 +15,6 @@ namespace Tojeero.Forms
             InitializeComponent();
         }
 
-        protected override void OnBindingContextChanged()
-        {
-            base.OnBindingContextChanged();
-        }
-
         public ChatMessageViewModel ViewModel => this.BindingContext as ChatMessageViewModel;
 
         public Label MessageLabel => ViewModel?.IsSentByCurrentUser == true ? sentMessageLabel : receivedMessageLabel;

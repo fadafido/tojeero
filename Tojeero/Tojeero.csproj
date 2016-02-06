@@ -39,6 +39,7 @@
     <Compile Include="Misc\Custom Cells\ChatMessageCell.xaml.cs">
       <DependentUpon>ChatMessageCell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Misc\Custom Controls\StretchableImage.cs" />
     <Compile Include="Misc\Messages\Chat\ChatReceivedMessage.cs" />
     <Compile Include="Pages\Chat\ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>

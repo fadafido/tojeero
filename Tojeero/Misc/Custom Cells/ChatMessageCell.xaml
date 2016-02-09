@@ -45,7 +45,8 @@
         <StackLayout
           Padding="12,10,12,18"
           HorizontalOptions="StartAndExpand"
-          VerticalOptions="StartAndExpand">
+          VerticalOptions="StartAndExpand"
+          Spacing="5">
           <Label
             x:Name="sentMessageLabel"
             Text="{Binding Message.Text}"
@@ -54,6 +55,19 @@
             HorizontalOptions="FillAndExpand"
             VerticalOptions="FillAndExpand"
             VerticalTextAlignment="Center"/>
+          <ContentView
+            HeightRequest="90"
+            MinimumWidthRequest="250"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding Message.ProductID, Converter={StaticResource visibility}}"
+            BackgroundColor="White">
+            <local:ProductView
+              x:Name="senderProductView"
+              BindingContext="{Binding Product}"
+              IsVisible="{Binding Product, Converter={StaticResource visibility}}"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"/>
+          </ContentView>
         </StackLayout>
       </Grid>
     </Grid>
@@ -89,7 +103,6 @@
         Grid.Row="1"
         Source="circleImageFrame.png"
         BackgroundColor="Transparent"
-        IsVisible="{Binding IsSentByCurrentUser, Converter={StaticResource inverse}}"
         HeightRequest="40"
         WidthRequest="40"/>
       <Grid
@@ -120,6 +133,19 @@
             HorizontalOptions="FillAndExpand"
             VerticalOptions="FillAndExpand"
             VerticalTextAlignment="Center"/>
+          <StackLayout
+            HeightRequest="90"
+            MinimumWidthRequest="200"
+            HorizontalOptions="Fill"
+            IsVisible="{Binding Message.ProductID, Converter={StaticResource visibility}}"
+            BackgroundColor="White">
+            <local:ProductView
+              x:Name="receiverProductView"
+              BindingContext="{Binding Product}"
+              IsVisible="{Binding Product, Converter={StaticResource visibility}}"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"/>
+          </StackLayout>
         </StackLayout>
       </Grid>
     </Grid>

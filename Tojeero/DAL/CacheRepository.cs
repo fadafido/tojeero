@@ -58,7 +58,7 @@ namespace Tojeero.Core
 				});
 		}
 
-		public Task<IEnumerable<IProduct>> FetchFavoriteProducts(int pageSize, int offset)
+        public Task<IEnumerable<IProduct>> FetchFavoriteProducts(int pageSize, int offset)
 		{
 			throw new NotImplementedException();
 		}

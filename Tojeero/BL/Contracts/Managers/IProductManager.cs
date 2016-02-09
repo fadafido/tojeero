@@ -9,7 +9,8 @@ namespace Tojeero.Core
 	public interface IProductManager : IBaseModelEntityManager
 	{
 		Task<IEnumerable<IProduct>> Fetch(int pageSize, int offset, IProductFilter filter = null);
-		Task<IEnumerable<IProduct>> FetchFavorite(int pageSize, int offset);
+	    Task<IProduct> FetchProduct(string productID);
+        Task<IEnumerable<IProduct>> FetchFavorite(int pageSize, int offset);
 		Task<int> CountFavorite();
 		Task<IEnumerable<IProduct>> Find(string query, int pageSize, int offset, IProductFilter filter = null);
 		Task<int> Count(string query, IProductFilter filter = null);

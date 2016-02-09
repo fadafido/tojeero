@@ -13,5 +13,6 @@ namespace Tojeero.Core
         public string SenderID { get; set; }
         public string RecipientID { get; set; }
         public DateTimeOffset? DeliveryDate { get; set; }
+        public string ProductID { get; set; }
     }
 }

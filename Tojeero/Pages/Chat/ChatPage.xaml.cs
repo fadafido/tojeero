@@ -8,6 +8,7 @@ using Tojeero.Core.ViewModels;
 using Tojeero.Forms.BL.Contracts;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.ViewModels.Chat;
+using Tojeero.Forms.ViewModels.Misc;
 using Xamarin.Forms;
 
 namespace Tojeero.Forms.Pages.Chat
@@ -24,7 +25,21 @@ namespace Tojeero.Forms.Pages.Chat
                 listView.ScrollTo(m, ScrollToPosition.MakeVisible, true);
             };
             InitializeComponent();
+            listView.ItemSelected += ListViewOnItemSelected;
         }
+
+        private async void ListViewOnItemSelected(object sender, SelectedItemChangedEventArgs selectedItemChangedEventArgs)
+        {
+            
+            var item = listView.SelectedItem as ChatMessageViewModel;
+            if (item?.Product?.Product != null)
+            {
+                listView.SelectedItem = null;
+                var productDetails = new ProductDetailsPage(item.Product?.Product);
+                await this.Navigation.PushAsync(productDetails);
+            }
+        }
+
         #endregion
 
         #region Properties

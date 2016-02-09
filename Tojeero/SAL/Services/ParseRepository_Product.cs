@@ -129,7 +129,18 @@ namespace Tojeero.Core
 			return -1;
 		}
 
-		public async Task<Dictionary<string, int>> GetProductCategoryFacets(string query, IProductFilter filter = null)
+	    public async Task<IProduct> FetchProduct(string productID)
+	    {
+	        using (var tokenSource = new CancellationTokenSource(Constants.DefaultTimeout))
+	        {
+	            var query = new ParseQuery<ParseProduct>().Where(p => p.ObjectId == productID);
+	            query = addProductIncludedFields(query);
+	            var product = await query.FirstOrDefaultAsync(tokenSource.Token);
+	            return new Product(product);
+	        }
+	    }
+
+	    public async Task<Dictionary<string, int>> GetProductCategoryFacets(string query, IProductFilter filter = null)
 		{
 			var result = await getProductAttributeFacets(query, "categoryID", filter, "subcategoryID");
 			return result;

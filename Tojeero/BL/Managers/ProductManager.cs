@@ -42,7 +42,14 @@ namespace Tojeero.Core
 			return products;
 		}
 
-		public Task<IEnumerable<IProduct>> FetchFavorite(int pageSize, int offset)
+	    public async Task<IProduct> FetchProduct(string productID)
+	    {
+	        var product = await _manager.Rest.FetchProduct(productID);
+            return product;
+	    }
+
+
+	    public Task<IEnumerable<IProduct>> FetchFavorite(int pageSize, int offset)
 		{
 			return _manager.Fetch<IProduct, Product>(new FetchFavoriteProductsQuery(pageSize, offset, _manager), Constants.ProductsCacheTimespan.TotalMilliseconds);
 		}

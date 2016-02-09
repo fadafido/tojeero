@@ -13,6 +13,8 @@ namespace Tojeero.Forms
         public ChatMessageCell()
         {
             InitializeComponent();
+            senderProductView.ProductImage.WidthRequest = 80;
+            receiverProductView.ProductImage.WidthRequest = 80;
         }
 
         public ChatMessageViewModel ViewModel => this.BindingContext as ChatMessageViewModel;

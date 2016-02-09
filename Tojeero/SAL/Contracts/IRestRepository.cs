@@ -7,16 +7,19 @@ namespace Tojeero.Core
 {
 	public interface IRestRepository : IRepository
 	{
+        //STORE
 		Task<IStore> FetchDefaultStoreForUser(string userID);
 		Task<bool> CheckStoreNameIsReserved(string storeName, string currentStoreID = null);
-		Task<int> CountFavoriteProducts();
+        Task<int> CountFavoriteStores();
 
-		Task<IStore> SaveStore(ISaveStoreViewModel store);
+        //PRODUCT
+        Task<IStore> SaveStore(ISaveStoreViewModel store);
 		Task<IProduct> SaveProduct(ISaveProductViewModel product);
-		Task<int> CountFavoriteStores();
+        Task<int> CountFavoriteProducts();
+        Task<IProduct> FetchProduct(string productID);
 
-		//PRODUCT FACETING
-		Task<int> CountProducts(string query, IProductFilter filter = null);
+        //PRODUCT FACETING
+        Task<int> CountProducts(string query, IProductFilter filter = null);
 		Task<Dictionary<string, int>> GetProductCategoryFacets(string query, IProductFilter filter = null);
 		Task<Dictionary<string, int>> GetProductSubcategoryFacets(string query, IProductFilter filter = null);
 		Task<Dictionary<string, int>> GetProductCountryFacets(string query, IProductFilter filter = null);

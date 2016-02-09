@@ -23,13 +23,19 @@ namespace Tojeero.Forms.ViewModels.Chat
         #region Private fields and properties
         private readonly MvxSubscriptionToken _chatMessageReceivedSubscribtionToken;
         private readonly IChatService _chatService;
+        private readonly IProductManager _productManager;
         #endregion
 
         #region Constructors
 
-        public ChatChannelViewModel(IChatService chatService, IAuthenticationService authService, IMvxMessenger messenger) : base(authService, messenger)
+        public ChatChannelViewModel(
+            IChatService chatService, 
+            IAuthenticationService authService, 
+            IMvxMessenger messenger,
+            IProductManager productManager) : base(authService, messenger)
         {
             _chatService = chatService;
+            _productManager = productManager;
             _chatMessageReceivedSubscribtionToken = _messenger.Subscribe<ChatReceivedMessage>(handleChatMessageReceived);
             _messages = new ObservableCollection<ChatMessageViewModel>();
         }
@@ -142,11 +148,12 @@ namespace Tojeero.Forms.ViewModels.Chat
             if (receivedMessage == null)
                 return;
             receivedMessage.DeliveryDate = DateTimeOffset.Now;
+            receivedMessage.ProductID = "X8WiR8PqfO";
             var isSentByCurrentUser = receivedMessage.SenderID == Channel?.SenderID;
             var profilePictureUrl = isSentByCurrentUser
                 ? Channel?.SenderProfilePictureUrl
                 : Channel?.RecipientProfilePictureUrl;
-            var chatMessage = new ChatMessageViewModel(receivedMessage, profilePictureUrl, isSentByCurrentUser);
+            var chatMessage = new ChatMessageViewModel(_productManager, receivedMessage, profilePictureUrl, isSentByCurrentUser);
             _messages.Add(chatMessage);
             ScrollToMessageAction.Fire(chatMessage);
         }

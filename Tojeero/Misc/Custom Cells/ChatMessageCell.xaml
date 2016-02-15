@@ -56,9 +56,9 @@
             VerticalOptions="FillAndExpand"
             VerticalTextAlignment="Center"/>
           <ContentView
-            HeightRequest="90"
-            MinimumWidthRequest="250"
-            HorizontalOptions="FillAndExpand"
+            HeightRequest="80"
+            MinimumWidthRequest="200"
+            HorizontalOptions="Fill"
             IsVisible="{Binding Message.ProductID, Converter={StaticResource visibility}}"
             BackgroundColor="White">
             <local:ProductView
@@ -134,7 +134,7 @@
             VerticalOptions="FillAndExpand"
             VerticalTextAlignment="Center"/>
           <StackLayout
-            HeightRequest="90"
+            HeightRequest="80"
             MinimumWidthRequest="200"
             HorizontalOptions="Fill"
             IsVisible="{Binding Message.ProductID, Converter={StaticResource visibility}}"

@@ -31,6 +31,7 @@ namespace Tojeero.Forms.ViewModels.Misc
             _isSentByCurrentUser = isSentByCurrentUser;
             ProfilePictureUrl = profilePictureUrl;
             Product = new ProductViewModel();
+            Product.FavoriteToggleEnabled = false;
             updateViewModel();
         }
 

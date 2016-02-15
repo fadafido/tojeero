@@ -117,9 +117,25 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.Favorite != null;
+				return this.Favorite != null && FavoriteToggleEnabled;
 			}
 		}
+
+	    private bool _favoriteToggleEnabled = true;
+	    public bool FavoriteToggleEnabled
+        { 
+	        get  
+	        {
+	            return _favoriteToggleEnabled; 
+	        }
+	        set 
+	        {
+	            _favoriteToggleEnabled = value; 
+	            RaisePropertyChanged(() => FavoriteToggleEnabled);
+                RaisePropertyChanged(() => IsFavoriteToggleVisible);
+                RaisePropertyChanged(() => CanExecuteLoadFavoriteCommand);
+            }
+	    }  
 
 		#endregion
 
@@ -145,7 +161,12 @@ namespace Tojeero.Core.ViewModels
 		{
 			get
 			{
-				return this.Product != null && this.Product.ID != null && this.Favorite == null && this.IsNetworkAvailable && this.IsLoggedIn;
+				return this.FavoriteToggleEnabled && 
+                    this.Product != null && 
+                    this.Product.ID != null && 
+                    this.Favorite == null && 
+                    this.IsNetworkAvailable && 
+                    this.IsLoggedIn;
 			}
 		}
 

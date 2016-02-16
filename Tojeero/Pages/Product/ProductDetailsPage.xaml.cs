@@ -44,7 +44,7 @@ namespace Tojeero.Forms
                     SenderID = "WolZCU1LjR",
                     SenderProfilePictureUrl = "https://graph.facebook.com/965828503464964/picture?width=300&height=300"
                 };
-                var chatPage = new ChatPage(channel);
+                var chatPage = new ChatPage(channel, ViewModel.Product);
                 await this.Navigation.PushAsync(chatPage);
 		    };
 			this.carouselLayout.IndicatorStyle = CarouselLayout.IndicatorStyleEnum.Dots;

@@ -16,16 +16,21 @@ namespace Tojeero.Forms.Pages.Chat
     public partial class ChatPage : ContentPage
     {
         #region Constructors
-        public ChatPage(IChatChannel channel = null)
+        public ChatPage(IChatChannel channel = null, IProduct product = null)
         {
             this.ViewModel = MvxToolbox.LoadViewModel<ChatChannelViewModel>();
             this.ViewModel.Channel = channel;
+            this.ViewModel.ProductViewModel = new ProductViewModel(product)
+            {
+                FavoriteToggleEnabled = false
+            };
             this.ViewModel.ScrollToMessageAction = m =>
             {
                 listView.ScrollTo(m, ScrollToPosition.MakeVisible, true);
             };
             InitializeComponent();
             listView.ItemSelected += ListViewOnItemSelected;
+            productView.ProductImage.WidthRequest = 80;
         }
 
         private async void ListViewOnItemSelected(object sender, SelectedItemChangedEventArgs selectedItemChangedEventArgs)

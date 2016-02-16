@@ -75,6 +75,20 @@ namespace Tojeero.Forms.ViewModels.Chat
             }
         }  
 
+        private ProductViewModel _productViewModel;
+        public ProductViewModel ProductViewModel
+        { 
+            get  
+            {
+                return _productViewModel ?? new ProductViewModel(); 
+            }
+            set 
+            {
+                _productViewModel = value; 
+                RaisePropertyChanged(() => ProductViewModel); 
+            }
+        }  
+
         private string _currentMessage;
         public string CurrentMessage
         {
@@ -148,7 +162,6 @@ namespace Tojeero.Forms.ViewModels.Chat
             if (receivedMessage == null)
                 return;
             receivedMessage.DeliveryDate = DateTimeOffset.Now;
-            receivedMessage.ProductID = "X8WiR8PqfO";
             var isSentByCurrentUser = receivedMessage.SenderID == Channel?.SenderID;
             var profilePictureUrl = isSentByCurrentUser
                 ? Channel?.SenderProfilePictureUrl
@@ -168,10 +181,12 @@ namespace Tojeero.Forms.ViewModels.Chat
                 {
                     Text = CurrentMessage,
                     SenderID = Channel?.SenderID,
-                    RecipientID = Channel?.RecipientID
+                    RecipientID = Channel?.RecipientID,
+                    ProductID = ProductViewModel?.Product?.ID
                 };
                 await _chatService.SendMessageAsync(message, Channel.ChannelID);
-                this.CurrentMessage = null;
+                CurrentMessage = null;
+                ProductViewModel.Product = null;
             }
             catch (OperationCanceledException ex)
             {

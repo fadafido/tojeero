@@ -232,6 +232,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Misc\Custom Renderers\ListViewRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\StretchableImageRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

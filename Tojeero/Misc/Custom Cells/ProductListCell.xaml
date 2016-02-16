@@ -10,7 +10,7 @@
 		VerticalOptions="FillAndExpand"
 		HorizontalOptions="FillAndExpand">
 		<local:ProductView
-      HorizontalOptions="FillAndExpand"
-      VerticalOptions="FillAndExpand"/>
+          HorizontalOptions="FillAndExpand"
+          VerticalOptions="FillAndExpand"/>
 	</Grid>
 </ViewCell>

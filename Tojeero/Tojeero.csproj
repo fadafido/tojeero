@@ -34,6 +34,7 @@
     <Compile Include="BL\Contracts\Entities\IChatMessage.cs" />
     <Compile Include="BL\Contracts\Entities\IChatResponseMessage.cs" />
     <Compile Include="BL\Contracts\IChatChannel.cs" />
+    <Compile Include="BL\Contracts\Managers\IChatChannelManager.cs" />
     <Compile Include="BL\Entities\ChatMessage.cs" />
     <Compile Include="BL\Entities\ChatResponseMessage.cs" />
     <Compile Include="Misc\Custom Cells\ChatMessageCell.xaml.cs">
@@ -53,7 +54,8 @@
     <Compile Include="ViewModels\Base\BaseUserViewModel.cs" />
     <Compile Include="ViewModels\Base\LoadableViewModel.cs" />
     <Compile Include="ViewModels\Base\ReloadableViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatChannelViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatChannelsViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatViewModel.cs" />
     <Compile Include="ViewModels\Contracts\ILoadableViewModel.cs" />
     <Compile Include="ViewModels\Contracts\IReloadableViewModel.cs" />
     <Compile Include="SAL\Contracts\IAuthenticationService.cs" />

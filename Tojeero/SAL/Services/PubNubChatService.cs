@@ -7,6 +7,8 @@ using System.Threading;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Newtonsoft.Json;
 using Tojeero.Core.Messages;
+using Tojeero.Core.Toolbox;
+using Tojeero.Forms.BL.Contracts;
 using Tojeero.Forms.BL.Entities;
 
 namespace Tojeero.Core.Services
@@ -106,7 +108,12 @@ namespace Tojeero.Core.Services
             throw new NotImplementedException();
         }
 
-        #endregion
+	    public async Task<List<IChatChannel>> FetchRecentChannelsAsync(string userID, int pageSize = -1, int offset = -1)
+	    {
+            throw new NotImplementedException();
+        }
+
+	    #endregion
 
         #region Utility methods
 
@@ -205,19 +212,26 @@ namespace Tojeero.Core.Services
         private void publishReceivedMessage(string channelID, string result)
         {
             string message = "";
+            DateTimeOffset messageDate = DateTimeOffset.Now;
+            
             if (!string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(result.Trim()))
             {
                 List<object> deserializedMessage = _pubnub.JsonPluggableLibrary.DeserializeToListOfObject(result);
                 if (deserializedMessage != null && deserializedMessage.Count > 0)
                 {
                     object subscribedObject = (object)deserializedMessage[0];
+                    long timeToken;
+                    if (long.TryParse(deserializedMessage[1].ToString(), out timeToken))
+                    {
+						messageDate = timeToken.TimeTokenToDateTimeOffset();
+                    }
                     if (subscribedObject != null)
                     {
                         message = subscribedObject.ToString();
                     }
                 }
             }
-            _messenger.Publish(new ChatReceivedMessage(this, new ChatResponseMessage(channelID, message)));
+            _messenger.Publish(new ChatReceivedMessage(this, new ChatResponseMessage(channelID, message, messageDate)));
         }
         #endregion
 

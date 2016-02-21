@@ -18,7 +18,7 @@ namespace Tojeero.Forms.Pages.Chat
         #region Constructors
         public ChatPage(IChatChannel channel = null, IProduct product = null)
         {
-            this.ViewModel = MvxToolbox.LoadViewModel<ChatChannelViewModel>();
+            this.ViewModel = MvxToolbox.LoadViewModel<ChatViewModel>();
             this.ViewModel.Channel = channel;
             this.ViewModel.ProductViewModel = new ProductViewModel(product)
             {
@@ -48,8 +48,8 @@ namespace Tojeero.Forms.Pages.Chat
         #endregion
 
         #region Properties
-        private ChatChannelViewModel _viewModel;
-        public ChatChannelViewModel ViewModel  
+        private ChatViewModel _viewModel;
+        public ChatViewModel ViewModel  
         {
             get
             {

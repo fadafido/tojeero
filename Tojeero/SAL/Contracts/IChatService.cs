@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Tojeero.Forms.BL.Contracts;
 
 namespace Tojeero.Core.Services
 {
@@ -20,6 +21,8 @@ namespace Tojeero.Core.Services
         Task<IEnumerable<T>> GetMessagesAsync<T>(string channelID, int pageSize, int offset, CancellationToken token);
         Task<IEnumerable<string>> GetMessagesAsync(string channelID, int pageSize, int offset);
         Task<IEnumerable<string>> GetMessagesAsync(string channelID, int pageSize, int offset, CancellationToken token);
+
+        Task<List<IChatChannel>> FetchRecentChannelsAsync(string userID, int pageSize = -1, int offset = -1);
     }
 }
 

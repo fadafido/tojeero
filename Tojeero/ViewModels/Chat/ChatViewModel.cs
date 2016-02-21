@@ -18,7 +18,7 @@ using Tojeero.Forms.ViewModels.Misc;
 
 namespace Tojeero.Forms.ViewModels.Chat
 {
-    public class ChatChannelViewModel : BaseUserViewModel
+    public class ChatViewModel : BaseUserViewModel
     {
         #region Private fields and properties
         private readonly MvxSubscriptionToken _chatMessageReceivedSubscribtionToken;
@@ -28,7 +28,7 @@ namespace Tojeero.Forms.ViewModels.Chat
 
         #region Constructors
 
-        public ChatChannelViewModel(
+        public ChatViewModel(
             IChatService chatService, 
             IAuthenticationService authService, 
             IMvxMessenger messenger,
@@ -161,7 +161,7 @@ namespace Tojeero.Forms.ViewModels.Chat
             var receivedMessage = message.Message.GetContent<ChatMessage>();
             if (receivedMessage == null)
                 return;
-            receivedMessage.DeliveryDate = DateTimeOffset.Now;
+            receivedMessage.DeliveryDate = message.Message.MessageDate.ToLocalTime();
             var isSentByCurrentUser = receivedMessage.SenderID == Channel?.SenderID;
             var profilePictureUrl = isSentByCurrentUser
                 ? Channel?.SenderProfilePictureUrl

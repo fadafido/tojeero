@@ -10,13 +10,15 @@ namespace Tojeero.Forms.BL.Entities
 {
     public class ChatResponseMessage : IChatResponseMessage
     {
-        public ChatResponseMessage(string channelID, string jsonContent)
+        public ChatResponseMessage(string channelID, string jsonContent, DateTimeOffset messageDate)
         {
             ChannelID = channelID;
             JsonContent = jsonContent;
+            MessageDate = messageDate;
         }
         public string ChannelID { get; set; }
         public string JsonContent { get; set; }
+        public DateTimeOffset MessageDate { get; set; }
         public T GetContent<T>()
         {
             var content = this.JsonContent != null ? JsonConvert.DeserializeObject<T>(JsonContent) : default(T);
@@ -26,7 +28,8 @@ namespace Tojeero.Forms.BL.Entities
 
     public class ChatResponseMessage<T> : ChatResponseMessage, IChatResponseMessage<T> where T : IChatMessage
     {
-        public ChatResponseMessage(string channelID, string jsonContent) : base(channelID, jsonContent)
+        public ChatResponseMessage(string channelID, string jsonContent, DateTimeOffset messageDate) 
+            : base(channelID, jsonContent, messageDate)
         {
         }
 

@@ -11,16 +11,15 @@ namespace Tojeero.Core.Services
 	{
 	    Task SubscribeToChannelAsync(string channelID);
         Task SubscribeToChannelAsync(string channelID, CancellationToken token);
+
         Task UnsubscribeFromChannelAsync(string channelID);
         Task UnsubscribeFromChannelAsync(string channelID, CancellationToken token);
+
         Task SendMessageAsync<T>(T message, string channelID);
         Task SendMessageAsync<T>(T message, string channelID, CancellationToken token);
-        Task SendMessageAsync(string message, string channelID);
-        Task SendMessageAsync(string message, string channelID, CancellationToken token);
-        Task<IEnumerable<T>> GetMessagesAsync<T>(string channelID, int pageSize, int offset);
-        Task<IEnumerable<T>> GetMessagesAsync<T>(string channelID, int pageSize, int offset, CancellationToken token);
-        Task<IEnumerable<string>> GetMessagesAsync(string channelID, int pageSize, int offset);
-        Task<IEnumerable<string>> GetMessagesAsync(string channelID, int pageSize, int offset, CancellationToken token);
+
+		Task<List<T>> GetMessagesAsync<T>(string channelID, DateTimeOffset? startDate, int pageSize) where T : IChatMessage;
+		Task<List<T>> GetMessagesAsync<T>(string channelID, DateTimeOffset? startDate, int pageSize, CancellationToken token) where T : IChatMessage;
 
         Task<List<IChatChannel>> FetchRecentChannelsAsync(string userID, int pageSize = -1, int offset = -1);
     }

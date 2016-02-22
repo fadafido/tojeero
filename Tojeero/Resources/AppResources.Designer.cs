@@ -188,6 +188,15 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load more messages....
+        /// </summary>
+        internal static string ButtonLoadMoreMessages {
+            get {
+                return ResourceManager.GetString("ButtonLoadMoreMessages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log in.
         /// </summary>
         internal static string ButtonLogin {

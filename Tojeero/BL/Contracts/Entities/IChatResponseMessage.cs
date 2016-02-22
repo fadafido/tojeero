@@ -10,7 +10,7 @@ namespace Tojeero.Core
     {
         string ChannelID { get; set; }
         string JsonContent { get; set; }
-        DateTimeOffset MessageDate { get; set; }
+        DateTimeOffset? MessageDate { get; set; }
         T GetContent<T>();
     }
 

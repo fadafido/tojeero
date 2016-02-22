@@ -33,18 +33,6 @@ namespace Tojeero.Forms.Pages.Chat
             productView.ProductImage.WidthRequest = 80;
         }
 
-        private async void ListViewOnItemSelected(object sender, SelectedItemChangedEventArgs selectedItemChangedEventArgs)
-        {
-            
-            var item = listView.SelectedItem as ChatMessageViewModel;
-            if (item?.Product?.Product != null)
-            {
-                listView.SelectedItem = null;
-                var productDetails = new ProductDetailsPage(item.Product?.Product);
-                await this.Navigation.PushAsync(productDetails);
-            }
-        }
-
         #endregion
 
         #region Properties
@@ -64,6 +52,32 @@ namespace Tojeero.Forms.Pages.Chat
                 }
             }
         }
+        #endregion
+
+        #region Parent override
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.InitCommand.Execute(null);
+        }
+
+        #endregion
+
+        #region Utility methods
+
+        private async void ListViewOnItemSelected(object sender, SelectedItemChangedEventArgs selectedItemChangedEventArgs)
+        {
+
+            var item = listView.SelectedItem as ChatMessageViewModel;
+            if (item?.Product?.Product != null)
+            {
+                listView.SelectedItem = null;
+                var productDetails = new ProductDetailsPage(item.Product?.Product);
+                await this.Navigation.PushAsync(productDetails);
+            }
+        }
+
         #endregion
     }
 }

@@ -572,4 +572,7 @@
   <data name="ButtonChatWithSeller" xml:space="preserve">
     <value>Chat with seller</value>
   </data>
+  <data name="ButtonLoadMoreMessages" xml:space="preserve">
+    <value>Load more messages...</value>
+  </data>
 </root>

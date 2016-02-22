@@ -18,7 +18,7 @@ namespace Tojeero.Forms.BL.Entities
         }
         public string ChannelID { get; set; }
         public string JsonContent { get; set; }
-        public DateTimeOffset MessageDate { get; set; }
+        public DateTimeOffset? MessageDate { get; set; }
         public T GetContent<T>()
         {
             var content = this.JsonContent != null ? JsonConvert.DeserializeObject<T>(JsonContent) : default(T);

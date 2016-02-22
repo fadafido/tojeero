@@ -1,6 +1,7 @@
 ﻿using System;
 using Tojeero.Core.ViewModels;
 using Tojeero.Core.Toolbox;
+using Tojeero.Forms.ViewModels.Misc;
 
 namespace Tojeero.Core
 {
@@ -88,6 +89,25 @@ namespace Tojeero.Core
 				return _uniqueEntityEqualityComparer;
 			}
 		}
-	}
+
+        private static Comparison<ChatMessageViewModel> _chatMessage;
+        public static Comparison<ChatMessageViewModel> ChatMessage
+        {
+            get
+            {
+                if (_chatMessage == null)
+                {
+                    _chatMessage = new Comparison<ChatMessageViewModel>((x, y) =>
+                    {
+                        if (x?.Message?.DeliveryDate == null || y?.Message?.DeliveryDate == null)
+                            return -1;
+                        var res = x.Message.DeliveryDate.Value.CompareTo(y.Message.DeliveryDate.Value);
+                        return res != 0 ? res : -1;
+                    });
+                }
+                return _chatMessage;
+            }
+        }
+    }
 }
 

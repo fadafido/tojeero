@@ -16,6 +16,21 @@ namespace Tojeero.Core.Toolbox
 			var date = unixTimestamp.UnixTimestampToDateTimeOffset();
 			return date;
 		}
+
+		public static long ToUnixTime(this DateTimeOffset date)
+		{
+			var epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
+			var unixTime = (date.ToUniversalTime() - epoch).TotalSeconds;
+			return (long)unixTime;
+		}
+
+		public static long ToTimeToken(this DateTimeOffset date)
+		{
+			
+			var unixTimestamp = date.ToUnixTime();
+			var timeToken = (long)(unixTimestamp*1E+7);
+			return timeToken;
+		}
 	}
 }
 

@@ -4,7 +4,16 @@
              xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
              x:Class="Tojeero.Forms.Pages.Chat.ChatPage"
              BackgroundColor="White">
-    <StackLayout>
+    <StackLayout
+		Spacing="0">
+		<local:NetworkPageHeader
+			NoNetworkPadding="0,5,0,5"
+			Tint="{x:Static local:Colors.DarkGray}"
+			IsLoading="{Binding IsLoading}"
+			LoadingText="{Binding LoadingText}"
+			FailureMessage="{Binding LoadingFailureMessage}"
+			IsNetworkAvailable="{Binding IsNetworkAvailable}"
+			TryAgainCommand="{Binding InitCommand}" />
         <ListView
            x:Name="listView"
            HasUnevenRows="True"
@@ -17,6 +26,13 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+		<Button
+			Text="{local:Translate ButtonLoadMoreMessages}"
+			TextColor="{x:Static local:Colors.Green}"
+			BackgroundColor="Transparent"
+			IsVisible="{Binding CanLoadMoreMessages}"
+			Command="{Binding LoadMoreMessagesCommand}"
+			HorizontalOptions="Center"/>
         <Grid
           Padding="12,10,12,10"
           RowSpacing="0"

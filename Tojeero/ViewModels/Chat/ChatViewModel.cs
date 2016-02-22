@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using Tojeero.Core.Toolbox;
 using Tojeero.Core.ViewModels;
 using Tojeero.Forms.BL.Contracts;
 using Tojeero.Forms.BL.Entities;
+using Tojeero.Forms.Resources;
 using Tojeero.Forms.ViewModels.Misc;
 
 namespace Tojeero.Forms.ViewModels.Chat
@@ -24,6 +26,23 @@ namespace Tojeero.Forms.ViewModels.Chat
         private readonly MvxSubscriptionToken _chatMessageReceivedSubscribtionToken;
         private readonly IChatService _chatService;
         private readonly IProductManager _productManager;
+        private DateTimeOffset? _lastMessageDate;
+        private int _pageSize = 3;
+
+        private bool _allMessagesLoaded;
+        public static string AllMessagesLoadedProperty = "AllMessagesLoaded";
+        private bool AllMessagesLoaded
+        { 
+            get  
+            {
+                return _allMessagesLoaded; 
+            }
+            set 
+            {
+                _allMessagesLoaded = value; 
+                RaisePropertyChanged(() => AllMessagesLoaded);
+            }
+        }  
         #endregion
 
         #region Constructors
@@ -38,6 +57,7 @@ namespace Tojeero.Forms.ViewModels.Chat
             _productManager = productManager;
             _chatMessageReceivedSubscribtionToken = _messenger.Subscribe<ChatReceivedMessage>(handleChatMessageReceived);
             _messages = new ObservableCollection<ChatMessageViewModel>();
+            PropertyChanged += OnPropertyChanged;
         }
 
         #endregion
@@ -61,6 +81,7 @@ namespace Tojeero.Forms.ViewModels.Chat
         }
 
         private IChatChannel _channel;
+        public static string ChannelProperty = "Channel";
         public IChatChannel Channel
         { 
             get  
@@ -71,11 +92,11 @@ namespace Tojeero.Forms.ViewModels.Chat
             {
                 _channel = value; 
                 RaisePropertyChanged(() => Channel); 
-                RaisePropertyChanged(() => CanExecuteSendMessageCommand);
             }
         }  
 
         private ProductViewModel _productViewModel;
+        public static string ProductViewModelProperty = "ProductViewModel";
         public ProductViewModel ProductViewModel
         { 
             get  
@@ -90,6 +111,7 @@ namespace Tojeero.Forms.ViewModels.Chat
         }  
 
         private string _currentMessage;
+        public static string CurrentMessageProperty = "CurrentMessage";
         public string CurrentMessage
         {
             get
@@ -100,11 +122,11 @@ namespace Tojeero.Forms.ViewModels.Chat
             {
                 _currentMessage = value;
                 RaisePropertyChanged(() => CurrentMessage);
-                RaisePropertyChanged(() => CanExecuteSendMessageCommand);
             }
         }
 
         private bool _isSendingMessage;
+        public static string IsSendingMessageProperty = "IsSendingMessage";
         public bool IsSendingMessage
         { 
             get  
@@ -115,9 +137,23 @@ namespace Tojeero.Forms.ViewModels.Chat
             {
                 _isSendingMessage = value; 
                 RaisePropertyChanged(() => IsSendingMessage);
-                RaisePropertyChanged(() => CanExecuteSendMessageCommand);
             }
-        }  
+        }
+
+        private bool _isSubscribed;
+        public static string IsSubscribedProperty = "IsSubscribed";
+        public bool IsSubscribed
+        {
+            get
+            {
+                return _isSubscribed;
+            }
+            private set
+            {
+                _isSubscribed = value;
+                RaisePropertyChanged(() => IsSubscribed);
+            }
+        }
 
         #endregion
 
@@ -140,17 +176,38 @@ namespace Tojeero.Forms.ViewModels.Chat
             }
         }
 
-        public bool CanExecuteSendMessageCommand
+        public bool CanExecuteSendMessageCommand => !string.IsNullOrEmpty(CurrentMessage) &&
+                                                    IsSubscribed &&
+                                                    !IsSendingMessage &&
+                                                    CanExecuteInitCommand;
+
+        private MvxCommand _initCommmand;
+        public ICommand InitCommand
         {
-            get { return 
-                    !string.IsNullOrEmpty(CurrentMessage) && 
-                    !IsSendingMessage && 
-                    this.Channel != null &&
-                    !string.IsNullOrWhiteSpace(Channel?.ChannelID) &&
-                    !string.IsNullOrWhiteSpace(Channel?.SenderID) &&
-                    !string.IsNullOrWhiteSpace(Channel?.RecipientID);
+            get
+            {
+                _initCommmand = _initCommmand ?? new MvxCommand(init);
+                return _initCommmand;
             }
         }
+
+        public bool CanExecuteInitCommand => this.Channel != null &&
+                                             !string.IsNullOrWhiteSpace(Channel?.ChannelID) &&
+                                             !string.IsNullOrWhiteSpace(Channel?.SenderID) &&
+                                             !string.IsNullOrWhiteSpace(Channel?.RecipientID);
+
+        private MvxCommand _loadMoreMessagesCommand;
+
+        public ICommand LoadMoreMessagesCommand
+        {
+            get
+            {
+                _loadMoreMessagesCommand = _loadMoreMessagesCommand ?? new MvxCommand(loadMoreMessages);
+                return _loadMoreMessagesCommand;
+            }
+        }
+
+        public bool CanLoadMoreMessages => CanExecuteInitCommand && IsSubscribed && !IsLoading && !_allMessagesLoaded;
 
         #endregion
 
@@ -161,12 +218,8 @@ namespace Tojeero.Forms.ViewModels.Chat
             var receivedMessage = message.Message.GetContent<ChatMessage>();
             if (receivedMessage == null)
                 return;
-            receivedMessage.DeliveryDate = message.Message.MessageDate.ToLocalTime();
-            var isSentByCurrentUser = receivedMessage.SenderID == Channel?.SenderID;
-            var profilePictureUrl = isSentByCurrentUser
-                ? Channel?.SenderProfilePictureUrl
-                : Channel?.RecipientProfilePictureUrl;
-            var chatMessage = new ChatMessageViewModel(_productManager, receivedMessage, profilePictureUrl, isSentByCurrentUser);
+            receivedMessage.DeliveryDate = message.Message.MessageDate?.ToLocalTime();
+            var chatMessage = getChatMessageViewModel(receivedMessage);
             _messages.Add(chatMessage);
             ScrollToMessageAction.Fire(chatMessage);
         }
@@ -176,7 +229,6 @@ namespace Tojeero.Forms.ViewModels.Chat
             this.IsSendingMessage = true;
             try
             {
-                await _chatService.SubscribeToChannelAsync(Channel.ChannelID);
                 var message = new ChatMessage()
                 {
                     Text = CurrentMessage,
@@ -199,6 +251,115 @@ namespace Tojeero.Forms.ViewModels.Chat
             finally
             {
                 this.IsSendingMessage = false;
+            }
+        }
+
+        private async void init()
+        {
+            if (!CanExecuteInitCommand)
+                return;
+            StartLoading(AppResources.MessageGeneralLoading);
+            string failure = "";
+            try
+            {
+                //Subscribe to the channel
+                await _chatService.SubscribeToChannelAsync(Channel.ChannelID);
+                IsSubscribed = true;
+
+                //Load previous messages
+                await loadNextPage();
+            }
+            catch (OperationCanceledException)
+            {
+                failure = AppResources.MessageLoadingTimeOut;
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log(ex, "Error occurred while loading chat history.", LoggingLevel.Error, true);
+                failure = AppResources.MessageLoadingFailed;
+            }
+            finally
+            {
+                StopLoading(failure);
+            }
+        }
+
+        private async void loadMoreMessages()
+        {
+            if (!CanLoadMoreMessages)
+                return;
+            StartLoading(AppResources.MessageGeneralLoading);
+            string failure = "";
+            try
+            {
+                //Load previous messages
+                await loadNextPage();
+            }
+            catch (OperationCanceledException)
+            {
+                failure = AppResources.MessageLoadingTimeOut;
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log(ex, "Error occurred while loading chat history.", LoggingLevel.Error, true);
+                failure = AppResources.MessageLoadingFailed;
+            }
+            finally
+            {
+                StopLoading(failure);
+            }
+        }
+
+        private async Task loadNextPage()
+        {
+            if (AllMessagesLoaded)
+                return;
+
+            var previousCount = Messages.Count;
+            var messages = (await _chatService.GetMessagesAsync<ChatMessage>(Channel.ChannelID, _lastMessageDate, _pageSize)).Reverse<ChatMessage>();
+            Messages.InsertSorted(messages.Select(getChatMessageViewModel), Comparers.ChatMessage);
+            if (messages.Count() > 0)
+                _lastMessageDate = messages.Last().DeliveryDate;
+            if (Messages.Count - previousCount < _pageSize)
+            {
+                AllMessagesLoaded = true;
+            }
+        }
+
+        private ChatMessageViewModel getChatMessageViewModel(IChatMessage receivedMessage)
+        {
+            var isSentByCurrentUser = receivedMessage.SenderID == Channel?.SenderID;
+            var profilePictureUrl = isSentByCurrentUser
+                ? Channel?.SenderProfilePictureUrl
+                : Channel?.RecipientProfilePictureUrl;
+            var chatMessage = new ChatMessageViewModel(_productManager, receivedMessage, profilePictureUrl, isSentByCurrentUser);
+            return chatMessage;
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == ChannelProperty)
+            {
+                RaisePropertyChanged(() => CanExecuteInitCommand);
+                RaisePropertyChanged(() => CanExecuteSendMessageCommand);
+                RaisePropertyChanged(() => CanLoadMoreMessages);
+            }
+            else if (e.PropertyName == IsSendingMessageProperty)
+            {
+                RaisePropertyChanged(() => CanExecuteSendMessageCommand);
+            }
+            else if (e.PropertyName == CurrentMessageProperty)
+            {
+                RaisePropertyChanged(() => CanExecuteSendMessageCommand);
+            }
+            else if (e.PropertyName == IsLoadingProperty)
+            {
+                RaisePropertyChanged(() => CanExecuteInitCommand);
+                RaisePropertyChanged(() => CanLoadMoreMessages);
+            }
+            else if (e.PropertyName == AllMessagesLoadedProperty)
+            {
+                RaisePropertyChanged(() => CanLoadMoreMessages);
             }
         }
 

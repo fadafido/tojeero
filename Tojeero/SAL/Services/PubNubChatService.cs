@@ -10,6 +10,8 @@ using Tojeero.Core.Messages;
 using Tojeero.Core.Toolbox;
 using Tojeero.Forms.BL.Contracts;
 using Tojeero.Forms.BL.Entities;
+using System.Linq;
+using XLabs;
 
 namespace Tojeero.Core.Services
 {
@@ -20,8 +22,8 @@ namespace Tojeero.Core.Services
         private readonly Pubnub _pubnub;
 	    private Dictionary<string, bool> _subscribtions;
         private object _subscribtionsLocker; 
-        private Dictionary<string, AsyncReaderWriterLock> _channelLockers; 
-        #endregion
+        private Dictionary<string, AsyncReaderWriterLock> _channelLockers;
+	    #endregion
 
         #region Constructors
         public PubNubChatService(IMvxMessenger messenger)
@@ -75,38 +77,19 @@ namespace Tojeero.Core.Services
             }
         }
 
-        public async Task SendMessageAsync(string message, string channelID)
+		public Task<List<T>> GetMessagesAsync<T>(string channelID, DateTimeOffset? startDate, int pageSize) where T : IChatMessage
         {
-            await SendMessageAsync(message, channelID, CancellationToken.None);
+			return GetMessagesAsync<T>(channelID, startDate, pageSize, CancellationToken.None);
         }
 
-        public async Task SendMessageAsync(string message, string channelID, CancellationToken token)
+		public async Task<List<T>> GetMessagesAsync<T>(string channelID, DateTimeOffset? startDate, int pageSize, CancellationToken token) where T : IChatMessage
         {
-            using (var writerLock = await getChannelLock(channelID).WriterLockAsync(token))
-            {
-                await sendMessage(message, channelID);
-            }
-        }
-
-        public Task<IEnumerable<T>> GetMessagesAsync<T>(string channelID, int pageSize, int offset)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<T>> GetMessagesAsync<T>(string channelID, int pageSize, int offset, CancellationToken token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<string>> GetMessagesAsync(string channelID, int pageSize, int offset)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<string>> GetMessagesAsync(string channelID, int pageSize, int offset, CancellationToken token)
-        {
-            throw new NotImplementedException();
-        }
+			using (var readLock = await getChannelLock(channelID).ReaderLockAsync(token))
+			{
+				var result = await getMessages<T>(channelID, startDate, pageSize);
+				return result;
+			}
+        }	
 
 	    public async Task<List<IChatChannel>> FetchRecentChannelsAsync(string userID, int pageSize = -1, int offset = -1)
 	    {
@@ -128,7 +111,7 @@ namespace Tojeero.Core.Services
             {
                 _pubnub.Subscribe<string>(channelID, result =>
                 {
-                    publishReceivedMessage(channelID, result);
+                    didReceiveMessage(channelID, result);
                 }, s =>
                 {
                     task.TrySetResult(true);
@@ -186,15 +169,37 @@ namespace Tojeero.Core.Services
             return task.Task;
         }
 
-        private Task<IEnumerable<T>> getMessages<T>(string channelID, int pageSize, int offset)
+		private Task<List<T>> getMessages<T>(string channelID, DateTimeOffset? startDate, int pageSize) where T : IChatMessage
         {
-            throw new NotImplementedException();
+			var task = new TaskCompletionSource<List<T>>();
+
+			if (startDate == null)
+			{
+				_pubnub.DetailedHistory<string>(channelID, pageSize, callback =>
+					{
+						var result = parseReceivedMessages<T>(callback);
+						task.TrySetResult(result);
+					}, error =>
+					{
+						task.TrySetException(new Exception(error.Description));
+					});
+			}
+			else
+			{
+				_pubnub.DetailedHistory<string>(channelID, startDate.Value.ToTimeToken(), -1, pageSize, false,
+					callback =>
+					{
+						var result = parseReceivedMessages<T>(callback);
+						task.TrySetResult(result);
+					}, error =>
+					{
+						task.TrySetException(new Exception(error.Description));
+					});
+			}
+
+			return task.Task;
         }
 
-        private Task<IEnumerable<string>> getMessages(string channelID, int pageSize, int offset)
-        {
-            throw new NotImplementedException();
-        }
 
 	    private AsyncReaderWriterLock getChannelLock(string channelID)
 	    {
@@ -209,7 +214,7 @@ namespace Tojeero.Core.Services
 	        }
 	    }
 
-        private void publishReceivedMessage(string channelID, string result)
+        private void didReceiveMessage(string channelID, string result)
         {
             string message = "";
             DateTimeOffset messageDate = DateTimeOffset.Now;
@@ -233,6 +238,34 @@ namespace Tojeero.Core.Services
             }
             _messenger.Publish(new ChatReceivedMessage(this, new ChatResponseMessage(channelID, message, messageDate)));
         }
+
+		private List<T> parseReceivedMessages<T>(string result) where T : IChatMessage
+		{
+			if (!string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(result.Trim()))
+			{
+				List<object> deserializedMessage = _pubnub.JsonPluggableLibrary.DeserializeToListOfObject(result);
+				if (deserializedMessage != null && deserializedMessage.Count > 0)
+				{
+					object[] message = _pubnub.JsonPluggableLibrary.ConvertToObjectArray(deserializedMessage[0]);
+                    long timeToken;
+				    DateTimeOffset? messageDate = null;
+                    if (long.TryParse(deserializedMessage[1].ToString(), out timeToken))
+                    {
+                        messageDate = timeToken.TimeTokenToDateTimeOffset();
+                    }
+                    if (message != null)
+					{
+						var messages = message.Select(m => JsonConvert.	DeserializeObject<T>(m.ToString())).ToList();
+					    foreach (var m in messages)
+					    {
+					        m.DeliveryDate = messageDate;
+					    }
+						return messages;
+					}
+				}
+			}
+			return new List<T>();
+		}
         #endregion
 
     }

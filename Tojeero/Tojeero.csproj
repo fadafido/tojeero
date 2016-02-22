@@ -32,11 +32,9 @@
   <ItemGroup>
     <Compile Include="BL\Contracts\Entities\ChatChannel.cs" />
     <Compile Include="BL\Contracts\Entities\IChatMessage.cs" />
-    <Compile Include="BL\Contracts\Entities\IChatResponseMessage.cs" />
     <Compile Include="BL\Contracts\IChatChannel.cs" />
     <Compile Include="BL\Contracts\Managers\IChatChannelManager.cs" />
     <Compile Include="BL\Entities\ChatMessage.cs" />
-    <Compile Include="BL\Entities\ChatResponseMessage.cs" />
     <Compile Include="Misc\Custom Cells\ChatMessageCell.xaml.cs">
       <DependentUpon>ChatMessageCell.xaml</DependentUpon>
     </Compile>

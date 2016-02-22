@@ -13,8 +13,6 @@ using Tojeero.Core.Messages;
 using Tojeero.Core.Services;
 using Tojeero.Core.Toolbox;
 using Tojeero.Core.ViewModels;
-using Tojeero.Forms.BL.Contracts;
-using Tojeero.Forms.BL.Entities;
 using Tojeero.Forms.Resources;
 using Tojeero.Forms.ViewModels.Misc;
 
@@ -215,10 +213,9 @@ namespace Tojeero.Forms.ViewModels.Chat
 
         private void handleChatMessageReceived(ChatReceivedMessage message)
         {
-            var receivedMessage = message.Message.GetContent<ChatMessage>();
+            var receivedMessage = message.Message;
             if (receivedMessage == null)
                 return;
-            receivedMessage.DeliveryDate = message.Message.MessageDate?.ToLocalTime();
             var chatMessage = getChatMessageViewModel(receivedMessage);
             _messages.Add(chatMessage);
             ScrollToMessageAction.Fire(chatMessage);
@@ -316,9 +313,10 @@ namespace Tojeero.Forms.ViewModels.Chat
                 return;
 
             var previousCount = Messages.Count;
-            var messages = (await _chatService.GetMessagesAsync<ChatMessage>(Channel.ChannelID, _lastMessageDate, _pageSize)).Reverse<ChatMessage>();
+            var messages = await _chatService.GetMessagesAsync(Channel.ChannelID, _lastMessageDate, _pageSize);
+            messages = messages.Reverse();
             Messages.InsertSorted(messages.Select(getChatMessageViewModel), Comparers.ChatMessage);
-            if (messages.Count() > 0)
+            if (messages.Any())
                 _lastMessageDate = messages.Last().DeliveryDate;
             if (Messages.Count - previousCount < _pageSize)
             {

@@ -9,12 +9,14 @@ namespace Tojeero.Core.Messages
 {
     public class ChatReceivedMessage: MvxMessage
     {
-        public ChatReceivedMessage(object sender, IChatResponseMessage message)
+        public ChatReceivedMessage(object sender, IChatMessage message, string channelID)
             :base(sender)
         {
             Message = message;
+            ChannelID = channelID;
         }
 
-        public IChatResponseMessage Message { get; set; }
+        public IChatMessage Message { get; set; }
+        public string ChannelID { get; set; }
     }
 }

@@ -8,8 +8,6 @@ using Cirrious.MvvmCross.Plugins.Messenger;
 using Newtonsoft.Json;
 using Tojeero.Core.Messages;
 using Tojeero.Core.Toolbox;
-using Tojeero.Forms.BL.Contracts;
-using Tojeero.Forms.BL.Entities;
 using System.Linq;
 using XLabs;
 
@@ -64,12 +62,12 @@ namespace Tojeero.Core.Services
             }
         }
 
-        public async Task SendMessageAsync<T>(T message, string channelID)
+        public async Task SendMessageAsync(IChatMessage message, string channelID)
         {
             await SendMessageAsync(message, channelID, CancellationToken.None);
         }
 
-        public async Task SendMessageAsync<T>(T message, string channelID, CancellationToken token)
+        public async Task SendMessageAsync(IChatMessage message, string channelID, CancellationToken token)
         {
             using (var writerLock = await getChannelLock(channelID).WriterLockAsync(token))
             {
@@ -77,21 +75,21 @@ namespace Tojeero.Core.Services
             }
         }
 
-		public Task<List<T>> GetMessagesAsync<T>(string channelID, DateTimeOffset? startDate, int pageSize) where T : IChatMessage
+		public Task<IEnumerable<IChatMessage>> GetMessagesAsync(string channelID, DateTimeOffset? startDate, int pageSize)
         {
-			return GetMessagesAsync<T>(channelID, startDate, pageSize, CancellationToken.None);
+			return GetMessagesAsync(channelID, startDate, pageSize, CancellationToken.None);
         }
 
-		public async Task<List<T>> GetMessagesAsync<T>(string channelID, DateTimeOffset? startDate, int pageSize, CancellationToken token) where T : IChatMessage
+		public async Task<IEnumerable<IChatMessage>> GetMessagesAsync(string channelID, DateTimeOffset? startDate, int pageSize, CancellationToken token)
         {
 			using (var readLock = await getChannelLock(channelID).ReaderLockAsync(token))
 			{
-				var result = await getMessages<T>(channelID, startDate, pageSize);
+				var result = await getMessages(channelID, startDate, pageSize);
 				return result;
 			}
         }	
 
-	    public async Task<List<IChatChannel>> FetchRecentChannelsAsync(string userID, int pageSize = -1, int offset = -1)
+	    public async Task<IEnumerable<IChatChannel>> FetchRecentChannelsAsync(string userID, int pageSize = -1, int offset = -1)
 	    {
             throw new NotImplementedException();
         }
@@ -144,7 +142,7 @@ namespace Tojeero.Core.Services
             return task.Task;
         }
 
-        private Task sendMessage<T>(T message, string channelID)
+        private Task sendMessage(IChatMessage message, string channelID)
         {
            var messageString = JsonConvert.SerializeObject(message);
            return sendMessage(messageString, channelID);
@@ -169,15 +167,15 @@ namespace Tojeero.Core.Services
             return task.Task;
         }
 
-		private Task<List<T>> getMessages<T>(string channelID, DateTimeOffset? startDate, int pageSize) where T : IChatMessage
+		private Task<IEnumerable<IChatMessage>> getMessages(string channelID, DateTimeOffset? startDate, int pageSize)
         {
-			var task = new TaskCompletionSource<List<T>>();
+			var task = new TaskCompletionSource<IEnumerable<IChatMessage>>();
 
 			if (startDate == null)
 			{
 				_pubnub.DetailedHistory<string>(channelID, pageSize, callback =>
 					{
-						var result = parseReceivedMessages<T>(callback);
+						var result = parseReceivedMessages(callback);
 						task.TrySetResult(result);
 					}, error =>
 					{
@@ -189,7 +187,7 @@ namespace Tojeero.Core.Services
 				_pubnub.DetailedHistory<string>(channelID, startDate.Value.ToTimeToken(), -1, pageSize, false,
 					callback =>
 					{
-						var result = parseReceivedMessages<T>(callback);
+						var result = parseReceivedMessages(callback);
 						task.TrySetResult(result);
 					}, error =>
 					{
@@ -216,7 +214,7 @@ namespace Tojeero.Core.Services
 
         private void didReceiveMessage(string channelID, string result)
         {
-            string message = "";
+            IChatMessage message = null;
             DateTimeOffset messageDate = DateTimeOffset.Now;
             
             if (!string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(result.Trim()))
@@ -232,14 +230,15 @@ namespace Tojeero.Core.Services
                     }
                     if (subscribedObject != null)
                     {
-                        message = subscribedObject.ToString();
+                        message = JsonConvert.DeserializeObject<ChatMessage>(subscribedObject.ToString());
+                        message.DeliveryDate = messageDate;
                     }
                 }
             }
-            _messenger.Publish(new ChatReceivedMessage(this, new ChatResponseMessage(channelID, message, messageDate)));
+            _messenger.Publish(new ChatReceivedMessage(this, message, channelID));
         }
 
-		private List<T> parseReceivedMessages<T>(string result) where T : IChatMessage
+		private IEnumerable<IChatMessage> parseReceivedMessages(string result)
 		{
 			if (!string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(result.Trim()))
 			{
@@ -255,7 +254,7 @@ namespace Tojeero.Core.Services
                     }
                     if (message != null)
 					{
-						var messages = message.Select(m => JsonConvert.	DeserializeObject<T>(m.ToString())).ToList();
+						var messages = message.Select(m => JsonConvert.	DeserializeObject<ChatMessage>(m.ToString())).ToList();
 					    foreach (var m in messages)
 					    {
 					        m.DeliveryDate = messageDate;
@@ -264,7 +263,7 @@ namespace Tojeero.Core.Services
 					}
 				}
 			}
-			return new List<T>();
+			return new List<IChatMessage>();
 		}
         #endregion
 

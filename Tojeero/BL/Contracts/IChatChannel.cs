@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tojeero.Forms.BL.Contracts
+namespace Tojeero.Core
 {
     public interface IChatChannel
     {

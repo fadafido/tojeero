@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Tojeero.Forms.BL.Contracts;
 using Tojeero.Forms.ViewModels.Chat;
 
 namespace Tojeero.Core.ViewModels

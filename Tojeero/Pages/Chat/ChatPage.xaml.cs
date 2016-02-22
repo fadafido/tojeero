@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Tojeero.Core;
 using Tojeero.Core.ViewModels;
-using Tojeero.Forms.BL.Contracts;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.ViewModels.Chat;
 using Tojeero.Forms.ViewModels.Misc;

@@ -21,8 +21,6 @@ namespace Tojeero.Core.Services
 
 	    Task<IEnumerable<IChatMessage>> GetMessagesAsync(string channelID, DateTimeOffset? startDate, int pageSize,
 	        CancellationToken token);
-
-        Task<IEnumerable<IChatChannel>> FetchRecentChannelsAsync(string userID, int pageSize = -1, int offset = -1);
     }
 }
 

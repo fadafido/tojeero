@@ -18,6 +18,9 @@ namespace Tojeero.Core
 		public static string BackendRequestKey = "AN524MNHR";
 	    public static string PubNubPublishKey = "pub-c-3fa3a8a7-66a0-4b02-b74d-4de8fe2b050a";
         public static string PubNubSubscribeKey = "sub-c-5ec2cc14-c43e-11e5-a9aa-02ee2ddab7fe";
+        public static int QuickbloxAppId = 36377;
+        public static string QuickbloxAuthKey = "m3O5VaHpSh9xE3D";
+        public static string QuickbloxAuthSecret = "xy-CN9zbFn6kddS";
 
         /*****************MESSAGES*****************/
         public static string SessionStateChangedMessage = "com.tojeero.tojeero:SessionStateChangedMessage";

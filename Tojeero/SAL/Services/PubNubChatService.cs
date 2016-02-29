@@ -10,7 +10,7 @@ using Tojeero.Core.Messages;
 using Tojeero.Core.Toolbox;
 using System.Linq;
 using XLabs;
-
+/*
 namespace Tojeero.Core.Services
 {
 	public class PubNubChatService : IChatService
@@ -268,5 +268,5 @@ namespace Tojeero.Core.Services
         #endregion
 
     }
-}
+}*/
 

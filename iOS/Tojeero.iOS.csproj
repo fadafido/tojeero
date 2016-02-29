@@ -80,6 +80,18 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="bouncy_castle_hmac_sha_pcl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle-PCL.1.0.0.6\lib\bouncy_castle_hmac_sha_pcl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Xamarin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Quickblox.Sdk.Xamarin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sharp.Xmpp, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Sharp.Xmpp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />

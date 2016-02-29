@@ -64,6 +64,9 @@ namespace Tojeero.Forms.ViewModels.Chat
 
         public Action<ChatMessageViewModel> ScrollToMessageAction { get; set; }
 
+        public event EventHandler WillChangeMessagesCollection;
+        public event EventHandler DidChangeMessagesCollection;
+
         private ObservableCollection<ChatMessageViewModel> _messages;
         public ObservableCollection<ChatMessageViewModel> Messages
         {
@@ -315,7 +318,9 @@ namespace Tojeero.Forms.ViewModels.Chat
             var previousCount = Messages.Count;
             var messages = await _chatService.GetMessagesAsync(Channel.ChannelID, _lastMessageDate, _pageSize);
             messages = messages.Reverse();
+            WillChangeMessagesCollection.Fire(this, EventArgs.Empty);
             Messages.InsertSorted(messages.Select(getChatMessageViewModel), Comparers.ChatMessage);
+            DidChangeMessagesCollection.Fire(this, EventArgs.Empty);
             if (messages.Any())
                 _lastMessageDate = messages.Last().DeliveryDate;
             if (Messages.Count - previousCount < _pageSize)

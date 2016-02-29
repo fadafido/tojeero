@@ -27,6 +27,8 @@ namespace Tojeero.Forms.Pages.Chat
             {
                 listView.ScrollTo(m, ScrollToPosition.MakeVisible, true);
             };
+            ViewModel.WillChangeMessagesCollection += ViewModelOnWillChangeMessagesCollection;
+            ViewModel.DidChangeMessagesCollection += ViewModelOnDidChangeMessagesCollection;
             InitializeComponent();
             listView.ItemSelected += ListViewOnItemSelected;
             productView.ProductImage.WidthRequest = 80;
@@ -75,6 +77,16 @@ namespace Tojeero.Forms.Pages.Chat
                 var productDetails = new ProductDetailsPage(item.Product?.Product);
                 await this.Navigation.PushAsync(productDetails);
             }
+        }
+
+        private void ViewModelOnWillChangeMessagesCollection(object sender, EventArgs eventArgs)
+        {
+            listView.SaveScrollPosition?.Invoke();
+        }
+
+        private void ViewModelOnDidChangeMessagesCollection(object sender, EventArgs eventArgs)
+        {
+            listView.RestoreScrollPosition?.Invoke();
         }
 
         #endregion

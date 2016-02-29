@@ -41,6 +41,7 @@
     <Compile Include="Misc\Custom Cells\ProductView.xaml.cs">
       <DependentUpon>ProductView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Misc\Custom Controls\ChatListView.cs" />
     <Compile Include="Misc\Custom Controls\ListView.cs" />
     <Compile Include="Misc\Custom Controls\StretchableImage.cs" />
     <Compile Include="Misc\Messages\Chat\ChatReceivedMessage.cs" />

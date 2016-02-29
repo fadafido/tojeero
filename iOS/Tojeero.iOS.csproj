@@ -441,6 +441,7 @@
   <ItemGroup>
     <Compile Include="Main\AppDelegate.cs" />
     <Compile Include="Main\Main.cs" />
+    <Compile Include="Misc\Custom Renderers\ChatListViewRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\ChatMessageCellRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\DynamicRowHeightListViewRenderer.cs" />
     <Compile Include="Misc\Custom Renderers\StretchableImageRenderer.cs" />

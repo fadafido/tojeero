@@ -14,7 +14,14 @@
 			FailureMessage="{Binding LoadingFailureMessage}"
 			IsNetworkAvailable="{Binding IsNetworkAvailable}"
 			TryAgainCommand="{Binding InitCommand}" />
-        <ListView
+		<Button
+			Text="{local:Translate ButtonLoadMoreMessages}"
+			TextColor="{x:Static local:Colors.Green}"
+			BackgroundColor="Transparent"
+			IsVisible="{Binding CanLoadMoreMessages}"
+			Command="{Binding LoadMoreMessagesCommand}"
+			HorizontalOptions="Center"/>
+        <local:ChatListView
            x:Name="listView"
            HasUnevenRows="True"
            RowHeight="-1"
@@ -25,14 +32,7 @@
                     <local:ChatMessageCell/>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
-		<Button
-			Text="{local:Translate ButtonLoadMoreMessages}"
-			TextColor="{x:Static local:Colors.Green}"
-			BackgroundColor="Transparent"
-			IsVisible="{Binding CanLoadMoreMessages}"
-			Command="{Binding LoadMoreMessagesCommand}"
-			HorizontalOptions="Center"/>
+        </local:ChatListView>
         <Grid
           Padding="12,10,12,10"
           RowSpacing="0"

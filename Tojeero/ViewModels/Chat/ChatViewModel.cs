@@ -236,7 +236,7 @@ namespace Tojeero.Forms.ViewModels.Chat
                     RecipientID = Channel?.RecipientID,
                     ProductID = ProductViewModel?.Product?.ID
                 };
-                await _chatService.SendMessageAsync(message, Channel.ChannelID);
+                await _chatService.SendMessageAsync(_authService.CurrentUser, message, Channel.ChannelID);
                 CurrentMessage = null;
                 ProductViewModel.Product = null;
             }
@@ -263,7 +263,7 @@ namespace Tojeero.Forms.ViewModels.Chat
             try
             {
                 //Subscribe to the channel
-                await _chatService.SubscribeToChannelAsync(Channel.ChannelID);
+                await _chatService.SubscribeToChannelAsync(_authService.CurrentUser, Channel.ChannelID);
                 IsSubscribed = true;
 
                 //Load previous messages
@@ -316,7 +316,7 @@ namespace Tojeero.Forms.ViewModels.Chat
                 return;
 
             var previousCount = Messages.Count;
-            var messages = await _chatService.GetMessagesAsync(Channel.ChannelID, _lastMessageDate, _pageSize);
+            var messages = await _chatService.GetMessagesAsync(_authService.CurrentUser, Channel.ChannelID, _lastMessageDate, _pageSize);
             messages = messages.Reverse();
             WillChangeMessagesCollection.Fire(this, EventArgs.Empty);
             Messages.InsertSorted(messages.Select(getChatMessageViewModel), Comparers.ChatMessage);

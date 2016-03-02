@@ -16,19 +16,29 @@ namespace Tojeero.Core.Services
 {
 	public class ParseAuthenticationService : IAuthenticationService
 	{
-		private readonly IFacebookService _facebookService;
-		private readonly IMvxMessenger _messenger;
+        #region Private fields
 
-		public ParseAuthenticationService(IFacebookService facebookService, IMvxMessenger messenger)
-		{
-			_messenger = messenger;
-			_facebookService = facebookService;
-		}
+        private readonly IFacebookService _facebookService;
+        private readonly IChatService _chatService;
+        private readonly IMvxMessenger _messenger;
+
+        #endregion
+
+        #region Constructors
+
+        public ParseAuthenticationService(IFacebookService facebookService, IChatService chatService, IMvxMessenger messenger)
+        {
+            _chatService = chatService;
+            _messenger = messenger;
+            _facebookService = facebookService;
+        }
+
+        #endregion
 
 
-		#region IAuthenticationService implementation
+        #region IAuthenticationService implementation
 
-		private User _currentUser;
+        private User _currentUser;
 		public IUser CurrentUser
 		{
 			get
@@ -43,7 +53,7 @@ namespace Tojeero.Core.Services
 		}
 
 		private SessionState _state;
-		public SessionState State
+	    public SessionState State
 		{
 			get
 			{
@@ -54,7 +64,8 @@ namespace Tojeero.Core.Services
 				if (_state != value)
 				{
 					_state = value;
-					_messenger.Publish(new SessionStateChangedMessage(this, _state));
+                    updateChatSession();
+                    _messenger.Publish(new SessionStateChangedMessage(this, _state));
 				}
 			}
 		}
@@ -71,7 +82,7 @@ namespace Tojeero.Core.Services
 						State = SessionState.LoggedOut;
 						var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 						await ParseUser.LogOutAsync(tokenSource.Token);
-					}
+                    }
 					catch(Exception ex)
 					{
 						handleException(ex);	
@@ -96,6 +107,7 @@ namespace Tojeero.Core.Services
 				await parseUser.SaveAsync().ConfigureAwait(false);
 
 				CurrentUser = new User(parseUser);
+			    await _chatService.SignUpAsync(CurrentUser);
 				State = SessionState.LoggedIn;
 
 				return this.CurrentUser;
@@ -215,7 +227,20 @@ namespace Tojeero.Core.Services
 
 			}
 		}
-		#endregion
+
+	    private async Task updateChatSession()
+	    {
+	        if (State == SessionState.LoggedIn)
+	        {
+	            await _chatService.LogInAsync(CurrentUser);
+	        }
+	        else
+	        {
+	            await _chatService.LogOutAsync();
+	        }
+	    }
+
+	    #endregion
 	}
 }
 

@@ -10,6 +10,9 @@ using Newtonsoft.Json;
 using Tojeero.Core.Toolbox;
 using System.IO;
 using System.Text.RegularExpressions;
+using Cirrious.CrossCore;
+using Cirrious.CrossCore.Platform;
+using Tojeero.Core.Services;
 using Tojeero.Core.ViewModels;
 
 namespace Tojeero.iOS
@@ -301,6 +304,25 @@ namespace Tojeero.iOS
 				await product.SaveAsync();
 			}
 		}
+
+	    public static async Task UploadUsersToQuickblox()
+	    {
+            var query = new ParseQuery<TojeeroUser>();
+	        var result = await query.FindAsync();
+	        var users = result.Select(r => new User(r));
+	        var quickblox = Mvx.Resolve<IChatService>();
+	        foreach (var user in users)
+	        {
+	            try
+	            {
+                    await quickblox.SignUpAsync(user);
+                }
+	            catch (Exception ex)
+	            {
+	                Mvx.Trace(MvxTraceLevel.Error, $"Could not upload user '{user.FullName}':'{user.ID}' to Quickblox, {ex}");
+	            }
+	        }
+	    }
 	}
 }
 

@@ -107,7 +107,6 @@ namespace Tojeero.Core.Services
 				await parseUser.SaveAsync().ConfigureAwait(false);
 
 				CurrentUser = new User(parseUser);
-			    await _chatService.SignUpAsync(CurrentUser);
 				State = SessionState.LoggedIn;
 
 				return this.CurrentUser;
@@ -181,11 +180,6 @@ namespace Tojeero.Core.Services
 		#endregion
 
 		#region Utility Methods
-
-		private void updateSessionState()
-		{
-			
-		}
 
 		private async void updateCurrentUser()
 		{

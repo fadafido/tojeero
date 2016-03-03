@@ -15,6 +15,7 @@ using Quickblox.Sdk.GeneralDataModel.Filter;
 using Quickblox.Sdk.GeneralDataModel.Filters;
 using Quickblox.Sdk.GeneralDataModel.Response;
 using Quickblox.Sdk.Modules.ChatXmppModule;
+using Quickblox.Sdk.Modules.ChatXmppModule.Models;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using Tojeero.Core.Toolbox;
 using Quickblox.Sdk.Modules.UsersModule.Requests;
@@ -29,11 +30,13 @@ namespace Tojeero.Core.Services
         #region Private fields and properties
 
         private readonly QuickbloxClient _quickblox;
+        private readonly IMvxMessenger _messenger;
+        private int? _currentUserID;
+
         private AsyncReaderWriterLock _authLocker = new AsyncReaderWriterLock();
         private Dictionary<string, int> _userIDs = new Dictionary<string, int>();
 
         private HMACSHA1 _hash;
-
         private HMACSHA1 Hash
         {
             get
@@ -52,6 +55,7 @@ namespace Tojeero.Core.Services
 
         public QuickbloxChatService(IMvxMessenger messenger)
         {
+            _messenger = messenger;
             _quickblox = new QuickbloxClient(Constants.QuickbloxAppId, Constants.QuickbloxAuthKey,
                 Constants.QuickbloxAuthSecret);
             _quickblox.ChatXmppClient.MessageReceived += chatMessageReceived;
@@ -95,6 +99,7 @@ namespace Tojeero.Core.Services
             using (var writerLock = await _authLocker.WriterLockAsync())
             {
                 await _quickblox.AuthenticationClient.DeleteSessionAsync(_quickblox.Token);
+                _currentUserID = null;
             }
         }
 
@@ -152,7 +157,15 @@ namespace Tojeero.Core.Services
         #region Handling chat messages
         private void chatMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
-
+            try
+            {
+                var message = parseQuickbloxMessage(messageEventArgs.Message);
+                _messenger.Publish<ChatReceivedMessage>(new ChatReceivedMessage(this, message, messageEventArgs.Message.Thread));
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log(ex, "Error occurred when parsing received message", LoggingLevel.Error, true);
+            }
         }
 
         private void chatOnErrorReceived(object sender, ErrorEventArgs errorsEventArgs)
@@ -193,6 +206,9 @@ namespace Tojeero.Core.Services
                         $"Unable to create chat session because Quickblox user login failed due to unknown error. " +
                         $"\n HTTP Status code: {response.StatusCode}." +
                         $"Errors: \n {getErrorDesc(response.Errors)}");
+                _currentUserID = response?.Result?.Session?.UserId;
+                if(_currentUserID != null)
+                    _quickblox.ChatXmppClient.Connect(_currentUserID.Value, password);
             }
         }
 
@@ -292,6 +308,17 @@ namespace Tojeero.Core.Services
                 throw new Exception("Can not generate password with empty user id.");
             var password = Hash.ComputeHash(user.ID.GetBytes()).HashEncode().Substring(0, 40);
             return password;
+        }
+
+        private IChatMessage parseQuickbloxMessage(Message qMessage)
+        {
+            var messageJson = qMessage.Body;
+            XDocument xMessage = XDocument.Parse(qMessage.XmlMessage);
+            XNamespace ns = "jabber:client";
+            var date = long.Parse(xMessage.Descendants(ns + "date_sent").FirstOrDefault().Value).UnixTimestampToDateTimeOffset();
+            var message = JsonConvert.DeserializeObject<ChatMessage>(messageJson);
+            message.DeliveryDate = date;
+            return message;
         }
 
         #endregion

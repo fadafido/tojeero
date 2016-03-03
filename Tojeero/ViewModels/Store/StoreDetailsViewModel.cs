@@ -30,7 +30,7 @@ namespace Tojeero.Core.ViewModels
 
         #region Properties
 
-        public Action<IStore> ShowChatPageAction { get; set; }
+        public Action<IChatChannel> ShowChatPageAction { get; set; }
 
         private ContentMode _mode;
 
@@ -71,7 +71,8 @@ namespace Tojeero.Core.ViewModels
             {
                 _chatCommand = _chatCommand ?? new MvxCommand(() =>
                 {
-                    ShowChatPageAction?.Invoke(this.Store);
+                    var channel = getChannel();
+                    ShowChatPageAction?.Invoke(channel);
                 });
                 return _chatCommand;
             }
@@ -91,7 +92,20 @@ namespace Tojeero.Core.ViewModels
 			}
 		}
 
-		#endregion
-	}
+        private IChatChannel getChannel()
+        {
+            var channel = new ChatChannel()
+            {
+                ChannelID = "test_channel",
+                RecipientID = Store.OwnerID,
+                RecipientProfilePictureUrl = Store.ImageUrl,
+                SenderID = _authService.CurrentUser.ID,
+                SenderProfilePictureUrl = _authService.CurrentUser.ProfilePictureUrl
+            };
+            return channel;
+        }
+
+        #endregion
+    }
 }
 

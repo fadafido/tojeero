@@ -656,6 +656,24 @@ namespace Tojeero.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to send chat message. Please try again..
+        /// </summary>
+        internal static string MessageChatMessageSendingFailure {
+            get {
+                return ResourceManager.GetString("MessageChatMessageSendingFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to send chat message because of timeout. Please try again..
+        /// </summary>
+        internal static string MessageChatMessageSendingTimeout {
+            get {
+                return ResourceManager.GetString("MessageChatMessageSendingTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         internal static string MessageGeneralLoading {

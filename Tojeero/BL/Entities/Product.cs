@@ -445,7 +445,7 @@ namespace Tojeero.Core
 		{
 			if (!string.IsNullOrEmpty(this.ID))
 			{
-				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ID).Include("category").Include("subcategory").Include("store").Include("country");
+				var query = new ParseQuery<ParseProduct>().Where(s => s.ObjectId == this.ID).Include("category").Include("subcategory").Include("store.owner").Include("country");
 				var product = await query.FirstOrDefaultAsync();
 				this.ParseObject = product;
 			}

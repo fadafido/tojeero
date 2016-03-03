@@ -227,14 +227,18 @@ namespace Tojeero.Forms.ViewModels.Chat
         private async Task sendMessage()
         {
             this.IsSendingMessage = true;
+            string failure = null;
             try
             {
                 var message = new ChatMessage()
                 {
+                    ID = Guid.NewGuid().ToString(),
                     Text = CurrentMessage,
-                    SenderID = Channel?.SenderID,
-                    RecipientID = Channel?.RecipientID,
-                    ProductID = ProductViewModel?.Product?.ID
+                    SenderID = Channel.SenderID,
+                    RecipientID = Channel.RecipientID,
+                    SentDate = DateTimeOffset.Now,
+                    ProductID = ProductViewModel?.Product?.ID,
+                    ChannelID = Channel.ChannelID
                 };
                 await _chatService.SendMessageAsync(_authService.CurrentUser, message, Channel.ChannelID);
                 CurrentMessage = null;
@@ -242,15 +246,19 @@ namespace Tojeero.Forms.ViewModels.Chat
             }
             catch (OperationCanceledException ex)
             {
-
+                Tools.Logger.Log("Sending message timeout");
+                failure = AppResources.MessageChatMessageSendingTimeout;
             }
             catch (Exception ex)
             {
-
+                Tools.Logger.Log(ex, "Message sending failed", LoggingLevel.Error, true);
+                failure = AppResources.MessageChatMessageSendingFailure;
             }
             finally
             {
                 this.IsSendingMessage = false;
+                if(!string.IsNullOrEmpty(failure))
+                { }
             }
         }
 

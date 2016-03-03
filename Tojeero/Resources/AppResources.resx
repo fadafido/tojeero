@@ -575,4 +575,10 @@
   <data name="ButtonLoadMoreMessages" xml:space="preserve">
     <value>Load more messages...</value>
   </data>
+  <data name="MessageChatMessageSendingFailure" xml:space="preserve">
+    <value>Failed to send chat message. Please try again.</value>
+  </data>
+  <data name="MessageChatMessageSendingTimeout" xml:space="preserve">
+    <value>Failed to send chat message because of timeout. Please try again.</value>
+  </data>
 </root>

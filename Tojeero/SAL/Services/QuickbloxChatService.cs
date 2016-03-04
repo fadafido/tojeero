@@ -14,12 +14,14 @@ using Quickblox.Sdk;
 using Quickblox.Sdk.GeneralDataModel.Filter;
 using Quickblox.Sdk.GeneralDataModel.Filters;
 using Quickblox.Sdk.GeneralDataModel.Response;
+using Quickblox.Sdk.Modules.ChatModule.Requests;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.ChatXmppModule.Models;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using Tojeero.Core.Toolbox;
 using Quickblox.Sdk.Modules.UsersModule.Requests;
 using Quickblox.Sdk.Modules.UsersModule.Responses;
+using QMessage = Quickblox.Sdk.GeneralDataModel.Models.Message;
 using Sharp.Xmpp;
 using Tojeero.Core.Messages;
 
@@ -111,7 +113,32 @@ namespace Tojeero.Core.Services
         public async Task<IEnumerable<IChatMessage>> GetMessagesAsync(IUser user, string channelID, DateTimeOffset? startDate, int pageSize, CancellationToken token)
         {
             await loginIfRequired(user, token);
-            return new List<IChatMessage>();
+            var request = new RetrieveMessagesRequest();
+            request.Limit = pageSize;
+            var filter = new FilterAggregator();
+            filter.Filters.Add(new FieldFilter<string>(() => new QMessage().ChatDialogId, channelID));
+            filter.Filters.Add(new SortFilter<long>(SortOperator.Desc, () => new QMessage().DateSent));
+            
+            if (startDate != null)
+            {
+                filter.Filters.Add(new FieldFilterWithOperator<long>(SearchOperators.Lt, () => new QMessage().DateSent, startDate.Value.ToUnixTime()));
+            }
+            request.Filter = filter;
+
+            var result = await _quickblox.ChatClient.GetMessagesAsync(request);
+            if(result.StatusCode != HttpStatusCode.OK)
+                throw new Exception(
+                        $"Failed to retrieve messages from Quickblox for user '{user.ID}', channel '{channelID}'." +
+                        $"\n HTTP Status code: {result.StatusCode}." +
+                        $"Errors: \n {getErrorDesc(result.Errors)}");
+
+            var messages = result.Result?.Items?.Select(m =>
+            {
+                var message = JsonConvert.DeserializeObject<ChatMessage>(m.MessageText);
+                message.DeliveryDate = m.DateSent.UnixTimestampToDateTimeOffset();
+                return message;
+            }).ToList();
+            return messages;
         }
 
         public async Task SendMessageAsync(IUser sender, IChatMessage message, string channelID)
@@ -168,9 +195,9 @@ namespace Tojeero.Core.Services
             }
         }
 
-        private void chatOnErrorReceived(object sender, ErrorEventArgs errorsEventArgs)
+        private void chatOnErrorReceived(object sender, ErrorEventArgs e)
         {
-
+            
         }
 
         #endregion

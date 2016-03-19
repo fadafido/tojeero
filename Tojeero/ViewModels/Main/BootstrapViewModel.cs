@@ -192,7 +192,7 @@ namespace Tojeero.Core.ViewModels
 				_bootstrapCommand = _bootstrapCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
 					{
 						await bootstrap();
-					}, () => !IsLoading);
+					}, () => !IsLoading && !IsBootstrapCompleted);
 				return _bootstrapCommand;
 			}
 		}

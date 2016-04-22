@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Messages;
+using Tojeero.Core.Model;
 using Tojeero.Core.Resources;
 using Tojeero.Core.Services.Contracts;
 using Tojeero.Core.Toolbox;

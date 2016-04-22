@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.Views.Store.SaveStorePage"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
+	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms"
+	xmlns:contracts="clr-namespace:Tojeero.Core.Model.Contracts;assembly=Tojeero.Core"
+	BackgroundColor="{x:Static core:Colors.LightBackground}"
+	Title="{Binding Title}">
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout
+				Spacing="0"
+				VerticalOptions="FillAndExpand">
+				<controls:NetworkPageHeader
+					NoNetworkPadding="0,5,0,5"
+					Tint="{x:Static core:Colors.DarkGray}"
+					IsLoading="{Binding IsLoading}"
+					LoadingText="{Binding LoadingText}"
+					FailureMessage="{Binding LoadingFailureMessage}"
+					IsNetworkAvailable="{Binding IsNetworkAvailable}"
+					TryAgainCommand="{Binding ReloadCommand}" />
+				<StackLayout
+					Orientation="Vertical"
+					Spacing="5"
+					Padding="0">
+					<StackLayout
+						Spacing="10">
+						<!--STORE IMAGE-->
+						<StackLayout
+							Spacing="0">
+							<controls:ImageControl
+								x:Name="mainImageControl"
+								HeightRequest="230"
+								HorizontalOptions="FillAndExpand"
+								Padding="20,5,5,0">
+							</controls:ImageControl>
+							<StackLayout
+								Padding="20,0,20,10">
+								<Label
+									Text="{markupExtensions:Translate LabelAddMainImage}"
+									TextColor="{x:Static core:Colors.Main}"
+									FontSize="10"
+									HorizontalTextAlignment="Center" />
+							</StackLayout>
+						</StackLayout>
+						<StackLayout
+							Padding="10,0,10,0">
+							<Label
+								Text="{markupExtensions:Translate MessageWarningChangeStoreDetails}"
+								Style="{StaticResource LabelWarning}"
+								IsVisible="{Binding IsNew}"
+								FontSize="18"
+								HorizontalTextAlignment="Center"/>
+						</StackLayout>
+						<!--STORE NAME-->
+						<StackLayout
+							Spacing="5"
+							Padding="10,0,10,0">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{markupExtensions:Translate LabelStoreName}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="80">
+								<controls:BorderView
+									BorderColor="{x:Static core:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="2">
+									<Editor
+										Text="{Binding Name, Mode=TwoWay}"
+										IsEnabled="{Binding IsNew}"
+										Opacity="{Binding IsNew, Converter={StaticResource opacity}}" />
+								</StackLayout>
+							</Grid>
+							<Label
+								Text="{Binding NameInvalid}"
+								Style="{StaticResource LabelInvalid}"
+								IsVisible="{Binding NameInvalid, Converter={StaticResource visibility}}" />
+						</StackLayout>
+						<!--CATEGORY-->
+						<StackLayout
+							Spacing="5"
+							Padding="10,0,10,0">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{markupExtensions:Translate LabelCategory}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="50">
+								<controls:BorderView
+									BorderColor="{x:Static core:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<controls:ObjectPicker
+										x:Name="categoriesPicker"
+										x:TypeArguments="contracts:IStoreCategory, controls:ObjectPickerCell"
+										Placeholder="{markupExtensions:Translate LabelCategory}"
+										SelectedItem="{Binding Category, Mode=TwoWay}"
+										TextColor="{x:Static core:Colors.Black}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
+							<Label
+								Text="{Binding CategoryInvalid}"
+								Style="{StaticResource LabelInvalid}"
+								IsVisible="{Binding CategoryInvalid, Converter={StaticResource visibility}}" />
+						</StackLayout>
+						<!--COUNTRY-->
+						<StackLayout
+							Spacing="5"
+							Padding="10,0,10,0">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{markupExtensions:Translate LabelCountry}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="50"
+								Opacity="{Binding IsNew, Converter={StaticResource opacity}}">
+								<controls:BorderView
+									BorderColor="{x:Static core:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<controls:ObjectPicker
+										x:Name="countriesPicker"
+										x:TypeArguments="contracts:ICountry, controls:ObjectPickerCell"
+										Placeholder="{markupExtensions:Translate LabelCountry}"
+										SelectedItem="{Binding Country, Mode=TwoWay}"
+										IsEnabled="{Binding IsNew}"
+										TextColor="{x:Static core:Colors.Black}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
+							<Label
+								Text="{Binding CountryInvalid}"
+								Style="{StaticResource LabelInvalid}"
+								IsVisible="{Binding CountryInvalid, Converter={StaticResource visibility}}" />
+						</StackLayout>
+						<!--CITY-->
+						<StackLayout
+							Spacing="5"
+							Padding="10,0,10,0">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{markupExtensions:Translate LabelCity}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="50"
+								Opacity="{Binding IsNew, Converter={StaticResource opacity}}">
+								<controls:BorderView
+									BorderColor="{x:Static core:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="10,2,10,2">
+									<controls:ObjectPicker
+										x:Name="citiesPicker"
+										x:TypeArguments="contracts:ICity, controls:ObjectPickerCell"
+										Placeholder="{markupExtensions:Translate LabelCity}"
+										SelectedItem="{Binding City, Mode=TwoWay}"
+										TextColor="{x:Static core:Colors.Black}"
+										IsEnabled="{Binding IsCityEnabled}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
+							<Label
+								Text="{Binding CityInvalid}"
+								Style="{StaticResource LabelInvalid}"
+								IsVisible="{Binding CityInvalid, Converter={StaticResource visibility}}" />
+						</StackLayout>
+						<!--DESCRIPTION-->
+						<StackLayout
+							Spacing="5"
+							Padding="10,0,10,0">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{markupExtensions:Translate LabelDescription}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="100">
+								<controls:BorderView
+									BorderColor="{x:Static core:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="2">
+									<Editor
+										Text="{Binding Description, Mode=TwoWay}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
+						</StackLayout>
+						<!--DELIVERY NOTES-->
+						<StackLayout
+							Spacing="5"
+							Padding="10,0,10,0">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{markupExtensions:Translate LabelDeliveryNotes}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="100">
+								<controls:BorderView
+									BorderColor="{x:Static core:Colors.CellBorder}"
+									BorderWidth="1"
+									Radius="5"
+									BackgroundColor="White" />
+								<StackLayout
+									Padding="2">
+									<Editor
+										Text="{Binding DeliveryNotes, Mode=TwoWay}"
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand" />
+								</StackLayout>
+							</Grid>
+						</StackLayout>
+						<!--CREATE STORE BUTTON-->
+						<StackLayout
+							Spacing="5"
+							Padding="10,0,10,10">
+							<StackLayout
+								Orientation="Horizontal"
+								Spacing="5"
+								HorizontalOptions="FillAndExpand">
+								<Button
+									Text="{Binding SaveCommandTitle}"
+									Command="{Binding SaveCommand}"
+									Style="{StaticResource Button1}"
+									IsEnabled="{Binding CanExecuteSaveCommand}"
+									HorizontalOptions="FillAndExpand" />
+								<ActivityIndicator
+									IsRunning="{Binding SavingInProgress}"
+									IsVisible="{Binding SavingInProgress}"
+									VerticalOptions="Center" />
+							</StackLayout>
+							<Label
+								Text="{Binding SavingFailure}"
+								Style="{StaticResource LabelInvalid}"
+								IsVisible="{Binding SavingFailure, Converter={StaticResource visibility}}" />
+						</StackLayout>
+					</StackLayout>
+				</StackLayout>
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

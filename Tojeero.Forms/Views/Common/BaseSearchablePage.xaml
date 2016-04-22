@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	x:Class="Tojeero.Forms.Views.Common.BaseSearchablePage"
+	BackgroundColor="White">
+	<ContentPage.Content>
+		<StackLayout
+			BackgroundColor="Transparent"
+			Spacing="0">
+			<SearchBar
+				x:Name="searchBar"
+				IsVisible="{Binding IsSearchbarVisible}"
+				Text="{Binding SearchQuery}" />
+			<controls:NetworkPageHeader
+				NoNetworkPadding="0,5,0,5"
+				Tint="{x:Static core:Colors.DarkGray}"
+				IsLoading="{Binding ViewModel.IsLoadingInitialData}"
+				LoadingText="{Binding ViewModel.LoadingText}"
+				FailureMessage="{Binding ViewModel.LoadingFailureMessage}"
+				IsNetworkAvailable="{Binding ViewModel.IsNetworkAvailable}"
+				TryAgainCommand="{Binding ViewModel.TryAgainCommand}" />
+			<StackLayout
+				x:Name="headerContainer"
+				HorizontalOptions="FillAndExpand">
+			</StackLayout>
+			<Grid
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="FillAndExpand">
+				<Label
+					Text="{Binding ViewModel.Placeholder}"
+					IsVisible="{Binding ViewModel.IsPlaceholderVisible}"
+					Style="{StaticResource LabelPlaceholder}"
+					HorizontalTextAlignment="Center"
+					VerticalTextAlignment="Center"
+					VerticalOptions="Center"
+					HorizontalOptions="Center" />
+				<controls:InfiniteListView
+					x:Name="listView"
+					ItemsSource="{Binding ViewModel.Collection}"
+					BackgroundColor="Transparent"
+					RowHeight="100"
+					SeparatorVisibility="None"
+					IsPullToRefreshEnabled="true"
+					RefreshCommand="{Binding ViewModel.ReloadCommand}"
+					LoadMoreCommand="{Binding ViewModel.LoadNextPageCommand}"
+					HorizontalOptions="FillAndExpand"
+					VerticalOptions="FillAndExpand">
+				</controls:InfiniteListView>
+			</Grid>
+			<StackLayout
+				Padding="5"
+				IsVisible="{Binding ViewModel.IsLoadingNextPage}">
+				<ActivityIndicator
+					IsRunning="{Binding ViewModel.IsLoadingNextPage}"
+					HorizontalOptions="Center"
+					VerticalOptions="Center"
+					Color="{x:Static core:Colors.DarkGray}" />
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

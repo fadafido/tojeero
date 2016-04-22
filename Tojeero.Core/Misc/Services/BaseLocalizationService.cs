@@ -5,6 +5,7 @@ using Cirrious.MvvmCross.Plugins.Messenger;
 using Cirrious.CrossCore;
 using Tojeero.Core.Logging;
 using Tojeero.Core.Messages;
+using Tojeero.Core.Model;
 using Tojeero.Core.Services.Contracts;
 
 namespace Tojeero.Core.Services

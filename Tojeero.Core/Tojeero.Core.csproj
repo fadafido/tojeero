@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BL\Model\LanguageCode.cs" />
     <Compile Include="Misc\Constants\Colors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BL\Contracts\IRepository.cs" />

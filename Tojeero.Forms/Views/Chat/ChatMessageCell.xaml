@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.Views.Chat.ChatMessageCell"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
+	xmlns:product="clr-namespace:Tojeero.Forms.Views.Product;assembly=Tojeero.Forms">
+  <Grid
+    HorizontalOptions="FillAndExpand"
+    VerticalOptions="FillAndExpand">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="25"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Label
+      Grid.Row="0"
+      Text="{Binding FormattedDeliveryDate}"
+      Style="{StaticResource LabelSubtitle}"
+      HorizontalOptions="Center"
+      HorizontalTextAlignment="Center"
+      VerticalTextAlignment="Center"/>
+    <Grid
+      Grid.Row="1"
+		  BackgroundColor="Transparent"
+		  Padding="40,0,10,0"
+		  HorizontalOptions="FillAndExpand"
+		  VerticalOptions="FillAndExpand"
+      IsVisible="{Binding IsSentByCurrentUser}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid
+        HorizontalOptions="EndAndExpand"
+        VerticalOptions="FillAndExpand">
+        <controls:StretchableImage
+          Path="senderBubble.png"
+          HorizontalOptions="FillAndExpand"
+          VerticalOptions="FillAndExpand">
+          <controls:StretchableImage.Caps>
+            <Size
+              Width="15"
+              Height="20"/>
+          </controls:StretchableImage.Caps>
+        </controls:StretchableImage>
+        <StackLayout
+          Padding="12,10,12,18"
+          HorizontalOptions="StartAndExpand"
+          VerticalOptions="StartAndExpand"
+          Spacing="5">
+          <Label
+            x:Name="sentMessageLabel"
+            Text="{Binding Message.Text}"
+            Style="{StaticResource ChatLabel}"
+            TextColor="{x:Static core:Colors.Main}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center"/>
+          <ContentView
+            HeightRequest="80"
+            MinimumWidthRequest="200"
+            HorizontalOptions="Fill"
+            IsVisible="{Binding Message.ProductID, Converter={StaticResource visibility}}"
+            BackgroundColor="White">
+            <product:ProductView
+              x:Name="senderProductView"
+              BindingContext="{Binding Product}"
+              IsVisible="{Binding Product, Converter={StaticResource visibility}}"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"/>
+          </ContentView>
+        </StackLayout>
+      </Grid>
+    </Grid>
+
+    <Grid
+       Grid.Row="1"
+       BackgroundColor="Transparent"
+       ColumnSpacing="8"
+       RowSpacing="0"
+       Padding="10, 0, 40, 0"
+       HorizontalOptions="FillAndExpand"
+       VerticalOptions="FillAndExpand"
+       IsVisible="{Binding IsSentByCurrentUser, Converter={StaticResource inverse}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Image
+        Grid.Column="0"
+        Grid.Row="1"
+        Source="{Binding ProfilePictureUrl}"
+        BackgroundColor="{x:Static core:Colors.Placeholder}"
+        Aspect="AspectFill"
+        HeightRequest="40"
+        WidthRequest="40"/>
+      <Image
+        Grid.Column="0"
+        Grid.Row="1"
+        Source="circleImageFrame.png"
+        BackgroundColor="Transparent"
+        HeightRequest="40"
+        WidthRequest="40"/>
+      <Grid
+        Grid.Row="0"
+        Grid.Column="1"
+        Grid.RowSpan="2"
+        HorizontalOptions="StartAndExpand"
+        VerticalOptions="StartAndExpand">
+        <controls:StretchableImage
+          Path="receiverBubble.png"
+          HorizontalOptions="FillAndExpand"
+          VerticalOptions="FillAndExpand">
+          <controls:StretchableImage.Caps>
+            <Size
+              Width="15"
+              Height="20"/>
+          </controls:StretchableImage.Caps>
+        </controls:StretchableImage>
+        <StackLayout
+          Padding="12,10,12,18"
+          HorizontalOptions="StartAndExpand"
+          VerticalOptions="StartAndExpand">
+          <Label
+            x:Name="receivedMessageLabel"
+            Text="{Binding Message.Text}"
+            Style="{StaticResource ChatLabel}"
+            TextColor="White"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center"/>
+          <StackLayout
+            HeightRequest="80"
+            MinimumWidthRequest="200"
+            HorizontalOptions="Fill"
+            IsVisible="{Binding Message.ProductID, Converter={StaticResource visibility}}"
+            BackgroundColor="White">
+            <product:ProductView
+              x:Name="receiverProductView"
+              BindingContext="{Binding Product}"
+              IsVisible="{Binding Product, Converter={StaticResource visibility}}"
+              HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"/>
+          </StackLayout>
+        </StackLayout>
+      </Grid>
+    </Grid>
+
+  </Grid>
+</ViewCell>

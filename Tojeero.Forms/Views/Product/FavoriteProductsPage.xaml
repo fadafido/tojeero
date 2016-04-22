@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<common:BaseCollectionPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms"
+	xmlns:product="clr-namespace:Tojeero.Forms.Views.Product;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.Views.Product.FavoriteProductsPage"
+	Title="{markupExtensions:Translate TitleFavoriteProducts}">
+	<common:BaseCollectionPage.ItemTemplate>
+		<DataTemplate>
+			<product:ProductListCell />
+		</DataTemplate>
+	</common:BaseCollectionPage.ItemTemplate>
+</common:BaseCollectionPage>

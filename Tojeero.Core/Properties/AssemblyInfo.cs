@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
+[assembly: InternalsVisibleTo("Tojeero.Forms")]
 
 // Version information for an assembly consists of the following four values:
 //

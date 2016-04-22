@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<common:BaseSearchablePage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms"
+	xmlns:tag="clr-namespace:Tojeero.Forms.Views.Tag;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	x:Class="Tojeero.Forms.Views.Tag.TagsPage"
+	Title="{markupExtensions:Translate TitleTags}">
+	<common:BaseSearchablePage.ItemTemplate>
+		<DataTemplate>
+			<tag:TagListCell/>
+		</DataTemplate>
+	</common:BaseSearchablePage.ItemTemplate>
+	<common:BaseSearchablePage.Header>
+			<Button
+				Text="{Binding CreateTagButtonTitle}"
+				TextColor="{x:Static core:Colors.Green}"
+				BackgroundColor="Transparent"
+				IsVisible="{Binding CreateTagVisible}"
+				Command="{Binding CreateTagCommand}"/>
+	</common:BaseSearchablePage.Header>
+</common:BaseSearchablePage>

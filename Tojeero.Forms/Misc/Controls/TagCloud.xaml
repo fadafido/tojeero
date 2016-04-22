@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.Controls.TagCloud"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
+	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms">
+	<controls:WrapLayout
+		x:Name="wrapLayout" />
+	<Button
+		x:Name="addImageButton"
+		Text="{markupExtensions:Translate ButtonAddTags}"
+		Style="{StaticResource Button1}"
+		HorizontalOptions="FillAndExpand"
+		Clicked="addButtonClicked" />
+</StackLayout>

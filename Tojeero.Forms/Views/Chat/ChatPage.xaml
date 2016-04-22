@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
+	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms"
+	xmlns:chat="clr-namespace:Tojeero.Forms.Views.Chat;assembly=Tojeero.Forms"
+	xmlns:product="clr-namespace:Tojeero.Forms.Views.Product;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	x:Class="Tojeero.Forms.Views.Chat.ChatPage"
+	BackgroundColor="White">
+	<StackLayout
+		Spacing="0">
+		<controls:NetworkPageHeader
+			NoNetworkPadding="0,5,0,5"
+			Tint="{x:Static core:Colors.DarkGray}"
+			IsLoading="{Binding IsLoading}"
+			LoadingText="{Binding LoadingText}"
+			FailureMessage="{Binding LoadingFailureMessage}"
+			IsNetworkAvailable="{Binding IsNetworkAvailable}"
+			TryAgainCommand="{Binding InitCommand}" />
+		<Button
+			Text="{markupExtensions:Translate ButtonLoadMoreMessages}"
+			TextColor="{x:Static core:Colors.Green}"
+			BackgroundColor="Transparent"
+			IsVisible="{Binding CanLoadMoreMessages}"
+			Command="{Binding LoadMoreMessagesCommand}"
+			HorizontalOptions="Center"/>
+		<controls:ChatListView
+			x:Name="listView"
+			HasUnevenRows="True"
+			RowHeight="-1"
+			ItemsSource="{Binding Messages}"
+			SeparatorVisibility="None">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<chat:ChatMessageCell/>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</controls:ChatListView>
+		<Grid
+			Padding="12,10,12,10"
+			RowSpacing="0"
+			ColumnSpacing="10"
+			BackgroundColor="{x:Static core:Colors.LightBackground}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="70"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			<controls:BorderView
+				Grid.Row="0"
+				Grid.Column="0"
+				BackgroundColor="White"
+				Radius="5"/>
+			<ContentView
+				Grid.Row="0"
+				Grid.Column="0"
+				Padding="2"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="FillAndExpand">
+				<Editor
+					Text="{Binding CurrentMessage, Mode=TwoWay}"
+					HorizontalOptions="FillAndExpand"
+					VerticalOptions="FillAndExpand"/>
+			</ContentView>
+			<Button
+				Grid.Row="0"
+				Grid.Column="1"
+				Text="Send"
+				IsEnabled="{Binding CanExecuteSendMessageCommand}"
+				Command="{Binding SendMessageCommand}"
+				Style="{StaticResource SendMessageButton}"/>
+			<ContentView
+				Grid.Row="1"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Padding="0,10,0,0"
+				HeightRequest="80"
+				BindingContext="{Binding ProductViewModel}"
+				IsVisible="{Binding Product, Converter={StaticResource visibility}}"
+				HorizontalOptions="FillAndExpand"
+				VerticalOptions="FillAndExpand">
+				<product:ProductView
+					x:Name="productView"
+					HorizontalOptions="FillAndExpand"
+					VerticalOptions="FillAndExpand">
+				</product:ProductView>
+			</ContentView>
+		</Grid>
+	</StackLayout>
+</ContentPage>

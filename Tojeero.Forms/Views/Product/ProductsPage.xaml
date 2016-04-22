@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<common:BaseSearchableTabPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.Views.Product.ProductsPage">
+	<common:BaseSearchableTabPage.ToolbarItems>
+		<ToolbarItem
+			Icon="filterIcon.png"
+			Command="{Binding FilterCommand}"
+			Order="Primary"
+			Priority="2" />
+		<ToolbarItem
+			Icon="{Binding ListModeIcon}"
+			Command="{Binding ToggleListModeCommand}"
+			Order="Primary"
+			Priority="1" />
+	</common:BaseSearchableTabPage.ToolbarItems>
+</common:BaseSearchableTabPage>

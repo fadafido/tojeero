@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.Views.User.ProfileSettingsPage"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms"
+	xmlns:controls1="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
+	xmlns:contracts="clr-namespace:Tojeero.Core.Model.Contracts;assembly=Tojeero.Core"
+	BackgroundColor="White"
+	Title="{markupExtensions:Translate TitleProfileSettings}"
+	Padding="0">
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout
+				Spacing="0">
+				<controls1:NetworkPageHeader
+					NoNetworkPadding="0,5,0,5"
+					Tint="{x:Static core:Colors.DarkGray}"
+					IsLoading="{Binding IsLoading}"
+					LoadingText="{Binding LoadingText}"
+					FailureMessage="{Binding LoadingFailureMessage}"
+					IsNetworkAvailable="{Binding IsNetworkAvailable}"
+					TryAgainCommand="{Binding TryAgainCommand}" />
+				<StackLayout
+					Padding="10">
+					<Label
+						Text="{Binding Hint}"
+						IsVisible="{Binding UserShouldProvideProfileDetails}"
+						Style="{StaticResource LabelWarning}"
+						FontSize="15"
+						HorizontalOptions="Center"
+						HorizontalTextAlignment="Center" />
+					<StackLayout
+						Orientation="Vertical"
+						Spacing="15">
+						<!--PROFILE PICTURE AND NAME-->
+						<StackLayout
+							Orientation="Horizontal"
+							Spacing="5"
+							HorizontalOptions="FillAndExpand">
+							<Grid
+								HeightRequest="100"
+								WidthRequest="100"
+								VerticalOptions="Start"
+								IsVisible="{Binding IsLoggedIn}">
+								<Grid.RowDefinitions>
+									<RowDefinition
+										Height="Auto" />
+								</Grid.RowDefinitions>
+								<controls:CircleImage
+									Source="{x:Static core:Images.ProfilePicturePlaceholder}"
+									Aspect="AspectFill" />
+								<controls:CircleImage
+									Source="{Binding ProfilePicture, Converter={StaticResource cachedImage}}"
+									Aspect="AspectFill" />
+							</Grid>
+							<StackLayout
+								Spacing="5"
+								HorizontalOptions="FillAndExpand">
+								<StackLayout
+									Spacing="0">
+									<Entry
+										Text="{Binding FirstName, Mode=TwoWay}"
+										Placeholder="{markupExtensions:Translate LabelFirstName}"
+										TextColor="{x:Static core:Colors.Main}"
+										HeightRequest="40"
+										HorizontalOptions="FillAndExpand" />
+									<BoxView
+										BackgroundColor="{x:Static core:Colors.Separator}"
+										HeightRequest="1"
+										HorizontalOptions="FillAndExpand" />
+								</StackLayout>
+								<StackLayout
+									Spacing="0"
+									HorizontalOptions="FillAndExpand">
+									<Entry
+										Text="{Binding LastName, Mode=TwoWay}"
+										Placeholder="{markupExtensions:Translate LabelLastName}"
+										TextColor="{x:Static core:Colors.Main}"
+										HeightRequest="40"
+										HorizontalOptions="FillAndExpand" />
+									<BoxView
+										BackgroundColor="{x:Static core:Colors.Separator}"
+										HeightRequest="1"
+										HorizontalOptions="FillAndExpand" />
+								</StackLayout>
+							</StackLayout>
+						</StackLayout>
+						<!--EMAIL-->
+						<StackLayout
+							Spacing="5"
+							Padding="10,0,10,0">
+							<StackLayout
+								Padding="5,0,0,0">
+								<Label
+									Text="{markupExtensions:Translate LabelEmail}"
+									Style="{StaticResource Label1}" />
+							</StackLayout>
+							<Grid
+								HeightRequest="50">
+								<controls1:BorderView
+									BorderColor="{x:Static core:Colors.CellBorder}"
+									BackgroundColor="{x:Static core:Colors.Placeholder}"
+									BorderWidth="1"
+									Radius="5" />
+								<StackLayout
+									Padding="15,2,15,2">
+									<controls1:LabelEx
+										Text="{Binding Email}"
+										TextColor="#afb8bb"
+										FontSize="18"
+										LineBreakMode="TailTruncation"
+										LineCount="1"
+										VerticalOptions="FillAndExpand"
+										VerticalTextAlignment="Center" />
+								</StackLayout>
+							</Grid>
+						</StackLayout>
+						<StackLayout
+							Spacing="15"
+							Opacity="{Binding IsLoading, Converter={StaticResource inverseOpacity}}"
+							IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}">
+							<!--COUNTRY-->
+							<StackLayout
+								Spacing="5"
+								Padding="10,0,10,0">
+								<StackLayout
+									Padding="5,0,0,0">
+									<Label
+										Text="{markupExtensions:Translate LabelCountry}"
+										Style="{StaticResource Label1}" />
+								</StackLayout>
+								<Grid
+									HeightRequest="50">
+									<controls1:BorderView
+										BorderColor="{x:Static core:Colors.CellBorder}"
+										BackgroundColor="White"
+										BorderWidth="1"
+										Radius="5" />
+									<StackLayout
+										Padding="15,2,15,2">
+										<controls1:FacetObjectPicker
+											x:TypeArguments="contracts:ICountry"
+                      x:Name="countriesPicker"
+											Placeholder="{markupExtensions:Translate LabelCountry}"
+											SelectedObject="{Binding Country, Mode=TwoWay}"
+                      CountVisible="False"
+											TextColor="{x:Static core:Colors.Main}"
+											HorizontalOptions="FillAndExpand"
+											VerticalOptions="FillAndExpand" />
+									</StackLayout>
+								</Grid>
+							</StackLayout>
+							<!--CITY-->
+							<StackLayout
+								Spacing="5"
+								Padding="10,0,10,0">
+								<StackLayout
+									Padding="5,0,0,0">
+									<Label
+										Text="{markupExtensions:Translate LabelCity}"
+										Style="{StaticResource Label1}" />
+								</StackLayout>
+								<Grid
+									HeightRequest="50">
+									<controls1:BorderView
+										BorderColor="{x:Static core:Colors.CellBorder}"
+										BackgroundColor="White"
+										BorderWidth="1"
+										Radius="5" />
+									<StackLayout
+										Padding="15,2,15,2">
+										<controls1:FacetObjectPicker
+											x:TypeArguments="contracts:ICity"
+                      x:Name="citiesPicker"
+											Placeholder="{markupExtensions:Translate LabelCity}"
+											SelectedObject="{Binding City, Mode=TwoWay}"
+                      CountVisible="False"
+											TextColor="{x:Static core:Colors.Main}"
+											HorizontalOptions="FillAndExpand"
+											VerticalOptions="FillAndExpand" />
+									</StackLayout>
+								</Grid>
+							</StackLayout>
+							<!--MOBILE PHONE-->
+							<StackLayout
+								Spacing="5"
+								Padding="10,0,10,0">
+								<StackLayout
+									Padding="5,0,0,0">
+									<Label
+										Text="{markupExtensions:Translate LabelMobilePhone}"
+										Style="{StaticResource Label1}" />
+								</StackLayout>
+								<StackLayout
+									Orientation="Horizontal"
+									Spacing="10"
+									HorizontalOptions="FillAndExpand"
+									HeightRequest="50">
+									<Grid
+										WidthRequest="100"
+										VerticalOptions="FillAndExpand">
+										<controls1:BorderView
+											BorderColor="{x:Static core:Colors.CellBorder}"
+											BackgroundColor="{x:Static core:Colors.Placeholder}"
+											BorderWidth="1"
+											Radius="5" />
+										<controls1:LabelEx
+											Text="{Binding Country.CountryPhoneCode}"
+											TextColor="#afb8bb"
+											FontSize="18"
+											LineBreakMode="TailTruncation"
+											LineCount="1"
+											VerticalOptions="FillAndExpand"
+											HorizontalOptions="FillAndExpand"
+											HorizontalTextAlignment="Center"
+											VerticalTextAlignment="Center" />
+									</Grid>
+									<Grid
+										HorizontalOptions="FillAndExpand"
+										VerticalOptions="FillAndExpand">
+										<controls1:BorderView
+											BorderColor="{x:Static core:Colors.CellBorder}"
+											BorderWidth="1"
+											Radius="5"
+											BackgroundColor="White" />
+										<StackLayout
+											Padding="15,2,15,2">
+											<Entry
+												Text="{Binding Mobile, Mode=TwoWay}"
+												Placeholder="{markupExtensions:Translate LabelMobileNumber}"
+												Keyboard="Numeric"
+												TextColor="{x:Static core:Colors.Main}"
+												HorizontalOptions="FillAndExpand"
+												VerticalOptions="FillAndExpand" />
+										</StackLayout>
+									</Grid>
+								</StackLayout>
+							</StackLayout>
+						</StackLayout>
+						<StackLayout
+							Spacing="5"
+							HorizontalOptions="FillAndExpand"
+							IsVisible="{Binding UserShouldProvideProfileDetails}">
+							<Label
+								Text="{markupExtensions:Translate MessageTermsWarning}"
+								Style="{StaticResource LabelWarning}"
+								FontSize="15"
+								HorizontalTextAlignment="Center" />
+							<Button
+								Text="{markupExtensions:Translate ButtonReadTerms}"
+								Command="{Binding ShowTermsCommand}"
+								Style="{StaticResource ButtonHyperlink}"
+								HorizontalOptions="Center" />
+							<Button
+								Text="{markupExtensions:Translate ButtonSubmit}"
+								Command="{Binding SubmitCommand}"
+								VerticalOptions="Center"
+								Style="{StaticResource Button1}"
+								IsEnabled="{Binding CanExecuteSubmitCommand}" />
+						</StackLayout>
+					</StackLayout>
+				</StackLayout>
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

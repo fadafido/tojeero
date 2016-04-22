@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tojeero", "Tojeero\Tojeero.csproj", "{3D79B416-E11B-4017-922D-F77D17991910}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tojeero.Forms", "Tojeero.Forms\Tojeero.Forms.csproj", "{3D79B416-E11B-4017-922D-F77D17991910}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tojeero.iOS", "iOS\Tojeero.iOS.csproj", "{08E56637-6E76-4DAC-BAAA-9057DBB74B75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tojeero.iOS", "Tojeero.iOS\Tojeero.iOS.csproj", "{08E56637-6E76-4DAC-BAAA-9057DBB74B75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tojeero.Droid", "Droid\Tojeero.Droid.csproj", "{B3E60202-0165-4D8E-B978-1E9C38B61D96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tojeero.Droid", "Tojeero.Droid\Tojeero.Droid.csproj", "{B3E60202-0165-4D8E-B978-1E9C38B61D96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tojeero.Core", "Tojeero.Core\Tojeero.Core.csproj", "{3BC18775-3E5E-48FF-8E6C-2AD826C1BF1A}"
 EndProject

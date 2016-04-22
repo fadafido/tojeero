@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.Controls.ImageControl">
+	<controls:RemovableContainerView
+		HorizontalOptions="FillAndExpand"
+		RemoveEnabled="{Binding CanExecuteRemoveImageCommand}"
+		RemoveCommand="{Binding RemoveImageCommand}">
+		<controls:RemovableContainerView.RootContent>
+			<Grid
+				VerticalOptions="FillAndExpand"
+				HorizontalOptions="FillAndExpand"
+        BackgroundColor="White">
+				<Image
+					Aspect="AspectFill"
+					BackgroundColor="Transparent"
+					Source="{Binding Image}"
+					IsEnabled="{Binding IsLoading, Converter={StaticResource inverse}}"
+					VerticalOptions="FillAndExpand"
+					HorizontalOptions="FillAndExpand">
+					<Image.GestureRecognizers>
+						<TapGestureRecognizer
+							Command="{Binding PickImageCommand}"
+							NumberOfTapsRequired="1" />
+					</Image.GestureRecognizers>
+				</Image>
+				<ActivityIndicator
+					x:Name="spinner"
+					IsRunning = "{Binding IsLoading}"
+					HorizontalOptions="Center"
+					VerticalOptions="Center"/>
+			</Grid>
+		</controls:RemovableContainerView.RootContent>
+	</controls:RemovableContainerView>
+</Grid>

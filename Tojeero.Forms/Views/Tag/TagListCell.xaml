@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Tojeero.Forms.Views.Tag.TagListCell"
+	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
+	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms">
+	<Grid
+		BackgroundColor="Transparent"
+		ColumnSpacing="5"
+		Padding="10,0,10,0"
+		HorizontalOptions="FillAndExpand"
+		VerticalOptions="FillAndExpand">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition
+				Width="*" />
+			<ColumnDefinition
+				Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<controls:LabelEx
+			Text="{Binding Tag.Text}"
+			TextColor="{x:Static core:Colors.Main}"
+			FontSize="15"
+			LineCount="1"
+			LineBreakMode="TailTruncation"
+			VerticalOptions="FillAndExpand"
+			HorizontalOptions="StartAndExpand"
+			VerticalTextAlignment="Center" />
+		<Image
+			Grid.Column="1"
+			x:Name="checkmark"
+			Source="checkmark.png"
+			IsVisible="{Binding IsSelected}"
+			VerticalOptions="Center"
+			HeightRequest="16"
+			WidthRequest="15" />
+		<BoxView
+			Grid.ColumnSpan="2"
+			BackgroundColor="{x:Static core:Colors.Separator}"
+			HeightRequest="1"
+			HorizontalOptions="FillAndExpand"
+			VerticalOptions="End" />
+	</Grid>
+</ViewCell>

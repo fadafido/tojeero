@@ -6,6 +6,7 @@ using Cirrious.CrossCore;
 using Tojeero.Core.Contracts;
 using Tojeero.Core.Logging;
 using Tojeero.Core.Managers.Contracts;
+using Tojeero.Core.Model;
 using Tojeero.Core.Model.Contracts;
 using Tojeero.Core.Resources;
 using Tojeero.Core.Services.Contracts;

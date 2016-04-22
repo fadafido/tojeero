@@ -9,49 +9,46 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Main
 {
-	public partial class BootstrapPage : ContentPage
-	{
-		#region Properties
+    public partial class BootstrapPage : ContentPage
+    {
+        #region Properties
 
-		private BootstrapViewModel _viewModel;
-		public BootstrapViewModel ViewModel
-		{
-			get
-			{
-				return _viewModel;
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					_viewModel = value;
-					this.BindingContext = _viewModel;
-				}
-			}
-		}
+        private BootstrapViewModel _viewModel;
 
-		#endregion
+        public BootstrapViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    _viewModel = value;
+                    BindingContext = _viewModel;
+                }
+            }
+        }
 
-		#region Constructors
+        #endregion
 
-		public BootstrapPage()
-			: base()
-		{
-			this.ViewModel = MvxToolbox.LoadViewModel<BootstrapViewModel>();
-			InitializeComponent();
-            
+        #region Constructors
+
+        public BootstrapPage()
+        {
+            ViewModel = MvxToolbox.LoadViewModel<BootstrapViewModel>();
+            InitializeComponent();
+
             setupPickers();
-		}
+        }
 
-		#endregion
+        #endregion
 
-		#region Page lifecycle
+        #region Page lifecycle
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			this.ViewModel.BootstrapCommand.Execute(null);
-		}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.BootstrapCommand.Execute(null);
+        }
 
         #endregion
 
@@ -59,20 +56,16 @@ namespace Tojeero.Forms.Views.Main
 
         private void setupPickers()
         {
-            countriesPicker.FacetsLoader = this.ViewModel.FetchCountryFacets;
-            countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => this.ViewModel.Countries);
+            countriesPicker.FacetsLoader = ViewModel.FetchCountryFacets;
+            countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => ViewModel.Countries);
 
-            citiesPicker.FacetsLoader = this.ViewModel.FetchCityFacets;
-            citiesPicker.ObjectsLoader = () => Task<IList<ICity>>.Factory.StartNew(() => this.ViewModel.Country?.Cities);
+            citiesPicker.FacetsLoader = ViewModel.FetchCityFacets;
+            citiesPicker.ObjectsLoader = () => Task<IList<ICity>>.Factory.StartNew(() => ViewModel.Country?.Cities);
 
             var localizationService = Mvx.Resolve<ILocalizationService>();
-            this.languagesPicker.StringFormat = (language) =>
-            {
-                return localizationService.GetNativeLanguageName(language);
-            };
+            languagesPicker.StringFormat = language => { return localizationService.GetNativeLanguageName(language); };
         }
 
         #endregion
     }
 }
-

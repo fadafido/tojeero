@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <!-- File created by the Android Action Bar Style Generator
 
      Copyright (C) 2011 The Android Open Source Project
@@ -20,63 +21,63 @@
 <resources>
 	<color name="white">#FFFFFFFF</color>
 
-    <style name="Theme.Tojeero" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_tojeero</item>
-        <item name="android:popupMenuStyle">@style/PopupMenu.Tojeero</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Tojeero</item>
-        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Tojeero</item>
-        <item name="android:actionDropDownStyle">@style/DropDownNav.Tojeero</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.Tojeero</item>
-        <item name="android:actionModeBackground">@drawable/cab_background_top_tojeero</item>
-        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_tojeero</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Tojeero</item>
-                <!-- Light.DarkActionBar specific -->
-        <item name="android:actionBarWidgetTheme">@style/Theme.Tojeero.Widget</item>
+	<style name="Theme.Tojeero" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+		<item name="android:actionBarItemBackground">@drawable/selectable_background_tojeero</item>
+		<item name="android:popupMenuStyle">@style/PopupMenu.Tojeero</item>
+		<item name="android:dropDownListViewStyle">@style/DropDownListView.Tojeero</item>
+		<item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Tojeero</item>
+		<item name="android:actionDropDownStyle">@style/DropDownNav.Tojeero</item>
+		<item name="android:actionBarStyle">@style/ActionBar.Solid.Tojeero</item>
+		<item name="android:actionModeBackground">@drawable/cab_background_top_tojeero</item>
+		<item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_tojeero</item>
+		<item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Tojeero</item>
+		<!-- Light.DarkActionBar specific -->
+		<item name="android:actionBarWidgetTheme">@style/Theme.Tojeero.Widget</item>
 
-    </style>
+	</style>
 
-    <style name="ActionBar.Solid.Tojeero" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/ab_solid_tojeero</item>
-        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_tojeero</item>
-        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_tojeero</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Tojeero</item>
-    </style>
+	<style name="ActionBar.Solid.Tojeero" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+		<item name="android:background">@drawable/ab_solid_tojeero</item>
+		<item name="android:backgroundStacked">@drawable/ab_stacked_solid_tojeero</item>
+		<item name="android:backgroundSplit">@drawable/ab_bottom_solid_tojeero</item>
+		<item name="android:progressBarStyle">@style/ProgressBar.Tojeero</item>
+	</style>
 
-    <style name="ActionBar.Transparent.Tojeero" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">@drawable/ab_transparent_tojeero</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Tojeero</item>
-    </style>
+	<style name="ActionBar.Transparent.Tojeero" parent="@android:style/Widget.Holo.ActionBar">
+		<item name="android:background">@drawable/ab_transparent_tojeero</item>
+		<item name="android:progressBarStyle">@style/ProgressBar.Tojeero</item>
+	</style>
 
-    <style name="PopupMenu.Tojeero" parent="@android:style/Widget.Holo.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_tojeero</item>	
-    </style>
+	<style name="PopupMenu.Tojeero" parent="@android:style/Widget.Holo.ListPopupWindow">
+		<item name="android:popupBackground">@drawable/menu_dropdown_panel_tojeero</item>
+	</style>
 
-    <style name="DropDownListView.Tojeero" parent="@android:style/Widget.Holo.ListView.DropDown">
-        <item name="android:listSelector">@drawable/selectable_background_tojeero</item>
-    </style>
+	<style name="DropDownListView.Tojeero" parent="@android:style/Widget.Holo.ListView.DropDown">
+		<item name="android:listSelector">@drawable/selectable_background_tojeero</item>
+	</style>
 
-    <style name="ActionBarTabStyle.Tojeero" parent="@android:style/Widget.Holo.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator_ab_tojeero</item>
-    </style>
+	<style name="ActionBarTabStyle.Tojeero" parent="@android:style/Widget.Holo.ActionBar.TabView">
+		<item name="android:background">@drawable/tab_indicator_ab_tojeero</item>
+	</style>
 
-    <style name="DropDownNav.Tojeero" parent="@android:style/Widget.Holo.Spinner">
-        <item name="android:background">@drawable/spinner_background_ab_tojeero</item>
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_tojeero</item>
-        <item name="android:dropDownSelector">@drawable/selectable_background_tojeero</item>
-    </style>
-    
-    <style name="ProgressBar.Tojeero" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progress_horizontal_tojeero</item>
-    </style>
-    
-    <style name="ActionButton.CloseMode.Tojeero" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
-        <item name="android:background">@drawable/btn_cab_done_tojeero</item>
-    </style>
+	<style name="DropDownNav.Tojeero" parent="@android:style/Widget.Holo.Spinner">
+		<item name="android:background">@drawable/spinner_background_ab_tojeero</item>
+		<item name="android:popupBackground">@drawable/menu_dropdown_panel_tojeero</item>
+		<item name="android:dropDownSelector">@drawable/selectable_background_tojeero</item>
+	</style>
 
-    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Tojeero.Widget" parent="@android:style/Theme.Holo">
-        <item name="android:popupMenuStyle">@style/PopupMenu.Tojeero</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Tojeero</item>
-    </style>
+	<style name="ProgressBar.Tojeero" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+		<item name="android:progressDrawable">@drawable/progress_horizontal_tojeero</item>
+	</style>
+
+	<style name="ActionButton.CloseMode.Tojeero" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+		<item name="android:background">@drawable/btn_cab_done_tojeero</item>
+	</style>
+
+	<!-- this style is only referenced in a Light.DarkActionBar based theme -->
+	<style name="Theme.Tojeero.Widget" parent="@android:style/Theme.Holo">
+		<item name="android:popupMenuStyle">@style/PopupMenu.Tojeero</item>
+		<item name="android:dropDownListViewStyle">@style/DropDownListView.Tojeero</item>
+	</style>
 
 </resources>

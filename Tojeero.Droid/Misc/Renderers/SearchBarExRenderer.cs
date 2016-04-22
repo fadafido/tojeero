@@ -1,66 +1,65 @@
-﻿using System;
-using Xamarin.Forms;
-using Tojeero.Forms;
-using Xamarin.Forms.Platform.Android;
+﻿using System.Linq;
 using Android.Graphics.Drawables;
 using Android.Graphics.Drawables.Shapes;
-using Android.Views;
 using Android.Widget;
-using System.Linq;
+using Tojeero.Droid.Renderers;
 using Tojeero.Forms.Controls;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.Android;
+using Color = Android.Graphics.Color;
 
-[assembly:ExportRenderer(typeof(SearchBarEx), typeof(Tojeero.Droid.Renderers.SearchBarExRenderer))]
+[assembly: ExportRenderer(typeof (SearchBarEx), typeof (SearchBarExRenderer))]
 
 namespace Tojeero.Droid.Renderers
 {
-	public class SearchBarExRenderer : SearchBarRenderer
-	{
-		#region Parent Override
+    public class SearchBarExRenderer : SearchBarRenderer
+    {
+        #region Parent Override
 
-		protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<SearchBar> e)
-		{
-			base.OnElementChanged(e);
-			if (this.Control == null || this.Element == null)
-				return;
-			
-			updateBackground();
-			updateSearchBackground();
-		}
-			
-		#endregion
+        protected override void OnElementChanged(ElementChangedEventArgs<SearchBar> e)
+        {
+            base.OnElementChanged(e);
+            if (Control == null || Element == null)
+                return;
 
-		#region Utility methods
+            updateBackground();
+            updateSearchBackground();
+        }
 
-		private void updateBackground()
-		{
-			var shape = new RoundRectShape(Enumerable.Repeat(10f, 8).ToArray(), null, null);
-			var background = new ShapeDrawable(shape);
-			background.Paint.Color = global::Android.Graphics.Color.White;
-			this.Control.Background = background;
-		}
+        #endregion
 
-		private void updateSearchBackground()
-		{
-			var shape = new RectShape();
-			var searchBackground = new ShapeDrawable(shape);
-			searchBackground.Paint.Color = global::Android.Graphics.Color.White;
+        #region Utility methods
 
-			int searchPlateId = this.Control.Context.Resources.GetIdentifier("android:id/search_plate", null, null);
-			var searchPlateView = this.Control.FindViewById(searchPlateId);
-			if (searchPlateView != null) {
-				searchPlateView.Background = searchBackground;
-			}
+        private void updateBackground()
+        {
+            var shape = new RoundRectShape(Enumerable.Repeat(10f, 8).ToArray(), null, null);
+            var background = new ShapeDrawable(shape);
+            background.Paint.Color = Color.White;
+            Control.Background = background;
+        }
 
-			int textId = this.Control.Context.Resources.GetIdentifier("android:id/search_src_text", null, null);
-			var textView = (Android.Widget.TextView) this.Control.FindViewById(textId);
-			if (textView != null)
-			{
-				textView.TextSize = 14;
-				textView.LayoutParameters.Height = LayoutParams.MatchParent;
-			}
-		}
+        private void updateSearchBackground()
+        {
+            var shape = new RectShape();
+            var searchBackground = new ShapeDrawable(shape);
+            searchBackground.Paint.Color = Color.White;
 
-		#endregion
-	}
+            var searchPlateId = Control.Context.Resources.GetIdentifier("android:id/search_plate", null, null);
+            var searchPlateView = Control.FindViewById(searchPlateId);
+            if (searchPlateView != null)
+            {
+                searchPlateView.Background = searchBackground;
+            }
+
+            var textId = Control.Context.Resources.GetIdentifier("android:id/search_src_text", null, null);
+            var textView = (TextView) Control.FindViewById(textId);
+            if (textView != null)
+            {
+                textView.TextSize = 14;
+                textView.LayoutParameters.Height = LayoutParams.MatchParent;
+            }
+        }
+
+        #endregion
+    }
 }
-

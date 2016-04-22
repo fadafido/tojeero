@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <common:BaseSearchablePage
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -11,15 +12,15 @@
 	Title="{markupExtensions:Translate TitleTags}">
 	<common:BaseSearchablePage.ItemTemplate>
 		<DataTemplate>
-			<tag:TagListCell/>
+			<tag:TagListCell />
 		</DataTemplate>
 	</common:BaseSearchablePage.ItemTemplate>
 	<common:BaseSearchablePage.Header>
-			<Button
-				Text="{Binding CreateTagButtonTitle}"
-				TextColor="{x:Static core:Colors.Green}"
-				BackgroundColor="Transparent"
-				IsVisible="{Binding CreateTagVisible}"
-				Command="{Binding CreateTagCommand}"/>
+		<Button
+			Text="{Binding CreateTagButtonTitle}"
+			TextColor="{x:Static core:Colors.Green}"
+			BackgroundColor="Transparent"
+			IsVisible="{Binding CreateTagVisible}"
+			Command="{Binding CreateTagCommand}" />
 	</common:BaseSearchablePage.Header>
 </common:BaseSearchablePage>

@@ -15,7 +15,8 @@ namespace Tojeero.Forms.Controls
         }
 
 
-        public static BindableProperty CapsProperty = BindableProperty.Create<StretchableImage, Size>(o => o.Caps, Size.Zero);
+        public static BindableProperty CapsProperty = BindableProperty.Create<StretchableImage, Size>(o => o.Caps,
+            Size.Zero);
 
         public Size Caps
         {

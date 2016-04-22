@@ -6,60 +6,52 @@ using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Product
 {
-	public partial class FavoriteProductsPage : BaseCollectionPage
-	{
-		#region Constructors
+    public partial class FavoriteProductsPage : BaseCollectionPage
+    {
+        #region Constructors
 
-		public FavoriteProductsPage()
-			: base()
-		{
-			InitializeComponent();
-			this.ViewModel = MvxToolbox.LoadViewModel<FavoriteProductsViewModel>();
-			ListView.ItemSelected += itemSelected;
-		}
+        public FavoriteProductsPage()
+        {
+            InitializeComponent();
+            ViewModel = MvxToolbox.LoadViewModel<FavoriteProductsViewModel>();
+            ListView.ItemSelected += itemSelected;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public new FavoriteProductsViewModel ViewModel
-		{
-			get
-			{
-				return base.ViewModel as FavoriteProductsViewModel;
-			}
-			set
-			{
-				base.ViewModel = value;
-			}
-		}
+        public new FavoriteProductsViewModel ViewModel
+        {
+            get { return base.ViewModel as FavoriteProductsViewModel; }
+            set { base.ViewModel = value; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Page lifecycle
+        #region Page lifecycle
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			this.ViewModel.LoadFirstPageCommand.Execute(null);
-		}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.LoadFirstPageCommand.Execute(null);
+        }
 
-		#endregion
+        #endregion
 
-		#region UI Events
+        #region UI Events
 
-		private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
-		{
-			var item = ((ListView)sender).SelectedItem as ProductViewModel; 
-			if (item != null)
-			{
-				((ListView)sender).SelectedItem = null;
-				var productDetails = new ProductDetailsPage(item.Product);
-				await this.Navigation.PushAsync(productDetails);
-			}
-		}
+        private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var item = ((ListView) sender).SelectedItem as ProductViewModel;
+            if (item != null)
+            {
+                ((ListView) sender).SelectedItem = null;
+                var productDetails = new ProductDetailsPage(item.Product);
+                await Navigation.PushAsync(productDetails);
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

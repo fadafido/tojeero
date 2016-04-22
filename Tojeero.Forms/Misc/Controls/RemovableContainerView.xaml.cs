@@ -3,83 +3,82 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Controls
 {
-	public partial class RemovableContainerView : Grid
-	{
-		#region Constructors
+    public partial class RemovableContainerView : Grid
+    {
+        #region Constructors
 
-		public RemovableContainerView()
-			:base()
-		{
-			InitializeComponent();
-			setupRootContent();
-			this.removeButton.IsVisible = false;
-		}
+        public RemovableContainerView()
+        {
+            InitializeComponent();
+            setupRootContent();
+            removeButton.IsVisible = false;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private View _rootContent;
+        private View _rootContent;
 
-		public View RootContent
-		{
-			get
-			{
-				return _rootContent;
-			}
-			set
-			{
-				if (_rootContent != value)
-				{
-					_rootContent = value;
-					setupRootContent();
-				}
-			}
-		}
+        public View RootContent
+        {
+            get { return _rootContent; }
+            set
+            {
+                if (_rootContent != value)
+                {
+                    _rootContent = value;
+                    setupRootContent();
+                }
+            }
+        }
 
-		public static BindableProperty RemoveEnabledProperty = BindableProperty.Create<RemovableContainerView, bool>(o => o.RemoveEnabled, false, propertyChanged: OnRemoveEnabledChanged);
+        public static BindableProperty RemoveEnabledProperty =
+            BindableProperty.Create<RemovableContainerView, bool>(o => o.RemoveEnabled, false,
+                propertyChanged: OnRemoveEnabledChanged);
 
-		public bool RemoveEnabled
-		{
-			get { return (bool)GetValue(RemoveEnabledProperty); }
-			set { SetValue(RemoveEnabledProperty, value); }
-		}
+        public bool RemoveEnabled
+        {
+            get { return (bool) GetValue(RemoveEnabledProperty); }
+            set { SetValue(RemoveEnabledProperty, value); }
+        }
 
-		private static void OnRemoveEnabledChanged(BindableObject bindable, bool oldvalue, bool newvalue)
-		{
-			var control = (RemovableContainerView)bindable;
-			control.removeButton.IsVisible = newvalue;
-		}
+        private static void OnRemoveEnabledChanged(BindableObject bindable, bool oldvalue, bool newvalue)
+        {
+            var control = (RemovableContainerView) bindable;
+            control.removeButton.IsVisible = newvalue;
+        }
 
-		public static BindableProperty RemoveCommandProperty = BindableProperty.Create<RemovableContainerView, ICommand>(o => o.RemoveCommand, null, propertyChanged: OnRemoveCommandChanged);
+        public static BindableProperty RemoveCommandProperty =
+            BindableProperty.Create<RemovableContainerView, ICommand>(o => o.RemoveCommand, null,
+                propertyChanged: OnRemoveCommandChanged);
 
-		public ICommand RemoveCommand
-		{
-			get { return (ICommand)GetValue(RemoveCommandProperty); }
-			set { SetValue(RemoveCommandProperty, value); }
-		}
+        public ICommand RemoveCommand
+        {
+            get { return (ICommand) GetValue(RemoveCommandProperty); }
+            set { SetValue(RemoveCommandProperty, value); }
+        }
 
-		private static void OnRemoveCommandChanged(BindableObject bindable, ICommand oldvalue, ICommand newvalue)
-		{
-			var control = (RemovableContainerView)bindable;
-			control.removeButton.Command = newvalue;
-		}
+        private static void OnRemoveCommandChanged(BindableObject bindable, ICommand oldvalue, ICommand newvalue)
+        {
+            var control = (RemovableContainerView) bindable;
+            control.removeButton.Command = newvalue;
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility methods
+        #region Utility methods
 
-		void setupRootContent()
-		{
-			if (this.rootContainer != null)
-			{
-				this.rootContainer.Children.Clear();
-				if(this.RootContent != null)
-					this.rootContainer.Children.Add(this.RootContent);
-			}
-		}
+        void setupRootContent()
+        {
+            if (rootContainer != null)
+            {
+                rootContainer.Children.Clear();
+                if (RootContent != null)
+                    rootContainer.Children.Add(RootContent);
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

@@ -4,11 +4,8 @@ namespace Tojeero.Core.Model
 {
     public enum LanguageCode
     {
-        [StringValue("en")]
-        English,
-        [StringValue("ar")]
-        Arabic,
-        [StringValue("unknown")]
-        Unknown
+        [StringValue("en")] English,
+        [StringValue("ar")] Arabic,
+        [StringValue("unknown")] Unknown
     }
 }

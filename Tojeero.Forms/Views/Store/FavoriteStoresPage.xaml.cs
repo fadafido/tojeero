@@ -6,58 +6,50 @@ using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Store
 {
-	public partial class FavoriteStoresPage : BaseCollectionPage
-	{
-		#region Constructors
+    public partial class FavoriteStoresPage : BaseCollectionPage
+    {
+        #region Constructors
 
-		public FavoriteStoresPage()
-			: base()
-		{
-			InitializeComponent();
-			this.ViewModel = MvxToolbox.LoadViewModel<FavoriteStoresViewModel>();
-			ListView.ItemSelected += itemSelected;
-		}
+        public FavoriteStoresPage()
+        {
+            InitializeComponent();
+            ViewModel = MvxToolbox.LoadViewModel<FavoriteStoresViewModel>();
+            ListView.ItemSelected += itemSelected;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public new FavoriteStoresViewModel ViewModel
-		{
-			get
-			{
-				return base.ViewModel as FavoriteStoresViewModel;
-			}
-			set
-			{
-				base.ViewModel = value;
-			}
-		}
+        public new FavoriteStoresViewModel ViewModel
+        {
+            get { return base.ViewModel as FavoriteStoresViewModel; }
+            set { base.ViewModel = value; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Page lifecycle
+        #region Page lifecycle
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			this.ViewModel.LoadFirstPageCommand.Execute(null);
-		}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.LoadFirstPageCommand.Execute(null);
+        }
 
-		#endregion
+        #endregion
 
-		#region UI Events
+        #region UI Events
 
-		private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
-		{
-			var item = ((ListView)sender).SelectedItem as StoreViewModel; 
-			if (item != null)
-			{
-				((ListView)sender).SelectedItem = null;
-			}
-		}
+        private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var item = ((ListView) sender).SelectedItem as StoreViewModel;
+            if (item != null)
+            {
+                ((ListView) sender).SelectedItem = null;
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

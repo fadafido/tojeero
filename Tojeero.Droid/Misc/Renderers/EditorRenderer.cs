@@ -1,39 +1,39 @@
-﻿using System;
+﻿using System.Linq;
+using Android.Graphics.Drawables;
+using Android.Graphics.Drawables.Shapes;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using Android.Graphics.Drawables.Shapes;
-using System.Linq;
-using Android.Graphics.Drawables;
+using Color = Android.Graphics.Color;
+using EditorRenderer = Tojeero.Droid.Renderers.EditorRenderer;
 
-[assembly:ExportRenderer(typeof(Xamarin.Forms.Editor), typeof(Tojeero.Droid.Renderers.EditorRenderer))]
+[assembly: ExportRenderer(typeof (Editor), typeof (EditorRenderer))]
+
 namespace Tojeero.Droid.Renderers
 {
-	public class EditorRenderer : Xamarin.Forms.Platform.Android.EditorRenderer
-	{
-		#region Parent override
+    public class EditorRenderer : Xamarin.Forms.Platform.Android.EditorRenderer
+    {
+        #region Parent override
 
-		protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Xamarin.Forms.Editor> e)
-		{
-			base.OnElementChanged(e);
-			if (e.OldElement != null || this.Element == null)
-				return;
-			updateBackground();
-		}
+        protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)
+        {
+            base.OnElementChanged(e);
+            if (e.OldElement != null || Element == null)
+                return;
+            updateBackground();
+        }
 
+        #endregion
 
-		#endregion
+        #region Utility methods
 
-		#region Utility methods
+        private void updateBackground()
+        {
+            var shape = new RoundRectShape(Enumerable.Repeat(5f, 8).ToArray(), null, null);
+            var background = new ShapeDrawable(shape);
+            background.Paint.Color = Color.White;
+            Control.Background = background;
+        }
 
-		private void updateBackground()
-		{
-			var shape = new RoundRectShape(Enumerable.Repeat(5f, 8).ToArray(), null, null);
-			var background = new ShapeDrawable(shape);
-			background.Paint.Color = global::Android.Graphics.Color.White;
-			this.Control.Background = background;
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }
-

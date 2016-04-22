@@ -5,286 +5,222 @@ using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using Parse;
 using Tojeero.Core.Managers.Contracts;
 using Tojeero.Core.Model.Contracts;
-using Tojeero.Core.Services.Contracts;
 
 namespace Tojeero.Core.Model
 {
-	public class Country : BaseLocalizableModelEntity<ParseCountry>, ICountry
-	{
-		#region Private fields and properties
+    public class Country : BaseLocalizableModelEntity<ParseCountry>, ICountry
+    {
+        #region Private fields and properties
 
-		private ICityManager _cityManager;
-		private ICityManager CityManager
-		{
-			get
-			{
-				if (_cityManager == null)
-				{
-					_cityManager = Mvx.Resolve<ICityManager>();
-				}
-				return _cityManager;
-			}
-		}
+        private ICityManager _cityManager;
 
-		#endregion
+        private ICityManager CityManager
+        {
+            get
+            {
+                if (_cityManager == null)
+                {
+                    _cityManager = Mvx.Resolve<ICityManager>();
+                }
+                return _cityManager;
+            }
+        }
 
-		#region Constructors
+        #endregion
 
-		public Country()
-			:base()
-		{
-			
-		}
+        #region Constructors
 
-		public Country(ParseCountry country = null)
-			: base(country)
-		{
-			
-		}
+        public Country()
+        {
+        }
 
+        public Country(ParseCountry country = null)
+            : base(country)
+        {
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		[Ignore]
-		public string Name
-		{
-			get
-			{
-				if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Name_ar))
-					return Name_ar;
-				return Name_en;
-			}
-		}
+        [Ignore]
+        public string Name
+        {
+            get
+            {
+                if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Name_ar))
+                    return Name_ar;
+                return Name_en;
+            }
+        }
 
-		[Ignore]
-		public string Currency
-		{
-			get
-			{
-				if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Currency_ar))
-					return Currency_ar;
-				return Currency_en;
-			}
-		}
+        [Ignore]
+        public string Currency
+        {
+            get
+            {
+                if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Currency_ar))
+                    return Currency_ar;
+                return Currency_en;
+            }
+        }
 
-		public string Name_en
-		{
-			get
-			{
-				return this.ParseObject.Name_en;
-			}
-			set
-			{
-				this.ParseObject.Name_en = value;
-				this.RaisePropertyChanged(() => Name);
-			}
-		}
+        public string Name_en
+        {
+            get { return ParseObject.Name_en; }
+            set
+            {
+                ParseObject.Name_en = value;
+                RaisePropertyChanged(() => Name);
+            }
+        }
 
 
-		public string Name_ar
-		{
-			get
-			{
-				return this.ParseObject.Name_ar;
-			}
-			set
-			{
-				this.ParseObject.Name_ar = value;
-				this.RaisePropertyChanged(() => Name);
-			}
-		}
+        public string Name_ar
+        {
+            get { return ParseObject.Name_ar; }
+            set
+            {
+                ParseObject.Name_ar = value;
+                RaisePropertyChanged(() => Name);
+            }
+        }
 
-		public string Currency_en
-		{
-			get
-			{
-				return this.ParseObject.Currency_en;
-			}
-			set
-			{
-				this.ParseObject.Currency_en = value;
-				this.RaisePropertyChanged(() => Currency);
-			}
-		}
+        public string Currency_en
+        {
+            get { return ParseObject.Currency_en; }
+            set
+            {
+                ParseObject.Currency_en = value;
+                RaisePropertyChanged(() => Currency);
+            }
+        }
 
-		public string Currency_ar
-		{
-			get
-			{
-				return this.ParseObject.Currency_ar;
-			}
-			set
-			{
-				this.ParseObject.Currency_ar = value;
-				this.RaisePropertyChanged(() => Currency);
-			}
-		}
+        public string Currency_ar
+        {
+            get { return ParseObject.Currency_ar; }
+            set
+            {
+                ParseObject.Currency_ar = value;
+                RaisePropertyChanged(() => Currency);
+            }
+        }
 
-		public string CountryPhoneCode
-		{
-			get
-			{
-				return ParseObject.CountryPhoneCode;
-			}
-			set
-			{
-				ParseObject.CountryPhoneCode = value;
-				RaisePropertyChanged(() => CountryPhoneCode);
-			}
-		}
+        public string CountryPhoneCode
+        {
+            get { return ParseObject.CountryPhoneCode; }
+            set
+            {
+                ParseObject.CountryPhoneCode = value;
+                RaisePropertyChanged(() => CountryPhoneCode);
+            }
+        }
 
-		private ICity[] _cities;
-		[Ignore]
-		public ICity[] Cities
-		{ 
-			get
-			{
-				return _cities; 
-			}
-			set
-			{
-				_cities = value; 
-				RaisePropertyChanged(() => Cities); 
-			}
-		}
-		#endregion
+        private ICity[] _cities;
 
-		#region Public API
+        [Ignore]
+        public ICity[] Cities
+        {
+            get { return _cities; }
+            set
+            {
+                _cities = value;
+                RaisePropertyChanged(() => Cities);
+            }
+        }
 
-		public async Task LoadCities()
-		{
-			if (this.Cities != null && this.Cities.Length > 0)
-				return;
-			var cities = await CityManager.Fetch(this.ID);
-			if(cities != null)
-				this.Cities = cities.OrderBy(c => c.Name).ToArray();
-		}
+        #endregion
 
-		#endregion
+        #region Public API
 
-		#region Parent 
+        public async Task LoadCities()
+        {
+            if (Cities != null && Cities.Length > 0)
+                return;
+            var cities = await CityManager.Fetch(ID);
+            if (cities != null)
+                Cities = cities.OrderBy(c => c.Name).ToArray();
+        }
 
-		public override string ToString()
-		{
-			return Name;	
-		}
+        #endregion
 
-		#endregion
+        #region Parent 
 
-		#region implemented abstract members of BaseLocalizableModelEntity
+        public override string ToString()
+        {
+            return Name;
+        }
 
-		protected override void raiseCulturalPropertyChange()
-		{
-			RaisePropertyChanged(() => Name);
-			RaisePropertyChanged(() => Currency);
-		}
+        #endregion
 
-		#endregion
-	}
+        #region implemented abstract members of BaseLocalizableModelEntity
 
-	[ParseClassName("Country")]
-	public class ParseCountry : ParseObject
-	{
-		#region Constructors
+        protected override void raiseCulturalPropertyChange()
+        {
+            RaisePropertyChanged(() => Name);
+            RaisePropertyChanged(() => Currency);
+        }
 
-		public ParseCountry()
-		{
-		}
+        #endregion
+    }
 
-		#endregion
+    [ParseClassName("Country")]
+    public class ParseCountry : ParseObject
+    {
+        #region Constructors
 
-		#region Properties
+        #endregion
 
-		[ParseFieldName("name_en")]
-		public string Name_en
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        #region Properties
 
-		[ParseFieldName("countryId")]
-		public int CountryId
-		{
-			get
-			{
-				return GetProperty<int>();
-			}
-			set
-			{
-				SetProperty<int>(value);
-			}
-		}
+        [ParseFieldName("name_en")]
+        public string Name_en
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("name_ar")]
-		public string Name_ar
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        [ParseFieldName("countryId")]
+        public int CountryId
+        {
+            get { return GetProperty<int>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("currency_en")]
-		public string Currency_en
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        [ParseFieldName("name_ar")]
+        public string Name_ar
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("currency_ar")]
-		public string Currency_ar
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        [ParseFieldName("currency_en")]
+        public string Currency_en
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("countryPhoneCode")]
-		public string CountryPhoneCode
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        [ParseFieldName("currency_ar")]
+        public string Currency_ar
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("cities")]
-		public ParseRelation<ParseCity> Cities
-		{
-			get
-			{
-				return GetRelationProperty<ParseCity>(); 
-			}
-		}
+        [ParseFieldName("countryPhoneCode")]
+        public string CountryPhoneCode
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		#endregion
-	}
+        [ParseFieldName("cities")]
+        public ParseRelation<ParseCity> Cities
+        {
+            get { return GetRelationProperty<ParseCity>(); }
+        }
+
+        #endregion
+    }
 }
-

@@ -18,247 +18,242 @@ using Tojeero.Droid.Messages;
 
 namespace Tojeero.Droid.Images
 {
-	[Activity(Label = "PhotoGaleryActivity", Icon = "@drawable/icon", Theme = "@style/Theme.Tojeero", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class PhotoGaleryActivity : Activity
-	{
-		#region Private fields and properties
+    [Activity(Label = "PhotoGaleryActivity", Icon = "@drawable/icon", Theme = "@style/Theme.Tojeero",
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    public class PhotoGaleryActivity : Activity
+    {
+        #region Private fields and properties
 
-		private RecyclerView _recyclerView;
-		private GridLayoutManager _layoutManager;
-		private PhotoGaleryAdapter _adapter;
-		private PhotoGalery _galery;
-		private static string KEY_RECEIVER_ID = "RECEIVER_ID";
-		private Guid _receiverID = Guid.Empty;
-		private string _selectedImagePath;
+        private RecyclerView _recyclerView;
+        private GridLayoutManager _layoutManager;
+        private PhotoGaleryAdapter _adapter;
+        private PhotoGalery _galery;
+        private static readonly string KEY_RECEIVER_ID = "RECEIVER_ID";
+        private Guid _receiverID = Guid.Empty;
+        private string _selectedImagePath;
 
-		#endregion
+        #endregion
 
-		#region Lifecycle management
+        #region Lifecycle management
 
-		protected override async void OnCreate(Bundle bundle)
-		{
-			base.OnCreate(bundle);
+        protected override async void OnCreate(Bundle bundle)
+        {
+            base.OnCreate(bundle);
 
-			if (this.Intent != null)
-			{
-				_receiverID = new Guid(this.Intent.GetStringExtra(KEY_RECEIVER_ID));
-			}
+            if (Intent != null)
+            {
+                _receiverID = new Guid(Intent.GetStringExtra(KEY_RECEIVER_ID));
+            }
 
-			// Create your application here
-			this.SetContentView(Resource.Layout.activity_photo_galery);
+            // Create your application here
+            SetContentView(Resource.Layout.activity_photo_galery);
 
-			_layoutManager = new GridAutofitLayoutManager(this, 150);
-			_recyclerView = FindViewById<RecyclerView>(Resource.Id.recycler_view_photo_galery);
-			_recyclerView.SetLayoutManager(_layoutManager);
+            _layoutManager = new GridAutofitLayoutManager(this, 150);
+            _recyclerView = FindViewById<RecyclerView>(Resource.Id.recycler_view_photo_galery);
+            _recyclerView.SetLayoutManager(_layoutManager);
 
-			_galery = new PhotoGalery(this);
-			await _galery.LoadImages();
-			_adapter = new PhotoGaleryAdapter(_galery, imageSelected);
-			_recyclerView.SetAdapter(_adapter);
-		}
+            _galery = new PhotoGalery(this);
+            await _galery.LoadImages();
+            _adapter = new PhotoGaleryAdapter(_galery, imageSelected);
+            _recyclerView.SetAdapter(_adapter);
+        }
 
-		public override void OnBackPressed()
-		{
-			base.OnBackPressed();
-			publishSelectedImage();
-		}
+        public override void OnBackPressed()
+        {
+            base.OnBackPressed();
+            publishSelectedImage();
+        }
 
-		#endregion
-			
-		#region Public API
+        #endregion
 
-		public static Intent GetIntentForReceiver(Context context, Guid receiver)
-		{
-			var intent = new Intent(context, typeof(PhotoGaleryActivity));
-			intent.PutExtra(KEY_RECEIVER_ID, receiver.ToString());
-			return intent;
-		}
+        #region Public API
 
-		#endregion
+        public static Intent GetIntentForReceiver(Context context, Guid receiver)
+        {
+            var intent = new Intent(context, typeof (PhotoGaleryActivity));
+            intent.PutExtra(KEY_RECEIVER_ID, receiver.ToString());
+            return intent;
+        }
 
-		#region Utility methods
+        #endregion
 
-		public void imageSelected(string path)
-		{
-			_selectedImagePath = path;
-			this.Finish();
-			publishSelectedImage();
-		}
+        #region Utility methods
 
-		public void publishSelectedImage()
-		{
-			var messenger = Mvx.Resolve<IMvxMessenger>();
-			messenger.Publish<LibraryImageSelectedMessage>(new LibraryImageSelectedMessage(this, _receiverID, _selectedImagePath));
-		}
+        public void imageSelected(string path)
+        {
+            _selectedImagePath = path;
+            Finish();
+            publishSelectedImage();
+        }
 
-		#endregion
+        public void publishSelectedImage()
+        {
+            var messenger = Mvx.Resolve<IMvxMessenger>();
+            messenger.Publish(new LibraryImageSelectedMessage(this, _receiverID, _selectedImagePath));
+        }
 
-		public class PhotoGaleryAdapter : RecyclerView.Adapter
-		{
-			
-			private PhotoGalery _galery;
-			private Action<string> _selectedAction;
+        #endregion
 
-			public PhotoGaleryAdapter(PhotoGalery galery, Action<string> selectedAction)
-			{
-				this._galery = galery;
-				this._selectedAction = selectedAction;
-			}
+        public class PhotoGaleryAdapter : RecyclerView.Adapter
+        {
+            private readonly PhotoGalery _galery;
+            private readonly Action<string> _selectedAction;
 
-			#region implemented abstract members of Adapter
+            public PhotoGaleryAdapter(PhotoGalery galery, Action<string> selectedAction)
+            {
+                _galery = galery;
+                _selectedAction = selectedAction;
+            }
 
-			public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
-			{
-				var view = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.grid_cell_photo_galery_item, null);
-				var holder = new ImageViewHolder(view);
-				return holder;
-			}
+            #region implemented abstract members of Adapter
 
-			public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
-			{
-				var cell = (ImageViewHolder)holder;
-				cell.ImageView.Id = position;
-				cell.FetchImage = (token) => _galery.GetThumbnailAtIndex(position, token);
-				cell.SelectedAction = () => selectImageAtIndex(position);
-				try
-				{					
-					cell.LoadBitmap();
-				}
-				catch (Exception e)
-				{
-					Console.WriteLine(e);
-				}
-			}
+            public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+            {
+                var view = LayoutInflater.From(parent.Context)
+                    .Inflate(Resource.Layout.grid_cell_photo_galery_item, null);
+                var holder = new ImageViewHolder(view);
+                return holder;
+            }
 
-			public override int ItemCount
-			{
-				get
-				{
-					return this._galery.Count;
-				}
-			}
+            public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+            {
+                var cell = (ImageViewHolder) holder;
+                cell.ImageView.Id = position;
+                cell.FetchImage = token => _galery.GetThumbnailAtIndex(position, token);
+                cell.SelectedAction = () => selectImageAtIndex(position);
+                try
+                {
+                    cell.LoadBitmap();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
 
-			#endregion
+            public override int ItemCount
+            {
+                get { return _galery.Count; }
+            }
 
-			#region Utility methods
+            #endregion
 
-			private void selectImageAtIndex(int index)
-			{
-				var path = _galery.GetImagePathAtIndex(index);
-				_selectedAction.Fire(path);
-			}
+            #region Utility methods
 
-			#endregion
+            private void selectImageAtIndex(int index)
+            {
+                var path = _galery.GetImagePathAtIndex(index);
+                _selectedAction.Fire(path);
+            }
 
-			class ImageViewHolder : RecyclerView.ViewHolder
-			{
-				#region Private fields and properties
+            #endregion
 
-				static int count = 0;
-				private CancellationTokenSource _cancellationToken;
-				private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+            class ImageViewHolder : RecyclerView.ViewHolder
+            {
+                #region Private fields and properties
 
-				#endregion
+                static int count = 0;
+                private CancellationTokenSource _cancellationToken;
+                private readonly AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
 
-				#region Constructors
+                #endregion
 
-				public ImageViewHolder(View parent)
-					:base(parent)
-				{
-					this.ImageView = parent.FindViewById<ImageView>(Resource.Id.thumbImage);
-					parent.Clickable = true;
-					parent.Click += clicked;
-				}
+                #region Constructors
 
-				#endregion
+                public ImageViewHolder(View parent)
+                    : base(parent)
+                {
+                    ImageView = parent.FindViewById<ImageView>(Resource.Id.thumbImage);
+                    parent.Clickable = true;
+                    parent.Click += clicked;
+                }
 
-				#region Disposable
+                #endregion
 
-				protected override void Dispose(bool disposing)
-				{
-					if (disposing)
-					{
-						this.ItemView.Click -= clicked;
-					}
-					base.Dispose(disposing);
-				}
+                #region Disposable
 
-				#endregion
+                protected override void Dispose(bool disposing)
+                {
+                    if (disposing)
+                    {
+                        ItemView.Click -= clicked;
+                    }
+                    base.Dispose(disposing);
+                }
 
-				#region Properties
+                #endregion
 
-				public ImageView ImageView { get; set; }
-				public Func<CancellationToken, Task<Bitmap>> FetchImage { get; set; }
-				public Action SelectedAction { get; set; }
+                #region Properties
 
-				#endregion
+                public ImageView ImageView { get; }
+                public Func<CancellationToken, Task<Bitmap>> FetchImage { get; set; }
+                public Action SelectedAction { get; set; }
 
-				#region Public API
+                #endregion
 
-				public async void LoadBitmap()
-				{
-					//If we had already running task on this view, cancel it.
-					if (_cancellationToken != null)
-					{
-						_cancellationToken.Cancel();
-					}
+                #region Public API
 
-					//Create new cancellation token
-					_cancellationToken = new CancellationTokenSource();
+                public async void LoadBitmap()
+                {
+                    //If we had already running task on this view, cancel it.
+                    if (_cancellationToken != null)
+                    {
+                        _cancellationToken.Cancel();
+                    }
 
-					//Set the image to null
-					setImage(null, _cancellationToken.Token);
+                    //Create new cancellation token
+                    _cancellationToken = new CancellationTokenSource();
 
-					Bitmap image = null;
-					try
-					{
-						image = await FetchImage(_cancellationToken.Token);
-						//If the task is cancelled dispose the image and return
-						if (_cancellationToken.Token.IsCancellationRequested && image != null)
-						{
-							image.Recycle();
-							return;
-						}
-						else
-						{
-							//Set new image
-							setImage(image, _cancellationToken.Token);
-						}
+                    //Set the image to null
+                    setImage(null, _cancellationToken.Token);
 
-					}
-					catch (Exception ex)
-					{
-					}
-				}
+                    Bitmap image = null;
+                    try
+                    {
+                        image = await FetchImage(_cancellationToken.Token);
+                        //If the task is cancelled dispose the image and return
+                        if (_cancellationToken.Token.IsCancellationRequested && image != null)
+                        {
+                            image.Recycle();
+                        }
+                        else
+                        {
+                            //Set new image
+                            setImage(image, _cancellationToken.Token);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
 
-				#endregion
+                #endregion
 
-				#region Utility methods
+                #region Utility methods
 
-				private void setImage(Bitmap bitmap, CancellationToken token)
-				{
-					using (var writerLock = _locker.WriterLock(token))
-					{
-						if (ImageView == null)
-							return;
-						if (ImageView.Drawable != null)
-						{
-							var old = ((BitmapDrawable)ImageView.Drawable).Bitmap;
-							if (old != null && !old.IsRecycled)
-								old.Recycle();
-						}
-						ImageView.SetImageBitmap(bitmap);
-					}
-				}
+                private void setImage(Bitmap bitmap, CancellationToken token)
+                {
+                    using (var writerLock = _locker.WriterLock(token))
+                    {
+                        if (ImageView == null)
+                            return;
+                        if (ImageView.Drawable != null)
+                        {
+                            var old = ((BitmapDrawable) ImageView.Drawable).Bitmap;
+                            if (old != null && !old.IsRecycled)
+                                old.Recycle();
+                        }
+                        ImageView.SetImageBitmap(bitmap);
+                    }
+                }
 
-				void clicked (object sender, EventArgs e)
-				{
-					SelectedAction.Fire();
-				}
+                void clicked(object sender, EventArgs e)
+                {
+                    SelectedAction.Fire();
+                }
 
-				#endregion
-			}
-		}
-	}
+                #endregion
+            }
+        }
+    }
 }
-

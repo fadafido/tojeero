@@ -3,35 +3,37 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Controls
 {
-	public partial class FavoriteSocialView : StackLayout
-	{
-		#region Constructors
+    public partial class FavoriteSocialView : StackLayout
+    {
+        #region Constructors
 
-		public FavoriteSocialView()
-		{			
-			InitializeComponent();
-		}
+        public FavoriteSocialView()
+        {
+            InitializeComponent();
+        }
 
-		#endregion
+        #endregion
 
-		#region Social view model
+        #region Social view model
 
-		public static BindableProperty ViewModelProperty = BindableProperty.Create<FavoriteSocialView, ISocialViewModel>(o => o.ViewModel, null, propertyChanged: OnViewModelChanged);
+        public static BindableProperty ViewModelProperty =
+            BindableProperty.Create<FavoriteSocialView, ISocialViewModel>(o => o.ViewModel, null,
+                propertyChanged: OnViewModelChanged);
 
-		public ISocialViewModel ViewModel
-		{
-			get { return (ISocialViewModel)GetValue(ViewModelProperty); }
-			set { SetValue(ViewModelProperty, value); }
-		}
+        public ISocialViewModel ViewModel
+        {
+            get { return (ISocialViewModel) GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
 
-		private static void OnViewModelChanged(BindableObject bindable, ISocialViewModel oldvalue, ISocialViewModel newvalue)
-		{
-			var view = (FavoriteSocialView)bindable;
-			if(view.rootContent != null)
-				view.rootContent.BindingContext = newvalue;
-		}
+        private static void OnViewModelChanged(BindableObject bindable, ISocialViewModel oldvalue,
+            ISocialViewModel newvalue)
+        {
+            var view = (FavoriteSocialView) bindable;
+            if (view.rootContent != null)
+                view.rootContent.BindingContext = newvalue;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

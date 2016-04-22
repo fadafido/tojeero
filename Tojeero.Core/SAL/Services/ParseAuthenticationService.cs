@@ -97,7 +97,7 @@ namespace Tojeero.Core.Services
 
                 var authData = GetFacebookAuthData(fbUser.User.ID, fbUser.Token, fbUser.ExpiryDate);
                 var user = await ParseUserExtensions.LogInWithAsync("facebook", authData, CancellationToken.None);
-                var parseUser = (TojeeroUser)user;
+                var parseUser = (TojeeroUser) user;
                 parseUser.Email = fbUser.User.Email;
                 parseUser.FirstName = fbUser.User.FirstName;
                 parseUser.LastName = fbUser.User.LastName;

@@ -4,12 +4,8 @@ namespace Tojeero.Forms.Controls
 {
     public class ListView : Xamarin.Forms.ListView
     {
-        public ListView()
-        {
-
-        }
-
-        public static BindableProperty FooterViewProperty = BindableProperty.Create<ListView, View>(o => o.FooterView, null);
+        public static BindableProperty FooterViewProperty = BindableProperty.Create<ListView, View>(o => o.FooterView,
+            null);
 
         public View FooterView
         {

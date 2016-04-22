@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tojeero.Core;
 using Tojeero.Core.Managers.Contracts;
 using Tojeero.Core.Model.Contracts;
 using Tojeero.Core.ViewModels.Common;
@@ -43,6 +42,7 @@ namespace Tojeero.Core.ViewModels.Chat
             }
 
             public Comparison<IChatChannel> Comparer => null;
+
             public async Task ClearCache()
             {
                 await _chatChannelManager.ClearCache();

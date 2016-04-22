@@ -1,26 +1,24 @@
-﻿using System;
-using Cirrious.MvvmCross.Plugins.Messenger;
+﻿using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Model.Contracts;
 
 namespace Tojeero.Core.Messages
 {
-	public class ProductFilterChangedMessage : MvxMessage
-	{
-		#region Constructors
+    public class ProductFilterChangedMessage : MvxMessage
+    {
+        #region Constructors
 
-		public ProductFilterChangedMessage(object sender, IProductFilter productFilter)
-			: base(sender)
-		{
-			ProductFilter = productFilter;
-		}
+        public ProductFilterChangedMessage(object sender, IProductFilter productFilter)
+            : base(sender)
+        {
+            ProductFilter = productFilter;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public IProductFilter ProductFilter { get; set; }
+        public IProductFilter ProductFilter { get; set; }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -25,7 +26,7 @@
 			BackgroundColor="Transparent"
 			IsVisible="{Binding CanLoadMoreMessages}"
 			Command="{Binding LoadMoreMessagesCommand}"
-			HorizontalOptions="Center"/>
+			HorizontalOptions="Center" />
 		<controls:ChatListView
 			x:Name="listView"
 			HasUnevenRows="True"
@@ -34,7 +35,7 @@
 			SeparatorVisibility="None">
 			<ListView.ItemTemplate>
 				<DataTemplate>
-					<chat:ChatMessageCell/>
+					<chat:ChatMessageCell />
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</controls:ChatListView>
@@ -44,18 +45,18 @@
 			ColumnSpacing="10"
 			BackgroundColor="{x:Static core:Colors.LightBackground}">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="70"/>
-				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="70" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<controls:BorderView
 				Grid.Row="0"
 				Grid.Column="0"
 				BackgroundColor="White"
-				Radius="5"/>
+				Radius="5" />
 			<ContentView
 				Grid.Row="0"
 				Grid.Column="0"
@@ -65,7 +66,7 @@
 				<Editor
 					Text="{Binding CurrentMessage, Mode=TwoWay}"
 					HorizontalOptions="FillAndExpand"
-					VerticalOptions="FillAndExpand"/>
+					VerticalOptions="FillAndExpand" />
 			</ContentView>
 			<Button
 				Grid.Row="0"
@@ -73,7 +74,7 @@
 				Text="Send"
 				IsEnabled="{Binding CanExecuteSendMessageCommand}"
 				Command="{Binding SendMessageCommand}"
-				Style="{StaticResource SendMessageButton}"/>
+				Style="{StaticResource SendMessageButton}" />
 			<ContentView
 				Grid.Row="1"
 				Grid.Column="0"
@@ -87,8 +88,7 @@
 				<product:ProductView
 					x:Name="productView"
 					HorizontalOptions="FillAndExpand"
-					VerticalOptions="FillAndExpand">
-				</product:ProductView>
+					VerticalOptions="FillAndExpand" />
 			</ContentView>
 		</Grid>
 	</StackLayout>

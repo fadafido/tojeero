@@ -6,53 +6,49 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Controls
 {
-	public partial class ImageControl : Grid
-	{
-		#region Constructors
+    public partial class ImageControl : Grid
+    {
+        #region Constructors
 
-		public ImageControl()
-		{
-			InitializeComponent();
-		}
+        public ImageControl()
+        {
+            InitializeComponent();
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private IImageViewModel _viewModel;
+        private IImageViewModel _viewModel;
 
-		public IImageViewModel ViewModel
-		{
-			get
-			{
-				return _viewModel;
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					_viewModel = value;
-					this.BindingContext = value;
-					if (_viewModel != null)
-					{
-						_viewModel.PickImageFunction = pickImage;
-					}
-				}
-			}
-		}
+        public IImageViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    _viewModel = value;
+                    BindingContext = value;
+                    if (_viewModel != null)
+                    {
+                        _viewModel.PickImageFunction = pickImage;
+                    }
+                }
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility methods
+        #region Utility methods
 
-		private async Task<IImage> pickImage()
-		{
-			var parent = this.FindParent<Page>();
-			var image = await ImageToolbox.PickImage(parent);
-			return image;
-		}
+        private async Task<IImage> pickImage()
+        {
+            var parent = this.FindParent<Page>();
+            var image = await ImageToolbox.PickImage(parent);
+            return image;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

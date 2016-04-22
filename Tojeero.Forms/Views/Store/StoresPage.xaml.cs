@@ -7,69 +7,62 @@ using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Store
 {
-	public partial class StoresPage : BaseSearchableTabPage
-	{
-		#region Properties
+    public partial class StoresPage : BaseSearchableTabPage
+    {
+        #region Properties
 
-		public new StoresViewModel ViewModel
-		{
-			get
-			{
-				return base.ViewModel as StoresViewModel;
-			}
-			set
-			{
-				base.ViewModel = value;
-			}
-		}
+        public new StoresViewModel ViewModel
+        {
+            get { return base.ViewModel as StoresViewModel; }
+            set { base.ViewModel = value; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public StoresPage()
-			: base()
-		{
-			InitializeComponent();
+        public StoresPage()
+        {
+            InitializeComponent();
 
-			this.ProductsButton.IsSelected = false;
-			this.StoresButton.IsSelected = true;
+            ProductsButton.IsSelected = false;
+            StoresButton.IsSelected = true;
 
-			this.ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
-			this.ToolbarItems.Add(new ToolbarItem("", "filterIcon.png", async () =>
-				{
-					await this.Navigation.PushModalAsync(new NavigationPage(new FilterStoresPage(this.ViewModel.SearchQuery)));
-				}));
-			this.SearchBar.Placeholder = AppResources.PlaceholderSearchStores;
-			ListView.ItemSelected += itemSelected;
-		}
+            ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
+            ToolbarItems.Add(new ToolbarItem("", "filterIcon.png",
+                async () =>
+                {
+                    await Navigation.PushModalAsync(new NavigationPage(new FilterStoresPage(ViewModel.SearchQuery)));
+                }));
+            SearchBar.Placeholder = AppResources.PlaceholderSearchStores;
+            ListView.ItemSelected += itemSelected;
+        }
 
-		#endregion
+        #endregion
 
-		#region Page lifecycle
+        #region Page lifecycle
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			this.ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
-		}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
+        }
 
-		#endregion
+        #endregion
 
-		#region UI Events
+        #region UI Events
 
-		private async void itemSelected (object sender, SelectedItemChangedEventArgs e)
-		{
-			var item = ((ListView)sender).SelectedItem as StoreViewModel; 
-			if (item != null)
-			{
-				((ListView)sender).SelectedItem = null;
-				var storeInfo = new StoreInfoPage(item.Store);
-				await this.Navigation.PushAsync(storeInfo);
-			}
-		}
+        private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var item = ((ListView) sender).SelectedItem as StoreViewModel;
+            if (item != null)
+            {
+                ((ListView) sender).SelectedItem = null;
+                var storeInfo = new StoreInfoPage(item.Store);
+                await Navigation.PushAsync(storeInfo);
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

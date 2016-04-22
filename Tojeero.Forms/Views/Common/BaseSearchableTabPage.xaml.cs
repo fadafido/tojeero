@@ -8,134 +8,114 @@ using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Common
 {
-	public partial class BaseSearchableTabPage : ContentPage
-	{
-		#region Properties
+    public partial class BaseSearchableTabPage : ContentPage
+    {
+        #region Properties
 
-		private ISearchViewModel _viewModel;
-		public ISearchViewModel ViewModel
-		{
-			get
-			{
-				return _viewModel;
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					DisconnectEvents();
-					_viewModel = value;
-					ConnectEvents();
-					this.BindingContext = _viewModel;
-				}
-			}
-		}
+        private ISearchViewModel _viewModel;
 
-		#endregion
+        public ISearchViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    DisconnectEvents();
+                    _viewModel = value;
+                    ConnectEvents();
+                    BindingContext = _viewModel;
+                }
+            }
+        }
 
-		#region Constructors
+        #endregion
 
-		public BaseSearchableTabPage()
-		{
-			InitializeComponent();
-			NavigationPage.SetTitleIcon(this, "tojeero.png");
-		}
-			
-		#endregion
+        #region Constructors
 
-		#region Properties
+        public BaseSearchableTabPage()
+        {
+            InitializeComponent();
+            NavigationPage.SetTitleIcon(this, "tojeero.png");
+        }
 
-		public DataTemplate ItemTemplate
-		{ 
-			get
-			{
-				return this.ListView.ItemTemplate; 
-			}
-			set
-			{
-				this.ListView.ItemTemplate = value;
-			}
-		}
+        #endregion
 
-		public ListView ListView
-		{
-			get
-			{
-				return this.listView;
-			}
-		}
+        #region Properties
 
-		public SearchBar SearchBar
-		{
-			get
-			{
-				return this.searchBar;
-			}
-		}
+        public DataTemplate ItemTemplate
+        {
+            get { return ListView.ItemTemplate; }
+            set { ListView.ItemTemplate = value; }
+        }
 
-		public TabButton ProductsButton
-		{
-			get
-			{
-				return this.productsTabButton;
-			}
-		}
+        public ListView ListView
+        {
+            get { return listView; }
+        }
 
-		public TabButton StoresButton
-		{
-			get
-			{
-				return this.storesTabButton;
-			}
-		}
-		#endregion
+        public SearchBar SearchBar
+        {
+            get { return searchBar; }
+        }
 
-		#region Protected API
+        public TabButton ProductsButton
+        {
+            get { return productsTabButton; }
+        }
 
-		protected virtual void ConnectEvents()
-		{
-			if (this.ViewModel != null)
-			{
-				this.ViewModel.ReloadFinished += reloadFinished;
-			}
-		}
+        public TabButton StoresButton
+        {
+            get { return storesTabButton; }
+        }
 
-		protected virtual void DisconnectEvents()
-		{
-			if (this.ViewModel != null)
-			{
-				this.ViewModel.ReloadFinished -= reloadFinished;
-			}
-		}
+        #endregion
 
-		#endregion
+        #region Protected API
 
-		#region Event Handlers
+        protected virtual void ConnectEvents()
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.ReloadFinished += reloadFinished;
+            }
+        }
 
-		void reloadFinished (object sender, EventArgs e)
-		{
-			this.ListView.EndRefresh();
-		}
+        protected virtual void DisconnectEvents()
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.ReloadFinished -= reloadFinished;
+            }
+        }
 
-		protected void productButtonClicked(object sender, EventArgs e)
-		{
-			var root = this.FindParent<RootPage>();
-			if (root != null)
-			{
-				root.SelectProductsPage();
-			}
-		}
+        #endregion
 
-		protected void storeButtonClicked(object sender, EventArgs e)
-		{
-			var root = this.FindParent<RootPage>();
-			if (root != null)
-			{
-				root.SelectStoresPage();
-			}
-		}
+        #region Event Handlers
 
-		#endregion
-	}
+        void reloadFinished(object sender, EventArgs e)
+        {
+            ListView.EndRefresh();
+        }
+
+        protected void productButtonClicked(object sender, EventArgs e)
+        {
+            var root = this.FindParent<RootPage>();
+            if (root != null)
+            {
+                root.SelectProductsPage();
+            }
+        }
+
+        protected void storeButtonClicked(object sender, EventArgs e)
+        {
+            var root = this.FindParent<RootPage>();
+            if (root != null)
+            {
+                root.SelectStoresPage();
+            }
+        }
+
+        #endregion
+    }
 }
-

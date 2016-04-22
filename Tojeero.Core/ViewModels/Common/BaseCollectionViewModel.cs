@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Cirrious.MvvmCross.ViewModels;
+using Connectivity.Plugin.Abstractions;
 using Nito.AsyncEx;
 using Tojeero.Core.Contracts;
 using Tojeero.Core.Model.Contracts;
@@ -9,393 +14,360 @@ using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
+    public class BaseCollectionViewModel<T> : LoadableNetworkViewModel, ICollectionViewModel<T>
+    {
+        #region Private fields and properties
 
-	public class BaseCollectionViewModel<T> : LoadableNetworkViewModel, ICollectionViewModel<T>
-	{
-		#region Private fields and properties
+        private enum Commands
+        {
+            Unknown,
+            LoadFirstPage,
+            LoadNextPage,
+            Reload,
+            Search
+        }
 
-		private enum Commands
-		{
-			Unknown,
-			LoadFirstPage,
-			LoadNextPage,
-			Reload,
-			Search
-		}
+        readonly IModelQuery<T> _query;
+        private readonly int _pageSize;
+        private Commands _lastExecutedCommand;
+        private readonly AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
 
-		IModelQuery<T> _query;
-		private int _pageSize;
-		private Commands _lastExecutedCommand;
-		private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+        #endregion
 
-		#endregion
+        #region Constructors
 
+        public BaseCollectionViewModel(IModelQuery<T> query, int pageSize = 50)
+        {
+            _pageSize = pageSize;
+            _query = query;
+            PropertyChanged += propertyChanged;
+        }
 
-		#region Constructors
+        #endregion
 
-		public BaseCollectionViewModel(IModelQuery<T> query, int pageSize = 50)
-			: base()
-		{			
-			_pageSize = pageSize;
-			_query = query;
-			PropertyChanged += propertyChanged;
-		}
+        #region Properties
 
-		#endregion
+        public event EventHandler<EventArgs> LoadingNextPageFinished;
+        public event EventHandler<EventArgs> ReloadFinished;
 
-		#region Properties
+        private IModelEntityCollection<T> _collection;
 
-		public event EventHandler<EventArgs> LoadingNextPageFinished;
-		public event EventHandler<EventArgs> ReloadFinished;
+        public IModelEntityCollection<T> Collection
+        {
+            get { return _collection; }
+            set
+            {
+                if (_collection != value)
+                {
+                    IsInitialDataLoaded = false;
+                    if (_collection != null)
+                    {
+                        _collection.CollectionChanged -= collectionChanged;
+                    }
+                    _collection = value;
+                    if (_collection != null)
+                    {
+                        _collection.CollectionChanged += collectionChanged;
+                    }
+                    RaisePropertyChanged(() => Collection);
+                    RaisePropertyChanged(() => Count);
+                }
+            }
+        }
 
-		private IModelEntityCollection<T> _collection;
+        public int Count
+        {
+            get { return _collection != null ? _collection.Count : 0; }
+        }
 
-		public IModelEntityCollection<T> Collection
-		{ 
-			get
-			{
-				return _collection; 
-			}
-			set
-			{
-				if (_collection != value)
-				{
-					IsInitialDataLoaded = false;
-					if (_collection != null)
-					{
-						_collection.CollectionChanged -= collectionChanged;
-					}
-					_collection = value; 
-					if (_collection != null)
-					{
-						_collection.CollectionChanged += collectionChanged;
-					}
-					RaisePropertyChanged(() => Collection); 
-					RaisePropertyChanged(() => Count); 
-				}
-			}
-		}
+        private bool _isLoadingInitialData;
 
-		public int Count
-		{ 
-			get
-			{
-				return this._collection != null ? _collection.Count : 0; 
-			}
-		}
+        public bool IsLoadingInitialData
+        {
+            get { return _isLoadingInitialData; }
+            private set
+            {
+                _isLoadingInitialData = value;
+                RaisePropertyChanged(() => IsLoadingInitialData);
+            }
+        }
 
-		private bool _isLoadingInitialData;
+        private bool _isLoadingNextPage;
 
-		public bool IsLoadingInitialData
-		{ 
-			get
-			{
-				return _isLoadingInitialData; 
-			}
-			private set
-			{
-				_isLoadingInitialData = value; 
-				RaisePropertyChanged(() => IsLoadingInitialData); 
-			}
-		}
+        public bool IsLoadingNextPage
+        {
+            get { return _isLoadingNextPage; }
+            private set
+            {
+                _isLoadingNextPage = value;
+                RaisePropertyChanged(() => IsLoadingNextPage);
+            }
+        }
 
-		private bool _isLoadingNextPage;
+        private bool _isInitialDataLoaded;
+        public static string IsInitialDataLoadedProperty = "IsInitialDataLoaded";
 
-		public bool IsLoadingNextPage
-		{ 
-			get
-			{
-				return _isLoadingNextPage; 
-			}
-			private set
-			{
-				_isLoadingNextPage = value; 
-				RaisePropertyChanged(() => IsLoadingNextPage); 
-			}
-		}
+        public bool IsInitialDataLoaded
+        {
+            get { return _isInitialDataLoaded; }
+            private set
+            {
+                _isInitialDataLoaded = value;
+                RaisePropertyChanged(() => IsInitialDataLoaded);
+                RaisePropertyChanged(() => IsPlaceholderVisible);
+            }
+        }
 
-		private bool _isInitialDataLoaded;
-		public static string IsInitialDataLoadedProperty = "IsInitialDataLoaded";
+        private string _placeholder;
 
-		public bool IsInitialDataLoaded
-		{
-			get
-			{
-				return _isInitialDataLoaded;
-			}
-			private set
-			{
-				_isInitialDataLoaded = value;
-				RaisePropertyChanged(() => IsInitialDataLoaded);
-				RaisePropertyChanged(() => IsPlaceholderVisible);
-			}
-		}
-			
-		private string _placeholder;
+        public string Placeholder
+        {
+            get { return _placeholder; }
+            set
+            {
+                _placeholder = value;
+                RaisePropertyChanged(() => Placeholder);
+            }
+        }
 
-		public string Placeholder
-		{ 
-			get
-			{
-				return _placeholder; 
-			}
-			set
-			{
-				_placeholder = value; 
-				RaisePropertyChanged(() => Placeholder); 
-			}
-		}
+        public bool IsPlaceholderVisible
+        {
+            get { return IsInitialDataLoaded && Count == 0; }
+        }
 
-		public bool IsPlaceholderVisible
-		{
-			get
-			{
-				return IsInitialDataLoaded && this.Count == 0;
-			}
-		}
+        #endregion
 
-		#endregion
+        #region Commands
 
-		#region Commands
+        private MvxCommand _tryAgainCommand;
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _tryAgainCommand;
-
-		public System.Windows.Input.ICommand TryAgainCommand
-		{
-			get
-			{
-				_tryAgainCommand = _tryAgainCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(tryAgain, () => !IsLoading);
-				return _tryAgainCommand;
-			}
-		}
+        public ICommand TryAgainCommand
+        {
+            get
+            {
+                _tryAgainCommand = _tryAgainCommand ?? new MvxCommand(tryAgain, () => !IsLoading);
+                return _tryAgainCommand;
+            }
+        }
 
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadFirstPageCommand;
+        private MvxCommand _loadFirstPageCommand;
 
-		public System.Windows.Input.ICommand LoadFirstPageCommand
-		{
-			get
-			{
-				_loadFirstPageCommand = _loadFirstPageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{						
-						await loadNextPage();
-					}, () => CanExecuteLoadNextPageCommand && this.Count == 0);
-				return _loadFirstPageCommand;
-			}
-		}
+        public ICommand LoadFirstPageCommand
+        {
+            get
+            {
+                _loadFirstPageCommand = _loadFirstPageCommand ??
+                                        new MvxCommand(async () => { await loadNextPage(); },
+                                            () => CanExecuteLoadNextPageCommand && Count == 0);
+                return _loadFirstPageCommand;
+            }
+        }
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _refetchCommand;
+        private MvxCommand _refetchCommand;
 
-		public System.Windows.Input.ICommand RefetchCommand
-		{
-			get
-			{
-				_refetchCommand = _refetchCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						await Task.Factory.StartNew(() =>
-							{
-								while (!CanExecuteLoadNextPageCommand)
-								{
-								}
-							});
-						this.Collection = null;
-						await loadNextPage();
-					});
-				return _refetchCommand;
-			}
-		}
+        public ICommand RefetchCommand
+        {
+            get
+            {
+                _refetchCommand = _refetchCommand ?? new MvxCommand(async () =>
+                {
+                    await Task.Factory.StartNew(() =>
+                    {
+                        while (!CanExecuteLoadNextPageCommand)
+                        {
+                        }
+                    });
+                    Collection = null;
+                    await loadNextPage();
+                });
+                return _refetchCommand;
+            }
+        }
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadNextPageCommand;
+        private MvxCommand _loadNextPageCommand;
 
-		public System.Windows.Input.ICommand LoadNextPageCommand
-		{
-			get
-			{
-				_loadNextPageCommand = _loadNextPageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						await loadNextPage();
-					}, () => CanExecuteLoadNextPageCommand);
-				return _loadNextPageCommand;
-			}
-		}
+        public ICommand LoadNextPageCommand
+        {
+            get
+            {
+                _loadNextPageCommand = _loadNextPageCommand ??
+                                       new MvxCommand(async () => { await loadNextPage(); },
+                                           () => CanExecuteLoadNextPageCommand);
+                return _loadNextPageCommand;
+            }
+        }
 
-		public bool CanExecuteLoadNextPageCommand
-		{
-			get
-			{
-				return !this.IsLoading;
-			}
-		}
+        public bool CanExecuteLoadNextPageCommand
+        {
+            get { return !IsLoading; }
+        }
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+        private MvxCommand _reloadCommand;
 
-		public System.Windows.Input.ICommand ReloadCommand
-		{
-			get
-			{
-				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						if(CanExecuteReloadCommand)
-						{
-							_lastExecutedCommand = Commands.Reload;
-							await reload();
-						}
-						ReloadFinished.Fire(this, new EventArgs());
-					});
-				return _reloadCommand;
-			}
-		}
+        public ICommand ReloadCommand
+        {
+            get
+            {
+                _reloadCommand = _reloadCommand ?? new MvxCommand(async () =>
+                {
+                    if (CanExecuteReloadCommand)
+                    {
+                        _lastExecutedCommand = Commands.Reload;
+                        await reload();
+                    }
+                    ReloadFinished.Fire(this, new EventArgs());
+                });
+                return _reloadCommand;
+            }
+        }
 
-		public bool CanExecuteReloadCommand
-		{
-			get
-			{
-				return !this.IsLoading && this.IsNetworkAvailable;
-			}
-		}
+        public bool CanExecuteReloadCommand
+        {
+            get { return !IsLoading && IsNetworkAvailable; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Protected
+        #region Protected
 
-		protected override void handleNetworkConnectionChanged(object sender, Connectivity.Plugin.Abstractions.ConnectivityChangedEventArgs e)
-		{
-			base.handleNetworkConnectionChanged(sender, e);
-			//Try to refetch data if there is internet connection now
-			if (e.IsConnected)
-				this.TryAgainCommand.Execute(null);
-		}
+        protected override void handleNetworkConnectionChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            base.handleNetworkConnectionChanged(sender, e);
+            //Try to refetch data if there is internet connection now
+            if (e.IsConnected)
+                TryAgainCommand.Execute(null);
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility Methods
+        #region Utility Methods
 
-		private async Task loadNextPage()
-		{
-			using (var writerLock = await _locker.WriterLockAsync())
-			{
-				_lastExecutedCommand = Commands.LoadNextPage;
-				this.StartLoading(AppResources.MessageGeneralLoading);
-				string failureMessage = "";
-				try
-				{
-					int initialCount = this.Count;
-					if (_collection == null)
-					{
-						this.IsLoadingInitialData = true;
-						var collection = new ModelEntityCollection<T>(_query, _pageSize);
-						await collection.FetchNextPageAsync();
-						this.Collection = collection;
-						IsInitialDataLoaded = true;
-					}
-					else
-					{
-						this.IsLoadingNextPage = true;
-						await _collection.FetchNextPageAsync();
-					}
-					//If no data was fetched and there was no network connection available warn user
-					if (initialCount == this.Count && !this.IsNetworkAvailable)
-					{
-						failureMessage = AppResources.MessageLoadingFailedNoInternet;
-					}
-				}
-				catch (Exception ex)
-				{
-					failureMessage = handleException(ex);
-				}
-				
-				this.IsLoadingNextPage = false;
-				this.IsLoadingInitialData = false;
-				this.StopLoading(failureMessage);
-				LoadingNextPageFinished.Fire(this, new EventArgs());
-			}
-		}
+        private async Task loadNextPage()
+        {
+            using (var writerLock = await _locker.WriterLockAsync())
+            {
+                _lastExecutedCommand = Commands.LoadNextPage;
+                StartLoading(AppResources.MessageGeneralLoading);
+                var failureMessage = "";
+                try
+                {
+                    var initialCount = Count;
+                    if (_collection == null)
+                    {
+                        IsLoadingInitialData = true;
+                        var collection = new ModelEntityCollection<T>(_query, _pageSize);
+                        await collection.FetchNextPageAsync();
+                        Collection = collection;
+                        IsInitialDataLoaded = true;
+                    }
+                    else
+                    {
+                        IsLoadingNextPage = true;
+                        await _collection.FetchNextPageAsync();
+                    }
+                    //If no data was fetched and there was no network connection available warn user
+                    if (initialCount == Count && !IsNetworkAvailable)
+                    {
+                        failureMessage = AppResources.MessageLoadingFailedNoInternet;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    failureMessage = handleException(ex);
+                }
 
-		private async Task reload()
-		{
-			using (var writerLock = await _locker.WriterLockAsync())
-			{
-				this.StartLoading(AppResources.MessageGeneralLoading);
-				string failureMessage = "";
+                IsLoadingNextPage = false;
+                IsLoadingInitialData = false;
+                StopLoading(failureMessage);
+                LoadingNextPageFinished.Fire(this, new EventArgs());
+            }
+        }
 
-				try
-				{
-					await _query.ClearCache();
-					var collection = new ModelEntityCollection<T>(_query, _pageSize);
-					await collection.FetchNextPageAsync();
-					this.Collection = collection;
-					IsInitialDataLoaded = true;
-					//If no data was fetched and there was no network connection available warn user
-					if (this.Count == 0 && !this.IsNetworkAvailable)
-					{
-						failureMessage = AppResources.MessageLoadingFailedNoInternet;
-					}
-				}
-				catch (Exception ex)
-				{
-					failureMessage = handleException(ex);
-				}
+        private async Task reload()
+        {
+            using (var writerLock = await _locker.WriterLockAsync())
+            {
+                StartLoading(AppResources.MessageGeneralLoading);
+                var failureMessage = "";
 
-				this.StopLoading(failureMessage);
-			}
-		}
+                try
+                {
+                    await _query.ClearCache();
+                    var collection = new ModelEntityCollection<T>(_query, _pageSize);
+                    await collection.FetchNextPageAsync();
+                    Collection = collection;
+                    IsInitialDataLoaded = true;
+                    //If no data was fetched and there was no network connection available warn user
+                    if (Count == 0 && !IsNetworkAvailable)
+                    {
+                        failureMessage = AppResources.MessageLoadingFailedNoInternet;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    failureMessage = handleException(ex);
+                }
 
-		void tryAgain()
-		{
-			//Try again only if previously something went wrong,
-			//that is LoadingFailureMessage is not empty
-			if (string.IsNullOrEmpty(this.LoadingFailureMessage))
-				return;
-			switch (_lastExecutedCommand)
-			{
-				case Commands.LoadFirstPage:
-					LoadFirstPageCommand.Execute(null);
-					break;
-				case Commands.LoadNextPage:
-					LoadNextPageCommand.Execute(null);
-					break;
-				case Commands.Reload:
-					ReloadCommand.Execute(null);
-					break;
-				default:
-					break;
-			}
-		}
+                StopLoading(failureMessage);
+            }
+        }
 
-		void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{			
-			if (e.PropertyName == IsLoadingProperty || e.PropertyName == IsNetworkAvailableProperty)
-			{
-				RaisePropertyChanged(() => CanExecuteLoadNextPageCommand);
-				RaisePropertyChanged(() => CanExecuteReloadCommand);
-			}
-		}
+        void tryAgain()
+        {
+            //Try again only if previously something went wrong,
+            //that is LoadingFailureMessage is not empty
+            if (string.IsNullOrEmpty(LoadingFailureMessage))
+                return;
+            switch (_lastExecutedCommand)
+            {
+                case Commands.LoadFirstPage:
+                    LoadFirstPageCommand.Execute(null);
+                    break;
+                case Commands.LoadNextPage:
+                    LoadNextPageCommand.Execute(null);
+                    break;
+                case Commands.Reload:
+                    ReloadCommand.Execute(null);
+                    break;
+                default:
+                    break;
+            }
+        }
 
-		void collectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-		{
-			RaisePropertyChanged(() => Count);
-			RaisePropertyChanged(() => IsPlaceholderVisible);
-		}
+        void propertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == IsLoadingProperty || e.PropertyName == IsNetworkAvailableProperty)
+            {
+                RaisePropertyChanged(() => CanExecuteLoadNextPageCommand);
+                RaisePropertyChanged(() => CanExecuteReloadCommand);
+            }
+        }
 
-		private string handleException(Exception ex)
-		{
-			string failureMessage = "";
-			try
-			{
-				throw ex;
-			}
-			catch (OperationCanceledException)
-			{
-				failureMessage = AppResources.MessageLoadingTimeOut;
-			}
-			catch (Exception)
-			{
-				failureMessage = AppResources.MessageLoadingFailed;
-			}	
-			return failureMessage;
-		}
+        void collectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RaisePropertyChanged(() => Count);
+            RaisePropertyChanged(() => IsPlaceholderVisible);
+        }
 
-		#endregion
-	}
+        private string handleException(Exception ex)
+        {
+            var failureMessage = "";
+            try
+            {
+                throw ex;
+            }
+            catch (OperationCanceledException)
+            {
+                failureMessage = AppResources.MessageLoadingTimeOut;
+            }
+            catch (Exception)
+            {
+                failureMessage = AppResources.MessageLoadingFailed;
+            }
+            return failureMessage;
+        }
+
+        #endregion
+    }
 }
-

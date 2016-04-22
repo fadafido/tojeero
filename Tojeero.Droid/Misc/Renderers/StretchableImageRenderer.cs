@@ -1,28 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.Content.Res;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
-using Java.Nio;
-using Tojeero.Forms;
+using Tojeero.Droid.Renderers;
 using Tojeero.Forms.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using ImageButton = Tojeero.Forms.Controls.ImageButton;
 
-[assembly:ExportRenderer(typeof(StretchableImage), typeof(Tojeero.Droid.Renderers.StretchableImageRenderer))]
+[assembly: ExportRenderer(typeof (StretchableImage), typeof (StretchableImageRenderer))]
+
 namespace Tojeero.Droid.Renderers
 {
-    public class StretchableImageRenderer : ViewRenderer<StretchableImage, Android.Widget.ImageView>
+    public class StretchableImageRenderer : ViewRenderer<StretchableImage, ImageView>
     {
         #region Parent override
 
@@ -31,10 +19,10 @@ namespace Tojeero.Droid.Renderers
             base.OnElementChanged(e);
             if (e.OldElement == null)
             {
-                if (base.Control == null)
+                if (Control == null)
                 {
-                    Android.Widget.ImageView imageView = new Android.Widget.ImageView(base.Context);
-                    base.SetNativeControl(imageView);
+                    var imageView = new ImageView(Context);
+                    SetNativeControl(imageView);
                 }
             }
 
@@ -48,9 +36,8 @@ namespace Tojeero.Droid.Renderers
         private void updateImage()
         {
             NinePatchDrawable image = null;
-            if ( Element?.Path != null)
+            if (Element?.Path != null)
             {
-
                 var resourceId = getResourceId();
                 if (resourceId > 0)
                 {
@@ -66,15 +53,15 @@ namespace Tojeero.Droid.Renderers
         {
             if (Element?.Path == null)
                 return 0;
-            string name = Element?.Path;
+            var name = Element?.Path;
             var index = name.LastIndexOf(".");
             if (index >= 0)
                 name = name.Remove(index).ToLower();
             try
             {
-                var res = typeof(Resource.Drawable);
+                var res = typeof (Resource.Drawable);
                 var field = res.GetField(name);
-                int drawableId = (int)field.GetValue(null);
+                var drawableId = (int) field.GetValue(null);
                 return drawableId;
             }
             catch

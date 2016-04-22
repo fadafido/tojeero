@@ -7,113 +7,95 @@ using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Common
 {
-	public partial class BaseSearchablePage : ContentPage
-	{
-		#region Properties
+    public partial class BaseSearchablePage : ContentPage
+    {
+        #region Properties
 
-		private ISearchViewModel _viewModel;
-		public ISearchViewModel ViewModel
-		{
-			get
-			{
-				return _viewModel;
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					DisconnectEvents();
-					_viewModel = value;
-					ConnectEvents();
-					this.BindingContext = _viewModel;
-				}
-			}
-		}
+        private ISearchViewModel _viewModel;
 
-		#endregion
+        public ISearchViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    DisconnectEvents();
+                    _viewModel = value;
+                    ConnectEvents();
+                    BindingContext = _viewModel;
+                }
+            }
+        }
 
-		#region Constructors
+        #endregion
 
-		public BaseSearchablePage()
-			: base()
-		{
-			InitializeComponent();
-		}
+        #region Constructors
 
-		#endregion
+        public BaseSearchablePage()
+        {
+            InitializeComponent();
+        }
 
-		#region Properties
+        #endregion
 
-		public DataTemplate ItemTemplate
-		{ 
-			get
-			{
-				return this.ListView.ItemTemplate; 
-			}
-			set
-			{
-				this.ListView.ItemTemplate = value;
-			}
-		}
+        #region Properties
 
-		public ListView ListView
-		{
-			get
-			{
-				return this.listView;
-			}
-		}
+        public DataTemplate ItemTemplate
+        {
+            get { return ListView.ItemTemplate; }
+            set { ListView.ItemTemplate = value; }
+        }
 
-		public SearchBar SearchBar
-		{
-			get
-			{
-				return this.searchBar;
-			}
-		}
+        public ListView ListView
+        {
+            get { return listView; }
+        }
 
-		public IList<View> Header
-		{
-			get
-			{
-				return this.headerContainer.Children; 
-			}
-			set
-			{
-				this.headerContainer.Children.Clear();
-				this.headerContainer.Children.AddRange(value);
-			}
-		}
+        public SearchBar SearchBar
+        {
+            get { return searchBar; }
+        }
 
-		#endregion
+        public IList<View> Header
+        {
+            get { return headerContainer.Children; }
+            set
+            {
+                headerContainer.Children.Clear();
+                headerContainer.Children.AddRange(value);
+            }
+        }
 
-		#region Protected API
+        #endregion
 
-		protected virtual void ConnectEvents()
-		{
-			if (this.ViewModel != null)
-			{
-				this.ViewModel.ReloadFinished += reloadFinished;
-			}
-		}
+        #region Protected API
 
-		protected virtual void DisconnectEvents()
-		{
-			if (this.ViewModel != null)
-			{
-				this.ViewModel.ReloadFinished -= reloadFinished;
-			}
-		}
-		#endregion
+        protected virtual void ConnectEvents()
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.ReloadFinished += reloadFinished;
+            }
+        }
 
-		#region Event Handlers
+        protected virtual void DisconnectEvents()
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.ReloadFinished -= reloadFinished;
+            }
+        }
 
-		void reloadFinished (object sender, EventArgs e)
-		{
-			this.ListView.EndRefresh();
-		}
+        #endregion
 
-		#endregion
-	}
+        #region Event Handlers
+
+        void reloadFinished(object sender, EventArgs e)
+        {
+            ListView.EndRefresh();
+        }
+
+        #endregion
+    }
 }
-

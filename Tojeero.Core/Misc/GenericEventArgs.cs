@@ -1,4 +1,3 @@
-
 using System;
 
 namespace Tojeero.Core
@@ -8,10 +7,8 @@ namespace Tojeero.Core
         public T Data { get; set; }
 
         public EventArgs(T data)
-            : base()
         {
             Data = data;
         }
     }
 }
-

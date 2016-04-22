@@ -1,53 +1,36 @@
 ﻿using Parse;
 
 namespace Tojeero.Core.Model
-{	
-	public enum ReservedNameType
-	{
-		Unknown,	
-		Store
-	}
+{
+    public enum ReservedNameType
+    {
+        Unknown,
+        Store
+    }
 
-	[ParseClassName("ReservedName")]
-	public class ReservedName : ParseObject
-	{
-		#region Constructors
+    [ParseClassName("ReservedName")]
+    public class ReservedName : ParseObject
+    {
+        #region Constructors
 
-		public ReservedName()
-		{
-		}
+        #endregion
 
-		#endregion
+        #region Properties
 
-		#region Properties
+        [ParseFieldName("name")]
+        public string Name
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("name")]
-		public string Name
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        [ParseFieldName("type")]
+        public int Type
+        {
+            get { return GetProperty<int>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("type")]
-		public int Type
-		{
-			get
-			{
-				return GetProperty<int>();
-			}
-			set
-			{
-				SetProperty<int>(value);
-			}
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }
-

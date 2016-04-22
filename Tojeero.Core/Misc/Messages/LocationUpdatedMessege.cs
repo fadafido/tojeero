@@ -3,23 +3,22 @@ using Cirrious.MvvmCross.Plugins.Messenger;
 
 namespace Tojeero.Core.Messages
 {
-	public class LocationUpdatedMessege : MvxMessage
-	{
-		#region Constructors
+    public class LocationUpdatedMessege : MvxMessage
+    {
+        #region Constructors
 
-		public LocationUpdatedMessege(object sender, MvxGeoLocation location = null)
-			: base(sender)
-		{
-			Location = location;
-		}
+        public LocationUpdatedMessege(object sender, MvxGeoLocation location = null)
+            : base(sender)
+        {
+            Location = location;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public MvxGeoLocation Location { get; set; }
+        public MvxGeoLocation Location { get; set; }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <ContentPage
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -58,7 +59,7 @@
 										x:TypeArguments="contracts:ICountry"
 										Placeholder="{markupExtensions:Translate LabelCountry}"
 										SelectedObject="{Binding Country, Mode=TwoWay}"
-                    CountVisible="False"
+										CountVisible="False"
 										TextColor="{x:Static core:Colors.Main}"
 										HorizontalOptions="FillAndExpand"
 										VerticalOptions="FillAndExpand" />
@@ -89,7 +90,7 @@
 										x:TypeArguments="contracts:ICity"
 										Placeholder="{markupExtensions:Translate LabelCity}"
 										SelectedObject="{Binding City, Mode=TwoWay}"
-                    CountVisible="False"
+										CountVisible="False"
 										TextColor="{x:Static core:Colors.Main}"
 										HorizontalOptions="FillAndExpand"
 										VerticalOptions="FillAndExpand" />

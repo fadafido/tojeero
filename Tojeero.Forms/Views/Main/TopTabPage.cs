@@ -5,71 +5,72 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Main
 {
-	public class TopTabPage : MultiPage<Page>
-	{
-		#region Private fields
+    public class TopTabPage : MultiPage<Page>
+    {
+        #region Private fields
 
-		private ProductsPage _productsPage;
-		private ProductsPage ProductsPage
-		{
-			get
-			{
-				if (_productsPage == null)
-				{
-					_productsPage = new ProductsPage() { Title = AppResources.TitleProducts };
-					this.Children.Add(_productsPage);
-				}
-				return _productsPage;
-			}
-		}
+        private ProductsPage _productsPage;
 
-		private StoresPage _storesPage;
-		private StoresPage StoresPage
-		{
-			get
-			{
-				if (_storesPage == null)
-				{
-					_storesPage = new StoresPage() { Title = AppResources.TitleStores };
-					this.Children.Add(_storesPage);
-				}
-				return _storesPage;
-			}
-		}
+        private ProductsPage ProductsPage
+        {
+            get
+            {
+                if (_productsPage == null)
+                {
+                    _productsPage = new ProductsPage {Title = AppResources.TitleProducts};
+                    Children.Add(_productsPage);
+                }
+                return _productsPage;
+            }
+        }
 
-		#endregion
+        private StoresPage _storesPage;
 
-		#region Constructors
+        private StoresPage StoresPage
+        {
+            get
+            {
+                if (_storesPage == null)
+                {
+                    _storesPage = new StoresPage {Title = AppResources.TitleStores};
+                    Children.Add(_storesPage);
+                }
+                return _storesPage;
+            }
+        }
 
-		public TopTabPage()
-		{
-			this.CurrentPage = this.ProductsPage;
-		}
+        #endregion
 
-		#endregion
+        #region Constructors
 
-		#region Public API
+        public TopTabPage()
+        {
+            CurrentPage = ProductsPage;
+        }
 
-		public void SelectProductsPage()
-		{
-			this.CurrentPage = this.ProductsPage;
-		}
+        #endregion
 
-		public void SelectStoresPage()
-		{
-			this.CurrentPage = this.StoresPage;
-		}
+        #region Public API
 
-		#endregion
-			
-		#region implemented abstract members of MultiPage
+        public void SelectProductsPage()
+        {
+            CurrentPage = ProductsPage;
+        }
 
-		protected override Page CreateDefault(object item)
-		{
-			return this.ProductsPage;
-		}
+        public void SelectStoresPage()
+        {
+            CurrentPage = StoresPage;
+        }
 
-		#endregion
-	}
+        #endregion
+
+        #region implemented abstract members of MultiPage
+
+        protected override Page CreateDefault(object item)
+        {
+            return ProductsPage;
+        }
+
+        #endregion
+    }
 }
-

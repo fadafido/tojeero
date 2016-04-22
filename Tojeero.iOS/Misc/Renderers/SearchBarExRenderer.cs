@@ -1,46 +1,45 @@
-﻿using System;
-using Xamarin.Forms;
-using Tojeero.Forms;
-using Tojeero.Forms.Controls;
+﻿using Tojeero.Forms.Controls;
+using Tojeero.iOS.Renderers;
 using UIKit;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
-[assembly:ExportRenderer(typeof(SearchBarEx), typeof(Tojeero.iOS.Renderers.SearchBarExRenderer))]
+[assembly: ExportRenderer(typeof (SearchBarEx), typeof (SearchBarExRenderer))]
 
 namespace Tojeero.iOS.Renderers
 {
-	public class SearchBarExRenderer : SearchBarRenderer
-	{
-		#region Private fields
+    public class SearchBarExRenderer : SearchBarRenderer
+    {
+        #region Private fields
 
-		private UIImage _backgroundImage = null;
+        private UIImage _backgroundImage;
 
-		#endregion
-		
-		#region Parent override
+        #endregion
 
-		protected override void OnElementChanged(Xamarin.Forms.Platform.iOS.ElementChangedEventArgs<SearchBar> e)
-		{
-			base.OnElementChanged(e);
-			if (this.Control == null || this.Element == null)
-				return;
-			updateBackground();
-		}
+        #region Parent override
 
-		#endregion
+        protected override void OnElementChanged(ElementChangedEventArgs<SearchBar> e)
+        {
+            base.OnElementChanged(e);
+            if (Control == null || Element == null)
+                return;
+            updateBackground();
+        }
 
-		#region Utility methods
+        #endregion
 
-		private void updateBackground()
-		{
-			if (_backgroundImage == null)
-			{
-				var image = UIImage.FromFile("searchbarBackground.png");
-				_backgroundImage = image.StretchableImage(10, 10);
-				this.Control.BackgroundImage = _backgroundImage;
-			}
-		}
+        #region Utility methods
 
-		#endregion
-	}
+        private void updateBackground()
+        {
+            if (_backgroundImage == null)
+            {
+                var image = UIImage.FromFile("searchbarBackground.png");
+                _backgroundImage = image.StretchableImage(10, 10);
+                Control.BackgroundImage = _backgroundImage;
+            }
+        }
+
+        #endregion
+    }
 }
-

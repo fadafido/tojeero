@@ -1,27 +1,24 @@
-﻿using System;
-using Cirrious.MvvmCross.Plugins.Messenger;
-using Tojeero.Core;
+﻿using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Model;
 
 namespace Tojeero.Core.Messages
 {
-	public class SessionStateChangedMessage : MvxMessage
-	{
-		#region Constructors
+    public class SessionStateChangedMessage : MvxMessage
+    {
+        #region Constructors
 
-		public SessionStateChangedMessage(object sender, SessionState newState)
-			: base(sender)
-		{
-			NewState = newState;
-		}
+        public SessionStateChangedMessage(object sender, SessionState newState)
+            : base(sender)
+        {
+            NewState = newState;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public SessionState NewState { get; set; }
+        public SessionState NewState { get; set; }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

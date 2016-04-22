@@ -5,15 +5,12 @@ using System.Threading.Tasks;
 
 namespace Tojeero.Core.Contracts
 {
+    public interface IModelEntityCollection : INotifyCollectionChanged, INotifyPropertyChanged
+    {
+        Task FetchNextPageAsync();
+    }
 
-	public interface IModelEntityCollection : INotifyCollectionChanged, INotifyPropertyChanged
-	{
-		Task FetchNextPageAsync();
-	}
-
-	public interface IModelEntityCollection<T> : IModelEntityCollection, ICollection<T>
-	{
-		
-	}
+    public interface IModelEntityCollection<T> : IModelEntityCollection, ICollection<T>
+    {
+    }
 }
-

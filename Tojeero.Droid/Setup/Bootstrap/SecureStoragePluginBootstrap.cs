@@ -1,11 +1,11 @@
+using Beezy.MvvmCross.Plugins.SecureStorage;
 using Cirrious.CrossCore.Plugins;
 
 namespace Tojeero.Droid.Bootstrap
 {
-	public class SecureStoragePluginBootstrap 
-		: MvxPluginBootstrapAction<Beezy.MvvmCross.Plugins.SecureStorage.PluginLoader>
+    public class SecureStoragePluginBootstrap
+        : MvxPluginBootstrapAction<PluginLoader>
 
-	{
-	}
+    {
+    }
 }
-

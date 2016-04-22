@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Tojeero.Core.Toolbox
 {
     public static class StringToolbox
     {
-        private static Regex stringTokenizer = new Regex(@"[^A-Za-z\u0600-\u06FF]+");
+        private static readonly Regex stringTokenizer = new Regex(@"[^A-Za-z\u0600-\u06FF]+");
 
         /// <summary>
         /// Tokenize the specified string value.
@@ -22,7 +22,7 @@ namespace Tojeero.Core.Toolbox
             if (value == null)
                 return null;
             var tokens = stringTokenizer.Split(value);
-            HashSet<string> uniqueTokens = new HashSet<string>();
+            var uniqueTokens = new HashSet<string>();
             uniqueTokens.AddRange(tokens.Where(t => t.Length >= 2).Select(t => t.ToLower()));
             var sorted = uniqueTokens.ToList();
             sorted.Sort();
@@ -41,7 +41,7 @@ namespace Tojeero.Core.Toolbox
         {
             if (values == null)
                 return null;
-            HashSet<string> uniqueTokens = new HashSet<string>();
+            var uniqueTokens = new HashSet<string>();
             foreach (var value in values)
             {
                 if (value != null)
@@ -69,10 +69,10 @@ namespace Tojeero.Core.Toolbox
         public static string Truncate(this string str, int maxLength)
         {
             var length = str.Length;
-            string result = str;
+            var result = str;
             if (length > maxLength)
             {
-                string dots = "...";
+                var dots = "...";
                 result = str.Substring(0, maxLength - dots.Length) + dots;
             }
             return result;
@@ -80,15 +80,15 @@ namespace Tojeero.Core.Toolbox
 
         public static byte[] GetBytes(this string str)
         {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            var bytes = new byte[str.Length*sizeof (char)];
+            Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
             return bytes;
         }
 
         public static string GetString(this byte[] bytes)
         {
-            char[] chars = new char[bytes.Length / sizeof(char)];
-            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+            var chars = new char[bytes.Length/sizeof (char)];
+            Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
             return new string(chars);
         }
 
@@ -98,4 +98,3 @@ namespace Tojeero.Core.Toolbox
         }
     }
 }
-

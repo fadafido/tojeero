@@ -1,131 +1,117 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Foundation;
-using UIKit;
-using Cirrious.MvvmCross.Touch.Platform;
-using Cirrious.CrossCore;
-using Cirrious.MvvmCross.ViewModels;
-using Tojeero.Forms;
-using Xamarin.Forms;
-using Facebook.CoreKit;
-using Parse;
-using Tojeero.Core;
-using ImageCircle.Forms.Plugin.iOS;
-using Xamarin.Forms.Platform.iOS;
 using Cirrious.MvvmCross.Platform;
-using ObjCRuntime;
-using System.Runtime.InteropServices;
-using Tojeero.Core.Model.Contracts;
-using Tojeero.Core.ViewModels;
-using Tojeero.Core.Services;
-using Tojeero.Core.Services.Contracts;
-
+using Cirrious.MvvmCross.Touch.Platform;
+using Facebook.CoreKit;
+using Foundation;
+using ImageCircle.Forms.Plugin.iOS;
+using Tojeero.Core;
+using Tojeero.Forms;
+using UIKit;
+using Xamarin.Forms.Platform.iOS;
 
 namespace Tojeero.iOS
 {
-	[Register("AppDelegate")]
-	public partial class AppDelegate : FormsApplicationDelegate, IMvxApplicationDelegate
-	{
-		#region Private API
+    [Register("AppDelegate")]
+    public class AppDelegate : FormsApplicationDelegate, IMvxApplicationDelegate
+    {
+        #region Private API
 
-		private static AppDelegate _instance;
+        private static AppDelegate _instance;
 
-		#endregion
+        #endregion
 
-		#region Lifecycle Management
+        #region Lifecycle Management
 
-		public override bool FinishedLaunching(UIApplication app,
-		                                       NSDictionary options)
-		{
-			//Initialize Parse
-			ParseInitialize.Initialize();
+        public override bool FinishedLaunching(UIApplication app,
+            NSDictionary options)
+        {
+            //Initialize Parse
+            ParseInitialize.Initialize();
 
-			//Initialize MvvmCross
-			var setup = new Setup(this, null);
-			setup.Initialize();
+            //Initialize MvvmCross
+            var setup = new Setup(this, null);
+            setup.Initialize();
 
-			//Initialize Xamarin Forms
-			global::Xamarin.Forms.Forms.Init();
+            //Initialize Xamarin Forms
+            Xamarin.Forms.Forms.Init();
 
-			LoadApplication(new FormsApp());
+            LoadApplication(new FormsApp());
 
-			//Initialize Misc Plugins
-			ImageCircleRenderer.Init();
-			MakeAppearanceCustomizations();
-			base.FinishedLaunching(app, options);
-			
-			return ApplicationDelegate.SharedInstance.FinishedLaunching (app, options);
-		}
+            //Initialize Misc Plugins
+            ImageCircleRenderer.Init();
+            MakeAppearanceCustomizations();
+            base.FinishedLaunching(app, options);
 
-		public override bool OpenUrl (UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
-		{
-			// We need to handle URLs by passing them to their own OpenUrl in order to make the SSO authentication works.
-			return ApplicationDelegate.SharedInstance.OpenUrl (application, url, sourceApplication, annotation);
-		}
-		#endregion
+            return ApplicationDelegate.SharedInstance.FinishedLaunching(app, options);
+        }
 
-		#region Utility Methods
+        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        {
+            // We need to handle URLs by passing them to their own OpenUrl in order to make the SSO authentication works.
+            return ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
+        }
 
-		private void MakeAppearanceCustomizations()
-		{
-			UINavigationBar.Appearance.BarTintColor = Colors.Secondary.ToUIColor();
-			UINavigationBar.Appearance.TintColor = UIColor.White;
-			UITextAttributes attr = new UITextAttributes();
-			attr.Font = UIFont.FromName("System", 16);
-			attr.TextColor = UIColor.White;
-			UINavigationBar.Appearance.SetTitleTextAttributes(attr);
+        #endregion
 
-			UITabBar.Appearance.SelectedImageTintColor = Colors.Secondary.ToUIColor();
-		}
+        #region Utility Methods
 
-		#endregion
+        private void MakeAppearanceCustomizations()
+        {
+            UINavigationBar.Appearance.BarTintColor = Colors.Secondary.ToUIColor();
+            UINavigationBar.Appearance.TintColor = UIColor.White;
+            var attr = new UITextAttributes();
+            attr.Font = UIFont.FromName("System", 16);
+            attr.TextColor = UIColor.White;
+            UINavigationBar.Appearance.SetTitleTextAttributes(attr);
 
-		#region IMvxApplicationDelegate
+            UITabBar.Appearance.SelectedImageTintColor = Colors.Secondary.ToUIColor();
+        }
 
-		//
-		// Methods
-		//
-		public override void DidEnterBackground(UIApplication application)
-		{
-			base.DidEnterBackground(application);
-			this.FireLifetimeChanged(MvxLifetimeEvent.Deactivated);
-		}
+        #endregion
 
-		public override void FinishedLaunching(UIApplication application)
-		{
-			base.FinishedLaunching(application);
-			this.FireLifetimeChanged(MvxLifetimeEvent.Launching);
-		}
+        #region IMvxApplicationDelegate
 
-		private void FireLifetimeChanged(MvxLifetimeEvent which)
-		{
-			EventHandler<MvxLifetimeEventArgs> lifetimeChanged = this.LifetimeChanged;
-			if (lifetimeChanged != null)
-			{
-				lifetimeChanged(this, new MvxLifetimeEventArgs(which));
-			}
-		}
+        //
+        // Methods
+        //
+        public override void DidEnterBackground(UIApplication application)
+        {
+            base.DidEnterBackground(application);
+            FireLifetimeChanged(MvxLifetimeEvent.Deactivated);
+        }
 
-		public override void WillEnterForeground(UIApplication application)
-		{
-			base.WillEnterForeground(application);
-			this.FireLifetimeChanged(MvxLifetimeEvent.ActivatedFromMemory);
-		}
+        public override void FinishedLaunching(UIApplication application)
+        {
+            base.FinishedLaunching(application);
+            FireLifetimeChanged(MvxLifetimeEvent.Launching);
+        }
 
-		public override void WillTerminate(UIApplication application)
-		{
-			base.WillTerminate(application);
-			this.FireLifetimeChanged(MvxLifetimeEvent.Closing);
-		}
+        private void FireLifetimeChanged(MvxLifetimeEvent which)
+        {
+            var lifetimeChanged = LifetimeChanged;
+            if (lifetimeChanged != null)
+            {
+                lifetimeChanged(this, new MvxLifetimeEventArgs(which));
+            }
+        }
 
-		//
-		// Events
-		//
-		public event EventHandler<MvxLifetimeEventArgs> LifetimeChanged;
+        public override void WillEnterForeground(UIApplication application)
+        {
+            base.WillEnterForeground(application);
+            FireLifetimeChanged(MvxLifetimeEvent.ActivatedFromMemory);
+        }
 
-		#endregion
-	}
+        public override void WillTerminate(UIApplication application)
+        {
+            base.WillTerminate(application);
+            FireLifetimeChanged(MvxLifetimeEvent.Closing);
+        }
+
+        //
+        // Events
+        //
+        public event EventHandler<MvxLifetimeEventArgs> LifetimeChanged;
+
+        #endregion
+    }
 }
-

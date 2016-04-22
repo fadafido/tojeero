@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
-using Tojeero.Forms;
 using Tojeero.Forms.Controls;
+using Tojeero.iOS.Renderers;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
+[assembly: ExportRenderer(typeof (StretchableImage), typeof (StretchableImageRenderer))]
 
-[assembly:ExportRenderer(typeof(StretchableImage), typeof(Tojeero.iOS.Renderers.StretchableImageRenderer))]
 namespace Tojeero.iOS.Renderers
 {
     public class StretchableImageRenderer : ViewRenderer<StretchableImage, UIImageView>
@@ -21,10 +19,10 @@ namespace Tojeero.iOS.Renderers
             base.OnElementChanged(e);
             if (e.NewElement != null)
             {
-                if (base.Control == null)
+                if (Control == null)
                 {
                     var imageView = new UIImageView();
-                    base.SetNativeControl(imageView);
+                    SetNativeControl(imageView);
                 }
                 updateImage();
             }
@@ -50,7 +48,7 @@ namespace Tojeero.iOS.Renderers
             if (Element != null)
             {
                 var image = Element.Path != null ? UIImage.FromFile(Element.Path) : null;
-                stretchableImage = image?.StretchableImage((nint)Element.Caps.Width, (nint)Element.Caps.Height);
+                stretchableImage = image?.StretchableImage((nint) Element.Caps.Width, (nint) Element.Caps.Height);
             }
             if (Control != null)
             {

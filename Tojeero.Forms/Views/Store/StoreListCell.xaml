@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <ViewCell
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -74,7 +75,7 @@
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand"
 				Padding="0,0,6,0"
-				Spacing ="0">
+				Spacing="0">
 				<BoxView
 					BackgroundColor="{x:Static core:Colors.Separator}"
 					HeightRequest="1"

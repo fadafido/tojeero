@@ -3,57 +3,56 @@ using System.Threading.Tasks;
 
 namespace Tojeero.Core.Model.Contracts
 {
-	public interface IProduct : IModelEntity, ISearchableEntity, IMultiImageEntity
-	{
-		string Name { get; set; }
+    public interface IProduct : IModelEntity, ISearchableEntity, IMultiImageEntity
+    {
+        string Name { get; set; }
 
-		string LowercaseName { get; set; }
+        string LowercaseName { get; set; }
 
-		double Price { get; set; }
+        double Price { get; set; }
 
-		string ImageUrl { get; }
+        string ImageUrl { get; }
 
-		string FormattedPrice { get; }
+        string FormattedPrice { get; }
 
-		string CategoryID { get; set; }
+        string CategoryID { get; set; }
 
-		string SubcategoryID { get; set; }
+        string SubcategoryID { get; set; }
 
-		string StoreID { get; set; }
+        string StoreID { get; set; }
 
-		string Description { get; set; }
+        string Description { get; set; }
 
-		bool IsBlocked { get; set;  }
+        bool IsBlocked { get; set; }
 
-		ProductStatus Status { get; set; }
+        ProductStatus Status { get; set; }
 
-		bool NotVisible { get; set; }
+        bool NotVisible { get; set; }
 
-		string DisapprovalReason { get; }
+        string DisapprovalReason { get; }
 
-		string CityId { get; set; }
+        string CityId { get; set; }
 
-		ICity City { get; }
+        ICity City { get; }
 
-		string CountryId { get; set; }
+        string CountryId { get; set; }
 
-		ICountry Country { get; set; }
+        ICountry Country { get; set; }
 
-		IList<string> Tags { get; set; }
+        IList<string> Tags { get; set; }
 
-		string TagList{ get; }
+        string TagList { get; }
 
-		IProductCategory Category { get; }
+        IProductCategory Category { get; }
 
-		IProductSubcategory Subcategory { get; }
+        IProductSubcategory Subcategory { get; }
 
-		IStore Store { get; }
+        IStore Store { get; }
 
-		Task Save();
+        Task Save();
 
-		Task SetMainImage(IImage image);
+        Task SetMainImage(IImage image);
 
-		Task LoadRelationships();
-	}
+        Task LoadRelationships();
+    }
 }
-

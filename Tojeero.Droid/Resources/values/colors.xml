@@ -1,6 +1,7 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <resources>
-    <color name="background">#FFFFFF</color>
-    <color name="placeholder">#dde4e6</color>
-    <color name="secondary">#f15a24</color>
+	<color name="background">#FFFFFF</color>
+	<color name="placeholder">#dde4e6</color>
+	<color name="secondary">#f15a24</color>
 </resources>

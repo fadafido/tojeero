@@ -7,26 +7,24 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Converters
 {
-	public class LanguageToCultureConverter : IValueConverter
-	{
-		#region IValueConverter implementation
+    public class LanguageToCultureConverter : IValueConverter
+    {
+        #region IValueConverter implementation
 
-		public object Convert(object value, Type targetType, object parameter, CultureInfo cultureInfo)
-		{
-			var language = value as LanguageCode?;
-			if (language == null)
-				return null;
-			var localizationService = Mvx.Resolve<ILocalizationService>();
-			return localizationService.GetNativeLanguageName(language.Value);
-		}
+        public object Convert(object value, Type targetType, object parameter, CultureInfo cultureInfo)
+        {
+            var language = value as LanguageCode?;
+            if (language == null)
+                return null;
+            var localizationService = Mvx.Resolve<ILocalizationService>();
+            return localizationService.GetNativeLanguageName(language.Value);
+        }
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo cultureInfo)
-		{
-			throw new NotImplementedException();
-		}
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo cultureInfo)
+        {
+            throw new NotImplementedException();
+        }
 
-		#endregion
-		
-	}
+        #endregion
+    }
 }
-

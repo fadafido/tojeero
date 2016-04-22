@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,263 +14,259 @@ using Tojeero.Core.Toolbox;
 
 namespace Tojeero.Core.ViewModels.Product
 {
-	public class ProductDetailsViewModel : ProductViewModel
-	{
-		#region Private APIs and Fields
+    public class ProductDetailsViewModel : ProductViewModel
+    {
+        #region Private APIs and Fields
 
-		private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
-		private IEnumerable<string> _detailImages;
-		private IProduct _currentProduct;
+        private readonly AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+        private IEnumerable<string> _detailImages;
+        private IProduct _currentProduct;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public ProductDetailsViewModel(IProduct product = null)
-			: base(product)
-		{
-			this.ShouldSubscribeToSessionChange = true;
-			this.PropertyChanged += propertyChanged;
-		}
+        public ProductDetailsViewModel(IProduct product = null)
+            : base(product)
+        {
+            ShouldSubscribeToSessionChange = true;
+            PropertyChanged += propertyChanged;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public Action<IStore> ShowStoreInfoPageAction { get; set; }
+        public Action<IStore> ShowStoreInfoPageAction { get; set; }
         public Action<IChatChannel> ShowChatPageAction { get; set; }
 
-		private ContentMode _mode;
+        private ContentMode _mode;
 
-		public ContentMode Mode
-		{ 
-			get
-			{
-				return _mode; 
-			}
-			set
-			{
-				_mode = value; 
-				RaisePropertyChanged(() => Mode); 
-			}
-		}
+        public ContentMode Mode
+        {
+            get { return _mode; }
+            set
+            {
+                _mode = value;
+                RaisePropertyChanged(() => Mode);
+            }
+        }
 
-		private IList<string> _imageUrls;
+        private IList<string> _imageUrls;
 
-		public IList<string> ImageUrls
-		{ 
-			get
-			{
-				return _imageUrls; 
-			}
-			set
-			{
-				_imageUrls = value; 
-				RaisePropertyChanged(() => ImageUrls); 
-				this.CurrentImageUrl = this.ImageUrls.FirstOrDefault();
-			}
-		}
+        public IList<string> ImageUrls
+        {
+            get { return _imageUrls; }
+            set
+            {
+                _imageUrls = value;
+                RaisePropertyChanged(() => ImageUrls);
+                CurrentImageUrl = ImageUrls.FirstOrDefault();
+            }
+        }
 
-		private string _currentImageUrl;
+        private string _currentImageUrl;
 
-		public string CurrentImageUrl
-		{ 
-			get
-			{
-				return _currentImageUrl; 
-			}
-			set
-			{
-				_currentImageUrl = value; 
-				RaisePropertyChanged(() => CurrentImageUrl); 
-			}
-		}
+        public string CurrentImageUrl
+        {
+            get { return _currentImageUrl; }
+            set
+            {
+                _currentImageUrl = value;
+                RaisePropertyChanged(() => CurrentImageUrl);
+            }
+        }
 
-		public bool IsStoreDetailsVisible
-		{
-			get
-			{
-				return this.Mode == ContentMode.View && this.Product != null && this.Product.Store != null && !string.IsNullOrEmpty(this.Product.Store.Name);
-			}
-		}
+        public bool IsStoreDetailsVisible
+        {
+            get
+            {
+                return Mode == ContentMode.View && Product != null && Product.Store != null &&
+                       !string.IsNullOrEmpty(Product.Store.Name);
+            }
+        }
 
-		public override string StatusWarning
-		{
-			get
-			{
-				string warning = null;
-				if (this.Mode == ContentMode.Edit && this.Product != null)
-				{
-					if (this.Product.IsBlocked)
-					{
-						warning = AppResources.MessageStoreBlocked;
-					}
-					else
-					{
-						switch (this.Product.Status)
-						{
-							case ProductStatus.Pending:
-								warning = AppResources.MessageProductPending;
-								break;
-							case ProductStatus.Declined:
-								{
-									string reason = !string.IsNullOrEmpty(this.Product.DisapprovalReason) ? this.Product.DisapprovalReason : AppResources.TextUnknown;
-									warning = string.Format(AppResources.MessageProductDeclined, reason);
-								}
-								break;
-						}
-					}
-				}
-				return warning;
-			}
-		}
+        public override string StatusWarning
+        {
+            get
+            {
+                string warning = null;
+                if (Mode == ContentMode.Edit && Product != null)
+                {
+                    if (Product.IsBlocked)
+                    {
+                        warning = AppResources.MessageStoreBlocked;
+                    }
+                    else
+                    {
+                        switch (Product.Status)
+                        {
+                            case ProductStatus.Pending:
+                                warning = AppResources.MessageProductPending;
+                                break;
+                            case ProductStatus.Declined:
+                            {
+                                var reason = !string.IsNullOrEmpty(Product.DisapprovalReason)
+                                    ? Product.DisapprovalReason
+                                    : AppResources.TextUnknown;
+                                warning = string.Format(AppResources.MessageProductDeclined, reason);
+                            }
+                                break;
+                        }
+                    }
+                }
+                return warning;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Commands
+        #region Commands
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+        private MvxCommand _reloadCommand;
 
-		public System.Windows.Input.ICommand ReloadCommand
-		{
-			get
-			{
-				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
-					await reload();
-				}, () => !IsLoading && IsNetworkAvailable);
-				return _reloadCommand;
-			}
-		}
+        public ICommand ReloadCommand
+        {
+            get
+            {
+                _reloadCommand = _reloadCommand ??
+                                 new MvxCommand(async () => { await reload(); }, () => !IsLoading && IsNetworkAvailable);
+                return _reloadCommand;
+            }
+        }
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _showStoreInfoPageCommand;
+        private MvxCommand _showStoreInfoPageCommand;
 
-		public System.Windows.Input.ICommand ShowStoreInfoPageCommand
-		{
-			get
-			{
-				_showStoreInfoPageCommand = _showStoreInfoPageCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					ShowStoreInfoPageAction.Fire(this.Product.Store);
-				}, () => this.Product != null && this.Product.Store != null);
-				return _showStoreInfoPageCommand;
-			}
-		}
+        public ICommand ShowStoreInfoPageCommand
+        {
+            get
+            {
+                _showStoreInfoPageCommand = _showStoreInfoPageCommand ??
+                                            new MvxCommand(() => { ShowStoreInfoPageAction.Fire(Product.Store); },
+                                                () => Product != null && Product.Store != null);
+                return _showStoreInfoPageCommand;
+            }
+        }
 
-	    private MvxCommand _chatCommand;
-	    public ICommand ChatCommand
-	    {
-	        get
-	        {
-	            _chatCommand = _chatCommand ?? new MvxCommand(() =>
-	            {
-	                var channel = getChannel();
+        private MvxCommand _chatCommand;
+
+        public ICommand ChatCommand
+        {
+            get
+            {
+                _chatCommand = _chatCommand ?? new MvxCommand(() =>
+                {
+                    var channel = getChannel();
                     ShowChatPageAction?.Invoke(channel);
                 });
-	            return _chatCommand;
-	        }
-	    }
+                return _chatCommand;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility methods
+        #region Utility methods
 
-		private async Task reload()
-		{
-			using (var writerLock = await _locker.WriterLockAsync())
-			{
-				if (this.Product != null)
-					await this.Product.LoadRelationships();
-				await loadFavorite();
-				await loadImages();
-			}
-		}
+        private async Task reload()
+        {
+            using (var writerLock = await _locker.WriterLockAsync())
+            {
+                if (Product != null)
+                    await Product.LoadRelationships();
+                await loadFavorite();
+                await loadImages();
+            }
+        }
 
-		private async Task loadImages()
-		{
-			if (this.Product == null)
-				return;
-			
-			this.StartLoading(AppResources.MessageGeneralLoading);
-			string failureMessage = null;
-			try
-			{
-				var images = await this.Product.GetImages();
-				if(images != null)
-				{
-					_detailImages = images.Select(i => i.Url);
-				}
-				else
-				{
-					_detailImages = null;
-				}
-				loadImageUrls();
-			}
-			catch (Exception ex)
-			{
-				failureMessage = handleException(ex);
-			}
-			StopLoading(failureMessage);
-		}
+        private async Task loadImages()
+        {
+            if (Product == null)
+                return;
 
-		private string handleException(Exception exception)
-		{
-			try
-			{
-				throw exception;
-			}
-			catch (OperationCanceledException ex)
-			{
-				Tools.Logger.Log(ex, LoggingLevel.Warning);
-				return AppResources.MessageLoadingTimeOut;
-			}
-			catch (Exception ex)
-			{
-				Tools.Logger.Log(ex, "Error occured while loading data in product details screen.", LoggingLevel.Error, true);
-				return AppResources.MessageLoadingFailed;
-			}
-		}
+            StartLoading(AppResources.MessageGeneralLoading);
+            string failureMessage = null;
+            try
+            {
+                var images = await Product.GetImages();
+                if (images != null)
+                {
+                    _detailImages = images.Select(i => i.Url);
+                }
+                else
+                {
+                    _detailImages = null;
+                }
+                loadImageUrls();
+            }
+            catch (Exception ex)
+            {
+                failureMessage = handleException(ex);
+            }
+            StopLoading(failureMessage);
+        }
 
-		private void loadImageUrls()
-		{
-			IList<string> imageUrls = new List<string>();
-			if (this.Product != null && !string.IsNullOrEmpty(this.Product.ImageUrl))
-			{
-				imageUrls.Add(this.Product.ImageUrl);
-			}
-			if (_detailImages != null)
-			{
-				imageUrls.AddRange(_detailImages);
-			}
+        private string handleException(Exception exception)
+        {
+            try
+            {
+                throw exception;
+            }
+            catch (OperationCanceledException ex)
+            {
+                Tools.Logger.Log(ex, LoggingLevel.Warning);
+                return AppResources.MessageLoadingTimeOut;
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log(ex, "Error occured while loading data in product details screen.", LoggingLevel.Error,
+                    true);
+                return AppResources.MessageLoadingFailed;
+            }
+        }
 
-			this.ImageUrls = imageUrls;
-		}
+        private void loadImageUrls()
+        {
+            IList<string> imageUrls = new List<string>();
+            if (Product != null && !string.IsNullOrEmpty(Product.ImageUrl))
+            {
+                imageUrls.Add(Product.ImageUrl);
+            }
+            if (_detailImages != null)
+            {
+                imageUrls.AddRange(_detailImages);
+            }
 
-		protected override void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			base.propertyChanged(sender, e);
-			if (e.PropertyName == ProductProperty || e.PropertyName == "")
-			{
-				if (_currentProduct != this.Product)
-				{
-					_currentProduct = this.Product;
-					loadImageUrls();
-				}
-			}
+            ImageUrls = imageUrls;
+        }
 
-			if (e.PropertyName == "Status" || e.PropertyName == "Mode" || e.PropertyName == "")
-			{
-				RaisePropertyChanged(() => StatusWarning);
-				RaisePropertyChanged(() => WarningColor);
-			}		
+        protected override void propertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.propertyChanged(sender, e);
+            if (e.PropertyName == ProductProperty || e.PropertyName == "")
+            {
+                if (_currentProduct != Product)
+                {
+                    _currentProduct = Product;
+                    loadImageUrls();
+                }
+            }
 
-			if (e.PropertyName == "Product" || e.PropertyName == "Store" || e.PropertyName == "Name" || e.PropertyName == "Mode" || e.PropertyName == "")
-			{
-				RaisePropertyChanged(() => IsStoreDetailsVisible);
-			}
-		}
+            if (e.PropertyName == "Status" || e.PropertyName == "Mode" || e.PropertyName == "")
+            {
+                RaisePropertyChanged(() => StatusWarning);
+                RaisePropertyChanged(() => WarningColor);
+            }
 
-	    private IChatChannel getChannel()
-	    {
-            var channel = new ChatChannel()
+            if (e.PropertyName == "Product" || e.PropertyName == "Store" || e.PropertyName == "Name" ||
+                e.PropertyName == "Mode" || e.PropertyName == "")
+            {
+                RaisePropertyChanged(() => IsStoreDetailsVisible);
+            }
+        }
+
+        private IChatChannel getChannel()
+        {
+            var channel = new ChatChannel
             {
                 ChannelID = "test_channel",
                 RecipientID = Product.Store.OwnerID,
@@ -277,10 +274,9 @@ namespace Tojeero.Core.ViewModels.Product
                 SenderID = _authService.CurrentUser.ID,
                 SenderProfilePictureUrl = _authService.CurrentUser.ProfilePictureUrl
             };
-	        return channel;
-	    }
+            return channel;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

@@ -2,11 +2,10 @@
 
 namespace Tojeero.Core.ViewModels.Contracts
 {
-	public interface IUserViewModel
-	{
-		IUser CurrentUser { get; set; }
-		bool IsLoggedIn { get; }
-		bool ShouldSubscribeToSessionChange { get; set; }
-	}
+    public interface IUserViewModel
+    {
+        IUser CurrentUser { get; set; }
+        bool IsLoggedIn { get; }
+        bool ShouldSubscribeToSessionChange { get; set; }
+    }
 }
-

@@ -2,27 +2,26 @@
 
 namespace Tojeero.Core.ViewModels.Contracts
 {
-	public interface ISaveStoreViewModel
-	{
-		IStore CurrentStore { get; set; }
+    public interface ISaveStoreViewModel
+    {
+        IStore CurrentStore { get; set; }
 
-		bool IsNew { get; }
+        bool IsNew { get; }
 
-		IImageViewModel MainImage { get; set; }
+        IImageViewModel MainImage { get; set; }
 
-		string Name { get; set; }
+        string Name { get; set; }
 
-		string Description { get; set; }
+        string Description { get; set; }
 
-		string DeliveryNotes { get; set; }
+        string DeliveryNotes { get; set; }
 
-		IStoreCategory Category { get; set; }
+        IStoreCategory Category { get; set; }
 
-		ICity City { get; set; }
+        ICity City { get; set; }
 
-		ICountry Country { get; set; }
+        ICountry Country { get; set; }
 
-		bool HasChanged { get; }
-	}
+        bool HasChanged { get; }
+    }
 }
-

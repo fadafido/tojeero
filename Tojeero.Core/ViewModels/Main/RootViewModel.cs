@@ -9,75 +9,68 @@ using Tojeero.Core.ViewModels.Common;
 
 namespace Tojeero.Core.ViewModels.Main
 {
-	public class RootViewModel : MvxViewModel
-	{
-		#region Private fields and properties
+    public class RootViewModel : MvxViewModel
+    {
+        #region Private fields and properties
 
-		private readonly IAuthenticationService _authService;
-		private readonly MvxSubscriptionToken _sessionChangedToken;
+        private readonly IAuthenticationService _authService;
+        private readonly MvxSubscriptionToken _sessionChangedToken;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public RootViewModel(IAuthenticationService authService, IMvxMessenger messenger)
-		{
-			_authService = authService;
+        public RootViewModel(IAuthenticationService authService, IMvxMessenger messenger)
+        {
+            _authService = authService;
 
-			_sessionChangedToken = messenger.SubscribeOnMainThread<SessionStateChangedMessage>((m) =>
-				{
-					reloadFavorites();
-				});
-			this.UserStoreViewModel = MvxToolbox.LoadViewModel<BaseUserStoreViewModel>();
-		}
+            _sessionChangedToken =
+                messenger.SubscribeOnMainThread<SessionStateChangedMessage>(m => { reloadFavorites(); });
+            UserStoreViewModel = MvxToolbox.LoadViewModel<BaseUserStoreViewModel>();
+        }
 
-		#endregion
+        #endregion
 
-		#region Public API
+        #region Public API
 
-		public Action ShowFavorites { get; set; }
+        public Action ShowFavorites { get; set; }
 
-		public Action HideFavorites { get; set; }
+        public Action HideFavorites { get; set; }
 
-		private BaseUserStoreViewModel _userStoreViewModel;
+        private BaseUserStoreViewModel _userStoreViewModel;
 
-		public BaseUserStoreViewModel UserStoreViewModel
-		{ 
-			get
-			{
-				return _userStoreViewModel; 
-			}
-			set
-			{
-				_userStoreViewModel = value; 
-				RaisePropertyChanged(() => UserStoreViewModel); 
-			}
-		}
+        public BaseUserStoreViewModel UserStoreViewModel
+        {
+            get { return _userStoreViewModel; }
+            set
+            {
+                _userStoreViewModel = value;
+                RaisePropertyChanged(() => UserStoreViewModel);
+            }
+        }
 
-		public void Initialize()
-		{
-			reloadFavorites();
-			this.UserStoreViewModel.LoadUserStoreCommand.Execute(null);
-		}
+        public void Initialize()
+        {
+            reloadFavorites();
+            UserStoreViewModel.LoadUserStoreCommand.Execute(null);
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility methods
+        #region Utility methods
 
-		private void reloadFavorites()
-		{
-			if (_authService.State == SessionState.LoggedIn)
-			{
-				this.ShowFavorites.Fire();	
-			}
-			else
-			{
-				this.HideFavorites.Fire();
-			}
-		}
+        private void reloadFavorites()
+        {
+            if (_authService.State == SessionState.LoggedIn)
+            {
+                ShowFavorites.Fire();
+            }
+            else
+            {
+                HideFavorites.Fire();
+            }
+        }
 
-
-		#endregion
-	}
+        #endregion
+    }
 }
-

@@ -11,18 +11,16 @@ namespace Tojeero.Forms.Views.Chat
     public partial class ChatPage : ContentPage
     {
         #region Constructors
+
         public ChatPage(IChatChannel channel = null, IProduct product = null)
         {
-            this.ViewModel = MvxToolbox.LoadViewModel<ChatViewModel>();
-            this.ViewModel.Channel = channel;
-            this.ViewModel.ProductViewModel = new ProductViewModel(product)
+            ViewModel = MvxToolbox.LoadViewModel<ChatViewModel>();
+            ViewModel.Channel = channel;
+            ViewModel.ProductViewModel = new ProductViewModel(product)
             {
                 FavoriteToggleEnabled = false
             };
-            this.ViewModel.ScrollToMessageAction = m =>
-            {
-                listView.ScrollTo(m, ScrollToPosition.MakeVisible, true);
-            };
+            ViewModel.ScrollToMessageAction = m => { listView.ScrollTo(m, ScrollToPosition.MakeVisible, true); };
             ViewModel.WillChangeMessagesCollection += ViewModelOnWillChangeMessagesCollection;
             ViewModel.DidChangeMessagesCollection += ViewModelOnDidChangeMessagesCollection;
             InitializeComponent();
@@ -33,22 +31,22 @@ namespace Tojeero.Forms.Views.Chat
         #endregion
 
         #region Properties
+
         private ChatViewModel _viewModel;
-        public ChatViewModel ViewModel  
+
+        public ChatViewModel ViewModel
         {
-            get
-            {
-                return _viewModel;
-            }
+            get { return _viewModel; }
             set
             {
-                if(_viewModel != value)
+                if (_viewModel != value)
                 {
                     _viewModel = value;
-                    this.BindingContext = value;
+                    BindingContext = value;
                 }
             }
         }
+
         #endregion
 
         #region Parent override
@@ -63,15 +61,15 @@ namespace Tojeero.Forms.Views.Chat
 
         #region Utility methods
 
-        private async void ListViewOnItemSelected(object sender, SelectedItemChangedEventArgs selectedItemChangedEventArgs)
+        private async void ListViewOnItemSelected(object sender,
+            SelectedItemChangedEventArgs selectedItemChangedEventArgs)
         {
-
             var item = listView.SelectedItem as ChatMessageViewModel;
             if (item?.Product?.Product != null)
             {
                 listView.SelectedItem = null;
                 var productDetails = new ProductDetailsPage(item.Product?.Product);
-                await this.Navigation.PushAsync(productDetails);
+                await Navigation.PushAsync(productDetails);
             }
         }
 

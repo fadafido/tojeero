@@ -1,9 +1,10 @@
 using Cirrious.CrossCore.Plugins;
+using Cirrious.MvvmCross.Plugins.Messenger;
 
 namespace Tojeero.Droid.Bootstrap
 {
     public class MessengerPluginBootstrap
-        : MvxPluginBootstrapAction<Cirrious.MvvmCross.Plugins.Messenger.PluginLoader>
+        : MvxPluginBootstrapAction<PluginLoader>
     {
     }
 }

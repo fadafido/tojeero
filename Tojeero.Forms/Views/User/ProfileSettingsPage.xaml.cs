@@ -8,70 +8,57 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.User
 {
-	public partial class ProfileSettingsPage : ContentPage
-	{
-		#region Properties
+    public partial class ProfileSettingsPage : ContentPage
+    {
+        #region Properties
 
-		private ProfileSettingsViewModel _viewModel;
+        private ProfileSettingsViewModel _viewModel;
 
-		public ProfileSettingsViewModel ViewModel
-		{
-			get
-			{
-				return _viewModel;
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					_viewModel = value;
-					this.BindingContext = _viewModel;
-				}
-			}
-		}
+        public ProfileSettingsViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    _viewModel = value;
+                    BindingContext = _viewModel;
+                }
+            }
+        }
 
+        #endregion
 
+        #region Constructors
 
-		#endregion
+        public ProfileSettingsPage(bool userShouldProvideDetails = false)
+        {
+            ViewModel =
+                MvxToolbox.LoadViewModel<ProfileSettingsViewModel>(
+                    new {userShouldProvideProfileDetails = userShouldProvideDetails});
+            ViewModel.CloseAction = async () => { await Navigation.PopModalAsync(); };
+            ViewModel.ShowTermsAction =
+                async () => { await Navigation.PushModalAsync(new NavigationPage(new TermsPage())); };
+            InitializeComponent();
+            if (!ViewModel.UserShouldProvideProfileDetails)
+            {
+                ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, null,
+                    () => { ViewModel.SubmitCommand.Execute(null); }));
+                ToolbarItems.Add(new ToolbarItem(AppResources.ButtonCancel, null,
+                    async () => { await Navigation.PopModalAsync(); }, priority: 15));
+            }
+            setupPickers();
+        }
 
-		#region Constructors
+        #endregion
 
-		public ProfileSettingsPage(bool userShouldProvideDetails = false)
-			: base()
-		{
-			this.ViewModel = MvxToolbox.LoadViewModel<ProfileSettingsViewModel>(new {userShouldProvideProfileDetails = userShouldProvideDetails});
-			this.ViewModel.CloseAction = async () =>
-			{
-				await this.Navigation.PopModalAsync();
-			};
-			this.ViewModel.ShowTermsAction = async () =>
-			{
-				await this.Navigation.PushModalAsync(new NavigationPage(new TermsPage()));
-			};
-			InitializeComponent();
-			if (!this.ViewModel.UserShouldProvideProfileDetails)
-			{
-				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, null, () =>
-						{
-							this.ViewModel.SubmitCommand.Execute(null);
-						}));
-				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonCancel, null, async () =>
-						{
-							await this.Navigation.PopModalAsync();
-						}, priority: 15));
-			}
-		    setupPickers();
-		}
+        #region View Lifecycle
 
-		#endregion
-
-		#region View Lifecycle
-
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			this.ViewModel.ReloadCommand.Execute(null);
-		}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.ReloadCommand.Execute(null);
+        }
 
         #endregion
 
@@ -79,14 +66,13 @@ namespace Tojeero.Forms.Views.User
 
         private void setupPickers()
         {
-            countriesPicker.FacetsLoader = this.ViewModel.FetchCountryFacets;
-            countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => this.ViewModel.Countries);
+            countriesPicker.FacetsLoader = ViewModel.FetchCountryFacets;
+            countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => ViewModel.Countries);
 
-            citiesPicker.FacetsLoader = this.ViewModel.FetchCityFacets;
-            citiesPicker.ObjectsLoader = () => Task<IList<ICity>>.Factory.StartNew(() => this.ViewModel.Country?.Cities);
+            citiesPicker.FacetsLoader = ViewModel.FetchCityFacets;
+            citiesPicker.ObjectsLoader = () => Task<IList<ICity>>.Factory.StartNew(() => ViewModel.Country?.Cities);
         }
 
         #endregion
     }
 }
-

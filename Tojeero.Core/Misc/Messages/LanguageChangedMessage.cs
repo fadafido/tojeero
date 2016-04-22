@@ -1,29 +1,24 @@
-﻿using System;
-using Cirrious.MvvmCross.Plugins.Messenger;
-using System.Globalization;
+﻿using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core.Model;
-using Tojeero.Core.Services;
-using Tojeero.Core.Services.Contracts;
 
 namespace Tojeero.Core.Messages
 {
-	public class LanguageChangedMessage : MvxMessage
-	{
-		#region Constructors
+    public class LanguageChangedMessage : MvxMessage
+    {
+        #region Constructors
 
-		public LanguageChangedMessage(object sender, LanguageCode language)
-			: base(sender)
-		{
-			Language = language;
-		}
+        public LanguageChangedMessage(object sender, LanguageCode language)
+            : base(sender)
+        {
+            Language = language;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public LanguageCode Language { get; set; }
+        public LanguageCode Language { get; set; }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

@@ -2,9 +2,8 @@
 
 namespace Tojeero.Core.Managers.Contracts
 {
-	public interface IBaseModelEntityManager
-	{
-		Task ClearCache();
-	}
+    public interface IBaseModelEntityManager
+    {
+        Task ClearCache();
+    }
 }
-

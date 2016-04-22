@@ -8,82 +8,75 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Main
 {
-	public partial class SideMenuPage : ContentPage
-	{
-		#region Properties
+    public partial class SideMenuPage : ContentPage
+    {
+        #region Properties
 
-		private SideMenuViewModel _viewModel;
-		public SideMenuViewModel ViewModel
-		{
-			get
-			{
-				return _viewModel;
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					_viewModel = value;
-					setupViewModel();
-				}
-			}
-		}
+        private SideMenuViewModel _viewModel;
 
-		#endregion
+        public SideMenuViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    _viewModel = value;
+                    setupViewModel();
+                }
+            }
+        }
 
-		#region Constructors
+        #endregion
 
-		public SideMenuPage()
-			: base()
-		{
-			this.ViewModel = MvxToolbox.LoadViewModel<SideMenuViewModel>();
-			InitializeComponent();
-			this.Icon = "menuIcon.png";
-		}
+        #region Constructors
 
-		#endregion
+        public SideMenuPage()
+        {
+            ViewModel = MvxToolbox.LoadViewModel<SideMenuViewModel>();
+            InitializeComponent();
+            Icon = "menuIcon.png";
+        }
 
-		#region View lifecycle management
+        #endregion
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			this.ViewModel.LoadUserStoreCommand.Execute(null);
-		}
+        #region View lifecycle management
 
-		#endregion
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.LoadUserStoreCommand.Execute(null);
+        }
 
-		#region Utility methods
+        #endregion
 
-		private void setupViewModel()
-		{			
-			this.ViewModel.ShowProfileSettings = async (arg) => {
-				await this.Navigation.PushModalAsync(new NavigationPage(new ProfileSettingsPage(arg)));
-			};
-			this.ViewModel.ShowLanguageChangeWarning = (arg) => {
-				DisplayAlert(AppResources.AlertTitleWarning, arg, AppResources.OK);
-			};
+        #region Utility methods
 
-			this.ViewModel.ShowSaveStoreAction = async (s) => {
-				if(s == null)
-				{
-					await this.Navigation.PushModalAsync(new NavigationPage(new SaveStorePage(s)));
-				}
-				else
-				{
-					var storeInfoPage = new StoreInfoPage(s, ContentMode.Edit);
-					await this.Navigation.PushModalAsync(new NavigationPage(storeInfoPage));
-				}
-			};
+        private void setupViewModel()
+        {
+            ViewModel.ShowProfileSettings =
+                async arg => { await Navigation.PushModalAsync(new NavigationPage(new ProfileSettingsPage(arg))); };
+            ViewModel.ShowLanguageChangeWarning =
+                arg => { DisplayAlert(AppResources.AlertTitleWarning, arg, AppResources.OK); };
 
-			this.ViewModel.ShowTermsAction = async () =>
-			{
-					await this.Navigation.PushModalAsync(new NavigationPage(new TermsPage()));
-			};
-			this.BindingContext = _viewModel;
-		}
+            ViewModel.ShowSaveStoreAction = async s =>
+            {
+                if (s == null)
+                {
+                    await Navigation.PushModalAsync(new NavigationPage(new SaveStorePage(s)));
+                }
+                else
+                {
+                    var storeInfoPage = new StoreInfoPage(s, ContentMode.Edit);
+                    await Navigation.PushModalAsync(new NavigationPage(storeInfoPage));
+                }
+            };
 
-		#endregion
-	}
+            ViewModel.ShowTermsAction =
+                async () => { await Navigation.PushModalAsync(new NavigationPage(new TermsPage())); };
+            BindingContext = _viewModel;
+        }
+
+        #endregion
+    }
 }
-

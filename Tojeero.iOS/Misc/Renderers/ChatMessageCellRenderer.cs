@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using Foundation;
-using Tojeero.Forms;
 using Tojeero.Forms.Views.Chat;
+using Tojeero.iOS.Renderers;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(ChatMessageCell), typeof(Tojeero.iOS.Renderers.ChatMessageCellRenderer))]
+[assembly: ExportRenderer(typeof (ChatMessageCell), typeof (ChatMessageCellRenderer))]
 
 namespace Tojeero.iOS.Renderers
 {
@@ -23,7 +21,7 @@ namespace Tojeero.iOS.Renderers
             {
                 var width = UIScreen.MainScreen.Bounds.Width - chatCell.TotallPadding.Width;
                 var font = UIFont.FromName(chatCell.MessageLabel.FontFamily, (nfloat) chatCell.MessageLabel.FontSize);
-                var height = Convert.ToDouble(EstimateHeight(messageText, (int)width, font));
+                var height = Convert.ToDouble(EstimateHeight(messageText, (int) width, font));
                 cell.Height = height + chatCell.TotallPadding.Height;
             }
             else
@@ -32,11 +30,10 @@ namespace Tojeero.iOS.Renderers
             }
         }
 
-        private double EstimateHeight(String text, Int32 width, UIFont font)
+        private double EstimateHeight(string text, int width, UIFont font)
         {
-            var size = ((NSString)text).StringSize(font, new SizeF(width, float.MaxValue), UILineBreakMode.WordWrap);
+            var size = ((NSString) text).StringSize(font, new SizeF(width, float.MaxValue), UILineBreakMode.WordWrap);
             return size.Height;
         }
-
     }
 }

@@ -12,124 +12,110 @@ using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Store
 {
-	public partial class StoreInfoPage : ContentPage
-	{
-		#region Private fields and properties
+    public partial class StoreInfoPage : ContentPage
+    {
+        #region Private fields and properties
 
-		private bool _toolbarButtonsAdded = false;
+        private bool _toolbarButtonsAdded;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public StoreInfoPage(IStore store, ContentMode mode = ContentMode.View)
-		{
-			//Setup view model
-			this.ViewModel = MvxToolbox.LoadViewModel<StoreInfoViewModel>();
-			this.ViewModel.Store = store;
-			this.ViewModel.Mode = mode;
+        public StoreInfoPage(IStore store, ContentMode mode = ContentMode.View)
+        {
+            //Setup view model
+            ViewModel = MvxToolbox.LoadViewModel<StoreInfoViewModel>();
+            ViewModel.Store = store;
+            ViewModel.Mode = mode;
 
-			InitializeComponent();
+            InitializeComponent();
 
-			//Setup Header
-			this.HeaderView.BindingContext = this.ViewModel;
+            //Setup Header
+            HeaderView.BindingContext = ViewModel;
 
-			//Setup events
-			this.listView.ItemSelected += itemSelected;
-			this.ViewModel.Products.ReloadFinished += (sender, e) =>
-			{
-				this.listView.EndRefresh();
-			};
+            //Setup events
+            listView.ItemSelected += itemSelected;
+            ViewModel.Products.ReloadFinished += (sender, e) => { listView.EndRefresh(); };
 
-			//Setup view model actions
-			this.ViewModel.ShowStoreDetailsAction = async (s) =>
-			{
-				await this.Navigation.PushAsync(new StoreDetailsPage(s, mode));
-			};
+            //Setup view model actions
+            ViewModel.ShowStoreDetailsAction = async s => { await Navigation.PushAsync(new StoreDetailsPage(s, mode)); };
 
-			this.ViewModel.AddProductAction = async (p, s) =>
-			{
-				await this.Navigation.PushModalAsync(new NavigationPage(new SaveProductPage(p, s)));
-			};
-		}
+            ViewModel.AddProductAction =
+                async (p, s) => { await Navigation.PushModalAsync(new NavigationPage(new SaveProductPage(p, s))); };
+        }
 
-		#endregion
+        #endregion
 
-		#region Page lifecycle
+        #region Page lifecycle
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
 
-			if (!_toolbarButtonsAdded)
-			{
-				if (this.ViewModel.Mode == ContentMode.Edit)
-				{
-					if (this.ViewModel.Store != null)
-					{
-						this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
-								{
-									var editStorePage = new SaveStorePage(this.ViewModel.Store);
-									await this.Navigation.PushModalAsync(new NavigationPage(editStorePage));
-								}));
-					}
-				}
+            if (!_toolbarButtonsAdded)
+            {
+                if (ViewModel.Mode == ContentMode.Edit)
+                {
+                    if (ViewModel.Store != null)
+                    {
+                        ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
+                        {
+                            var editStorePage = new SaveStorePage(ViewModel.Store);
+                            await Navigation.PushModalAsync(new NavigationPage(editStorePage));
+                        }));
+                    }
+                }
 
-				//if this view is not inside root page add close button
-				var root = this.FindParent<RootPage>();
-				if (root == null)
-				{
-					this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
-							{
-								await this.Navigation.PopModalAsync();
-						}, priority: 15));
-				}
-				_toolbarButtonsAdded = true;
-			}
-			this.ViewModel.Products.LoadFirstPageCommand.Execute(null);
-			this.ViewModel.ReloadCommand.Execute(null);
-		}
+                //if this view is not inside root page add close button
+                var root = this.FindParent<RootPage>();
+                if (root == null)
+                {
+                    ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "",
+                        async () => { await Navigation.PopModalAsync(); }, priority: 15));
+                }
+                _toolbarButtonsAdded = true;
+            }
+            ViewModel.Products.LoadFirstPageCommand.Execute(null);
+            ViewModel.ReloadCommand.Execute(null);
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private StoreInfoViewModel _viewModel;
+        private StoreInfoViewModel _viewModel;
 
-		public StoreInfoViewModel ViewModel
-		{ 
-			get
-			{
-				return _viewModel; 
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					_viewModel = value;
-					if (this.HeaderView != null)
-						this.HeaderView.BindingContext = _viewModel;
-					this.BindingContext = _viewModel;
-				}
-			}
-		}
+        public StoreInfoViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    _viewModel = value;
+                    if (HeaderView != null)
+                        HeaderView.BindingContext = _viewModel;
+                    BindingContext = _viewModel;
+                }
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region UI Events
+        #region UI Events
 
-		private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
-		{
-			var item = ((ListView)sender).SelectedItem as ProductViewModel; 
-			if (item != null)
-			{
-				((ListView)sender).SelectedItem = null;
-				var productDetails = new ProductDetailsPage(item.Product, this.ViewModel.Mode);
-				await this.Navigation.PushAsync(productDetails);
-			}
-		}
+        private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var item = ((ListView) sender).SelectedItem as ProductViewModel;
+            if (item != null)
+            {
+                ((ListView) sender).SelectedItem = null;
+                var productDetails = new ProductDetailsPage(item.Product, ViewModel.Mode);
+                await Navigation.PushAsync(productDetails);
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

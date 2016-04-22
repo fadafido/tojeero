@@ -1,6 +1,7 @@
-using System;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows.Input;
+using Cirrious.CrossCore.IoC;
 using Cirrious.MvvmCross.Touch.Views;
 using Foundation;
 using UIKit;
@@ -15,13 +16,13 @@ namespace Tojeero.iOS
         public void Include(UIButton uiButton)
         {
             uiButton.TouchUpInside += (s, e) =>
-                                      uiButton.SetTitle(uiButton.Title(UIControlState.Normal), UIControlState.Normal);
+                uiButton.SetTitle(uiButton.Title(UIControlState.Normal), UIControlState.Normal);
         }
 
         public void Include(UIBarButtonItem barButton)
         {
             barButton.Clicked += (s, e) =>
-                                 barButton.Title = barButton.Title + "";
+                barButton.Title = barButton.Title + "";
         }
 
         public void Include(UITextField textField)
@@ -39,7 +40,7 @@ namespace Tojeero.iOS
         public void Include(UILabel label)
         {
             label.Text = label.Text + "";
-            label.AttributedText = new NSAttributedString(label.AttributedText.ToString() + "");
+            label.AttributedText = new NSAttributedString(label.AttributedText + "");
         }
 
         public void Include(UIImageView imageView)
@@ -89,23 +90,27 @@ namespace Tojeero.iOS
 
         public void Include(INotifyCollectionChanged changed)
         {
-            changed.CollectionChanged += (s, e) => { var test = string.Format("{0}{1}{2}{3}{4}", e.Action,e.NewItems, e.NewStartingIndex, e.OldItems, e.OldStartingIndex); } ;
+            changed.CollectionChanged +=
+                (s, e) =>
+                {
+                    var test = string.Format("{0}{1}{2}{3}{4}", e.Action, e.NewItems, e.NewStartingIndex, e.OldItems,
+                        e.OldStartingIndex);
+                };
         }
-		
+
         public void Include(ICommand command)
         {
-           command.CanExecuteChanged += (s, e) => { if (command.CanExecute(null)) command.Execute(null); };
+            command.CanExecuteChanged += (s, e) => { if (command.CanExecute(null)) command.Execute(null); };
         }
 
-		public void Include(Cirrious.CrossCore.IoC.MvxPropertyInjector injector)
-		{
-			injector = new Cirrious.CrossCore.IoC.MvxPropertyInjector();
-		} 
+        public void Include(MvxPropertyInjector injector)
+        {
+            injector = new MvxPropertyInjector();
+        }
 
-		public void Include(System.ComponentModel.INotifyPropertyChanged changed)
-		{
-			changed.PropertyChanged += (sender, e) => { var test = e.PropertyName; };
-		}
-	}
+        public void Include(INotifyPropertyChanged changed)
+        {
+            changed.PropertyChanged += (sender, e) => { var test = e.PropertyName; };
+        }
+    }
 }
-

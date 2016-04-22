@@ -4,83 +4,70 @@ using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-	public class SelectableViewModel<T> : MvxViewModel, ISelectableViewModel
-		where T : class
-	{
-		#region Constructors
+    public class SelectableViewModel<T> : MvxViewModel, ISelectableViewModel
+        where T : class
+    {
+        #region Constructors
 
-		public SelectableViewModel(T item = default(T), bool isSelected = false, Func<T, string> itemCaption = null)
-		{
-			Item = item;
-			IsSelected = isSelected;
-			ItemCaption = itemCaption;
-		}
+        public SelectableViewModel(T item = default(T), bool isSelected = false, Func<T, string> itemCaption = null)
+        {
+            Item = item;
+            IsSelected = isSelected;
+            ItemCaption = itemCaption;
+        }
 
-		#endregion
-		
-		#region Properties
+        #endregion
 
-		private T _item;
+        #region Properties
 
-		public T Item
-		{ 
-			get
-			{
-				return _item; 
-			}
-			set
-			{
-				_item = value; 
-				RaisePropertyChanged(() => Item); 
-				RaisePropertyChanged(() => Caption); 
-			}
-		}
+        private T _item;
 
-		private bool _isSelected;
+        public T Item
+        {
+            get { return _item; }
+            set
+            {
+                _item = value;
+                RaisePropertyChanged(() => Item);
+                RaisePropertyChanged(() => Caption);
+            }
+        }
 
-		public bool IsSelected
-		{ 
-			get
-			{
-				return _isSelected; 
-			}
-			set
-			{				
-				if (_isSelected != value)
-				{
-					_isSelected = value; 
-					RaisePropertyChanged(() => IsSelected); 
-				}
-			}
-		}
+        private bool _isSelected;
 
-		public string Caption
-		{
-			get
-			{
-				return ItemCaption(Item);
-			}
-		}
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    RaisePropertyChanged(() => IsSelected);
+                }
+            }
+        }
 
-		private Func<T, string> _itemCaption;
+        public string Caption
+        {
+            get { return ItemCaption(Item); }
+        }
 
-		public Func<T, string> ItemCaption
-		{
-			get
-			{
-				if (_itemCaption == null)
-				{
-					_itemCaption = (x) => x != null ? x.ToString() : "";
-				}
-				return _itemCaption;
-			}
-			set
-			{
-				_itemCaption = value;
-			}
-		}
+        private Func<T, string> _itemCaption;
 
-		#endregion
-	}
+        public Func<T, string> ItemCaption
+        {
+            get
+            {
+                if (_itemCaption == null)
+                {
+                    _itemCaption = x => x != null ? x.ToString() : "";
+                }
+                return _itemCaption;
+            }
+            set { _itemCaption = value; }
+        }
+
+        #endregion
+    }
 }
-

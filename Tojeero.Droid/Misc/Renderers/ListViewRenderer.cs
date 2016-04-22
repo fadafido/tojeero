@@ -1,22 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
-using Android.Widget;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using ListView = Tojeero.Forms.Controls.ListView;
+using ListViewRenderer = Tojeero.Droid.Renderers.ListViewRenderer;
+using View = Android.Views.View;
 
-[assembly: ExportRenderer(typeof(ListView), typeof(Tojeero.Droid.Renderers.ListViewRenderer))]
+[assembly: ExportRenderer(typeof (Tojeero.Forms.Controls.ListView), typeof (ListViewRenderer))]
 
 namespace Tojeero.Droid.Renderers
 {
@@ -24,12 +15,13 @@ namespace Tojeero.Droid.Renderers
     {
         #region Private fields
 
-        private Android.Views.View _footerView = null;
+        private View _footerView;
 
         #endregion
 
         #region Parent override
-        protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.ListView> e)
+
+        protected override void OnElementChanged(ElementChangedEventArgs<ListView> e)
         {
             base.OnElementChanged(e);
             updateFooterView();
@@ -38,7 +30,7 @@ namespace Tojeero.Droid.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == ListView.FooterViewProperty.PropertyName)
+            if (e.PropertyName == Forms.Controls.ListView.FooterViewProperty.PropertyName)
             {
                 updateFooterView();
             }
@@ -62,7 +54,7 @@ namespace Tojeero.Droid.Renderers
                 if (_footerView != null)
                     Control.RemoveFooterView(_footerView);
 
-                var listView = Element as ListView;
+                var listView = Element as Forms.Controls.ListView;
                 var footerView = listView.FooterView;
                 if (footerView != null)
                 {
@@ -76,30 +68,32 @@ namespace Tojeero.Droid.Renderers
                 }
             }
         }
+
         #endregion
     }
 
     public static class ViewExtensions
     {
-        private static readonly Type _platformType = typeof (Xamarin.Forms.Platform.Android.Platform);
+        private static readonly Type _platformType = typeof (Platform);
         private static BindableProperty _rendererProperty;
 
         public static BindableProperty RendererProperty
         {
             get
             {
-                var field = _platformType.GetField("RendererProperty",BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-                _rendererProperty = (BindableProperty)field?.GetValue(null);
+                var field = _platformType.GetField("RendererProperty",
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+                _rendererProperty = (BindableProperty) field?.GetValue(null);
                 return _rendererProperty;
             }
         }
 
         public static IVisualElementRenderer GetRenderer(this BindableObject bindableObject)
         {
-            return (IVisualElementRenderer)bindableObject.GetValue(RendererProperty);
+            return (IVisualElementRenderer) bindableObject.GetValue(RendererProperty);
         }
 
-        public static Android.Views.View GetNativeView(this VisualElement visualElement)
+        public static View GetNativeView(this VisualElement visualElement)
         {
             var renderer = Platform.CreateRenderer(visualElement);
             renderer.ViewGroup.LayoutParameters = new ViewGroup.LayoutParams(300, 80);

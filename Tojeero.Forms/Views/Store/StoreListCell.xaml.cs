@@ -2,12 +2,11 @@
 
 namespace Tojeero.Forms.Views.Store
 {
-	public partial class StoreListCell : ViewCell
-	{
-		public StoreListCell()
-		{
-			InitializeComponent();
-		}
-	}
+    public partial class StoreListCell : ViewCell
+    {
+        public StoreListCell()
+        {
+            InitializeComponent();
+        }
+    }
 }
-

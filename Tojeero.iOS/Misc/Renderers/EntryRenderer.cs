@@ -1,22 +1,22 @@
-﻿using System;
+﻿using UIKit;
 using Xamarin.Forms;
-using UIKit;
+using Xamarin.Forms.Platform.iOS;
+using EntryRenderer = Tojeero.iOS.Renderers.EntryRenderer;
 
-[assembly:ExportRenderer(typeof(Entry), typeof(Tojeero.iOS.Renderers.EntryRenderer))]
+[assembly: ExportRenderer(typeof (Entry), typeof (EntryRenderer))]
 
 namespace Tojeero.iOS.Renderers
-{	
-	public class EntryRenderer : Xamarin.Forms.Platform.iOS.EntryRenderer
-	{
-		protected override void OnElementChanged(Xamarin.Forms.Platform.iOS.ElementChangedEventArgs<Entry> e)
-		{
-			base.OnElementChanged(e);
+{
+    public class EntryRenderer : Xamarin.Forms.Platform.iOS.EntryRenderer
+    {
+        protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
+        {
+            base.OnElementChanged(e);
 
-			if (e.OldElement != null || this.Element == null)
-				return;
+            if (e.OldElement != null || Element == null)
+                return;
 
-			this.Control.BorderStyle = UITextBorderStyle.None;
-		}
-	}
+            Control.BorderStyle = UITextBorderStyle.None;
+        }
+    }
 }
-

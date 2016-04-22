@@ -1,76 +1,74 @@
-﻿using System;
-using Xamarin.Forms;
-using Tojeero.Forms;
+﻿using System.ComponentModel;
 using Tojeero.Forms.Controls;
-using Xamarin.Forms.Platform.iOS;
+using Tojeero.iOS.Renderers;
 using UIKit;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
-
-[assembly:ExportRenderer(typeof(BorderView), typeof(Tojeero.iOS.Renderers.BorderViewRenderer))]
+[assembly: ExportRenderer(typeof (BorderView), typeof (BorderViewRenderer))]
 
 namespace Tojeero.iOS.Renderers
 {
-	public class BorderViewRenderer : ViewRenderer
-	{
-		#region Parent override
+    public class BorderViewRenderer : ViewRenderer
+    {
+        #region Parent override
 
-		protected override void OnElementChanged(ElementChangedEventArgs<View> e)
-		{
-			base.OnElementChanged(e);
-			if (e.NewElement != null)
-			{
-				if (base.Control == null)
-				{
-					base.SetNativeControl(new UIView());
-				}
-				updateBorderWidth();
-				updateBorderColor();
-				updateBorderRadius();
-			}
-		}
+        protected override void OnElementChanged(ElementChangedEventArgs<View> e)
+        {
+            base.OnElementChanged(e);
+            if (e.NewElement != null)
+            {
+                if (Control == null)
+                {
+                    SetNativeControl(new UIView());
+                }
+                updateBorderWidth();
+                updateBorderColor();
+                updateBorderRadius();
+            }
+        }
 
-		protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged(sender, e);
-			if (this.Element == null || this.Control == null)
-				return;
-			if (e.PropertyName == BorderView.BorderWidthProperty.PropertyName)
-			{
-				updateBorderWidth();
-			}
-			else if (e.PropertyName == BorderView.BorderColorProperty.PropertyName)
-			{
-				updateBorderColor();
-			}
-			else if (e.PropertyName == BorderView.RadiusProperty.PropertyName)
-			{
-				updateBorderRadius();
-			}
-		}
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+            if (Element == null || Control == null)
+                return;
+            if (e.PropertyName == BorderView.BorderWidthProperty.PropertyName)
+            {
+                updateBorderWidth();
+            }
+            else if (e.PropertyName == BorderView.BorderColorProperty.PropertyName)
+            {
+                updateBorderColor();
+            }
+            else if (e.PropertyName == BorderView.RadiusProperty.PropertyName)
+            {
+                updateBorderRadius();
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility methods
+        #region Utility methods
 
-		private void updateBorderWidth()
-		{
-			var borderView = this.Element as BorderView;
-			this.Control.Layer.BorderWidth = borderView.BorderWidth;
-		}
+        private void updateBorderWidth()
+        {
+            var borderView = Element as BorderView;
+            Control.Layer.BorderWidth = borderView.BorderWidth;
+        }
 
-		private void updateBorderColor()
-		{
-			var borderView = this.Element as BorderView;
-			this.Control.Layer.BorderColor = borderView.BorderColor.ToUIColor().CGColor;
-		}
+        private void updateBorderColor()
+        {
+            var borderView = Element as BorderView;
+            Control.Layer.BorderColor = borderView.BorderColor.ToUIColor().CGColor;
+        }
 
-		private void updateBorderRadius()
-		{
-			var borderView = this.Element as BorderView;
-			this.Control.Layer.CornerRadius = (nfloat)borderView.Radius;
-		}
+        private void updateBorderRadius()
+        {
+            var borderView = Element as BorderView;
+            Control.Layer.CornerRadius = borderView.Radius;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

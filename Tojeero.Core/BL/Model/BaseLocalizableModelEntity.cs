@@ -6,60 +6,52 @@ using Tojeero.Core.Services.Contracts;
 
 namespace Tojeero.Core.Model
 {
-	public abstract class BaseLocalizableModelEntity<T> : BaseModelEntity<T> 
-		where T: ParseObject
-	{
-		#region Private fields
+    public abstract class BaseLocalizableModelEntity<T> : BaseModelEntity<T>
+        where T : ParseObject
+    {
+        #region Private fields
 
-		private ILocalizationService _localization;
-		private IMvxMessenger _messenger;
-		private MvxSubscriptionToken _token;
+        private ILocalizationService _localization;
+        private IMvxMessenger _messenger;
+        private MvxSubscriptionToken _token;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public BaseLocalizableModelEntity()
-			:base()
-		{
-			initialize();
-		}
+        public BaseLocalizableModelEntity()
+        {
+            initialize();
+        }
 
-		public BaseLocalizableModelEntity(T parseObject = null)
-			: base(parseObject)
-		{
-			initialize();
-		}
+        public BaseLocalizableModelEntity(T parseObject = null)
+            : base(parseObject)
+        {
+            initialize();
+        }
 
-		private void initialize()
-		{
-			_localization = Mvx.Resolve<ILocalizationService>();
-			_messenger = Mvx.Resolve<IMvxMessenger>();
-			_token = _messenger.Subscribe<LanguageChangedMessage>((message) =>
-				{
-					raiseCulturalPropertyChange();
-				});
-		}
+        private void initialize()
+        {
+            _localization = Mvx.Resolve<ILocalizationService>();
+            _messenger = Mvx.Resolve<IMvxMessenger>();
+            _token = _messenger.Subscribe<LanguageChangedMessage>(message => { raiseCulturalPropertyChange(); });
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public LanguageCode Language
-		{
-			get
-			{
-				return _localization.Language;
-			}
-		}
+        public LanguageCode Language
+        {
+            get { return _localization.Language; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Protected api
+        #region Protected api
 
-		protected abstract void raiseCulturalPropertyChange();
+        protected abstract void raiseCulturalPropertyChange();
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

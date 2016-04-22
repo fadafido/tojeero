@@ -37,8 +37,7 @@ namespace Tojeero.iOS.Bootstrap.Secure_Storage
 
             if (resultCode == SecStatusCode.Success)
                 return NSString.FromData(existingRecord.ValueData, NSStringEncoding.UTF8);
-            else
-                return null;
+            return null;
         }
 
         public void Remove(string key)

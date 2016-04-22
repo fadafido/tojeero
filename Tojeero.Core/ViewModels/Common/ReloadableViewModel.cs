@@ -1,34 +1,30 @@
-﻿using Tojeero.Core.ViewModels.Contracts;
+﻿using System.Windows.Input;
+using Cirrious.MvvmCross.ViewModels;
+using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-	public abstract class ReloadableViewModel : LoadableViewModel, IReloadableViewModel
-	{
-		#region Constructors
+    public abstract class ReloadableViewModel : LoadableViewModel, IReloadableViewModel
+    {
+        #region Constructors
 
-		public ReloadableViewModel()
-			: base()
-		{
-		}
+        #endregion
 
-		#endregion
+        #region Commands
 
-		#region Commands
+        private MvxCommand _reloadCommand;
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+        public virtual ICommand ReloadCommand
+        {
+            get
+            {
+                _reloadCommand = _reloadCommand ?? new MvxCommand(DoReloadCommand);
+                return _reloadCommand;
+            }
+        }
 
-		public virtual System.Windows.Input.ICommand ReloadCommand
-		{
-			get
-			{
-				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(DoReloadCommand);
-				return _reloadCommand;
-			}
-		}
+        protected abstract void DoReloadCommand();
 
-		protected abstract void DoReloadCommand();
-
-		#endregion
-	}
+        #endregion
+    }
 }
-

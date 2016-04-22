@@ -3,145 +3,112 @@ using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using Parse;
 using Tojeero.Core.Managers.Contracts;
 using Tojeero.Core.Model.Contracts;
-using Tojeero.Core.Services.Contracts;
 
 namespace Tojeero.Core.Model
 {
-	public class ProductCategory : BaseLocalizableModelEntity<ParseProductCategory>, IProductCategory
-	{
-		#region Private fields and properties
+    public class ProductCategory : BaseLocalizableModelEntity<ParseProductCategory>, IProductCategory
+    {
+        #region Private fields and properties
 
-		private IProductSubcategoryManager _subcategoryManager;
-		private IProductSubcategoryManager SubcategoryManager
-		{
-			get
-			{
-				if (_subcategoryManager == null)
-				{
-					_subcategoryManager = Mvx.Resolve<IProductSubcategoryManager>();
-				}
-				return _subcategoryManager;
-			}
-		}
+        private IProductSubcategoryManager _subcategoryManager;
 
-		#endregion
+        private IProductSubcategoryManager SubcategoryManager
+        {
+            get
+            {
+                if (_subcategoryManager == null)
+                {
+                    _subcategoryManager = Mvx.Resolve<IProductSubcategoryManager>();
+                }
+                return _subcategoryManager;
+            }
+        }
 
-		#region Constructors
+        #endregion
 
-		public ProductCategory()
-			:base()
-		{
+        #region Constructors
 
-		}
+        public ProductCategory()
+        {
+        }
 
-		public ProductCategory(ParseProductCategory category = null)
-			: base(category)
-		{
+        public ProductCategory(ParseProductCategory category = null)
+            : base(category)
+        {
+        }
 
-		}
+        #endregion
 
+        #region Properties
 
-		#endregion
+        [Ignore]
+        public string Name
+        {
+            get
+            {
+                if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Name_ar))
+                    return Name_ar;
+                return Name_en;
+            }
+        }
 
-		#region Properties
-
-		[Ignore]
-		public string Name
-		{
-			get
-			{
-				if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Name_ar))
-					return Name_ar;
-				return Name_en;
-			}
-		}
-
-		public string Name_en
-		{
-			get
-			{
-				return this.ParseObject.Name_en;
-			}
-			set
-			{
-				this.ParseObject.Name_en = value;
-			}
-		}
+        public string Name_en
+        {
+            get { return ParseObject.Name_en; }
+            set { ParseObject.Name_en = value; }
+        }
 
 
-		public string Name_ar
-		{
-			get
-			{
-				return this.ParseObject.Name_ar;
-			}
-			set
-			{
-				this.ParseObject.Name_ar = value;
-			}
-		}
+        public string Name_ar
+        {
+            get { return ParseObject.Name_ar; }
+            set { ParseObject.Name_ar = value; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Parent 
+        #region Parent 
 
-		public override string ToString()
-		{
-			return Name;	
-		}
+        public override string ToString()
+        {
+            return Name;
+        }
 
-		#endregion
+        #endregion
 
-		#region implemented abstract members of BaseLocalizableModelEntity
+        #region implemented abstract members of BaseLocalizableModelEntity
 
-		protected override void raiseCulturalPropertyChange()
-		{
-			RaisePropertyChanged(() => Name);
-		}
+        protected override void raiseCulturalPropertyChange()
+        {
+            RaisePropertyChanged(() => Name);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 
-	[ParseClassName("ProductCategory")]
-	public class ParseProductCategory : ParseObject
-	{
-		#region Constructors
+    [ParseClassName("ProductCategory")]
+    public class ParseProductCategory : ParseObject
+    {
+        #region Constructors
 
-		public ParseProductCategory()
-		{
-		}
+        #endregion
 
-		#endregion
+        #region Properties
 
-		#region Properties
+        [ParseFieldName("name_en")]
+        public string Name_en
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("name_en")]
-		public string Name_en
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        [ParseFieldName("name_ar")]
+        public string Name_ar
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("name_ar")]
-		public string Name_ar
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
-			
-		#endregion
-	}
+        #endregion
+    }
 }
-

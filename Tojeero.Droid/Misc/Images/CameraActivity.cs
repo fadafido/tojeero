@@ -6,234 +6,230 @@ using Android.Graphics;
 using Android.Hardware;
 using Android.OS;
 using Android.Views;
+using Android.Widget;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Plugins.Messenger;
 using Tojeero.Core;
 using Tojeero.Droid.Messages;
 using Tojeero.Droid.Toolbox;
+using Xamarin;
+using Camera = Android.Hardware.Camera;
 
 namespace Tojeero.Droid.Images
 {
-	[Activity(Label = "CameraActivity",
-		Icon = "@drawable/icon", 
-		Theme="@style/Theme.Tojeero",  
-		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
-		ScreenOrientation=ScreenOrientation.Portrait)]
-	public class CameraActivity : Activity, TextureView.ISurfaceTextureListener
-	{
-		#region Private fields and properties
+    [Activity(Label = "CameraActivity",
+        Icon = "@drawable/icon",
+        Theme = "@style/Theme.Tojeero",
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+        ScreenOrientation = ScreenOrientation.Portrait)]
+    public class CameraActivity : Activity, TextureView.ISurfaceTextureListener
+    {
+        #region Private fields and properties
 
-		private global::Android.Hardware.Camera camera;
-		private global::Android.Widget.Button takePhotoButton;
-		private global::Android.Widget.Button toggleFlashButton;
-		private global::Android.Widget.Button switchCameraButton;
+        private Camera camera;
+        private Button takePhotoButton;
+        private Button toggleFlashButton;
+        private Button switchCameraButton;
 
-		private CameraFacing cameraType;
-		private TextureView textureView;
-		private SurfaceTexture surfaceTexture;
+        private CameraFacing cameraType;
+        private TextureView textureView;
+        private SurfaceTexture surfaceTexture;
 
-		private bool _flashOn;
+        private bool _flashOn;
 
-		private static string KEY_RECEIVER_ID = "RECEIVER_ID";
-		private Guid _receiverID;
-		private Bitmap _selectedImage;
+        private static readonly string KEY_RECEIVER_ID = "RECEIVER_ID";
+        private Guid _receiverID;
+        private Bitmap _selectedImage;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public CameraActivity()
-		{
+        #endregion
 
-		}
+        #region View lifecycle management
 
-		#endregion
-			
-		#region View lifecycle management
+        protected override void OnCreate(Bundle bundle)
+        {
+            base.OnCreate(bundle);
 
-		protected override void OnCreate(Bundle bundle)
-		{
-			base.OnCreate(bundle);
+            if (Intent != null)
+            {
+                var receiverID = Intent.GetStringExtra(KEY_RECEIVER_ID);
+                if (receiverID != null)
+                    _receiverID = new Guid(receiverID);
+            }
 
-			if (this.Intent != null)
-			{
-				var receiverID = this.Intent.GetStringExtra(KEY_RECEIVER_ID);
-				if(receiverID != null)
-					_receiverID = new Guid(receiverID);
-			}
+            SetContentView(Resource.Layout.activity_camera);
 
-			this.SetContentView(Resource.Layout.activity_camera);
+            try
+            {
+                cameraType = CameraFacing.Back;
 
-			try
-			{
-				
-				cameraType = CameraFacing.Back;
+                textureView = FindViewById<TextureView>(Resource.Id.textureView);
+                textureView.SurfaceTextureListener = this;
 
-				textureView = this.FindViewById<TextureView>(Resource.Id.textureView);
-				textureView.SurfaceTextureListener = this;
+                takePhotoButton = FindViewById<Button>(Resource.Id.takePhotoButton);
+                takePhotoButton.Click += TakePhotoButtonTapped;
 
-				takePhotoButton = this.FindViewById<global::Android.Widget.Button>(Resource.Id.takePhotoButton);
-				takePhotoButton.Click += TakePhotoButtonTapped;
+                switchCameraButton = FindViewById<Button>(Resource.Id.switchCameraButton);
+                switchCameraButton.Click += SwitchCameraButtonTapped;
 
-				switchCameraButton = this.FindViewById<global::Android.Widget.Button>(Resource.Id.switchCameraButton);
-				switchCameraButton.Click += SwitchCameraButtonTapped;
+                toggleFlashButton = FindViewById<Button>(Resource.Id.toggleFlashButton);
+                toggleFlashButton.Click += ToggleFlashButtonTapped;
+            }
+            catch (Exception ex)
+            {
+                Insights.Report(ex);
+            }
+        }
 
-				toggleFlashButton = this.FindViewById<global::Android.Widget.Button>(Resource.Id.toggleFlashButton);
-				toggleFlashButton.Click += ToggleFlashButtonTapped;
+        public override void OnBackPressed()
+        {
+            base.OnBackPressed();
+            publishSelectedImage();
+        }
 
-			}
-			catch (Exception ex)
-			{
-				Xamarin.Insights.Report(ex);
-			}
-		}
+        #endregion
 
-		public override void OnBackPressed()
-		{
-			base.OnBackPressed();
-			publishSelectedImage();
-		}
+        #region ISurface
 
-		#endregion
+        public void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
+        {
+            camera = Camera.Open((int) cameraType);
+            //textureView.LayoutParameters = new FrameLayout.LayoutParams(width, height);
+            surfaceTexture = surface;
 
-		#region ISurface
+            camera.SetPreviewTexture(surface);
+            PrepareAndStartCamera();
+        }
 
-		public void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
-		{
-			camera = global::Android.Hardware.Camera.Open((int)cameraType);
-			//textureView.LayoutParameters = new FrameLayout.LayoutParams(width, height);
-			surfaceTexture = surface;
+        public bool OnSurfaceTextureDestroyed(SurfaceTexture surface)
+        {
+            camera.StopPreview();
+            camera.Release();
 
-			camera.SetPreviewTexture(surface);
-			PrepareAndStartCamera();
-		}
+            return true;
+        }
 
-		public bool OnSurfaceTextureDestroyed(SurfaceTexture surface)
-		{
-			camera.StopPreview();
-			camera.Release();
+        public void OnSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height)
+        {
+            PrepareAndStartCamera();
+        }
 
-			return true;
-		}
+        public void OnSurfaceTextureUpdated(SurfaceTexture surface)
+        {
+        }
 
-		public void OnSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height)
-		{
-			PrepareAndStartCamera();
-		}
+        #endregion
 
-		public void OnSurfaceTextureUpdated(SurfaceTexture surface)
-		{
+        #region Public API
 
-		}
+        public static Intent GetIntentForReceiver(Context context, Guid receiver)
+        {
+            var intent = new Intent(context, typeof (CameraActivity));
+            intent.PutExtra(KEY_RECEIVER_ID, receiver.ToString());
+            return intent;
+        }
 
-		#endregion
+        #endregion
 
-		#region Public API
+        #region Utility methods
 
-		public static Intent GetIntentForReceiver(Context context, Guid receiver)
-		{
-			var intent = new Intent(context, typeof(CameraActivity));
-			intent.PutExtra(KEY_RECEIVER_ID, receiver.ToString());
-			return intent;
-		}
+        private void PrepareAndStartCamera()
+        {
+            camera.StopPreview();
 
-		#endregion
+            var display = WindowManager.DefaultDisplay;
+            if (display.Rotation == SurfaceOrientation.Rotation0)
+            {
+                camera.SetDisplayOrientation(90);
+            }
 
-		#region Utility methods
+            if (display.Rotation == SurfaceOrientation.Rotation270)
+            {
+                camera.SetDisplayOrientation(180);
+            }
 
-		private void PrepareAndStartCamera()
-		{
-			camera.StopPreview();
+            camera.StartPreview();
+        }
 
-			var display = this.WindowManager.DefaultDisplay;
-			if (display.Rotation == SurfaceOrientation.Rotation0)
-			{
-				camera.SetDisplayOrientation(90);
-			}
+        private void SwitchCameraButtonTapped(object sender, EventArgs e)
+        {
+            if (cameraType == CameraFacing.Front)
+            {
+                cameraType = CameraFacing.Back;
 
-			if (display.Rotation == SurfaceOrientation.Rotation270)
-			{
-				camera.SetDisplayOrientation(180);
-			}
+                camera.StopPreview();
+                camera.Release();
+                camera = Camera.Open((int) cameraType);
+                camera.SetPreviewTexture(surfaceTexture);
+                PrepareAndStartCamera();
+            }
+            else
+            {
+                cameraType = CameraFacing.Front;
 
-			camera.StartPreview();
-		}
+                camera.StopPreview();
+                camera.Release();
+                camera = Camera.Open((int) cameraType);
+                camera.SetPreviewTexture(surfaceTexture);
+                PrepareAndStartCamera();
+            }
+        }
 
-		private void SwitchCameraButtonTapped(object sender, EventArgs e)
-		{
-			if (cameraType == CameraFacing.Front)
-			{
-				cameraType = CameraFacing.Back;
+        private void ToggleFlashButtonTapped(object sender, EventArgs e)
+        {
+            _flashOn = !_flashOn;
+            if (_flashOn)
+            {
+                if (cameraType == CameraFacing.Back)
+                {
+                    toggleFlashButton.SetBackgroundResource(Resource.Drawable.FlashButton);
+                    cameraType = CameraFacing.Back;
 
-				camera.StopPreview();
-				camera.Release();
-				camera = global::Android.Hardware.Camera.Open((int)cameraType);
-				camera.SetPreviewTexture(surfaceTexture);
-				PrepareAndStartCamera();
-			}
-			else
-			{
-				cameraType = CameraFacing.Front;
+                    camera.StopPreview();
+                    camera.Release();
+                    camera = Camera.Open((int) cameraType);
+                    var parameters = camera.GetParameters();
+                    parameters.FlashMode = Camera.Parameters.FlashModeTorch;
+                    camera.SetParameters(parameters);
+                    camera.SetPreviewTexture(surfaceTexture);
+                    PrepareAndStartCamera();
+                }
+            }
+            else
+            {
+                toggleFlashButton.SetBackgroundResource(Resource.Drawable.NoFlashButton);
+                camera.StopPreview();
+                camera.Release();
 
-				camera.StopPreview();
-				camera.Release();
-				camera = global::Android.Hardware.Camera.Open((int)cameraType);
-				camera.SetPreviewTexture(surfaceTexture);
-				PrepareAndStartCamera();
-			}
-		}
+                camera = Camera.Open((int) cameraType);
+                var parameters = camera.GetParameters();
+                parameters.FlashMode = Camera.Parameters.FlashModeOff;
+                camera.SetParameters(parameters);
+                camera.SetPreviewTexture(surfaceTexture);
+                PrepareAndStartCamera();
+            }
+        }
 
-		private void ToggleFlashButtonTapped(object sender, EventArgs e)
-		{
-			_flashOn = !_flashOn;
-			if (_flashOn)
-			{
-				if (cameraType == CameraFacing.Back)
-				{
-					toggleFlashButton.SetBackgroundResource(Resource.Drawable.FlashButton);
-					cameraType = CameraFacing.Back;
+        private async void TakePhotoButtonTapped(object sender, EventArgs e)
+        {
+            camera.StopPreview();
 
-					camera.StopPreview();
-					camera.Release();
-					camera = global::Android.Hardware.Camera.Open((int)cameraType);
-					var parameters = camera.GetParameters();
-					parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeTorch;
-					camera.SetParameters(parameters);
-					camera.SetPreviewTexture(surfaceTexture);
-					PrepareAndStartCamera();
-				}
-			}
-			else
-			{
-				toggleFlashButton.SetBackgroundResource(Resource.Drawable.NoFlashButton);
-				camera.StopPreview();
-				camera.Release();
+            var image = textureView.Bitmap;
+            _selectedImage = image.GetScaledAndRotatedBitmap(SurfaceOrientation.Rotation0,
+                Constants.MaxPixelDimensionOfImages);
+            Finish();
+            publishSelectedImage();
+        }
 
-				camera = global::Android.Hardware.Camera.Open((int)cameraType);
-				var parameters = camera.GetParameters();
-				parameters.FlashMode = global::Android.Hardware.Camera.Parameters.FlashModeOff;
-				camera.SetParameters(parameters);
-				camera.SetPreviewTexture(surfaceTexture);
-				PrepareAndStartCamera();
-			}
-		}
+        public void publishSelectedImage()
+        {
+            var messenger = Mvx.Resolve<IMvxMessenger>();
+            messenger.Publish(new CameraImageSelectedMessage(this, _receiverID, _selectedImage));
+        }
 
-		private async void TakePhotoButtonTapped(object sender, EventArgs e)
-		{
-			camera.StopPreview();
-
-			var image = textureView.Bitmap;
-			_selectedImage = image.GetScaledAndRotatedBitmap(SurfaceOrientation.Rotation0, Constants.MaxPixelDimensionOfImages);
-			Finish();
-			publishSelectedImage();
-		}
-
-		public void publishSelectedImage()
-		{
-			var messenger = Mvx.Resolve<IMvxMessenger>();
-			messenger.Publish<CameraImageSelectedMessage>(new CameraImageSelectedMessage(this, _receiverID, _selectedImage));
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

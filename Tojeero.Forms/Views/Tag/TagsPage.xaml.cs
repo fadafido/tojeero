@@ -9,98 +9,88 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Tag
 {
-	public partial class TagsPage : BaseSearchablePage
-	{
-		#region Private fields
+    public partial class TagsPage : BaseSearchablePage
+    {
+        #region Private fields
 
-		private ITag _selectedTag;
-		private string _newTag;
+        private ITag _selectedTag;
+        private string _newTag;
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public event EventHandler<EventArgs<string>> DidClose;
+        public event EventHandler<EventArgs<string>> DidClose;
 
-		public new TagsViewModel ViewModel
-		{
-			get
-			{
-				return base.ViewModel as TagsViewModel;
-			}
-			set
-			{
-				base.ViewModel = value;
-			}
-		}
+        public new TagsViewModel ViewModel
+        {
+            get { return base.ViewModel as TagsViewModel; }
+            set { base.ViewModel = value; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public TagsPage()
-			: base()
-		{
-			InitializeComponent();
-			this.ViewModel = MvxToolbox.LoadViewModel<TagsViewModel>();
-			this.SearchBar.Placeholder = "Search for tags";
-			this.ListView.RowHeight = 50;
-			this.ListView.ItemSelected += itemSelected;
-			this.ViewModel.CreateTagAction = createTag;
-			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "", async () =>
-				{
-					await this.Navigation.PopModalAsync();
-				}));
-		}
+        public TagsPage()
+        {
+            InitializeComponent();
+            ViewModel = MvxToolbox.LoadViewModel<TagsViewModel>();
+            SearchBar.Placeholder = "Search for tags";
+            ListView.RowHeight = 50;
+            ListView.ItemSelected += itemSelected;
+            ViewModel.CreateTagAction = createTag;
+            ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "",
+                async () => { await Navigation.PopModalAsync(); }));
+        }
 
-		#endregion
+        #endregion
 
-		#region Page lifecycle
+        #region Page lifecycle
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			this.ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
-		}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
+        }
 
-		protected override void OnDisappearing()
-		{
-			base.OnDisappearing();
-			string selectedTag = null;
-			if (_newTag != null)
-			{
-				selectedTag = _newTag;
-			}
-			else
-			{
-				var selected = this.ViewModel.ViewModel.SelectedItem;
-				selectedTag = selected != null ? selected.Tag.Text : null;
-			}
-			this.DidClose.Fire(this, new EventArgs<string>(selectedTag));	
-		}
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            string selectedTag = null;
+            if (_newTag != null)
+            {
+                selectedTag = _newTag;
+            }
+            else
+            {
+                var selected = ViewModel.ViewModel.SelectedItem;
+                selectedTag = selected != null ? selected.Tag.Text : null;
+            }
+            DidClose.Fire(this, new EventArgs<string>(selectedTag));
+        }
 
-		#endregion
+        #endregion
 
-		#region Parent override
+        #region Parent override
 
-		private void itemSelected(object sender, SelectedItemChangedEventArgs e)
-		{
-			if (e.SelectedItem != null)
-				this.ViewModel.ViewModel.SelectedItem = e.SelectedItem as TagViewModel;
-			this.ListView.SelectedItem = null;
-		}
+        private void itemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem != null)
+                ViewModel.ViewModel.SelectedItem = e.SelectedItem as TagViewModel;
+            ListView.SelectedItem = null;
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility methods
+        #region Utility methods
 
-		private async void createTag(string tag)
-		{
-			_newTag = tag;
-			await this.Navigation.PopModalAsync();
-		}
+        private async void createTag(string tag)
+        {
+            _newTag = tag;
+            await Navigation.PopModalAsync();
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

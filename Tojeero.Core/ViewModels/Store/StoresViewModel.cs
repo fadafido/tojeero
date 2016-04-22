@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cirrious.MvvmCross.Plugins.Messenger;
-using Tojeero.Core;
 using Tojeero.Core.Managers.Contracts;
 using Tojeero.Core.Messages;
 using Tojeero.Core.Model.Contracts;
@@ -12,120 +11,109 @@ using Tojeero.Core.ViewModels.Common;
 
 namespace Tojeero.Core.ViewModels.Store
 {
-	public class StoresViewModel : BaseSearchViewModel<StoreViewModel>
-	{
-		#region Private fields and properties
+    public class StoresViewModel : BaseSearchViewModel<StoreViewModel>
+    {
+        #region Private fields and properties
 
-		private readonly IStoreManager _manager;
-		private readonly MvxSubscriptionToken _filterChangeToken;
-		private readonly MvxSubscriptionToken _storeChangeToken;
-		private readonly MvxSubscriptionToken _sessionChangedToken;
+        private readonly IStoreManager _manager;
+        private readonly MvxSubscriptionToken _filterChangeToken;
+        private readonly MvxSubscriptionToken _storeChangeToken;
+        private readonly MvxSubscriptionToken _sessionChangedToken;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public StoresViewModel(IStoreManager manager, IMvxMessenger messenger)
-			: base()
-		{
-			_manager = manager;
-			_filterChangeToken = messenger.SubscribeOnMainThread<StoreFilterChangedMessage>((m) =>
-				{
-					this.RefetchCommand.Execute(null);
-				});
-			_storeChangeToken = messenger.SubscribeOnMainThread<StoreChangedMessage>((message) =>
-				{
-					this.RefetchCommand.Execute(null);
-				});
-			_sessionChangedToken = messenger.SubscribeOnMainThread<SessionStateChangedMessage>((m) =>
-				{
-					this.RefetchCommand.Execute(null);
-				});
-		}
+        public StoresViewModel(IStoreManager manager, IMvxMessenger messenger)
+        {
+            _manager = manager;
+            _filterChangeToken =
+                messenger.SubscribeOnMainThread<StoreFilterChangedMessage>(m => { RefetchCommand.Execute(null); });
+            _storeChangeToken =
+                messenger.SubscribeOnMainThread<StoreChangedMessage>(message => { RefetchCommand.Execute(null); });
+            _sessionChangedToken =
+                messenger.SubscribeOnMainThread<SessionStateChangedMessage>(m => { RefetchCommand.Execute(null); });
+        }
 
-		#endregion
+        #endregion
 
-		#region Parent override
+        #region Parent override
 
-		protected override BaseCollectionViewModel<StoreViewModel> GetBrowsingViewModel()
-		{
-			var viewModel = new BaseCollectionViewModel<StoreViewModel>(new StoresQuery(_manager), Constants.StoresPageSize);
-			viewModel.Placeholder = AppResources.MessageNoStores;
-			return viewModel;
-		}
+        protected override BaseCollectionViewModel<StoreViewModel> GetBrowsingViewModel()
+        {
+            var viewModel = new BaseCollectionViewModel<StoreViewModel>(new StoresQuery(_manager),
+                Constants.StoresPageSize);
+            viewModel.Placeholder = AppResources.MessageNoStores;
+            return viewModel;
+        }
 
-		protected override BaseCollectionViewModel<StoreViewModel> GetSearchViewModel(string searchQuery)
-		{
-			var viewModel = new BaseCollectionViewModel<StoreViewModel>(new SearchStoresQuery(searchQuery, _manager), Constants.StoresPageSize);
-			viewModel.Placeholder = AppResources.MessageNoStores;
-			return viewModel;
-		}
+        protected override BaseCollectionViewModel<StoreViewModel> GetSearchViewModel(string searchQuery)
+        {
+            var viewModel = new BaseCollectionViewModel<StoreViewModel>(new SearchStoresQuery(searchQuery, _manager),
+                Constants.StoresPageSize);
+            viewModel.Placeholder = AppResources.MessageNoStores;
+            return viewModel;
+        }
 
-		#endregion
+        #endregion
 
-		#region Queries
+        #region Queries
 
-		private class StoresQuery : IModelQuery<StoreViewModel>
-		{
-			IStoreManager manager;
-			public StoresQuery (IStoreManager manager)
-			{
-				this.manager = manager;
+        private class StoresQuery : IModelQuery<StoreViewModel>
+        {
+            readonly IStoreManager manager;
 
-			}
+            public StoresQuery(IStoreManager manager)
+            {
+                this.manager = manager;
+            }
 
-			public async Task<IEnumerable<StoreViewModel>> Fetch(int pageSize = -1, int offset = -1)
-			{
-				var result = await manager.Fetch(pageSize, offset, RuntimeSettings.StoreFilter);
-				return result.Select(p => new StoreViewModel(p));
-			}
+            public async Task<IEnumerable<StoreViewModel>> Fetch(int pageSize = -1, int offset = -1)
+            {
+                var result = await manager.Fetch(pageSize, offset, RuntimeSettings.StoreFilter);
+                return result.Select(p => new StoreViewModel(p));
+            }
 
-			public Comparison<StoreViewModel> Comparer
-			{
-				get
-				{
-					return null;
-				}
-			}
+            public Comparison<StoreViewModel> Comparer
+            {
+                get { return null; }
+            }
 
 
-			public Task ClearCache()
-			{
-				return manager.ClearCache();
-			}
-		}
+            public Task ClearCache()
+            {
+                return manager.ClearCache();
+            }
+        }
 
-		private class SearchStoresQuery : IModelQuery<StoreViewModel>
-		{
-			IStoreManager manager;
-			string searchQuery;
+        private class SearchStoresQuery : IModelQuery<StoreViewModel>
+        {
+            readonly IStoreManager manager;
+            readonly string searchQuery;
 
-			public SearchStoresQuery (string searchQuery, IStoreManager manager)
-			{
-				this.searchQuery = searchQuery;
-				this.manager = manager;
-			}
+            public SearchStoresQuery(string searchQuery, IStoreManager manager)
+            {
+                this.searchQuery = searchQuery;
+                this.manager = manager;
+            }
 
-			public async Task<IEnumerable<StoreViewModel>> Fetch(int pageSize = -1, int offset = -1)
-			{
-				var result = await manager.Find(searchQuery, pageSize, offset, RuntimeSettings.StoreFilter);
-				return result.Select(p => new StoreViewModel(p));
-			}
+            public async Task<IEnumerable<StoreViewModel>> Fetch(int pageSize = -1, int offset = -1)
+            {
+                var result = await manager.Find(searchQuery, pageSize, offset, RuntimeSettings.StoreFilter);
+                return result.Select(p => new StoreViewModel(p));
+            }
 
-			public Comparison<StoreViewModel> Comparer
-			{
-				get
-				{
-					return null;
-				}
-			}
+            public Comparison<StoreViewModel> Comparer
+            {
+                get { return null; }
+            }
 
-			public Task ClearCache()
-			{
-				return manager.ClearCache();
-			}
-		}
-		#endregion
-	}
+            public Task ClearCache()
+            {
+                return manager.ClearCache();
+            }
+        }
+
+        #endregion
+    }
 }
-

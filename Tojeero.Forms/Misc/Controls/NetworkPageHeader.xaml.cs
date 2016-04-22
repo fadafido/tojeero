@@ -4,154 +4,155 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Controls
 {
-	public partial class NetworkPageHeader : StackLayout
-	{
-		#region Constructors
+    public partial class NetworkPageHeader : StackLayout
+    {
+        #region Constructors
 
-		public NetworkPageHeader()
-		{
-			InitializeComponent();
-			this.FailureContainer.IsVisible = false;
-			this.LoadingContainer.IsVisible = false;
-			this.LoadingLabel.TextColor = Colors.White;
-			this.ActivityIndicator.Color = Colors.White;
-		}
+        public NetworkPageHeader()
+        {
+            InitializeComponent();
+            FailureContainer.IsVisible = false;
+            LoadingContainer.IsVisible = false;
+            LoadingLabel.TextColor = Colors.White;
+            ActivityIndicator.Color = Colors.White;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public Thickness NoNetworkPadding
-		{
-			get
-			{
-				return this.NoNetworkStackLayout.Padding;
-			}
-			set
-			{
-				this.NoNetworkStackLayout.Padding = value;
-			}
-		}
+        public Thickness NoNetworkPadding
+        {
+            get { return NoNetworkStackLayout.Padding; }
+            set { NoNetworkStackLayout.Padding = value; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Bindable properties
+        #region Bindable properties
 
-		#region Tint
+        #region Tint
 
-		public static BindableProperty TintProperty =
-			BindableProperty.Create<NetworkPageHeader, Color>(o => o.Tint, Color.White, propertyChanged: OnTintChanged);
+        public static BindableProperty TintProperty =
+            BindableProperty.Create<NetworkPageHeader, Color>(o => o.Tint, Color.White, propertyChanged: OnTintChanged);
 
-		public Color Tint
-		{
-			get { return (Color)GetValue(TintProperty); }
-			set { SetValue(TintProperty, value); }
-		}
+        public Color Tint
+        {
+            get { return (Color) GetValue(TintProperty); }
+            set { SetValue(TintProperty, value); }
+        }
 
-		private static void OnTintChanged(BindableObject bindable, Color oldvalue, Color newvalue)
-		{
-			var header = bindable as NetworkPageHeader;
-			header.LoadingLabel.TextColor = newvalue;
-			header.ActivityIndicator.Color = newvalue;
-		}
+        private static void OnTintChanged(BindableObject bindable, Color oldvalue, Color newvalue)
+        {
+            var header = bindable as NetworkPageHeader;
+            header.LoadingLabel.TextColor = newvalue;
+            header.ActivityIndicator.Color = newvalue;
+        }
 
-		#endregion
+        #endregion
 
-		#region IsLoading
+        #region IsLoading
 
-		public static BindableProperty IsLoadingProperty =
-			BindableProperty.Create<NetworkPageHeader, bool>(o => o.IsLoading, false, propertyChanged: OnIsLoadingChanged);
+        public static BindableProperty IsLoadingProperty =
+            BindableProperty.Create<NetworkPageHeader, bool>(o => o.IsLoading, false,
+                propertyChanged: OnIsLoadingChanged);
 
-		public bool IsLoading
-		{
-			get { return (bool)GetValue(IsLoadingProperty); }
-			set { SetValue(IsLoadingProperty, value); }
-		}
+        public bool IsLoading
+        {
+            get { return (bool) GetValue(IsLoadingProperty); }
+            set { SetValue(IsLoadingProperty, value); }
+        }
 
-		private static void OnIsLoadingChanged(BindableObject bindable, bool oldvalue, bool newvalue)
-		{
-			var header = bindable as NetworkPageHeader;
-			header.ActivityIndicator.IsRunning = newvalue;
-			header.LoadingContainer.IsVisible = newvalue;
-		}
+        private static void OnIsLoadingChanged(BindableObject bindable, bool oldvalue, bool newvalue)
+        {
+            var header = bindable as NetworkPageHeader;
+            header.ActivityIndicator.IsRunning = newvalue;
+            header.LoadingContainer.IsVisible = newvalue;
+        }
 
-		#endregion
+        #endregion
 
-		#region LoadingText
+        #region LoadingText
 
-		public static BindableProperty LoadingTextProperty = BindableProperty.Create<NetworkPageHeader, string>(o => o.LoadingText, "", propertyChanged: OnLoadingTextChanged);
+        public static BindableProperty LoadingTextProperty =
+            BindableProperty.Create<NetworkPageHeader, string>(o => o.LoadingText, "",
+                propertyChanged: OnLoadingTextChanged);
 
-		public string LoadingText
-		{
-			get { return (string)GetValue(LoadingTextProperty); }
-			set { SetValue(LoadingTextProperty, value); }
-		}
+        public string LoadingText
+        {
+            get { return (string) GetValue(LoadingTextProperty); }
+            set { SetValue(LoadingTextProperty, value); }
+        }
 
-		private static void OnLoadingTextChanged(BindableObject bindable, string oldvalue, string newvalue)
-		{
-			var header = bindable as NetworkPageHeader;
-			header.LoadingLabel.Text = newvalue;
-		}
+        private static void OnLoadingTextChanged(BindableObject bindable, string oldvalue, string newvalue)
+        {
+            var header = bindable as NetworkPageHeader;
+            header.LoadingLabel.Text = newvalue;
+        }
 
-		#endregion
+        #endregion
 
-		#region FailureMessage
+        #region FailureMessage
 
-		public static BindableProperty FailureMessageProperty = BindableProperty.Create<NetworkPageHeader, string>(o => o.FailureMessage, "", propertyChanged: OnFailureMessageChanged);
+        public static BindableProperty FailureMessageProperty =
+            BindableProperty.Create<NetworkPageHeader, string>(o => o.FailureMessage, "",
+                propertyChanged: OnFailureMessageChanged);
 
-		public string FailureMessage
-		{
-			get { return (string)GetValue(FailureMessageProperty); }
-			set { SetValue(FailureMessageProperty, value); }
-		}
+        public string FailureMessage
+        {
+            get { return (string) GetValue(FailureMessageProperty); }
+            set { SetValue(FailureMessageProperty, value); }
+        }
 
-		private static void OnFailureMessageChanged(BindableObject bindable, string oldvalue, string newvalue)
-		{
-			var header = bindable as NetworkPageHeader;
-			header.FailureLabel.Text = newvalue;
-			header.FailureContainer.IsVisible = !string.IsNullOrEmpty(newvalue);
-		}
+        private static void OnFailureMessageChanged(BindableObject bindable, string oldvalue, string newvalue)
+        {
+            var header = bindable as NetworkPageHeader;
+            header.FailureLabel.Text = newvalue;
+            header.FailureContainer.IsVisible = !string.IsNullOrEmpty(newvalue);
+        }
 
-		#endregion
+        #endregion
 
-		#region IsNetworkAvailable
+        #region IsNetworkAvailable
 
+        public static BindableProperty IsNetworkAvailableProperty =
+            BindableProperty.Create<NetworkPageHeader, bool>(o => o.IsNetworkAvailable, false,
+                propertyChanged: OnIsNetworkAvailableChanged);
 
-		public static BindableProperty IsNetworkAvailableProperty = BindableProperty.Create<NetworkPageHeader, bool>(o => o.IsNetworkAvailable, false, propertyChanged: OnIsNetworkAvailableChanged);
+        public bool IsNetworkAvailable
+        {
+            get { return (bool) GetValue(IsNetworkAvailableProperty); }
+            set { SetValue(IsNetworkAvailableProperty, value); }
+        }
 
-		public bool IsNetworkAvailable
-		{
-			get { return (bool)GetValue(IsNetworkAvailableProperty); }
-			set { SetValue(IsNetworkAvailableProperty, value); }
-		}
+        private static void OnIsNetworkAvailableChanged(BindableObject bindable, bool oldvalue, bool newvalue)
+        {
+            var header = bindable as NetworkPageHeader;
+            header.TryAgainButton.IsEnabled = newvalue;
+        }
 
-		private static void OnIsNetworkAvailableChanged(BindableObject bindable, bool oldvalue, bool newvalue)
-		{
-			var header = bindable as NetworkPageHeader;
-			header.TryAgainButton.IsEnabled = newvalue;
-		}
+        #endregion
 
-		#endregion
+        #endregion
 
-		#endregion
+        #region Commands
 
-		#region Commands
+        public static readonly BindableProperty TryAgainCommandProperty =
+            BindableProperty.Create<NetworkPageHeader, ICommand>(bp => bp.TryAgainCommand, default(ICommand),
+                propertyChanged: OnTryAgainCommandChanged);
 
-		public static readonly BindableProperty TryAgainCommandProperty = BindableProperty.Create<NetworkPageHeader, ICommand>(bp => bp.TryAgainCommand, default(ICommand), propertyChanged: OnTryAgainCommandChanged);
+        public ICommand TryAgainCommand
+        {
+            get { return (ICommand) GetValue(TryAgainCommandProperty); }
+            set { SetValue(TryAgainCommandProperty, value); }
+        }
 
-		public ICommand TryAgainCommand
-		{
-			get { return (ICommand) GetValue(TryAgainCommandProperty); }
-			set { SetValue(TryAgainCommandProperty, value); }
-		}
+        private static void OnTryAgainCommandChanged(BindableObject bindable, ICommand oldvalue, ICommand newvalue)
+        {
+            var header = bindable as NetworkPageHeader;
+            header.TryAgainButton.Command = newvalue;
+        }
 
-		private static void OnTryAgainCommandChanged(BindableObject bindable, ICommand oldvalue, ICommand newvalue)
-		{
-			var header = bindable as NetworkPageHeader;
-			header.TryAgainButton.Command = newvalue;
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }
-

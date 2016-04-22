@@ -1,9 +1,7 @@
-﻿
-namespace Tojeero.Core.ViewModels.Contracts
+﻿namespace Tojeero.Core.ViewModels.Contracts
 {
-	public interface ISelectableViewModel
-	{
-		bool IsSelected { get; set; }
-	}
+    public interface ISelectableViewModel
+    {
+        bool IsSelected { get; set; }
+    }
 }
-

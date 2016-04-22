@@ -3,15 +3,12 @@ using Foundation;
 
 namespace Tojeero.iOS.Toolbox
 {
-	public static class DateToolbox
-	{
-		
-		public static DateTime ToDateTime(this NSDate date)
-		{
-			var reference = new DateTime(2001, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-			return reference.AddSeconds(date.SecondsSinceReferenceDate);
-		}
-
-	}
+    public static class DateToolbox
+    {
+        public static DateTime ToDateTime(this NSDate date)
+        {
+            var reference = new DateTime(2001, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return reference.AddSeconds(date.SecondsSinceReferenceDate);
+        }
+    }
 }
-

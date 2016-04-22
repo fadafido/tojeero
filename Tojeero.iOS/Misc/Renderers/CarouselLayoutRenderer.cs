@@ -1,84 +1,83 @@
 ﻿using System;
 using System.ComponentModel;
-using Tojeero.Forms;
+using CoreGraphics;
 using Tojeero.Forms.Controls;
 using Tojeero.iOS.Renderers;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly:ExportRenderer(typeof(CarouselLayout), typeof(CarouselLayoutRenderer))]
+[assembly: ExportRenderer(typeof (CarouselLayout), typeof (CarouselLayoutRenderer))]
 
 namespace Tojeero.iOS.Renderers
 {
-	public class CarouselLayoutRenderer : ScrollViewRenderer
-	{
-		#region Private fields and properties
+    public class CarouselLayoutRenderer : ScrollViewRenderer
+    {
+        #region Private fields and properties
 
-		UIScrollView _native;
+        UIScrollView _native;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public CarouselLayoutRenderer()
-		{
-			PagingEnabled = true;
-			ShowsHorizontalScrollIndicator = false;
-		}
+        public CarouselLayoutRenderer()
+        {
+            PagingEnabled = true;
+            ShowsHorizontalScrollIndicator = false;
+        }
 
-		#endregion
+        #endregion
 
-		#region Parent override
+        #region Parent override
 
-		protected override void OnElementChanged(VisualElementChangedEventArgs e)
-		{
-			base.OnElementChanged(e);
+        protected override void OnElementChanged(VisualElementChangedEventArgs e)
+        {
+            base.OnElementChanged(e);
 
-			if (e.OldElement != null)
-				return;
+            if (e.OldElement != null)
+                return;
 
-			_native = (UIScrollView)NativeView;
-			_native.Scrolled += NativeScrolled;
-			e.NewElement.PropertyChanged += ElementPropertyChanged;
-		}
+            _native = (UIScrollView) NativeView;
+            _native.Scrolled += NativeScrolled;
+            e.NewElement.PropertyChanged += ElementPropertyChanged;
+        }
 
-		public override void Draw(CoreGraphics.CGRect rect)
-		{
-			base.Draw (rect);
-			ScrollToSelection (false);
-		}
+        public override void Draw(CGRect rect)
+        {
+            base.Draw(rect);
+            ScrollToSelection(false);
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility methods
+        #region Utility methods
 
-		void NativeScrolled(object sender, EventArgs e)
-		{
-			var center = _native.ContentOffset.X + (_native.Bounds.Width / 2);
-			((CarouselLayout)Element).SelectedIndex = ((int)center) / ((int)_native.Bounds.Width);
-		}
+        void NativeScrolled(object sender, EventArgs e)
+        {
+            var center = _native.ContentOffset.X + _native.Bounds.Width/2;
+            ((CarouselLayout) Element).SelectedIndex = (int) center/(int) _native.Bounds.Width;
+        }
 
-		void ElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == CarouselLayout.SelectedIndexProperty.PropertyName && !Dragging)
-			{
-				ScrollToSelection(false);
-			}
-		}
+        void ElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == CarouselLayout.SelectedIndexProperty.PropertyName && !Dragging)
+            {
+                ScrollToSelection(false);
+            }
+        }
 
-		void ScrollToSelection(bool animate)
-		{
-			if (Element == null)
-				return;
+        void ScrollToSelection(bool animate)
+        {
+            if (Element == null)
+                return;
 
-			_native.SetContentOffset(new CoreGraphics.CGPoint(_native.Bounds.Width *
-					Math.Max(0, ((CarouselLayout)Element).SelectedIndex), 
-					_native.ContentOffset.Y), 
-				animate);
-		}
+            _native.SetContentOffset(new CGPoint(_native.Bounds.Width*
+                                                 Math.Max(0, ((CarouselLayout) Element).SelectedIndex),
+                _native.ContentOffset.Y),
+                animate);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

@@ -9,117 +9,114 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Controls
 {
-	public partial class ObjectPickerPage<T, CellType> : ContentPage 
-		where T : class
-		where CellType : ObjectPickerCell
-	{
-		#region Private fields and properties
+    public class ObjectPickerPage<T, CellType> : ContentPage
+        where T : class
+        where CellType : ObjectPickerCell
+    {
+        #region Private fields and properties
 
-		private bool _isLoading;
-		private bool IsLoading
-		{
-			get
-			{
-				return _isLoading;
-			}
-			set
-			{
-				if (_isLoading != value)
-				{					
-					_isLoading = value;
-					this.Spinner.IsVisible = _isLoading;
-					this.Spinner.IsRunning = _isLoading;
-				}
-			}
-		}
+        private bool _isLoading;
 
-		private ActivityIndicator _spinner;
-		private ActivityIndicator Spinner
-		{
-			get
-			{
-				if (_spinner == null)
-				{
-					_spinner = new ActivityIndicator();
-					_spinner.HorizontalOptions = LayoutOptions.Center;
-					_spinner.VerticalOptions = LayoutOptions.Center;
-				}
-				return _spinner;
-			}
-		}
+        private bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                if (_isLoading != value)
+                {
+                    _isLoading = value;
+                    Spinner.IsVisible = _isLoading;
+                    Spinner.IsRunning = _isLoading;
+                }
+            }
+        }
 
-		#endregion
+        private ActivityIndicator _spinner;
 
-		#region Constructors
+        private ActivityIndicator Spinner
+        {
+            get
+            {
+                if (_spinner == null)
+                {
+                    _spinner = new ActivityIndicator();
+                    _spinner.HorizontalOptions = LayoutOptions.Center;
+                    _spinner.VerticalOptions = LayoutOptions.Center;
+                }
+                return _spinner;
+            }
+        }
 
-		public ObjectPickerPage()
-		{
-			var grid = new Grid();
-			grid.HorizontalOptions = LayoutOptions.FillAndExpand;
-			grid.VerticalOptions = LayoutOptions.FillAndExpand;
-			grid.Children.Add(this.Spinner);
-			grid.Children.Add(this.ListView);
-			this.Content = grid;
+        #endregion
 
-			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, null, async () =>
-					{
-						await this.Navigation.PopModalAsync();
-					}));
-		}
+        #region Constructors
 
-		#endregion
+        public ObjectPickerPage()
+        {
+            var grid = new Grid();
+            grid.HorizontalOptions = LayoutOptions.FillAndExpand;
+            grid.VerticalOptions = LayoutOptions.FillAndExpand;
+            grid.Children.Add(Spinner);
+            grid.Children.Add(ListView);
+            Content = grid;
 
-		#region Properties
+            ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, null,
+                async () => { await Navigation.PopModalAsync(); }));
+        }
 
-		public event EventHandler<EventArgs<T>> ItemSelected;
+        #endregion
 
-		private ListView _listView;
-		public ListView ListView
-		{
-			get
-			{
-				if (_listView == null)
-				{
-					_listView = new ListView();
-					_listView.ItemSelected += itemSelected;
-					_listView.BackgroundColor = Color.Transparent;
-					_listView.SeparatorVisibility = SeparatorVisibility.None;
-					_listView.HorizontalOptions = LayoutOptions.FillAndExpand;
-					_listView.VerticalOptions = LayoutOptions.FillAndExpand;
-				}
-				return _listView;
-			}
-		}
+        #region Properties
 
-		public Func<Task<IEnumerable<SelectableViewModel<T>>>> LoaderAction { get; set; }
+        public event EventHandler<EventArgs<T>> ItemSelected;
 
-		#endregion
+        private ListView _listView;
 
-		#region View lifecycle management
+        public ListView ListView
+        {
+            get
+            {
+                if (_listView == null)
+                {
+                    _listView = new ListView();
+                    _listView.ItemSelected += itemSelected;
+                    _listView.BackgroundColor = Color.Transparent;
+                    _listView.SeparatorVisibility = SeparatorVisibility.None;
+                    _listView.HorizontalOptions = LayoutOptions.FillAndExpand;
+                    _listView.VerticalOptions = LayoutOptions.FillAndExpand;
+                }
+                return _listView;
+            }
+        }
 
-		protected override async void OnAppearing()
-		{
-			base.OnAppearing();
-			this.IsLoading = true;
-			this.ListView.ItemsSource = await LoaderAction();
-			this.IsLoading = false;
-		}
+        public Func<Task<IEnumerable<SelectableViewModel<T>>>> LoaderAction { get; set; }
 
-		#endregion
+        #endregion
 
-		#region Utility methods
+        #region View lifecycle management
 
-		void itemSelected (object sender, SelectedItemChangedEventArgs e)
-		{
-			if (e.SelectedItem != null)
-			{
-				var selected = e.SelectedItem as SelectableViewModel<T>;
-				this.ItemSelected.Fire(this, new EventArgs<T>(selected.Item));
-			}
-			this.ListView.SelectedItem = null;
-		}
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            IsLoading = true;
+            ListView.ItemsSource = await LoaderAction();
+            IsLoading = false;
+        }
 
-		#endregion
-	}
+        #endregion
+
+        #region Utility methods
+
+        void itemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem != null)
+            {
+                var selected = e.SelectedItem as SelectableViewModel<T>;
+                ItemSelected.Fire(this, new EventArgs<T>(selected.Item));
+            }
+            ListView.SelectedItem = null;
+        }
+
+        #endregion
+    }
 }
-

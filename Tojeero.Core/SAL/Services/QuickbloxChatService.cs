@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -18,17 +17,16 @@ using Quickblox.Sdk.Modules.ChatModule.Requests;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.ChatXmppModule.Models;
 using Quickblox.Sdk.Modules.UsersModule.Models;
-using Tojeero.Core.Toolbox;
 using Quickblox.Sdk.Modules.UsersModule.Requests;
 using Quickblox.Sdk.Modules.UsersModule.Responses;
-using QMessage = Quickblox.Sdk.GeneralDataModel.Models.Message;
-using Sharp.Xmpp;
-using Tojeero.Core;
 using Tojeero.Core.Logging;
 using Tojeero.Core.Messages;
 using Tojeero.Core.Model;
 using Tojeero.Core.Model.Contracts;
 using Tojeero.Core.Services.Contracts;
+using Tojeero.Core.Toolbox;
+using QMessage = Quickblox.Sdk.GeneralDataModel.Models.Message;
+using User = Quickblox.Sdk.Modules.UsersModule.Models.User;
 
 namespace Tojeero.Core.Services
 {
@@ -40,10 +38,11 @@ namespace Tojeero.Core.Services
         private readonly IMvxMessenger _messenger;
         private int? _currentUserID;
 
-        private AsyncReaderWriterLock _authLocker = new AsyncReaderWriterLock();
-        private Dictionary<string, int> _userIDs = new Dictionary<string, int>();
+        private readonly AsyncReaderWriterLock _authLocker = new AsyncReaderWriterLock();
+        private readonly Dictionary<string, int> _userIDs = new Dictionary<string, int>();
 
         private HMACSHA1 _hash;
+
         private HMACSHA1 Hash
         {
             get
@@ -110,12 +109,14 @@ namespace Tojeero.Core.Services
             }
         }
 
-        public Task<IEnumerable<IChatMessage>> GetMessagesAsync(IUser user, string channelID, DateTimeOffset? startDate, int pageSize)
+        public Task<IEnumerable<IChatMessage>> GetMessagesAsync(IUser user, string channelID, DateTimeOffset? startDate,
+            int pageSize)
         {
             return GetMessagesAsync(user, channelID, startDate, pageSize, CancellationToken.None);
         }
 
-        public async Task<IEnumerable<IChatMessage>> GetMessagesAsync(IUser user, string channelID, DateTimeOffset? startDate, int pageSize, CancellationToken token)
+        public async Task<IEnumerable<IChatMessage>> GetMessagesAsync(IUser user, string channelID,
+            DateTimeOffset? startDate, int pageSize, CancellationToken token)
         {
             await loginIfRequired(user, token);
             var request = new RetrieveMessagesRequest();
@@ -123,19 +124,20 @@ namespace Tojeero.Core.Services
             var filter = new FilterAggregator();
             filter.Filters.Add(new FieldFilter<string>(() => new QMessage().ChatDialogId, channelID));
             filter.Filters.Add(new SortFilter<long>(SortOperator.Desc, () => new QMessage().DateSent));
-            
+
             if (startDate != null)
             {
-                filter.Filters.Add(new FieldFilterWithOperator<long>(SearchOperators.Lt, () => new QMessage().DateSent, startDate.Value.ToUnixTime()));
+                filter.Filters.Add(new FieldFilterWithOperator<long>(SearchOperators.Lt, () => new QMessage().DateSent,
+                    startDate.Value.ToUnixTime()));
             }
             request.Filter = filter;
 
             var result = await _quickblox.ChatClient.GetMessagesAsync(request);
-            if(result.StatusCode != HttpStatusCode.OK)
+            if (result.StatusCode != HttpStatusCode.OK)
                 throw new Exception(
-                        $"Failed to retrieve messages from Quickblox for user '{user.ID}', channel '{channelID}'." +
-                        $"\n HTTP Status code: {result.StatusCode}." +
-                        $"Errors: \n {getErrorDesc(result.Errors)}");
+                    $"Failed to retrieve messages from Quickblox for user '{user.ID}', channel '{channelID}'." +
+                    $"\n HTTP Status code: {result.StatusCode}." +
+                    $"Errors: \n {getErrorDesc(result.Errors)}");
 
             var messages = result.Result?.Items?.Select(m =>
             {
@@ -157,7 +159,7 @@ namespace Tojeero.Core.Services
             var jsonMessage = JsonConvert.SerializeObject(message);
             var recipientID = await getQuickbloxUserId(message.RecipientID, token);
             var extraParams = "<extraParams> " +
-                                "<save_to_history>1</save_to_history> " +
+                              "<save_to_history>1</save_to_history> " +
                               "</extraParams>";
             _quickblox.ChatXmppClient.SendMessage(recipientID, jsonMessage, extraParams, channelID);
         }
@@ -187,12 +189,13 @@ namespace Tojeero.Core.Services
         #region Utility methods
 
         #region Handling chat messages
+
         private void chatMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
             try
             {
                 var message = parseQuickbloxMessage(messageEventArgs.Message);
-                _messenger.Publish<ChatReceivedMessage>(new ChatReceivedMessage(this, message, messageEventArgs.Message.Thread));
+                _messenger.Publish(new ChatReceivedMessage(this, message, messageEventArgs.Message.Thread));
             }
             catch (Exception ex)
             {
@@ -202,12 +205,12 @@ namespace Tojeero.Core.Services
 
         private void chatOnErrorReceived(object sender, ErrorEventArgs e)
         {
-            
         }
 
         #endregion
 
         #region User authentication
+
         private async Task loginIfRequired(IUser user, CancellationToken token)
         {
             using (var writerLock = await _authLocker.WriterLockAsync())
@@ -223,7 +226,7 @@ namespace Tojeero.Core.Services
                 token.ThrowIfCancellationRequested();
 
                 //If the authentication failed it means the user hasn't been created in Quickblox yet
-                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     await signupUser(user, token);
                     //If the signup succeeded (otherwise exception would be thrown) 
@@ -233,13 +236,13 @@ namespace Tojeero.Core.Services
                 }
 
                 //If the authentication failed for some reason, aka status code is not Created throw exception
-                if (response.StatusCode != System.Net.HttpStatusCode.Created)
+                if (response.StatusCode != HttpStatusCode.Created)
                     throw new Exception(
                         $"Unable to create chat session because Quickblox user login failed due to unknown error. " +
                         $"\n HTTP Status code: {response.StatusCode}." +
                         $"Errors: \n {getErrorDesc(response.Errors)}");
                 _currentUserID = response?.Result?.Session?.UserId;
-                if(_currentUserID != null)
+                if (_currentUserID != null)
                     _quickblox.ChatXmppClient.Connect(_currentUserID.Value, password);
             }
         }
@@ -251,15 +254,16 @@ namespace Tojeero.Core.Services
             token.ThrowIfCancellationRequested();
 
             //Throw exception if session hasn't been created for some reason
-            if (sessionResponse.StatusCode != System.Net.HttpStatusCode.Created)
-                throw new Exception($"Quickblox user signup failed because Quickblox session creation failed due to unknown error. " +
-                                    $"\n HTTP Status code: {sessionResponse.StatusCode}." +
-                                    $"Errors: \n {getErrorDesc(sessionResponse.Errors)}");
+            if (sessionResponse.StatusCode != HttpStatusCode.Created)
+                throw new Exception(
+                    $"Quickblox user signup failed because Quickblox session creation failed due to unknown error. " +
+                    $"\n HTTP Status code: {sessionResponse.StatusCode}." +
+                    $"Errors: \n {getErrorDesc(sessionResponse.Errors)}");
 
             //Create user signup request by the current user data
             var userSignUpRequest = new UserSignUpRequest
             {
-                User = new UserRequest()
+                User = new UserRequest
                 {
                     Login = user.ID,
                     Email = user.Email,
@@ -273,7 +277,7 @@ namespace Tojeero.Core.Services
             token.ThrowIfCancellationRequested();
 
             //If the signup failed throw exception
-            if (userResponse.StatusCode != System.Net.HttpStatusCode.Created)
+            if (userResponse.StatusCode != HttpStatusCode.Created)
                 throw new Exception($"Quickblox user signup failed due to unknown error. " +
                                     $"\n HTTP Status code: {userResponse.StatusCode}." +
                                     $"Errors: \n {getErrorDesc(userResponse.Errors)}");
@@ -282,7 +286,7 @@ namespace Tojeero.Core.Services
 
         private async Task<int> getQuickbloxUserId(string userID, CancellationToken token)
         {
-            int quickbloxUserId = -1;
+            var quickbloxUserId = -1;
             Exception exception = null;
             HttpResponse<RetrieveUsersResponse> response = null;
 
@@ -296,13 +300,14 @@ namespace Tojeero.Core.Services
                 //In quickblox we set the login to userID, so we need to query those users which have login == userID
                 var retriveUserRequest = new RetrieveUsersRequest();
                 var aggregator = new FilterAggregator();
-                aggregator.Filters.Add(new RetrieveUserFilter<string>(UserOperator.Eq, () => new Quickblox.Sdk.Modules.UsersModule.Models.User().Login, userID));
+                aggregator.Filters.Add(new RetrieveUserFilter<string>(UserOperator.Eq, () => new User().Login, userID));
                 retriveUserRequest.Filter = aggregator;
                 response = await _quickblox.UsersClient.RetrieveUsersAsync(retriveUserRequest);
                 token.ThrowIfCancellationRequested();
 
                 if (response.StatusCode == HttpStatusCode.OK)
-                    quickbloxUserId = response.Result.Items.Select(userResponse => userResponse.User.Id).FirstOrDefault();
+                    quickbloxUserId =
+                        response.Result.Items.Select(userResponse => userResponse.User.Id).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -316,14 +321,15 @@ namespace Tojeero.Core.Services
             if (quickbloxUserId <= 0)
             {
                 throw new Exception($"Unable to retrieve Quickblox user for '{userID}'. " +
-                                $"\n HTTP Status code: {response?.StatusCode}." +
-                                $"Errors: \n {getErrorDesc(response?.Errors)}", exception);
+                                    $"\n HTTP Status code: {response?.StatusCode}." +
+                                    $"Errors: \n {getErrorDesc(response?.Errors)}", exception);
             }
 
             //Eventually if everything was ok, cached and return the result
             _userIDs[userID] = quickbloxUserId;
             return quickbloxUserId;
-        } 
+        }
+
         #endregion
 
         private string getErrorDesc(Dictionary<string, string[]> errors)
@@ -345,16 +351,16 @@ namespace Tojeero.Core.Services
         private IChatMessage parseQuickbloxMessage(Message qMessage)
         {
             var messageJson = qMessage.Body;
-            XDocument xMessage = XDocument.Parse(qMessage.XmlMessage);
+            var xMessage = XDocument.Parse(qMessage.XmlMessage);
             XNamespace ns = "jabber:client";
-            var date = long.Parse(xMessage.Descendants(ns + "date_sent").FirstOrDefault().Value).UnixTimestampToDateTimeOffset();
+            var date =
+                long.Parse(xMessage.Descendants(ns + "date_sent").FirstOrDefault().Value)
+                    .UnixTimestampToDateTimeOffset();
             var message = JsonConvert.DeserializeObject<ChatMessage>(messageJson);
             message.DeliveryDate = date;
             return message;
         }
 
         #endregion
-
-
     }
 }

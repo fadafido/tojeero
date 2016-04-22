@@ -4,93 +4,68 @@ using Tojeero.Core.Model.Contracts;
 
 namespace Tojeero.Core.Model
 {
-	public class Tag : BaseModelEntity<ParseTag>, ITag
-	{
-		#region Constructors
+    public class Tag : BaseModelEntity<ParseTag>, ITag
+    {
+        #region Constructors
 
-		public Tag()
-			:base()
-		{
+        public Tag()
+        {
+        }
 
-		}
+        public Tag(ParseTag tag = null)
+            : base(tag)
+        {
+        }
 
-		public Tag(ParseTag tag = null)
-			: base(tag)
-		{
+        #endregion
 
-		}
+        #region Properties
 
+        [Ignore]
+        public override ParseTag ParseObject
+        {
+            get { return base.ParseObject; }
+            set { base.ParseObject = value; }
+        }
 
-		#endregion
+        public string Text
+        {
+            get { return ParseObject.Text; }
+            set
+            {
+                ParseObject.Text = value;
+                RaisePropertyChanged(() => Text);
+            }
+        }
 
-		#region Properties
+        #endregion
 
-		[Ignore]
-		public override ParseTag ParseObject
-		{
-			get
-			{
-				return base.ParseObject;
-			}
-			set
-			{
+        #region Parent 
 
-				base.ParseObject = value;
-			}
-		}
+        public override string ToString()
+        {
+            return Text;
+        }
 
-		public string Text
-		{
-			get
-			{
-				return this.ParseObject.Text;
-			}
-			set
-			{
-				this.ParseObject.Text = value;
-				this.RaisePropertyChanged(() => Text);
-			}
-		}
+        #endregion
+    }
 
-		#endregion
+    [ParseClassName("Tag")]
+    public class ParseTag : ParseObject
+    {
+        #region Constructors
 
-		#region Parent 
+        #endregion
 
-		public override string ToString()
-		{
-			return Text;	
-		}
+        #region Properties
 
-		#endregion
-	}
+        [ParseFieldName("text")]
+        public string Text
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-	[ParseClassName("Tag")]
-	public class ParseTag : ParseObject
-	{
-		#region Constructors
-
-		public ParseTag()
-		{
-		}
-
-		#endregion
-
-		#region Properties
-
-		[ParseFieldName("text")]
-		public string Text
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
-			
-		#endregion
-	}
+        #endregion
+    }
 }
-

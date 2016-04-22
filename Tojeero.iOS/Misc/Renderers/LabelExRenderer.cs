@@ -1,38 +1,37 @@
-﻿using System;
-using UIKit;
-using Tojeero.Forms;
+﻿using System.ComponentModel;
 using Tojeero.Forms.Controls;
+using Tojeero.iOS.Renderers;
 using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
-[assembly:Xamarin.Forms.ExportRenderer(typeof(LabelEx), typeof(Tojeero.iOS.Renderers.LabelExRenderer))]
+[assembly: ExportRenderer(typeof (LabelEx), typeof (LabelExRenderer))]
 
 namespace Tojeero.iOS.Renderers
-{	
-	public class LabelExRenderer : Xamarin.Forms.Platform.iOS.LabelRenderer
-	{
-		protected override void OnElementChanged(Xamarin.Forms.Platform.iOS.ElementChangedEventArgs<Label> e)
-		{
-			base.OnElementChanged(e);
+{
+    public class LabelExRenderer : LabelRenderer
+    {
+        protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
+        {
+            base.OnElementChanged(e);
 
-			if (e.OldElement != null || this.Element == null)
-				return;
-			updateLineCount();
-		}
+            if (e.OldElement != null || Element == null)
+                return;
+            updateLineCount();
+        }
 
-		protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged(sender, e);
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
 
-			if (this.Element == null || this.Control == null)
-				return;
-			updateLineCount();
-		}
+            if (Element == null || Control == null)
+                return;
+            updateLineCount();
+        }
 
-		void updateLineCount()
-		{
-			var element = (LabelEx)this.Element;
-			this.Control.Lines = element.LineCount;
-		}
-	}
+        void updateLineCount()
+        {
+            var element = (LabelEx) Element;
+            Control.Lines = element.LineCount;
+        }
+    }
 }
-

@@ -1,273 +1,247 @@
-using System.Collections.Generic;
-using Cirrious.CrossCore;
-using Tojeero.Core.Services;
-using Tojeero.Core.Toolbox;
-using Refractored.Xam.Settings.Abstractions;
 using Refractored.Xam.Settings;
+using Refractored.Xam.Settings.Abstractions;
 using Tojeero.Core.Model;
-using Tojeero.Core.Services.Contracts;
 
 namespace Tojeero.Core
 {
-	public static class Settings
-	{
-		private static ISettings AppSettings
-		{
-			get
-			{
-				return CrossSettings.Current;
-			}
-		}
+    public static class Settings
+    {
+        private static ISettings AppSettings
+        {
+            get { return CrossSettings.Current; }
+        }
 
-		#region User Settings
+        #region User Settings
 
-		#region Product list mode
+        #region Product list mode
 
-		/// <summary>
-		/// Key for your setting
-		/// </summary>
-		public const string ProductListModeKey = "ProductListMode";
-		/// <summary>
-		/// default value for your setting
-		/// </summary>
-		public static readonly ListMode ProductListModeDefault = ListMode.Large;
+        /// <summary>
+        /// Key for your setting
+        /// </summary>
+        public const string ProductListModeKey = "ProductListMode";
 
-		/// <summary>
-		/// Gets or sets the ProductListMode value
-		/// </summary>
-		public static ListMode ProductListMode
-		{
-			get
-			{
-				return AppSettings.GetValueOrDefault(ProductListModeKey, ProductListModeDefault);
-			}
-			set
-			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(ProductListModeKey, value))
-					AppSettings.Save();
-			}
-		}
+        /// <summary>
+        /// default value for your setting
+        /// </summary>
+        public static readonly ListMode ProductListModeDefault = ListMode.Large;
 
-		#endregion
+        /// <summary>
+        /// Gets or sets the ProductListMode value
+        /// </summary>
+        public static ListMode ProductListMode
+        {
+            get { return AppSettings.GetValueOrDefault(ProductListModeKey, ProductListModeDefault); }
+            set
+            {
+                //if value has changed then save it!
+                if (AppSettings.AddOrUpdateValue(ProductListModeKey, value))
+                    AppSettings.Save();
+            }
+        }
 
-		#region Current user
+        #endregion
 
-		/// <summary>
-		/// Key for your setting
-		/// </summary>
-		public const string CurrentUserKey = "CurrentUser";
-		/// <summary>
-		/// default value for your setting
-		/// </summary>
-		public static readonly string CurrentUserDefault = null;
+        #region Current user
 
-		/// <summary>
-		/// Gets or sets the CurrentUser value
-		/// </summary>
-		public static string CurrentUser
-		{
-			get
-			{
-				return AppSettings.GetValueOrDefault(CurrentUserKey, CurrentUserDefault);
-			}
-			set
-			{
-				if (value == null)
-					AppSettings.Remove(CurrentUserKey);
-				else
-					AppSettings.AddOrUpdateValue(CurrentUserKey, value);
-			}
-		}
+        /// <summary>
+        /// Key for your setting
+        /// </summary>
+        public const string CurrentUserKey = "CurrentUser";
 
-		#endregion
+        /// <summary>
+        /// default value for your setting
+        /// </summary>
+        public static readonly string CurrentUserDefault = null;
 
-		#region Analytics
-		/// <summary>
-		/// Key for your setting
-		/// </summary>
-		public const string IsAnalyticsPermittedByUserKey = "IsAnalyticsPermittedByUser";
-		/// <summary>
-		/// default value for your setting
-		/// </summary>
-		public static readonly bool IsAnalyticsPermittedByUserDefault = true;
+        /// <summary>
+        /// Gets or sets the CurrentUser value
+        /// </summary>
+        public static string CurrentUser
+        {
+            get { return AppSettings.GetValueOrDefault(CurrentUserKey, CurrentUserDefault); }
+            set
+            {
+                if (value == null)
+                    AppSettings.Remove(CurrentUserKey);
+                else
+                    AppSettings.AddOrUpdateValue(CurrentUserKey, value);
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the IsAnalyticsPermittedByUser value
-		/// </summary>
-		public static bool IsAnalyticsPermittedByUser
-		{
-			get
-			{
-				return AppSettings.GetValueOrDefault(IsAnalyticsPermittedByUserKey, IsAnalyticsPermittedByUserDefault);
-			}
-			set
-			{
-				AppSettings.AddOrUpdateValue(IsAnalyticsPermittedByUserKey, value);
-			}
-		}
-		#endregion
+        #endregion
 
-		#region Country ID
+        #region Analytics
 
-		/// <summary>
-		/// Key for your setting
-		/// </summary>
-		public const string CountryIdKey = "CountryId";
-		/// <summary>
-		/// default value for your setting
-		/// </summary>
-		public static readonly string CountryIdDefault = null;
+        /// <summary>
+        /// Key for your setting
+        /// </summary>
+        public const string IsAnalyticsPermittedByUserKey = "IsAnalyticsPermittedByUser";
 
-		/// <summary>
-		/// Gets or sets the CountryId value
-		/// </summary>
-		public static string CountryId
-		{
-			get
-			{
-				return AppSettings.GetValueOrDefault(CountryIdKey, CountryIdDefault);
-			}
-			set
-			{
-				if (value == null)
-					AppSettings.Remove(CountryIdKey);
-				else
-					AppSettings.AddOrUpdateValue(CountryIdKey, value);
+        /// <summary>
+        /// default value for your setting
+        /// </summary>
+        public static readonly bool IsAnalyticsPermittedByUserDefault = true;
+
+        /// <summary>
+        /// Gets or sets the IsAnalyticsPermittedByUser value
+        /// </summary>
+        public static bool IsAnalyticsPermittedByUser
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(IsAnalyticsPermittedByUserKey, IsAnalyticsPermittedByUserDefault);
+            }
+            set { AppSettings.AddOrUpdateValue(IsAnalyticsPermittedByUserKey, value); }
+        }
+
+        #endregion
+
+        #region Country ID
+
+        /// <summary>
+        /// Key for your setting
+        /// </summary>
+        public const string CountryIdKey = "CountryId";
+
+        /// <summary>
+        /// default value for your setting
+        /// </summary>
+        public static readonly string CountryIdDefault = null;
+
+        /// <summary>
+        /// Gets or sets the CountryId value
+        /// </summary>
+        public static string CountryId
+        {
+            get { return AppSettings.GetValueOrDefault(CountryIdKey, CountryIdDefault); }
+            set
+            {
+                if (value == null)
+                    AppSettings.Remove(CountryIdKey);
+                else
+                    AppSettings.AddOrUpdateValue(CountryIdKey, value);
                 RuntimeSettings.ProductFilter.SetCountryID(value);
                 RuntimeSettings.StoreFilter.SetCountryID(value);
-			    RuntimeSettings.ProductFilter.City = null;
+                RuntimeSettings.ProductFilter.City = null;
                 RuntimeSettings.StoreFilter.City = null;
             }
-		}
+        }
 
-		#endregion
+        #endregion
 
-		#region City ID
+        #region City ID
 
-		/// <summary>
-		/// Key for your setting
-		/// </summary>
-		public const string CityIdKey = "CityId";
-		/// <summary>
-		/// default value for your setting
-		/// </summary>
-		public static readonly string CityIdDefault = null;
+        /// <summary>
+        /// Key for your setting
+        /// </summary>
+        public const string CityIdKey = "CityId";
 
-		/// <summary>
-		/// Gets or sets the CityId value
-		/// </summary>
-		public static string CityId
-		{
-			get
-			{
-				return AppSettings.GetValueOrDefault(CityIdKey, CityIdDefault);
-			}
-			set
-			{
-				
-				if (value == null)
-					AppSettings.Remove(CityIdKey);
-				else
-					AppSettings.AddOrUpdateValue(CityIdKey, value);
+        /// <summary>
+        /// default value for your setting
+        /// </summary>
+        public static readonly string CityIdDefault = null;
+
+        /// <summary>
+        /// Gets or sets the CityId value
+        /// </summary>
+        public static string CityId
+        {
+            get { return AppSettings.GetValueOrDefault(CityIdKey, CityIdDefault); }
+            set
+            {
+                if (value == null)
+                    AppSettings.Remove(CityIdKey);
+                else
+                    AppSettings.AddOrUpdateValue(CityIdKey, value);
             }
-		}
+        }
 
-		#endregion
+        #endregion
 
-		#region Language
+        #region Language
 
-		/// <summary>
-		/// Key for your setting
-		/// </summary>
-		public const string LanguageKey = "Language";
-		/// <summary>
-		/// default value for your setting
-		/// </summary>
-		public static readonly LanguageCode LanguageDefault = LanguageCode.Unknown;
+        /// <summary>
+        /// Key for your setting
+        /// </summary>
+        public const string LanguageKey = "Language";
 
-		/// <summary>
-		/// Gets or sets the Language value
-		/// </summary>
-		public static LanguageCode Language
-		{
-			get
-			{
-				return AppSettings.GetValueOrDefault(LanguageKey, LanguageDefault);
-			}
-			set
-			{
-				if (value == null)
-					AppSettings.Remove(LanguageKey);
-				else
-					AppSettings.AddOrUpdateValue(LanguageKey, value);
-			}
-		}
+        /// <summary>
+        /// default value for your setting
+        /// </summary>
+        public static readonly LanguageCode LanguageDefault = LanguageCode.Unknown;
 
-		#endregion
+        /// <summary>
+        /// Gets or sets the Language value
+        /// </summary>
+        public static LanguageCode Language
+        {
+            get { return AppSettings.GetValueOrDefault(LanguageKey, LanguageDefault); }
+            set
+            {
+                if (value == null)
+                    AppSettings.Remove(LanguageKey);
+                else
+                    AppSettings.AddOrUpdateValue(LanguageKey, value);
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Internal settings
+        #endregion
 
-		#region Database Schema Version
+        #region Internal settings
 
-		/// <summary>
-		/// Key for your setting
-		/// </summary>
-		public const string DatabaseSchemaVersionKey = "DatabaseSchemaVersion";
-		/// <summary>
-		/// default value for your setting
-		/// </summary>
-		public static readonly int DatabaseSchemaVersionDefault = 0;
+        #region Database Schema Version
 
-		/// <summary>
-		/// Gets or sets the DatabaseSchemaVersion value
-		/// </summary>
-		public static int DatabaseSchemaVersion
-		{
-			get
-			{
-				return AppSettings.GetValueOrDefault(DatabaseSchemaVersionKey, DatabaseSchemaVersionDefault);
-			}
-			set
-			{
-				AppSettings.AddOrUpdateValue(DatabaseSchemaVersionKey, value);
-			}
-		}
+        /// <summary>
+        /// Key for your setting
+        /// </summary>
+        public const string DatabaseSchemaVersionKey = "DatabaseSchemaVersion";
 
-		#endregion
+        /// <summary>
+        /// default value for your setting
+        /// </summary>
+        public static readonly int DatabaseSchemaVersionDefault = 0;
 
-		#region IsUserPreferancesSet
+        /// <summary>
+        /// Gets or sets the DatabaseSchemaVersion value
+        /// </summary>
+        public static int DatabaseSchemaVersion
+        {
+            get { return AppSettings.GetValueOrDefault(DatabaseSchemaVersionKey, DatabaseSchemaVersionDefault); }
+            set { AppSettings.AddOrUpdateValue(DatabaseSchemaVersionKey, value); }
+        }
 
-		/// <summary>
-		/// Key for your setting
-		/// </summary>
-		public const string IsUserPreferancesSetKey = "IsUserPreferancesSet";
-		/// <summary>
-		/// default value for your setting
-		/// </summary>
-		public static readonly bool IsUserPreferancesSetDefault = false;
+        #endregion
 
-		/// <summary>
-		/// Gets or sets the IsUserPreferancesSet value
-		/// </summary>
-		public static bool IsUserPreferancesSet
-		{
-			get
-			{
-				return AppSettings.GetValueOrDefault(IsUserPreferancesSetKey, IsUserPreferancesSetDefault);
-			}
-			set
-			{
-				//if value has changed then save it!
-				if (AppSettings.AddOrUpdateValue(IsUserPreferancesSetKey, value))
-					AppSettings.Save();
-			}
-		}
+        #region IsUserPreferancesSet
 
-		#endregion
-			
-		#endregion
-	}
+        /// <summary>
+        /// Key for your setting
+        /// </summary>
+        public const string IsUserPreferancesSetKey = "IsUserPreferancesSet";
+
+        /// <summary>
+        /// default value for your setting
+        /// </summary>
+        public static readonly bool IsUserPreferancesSetDefault = false;
+
+        /// <summary>
+        /// Gets or sets the IsUserPreferancesSet value
+        /// </summary>
+        public static bool IsUserPreferancesSet
+        {
+            get { return AppSettings.GetValueOrDefault(IsUserPreferancesSetKey, IsUserPreferancesSetDefault); }
+            set
+            {
+                //if value has changed then save it!
+                if (AppSettings.AddOrUpdateValue(IsUserPreferancesSetKey, value))
+                    AppSettings.Save();
+            }
+        }
+
+        #endregion
+
+        #endregion
+    }
 }

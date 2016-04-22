@@ -10,473 +10,392 @@ using Tojeero.Core.Services.Contracts;
 
 namespace Tojeero.Core.Model
 {
-	public class User : BaseModelEntity<TojeeroUser>, IUser
-	{
-		#region Private fields and properties
+    public class User : BaseModelEntity<TojeeroUser>, IUser
+    {
+        #region Private fields and properties
 
-		private List<IFavorite> _favoriteProducts;
-		private List<IFavorite> _favoriteStores;
-		private AsyncReaderWriterLock _productLocker = new AsyncReaderWriterLock();
-		private AsyncReaderWriterLock _storeLocker = new AsyncReaderWriterLock();
+        private List<IFavorite> _favoriteProducts;
+        private List<IFavorite> _favoriteStores;
+        private readonly AsyncReaderWriterLock _productLocker = new AsyncReaderWriterLock();
+        private readonly AsyncReaderWriterLock _storeLocker = new AsyncReaderWriterLock();
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public User(TojeeroUser user = null)
-			: base(user)
-		{
-		}
+        public User(TojeeroUser user = null)
+            : base(user)
+        {
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		[JsonIgnore]
-		public TojeeroUser ParseObject
-		{ 
-			get
-			{
-				return base.ParseObject;
-			}
-			set
-			{
-				base.ParseObject = value;
-			}
-		}
+        [JsonIgnore]
+        public TojeeroUser ParseObject
+        {
+            get { return base.ParseObject; }
+            set { base.ParseObject = value; }
+        }
 
 
-		[JsonProperty("first_name")]
-		public string FirstName
-		{ 
-			get
-			{
-				return this.ParseObject.FirstName; 
-			}
-			set
-			{
-				this.ParseObject.FirstName = value;
-				RaisePropertyChanged(() => FirstName); 
-				RaisePropertyChanged(() => FullName); 
-			}
-		}
-			
-		[JsonProperty("last_name")]
-		public string LastName
-		{ 
-			get
-			{
-				return this.ParseObject.LastName; 
-			}
-			set
-			{
-				this.ParseObject.LastName = value;
-				RaisePropertyChanged(() => LastName); 
-				RaisePropertyChanged(() => FullName); 
-			}
-		}
+        [JsonProperty("first_name")]
+        public string FirstName
+        {
+            get { return ParseObject.FirstName; }
+            set
+            {
+                ParseObject.FirstName = value;
+                RaisePropertyChanged(() => FirstName);
+                RaisePropertyChanged(() => FullName);
+            }
+        }
 
-		public string FullName
-		{ 
-			get
-			{
-				return string.Format("{0} {1}", FirstName, LastName); 
-			}
-		}
+        [JsonProperty("last_name")]
+        public string LastName
+        {
+            get { return ParseObject.LastName; }
+            set
+            {
+                ParseObject.LastName = value;
+                RaisePropertyChanged(() => LastName);
+                RaisePropertyChanged(() => FullName);
+            }
+        }
+
+        public string FullName
+        {
+            get { return string.Format("{0} {1}", FirstName, LastName); }
+        }
 
 
-		public string UserName
-		{ 
-			get
-			{
-				return this.ParseObject.Username; 
-			}
-			set
-			{
-				this.ParseObject.Username = value;
-				RaisePropertyChanged(() => UserName); 
-			}
-		}
-			
-		[JsonProperty("id")]
-		public string ID
-		{ 
-			get
-			{
-				return base.ID; 
-			}
-			set
-			{
-				base.ID = value;
-			}
-		}
+        public string UserName
+        {
+            get { return ParseObject.Username; }
+            set
+            {
+                ParseObject.Username = value;
+                RaisePropertyChanged(() => UserName);
+            }
+        }
+
+        [JsonProperty("id")]
+        public string ID
+        {
+            get { return base.ID; }
+            set { base.ID = value; }
+        }
 
 
-		[JsonProperty("email")]
-		public string Email
-		{ 
-			get
-			{
-				return this.ParseObject.Email;; 
-			}
-			set
-			{
-				this.ParseObject.Email = value;
-				RaisePropertyChanged(() => Email); 
-			}
-		}
-			
-		public string ProfilePictureUrl
-		{ 
-			get
-			{
-				return this.ParseObject.ProfilePictureUrl; 
-			}
-			set
-			{
-				this.ParseObject.ProfilePictureUrl = value; 
-				RaisePropertyChanged(() => ProfilePictureUrl); 
-			}
-		}
-			
-		private string _cityId;
+        [JsonProperty("email")]
+        public string Email
+        {
+            get
+            {
+                return ParseObject.Email;
+                ;
+            }
+            set
+            {
+                ParseObject.Email = value;
+                RaisePropertyChanged(() => Email);
+            }
+        }
 
-		public string CityId
-		{
-			get
-			{
-				if (_cityId == null && _parseObject != null && _parseObject.City != null)
-					_cityId = _parseObject.City.ObjectId;
-				return _cityId;
-			}
-			set
-			{
-				if (_cityId != value)
-				{
-					_cityId = value;
-					_city = null;
-					this.ParseObject.City = Parse.ParseObject.CreateWithoutData<ParseCity>(_cityId);
-				}
-			}
-		}
+        public string ProfilePictureUrl
+        {
+            get { return ParseObject.ProfilePictureUrl; }
+            set
+            {
+                ParseObject.ProfilePictureUrl = value;
+                RaisePropertyChanged(() => ProfilePictureUrl);
+            }
+        }
 
-		private string _countryId;
+        private string _cityId;
 
-		public string CountryId
-		{
-			get
-			{
-				if (_countryId == null && _parseObject != null && _parseObject.Country != null)
-					_countryId = _parseObject.Country.ObjectId;
-				return _countryId;
-			}
-			set
-			{
-				if (_countryId != value)
-				{
-					_countryId = value;
-					_country = null;
-					this.ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
-				}
-			}
-		}
-			
-		private ICountry _country;
-		[JsonIgnore]
-		public ICountry Country
-		{ 
-			get
-			{
-				if (_country == null)
-					_country = new Country(this.ParseObject.Country);
-				return _country; 
-			}
-		}
+        public string CityId
+        {
+            get
+            {
+                if (_cityId == null && _parseObject != null && _parseObject.City != null)
+                    _cityId = _parseObject.City.ObjectId;
+                return _cityId;
+            }
+            set
+            {
+                if (_cityId != value)
+                {
+                    _cityId = value;
+                    _city = null;
+                    ParseObject.City = Parse.ParseObject.CreateWithoutData<ParseCity>(_cityId);
+                }
+            }
+        }
 
-		private ICity _city;
-		[JsonIgnore]
-		public ICity City
-		{ 
-			get
-			{
-				if (_city == null)
-					_city = new City(this.ParseObject.City);
-				return _city; 
-			}
-		}
+        private string _countryId;
 
-		public string Mobile
-		{ 
-			get
-			{
-				return this.ParseObject.Mobile; 
-			}
-			set
-			{
-				this.ParseObject.Mobile = value; 
-				RaisePropertyChanged(() => Mobile); 
-			}
-		}
+        public string CountryId
+        {
+            get
+            {
+                if (_countryId == null && _parseObject != null && _parseObject.Country != null)
+                    _countryId = _parseObject.Country.ObjectId;
+                return _countryId;
+            }
+            set
+            {
+                if (_countryId != value)
+                {
+                    _countryId = value;
+                    _country = null;
+                    ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
+                }
+            }
+        }
 
-		public bool IsProfileSubmitted 
-		{
-			get
-			{
-				return this.ParseObject.IsProfileSubmitted;
-			}
-			set
-			{ 
-				this.ParseObject.IsProfileSubmitted = value;
-				RaisePropertyChanged(() => IsProfileSubmitted);
-			}
-		}
+        private ICountry _country;
 
-		private IStore _defaultStore;
-		[JsonIgnore]
-		public IStore DefaultStore
-		{
-			get
-			{
-				return _defaultStore;
-			}
-			private set
-			{
-				_defaultStore = value;
-				RaisePropertyChanged(() => DefaultStore);
-			}
-		}
+        [JsonIgnore]
+        public ICountry Country
+        {
+            get
+            {
+                if (_country == null)
+                    _country = new Country(ParseObject.Country);
+                return _country;
+            }
+        }
 
-		#endregion
+        private ICity _city;
 
-		#region Methods
+        [JsonIgnore]
+        public ICity City
+        {
+            get
+            {
+                if (_city == null)
+                    _city = new City(ParseObject.City);
+                return _city;
+            }
+        }
 
-		public async Task<IFavorite> GetProductFavorite(string productID)
-		{
-			await loadFavoriteProductsIfNeeded();
-			var favorite = getProductFavorite(productID);
-			return favorite;
-		}
+        public string Mobile
+        {
+            get { return ParseObject.Mobile; }
+            set
+            {
+                ParseObject.Mobile = value;
+                RaisePropertyChanged(() => Mobile);
+            }
+        }
 
-		public async Task<IFavorite> AddProductToFavorites(string productID)
-		{
-			var user = ParseUser.CurrentUser as TojeeroUser;
-			user.FavoriteProducts.Add(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
-			await user.SaveAsync();
-			var favorite = getProductFavorite(productID);
-			favorite.IsFavorite = true;
-			return favorite;
-		}
+        public bool IsProfileSubmitted
+        {
+            get { return ParseObject.IsProfileSubmitted; }
+            set
+            {
+                ParseObject.IsProfileSubmitted = value;
+                RaisePropertyChanged(() => IsProfileSubmitted);
+            }
+        }
 
-		public async Task RemoveProductFromFavorites(string productID)
-		{
-			var user = ParseUser.CurrentUser as TojeeroUser;
-			user.FavoriteProducts.Remove(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
-			await user.SaveAsync();
-			var favorite = getProductFavorite(productID);
-			favorite.IsFavorite = false;
-		}
+        private IStore _defaultStore;
 
-		public async Task<IFavorite> GetStoreFavorite(string storeID)
-		{
-			await loadFavoriteStoresIfNeeded();
-			var favorite = getStoreFavorite(storeID);
-			return favorite;
-		}
+        [JsonIgnore]
+        public IStore DefaultStore
+        {
+            get { return _defaultStore; }
+            private set
+            {
+                _defaultStore = value;
+                RaisePropertyChanged(() => DefaultStore);
+            }
+        }
 
-		public async Task<IFavorite> AddStoreToFavorites(string storeID)
-		{
-			var user = ParseUser.CurrentUser as TojeeroUser;
-			user.FavoriteStores.Add(Parse.ParseObject.CreateWithoutData<ParseStore>(storeID));
-			await user.SaveAsync();
-			var favorite = getStoreFavorite(storeID);
-			favorite.IsFavorite = true;
-			return favorite;
-		}
+        #endregion
 
-		public async Task RemoveStoreFromFavorites(string storeID)
-		{
-			var user = ParseUser.CurrentUser as TojeeroUser;
-			user.FavoriteStores.Remove(Parse.ParseObject.CreateWithoutData<ParseStore>(storeID));
-			await user.SaveAsync();
-			var favorite = getStoreFavorite(storeID);
-			favorite.IsFavorite = false;
-		}
+        #region Methods
 
-		public async Task LoadDefaultStore()
-		{
-			if (this.DefaultStore != null)
-				return;
-			var repo = Mvx.Resolve<IRestRepository>();
-			var store = await repo.FetchDefaultStoreForUser(ParseUser.CurrentUser.ObjectId);
-			this.DefaultStore = store;
-		}
+        public async Task<IFavorite> GetProductFavorite(string productID)
+        {
+            await loadFavoriteProductsIfNeeded();
+            var favorite = getProductFavorite(productID);
+            return favorite;
+        }
 
-		#endregion
+        public async Task<IFavorite> AddProductToFavorites(string productID)
+        {
+            var user = ParseUser.CurrentUser as TojeeroUser;
+            user.FavoriteProducts.Add(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
+            await user.SaveAsync();
+            var favorite = getProductFavorite(productID);
+            favorite.IsFavorite = true;
+            return favorite;
+        }
 
-		#region Utility methods
+        public async Task RemoveProductFromFavorites(string productID)
+        {
+            var user = ParseUser.CurrentUser as TojeeroUser;
+            user.FavoriteProducts.Remove(Parse.ParseObject.CreateWithoutData<ParseProduct>(productID));
+            await user.SaveAsync();
+            var favorite = getProductFavorite(productID);
+            favorite.IsFavorite = false;
+        }
 
-		async Task loadFavoriteProductsIfNeeded()
-		{
-			using (var writerLock = await _productLocker.WriterLockAsync())
-			{
-				if (_favoriteProducts == null)
-				{
-					var user = ParseUser.CurrentUser as TojeeroUser;
-					var result = await user.FavoriteProducts.Query.FindAsync();	
-					_favoriteProducts = result.Select(p => new Favorite(p.ObjectId, true)).ToList<IFavorite>();
-				}
-			}
-		}
+        public async Task<IFavorite> GetStoreFavorite(string storeID)
+        {
+            await loadFavoriteStoresIfNeeded();
+            var favorite = getStoreFavorite(storeID);
+            return favorite;
+        }
 
-		async Task loadFavoriteStoresIfNeeded()
-		{
-			using (var writerLock = await _storeLocker.WriterLockAsync())
-			{
-				if (_favoriteStores == null)
-				{
-					var user = ParseUser.CurrentUser as TojeeroUser;
-					var result = await user.FavoriteStores.Query.FindAsync();	
-					_favoriteStores = result.Select(p => new Favorite(p.ObjectId, true)).ToList<IFavorite>();
-				}
-			}
-		}
+        public async Task<IFavorite> AddStoreToFavorites(string storeID)
+        {
+            var user = ParseUser.CurrentUser as TojeeroUser;
+            user.FavoriteStores.Add(Parse.ParseObject.CreateWithoutData<ParseStore>(storeID));
+            await user.SaveAsync();
+            var favorite = getStoreFavorite(storeID);
+            favorite.IsFavorite = true;
+            return favorite;
+        }
 
-		private IFavorite getProductFavorite(string productID)
-		{
-			var favorite = _favoriteProducts.Where(f => f.ObjectID == productID).FirstOrDefault();
-			if (favorite == null)
-			{
-				favorite = new Favorite(productID);
-				_favoriteProducts.Add(favorite);
-			}
-			return favorite;
-		}
+        public async Task RemoveStoreFromFavorites(string storeID)
+        {
+            var user = ParseUser.CurrentUser as TojeeroUser;
+            user.FavoriteStores.Remove(Parse.ParseObject.CreateWithoutData<ParseStore>(storeID));
+            await user.SaveAsync();
+            var favorite = getStoreFavorite(storeID);
+            favorite.IsFavorite = false;
+        }
 
-		private IFavorite getStoreFavorite(string storeID)
-		{
-			var favorite = _favoriteStores.Where(f => f.ObjectID == storeID).FirstOrDefault();
-			if (favorite == null)
-			{
-				favorite = new Favorite(storeID);
-				_favoriteStores.Add(favorite);
-			}
-			return favorite;
-		}
+        public async Task LoadDefaultStore()
+        {
+            if (DefaultStore != null)
+                return;
+            var repo = Mvx.Resolve<IRestRepository>();
+            var store = await repo.FetchDefaultStoreForUser(ParseUser.CurrentUser.ObjectId);
+            DefaultStore = store;
+        }
 
-		#endregion
-	}
+        #endregion
 
-	[ParseClassName("_User")]
-	public class TojeeroUser : ParseUser
-	{
-		[ParseFieldName("favoriteProducts")]
-		public ParseRelation<ParseProduct> FavoriteProducts
-		{
-			get 
-			{ 
-				return GetRelationProperty<ParseProduct>(); 
-			}
-		}
+        #region Utility methods
 
-		[ParseFieldName("favoriteStores")]
-		public ParseRelation<ParseStore> FavoriteStores
-		{
-			get 
-			{ 
-				return GetRelationProperty<ParseStore>(); 
-			}
-		}
+        async Task loadFavoriteProductsIfNeeded()
+        {
+            using (var writerLock = await _productLocker.WriterLockAsync())
+            {
+                if (_favoriteProducts == null)
+                {
+                    var user = ParseUser.CurrentUser as TojeeroUser;
+                    var result = await user.FavoriteProducts.Query.FindAsync();
+                    _favoriteProducts = result.Select(p => new Favorite(p.ObjectId, true)).ToList<IFavorite>();
+                }
+            }
+        }
 
-		[ParseFieldName("firstName")]
-		public string FirstName
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        async Task loadFavoriteStoresIfNeeded()
+        {
+            using (var writerLock = await _storeLocker.WriterLockAsync())
+            {
+                if (_favoriteStores == null)
+                {
+                    var user = ParseUser.CurrentUser as TojeeroUser;
+                    var result = await user.FavoriteStores.Query.FindAsync();
+                    _favoriteStores = result.Select(p => new Favorite(p.ObjectId, true)).ToList<IFavorite>();
+                }
+            }
+        }
 
-		[ParseFieldName("lastName")]
-		public string LastName
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        private IFavorite getProductFavorite(string productID)
+        {
+            var favorite = _favoriteProducts.Where(f => f.ObjectID == productID).FirstOrDefault();
+            if (favorite == null)
+            {
+                favorite = new Favorite(productID);
+                _favoriteProducts.Add(favorite);
+            }
+            return favorite;
+        }
 
-		[ParseFieldName("profilePictureUri")]
-		public string ProfilePictureUrl
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        private IFavorite getStoreFavorite(string storeID)
+        {
+            var favorite = _favoriteStores.Where(f => f.ObjectID == storeID).FirstOrDefault();
+            if (favorite == null)
+            {
+                favorite = new Favorite(storeID);
+                _favoriteStores.Add(favorite);
+            }
+            return favorite;
+        }
 
-		[ParseFieldName("country")]
-		public ParseCountry Country
-		{
-			get
-			{
-				return GetProperty<ParseCountry>();
-			}
-			set
-			{
-				SetProperty<ParseCountry>(value);
-			}
-		}
+        #endregion
+    }
 
-		[ParseFieldName("city")]
-		public ParseCity City
-		{
-			get
-			{
-				return GetProperty<ParseCity>();
-			}
-			set
-			{
-				SetProperty<ParseCity>(value);
-			}
-		}
+    [ParseClassName("_User")]
+    public class TojeeroUser : ParseUser
+    {
+        [ParseFieldName("favoriteProducts")]
+        public ParseRelation<ParseProduct> FavoriteProducts
+        {
+            get { return GetRelationProperty<ParseProduct>(); }
+        }
 
-		[ParseFieldName("mobile")]
-		public string Mobile
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        [ParseFieldName("favoriteStores")]
+        public ParseRelation<ParseStore> FavoriteStores
+        {
+            get { return GetRelationProperty<ParseStore>(); }
+        }
 
-		[ParseFieldName("isProfileSubmitted")]
-		public bool IsProfileSubmitted
-		{
-			get
-			{
-				return GetProperty<bool>();
-			}
-			set
-			{
-				SetProperty<bool>(value);
-			}
-		}
-	}
+        [ParseFieldName("firstName")]
+        public string FirstName
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("lastName")]
+        public string LastName
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("profilePictureUri")]
+        public string ProfilePictureUrl
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("country")]
+        public ParseCountry Country
+        {
+            get { return GetProperty<ParseCountry>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("city")]
+        public ParseCity City
+        {
+            get { return GetProperty<ParseCity>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("mobile")]
+        public string Mobile
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("isProfileSubmitted")]
+        public bool IsProfileSubmitted
+        {
+            get { return GetProperty<bool>(); }
+            set { SetProperty(value); }
+        }
+    }
 }
-

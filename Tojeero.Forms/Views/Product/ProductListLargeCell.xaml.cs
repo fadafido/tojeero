@@ -2,12 +2,11 @@
 
 namespace Tojeero.Forms.Views.Product
 {
-	public partial class ProductListLargeCell : ViewCell
-	{
-		public ProductListLargeCell()
-		{
-			InitializeComponent();
-		}
-	}
+    public partial class ProductListLargeCell : ViewCell
+    {
+        public ProductListLargeCell()
+        {
+            InitializeComponent();
+        }
+    }
 }
-

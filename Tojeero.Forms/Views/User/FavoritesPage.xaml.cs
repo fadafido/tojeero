@@ -6,64 +6,55 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.User
 {
-	public partial class FavoritesPage : ContentPage
-	{
-		#region Constructors
+    public partial class FavoritesPage : ContentPage
+    {
+        #region Constructors
 
-		public FavoritesPage()
-		{			
-			this.ViewModel = MvxToolbox.LoadViewModel<FavoritesViewModel>();
-			InitializeComponent();
-			NavigationPage.SetTitleIcon(this, "tojeero.png");
-		}
+        public FavoritesPage()
+        {
+            ViewModel = MvxToolbox.LoadViewModel<FavoritesViewModel>();
+            InitializeComponent();
+            NavigationPage.SetTitleIcon(this, "tojeero.png");
+        }
 
-		#endregion
+        #endregion
 
-		#region View lifecycle management
+        #region View lifecycle management
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			this.ViewModel.LoadFavoriteCountsCommand.Execute(null);
-		}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.LoadFavoriteCountsCommand.Execute(null);
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private FavoritesViewModel _viewModel;
+        private FavoritesViewModel _viewModel;
 
-		public FavoritesViewModel ViewModel
-		{ 
-			get
-			{
-				return _viewModel; 
-			}
-			set
-			{
-				_viewModel = value; 
-				setupViewModel();
-			}
-		}
+        public FavoritesViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                _viewModel = value;
+                setupViewModel();
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility methods
+        #region Utility methods
 
-		private void setupViewModel()
-		{
-			this.ViewModel.ShowFavoriteProductsAction = async () =>
-				{
-					await this.Navigation.PushAsync(new FavoriteProductsPage());
-				};
-			this.ViewModel.ShowFavoriteStoresAction = async () =>
-				{
-					this.Navigation.PushAsync(new FavoriteStoresPage());
-				};
-			this.BindingContext = this.ViewModel;
-		}
+        private void setupViewModel()
+        {
+            ViewModel.ShowFavoriteProductsAction =
+                async () => { await Navigation.PushAsync(new FavoriteProductsPage()); };
+            ViewModel.ShowFavoriteStoresAction = async () => { Navigation.PushAsync(new FavoriteStoresPage()); };
+            BindingContext = ViewModel;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

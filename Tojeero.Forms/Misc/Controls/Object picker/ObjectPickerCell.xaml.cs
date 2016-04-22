@@ -2,12 +2,11 @@
 
 namespace Tojeero.Forms.Controls
 {
-	public partial class ObjectPickerCell : ViewCell
-	{
-		public ObjectPickerCell()
-		{
-			InitializeComponent();
-		}
-	}
+    public partial class ObjectPickerCell : ViewCell
+    {
+        public ObjectPickerCell()
+        {
+            InitializeComponent();
+        }
+    }
 }
-

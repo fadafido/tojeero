@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UIKit;
+﻿using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using WebViewRenderer = Tojeero.iOS.Renderers.WebViewRenderer;
 
-[assembly: ExportRenderer(typeof(WebView), typeof(Tojeero.iOS.Renderers.WebViewRenderer))]
+[assembly: ExportRenderer(typeof (WebView), typeof (WebViewRenderer))]
+
 namespace Tojeero.iOS.Renderers
 {
     public class WebViewRenderer : Xamarin.Forms.Platform.iOS.WebViewRenderer
@@ -13,7 +12,7 @@ namespace Tojeero.iOS.Renderers
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
             base.OnElementChanged(e);
-            this.ScrollView.ContentInset = new UIEdgeInsets(-64, 0, 0, 0);
+            ScrollView.ContentInset = new UIEdgeInsets(-64, 0, 0, 0);
         }
     }
 }

@@ -10,72 +10,63 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Product
 {
-	public partial class ProductDetailsPage : ContentPage
-	{
-		
-		#region Constructors
+    public partial class ProductDetailsPage : ContentPage
+    {
+        #region Constructors
 
-		public ProductDetailsPage(IProduct product, ContentMode mode = ContentMode.View)
-		{
-			this.ViewModel = MvxToolbox.LoadViewModel<ProductDetailsViewModel>();
-			this.ViewModel.Product = product;
-			this.ViewModel.Mode = mode;
-			InitializeComponent();
-			this.ViewModel.ShowStoreInfoPageAction = async (s) =>
-			{
-				await this.Navigation.PushAsync(new StoreInfoPage(s));
-			};
+        public ProductDetailsPage(IProduct product, ContentMode mode = ContentMode.View)
+        {
+            ViewModel = MvxToolbox.LoadViewModel<ProductDetailsViewModel>();
+            ViewModel.Product = product;
+            ViewModel.Mode = mode;
+            InitializeComponent();
+            ViewModel.ShowStoreInfoPageAction = async s => { await Navigation.PushAsync(new StoreInfoPage(s)); };
 
-			if (mode == ContentMode.Edit)
-			{
-				this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
-					{
-						var saveProductPage = new SaveProductPage(product, product.Store);
-						await this.Navigation.PushModalAsync(new NavigationPage(saveProductPage));
-					}));
-			}
-		    this.ViewModel.ShowChatPageAction = async (channel) =>
-		    {
-                
+            if (mode == ContentMode.Edit)
+            {
+                ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
+                {
+                    var saveProductPage = new SaveProductPage(product, product.Store);
+                    await Navigation.PushModalAsync(new NavigationPage(saveProductPage));
+                }));
+            }
+            ViewModel.ShowChatPageAction = async channel =>
+            {
                 var chatPage = new ChatPage(channel, ViewModel.Product);
-                await this.Navigation.PushAsync(chatPage);
-		    };
-			this.carouselLayout.IndicatorStyle = CarouselLayout.IndicatorStyleEnum.Dots;
-		}
+                await Navigation.PushAsync(chatPage);
+            };
+            carouselLayout.IndicatorStyle = CarouselLayout.IndicatorStyleEnum.Dots;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private ProductDetailsViewModel _viewModel;
+        private ProductDetailsViewModel _viewModel;
 
-		public ProductDetailsViewModel ViewModel
-		{ 
-			get
-			{
-				return _viewModel; 
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					_viewModel = value;
-					this.BindingContext = _viewModel;
-				}
-			}
-		}
+        public ProductDetailsViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    _viewModel = value;
+                    BindingContext = _viewModel;
+                }
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Parent 
+        #region Parent 
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			this.ViewModel.ReloadCommand.Execute(null);
-		}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.ReloadCommand.Execute(null);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

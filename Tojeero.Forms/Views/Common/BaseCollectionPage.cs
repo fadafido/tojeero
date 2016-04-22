@@ -5,100 +5,82 @@ using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Common
 {
-	public partial class BaseCollectionPage : ContentPage
-	{
-		#region Constructors
+    public partial class BaseCollectionPage : ContentPage
+    {
+        #region Constructors
 
-		public BaseCollectionPage()
-			: base()
-		{
-			InitializeComponent();
-		}
+        public BaseCollectionPage()
+        {
+            InitializeComponent();
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private ICollectionViewModel  _viewModel;
-		public ICollectionViewModel ViewModel
-		{
-			get
-			{
-				return _viewModel;
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					DisconnectEvents();
-					_viewModel = value;
-					ConnectEvents();
-					this.BindingContext = _viewModel;
-				}
-			}
-		}
+        private ICollectionViewModel _viewModel;
 
-		public DataTemplate ItemTemplate
-		{ 
-			get
-			{
-				return this.ListView.ItemTemplate; 
-			}
-			set
-			{
-				this.ListView.ItemTemplate = value;
-			}
-		}
+        public ICollectionViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    DisconnectEvents();
+                    _viewModel = value;
+                    ConnectEvents();
+                    BindingContext = _viewModel;
+                }
+            }
+        }
 
-		public object Header
-		{
-			get
-			{
-				return this.ListView.Header; 
-			}
-			set
-			{
-				this.ListView.Header = value;
-			}
-		}
+        public DataTemplate ItemTemplate
+        {
+            get { return ListView.ItemTemplate; }
+            set { ListView.ItemTemplate = value; }
+        }
 
-		public ListView ListView
-		{
-			get
-			{
-				return this.listView;
-			}
-		}
+        public object Header
+        {
+            get { return ListView.Header; }
+            set { ListView.Header = value; }
+        }
 
-		#endregion
+        public ListView ListView
+        {
+            get { return listView; }
+        }
 
-		#region Protected API
+        #endregion
 
-		protected virtual void ConnectEvents()
-		{
-			if (this.ViewModel != null)
-			{
-				this.ViewModel.ReloadFinished += reloadFinished;
-			}
-		}
+        #region Protected API
 
-		protected virtual void DisconnectEvents()
-		{
-			if (this.ViewModel != null)
-			{
-				this.ViewModel.ReloadFinished -= reloadFinished;
-			}
-		}
-		#endregion
+        protected virtual void ConnectEvents()
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.ReloadFinished += reloadFinished;
+            }
+        }
 
-		#region Event Handlers
+        protected virtual void DisconnectEvents()
+        {
+            if (ViewModel != null)
+            {
+                ViewModel.ReloadFinished -= reloadFinished;
+            }
+        }
 
-		void reloadFinished (object sender, EventArgs e)
-		{
-			this.ListView.EndRefresh();
-		}
+        #endregion
 
-		#endregion
-	}
+        #region Event Handlers
+
+        void reloadFinished(object sender, EventArgs e)
+        {
+            ListView.EndRefresh();
+        }
+
+        #endregion
+    }
 }
-

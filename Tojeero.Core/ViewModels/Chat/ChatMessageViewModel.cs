@@ -17,8 +17,8 @@ namespace Tojeero.Core.ViewModels.Chat
 
         public ChatMessageViewModel(
             IProductManager productManager,
-            IChatMessage message = null, 
-            string profilePictureUrl = null, 
+            IChatMessage message = null,
+            string profilePictureUrl = null,
             bool isSentByCurrentUser = true)
         {
             _productManager = productManager;
@@ -35,12 +35,10 @@ namespace Tojeero.Core.ViewModels.Chat
         #region Properties
 
         private IChatMessage _message;
+
         public IChatMessage Message
         {
-            get
-            {
-                return _message;
-            }
+            get { return _message; }
             private set
             {
                 if (_message != value)
@@ -52,15 +50,13 @@ namespace Tojeero.Core.ViewModels.Chat
         }
 
         private bool _isSentByCurrentUser;
+
         public bool IsSentByCurrentUser
         {
-            get
-            {
-                return _isSentByCurrentUser;
-            }
+            get { return _isSentByCurrentUser; }
             private set
             {
-                if(_isSentByCurrentUser != value)
+                if (_isSentByCurrentUser != value)
                 {
                     _isSentByCurrentUser = value;
                     updateViewModel();
@@ -72,18 +68,16 @@ namespace Tojeero.Core.ViewModels.Chat
         public string FormattedDeliveryDate { get; private set; }
 
         private ProductViewModel _product;
+
         public ProductViewModel Product
-        { 
-            get  
+        {
+            get { return _product; }
+            private set
             {
-                return _product; 
+                _product = value;
+                RaisePropertyChanged(() => Product);
             }
-            private set 
-            {
-                _product = value; 
-                RaisePropertyChanged(() => Product); 
-            }
-        }  
+        }
 
         #endregion
 

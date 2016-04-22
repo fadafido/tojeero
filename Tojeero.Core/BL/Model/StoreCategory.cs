@@ -1,129 +1,94 @@
 ﻿using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using Parse;
 using Tojeero.Core.Model.Contracts;
-using Tojeero.Core.Services.Contracts;
 
 namespace Tojeero.Core.Model
 {
-	public class StoreCategory : BaseLocalizableModelEntity<ParseStoreCategory>, IStoreCategory
-	{
-		#region Constructors
+    public class StoreCategory : BaseLocalizableModelEntity<ParseStoreCategory>, IStoreCategory
+    {
+        #region Constructors
 
-		public StoreCategory()
-			:base()
-		{
+        public StoreCategory()
+        {
+        }
 
-		}
+        public StoreCategory(ParseStoreCategory category = null)
+            : base(category)
+        {
+        }
 
-		public StoreCategory(ParseStoreCategory category = null)
-			: base(category)
-		{
+        #endregion
 
-		}
+        #region Properties
 
+        [Ignore]
+        public string Name
+        {
+            get
+            {
+                if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Name_ar))
+                    return Name_ar;
+                return Name_en;
+            }
+        }
 
-		#endregion
-
-		#region Properties
-
-		[Ignore]
-		public string Name
-		{
-			get
-			{
-				if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Name_ar))
-					return Name_ar;
-				return Name_en;
-			}
-		}
-
-		public string Name_en
-		{
-			get
-			{
-				return this.ParseObject.Name_en;
-			}
-			set
-			{
-				this.ParseObject.Name_en = value;
-			}
-		}
+        public string Name_en
+        {
+            get { return ParseObject.Name_en; }
+            set { ParseObject.Name_en = value; }
+        }
 
 
-		public string Name_ar
-		{
-			get
-			{
-				return this.ParseObject.Name_ar;
-			}
-			set
-			{
-				this.ParseObject.Name_ar = value;
-			}
-		}
+        public string Name_ar
+        {
+            get { return ParseObject.Name_ar; }
+            set { ParseObject.Name_ar = value; }
+        }
 
+        #endregion
 
-		#endregion
+        #region Parent 
 
-		#region Parent 
+        public override string ToString()
+        {
+            return Name;
+        }
 
-		public override string ToString()
-		{
-			return Name;	
-		}
+        #endregion
 
-		#endregion
+        #region implemented abstract members of BaseLocalizableModelEntity
 
-		#region implemented abstract members of BaseLocalizableModelEntity
+        protected override void raiseCulturalPropertyChange()
+        {
+            RaisePropertyChanged(() => Name);
+        }
 
-		protected override void raiseCulturalPropertyChange()
-		{
-			RaisePropertyChanged(() => Name);
-		}
+        #endregion
+    }
 
-		#endregion
-	}
+    [ParseClassName("StoreCategory")]
+    public class ParseStoreCategory : ParseObject
+    {
+        #region Constructors
 
-	[ParseClassName("StoreCategory")]
-	public class ParseStoreCategory : ParseObject
-	{
-		#region Constructors
+        #endregion
 
-		public ParseStoreCategory()
-		{
-		}
+        #region Properties
 
-		#endregion
+        [ParseFieldName("name_en")]
+        public string Name_en
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		#region Properties
+        [ParseFieldName("name_ar")]
+        public string Name_ar
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("name_en")]
-		public string Name_en
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
-
-		[ParseFieldName("name_ar")]
-		public string Name_ar
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
-			
-		#endregion
-	}
+        #endregion
+    }
 }
-

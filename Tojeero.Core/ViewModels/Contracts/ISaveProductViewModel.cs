@@ -3,33 +3,32 @@ using Tojeero.Core.Model.Contracts;
 
 namespace Tojeero.Core.ViewModels.Contracts
 {
-	public interface ISaveProductViewModel
-	{
-		IProduct CurrentProduct { get; set; }
+    public interface ISaveProductViewModel
+    {
+        IProduct CurrentProduct { get; set; }
 
-		IStore Store { get; set; }
+        IStore Store { get; set; }
 
-		bool IsNew { get; }
+        bool IsNew { get; }
 
-		IImageViewModel MainImage { get; set; }
+        IImageViewModel MainImage { get; set; }
 
-		ObservableCollection<IImageViewModel> Images { get; set; }
+        ObservableCollection<IImageViewModel> Images { get; set; }
 
-		string Name { get; set; }
+        string Name { get; set; }
 
-		double Price { get; set; }
+        double Price { get; set; }
 
-		IProductCategory Category { get; set; }
+        IProductCategory Category { get; set; }
 
-		IProductSubcategory Subcategory { get; set; }
+        IProductSubcategory Subcategory { get; set; }
 
-		ObservableCollection<string> Tags { get; set; }
+        ObservableCollection<string> Tags { get; set; }
 
-		string Description { get; set; }
+        string Description { get; set; }
 
-		bool Visible { get; set; }
+        bool Visible { get; set; }
 
-		bool HasChanged { get; }
-	}
+        bool HasChanged { get; }
+    }
 }
-

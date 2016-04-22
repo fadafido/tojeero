@@ -1,7 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Plugins.Messenger;
+using Cirrious.MvvmCross.ViewModels;
 using Nito.AsyncEx;
 using Tojeero.Core.Logging;
 using Tojeero.Core.Model.Contracts;
@@ -12,218 +15,208 @@ using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Store
 {
-	public class StoreViewModel : BaseUserViewModel, ISocialViewModel
-	{
-		#region Private fields and properties
+    public class StoreViewModel : BaseUserViewModel, ISocialViewModel
+    {
+        #region Private fields and properties
 
-		AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+        readonly AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public StoreViewModel(IStore store = null)
-			: base(Mvx.Resolve<IAuthenticationService>(), Mvx.Resolve<IMvxMessenger>())
-		{
-			this.Store = store;
-			this.PropertyChanged += propertyChanged;
-		}
+        public StoreViewModel(IStore store = null)
+            : base(Mvx.Resolve<IAuthenticationService>(), Mvx.Resolve<IMvxMessenger>())
+        {
+            Store = store;
+            PropertyChanged += propertyChanged;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public static string StoreProperty = "Store";
-		private IStore _store;
+        public static string StoreProperty = "Store";
+        private IStore _store;
 
-		public virtual IStore Store
-		{ 
-			get
-			{
-				return _store; 
-			}
-			set
-			{
-				if (_store != null)
-					_store.PropertyChanged -= propertyChanged;
-				_store = value; 
-				if (_store != null)
-					_store.PropertyChanged += propertyChanged;
-				RaisePropertyChanged(() => Store); 
-				this.LoadFavoriteCommand.Execute(null);
-			}
-		}
+        public virtual IStore Store
+        {
+            get { return _store; }
+            set
+            {
+                if (_store != null)
+                    _store.PropertyChanged -= propertyChanged;
+                _store = value;
+                if (_store != null)
+                    _store.PropertyChanged += propertyChanged;
+                RaisePropertyChanged(() => Store);
+                LoadFavoriteCommand.Execute(null);
+            }
+        }
 
-		private IFavorite _favorite;
+        private IFavorite _favorite;
 
-		public IFavorite Favorite
-		{ 
-			get
-			{
-				return _favorite; 
-			}
-			set
-			{
-				_favorite = value; 
-				RaisePropertyChanged(() => Favorite); 
-				RaisePropertyChanged(() => IsFavoriteToggleVisible); 
-			}
-		}
+        public IFavorite Favorite
+        {
+            get { return _favorite; }
+            set
+            {
+                _favorite = value;
+                RaisePropertyChanged(() => Favorite);
+                RaisePropertyChanged(() => IsFavoriteToggleVisible);
+            }
+        }
 
-		public bool IsFavoriteToggleVisible
-		{
-			get
-			{
-				return this.Favorite != null;
-			}
-		}
+        public bool IsFavoriteToggleVisible
+        {
+            get { return Favorite != null; }
+        }
 
-		public virtual string StatusWarning
-		{
-			get
-			{
-				string warning = null;
-				if (this.Store != null)
-				{
-					if (this.Store.IsBlocked)
-						warning = AppResources.MessageStoreBlocked;
-				}
-				return warning;
-			}
-		}
+        public virtual string StatusWarning
+        {
+            get
+            {
+                string warning = null;
+                if (Store != null)
+                {
+                    if (Store.IsBlocked)
+                        warning = AppResources.MessageStoreBlocked;
+                }
+                return warning;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Commands
+        #region Commands
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadFavoriteCommand;
+        private MvxCommand _loadFavoriteCommand;
 
-		public System.Windows.Input.ICommand LoadFavoriteCommand
-		{
-			get
-			{
-				_loadFavoriteCommand = _loadFavoriteCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						await loadFavorite();
-					}, () => CanExecuteLoadFavoriteCommand);
-				return _loadFavoriteCommand;
-			}
-		}
+        public ICommand LoadFavoriteCommand
+        {
+            get
+            {
+                _loadFavoriteCommand = _loadFavoriteCommand ??
+                                       new MvxCommand(async () => { await loadFavorite(); },
+                                           () => CanExecuteLoadFavoriteCommand);
+                return _loadFavoriteCommand;
+            }
+        }
 
-		public static string CanExecuteLoadFavoriteCommandProperty = "CanExecuteLoadFavoriteCommand";
-		public bool CanExecuteLoadFavoriteCommand
-		{
-			get
-			{
-				return this.Store != null && this.Store.ID != null && this.Favorite == null && this.IsNetworkAvailable && this.IsLoggedIn;
-			}
-		}
+        public static string CanExecuteLoadFavoriteCommandProperty = "CanExecuteLoadFavoriteCommand";
+
+        public bool CanExecuteLoadFavoriteCommand
+        {
+            get { return Store != null && Store.ID != null && Favorite == null && IsNetworkAvailable && IsLoggedIn; }
+        }
 
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _toggleFavoriteCommand;
+        private MvxCommand _toggleFavoriteCommand;
 
-		public System.Windows.Input.ICommand ToggleFavoriteCommand
-		{
-			get
-			{
-				_toggleFavoriteCommand = _toggleFavoriteCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () =>
-					{
-						await toggleFavorite();
-					}, () => CanExecuteToggleFavoriteCommand);
-				return _toggleFavoriteCommand;
-			}
-		}
+        public ICommand ToggleFavoriteCommand
+        {
+            get
+            {
+                _toggleFavoriteCommand = _toggleFavoriteCommand ??
+                                         new MvxCommand(async () => { await toggleFavorite(); },
+                                             () => CanExecuteToggleFavoriteCommand);
+                return _toggleFavoriteCommand;
+            }
+        }
 
-		public static string CanExecuteToggleFavoriteCommandProperty = "CanExecuteToggleFavoriteCommand";
-		public bool CanExecuteToggleFavoriteCommand
-		{
-			get
-			{
-				return this.Store != null && this.Store.ID != null && this.Favorite != null && this.IsNetworkAvailable && !this.IsLoading && this.IsLoggedIn;
-			}
-		}
+        public static string CanExecuteToggleFavoriteCommandProperty = "CanExecuteToggleFavoriteCommand";
 
-		#endregion
+        public bool CanExecuteToggleFavoriteCommand
+        {
+            get
+            {
+                return Store != null && Store.ID != null && Favorite != null && IsNetworkAvailable && !IsLoading &&
+                       IsLoggedIn;
+            }
+        }
 
-		#region Utility methods
+        #endregion
 
-		protected async Task loadFavorite()
-		{
-			if (!CanExecuteLoadFavoriteCommand)
-				return;
-			StartLoading();
-			string failureMessage = null;
-			using (var writerLock = await _locker.WriterLockAsync())
-			{
-				try
-				{
-					this.Favorite = await _authService.CurrentUser.GetStoreFavorite(this.Store.ID);
-				}
-				catch (Exception ex)
-				{
-					failureMessage = "Failed to load favorite.";
-					Tools.Logger.Log(ex, "Failed to load favorite for store with ID '{0}'", LoggingLevel.Error, true, this.Store.ID);
-				}
-			}
-			StopLoading(failureMessage);
-		}
+        #region Utility methods
 
-		private async Task toggleFavorite()
-		{
-			if (!CanExecuteToggleFavoriteCommand)
-				return;
-			using (var writerLock = await _locker.WriterLockAsync())
-			{
-				try
-				{
-					if(this.Favorite.IsFavorite)
-					{
-						await _authService.CurrentUser.RemoveStoreFromFavorites(this.Store.ID);
-					}
-					else
-					{
-						await _authService.CurrentUser.AddStoreToFavorites(this.Store.ID);
-					}
-				}
-				catch (Exception ex)
-				{
-					Tools.Logger.Log(ex, "Failed to load favorite for store with ID '{0}'", LoggingLevel.Error, true, this.Store.ID);
-				}
-			}
-		}
+        protected async Task loadFavorite()
+        {
+            if (!CanExecuteLoadFavoriteCommand)
+                return;
+            StartLoading();
+            string failureMessage = null;
+            using (var writerLock = await _locker.WriterLockAsync())
+            {
+                try
+                {
+                    Favorite = await _authService.CurrentUser.GetStoreFavorite(Store.ID);
+                }
+                catch (Exception ex)
+                {
+                    failureMessage = "Failed to load favorite.";
+                    Tools.Logger.Log(ex, "Failed to load favorite for store with ID '{0}'", LoggingLevel.Error, true,
+                        Store.ID);
+                }
+            }
+            StopLoading(failureMessage);
+        }
 
-		private void propertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
-				e.PropertyName == "Favorite" || e.PropertyName == IsLoadingProperty || e.PropertyName == "")
-			{				
-				this.RaisePropertyChanged(() => CanExecuteToggleFavoriteCommand);
-			}
+        private async Task toggleFavorite()
+        {
+            if (!CanExecuteToggleFavoriteCommand)
+                return;
+            using (var writerLock = await _locker.WriterLockAsync())
+            {
+                try
+                {
+                    if (Favorite.IsFavorite)
+                    {
+                        await _authService.CurrentUser.RemoveStoreFromFavorites(Store.ID);
+                    }
+                    else
+                    {
+                        await _authService.CurrentUser.AddStoreToFavorites(Store.ID);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Tools.Logger.Log(ex, "Failed to load favorite for store with ID '{0}'", LoggingLevel.Error, true,
+                        Store.ID);
+                }
+            }
+        }
 
-			if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
-				e.PropertyName == StoreProperty || e.PropertyName == "")
-			{
-				this.RaisePropertyChanged(() => CanExecuteLoadFavoriteCommand);
-			}		
+        private void propertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
+                e.PropertyName == "Favorite" || e.PropertyName == IsLoadingProperty || e.PropertyName == "")
+            {
+                RaisePropertyChanged(() => CanExecuteToggleFavoriteCommand);
+            }
 
-			if (e.PropertyName == CanExecuteLoadFavoriteCommandProperty || e.PropertyName == "")
-			{
-				this.LoadFavoriteCommand.Execute(null);
-			}
+            if (e.PropertyName == IsLoggedInProperty || e.PropertyName == IsNetworkAvailableProperty ||
+                e.PropertyName == StoreProperty || e.PropertyName == "")
+            {
+                RaisePropertyChanged(() => CanExecuteLoadFavoriteCommand);
+            }
 
-			if (e.PropertyName == "Status" || e.PropertyName == "Mode" || e.PropertyName == "")
-			{
-				RaisePropertyChanged(() => StatusWarning);
-			}
+            if (e.PropertyName == CanExecuteLoadFavoriteCommandProperty || e.PropertyName == "")
+            {
+                LoadFavoriteCommand.Execute(null);
+            }
 
-			//If the user state has changed to logged off then we need to clean the favorite state
-			if ((e.PropertyName == IsLoggedInProperty || e.PropertyName == "") && !this.IsLoggedIn && this.Store != null)
-			{
-				this.Favorite = null;
-			}
-		}
+            if (e.PropertyName == "Status" || e.PropertyName == "Mode" || e.PropertyName == "")
+            {
+                RaisePropertyChanged(() => StatusWarning);
+            }
 
-		#endregion
-	}
+            //If the user state has changed to logged off then we need to clean the favorite state
+            if ((e.PropertyName == IsLoggedInProperty || e.PropertyName == "") && !IsLoggedIn && Store != null)
+            {
+                Favorite = null;
+            }
+        }
+
+        #endregion
+    }
 }
-

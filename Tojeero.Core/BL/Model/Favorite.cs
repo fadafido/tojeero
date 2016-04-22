@@ -3,55 +3,48 @@ using Tojeero.Core.Model.Contracts;
 
 namespace Tojeero.Core.Model
 {
-	public class Favorite : MvxViewModel, IFavorite
-	{
-		#region Constructors
+    public class Favorite : MvxViewModel, IFavorite
+    {
+        #region Constructors
 
-		public Favorite()
-		{
-		}
+        public Favorite()
+        {
+        }
 
-		public Favorite(string objectID, bool isFavorite = false)
-		{
-			this.ObjectID = objectID;
-			this.IsFavorite = isFavorite;
-		}
+        public Favorite(string objectID, bool isFavorite = false)
+        {
+            ObjectID = objectID;
+            IsFavorite = isFavorite;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private string _objectID;
+        private string _objectID;
 
-		public string ObjectID
-		{ 
-			get
-			{
-				return _objectID; 
-			}
-			set
-			{
-				_objectID = value; 
-				RaisePropertyChanged(() => ObjectID); 
-			}
-		}
-			
-		private bool _isFavorite;
+        public string ObjectID
+        {
+            get { return _objectID; }
+            set
+            {
+                _objectID = value;
+                RaisePropertyChanged(() => ObjectID);
+            }
+        }
 
-		public bool IsFavorite
-		{ 
-			get
-			{
-				return _isFavorite; 
-			}
-			set
-			{
-				_isFavorite = value; 
-				RaisePropertyChanged(() => IsFavorite); 
-			}
-		}
+        private bool _isFavorite;
 
-		#endregion
-	}
+        public bool IsFavorite
+        {
+            get { return _isFavorite; }
+            set
+            {
+                _isFavorite = value;
+                RaisePropertyChanged(() => IsFavorite);
+            }
+        }
+
+        #endregion
+    }
 }
-

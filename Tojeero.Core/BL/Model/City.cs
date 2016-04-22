@@ -1,190 +1,150 @@
 ﻿using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using Parse;
 using Tojeero.Core.Model.Contracts;
-using Tojeero.Core.Services.Contracts;
 
 namespace Tojeero.Core.Model
 {
-	public class City : BaseLocalizableModelEntity<ParseCity>, ICity
-	{
-		#region Constructors
+    public class City : BaseLocalizableModelEntity<ParseCity>, ICity
+    {
+        #region Constructors
 
-		public City()
-			:base()
-		{
+        public City()
+        {
+        }
 
-		}
+        public City(ParseCity city = null)
+            : base(city)
+        {
+        }
 
-		public City(ParseCity city = null)
-			: base(city)
-		{
+        #endregion
 
-		}
+        #region Properties
 
+        [Ignore]
+        public override ParseCity ParseObject
+        {
+            get { return base.ParseObject; }
+            set { base.ParseObject = value; }
+        }
 
-		#endregion
+        private string _countryId;
 
-		#region Properties
+        public string CountryId
+        {
+            get
+            {
+                if (_countryId == null && _parseObject != null && _parseObject.Country != null)
+                    _countryId = _parseObject.Country.ObjectId;
+                return _countryId;
+            }
+            set
+            {
+                if (_countryId != value)
+                {
+                    _countryId = value;
+                    _country = null;
+                    ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
+                }
+            }
+        }
 
-		[Ignore]
-		public override ParseCity ParseObject
-		{
-			get
-			{
-				return base.ParseObject;
-			}
-			set
-			{
+        [Ignore]
+        public string Name
+        {
+            get
+            {
+                if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Name_ar))
+                    return Name_ar;
+                return Name_en;
+            }
+        }
 
-				base.ParseObject = value;
-			}
-		}
-			
-		private string _countryId;
-
-		public string CountryId
-		{
-			get
-			{
-				if (_countryId == null && _parseObject != null && _parseObject.Country != null)
-					_countryId = _parseObject.Country.ObjectId;
-				return _countryId;
-			}
-			set
-			{
-				if (_countryId != value)
-				{
-					_countryId = value;
-					_country = null;
-					this.ParseObject.Country = Parse.ParseObject.CreateWithoutData<ParseCountry>(_countryId);
-				}
-			}
-		}
-
-		[Ignore]
-		public string Name
-		{
-			get
-			{
-				if (Language == LanguageCode.Arabic && !string.IsNullOrEmpty(Name_ar))
-					return Name_ar;
-				return Name_en;
-			}
-		}
-
-		public string Name_en
-		{
-			get
-			{
-				return this.ParseObject.Name_en;
-			}
-			set
-			{
-				this.ParseObject.Name_en = value;
-				this.RaisePropertyChanged(() => Name);
-			}
-		}
+        public string Name_en
+        {
+            get { return ParseObject.Name_en; }
+            set
+            {
+                ParseObject.Name_en = value;
+                RaisePropertyChanged(() => Name);
+            }
+        }
 
 
-		public string Name_ar
-		{
-			get
-			{
-				return this.ParseObject.Name_ar;
-			}
-			set
-			{
-				this.ParseObject.Name_ar = value;
-				this.RaisePropertyChanged(() => Name);
-			}
-		}
-			
-		private ICountry _country;
-		[Ignore]
-		public ICountry Country
-		{ 
-			get
-			{
-				if (_country == null)
-					_country = new Country(this.ParseObject.Country);
-				return _country; 
-			}
-		}
+        public string Name_ar
+        {
+            get { return ParseObject.Name_ar; }
+            set
+            {
+                ParseObject.Name_ar = value;
+                RaisePropertyChanged(() => Name);
+            }
+        }
 
-		#endregion
+        private ICountry _country;
 
-		#region Parent 
+        [Ignore]
+        public ICountry Country
+        {
+            get
+            {
+                if (_country == null)
+                    _country = new Country(ParseObject.Country);
+                return _country;
+            }
+        }
 
-		public override string ToString()
-		{
-			return Name;	
-		}
+        #endregion
 
-		#endregion
+        #region Parent 
 
-		#region implemented abstract members of BaseLocalizableModelEntity
+        public override string ToString()
+        {
+            return Name;
+        }
 
-		protected override void raiseCulturalPropertyChange()
-		{
-			RaisePropertyChanged(() => Name);
-		}
+        #endregion
 
-		#endregion
-	}
+        #region implemented abstract members of BaseLocalizableModelEntity
 
-	[ParseClassName("City")]
-	public class ParseCity : ParseObject
-	{
-		#region Constructors
+        protected override void raiseCulturalPropertyChange()
+        {
+            RaisePropertyChanged(() => Name);
+        }
 
-		public ParseCity()
-		{
-		}
+        #endregion
+    }
 
-		#endregion
+    [ParseClassName("City")]
+    public class ParseCity : ParseObject
+    {
+        #region Constructors
 
-		#region Properties
+        #endregion
 
-		[ParseFieldName("country")]
-		public ParseCountry Country
-		{
-			get
-			{
-				return GetProperty<ParseCountry>();
-			}
-			set
-			{
-				SetProperty<ParseCountry>(value);
-			}
-		}
+        #region Properties
 
-		[ParseFieldName("name_en")]
-		public string Name_en
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        [ParseFieldName("country")]
+        public ParseCountry Country
+        {
+            get { return GetProperty<ParseCountry>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("name_ar")]
-		public string Name_ar
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        [ParseFieldName("name_en")]
+        public string Name_en
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		#endregion
-	}
+        [ParseFieldName("name_ar")]
+        public string Name_ar
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
+
+        #endregion
+    }
 }
-

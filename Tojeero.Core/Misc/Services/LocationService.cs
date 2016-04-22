@@ -1,81 +1,71 @@
-﻿using System;
+﻿using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Plugins.Location;
 using Cirrious.MvvmCross.Plugins.Messenger;
-using Cirrious.CrossCore;
 using Tojeero.Core.Messages;
 using Tojeero.Core.Services.Contracts;
 
 namespace Tojeero.Core.Services
 {
-	public class LocationService : ILocationService
-	{
-		#region Private Fields and Properties
+    public class LocationService : ILocationService
+    {
+        #region Private Fields and Properties
 
-		private readonly IMvxLocationWatcher _locationWatcher;
-		private readonly IMvxMessenger _messenger;
+        private readonly IMvxLocationWatcher _locationWatcher;
+        private readonly IMvxMessenger _messenger;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public LocationService(IMvxLocationWatcher locationWatcher, IMvxMessenger messenger)
-		{
-			_locationWatcher = locationWatcher;
-			_messenger = messenger;
-			start();
-		}
+        public LocationService(IMvxLocationWatcher locationWatcher, IMvxMessenger messenger)
+        {
+            _locationWatcher = locationWatcher;
+            _messenger = messenger;
+            start();
+        }
 
-		#endregion
+        #endregion
 
-		#region ILocationService implementation
+        #region ILocationService implementation
 
-		MvxGeoLocation _lastKnownLocation;
-		public MvxGeoLocation LastKnownLocation
-		{
-			get
-			{
-				return _lastKnownLocation;
-			}
-			private set
-			{ 
-				_lastKnownLocation = value;
-				_messenger.Publish(new LocationUpdatedMessege(this, _lastKnownLocation));
-			}
-		}
-			
-		#endregion
+        MvxGeoLocation _lastKnownLocation;
 
-		#region Location Watcher
+        public MvxGeoLocation LastKnownLocation
+        {
+            get { return _lastKnownLocation; }
+            private set
+            {
+                _lastKnownLocation = value;
+                _messenger.Publish(new LocationUpdatedMessege(this, _lastKnownLocation));
+            }
+        }
 
-		void OnLocation(MvxGeoLocation location)
-		{
-			this.LastKnownLocation = location;
-		}
+        #endregion
+
+        #region Location Watcher
+
+        void OnLocation(MvxGeoLocation location)
+        {
+            LastKnownLocation = location;
+        }
 
 
-		void OnError(MvxLocationError error)
-		{
-			Mvx.Error("Failed location retrieval. {0}", error);
-		}
+        void OnError(MvxLocationError error)
+        {
+            Mvx.Error("Failed location retrieval. {0}", error);
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility Methods
+        #region Utility Methods
 
-		private void start()
-		{
-			_locationWatcher.Start(new MvxLocationOptions(),
-				(loc) =>
-				{
-					OnLocation(loc);
-				}, 
-				(err) =>
-				{
-					OnError(err);
-				});
-		}
+        private void start()
+        {
+            _locationWatcher.Start(new MvxLocationOptions(),
+                loc => { OnLocation(loc); },
+                err => { OnError(err); });
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

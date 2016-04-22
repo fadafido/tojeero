@@ -10,22 +10,22 @@ using Tojeero.Core.Model.Contracts;
 
 namespace Tojeero.Core.ViewModels.Store
 {
-	public class StoreDetailsViewModel : StoreViewModel
-	{
-		#region Private APIs and Fields
+    public class StoreDetailsViewModel : StoreViewModel
+    {
+        #region Private APIs and Fields
 
-		private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+        private readonly AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public StoreDetailsViewModel(IStore store = null, ContentMode mode = ContentMode.View)
-			: base(store)
-		{
-			this.ShouldSubscribeToSessionChange = true;
-			var messenger = Mvx.Resolve<IMvxMessenger>();
-		}
+        public StoreDetailsViewModel(IStore store = null, ContentMode mode = ContentMode.View)
+            : base(store)
+        {
+            ShouldSubscribeToSessionChange = true;
+            var messenger = Mvx.Resolve<IMvxMessenger>();
+        }
 
         #endregion
 
@@ -35,37 +35,34 @@ namespace Tojeero.Core.ViewModels.Store
 
         private ContentMode _mode;
 
-		public ContentMode Mode
-		{ 
-			get
-			{
-				return _mode; 
-			}
-			set
-			{
-				_mode = value; 
-				RaisePropertyChanged(() => Mode); 
-			}
-		}
+        public ContentMode Mode
+        {
+            get { return _mode; }
+            set
+            {
+                _mode = value;
+                RaisePropertyChanged(() => Mode);
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Commands
+        #region Commands
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+        private MvxCommand _reloadCommand;
 
-		public System.Windows.Input.ICommand ReloadCommand
-		{
-			get
-			{
-				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
-					await reload();
-				}, () => !IsLoading && IsNetworkAvailable);
-				return _reloadCommand;
-			}
-		}
+        public ICommand ReloadCommand
+        {
+            get
+            {
+                _reloadCommand = _reloadCommand ??
+                                 new MvxCommand(async () => { await reload(); }, () => !IsLoading && IsNetworkAvailable);
+                return _reloadCommand;
+            }
+        }
 
         private MvxCommand _chatCommand;
+
         public ICommand ChatCommand
         {
             get
@@ -84,18 +81,18 @@ namespace Tojeero.Core.ViewModels.Store
         #region Utility methods
 
         private async Task reload()
-		{
-			using (var writerLock = await _locker.WriterLockAsync())
-			{
-				if (this.Store != null)
-					await this.Store.LoadRelationships();
-				await loadFavorite();
-			}
-		}
+        {
+            using (var writerLock = await _locker.WriterLockAsync())
+            {
+                if (Store != null)
+                    await Store.LoadRelationships();
+                await loadFavorite();
+            }
+        }
 
         private IChatChannel getChannel()
         {
-            var channel = new ChatChannel()
+            var channel = new ChatChannel
             {
                 ChannelID = "test_channel",
                 RecipientID = Store.OwnerID,
@@ -109,4 +106,3 @@ namespace Tojeero.Core.ViewModels.Store
         #endregion
     }
 }
-

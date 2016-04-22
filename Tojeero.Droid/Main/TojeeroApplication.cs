@@ -1,124 +1,124 @@
 ﻿using System;
+using Android;
 using Android.App;
-using System.Collections.Generic;
-using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using ImageCircle.Forms.Plugin.Droid;
 using Tojeero.Core;
 using Xamarin;
 using Xamarin.Facebook;
-using ImageCircle.Forms.Plugin.Droid;
-using Cirrious.CrossCore;
+using Object = Java.Lang.Object;
 
-[assembly: UsesPermission(Android.Manifest.Permission.Internet)]
-[assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
+[assembly: UsesPermission(Manifest.Permission.Internet)]
+[assembly: UsesPermission(Manifest.Permission.WriteExternalStorage)]
 
 namespace Tojeero.Droid
 {
-	#if DEBUG
-	[Application(Debuggable=true, Icon = "@drawable/icon")]
-	#else
+#if DEBUG
+    [Application(Debuggable = true, Icon = "@drawable/icon")]
+#else
 	[Application(Debuggable=false, Icon = "@drawable/icon")]
 	#endif
+    public class TojeeroApplication : Application
+    {
+        #region Private API
 
-	public class TojeeroApplication : Application
-	{
-		#region Private API
+        ActivityLifecycleHandler _lifecycleHandler;
 
-		ActivityLifecycleHandler _lifecycleHandler;
+        #endregion
 
-		#endregion
+        #region Properties
 
-		#region Properties
+        // A static instance of an application's singleton.
+        public static TojeeroApplication Instance { get; private set; }
 
-		// A static instance of an application's singleton.
-		public static TojeeroApplication Instance { get; private set; }
+        #endregion
 
-		#endregion
+        #region Constructor
 
-		#region Constructor
+        public TojeeroApplication()
+        {
+            /* Default constructor */
+        }
 
-		public TojeeroApplication()
-		{
-			/* Default constructor */
-		}
+        protected TojeeroApplication(IntPtr javaReference, JniHandleOwnership transfer)
+            : base(javaReference, transfer)
+        {
+            /* Nothing to do */
+        }
 
-		protected TojeeroApplication(IntPtr javaReference, Android.Runtime.JniHandleOwnership transfer) 
-			: base(javaReference, transfer)
-		{
-			/* Nothing to do */
-		}
+        #endregion
 
-		#endregion
+        #region Lifecycle Management
 
-		#region Lifecycle Management
+        public override void OnCreate()
+        {
+            base.OnCreate();
+            Instance = this;
 
-		public override void OnCreate()
-		{
-			base.OnCreate();
-			Instance = this;
+            //Initialize Xamarin Insights
+            var key = Constants.XamarinInsightsApiKey;
+#if DEBUG
+            key = Insights.DebugModeKey;
+#endif
+            Insights.Initialize(key, this);
 
-			//Initialize Xamarin Insights
-			string key = Constants.XamarinInsightsApiKey;
-			#if DEBUG
-			key = Insights.DebugModeKey;
-			#endif
-			Insights.Initialize(key, this);
+            //Initialize Facebook
+            FacebookSdk.SdkInitialize(this);
 
-			//Initialize Facebook
-			FacebookSdk.SdkInitialize(this);
+            //Initialize Parse
+            ParseInitialize.Initialize();
 
-			//Initialize Parse
-			ParseInitialize.Initialize();
+            //Setup MvvmCross
+            var setup = new Setup(this);
+            setup.Initialize();
 
-			//Setup MvvmCross
-			var setup = new Setup(this);
-			setup.Initialize();
+            //Initialize Misc Plugins
+            ImageCircleRenderer.Init();
+        }
 
-			//Initialize Misc Plugins
-			ImageCircleRenderer.Init();
-		}
+        #endregion
 
-		#endregion
+        #region Private classes
 
-		#region Private classes
+        private class ActivityLifecycleHandler : Object, IActivityLifecycleCallbacks
+        {
+            public Activity CurrentActivity { get; set; }
 
-		private class ActivityLifecycleHandler : Java.Lang.Object, IActivityLifecycleCallbacks
-		{
-			public Activity CurrentActivity { get; set; }
-			#region IActivityLifecycleCallbacks implementation
-			public void OnActivityCreated(Activity activity, Android.OS.Bundle savedInstanceState)
-			{
-				CurrentActivity = activity;
-			}
+            #region IActivityLifecycleCallbacks implementation
 
-			public void OnActivityDestroyed(Activity activity)
-			{
+            public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
+            {
+                CurrentActivity = activity;
+            }
 
-			}
-			public void OnActivityPaused(Activity activity)
-			{
+            public void OnActivityDestroyed(Activity activity)
+            {
+            }
 
-			}
-			public void OnActivityResumed(Activity activity)
-			{
+            public void OnActivityPaused(Activity activity)
+            {
+            }
 
-			}
-			public void OnActivitySaveInstanceState(Activity activity, Android.OS.Bundle outState)
-			{
+            public void OnActivityResumed(Activity activity)
+            {
+            }
 
-			}
-			public void OnActivityStarted(Activity activity)
-			{
+            public void OnActivitySaveInstanceState(Activity activity, Bundle outState)
+            {
+            }
 
-			}
-			public void OnActivityStopped(Activity activity)
-			{
+            public void OnActivityStarted(Activity activity)
+            {
+            }
 
-			}
-			#endregion
+            public void OnActivityStopped(Activity activity)
+            {
+            }
 
-		}
+            #endregion
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

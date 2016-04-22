@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Cirrious.MvvmCross.ViewModels;
 using Tojeero.Core.Logging;
 using Tojeero.Core.Managers.Contracts;
 using Tojeero.Core.Resources;
@@ -8,172 +10,158 @@ using Tojeero.Core.ViewModels.Common;
 
 namespace Tojeero.Core.ViewModels.User
 {
-	public class FavoritesViewModel : LoadableNetworkViewModel
-	{
-		#region Private fields and properties
+    public class FavoritesViewModel : LoadableNetworkViewModel
+    {
+        #region Private fields and properties
 
-		private readonly IStoreManager _storeManager;
-		private readonly IProductManager _productManager;
+        private readonly IStoreManager _storeManager;
+        private readonly IProductManager _productManager;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public FavoritesViewModel(IStoreManager storeManager, IProductManager productManager)
-			:base()
-		{
-			this._productManager = productManager;
-			this._storeManager = storeManager;
-		}
+        public FavoritesViewModel(IStoreManager storeManager, IProductManager productManager)
+        {
+            _productManager = productManager;
+            _storeManager = storeManager;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public Action ShowFavoriteProductsAction;
-		public Action ShowFavoriteStoresAction;
+        public Action ShowFavoriteProductsAction;
+        public Action ShowFavoriteStoresAction;
 
-		private int _favoriteProductsCount;
+        private int _favoriteProductsCount;
 
-		public int FavoriteProductsCount
-		{ 
-			get
-			{
-				return _favoriteProductsCount; 
-			}
-			set
-			{
-				_favoriteProductsCount = value; 
-				RaisePropertyChanged(() => FavoriteProductsCount); 
-				RaisePropertyChanged(() => FavoriteProductsCountLabel);
-			}
-		}
+        public int FavoriteProductsCount
+        {
+            get { return _favoriteProductsCount; }
+            set
+            {
+                _favoriteProductsCount = value;
+                RaisePropertyChanged(() => FavoriteProductsCount);
+                RaisePropertyChanged(() => FavoriteProductsCountLabel);
+            }
+        }
 
-		private int _favoriteStoresCount;
+        private int _favoriteStoresCount;
 
-		public int FavoriteStoresCount
-		{ 
-			get
-			{
-				return _favoriteStoresCount; 
-			}
-			set
-			{
-				_favoriteStoresCount = value; 
-				RaisePropertyChanged(() => FavoriteStoresCount); 
-				RaisePropertyChanged(() => FavoriteStoresCountLabel);
-			}
-		}
+        public int FavoriteStoresCount
+        {
+            get { return _favoriteStoresCount; }
+            set
+            {
+                _favoriteStoresCount = value;
+                RaisePropertyChanged(() => FavoriteStoresCount);
+                RaisePropertyChanged(() => FavoriteStoresCountLabel);
+            }
+        }
 
-		public string FavoriteProductsCountLabel
-		{
-			get
-			{
-				if (this.FavoriteProductsCount > 0)
-					return string.Format(AppResources.LabelListCount, this.FavoriteProductsCount);
-				else
-					return AppResources.LabelEmptyList;
-			}
-		}
+        public string FavoriteProductsCountLabel
+        {
+            get
+            {
+                if (FavoriteProductsCount > 0)
+                    return string.Format(AppResources.LabelListCount, FavoriteProductsCount);
+                return AppResources.LabelEmptyList;
+            }
+        }
 
-		public string FavoriteStoresCountLabel
-		{
-			get
-			{
-				if (this.FavoriteStoresCount > 0)
-					return string.Format(AppResources.LabelListCount, this.FavoriteStoresCount);
-				else
-					return AppResources.LabelEmptyList;
-			}
-		}
+        public string FavoriteStoresCountLabel
+        {
+            get
+            {
+                if (FavoriteStoresCount > 0)
+                    return string.Format(AppResources.LabelListCount, FavoriteStoresCount);
+                return AppResources.LabelEmptyList;
+            }
+        }
 
-		private bool _areCountsLoaded;
+        private bool _areCountsLoaded;
 
-		public bool AreCountsLoaded
-		{ 
-			get
-			{
-				return _areCountsLoaded; 
-			}
-			private set
-			{
-				_areCountsLoaded = value; 
-				RaisePropertyChanged(() => AreCountsLoaded); 
-			}
-		}
-		#endregion
+        public bool AreCountsLoaded
+        {
+            get { return _areCountsLoaded; }
+            private set
+            {
+                _areCountsLoaded = value;
+                RaisePropertyChanged(() => AreCountsLoaded);
+            }
+        }
 
-		#region Commands
+        #endregion
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _showFavoriteProductsCommand;
+        #region Commands
 
-		public System.Windows.Input.ICommand ShowFavoriteProductsCommand
-		{
-			get
-			{
-				_showFavoriteProductsCommand = _showFavoriteProductsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					ShowFavoriteProductsAction.Fire();
-				});
-				return _showFavoriteProductsCommand;
-			}
-		}
+        private MvxCommand _showFavoriteProductsCommand;
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _showFavoriteStoresCommand;
+        public ICommand ShowFavoriteProductsCommand
+        {
+            get
+            {
+                _showFavoriteProductsCommand = _showFavoriteProductsCommand ??
+                                               new MvxCommand(() => { ShowFavoriteProductsAction.Fire(); });
+                return _showFavoriteProductsCommand;
+            }
+        }
 
-		public System.Windows.Input.ICommand ShowFavoriteStoresCommand
-		{
-			get
-			{
-				_showFavoriteStoresCommand = _showFavoriteStoresCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					ShowFavoriteStoresAction.Fire();
-				});
-				return _showFavoriteStoresCommand;
-			}
-		}
+        private MvxCommand _showFavoriteStoresCommand;
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _loadFavoriteCountsCommand;
+        public ICommand ShowFavoriteStoresCommand
+        {
+            get
+            {
+                _showFavoriteStoresCommand = _showFavoriteStoresCommand ??
+                                             new MvxCommand(() => { ShowFavoriteStoresAction.Fire(); });
+                return _showFavoriteStoresCommand;
+            }
+        }
 
-		public System.Windows.Input.ICommand LoadFavoriteCountsCommand
-		{
-			get
-			{
-				_loadFavoriteCountsCommand = _loadFavoriteCountsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
-					await loadCounts();
-				});
-				return _loadFavoriteCountsCommand;
-			}
-		}
-			
-		#endregion
+        private MvxCommand _loadFavoriteCountsCommand;
 
-		#region Utility methods
+        public ICommand LoadFavoriteCountsCommand
+        {
+            get
+            {
+                _loadFavoriteCountsCommand = _loadFavoriteCountsCommand ??
+                                             new MvxCommand(async () => { await loadCounts(); });
+                return _loadFavoriteCountsCommand;
+            }
+        }
 
-		private async Task loadCounts()
-		{
-			this.StartLoading(AppResources.MessageGeneralLoading);
-			string failureMessage = null;
-			try
-			{
-				var productsCount = await _productManager.CountFavorite();
-				var storesCount = await _storeManager.CountFavorite();
-				this.FavoriteStoresCount = storesCount;
-				this.FavoriteProductsCount = productsCount;
-				this.AreCountsLoaded = true;
-			}
-			catch (OperationCanceledException ex)
-			{
-				Tools.Logger.Log(ex, LoggingLevel.Warning);
-				failureMessage = AppResources.MessageSubmissionTimeoutFailure;
-			}
-			catch (Exception ex)
-			{
-				Tools.Logger.Log("Error occured while loading data in Favorites page. {0}", ex.ToString(), LoggingLevel.Error);
-				failureMessage = AppResources.MessageSubmissionUnknownFailure;
-			}
-			this.StopLoading(failureMessage);
-		}
+        #endregion
 
-		#endregion
-	}
+        #region Utility methods
+
+        private async Task loadCounts()
+        {
+            StartLoading(AppResources.MessageGeneralLoading);
+            string failureMessage = null;
+            try
+            {
+                var productsCount = await _productManager.CountFavorite();
+                var storesCount = await _storeManager.CountFavorite();
+                FavoriteStoresCount = storesCount;
+                FavoriteProductsCount = productsCount;
+                AreCountsLoaded = true;
+            }
+            catch (OperationCanceledException ex)
+            {
+                Tools.Logger.Log(ex, LoggingLevel.Warning);
+                failureMessage = AppResources.MessageSubmissionTimeoutFailure;
+            }
+            catch (Exception ex)
+            {
+                Tools.Logger.Log("Error occured while loading data in Favorites page. {0}", ex.ToString(),
+                    LoggingLevel.Error);
+                failureMessage = AppResources.MessageSubmissionUnknownFailure;
+            }
+            StopLoading(failureMessage);
+        }
+
+        #endregion
+    }
 }
-

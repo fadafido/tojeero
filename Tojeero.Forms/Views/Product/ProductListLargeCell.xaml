@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <ViewCell
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -13,9 +14,9 @@
 		<controls:BorderView
 			BorderColor="{x:Static core:Colors.CellBorder}"
 			BorderWidth="1"
-			BackgroundColor="White" 
+			BackgroundColor="White"
 			HorizontalOptions="FillAndExpand"
-			VerticalOptions="FillAndExpand"/>
+			VerticalOptions="FillAndExpand" />
 		<Grid
 			ColumnSpacing="0"
 			RowSpacing="5"

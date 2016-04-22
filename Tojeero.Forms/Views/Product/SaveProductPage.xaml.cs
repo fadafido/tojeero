@@ -10,98 +10,88 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Product
 {
-	public partial class SaveProductPage : ContentPage
-	{
+    public partial class SaveProductPage : ContentPage
+    {
+        #region Constructors
 
-		#region Constructors
+        public SaveProductPage(IProduct product, IStore parentStore)
+        {
+            ViewModel = MvxToolbox.LoadViewModel<SaveProductViewModel>();
+            ViewModel.CurrentProduct = product;
+            ViewModel.Store = parentStore;
 
-		public SaveProductPage(IProduct product, IStore parentStore)
-		{
-			this.ViewModel = MvxToolbox.LoadViewModel<SaveProductViewModel>();
-			this.ViewModel.CurrentProduct = product;
-			this.ViewModel.Store = parentStore;
+            InitializeComponent();
+            setupPickers();
+            ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "",
+                async () => { await Navigation.PopModalAsync(); }));
+            ViewModel.CurrentProduct = product;
 
-			InitializeComponent();
-			setupPickers();
-			this.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
-					{
-						await this.Navigation.PopModalAsync();
-					}));
-			this.ViewModel.CurrentProduct = product;
+            mainImageControl.ViewModel = ViewModel.MainImage;
+            ViewModel.ShowAlert = (t, m, accept) => { DisplayAlert(t, m, accept); };
 
-			this.mainImageControl.ViewModel = this.ViewModel.MainImage;
-			this.ViewModel.ShowAlert = (t, m, accept) =>
-			{
-				this.DisplayAlert(t, m, accept);
-			};
-			
-			this.ViewModel.DidSaveProductAction = async (savedProduct, isNew) =>
-			{
-				if (isNew)
-				{
-					await this.Navigation.PopModalAsync();
-					var productInfoPage = new ProductDetailsPage(savedProduct, ContentMode.Edit);
-					productInfoPage.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "", async () =>
-							{
-								await productInfoPage.Navigation.PopModalAsync();
-							}));
-					FormsApp.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(productInfoPage));
-				}
-				else
-				{
-					await this.Navigation.PopAsync();
-				}
-			};
+            ViewModel.DidSaveProductAction = async (savedProduct, isNew) =>
+            {
+                if (isNew)
+                {
+                    await Navigation.PopModalAsync();
+                    var productInfoPage = new ProductDetailsPage(savedProduct, ContentMode.Edit);
+                    productInfoPage.ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "",
+                        async () => { await productInfoPage.Navigation.PopModalAsync(); }));
+                    FormsApp.Current.MainPage.Navigation.PushModalAsync(new NavigationPage(productInfoPage));
+                }
+                else
+                {
+                    await Navigation.PopAsync();
+                }
+            };
 
-			this.multiImagePicker.ImageFactory = this.ViewModel.ImageViewModelFactory;
-		}
+            multiImagePicker.ImageFactory = ViewModel.ImageViewModelFactory;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		private SaveProductViewModel _viewModel;
+        private SaveProductViewModel _viewModel;
 
-		public SaveProductViewModel ViewModel
-		{
-			get
-			{
-				return _viewModel;
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					_viewModel = value;
-					this.BindingContext = value;
-				}
-			}
-		}
+        public SaveProductViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    _viewModel = value;
+                    BindingContext = value;
+                }
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region View Lifecycle
+        #region View Lifecycle
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			this.ViewModel.ReloadCommand.Execute(null);
-		}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.ReloadCommand.Execute(null);
+        }
 
-		#endregion
+        #endregion
 
-		#region Utility methods
+        #region Utility methods
 
-		private void setupPickers()
-		{
-            categoriesPicker.ItemsLoader = () => Task<IList<IProductCategory>>.Factory.StartNew(() => this.ViewModel.Categories );
-		    categoriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
+        private void setupPickers()
+        {
+            categoriesPicker.ItemsLoader =
+                () => Task<IList<IProductCategory>>.Factory.StartNew(() => ViewModel.Categories);
+            categoriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
 
-            subcategoriesPicker.ItemsLoader = () => Task<IList<IProductSubcategory>>.Factory.StartNew(() => this.ViewModel.Subcategories);
+            subcategoriesPicker.ItemsLoader =
+                () => Task<IList<IProductSubcategory>>.Factory.StartNew(() => ViewModel.Subcategories);
             subcategoriesPicker.Comparer = Comparers.UniqueEntityEqualityComparer;
         }
 
-		#endregion
-	}
+        #endregion
+    }
 }
-

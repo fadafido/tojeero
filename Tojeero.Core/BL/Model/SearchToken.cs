@@ -3,16 +3,13 @@ using Tojeero.Core.Model.Contracts;
 
 namespace Tojeero.Core.Model
 {
-	public class SearchToken : ISearchToken
-	{
-		public SearchToken()
-		{}
+    public class SearchToken : ISearchToken
+    {
+        [PrimaryKey]
+        public string ID { get; set; }
 
-		[PrimaryKey]
-		public string ID { get; set; }
-		public string EntityID { get; set; }
-		public string EntityType { get; set; }
-		public string Token { get; set; }
-	}
+        public string EntityID { get; set; }
+        public string EntityType { get; set; }
+        public string Token { get; set; }
+    }
 }
-

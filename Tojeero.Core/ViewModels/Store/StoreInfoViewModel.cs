@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Cirrious.CrossCore;
 using Cirrious.MvvmCross.Plugins.Messenger;
+using Cirrious.MvvmCross.ViewModels;
 using Nito.AsyncEx;
-using Tojeero.Core;
 using Tojeero.Core.Managers.Contracts;
 using Tojeero.Core.Messages;
 using Tojeero.Core.Model;
@@ -16,246 +18,218 @@ using Tojeero.Core.ViewModels.Product;
 
 namespace Tojeero.Core.ViewModels.Store
 {
-	public class StoreInfoViewModel : StoreViewModel
-	{
-		#region Private APIs and Fields
+    public class StoreInfoViewModel : StoreViewModel
+    {
+        #region Private APIs and Fields
 
-		private AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
-		private readonly MvxSubscriptionToken _productChangeToken;
-		private StoreProductsQuery _query;
+        private readonly AsyncReaderWriterLock _locker = new AsyncReaderWriterLock();
+        private readonly MvxSubscriptionToken _productChangeToken;
+        private StoreProductsQuery _query;
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public StoreInfoViewModel(IStore store = null, ContentMode mode = ContentMode.View)
-			: base(store)
-		{
-			this.ShouldSubscribeToSessionChange = true;
-			this.Store = store;
-			this.Mode = mode;
-			this.PropertyChanged += propertyChanged;
-			var messenger = Mvx.Resolve<IMvxMessenger>();
-			_productChangeToken = messenger.Subscribe<ProductChangedMessage>((message) =>
-				{
-					if(this.Products != null && message.Product != null && 
-						this.Store != null && message.Product.StoreID == this.Store.ID)
-					{
-						this.Products.RefetchCommand.Execute(null);
-					}
-				});
-		}
+        public StoreInfoViewModel(IStore store = null, ContentMode mode = ContentMode.View)
+            : base(store)
+        {
+            ShouldSubscribeToSessionChange = true;
+            Store = store;
+            Mode = mode;
+            PropertyChanged += propertyChanged;
+            var messenger = Mvx.Resolve<IMvxMessenger>();
+            _productChangeToken = messenger.Subscribe<ProductChangedMessage>(message =>
+            {
+                if (Products != null && message.Product != null &&
+                    Store != null && message.Product.StoreID == Store.ID)
+                {
+                    Products.RefetchCommand.Execute(null);
+                }
+            });
+        }
 
-		#endregion
+        #endregion
 
+        #region Properties
 
-		#region Properties
+        public Action<IStore> ShowStoreDetailsAction { get; set; }
+        public Action<IProduct, IStore> AddProductAction { get; set; }
 
-		public Action<IStore> ShowStoreDetailsAction { get; set; }
-		public Action<IProduct, IStore> AddProductAction { get; set; }
+        private BaseCollectionViewModel<ProductViewModel> _products;
 
-		private BaseCollectionViewModel<ProductViewModel> _products;
+        public BaseCollectionViewModel<ProductViewModel> Products
+        {
+            get { return _products; }
+            private set
+            {
+                _products = value;
+                RaisePropertyChanged(() => Products);
+            }
+        }
 
-		public BaseCollectionViewModel<ProductViewModel> Products
-		{ 
-			get
-			{
-				return _products; 
-			}
-			private set
-			{
-				_products = value; 
-				RaisePropertyChanged(() => Products); 
-			}
-		}
+        public override IStore Store
+        {
+            get { return base.Store; }
+            set
+            {
+                base.Store = value;
+                setupViewModel();
+                RaisePropertyChanged(() => Store);
+            }
+        }
 
-		public override IStore Store
-		{
-			get
-			{
-				return base.Store;
-			}
-			set
-			{
-				base.Store = value;
-				setupViewModel();
-				RaisePropertyChanged(() => Store);
-			}
-		}
+        private ContentMode _mode;
 
-		private ContentMode _mode;
+        public ContentMode Mode
+        {
+            get { return _mode; }
+            set
+            {
+                _mode = value;
+                if (_query != null)
+                    _query.includeInvisible = _mode == ContentMode.Edit;
+                RaisePropertyChanged(() => Mode);
+            }
+        }
 
-		public ContentMode Mode
-		{ 
-			get
-			{
-				return _mode; 
-			}
-			set
-			{
-				_mode = value; 
-				if (_query != null)
-					_query.includeInvisible = _mode == ContentMode.Edit;
-				RaisePropertyChanged(() => Mode); 
-			}
-		}
+        public bool IsAddFirstProductPlaceholderVisible
+        {
+            get { return Mode == ContentMode.Edit && IsPlaceholderVisible; }
+        }
 
-		public bool IsAddFirstProductPlaceholderVisible
-		{
-			get
-			{
-				return this.Mode == ContentMode.Edit && this.IsPlaceholderVisible;
-			}
-		}
+        public bool IsNoProductsPlaceholderVisible
+        {
+            get { return Mode == ContentMode.View && IsPlaceholderVisible; }
+        }
 
-		public bool IsNoProductsPlaceholderVisible
-		{
-			get
-			{ 
-				return this.Mode == ContentMode.View && this.IsPlaceholderVisible;
-			}
-		}
+        public bool IsPlaceholderVisible
+        {
+            get { return Products != null && Products.IsInitialDataLoaded && Products.Count == 0; }
+        }
 
-		public bool IsPlaceholderVisible
-		{
-			get
-			{ 
-				return this.Products != null && this.Products.IsInitialDataLoaded && this.Products.Count == 0;
-			}
-		}
+        public bool IsInEditMode
+        {
+            get { return Mode == ContentMode.Edit; }
+        }
 
-		public bool IsInEditMode
-		{
-			get
-			{
-				return this.Mode == ContentMode.Edit;
-			}
-		}
+        #endregion
 
-		#endregion
+        #region Commands
 
-		#region Commands
+        private MvxCommand _reloadCommand;
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _reloadCommand;
+        public ICommand ReloadCommand
+        {
+            get
+            {
+                _reloadCommand = _reloadCommand ??
+                                 new MvxCommand(async () => { await reload(); }, () => !IsLoading && IsNetworkAvailable);
+                return _reloadCommand;
+            }
+        }
 
-		public System.Windows.Input.ICommand ReloadCommand
-		{
-			get
-			{
-				_reloadCommand = _reloadCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(async () => {
-					await reload();
-				}, () => !IsLoading && IsNetworkAvailable);
-				return _reloadCommand;
-			}
-		}
+        private MvxCommand _showStoreDetailsCommand;
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _showStoreDetailsCommand;
+        public ICommand ShowStoreDetailsCommand
+        {
+            get
+            {
+                _showStoreDetailsCommand = _showStoreDetailsCommand ??
+                                           new MvxCommand(() => { ShowStoreDetailsAction.Fire(Store); });
+                return _showStoreDetailsCommand;
+            }
+        }
 
-		public System.Windows.Input.ICommand ShowStoreDetailsCommand
-		{
-			get
-			{
-				_showStoreDetailsCommand = _showStoreDetailsCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() => {
-					ShowStoreDetailsAction.Fire(this.Store);
-				});
-				return _showStoreDetailsCommand;
-			}
-		}
+        private MvxCommand _addProductCommand;
 
-		private Cirrious.MvvmCross.ViewModels.MvxCommand _addProductCommand;
+        public ICommand AddProductCommand
+        {
+            get
+            {
+                _addProductCommand = _addProductCommand ?? new MvxCommand(() =>
+                {
+                    if (AddProductAction != null)
+                        AddProductAction(null, Store);
+                }, () => true);
+                return _addProductCommand;
+            }
+        }
 
-		public System.Windows.Input.ICommand AddProductCommand
-		{
-			get
-			{
-				_addProductCommand = _addProductCommand ?? new Cirrious.MvvmCross.ViewModels.MvxCommand(() =>
-					{
-						if(AddProductAction != null)
-							AddProductAction(null, this.Store);
-					}, () => true);
-				return _addProductCommand;
-			}
-		}
+        #endregion
 
-		#endregion
+        #region Queries
 
-		#region Queries
+        private class StoreProductsQuery : IModelQuery<ProductViewModel>
+        {
+            readonly IStore store;
+            readonly IProductManager productManager;
+            public bool includeInvisible;
 
-		private class StoreProductsQuery : IModelQuery<ProductViewModel>
-		{
-			IStore store;
-			IProductManager productManager;
-			public bool includeInvisible;
+            public StoreProductsQuery(IProductManager productManager, IStore store, bool includeInvisible = false)
+            {
+                this.includeInvisible = includeInvisible;
+                this.productManager = productManager;
+                this.store = store;
+            }
 
-			public StoreProductsQuery (IProductManager productManager, IStore store, bool includeInvisible = false)
-			{
-				this.includeInvisible = includeInvisible;
-				this.productManager = productManager;
-				this.store = store;
+            public async Task<IEnumerable<ProductViewModel>> Fetch(int pageSize = -1, int offset = -1)
+            {
+                var result = await store.FetchProducts(pageSize, offset, includeInvisible);
+                return result.Select(p => new ProductViewModel(p));
+            }
 
-			}
+            public Comparison<ProductViewModel> Comparer
+            {
+                get { return Comparers.ProductName; }
+            }
 
-			public async Task<IEnumerable<ProductViewModel>> Fetch(int pageSize = -1, int offset = -1)
-			{
-				var result = await store.FetchProducts(pageSize, offset, includeInvisible);
-				return result.Select(p => new ProductViewModel(p));
-			}
+            public Task ClearCache()
+            {
+                return productManager.ClearCache();
+            }
+        }
 
-			public Comparison<ProductViewModel> Comparer
-			{
-				get
-				{
-					return Comparers.ProductName;
-				}
-			}
+        #endregion
 
-			public Task ClearCache()
-			{
-				return productManager.ClearCache();
-			}
-		}
+        #region Utility methods
 
-		#endregion
+        protected virtual async Task reload()
+        {
+            using (var writerLock = await _locker.WriterLockAsync())
+            {
+                if (Store != null)
+                    await Store.LoadRelationships();
+                await loadFavorite();
+            }
+        }
 
-		#region Utility methods
+        private void setupViewModel()
+        {
+            var productManager = Mvx.Resolve<IProductManager>();
+            if (Store != null)
+            {
+                _query = new StoreProductsQuery(productManager, Store, Mode == ContentMode.Edit);
+                Products = new BaseCollectionViewModel<ProductViewModel>(_query, Constants.ProductsPageSize);
+                Products.PropertyChanged += propertyChanged;
+            }
+            else
+            {
+                Products = null;
+            }
+        }
 
-		protected virtual async Task reload()
-		{
-			using (var writerLock = await _locker.WriterLockAsync())
-			{
-				if (this.Store != null)
-					await this.Store.LoadRelationships();
-				await loadFavorite();
-			}
-		}
+        void propertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Mode" || e.PropertyName == "Products" || e.PropertyName == "Count" ||
+                e.PropertyName == "IsInitialDataLoaded")
+            {
+                RaisePropertyChanged(() => IsAddFirstProductPlaceholderVisible);
+                RaisePropertyChanged(() => IsNoProductsPlaceholderVisible);
+                RaisePropertyChanged(() => IsPlaceholderVisible);
+                RaisePropertyChanged(() => IsInEditMode);
+            }
+        }
 
-		private void setupViewModel()
-		{
-			var productManager = Mvx.Resolve<IProductManager>();
-			if (this.Store != null)
-			{
-				this._query = new StoreProductsQuery(productManager, this.Store, this.Mode == ContentMode.Edit);
-				this.Products = new BaseCollectionViewModel<ProductViewModel>(_query, Constants.ProductsPageSize);
-				this.Products.PropertyChanged += propertyChanged;
-			}
-			else
-			{
-				this.Products = null;
-			}
-		}
-
-		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Mode" || e.PropertyName == "Products" || e.PropertyName == "Count" || e.PropertyName == "IsInitialDataLoaded")
-			{
-				RaisePropertyChanged(() => IsAddFirstProductPlaceholderVisible);
-				RaisePropertyChanged(() => IsNoProductsPlaceholderVisible);
-				RaisePropertyChanged(() => IsPlaceholderVisible);
-				RaisePropertyChanged(() => IsInEditMode);
-			}
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }
-

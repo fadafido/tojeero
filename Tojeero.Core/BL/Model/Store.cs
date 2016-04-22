@@ -5,540 +5,458 @@ using Cirrious.MvvmCross.Community.Plugins.Sqlite;
 using Newtonsoft.Json;
 using Nito.AsyncEx;
 using Parse;
-using Tojeero.Core;
 using Tojeero.Core.Managers.Contracts;
 using Tojeero.Core.Model.Contracts;
 using Tojeero.Core.Queries;
 
 namespace Tojeero.Core.Model
 {
-	public class Store : BaseModelEntity<ParseStore>, IStore
-	{
-		#region Private fields and properties
+    public class Store : BaseModelEntity<ParseStore>, IStore
+    {
+        #region Private fields and properties
 
-		AsyncReaderWriterLock _countryLocker = new AsyncReaderWriterLock();
+        readonly AsyncReaderWriterLock _countryLocker = new AsyncReaderWriterLock();
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		public Store()
-			:base()
-		{
-			
-		}
+        public Store()
+        {
+        }
 
-		public Store(ParseStore parseStore = null)
-			: base(parseStore)
-		{
+        public Store(ParseStore parseStore = null)
+            : base(parseStore)
+        {
+        }
 
-		}
+        #endregion
 
-		#endregion
+        #region Properties
 
-		#region Properties
+        [Ignore]
+        public override ParseStore ParseObject
+        {
+            get { return base.ParseObject; }
+            set
+            {
+                _imageUrl = null;
+                _category = null;
+                _country = null;
+                _city = null;
+                _owner = null;
+                base.ParseObject = value;
+            }
+        }
 
-		[Ignore]
-		public override ParseStore ParseObject
-		{
-			get
-			{
-				return base.ParseObject;
-			}
-			set
-			{
-				_imageUrl = null;
-				_category = null;
-				_country = null;
-				_city = null;
-				_owner = null;
-				base.ParseObject = value;
-			}
-		}
+        [JsonProperty("name")]
+        public string Name
+        {
+            get { return _parseObject.Name; }
+            set
+            {
+                _parseObject.Name = value;
+                RaisePropertyChanged(() => Name);
+            }
+        }
 
-		[JsonProperty("name")]
-		public string Name
-		{
-			get
-			{
-				return _parseObject.Name;
-			}
-			set
-			{
-				_parseObject.Name = value;
-				RaisePropertyChanged(() => Name);
-			}
-		}
+        [JsonProperty("lowercase_name")]
+        public string LowercaseName
+        {
+            get { return _parseObject.LowercaseName; }
+            set
+            {
+                _parseObject.LowercaseName = value;
+                RaisePropertyChanged(() => LowercaseName);
+            }
+        }
 
-		[JsonProperty("lowercase_name")]
-		public string LowercaseName
-		{
-			get
-			{
-				return _parseObject.LowercaseName;
-			}
-			set
-			{
-				_parseObject.LowercaseName = value;
-				RaisePropertyChanged(() => LowercaseName);
-			}
-		}
-			
-		[JsonProperty("description")]
-		public string Description
-		{
-			get
-			{
-				return this.ParseObject.Description;
-			}
-			set
-			{
-				this.ParseObject.Description = value;
-				RaisePropertyChanged(() => Description);
-			}
-		}
+        [JsonProperty("description")]
+        public string Description
+        {
+            get { return ParseObject.Description; }
+            set
+            {
+                ParseObject.Description = value;
+                RaisePropertyChanged(() => Description);
+            }
+        }
 
-		[JsonProperty("deliveryNotes")]
-		public string DeliveryNotes
-		{
-			get
-			{
-				return this.ParseObject.DeliveryNotes;
-			}
-			set
-			{
-				this.ParseObject.DeliveryNotes = value;
-				RaisePropertyChanged(() => DeliveryNotes);
-			}
-		}
+        [JsonProperty("deliveryNotes")]
+        public string DeliveryNotes
+        {
+            get { return ParseObject.DeliveryNotes; }
+            set
+            {
+                ParseObject.DeliveryNotes = value;
+                RaisePropertyChanged(() => DeliveryNotes);
+            }
+        }
 
-		private string _imageUrl;
-		[JsonProperty("imageUrl")]
-		public string ImageUrl
-		{
-			get
-			{
-				if (_imageUrl == null && _parseObject != null && _parseObject.Image != null && _parseObject.Image.Url != null)
-					_imageUrl = _parseObject.Image.Url.ToString();
-				return _imageUrl;
-			}
-			set
-			{
-				_imageUrl = value;
-				RaisePropertyChanged(() => ImageUrl);
-			}
-		}
+        private string _imageUrl;
 
-		[JsonProperty("isBlocked")]
-		public bool IsBlocked
-		{
-			get
-			{
-				return _parseObject.IsBlocked;
-			}
-			set
-			{
-				_parseObject.IsBlocked = value;
-				RaisePropertyChanged(() => IsBlocked);
-			}
-		}
+        [JsonProperty("imageUrl")]
+        public string ImageUrl
+        {
+            get
+            {
+                if (_imageUrl == null && _parseObject != null && _parseObject.Image != null &&
+                    _parseObject.Image.Url != null)
+                    _imageUrl = _parseObject.Image.Url.ToString();
+                return _imageUrl;
+            }
+            set
+            {
+                _imageUrl = value;
+                RaisePropertyChanged(() => ImageUrl);
+            }
+        }
 
-		private string _categoryID;
-		[JsonProperty("categoryID")]
-		public string CategoryID
-		{ 
-			get
-			{
-				if (_categoryID == null && _parseObject != null && _parseObject.Category != null)
-					_categoryID = _parseObject.Category.ObjectId;
-				return _categoryID; 
-			}
-			set
-			{
-				if (_categoryID != value)
-				{
-					_categoryID = value;
-					_category = null;
-					this.ParseObject.Category = value != null ? Parse.ParseObject.CreateWithoutData<ParseStoreCategory>(value) : null;
-					RaisePropertyChanged(() => Category);
-				}
-			}
-		}
+        [JsonProperty("isBlocked")]
+        public bool IsBlocked
+        {
+            get { return _parseObject.IsBlocked; }
+            set
+            {
+                _parseObject.IsBlocked = value;
+                RaisePropertyChanged(() => IsBlocked);
+            }
+        }
 
-		private IStoreCategory _category;
-		[Ignore]
-		public IStoreCategory Category
-		{ 
-			get
-			{
-				if (_category == null)
-					_category = new StoreCategory(this.ParseObject.Category);
-				return _category; 
-			}
-		}
+        private string _categoryID;
 
-		private string _cityId;
-		[JsonProperty("cityID")]
-		public string CityId
-		{
-			get
-			{
-				if (_cityId == null && _parseObject != null && _parseObject.City != null)
-					_cityId = _parseObject.City.ObjectId;
-				return _cityId;
-			}
-			set
-			{
-				if (_cityId != value)
-				{
-					_cityId = value;
-					_city = null;
-					this.ParseObject.City = value != null ? Parse.ParseObject.CreateWithoutData<ParseCity>(value) : null;
-					RaisePropertyChanged(() => City);
-				}
-			}
-		}
+        [JsonProperty("categoryID")]
+        public string CategoryID
+        {
+            get
+            {
+                if (_categoryID == null && _parseObject != null && _parseObject.Category != null)
+                    _categoryID = _parseObject.Category.ObjectId;
+                return _categoryID;
+            }
+            set
+            {
+                if (_categoryID != value)
+                {
+                    _categoryID = value;
+                    _category = null;
+                    ParseObject.Category = value != null
+                        ? Parse.ParseObject.CreateWithoutData<ParseStoreCategory>(value)
+                        : null;
+                    RaisePropertyChanged(() => Category);
+                }
+            }
+        }
 
-		private string _countryId;
-		[JsonProperty("countryID")]
-		public string CountryId
-		{
-			get
-			{
-				if (_countryId == null && _parseObject != null && _parseObject.Country != null)
-					_countryId = _parseObject.Country.ObjectId;
-				return _countryId;
-			}
-			set
-			{
-				if (_countryId != value)
-				{
-					_countryId = value;
-					_country = null;
-					this.ParseObject.Country = value != null ? Parse.ParseObject.CreateWithoutData<ParseCountry>(value) : null;
-					RaisePropertyChanged(() => Country);
-				}
-			}
-		}
+        private IStoreCategory _category;
 
-		private ICountry _country;
-		[Ignore]
-		public ICountry Country
-		{ 
-			get
-			{
-				if (_country == null)
-					_country = new Country(this.ParseObject.Country);
-				return _country; 
-			}
-		}
+        [Ignore]
+        public IStoreCategory Category
+        {
+            get
+            {
+                if (_category == null)
+                    _category = new StoreCategory(ParseObject.Category);
+                return _category;
+            }
+        }
 
-		private ICity _city;
-		[Ignore]
-		public ICity City
-		{ 
-			get
-			{
-				if (_city == null)
-					_city = new City(this.ParseObject.City);
-				return _city; 
-			}
-		}
+        private string _cityId;
 
-		[Ignore]
-		public IList<string> SearchTokens
-		{
-			get
-			{
-				return _parseObject != null ? _parseObject.SearchTokens : null;
-			}
-			set
-			{
-				if (_parseObject != null)
-				{
-					_parseObject.SearchTokens = value;
-					RaisePropertyChanged(() => SearchTokens);
-				}
-			}
-		}
+        [JsonProperty("cityID")]
+        public string CityId
+        {
+            get
+            {
+                if (_cityId == null && _parseObject != null && _parseObject.City != null)
+                    _cityId = _parseObject.City.ObjectId;
+                return _cityId;
+            }
+            set
+            {
+                if (_cityId != value)
+                {
+                    _cityId = value;
+                    _city = null;
+                    ParseObject.City = value != null ? Parse.ParseObject.CreateWithoutData<ParseCity>(value) : null;
+                    RaisePropertyChanged(() => City);
+                }
+            }
+        }
 
-		private string _ownerID;
-		[JsonProperty("ownerID")]
-		public string OwnerID
-		{
-			get
-			{
-				if (_ownerID == null && _parseObject != null && _parseObject.Owner != null)
-					_ownerID = _parseObject.Owner.ObjectId;
-				return _ownerID;
-			}
-			set
-			{
-				if (_ownerID != value)
-				{
-					_ownerID = value;
-					_owner = null;
-					this.ParseObject.Owner = value != null ? Parse.ParseObject.CreateWithoutData<TojeeroUser>(value) : null;
-					RaisePropertyChanged(() => Owner);
-				}
-			}
-		}
+        private string _countryId;
 
-		private IUser _owner;
-		[Ignore]
-		public IUser Owner
-		{ 
-			get
-			{
-				if (_owner == null)
-					_owner = new User(this.ParseObject.Owner);
-				return _owner; 
-			}
-		}
-		#endregion
+        [JsonProperty("countryID")]
+        public string CountryId
+        {
+            get
+            {
+                if (_countryId == null && _parseObject != null && _parseObject.Country != null)
+                    _countryId = _parseObject.Country.ObjectId;
+                return _countryId;
+            }
+            set
+            {
+                if (_countryId != value)
+                {
+                    _countryId = value;
+                    _country = null;
+                    ParseObject.Country = value != null
+                        ? Parse.ParseObject.CreateWithoutData<ParseCountry>(value)
+                        : null;
+                    RaisePropertyChanged(() => Country);
+                }
+            }
+        }
 
-		#region Methods
+        private ICountry _country;
 
-		public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, bool includeInvisible = false)
-		{
-			var manager = Mvx.Resolve<IModelEntityManager>();
-			var result = await manager.Fetch<IProduct, Product>(new StoreProductsQueryLoader(pageSize, offset, manager, this, includeInvisible), Constants.ProductsCacheTimespan.TotalMilliseconds);
-			return result;
-		}
+        [Ignore]
+        public ICountry Country
+        {
+            get
+            {
+                if (_country == null)
+                    _country = new Country(ParseObject.Country);
+                return _country;
+            }
+        }
 
-		public async Task Save()
-		{
-			if (this.ParseObject != null)
-			{
-				await this.ParseObject.SaveAsync();
-				var query = new ParseQuery<ParseStore>().Where(s => s.ObjectId == this.ParseObject.ObjectId).Include("category").Include("country").Include("city");
-				var store = await query.FirstOrDefaultAsync();
-				this.ParseObject = store;
-			}
-		}
+        private ICity _city;
 
-		public async Task SetMainImage(IImage image)
-		{
-			var imageFile = new ParseFile(image.Name, image.RawImage);
-			await imageFile.SaveAsync();
-			this.ParseObject.Image = imageFile;
-			this.ImageUrl = null;
-		}
+        [Ignore]
+        public ICity City
+        {
+            get
+            {
+                if (_city == null)
+                    _city = new City(ParseObject.City);
+                return _city;
+            }
+        }
 
-		public async Task FetchCountry()
-		{
-			using (var writerLock = await _countryLocker.WriterLockAsync())
-			{
+        [Ignore]
+        public IList<string> SearchTokens
+        {
+            get { return _parseObject != null ? _parseObject.SearchTokens : null; }
+            set
+            {
+                if (_parseObject != null)
+                {
+                    _parseObject.SearchTokens = value;
+                    RaisePropertyChanged(() => SearchTokens);
+                }
+            }
+        }
 
-				if (this.Country == null)
-					return;
-				if (this.Country.Name != null)
-					return;
-				var country = this.Country as Country;
-				if (country != null)
-				{
-					await country.ParseObject.FetchAsync();
-					this.RaisePropertyChanged(() => Country);
-				}
-			}
-		}
+        private string _ownerID;
 
-		public async Task LoadRelationships()
-		{
-			if (!string.IsNullOrEmpty(this.ID))
-			{
-				var query = new ParseQuery<ParseStore>().Where(s => s.ObjectId == this.ID).Include("category").Include("country").Include("city");
-				var store = await query.FirstOrDefaultAsync();
-				this.ParseObject = store;
-			}
-		}
+        [JsonProperty("ownerID")]
+        public string OwnerID
+        {
+            get
+            {
+                if (_ownerID == null && _parseObject != null && _parseObject.Owner != null)
+                    _ownerID = _parseObject.Owner.ObjectId;
+                return _ownerID;
+            }
+            set
+            {
+                if (_ownerID != value)
+                {
+                    _ownerID = value;
+                    _owner = null;
+                    ParseObject.Owner = value != null ? Parse.ParseObject.CreateWithoutData<TojeeroUser>(value) : null;
+                    RaisePropertyChanged(() => Owner);
+                }
+            }
+        }
 
-		#endregion	
+        private IUser _owner;
 
-	}
-		
-	[ParseClassName("Store")]
-	public class ParseStore : ParseObject
-	{
-		#region Constructors
+        [Ignore]
+        public IUser Owner
+        {
+            get
+            {
+                if (_owner == null)
+                    _owner = new User(ParseObject.Owner);
+                return _owner;
+            }
+        }
 
-		public ParseStore()
-		{
-		}
+        #endregion
 
-		#endregion
+        #region Methods
 
-		#region Properties
+        public async Task<IEnumerable<IProduct>> FetchProducts(int pageSize, int offset, bool includeInvisible = false)
+        {
+            var manager = Mvx.Resolve<IModelEntityManager>();
+            var result =
+                await
+                    manager.Fetch<IProduct, Product>(
+                        new StoreProductsQueryLoader(pageSize, offset, manager, this, includeInvisible),
+                        Constants.ProductsCacheTimespan.TotalMilliseconds);
+            return result;
+        }
 
-		[ParseFieldName("name")]
-		public string Name
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        public async Task Save()
+        {
+            if (ParseObject != null)
+            {
+                await ParseObject.SaveAsync();
+                var query =
+                    new ParseQuery<ParseStore>().Where(s => s.ObjectId == ParseObject.ObjectId)
+                        .Include("category")
+                        .Include("country")
+                        .Include("city");
+                var store = await query.FirstOrDefaultAsync();
+                ParseObject = store;
+            }
+        }
 
-		[ParseFieldName("lowercase_name")]
-		public string LowercaseName
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        public async Task SetMainImage(IImage image)
+        {
+            var imageFile = new ParseFile(image.Name, image.RawImage);
+            await imageFile.SaveAsync();
+            ParseObject.Image = imageFile;
+            ImageUrl = null;
+        }
 
-		[ParseFieldName("description")]
-		public string Description
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        public async Task FetchCountry()
+        {
+            using (var writerLock = await _countryLocker.WriterLockAsync())
+            {
+                if (Country == null)
+                    return;
+                if (Country.Name != null)
+                    return;
+                var country = Country as Country;
+                if (country != null)
+                {
+                    await country.ParseObject.FetchAsync();
+                    RaisePropertyChanged(() => Country);
+                }
+            }
+        }
 
-		[ParseFieldName("deliveryNotes")]
-		public string DeliveryNotes
-		{
-			get
-			{
-				return GetProperty<string>();
-			}
-			set
-			{
-				SetProperty<string>(value);
-			}
-		}
+        public async Task LoadRelationships()
+        {
+            if (!string.IsNullOrEmpty(ID))
+            {
+                var query =
+                    new ParseQuery<ParseStore>().Where(s => s.ObjectId == ID)
+                        .Include("category")
+                        .Include("country")
+                        .Include("city");
+                var store = await query.FirstOrDefaultAsync();
+                ParseObject = store;
+            }
+        }
 
-		[ParseFieldName("image")]
-		public ParseFile Image
-		{
-			get
-			{
-				return GetProperty<ParseFile>();
-			}
-			set
-			{
-				SetProperty<ParseFile>(value);
-			}
-		}
+        #endregion
+    }
 
-		[ParseFieldName("isBlocked")]
-		public bool IsBlocked
-		{
-			get
-			{
-				return GetProperty<bool>();
-			}
-			set
-			{
-				SetProperty<bool>(value);
-			}
-		}
+    [ParseClassName("Store")]
+    public class ParseStore : ParseObject
+    {
+        #region Constructors
 
-		[ParseFieldName("category")]
-		public ParseStoreCategory Category
-		{
-			get
-			{
-				return GetProperty<ParseStoreCategory>();
-			}
-			set
-			{
-				SetProperty<ParseStoreCategory>(value);
-			}
-		}
+        #endregion
 
-		[ParseFieldName("cityId")]
-		public int? CityId
-		{
-			get
-			{
-				return GetProperty<int?>();
-			}
-			set
-			{
-				SetProperty<int?>(value);
-			}
-		}
+        #region Properties
 
-		[ParseFieldName("countryId")]
-		public int? CountryId
-		{
-			get
-			{
-				return GetProperty<int?>();
-			}
-			set
-			{
-				SetProperty<int?>(value);
-			}
-		}
+        [ParseFieldName("name")]
+        public string Name
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("country")]
-		public ParseCountry Country
-		{
-			get
-			{
-				return GetProperty<ParseCountry>();
-			}
-			set
-			{
-				SetProperty<ParseCountry>(value);
-			}
-		}
+        [ParseFieldName("lowercase_name")]
+        public string LowercaseName
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("city")]
-		public ParseCity City
-		{
-			get
-			{
-				return GetProperty<ParseCity>();
-			}
-			set
-			{
-				SetProperty<ParseCity>(value);
-			}
-		}
+        [ParseFieldName("description")]
+        public string Description
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("owner")]
-		public TojeeroUser Owner
-		{
-			get
-			{
-				return GetProperty<TojeeroUser>();
-			}
-			set
-			{
-				SetProperty<TojeeroUser>(value);
-			}
-		}
+        [ParseFieldName("deliveryNotes")]
+        public string DeliveryNotes
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
 
-		[ParseFieldName("searchTokens")]
-		public IList<string> SearchTokens
-		{
-			get
-			{
-				return GetProperty<IList<string>>();
-			}
-			set
-			{
-				SetProperty<IList<string>>(value);
-			}
-		}
-		#endregion
-	}
+        [ParseFieldName("image")]
+        public ParseFile Image
+        {
+            get { return GetProperty<ParseFile>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("isBlocked")]
+        public bool IsBlocked
+        {
+            get { return GetProperty<bool>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("category")]
+        public ParseStoreCategory Category
+        {
+            get { return GetProperty<ParseStoreCategory>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("cityId")]
+        public int? CityId
+        {
+            get { return GetProperty<int?>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("countryId")]
+        public int? CountryId
+        {
+            get { return GetProperty<int?>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("country")]
+        public ParseCountry Country
+        {
+            get { return GetProperty<ParseCountry>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("city")]
+        public ParseCity City
+        {
+            get { return GetProperty<ParseCity>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("owner")]
+        public TojeeroUser Owner
+        {
+            get { return GetProperty<TojeeroUser>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("searchTokens")]
+        public IList<string> SearchTokens
+        {
+            get { return GetProperty<IList<string>>(); }
+            set { SetProperty(value); }
+        }
+
+        #endregion
+    }
 }
-

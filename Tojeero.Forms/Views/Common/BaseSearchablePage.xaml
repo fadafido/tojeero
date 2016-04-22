@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <ContentPage
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -25,8 +26,7 @@
 				TryAgainCommand="{Binding ViewModel.TryAgainCommand}" />
 			<StackLayout
 				x:Name="headerContainer"
-				HorizontalOptions="FillAndExpand">
-			</StackLayout>
+				HorizontalOptions="FillAndExpand" />
 			<Grid
 				HorizontalOptions="FillAndExpand"
 				VerticalOptions="FillAndExpand">
@@ -48,8 +48,7 @@
 					RefreshCommand="{Binding ViewModel.ReloadCommand}"
 					LoadMoreCommand="{Binding ViewModel.LoadNextPageCommand}"
 					HorizontalOptions="FillAndExpand"
-					VerticalOptions="FillAndExpand">
-				</controls:InfiniteListView>
+					VerticalOptions="FillAndExpand" />
 			</Grid>
 			<StackLayout
 				Padding="5"

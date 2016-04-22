@@ -2,9 +2,8 @@
 
 namespace Tojeero.Core.Managers.Contracts
 {
-	public interface IUserManager
-	{
-		IUser Create();
-	}
+    public interface IUserManager
+    {
+        IUser Create();
+    }
 }
-

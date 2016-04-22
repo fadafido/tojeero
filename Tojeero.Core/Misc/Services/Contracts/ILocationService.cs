@@ -2,9 +2,8 @@
 
 namespace Tojeero.Core.Services.Contracts
 {
-	public interface ILocationService
-	{
-		MvxGeoLocation LastKnownLocation { get; }
-	}
+    public interface ILocationService
+    {
+        MvxGeoLocation LastKnownLocation { get; }
+    }
 }
-

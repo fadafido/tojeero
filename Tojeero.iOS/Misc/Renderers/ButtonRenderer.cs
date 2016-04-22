@@ -1,35 +1,35 @@
-﻿using System;
+﻿using System.ComponentModel;
 using Xamarin.Forms;
-using UIKit;
+using Xamarin.Forms.Platform.iOS;
+using ButtonRenderer = Tojeero.iOS.Renderers.ButtonRenderer;
 
-[assembly:ExportRenderer(typeof(Button), typeof(Tojeero.iOS.Renderers.ButtonRenderer))]
+[assembly: ExportRenderer(typeof (Button), typeof (ButtonRenderer))]
 
 namespace Tojeero.iOS.Renderers
-{	
-	public class ButtonRenderer : Xamarin.Forms.Platform.iOS.ButtonRenderer
-	{
-		protected override void OnElementChanged(Xamarin.Forms.Platform.iOS.ElementChangedEventArgs<Button> e)
-		{
-			base.OnElementChanged(e);
+{
+    public class ButtonRenderer : Xamarin.Forms.Platform.iOS.ButtonRenderer
+    {
+        protected override void OnElementChanged(ElementChangedEventArgs<Button> e)
+        {
+            base.OnElementChanged(e);
 
-			if (e.OldElement != null || this.Element == null)
-				return;
-			
-			this.Element.Opacity = this.Element.IsEnabled ? 1f : 0.5f;
-		}
+            if (e.OldElement != null || Element == null)
+                return;
 
-		protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged(sender, e);
+            Element.Opacity = Element.IsEnabled ? 1f : 0.5f;
+        }
 
-			if (this.Element == null || this.Control == null)
-				return;
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
 
-			if (e.PropertyName == Button.IsEnabledProperty.PropertyName)
-			{
-				this.Element.Opacity = this.Element.IsEnabled ? 1f : 0.5f;
-			}
-		}
-	}
+            if (Element == null || Control == null)
+                return;
+
+            if (e.PropertyName == Button.IsEnabledProperty.PropertyName)
+            {
+                Element.Opacity = Element.IsEnabled ? 1f : 0.5f;
+            }
+        }
+    }
 }
-

@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <ContentPage
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -144,10 +145,10 @@
 										Padding="15,2,15,2">
 										<controls1:FacetObjectPicker
 											x:TypeArguments="contracts:ICountry"
-                      x:Name="countriesPicker"
+											x:Name="countriesPicker"
 											Placeholder="{markupExtensions:Translate LabelCountry}"
 											SelectedObject="{Binding Country, Mode=TwoWay}"
-                      CountVisible="False"
+											CountVisible="False"
 											TextColor="{x:Static core:Colors.Main}"
 											HorizontalOptions="FillAndExpand"
 											VerticalOptions="FillAndExpand" />
@@ -175,10 +176,10 @@
 										Padding="15,2,15,2">
 										<controls1:FacetObjectPicker
 											x:TypeArguments="contracts:ICity"
-                      x:Name="citiesPicker"
+											x:Name="citiesPicker"
 											Placeholder="{markupExtensions:Translate LabelCity}"
 											SelectedObject="{Binding City, Mode=TwoWay}"
-                      CountVisible="False"
+											CountVisible="False"
 											TextColor="{x:Static core:Colors.Main}"
 											HorizontalOptions="FillAndExpand"
 											VerticalOptions="FillAndExpand" />

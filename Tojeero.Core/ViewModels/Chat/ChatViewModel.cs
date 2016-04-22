@@ -22,33 +22,33 @@ namespace Tojeero.Core.ViewModels.Chat
     public class ChatViewModel : BaseUserViewModel
     {
         #region Private fields and properties
+
         private readonly MvxSubscriptionToken _chatMessageReceivedSubscribtionToken;
         private readonly IChatService _chatService;
         private readonly IProductManager _productManager;
         private DateTimeOffset? _lastMessageDate;
-        private int _pageSize = 3;
+        private readonly int _pageSize = 3;
 
         private bool _allMessagesLoaded;
         public static string AllMessagesLoadedProperty = "AllMessagesLoaded";
+
         private bool AllMessagesLoaded
-        { 
-            get  
+        {
+            get { return _allMessagesLoaded; }
+            set
             {
-                return _allMessagesLoaded; 
-            }
-            set 
-            {
-                _allMessagesLoaded = value; 
+                _allMessagesLoaded = value;
                 RaisePropertyChanged(() => AllMessagesLoaded);
             }
-        }  
+        }
+
         #endregion
 
         #region Constructors
 
         public ChatViewModel(
-            IChatService chatService, 
-            IAuthenticationService authService, 
+            IChatService chatService,
+            IAuthenticationService authService,
             IMvxMessenger messenger,
             IProductManager productManager) : base(authService, messenger)
         {
@@ -69,12 +69,10 @@ namespace Tojeero.Core.ViewModels.Chat
         public event EventHandler DidChangeMessagesCollection;
 
         private ObservableCollection<ChatMessageViewModel> _messages;
+
         public ObservableCollection<ChatMessageViewModel> Messages
         {
-            get
-            {
-                return _messages;
-            }
+            get { return _messages; }
             set
             {
                 _messages = value;
@@ -84,42 +82,36 @@ namespace Tojeero.Core.ViewModels.Chat
 
         private IChatChannel _channel;
         public static string ChannelProperty = "Channel";
+
         public IChatChannel Channel
-        { 
-            get  
+        {
+            get { return _channel; }
+            set
             {
-                return _channel; 
+                _channel = value;
+                RaisePropertyChanged(() => Channel);
             }
-            set 
-            {
-                _channel = value; 
-                RaisePropertyChanged(() => Channel); 
-            }
-        }  
+        }
 
         private ProductViewModel _productViewModel;
         public static string ProductViewModelProperty = "ProductViewModel";
+
         public ProductViewModel ProductViewModel
-        { 
-            get  
+        {
+            get { return _productViewModel ?? new ProductViewModel(); }
+            set
             {
-                return _productViewModel ?? new ProductViewModel(); 
+                _productViewModel = value;
+                RaisePropertyChanged(() => ProductViewModel);
             }
-            set 
-            {
-                _productViewModel = value; 
-                RaisePropertyChanged(() => ProductViewModel); 
-            }
-        }  
+        }
 
         private string _currentMessage;
         public static string CurrentMessageProperty = "CurrentMessage";
+
         public string CurrentMessage
         {
-            get
-            {
-                return _currentMessage;
-            }
+            get { return _currentMessage; }
             set
             {
                 _currentMessage = value;
@@ -129,27 +121,23 @@ namespace Tojeero.Core.ViewModels.Chat
 
         private bool _isSendingMessage;
         public static string IsSendingMessageProperty = "IsSendingMessage";
+
         public bool IsSendingMessage
-        { 
-            get  
+        {
+            get { return _isSendingMessage; }
+            set
             {
-                return _isSendingMessage; 
-            }
-            set 
-            {
-                _isSendingMessage = value; 
+                _isSendingMessage = value;
                 RaisePropertyChanged(() => IsSendingMessage);
             }
         }
 
         private bool _isSubscribed;
         public static string IsSubscribedProperty = "IsSubscribed";
+
         public bool IsSubscribed
         {
-            get
-            {
-                return _isSubscribed;
-            }
+            get { return _isSubscribed; }
             private set
             {
                 _isSubscribed = value;
@@ -184,6 +172,7 @@ namespace Tojeero.Core.ViewModels.Chat
                                                     CanExecuteInitCommand;
 
         private MvxCommand _initCommmand;
+
         public ICommand InitCommand
         {
             get
@@ -193,7 +182,7 @@ namespace Tojeero.Core.ViewModels.Chat
             }
         }
 
-        public bool CanExecuteInitCommand => this.Channel != null &&
+        public bool CanExecuteInitCommand => Channel != null &&
                                              !string.IsNullOrWhiteSpace(Channel?.ChannelID) &&
                                              !string.IsNullOrWhiteSpace(Channel?.SenderID) &&
                                              !string.IsNullOrWhiteSpace(Channel?.RecipientID);
@@ -227,11 +216,11 @@ namespace Tojeero.Core.ViewModels.Chat
 
         private async Task sendMessage()
         {
-            this.IsSendingMessage = true;
+            IsSendingMessage = true;
             string failure = null;
             try
             {
-                var message = new ChatMessage()
+                var message = new ChatMessage
                 {
                     ID = Guid.NewGuid().ToString(),
                     Text = CurrentMessage,
@@ -257,9 +246,10 @@ namespace Tojeero.Core.ViewModels.Chat
             }
             finally
             {
-                this.IsSendingMessage = false;
-                if(!string.IsNullOrEmpty(failure))
-                { }
+                IsSendingMessage = false;
+                if (!string.IsNullOrEmpty(failure))
+                {
+                }
             }
         }
 
@@ -268,7 +258,7 @@ namespace Tojeero.Core.ViewModels.Chat
             if (!CanExecuteInitCommand)
                 return;
             StartLoading(AppResources.MessageGeneralLoading);
-            string failure = "";
+            var failure = "";
             try
             {
                 //Subscribe to the channel
@@ -298,7 +288,7 @@ namespace Tojeero.Core.ViewModels.Chat
             if (!CanLoadMoreMessages)
                 return;
             StartLoading(AppResources.MessageGeneralLoading);
-            string failure = "";
+            var failure = "";
             try
             {
                 //Load previous messages
@@ -325,7 +315,10 @@ namespace Tojeero.Core.ViewModels.Chat
                 return;
 
             var previousCount = Messages.Count;
-            var messages = await _chatService.GetMessagesAsync(_authService.CurrentUser, Channel.ChannelID, _lastMessageDate, _pageSize);
+            var messages =
+                await
+                    _chatService.GetMessagesAsync(_authService.CurrentUser, Channel.ChannelID, _lastMessageDate,
+                        _pageSize);
             messages = messages.Reverse();
             WillChangeMessagesCollection.Fire(this, EventArgs.Empty);
             Messages.InsertSorted(messages.Select(getChatMessageViewModel), Comparers.ChatMessage);
@@ -344,7 +337,8 @@ namespace Tojeero.Core.ViewModels.Chat
             var profilePictureUrl = isSentByCurrentUser
                 ? Channel?.SenderProfilePictureUrl
                 : Channel?.RecipientProfilePictureUrl;
-            var chatMessage = new ChatMessageViewModel(_productManager, receivedMessage, profilePictureUrl, isSentByCurrentUser);
+            var chatMessage = new ChatMessageViewModel(_productManager, receivedMessage, profilePictureUrl,
+                isSentByCurrentUser);
             return chatMessage;
         }
 
@@ -376,6 +370,5 @@ namespace Tojeero.Core.ViewModels.Chat
         }
 
         #endregion
-
     }
 }

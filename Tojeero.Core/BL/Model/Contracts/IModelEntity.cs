@@ -2,9 +2,7 @@
 
 namespace Tojeero.Core.Model.Contracts
 {
-	public interface IModelEntity : IUniqueEntity, IMvxNotifyPropertyChanged
-	{
-		
-	}
+    public interface IModelEntity : IUniqueEntity, IMvxNotifyPropertyChanged
+    {
+    }
 }
-

@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <Grid
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -12,7 +13,7 @@
 			<Grid
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand"
-        BackgroundColor="White">
+				BackgroundColor="White">
 				<Image
 					Aspect="AspectFill"
 					BackgroundColor="Transparent"
@@ -28,9 +29,9 @@
 				</Image>
 				<ActivityIndicator
 					x:Name="spinner"
-					IsRunning = "{Binding IsLoading}"
+					IsRunning="{Binding IsLoading}"
 					HorizontalOptions="Center"
-					VerticalOptions="Center"/>
+					VerticalOptions="Center" />
 			</Grid>
 		</controls:RemovableContainerView.RootContent>
 	</controls:RemovableContainerView>

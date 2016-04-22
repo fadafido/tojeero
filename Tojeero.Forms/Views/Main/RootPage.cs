@@ -10,185 +10,183 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Main
 {
-	public class RootPage : MasterDetailPage
-	{
-		#region Private fields
+    public class RootPage : MasterDetailPage
+    {
+        #region Private fields
 
-		private bool _wasUserStoreShown;
-		private TabbedPage _tabs;
-		private NavigationPage _userStorePage;
+        private bool _wasUserStoreShown;
+        private readonly TabbedPage _tabs;
+        private NavigationPage _userStorePage;
 
-		private NavigationPage _productsPage;
-		private NavigationPage ProductsPage
-		{
-			get
-			{
-				if (_productsPage == null)
-				{
-					_productsPage = new NavigationPage(new ProductsPage());
-					_productsPage.Icon = "shopIcon.png";
-					_productsPage.Title = AppResources.TitleShop;
-				}
-				return _productsPage;
-			}
-		}
+        private NavigationPage _productsPage;
 
-		private NavigationPage _storesPage;
-		private NavigationPage StoresPage
-		{
-			get
-			{
-				if (_storesPage == null)
-				{
-					_storesPage = new NavigationPage(new StoresPage());
-					_storesPage.Icon = "shopIcon.png";
-					_storesPage.Title = AppResources.TitleShop;
-				}
-				return _storesPage;
-			}
-		}
+        private NavigationPage ProductsPage
+        {
+            get
+            {
+                if (_productsPage == null)
+                {
+                    _productsPage = new NavigationPage(new ProductsPage());
+                    _productsPage.Icon = "shopIcon.png";
+                    _productsPage.Title = AppResources.TitleShop;
+                }
+                return _productsPage;
+            }
+        }
 
-		private NavigationPage _favoritesPage;
-		private NavigationPage FavoritesPage
-		{
-			get
-			{
-				if (_favoritesPage == null)
-				{
-					_favoritesPage = new NavigationPage(new FavoritesPage());
-					_favoritesPage.Icon = "favoritesIcon.png";
-					_favoritesPage.Title = AppResources.TitleFavorites;
-				}
-				return _favoritesPage;
-			}
-		}
+        private NavigationPage _storesPage;
 
-		#endregion
+        private NavigationPage StoresPage
+        {
+            get
+            {
+                if (_storesPage == null)
+                {
+                    _storesPage = new NavigationPage(new StoresPage());
+                    _storesPage.Icon = "shopIcon.png";
+                    _storesPage.Title = AppResources.TitleShop;
+                }
+                return _storesPage;
+            }
+        }
 
-		#region Constructors
+        private NavigationPage _favoritesPage;
 
-		public RootPage()
-		{				
-			this.ViewModel = MvxToolbox.LoadViewModel<RootViewModel>();
-			this.Master = new SideMenuPage()
-			{
-				Title = AppResources.AppName
-			};
-						
-			_tabs = new TabbedPage();
-			_tabs.Children.Add(ProductsPage);
+        private NavigationPage FavoritesPage
+        {
+            get
+            {
+                if (_favoritesPage == null)
+                {
+                    _favoritesPage = new NavigationPage(new FavoritesPage());
+                    _favoritesPage.Icon = "favoritesIcon.png";
+                    _favoritesPage.Title = AppResources.TitleFavorites;
+                }
+                return _favoritesPage;
+            }
+        }
 
-			this.Detail = _tabs;
+        #endregion
 
-			this.ViewModel.Initialize();
-		}
+        #region Constructors
 
-		#endregion
+        public RootPage()
+        {
+            ViewModel = MvxToolbox.LoadViewModel<RootViewModel>();
+            Master = new SideMenuPage
+            {
+                Title = AppResources.AppName
+            };
 
-		#region Public API
+            _tabs = new TabbedPage();
+            _tabs.Children.Add(ProductsPage);
 
-		private RootViewModel _viewModel;
+            Detail = _tabs;
 
-		public RootViewModel ViewModel
-		{ 
-			get
-			{
-				return _viewModel; 
-			}
-			set
-			{
-				if (_viewModel != value)
-				{
-					_viewModel = value;
-					setupViewModel();
-				}
-			}
-		}
+            ViewModel.Initialize();
+        }
 
-		public void SelectProductsPage()
-		{
-			if (_productsPage == null || _tabs.CurrentPage != _productsPage)
-			{
-				if(_storesPage != null)
-					_tabs.Children.Remove(_storesPage);
-				_tabs.Children.Insert(0, this.ProductsPage);
-				_tabs.CurrentPage = ProductsPage;
-			}
-		}
+        #endregion
 
-		public void SelectStoresPage()
-		{
-			if (_storesPage == null || _tabs.CurrentPage != _storesPage)
-			{
-				if(_productsPage != null)
-					_tabs.Children.Remove(_productsPage);
-				_tabs.Children.Insert(0, this.StoresPage);
-				_tabs.CurrentPage = StoresPage;
-			}
-		}
+        #region Public API
 
-		#endregion
+        private RootViewModel _viewModel;
 
-		#region Utility methods
+        public RootViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (_viewModel != value)
+                {
+                    _viewModel = value;
+                    setupViewModel();
+                }
+            }
+        }
 
-		private void showFavorites()
-		{
-			if(!_tabs.Children.Contains(FavoritesPage))
-				_tabs.Children.Add(FavoritesPage);
-		}
+        public void SelectProductsPage()
+        {
+            if (_productsPage == null || _tabs.CurrentPage != _productsPage)
+            {
+                if (_storesPage != null)
+                    _tabs.Children.Remove(_storesPage);
+                _tabs.Children.Insert(0, ProductsPage);
+                _tabs.CurrentPage = ProductsPage;
+            }
+        }
 
-		private void hideFavorites()
-		{
-			if(_favoritesPage != null)
-			{
-				_tabs.Children.Remove(_favoritesPage);
-				_favoritesPage = null;
-			}
-		}
+        public void SelectStoresPage()
+        {
+            if (_storesPage == null || _tabs.CurrentPage != _storesPage)
+            {
+                if (_productsPage != null)
+                    _tabs.Children.Remove(_productsPage);
+                _tabs.Children.Insert(0, StoresPage);
+                _tabs.CurrentPage = StoresPage;
+            }
+        }
 
-		private void showUserStore(IStore store)
-		{
-			if (_userStorePage == null)
-			{
-				if (store == null)
-				{
-					_userStorePage = new NavigationPage(new SaveStorePage(null));
-					_userStorePage.Icon = "createUserStoreIcon.png";
-				}
-				else
-				{
-					_userStorePage = new NavigationPage(new StoreInfoPage(store, ContentMode.Edit));
-					_userStorePage.Icon = "userStoreIcon.png";
-				}
-				_userStorePage.Title = this.ViewModel.UserStoreViewModel.ShowSaveStoreTitle;
-				_tabs.Children.Add(_userStorePage);
-				if (_wasUserStoreShown)
-					_tabs.CurrentPage = _userStorePage;
-			}
-		}
+        #endregion
 
-		private void hideUserStore()
-		{
-			if(_userStorePage != null)
-			{
-				if(_tabs.CurrentPage == _userStorePage)
-					_wasUserStoreShown = true;			
-				_tabs.Children.Remove(_userStorePage);
-				_userStorePage = null;
-			}
-		}
+        #region Utility methods
 
-		private void setupViewModel()
-		{			
-			this.ViewModel.ShowFavorites = showFavorites;
-			this.ViewModel.HideFavorites = hideFavorites;
-			this.ViewModel.UserStoreViewModel.DidLoadUserStoreAction = showUserStore;
-			this.ViewModel.UserStoreViewModel.IsLoadingStoreAction = hideUserStore;
-			this.BindingContext = _viewModel;
-		}
+        private void showFavorites()
+        {
+            if (!_tabs.Children.Contains(FavoritesPage))
+                _tabs.Children.Add(FavoritesPage);
+        }
 
-		#endregion
-	}
+        private void hideFavorites()
+        {
+            if (_favoritesPage != null)
+            {
+                _tabs.Children.Remove(_favoritesPage);
+                _favoritesPage = null;
+            }
+        }
+
+        private void showUserStore(IStore store)
+        {
+            if (_userStorePage == null)
+            {
+                if (store == null)
+                {
+                    _userStorePage = new NavigationPage(new SaveStorePage(null));
+                    _userStorePage.Icon = "createUserStoreIcon.png";
+                }
+                else
+                {
+                    _userStorePage = new NavigationPage(new StoreInfoPage(store, ContentMode.Edit));
+                    _userStorePage.Icon = "userStoreIcon.png";
+                }
+                _userStorePage.Title = ViewModel.UserStoreViewModel.ShowSaveStoreTitle;
+                _tabs.Children.Add(_userStorePage);
+                if (_wasUserStoreShown)
+                    _tabs.CurrentPage = _userStorePage;
+            }
+        }
+
+        private void hideUserStore()
+        {
+            if (_userStorePage != null)
+            {
+                if (_tabs.CurrentPage == _userStorePage)
+                    _wasUserStoreShown = true;
+                _tabs.Children.Remove(_userStorePage);
+                _userStorePage = null;
+            }
+        }
+
+        private void setupViewModel()
+        {
+            ViewModel.ShowFavorites = showFavorites;
+            ViewModel.HideFavorites = hideFavorites;
+            ViewModel.UserStoreViewModel.DidLoadUserStoreAction = showUserStore;
+            ViewModel.UserStoreViewModel.IsLoadingStoreAction = hideUserStore;
+            BindingContext = _viewModel;
+        }
+
+        #endregion
+    }
 }
-
-

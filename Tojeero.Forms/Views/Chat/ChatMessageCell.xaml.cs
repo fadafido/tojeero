@@ -12,7 +12,7 @@ namespace Tojeero.Forms.Views.Chat
             receiverProductView.ProductImage.WidthRequest = 80;
         }
 
-        public ChatMessageViewModel ViewModel => this.BindingContext as ChatMessageViewModel;
+        public ChatMessageViewModel ViewModel => BindingContext as ChatMessageViewModel;
 
         public Label MessageLabel => ViewModel?.IsSentByCurrentUser == true ? sentMessageLabel : receivedMessageLabel;
 

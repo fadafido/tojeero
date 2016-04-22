@@ -1,94 +1,95 @@
-﻿using System.Windows.Input;
+﻿using System.ComponentModel;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Tojeero.Forms.Controls
 {
-	public class SelectableButton : Image
-	{
-		#region Constructors
+    public class SelectableButton : Image
+    {
+        #region Constructors
 
-		public SelectableButton()
-		{
-			var tapGestureRecognizer = new TapGestureRecognizer();
-			tapGestureRecognizer.Tapped += (s, e) => {
-				this.Command.Execute(null);
-			};
-			this.GestureRecognizers.Add(tapGestureRecognizer);
-			this.PropertyChanged += propertyChanged;
-		}
+        public SelectableButton()
+        {
+            var tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.Tapped += (s, e) => { Command.Execute(null); };
+            GestureRecognizers.Add(tapGestureRecognizer);
+            PropertyChanged += propertyChanged;
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		#region Selected image
+        #region Selected image
 
-		public static BindableProperty SelectedImageProperty = BindableProperty.Create<SelectableButton, FileImageSource>(o => o.SelectedImage, null);
+        public static BindableProperty SelectedImageProperty =
+            BindableProperty.Create<SelectableButton, FileImageSource>(o => o.SelectedImage, null);
 
-		public FileImageSource SelectedImage
-		{
-			get { return (FileImageSource)GetValue(SelectedImageProperty); }
-			set { SetValue(SelectedImageProperty, value); }
-		}
-			
-		#endregion
+        public FileImageSource SelectedImage
+        {
+            get { return (FileImageSource) GetValue(SelectedImageProperty); }
+            set { SetValue(SelectedImageProperty, value); }
+        }
 
-		#region Deselected image
+        #endregion
 
-		public static BindableProperty DeselectedImageProperty = BindableProperty.Create<SelectableButton, FileImageSource>(o => o.DeselectedImage, null);
+        #region Deselected image
 
-		public FileImageSource DeselectedImage
-		{
-			get { return (FileImageSource)GetValue(DeselectedImageProperty); }
-			set { SetValue(DeselectedImageProperty, value); }
-		}
+        public static BindableProperty DeselectedImageProperty =
+            BindableProperty.Create<SelectableButton, FileImageSource>(o => o.DeselectedImage, null);
 
-		#endregion
+        public FileImageSource DeselectedImage
+        {
+            get { return (FileImageSource) GetValue(DeselectedImageProperty); }
+            set { SetValue(DeselectedImageProperty, value); }
+        }
 
-		#region Command
+        #endregion
 
-		public static BindableProperty CommandProperty = BindableProperty.Create<SelectableButton, ICommand>(o => o.Command, null);
+        #region Command
 
-		public ICommand Command
-		{
-			get { return (ICommand)GetValue(CommandProperty); }
-			set { SetValue(CommandProperty, value); }
-		}
-			
-		#endregion
+        public static BindableProperty CommandProperty =
+            BindableProperty.Create<SelectableButton, ICommand>(o => o.Command, null);
 
-		#region Is selected
+        public ICommand Command
+        {
+            get { return (ICommand) GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
 
-		public static BindableProperty IsSelectedProperty = BindableProperty.Create<SelectableButton, bool>(o => o.IsSelected, false);
+        #endregion
 
-		public bool IsSelected
-		{
-			get { return (bool)GetValue(IsSelectedProperty); }
-			set { SetValue(IsSelectedProperty, value); }
-		}
+        #region Is selected
 
-		#endregion
+        public static BindableProperty IsSelectedProperty =
+            BindableProperty.Create<SelectableButton, bool>(o => o.IsSelected, false);
 
-		#endregion
+        public bool IsSelected
+        {
+            get { return (bool) GetValue(IsSelectedProperty); }
+            set { SetValue(IsSelectedProperty, value); }
+        }
 
-		#region Utility methods
+        #endregion
 
+        #endregion
 
-		void propertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == IsSelectedProperty.PropertyName ||
-			    e.PropertyName == SelectedImageProperty.PropertyName ||
-			    e.PropertyName == DeselectedImageProperty.PropertyName)
-			{
-				this.Source = this.IsSelected ? this.SelectedImage : this.DeselectedImage;
-			}
-			else if (e.PropertyName == IsEnabledProperty.PropertyName)
-			{
-				this.Opacity = this.IsEnabled ? 1 : 0.5;
-			}
-		}
+        #region Utility methods
 
-		#endregion
-	}
+        void propertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == IsSelectedProperty.PropertyName ||
+                e.PropertyName == SelectedImageProperty.PropertyName ||
+                e.PropertyName == DeselectedImageProperty.PropertyName)
+            {
+                Source = IsSelected ? SelectedImage : DeselectedImage;
+            }
+            else if (e.PropertyName == IsEnabledProperty.PropertyName)
+            {
+                Opacity = IsEnabled ? 1 : 0.5;
+            }
+        }
+
+        #endregion
+    }
 }
-

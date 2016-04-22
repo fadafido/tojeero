@@ -52,9 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SAL\Services\QuickbloxChatService.cs" />
     <Compile Include="Setup\MvxApp.cs" />
-    <Compile Include="ViewModels\Base\BaseUserViewModel.cs" />
-    <Compile Include="ViewModels\Base\LoadableViewModel.cs" />
-    <Compile Include="ViewModels\Base\ReloadableViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatChannelsViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatViewModel.cs" />
     <Compile Include="ViewModels\Contracts\ILoadableViewModel.cs" />
@@ -95,7 +92,6 @@
     <Compile Include="Misc\Services\LocationService.cs" />
     <Compile Include="Misc\Services\Contracts\ILocationService.cs" />
     <Compile Include="Misc\Messages\LocationUpdatedMessege.cs" />
-    <Compile Include="ViewModels\Base\LoadableNetworkViewModel.cs" />
     <Compile Include="Misc\Logging\ILogger.cs" />
     <Compile Include="Misc\Logging\Logger.cs" />
     <Compile Include="Misc\Logging\LoggingLevel.cs" />
@@ -108,7 +104,6 @@
     </Compile>
     <Compile Include="Misc\Services\Contracts\ILocalizationService.cs" />
     <Compile Include="Misc\Markup Extensions\TranslateExtension.cs" />
-    <Compile Include="ViewModels\Base\BaseCollectionViewModel.cs" />
     <Compile Include="BL\Contracts\Entities\IModelEntity.cs" />
     <Compile Include="BL\Contracts\Entities\IStore.cs" />
     <Compile Include="BL\Contracts\Entities\IProduct.cs" />
@@ -168,7 +163,6 @@
     <Compile Include="BL\Contracts\Entities\IProductCategory.cs" />
     <Compile Include="BL\Contracts\Entities\IProductSubcategory.cs" />
     <Compile Include="BL\Contracts\Entities\IStoreCategory.cs" />
-    <Compile Include="ViewModels\Base\BaseSearchViewModel.cs" />
     <Compile Include="Misc\Timer.cs" />
     <Compile Include="Pages\Base\BaseSearchablePage.xaml.cs">
       <DependentUpon>BaseSearchablePage.xaml</DependentUpon>
@@ -183,7 +177,6 @@
     <Compile Include="Pages\Misc\TagsPage.xaml.cs">
       <DependentUpon>TagsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Base\BaseSelectableCollectionViewModel.cs" />
     <Compile Include="Misc\Custom Cells\TagListCell.xaml.cs">
       <DependentUpon>TagListCell.xaml</DependentUpon>
     </Compile>
@@ -311,7 +304,6 @@
     <Compile Include="Misc\Custom Controls\SearchbarEx.cs" />
     <Compile Include="ViewModels\Main\BootstrapViewModel.cs" />
     <Compile Include="ViewModels\Misc\TagViewModel.cs" />
-    <Compile Include="ViewModels\Base\BaseUserStoreViewModel.cs" />
     <Compile Include="ViewModels\Main\RootViewModel.cs" />
     <Compile Include="Misc\Custom Cells\ProductListLargeCell.xaml.cs">
       <DependentUpon>ProductListLargeCell.xaml</DependentUpon>
@@ -321,7 +313,6 @@
     <Compile Include="Pages\Misc\TermsPage.xaml.cs">
       <DependentUpon>TermsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Base\BaseFacetedCollectionViewModel.cs" />
     <Compile Include="ViewModels\Misc\FacetViewModel.cs" />
     <Compile Include="BL\Contracts\IModelQuery.cs" />
     <Compile Include="BL\Contracts\IFacetQuery.cs" />
@@ -340,16 +331,21 @@
     <Compile Include="Misc\Toolbox\NumberToolbox.cs" />
     <Compile Include="SAL\Contracts\IChatService.cs" />
     <Compile Include="SAL\Services\PubNubChatService.cs" />
+    <Compile Include="ViewModels\Base\BaseUserViewModel.cs" />
+    <Compile Include="ViewModels\Base\LoadableViewModel.cs" />
+    <Compile Include="ViewModels\Base\ReloadableViewModel.cs" />
+    <Compile Include="ViewModels\Base\LoadableNetworkViewModel.cs" />
+    <Compile Include="ViewModels\Base\BaseCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Base\BaseSearchViewModel.cs" />
+    <Compile Include="ViewModels\Base\BaseSelectableCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Base\BaseUserStoreViewModel.cs" />
+    <Compile Include="ViewModels\Base\BaseFacetedCollectionViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.5.0.6446\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Xamarin.Insights.1.11.1\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.11.1\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets')" />
   <Import Project="..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <ItemGroup>
-    <Reference Include="bouncy_castle_hmac_sha_pcl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\BouncyCastle-PCL.1.0.0.6\lib\bouncy_castle_hmac_sha_pcl.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Cirrious.MvvmCross">
       <HintPath>..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.3.5.1\lib\portable-win+net45+wp8+win8+wpa81\Cirrious.MvvmCross.dll</HintPath>
     </Reference>
@@ -361,22 +357,6 @@
     </Reference>
     <Reference Include="Beezy.MvvmCross.Plugins.SecureStorage">
       <HintPath>..\packages\Beezy.MvvmCross.Plugins.SecureStorage.1.0.0\lib\portable-win+net45+sl50+wp8+MonoAndroid+MonoTouch\Beezy.MvvmCross.Plugins.SecureStorage.dll</HintPath>
-    </Reference>
-    <Reference Include="MvvmCross.Binding, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Binding.4.0.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Binding.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MvvmCross.Core, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Core.4.0.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MvvmCross.Localization, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Binding.4.0.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Localization.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MvvmCross.Platform, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmCross.Platform.4.0.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Platform.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Nito.AsyncEx">
       <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\portable-net45+netcore45+wp8+wpa81\Nito.AsyncEx.dll</HintPath>
@@ -392,22 +372,6 @@
     </Reference>
     <Reference Include="Cirrious.MvvmCross.Community.Plugins.Sqlite">
       <HintPath>..\packages\MvvmCross.Community.Plugin.Sqlite.3.1.1\lib\portable-win+net45+MonoAndroid+MonoTouch+sl5+wp8\Cirrious.MvvmCross.Community.Plugins.Sqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="PCLStorage, Version=1.0.2.0, Culture=neutral, PublicKeyToken=286fe515a2c35b64, processorArchitecture=MSIL">
-      <HintPath>..\packages\PCLStorage.1.0.2\lib\portable-net45+wp8+wpa81+win8+monoandroid+monotouch+Xamarin.iOS+Xamarin.Mac\PCLStorage.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="PCLStorage.Abstractions, Version=1.0.2.0, Culture=neutral, PublicKeyToken=286fe515a2c35b64, processorArchitecture=MSIL">
-      <HintPath>..\packages\PCLStorage.1.0.2\lib\portable-net45+wp8+wpa81+win8+monoandroid+monotouch+Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Xamarin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Quickblox.Sdk.Xamarin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Sharp.Xmpp, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Sharp.Xmpp.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.Primitives">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
@@ -466,6 +430,33 @@
     <Reference Include="PubNub-Messaging">
       <HintPath>..\packages\PubnubPCL.3.7.0.1\lib\portable-net40+sl50+win+wp80+MonoAndroid10+xamarinios10+MonoTouch10\PubNub-Messaging.dll</HintPath>
     </Reference>
+    <Reference Include="bouncy_castle_hmac_sha_pcl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\BouncyCastle-PCL.1.0.0.6\lib\bouncy_castle_hmac_sha_pcl.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Binding, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MvvmCross.Binding.4.0.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Binding.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MvvmCross.Core.4.0.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Localization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MvvmCross.Binding.4.0.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Platform, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MvvmCross.Platform.4.0.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLStorage, Version=1.0.2.0, Culture=neutral, PublicKeyToken=286fe515a2c35b64">
+      <HintPath>..\packages\PCLStorage.1.0.2\lib\portable-net45+wp8+wpa81+win8+monoandroid+monotouch+Xamarin.iOS+Xamarin.Mac\PCLStorage.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLStorage.Abstractions, Version=1.0.2.0, Culture=neutral, PublicKeyToken=286fe515a2c35b64">
+      <HintPath>..\packages\PCLStorage.1.0.2\lib\portable-net45+wp8+wpa81+win8+monoandroid+monotouch+Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Xamarin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Quickblox.Sdk.Xamarin.dll</HintPath>
+    </Reference>
+    <Reference Include="Sharp.Xmpp, Version=1.0.2.2, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Sharp.Xmpp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BL\Managers\" />
@@ -481,7 +472,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\AppResources.ar.resx" />
+    <EmbeddedResource Include="Resources\AppResources.ar.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pages\Main\ProductsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

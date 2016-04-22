@@ -1,0 +1,584 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AlertTitleWarning" xml:space="preserve">
+    <value>Warning</value>
+    <comment>The title of warning alert (message box)</comment>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Tojeero</value>
+    <comment>The name of the application which will appear in several places arround the app.</comment>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Cancel button title.</comment>
+  </data>
+  <data name="ButtonClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ButtonDone" xml:space="preserve">
+    <value>Done</value>
+    <comment>Done button title</comment>
+  </data>
+  <data name="ButtonLogin" xml:space="preserve">
+    <value>Log in</value>
+    <comment>Log in button title.</comment>
+  </data>
+  <data name="ButtonLogout" xml:space="preserve">
+    <value>Log out</value>
+    <comment>Log out button title.</comment>
+  </data>
+  <data name="ButtonSubmit" xml:space="preserve">
+    <value>Submit</value>
+    <comment>Submit button title.</comment>
+  </data>
+  <data name="LabelCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="LabelCity" xml:space="preserve">
+    <value>City</value>
+    <comment>City label text.</comment>
+  </data>
+  <data name="LabelCountry" xml:space="preserve">
+    <value>Country</value>
+    <comment>Country label text.</comment>
+  </data>
+  <data name="LabelEmail" xml:space="preserve">
+    <value>Email</value>
+    <comment>Email label text.</comment>
+  </data>
+  <data name="LabelTo" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="LabelFirstName" xml:space="preserve">
+    <value>First name</value>
+    <comment>First name label text.</comment>
+  </data>
+  <data name="LabelLanguage" xml:space="preserve">
+    <value>Language</value>
+    <comment>Language label text.</comment>
+  </data>
+  <data name="LabelLastName" xml:space="preserve">
+    <value>Last name</value>
+    <comment>Last name label text.</comment>
+  </data>
+  <data name="LabelMobilePhone" xml:space="preserve">
+    <value>Mobile</value>
+    <comment>Mobile phone label text.</comment>
+  </data>
+  <data name="LabelPriceRange" xml:space="preserve">
+    <value>Price range</value>
+    <comment>Price range label</comment>
+  </data>
+  <data name="LabelProductDetailsCategory" xml:space="preserve">
+    <value>Category:</value>
+    <comment>Category label shown on product details screen</comment>
+  </data>
+  <data name="LabelProductDetailsDescription" xml:space="preserve">
+    <value>Description:</value>
+    <comment>Description label shown on product details screen</comment>
+  </data>
+  <data name="LabelProductDetailsSubcategory" xml:space="preserve">
+    <value>Sub-category:</value>
+    <comment>Subcategory label shown on product details screen</comment>
+  </data>
+  <data name="LabelProductDetailsTags" xml:space="preserve">
+    <value>Tags:</value>
+    <comment>Tags label shown on product details screen</comment>
+  </data>
+  <data name="LabelFrom" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="LabelSubcategory" xml:space="preserve">
+    <value>Subcategory</value>
+  </data>
+  <data name="MenuItemProfileSettings" xml:space="preserve">
+    <value>Profile settings</value>
+    <comment>Button inside side menu to acccess user profile settings (Name, Country etc.)</comment>
+  </data>
+  <data name="MessageGeneralLoading" xml:space="preserve">
+    <value>Loading...</value>
+    <comment>General loading message which may be used to show the user that something is going on in background</comment>
+  </data>
+  <data name="MessageInitialLoading" xml:space="preserve">
+    <value>Loading initial data, please wait.</value>
+    <comment>Message shown on the bootstrap screen when loading initial data.</comment>
+  </data>
+  <data name="MessageLanguageChangeWarning" xml:space="preserve">
+    <value>In order for language change take effect you need to restart the app.</value>
+    <comment>Warning message displayed to the user after they change their language within the app UI.</comment>
+  </data>
+  <data name="MessageLoadingFailed" xml:space="preserve">
+    <value>Failed to load data because of unknown error. Please try again. If the issue persists please contact our support.</value>
+    <comment>Message shown to the user if general background operation failed due to unknown issue.</comment>
+  </data>
+  <data name="MessageLoadingFailedNoInternet" xml:space="preserve">
+    <value>Data loading failed. Please make sure you have internet connection and try again.</value>
+    <comment>Message shown to the user if the data has not been loaded persumable because of no internet connection.</comment>
+  </data>
+  <data name="MessageLoadingTimeOut" xml:space="preserve">
+    <value>Failed to load data because of timeout. Please make sure you are connected to internet and try again.</value>
+    <comment>Message shown to the user if general background operation failed due to time out.</comment>
+  </data>
+  <data name="MessageNoInternetWarning" xml:space="preserve">
+    <value>No network connection available.</value>
+    <comment>Warning text which usually will appear at the top of screen to warn user that there is no network connection awailable.</comment>
+  </data>
+  <data name="MessageProfileSettingsHint" xml:space="preserve">
+    <value>Please provide some details about you to improve your app experience.</value>
+    <comment>Hint message shown at the top of profile settings screen when user signs up to the application and has not entered some details about him.</comment>
+  </data>
+  <data name="MessageSubmissionTimeoutFailure" xml:space="preserve">
+    <value>Submission failed because of timeout. Please try again.</value>
+    <comment>Message that is shown to the user when submission failed because of timeout.</comment>
+  </data>
+  <data name="MessageSubmissionUnknownFailure" xml:space="preserve">
+    <value>Submission failed because of unknown error. Please try again. If the issue persists please contact our support.</value>
+    <comment>Message that is shown to the user when submission failed because of unknown error.</comment>
+  </data>
+  <data name="MessageSubmitting" xml:space="preserve">
+    <value>Submitting data...</value>
+    <comment>Message that is shown to user when data is being submitted</comment>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="PlaceholderSearchProducts" xml:space="preserve">
+    <value>Search for products</value>
+    <comment>Placeholder string shown inside search on products screen.</comment>
+  </data>
+  <data name="PlaceholderSearchStores" xml:space="preserve">
+    <value>Search for stores</value>
+    <comment>Placeholder string shown inside search on stores screen.</comment>
+  </data>
+  <data name="PlaceholderSearchTags" xml:space="preserve">
+    <value>Search for existing tags</value>
+    <comment>Placeholder string shown inside search on tags screen.</comment>
+  </data>
+  <data name="TitleFavoriteProducts" xml:space="preserve">
+    <value>Favorite products</value>
+    <comment>Favorite products screen title</comment>
+  </data>
+  <data name="TitleFavorites" xml:space="preserve">
+    <value>Favorites</value>
+    <comment>Favorites screen title</comment>
+  </data>
+  <data name="TitleFavoriteStores" xml:space="preserve">
+    <value>Favorite stores</value>
+    <comment>Favorite stores screen title</comment>
+  </data>
+  <data name="TitleFilterProducts" xml:space="preserve">
+    <value>Filter Products</value>
+    <comment>Filter products page title</comment>
+  </data>
+  <data name="TitleFilterStores" xml:space="preserve">
+    <value>Filter Stores</value>
+    <comment>Filter stores page title</comment>
+  </data>
+  <data name="TitleProductDetails" xml:space="preserve">
+    <value>Product details</value>
+    <comment>Product details screen title</comment>
+  </data>
+  <data name="TitleProducts" xml:space="preserve">
+    <value>Products</value>
+    <comment>Products page title</comment>
+  </data>
+  <data name="TitleProfileSettings" xml:space="preserve">
+    <value>Profile settings</value>
+    <comment>Title of Profile Settings screen</comment>
+  </data>
+  <data name="TitleStores" xml:space="preserve">
+    <value>Stores</value>
+    <comment>Stores page title</comment>
+  </data>
+  <data name="TitleTags" xml:space="preserve">
+    <value>Tags</value>
+    <comment>The title of tag selection page</comment>
+  </data>
+  <data name="TitleStoreDetails" xml:space="preserve">
+    <value>Store details</value>
+    <comment>Store details page title</comment>
+  </data>
+  <data name="LabelStoreDetailsCategory" xml:space="preserve">
+    <value>Category:</value>
+    <comment>Category label shown on store details screen</comment>
+  </data>
+  <data name="LabelStoreDetailsCity" xml:space="preserve">
+    <value>City:</value>
+    <comment>City label shown on store details screen</comment>
+  </data>
+  <data name="LabelStoreDetailsCountry" xml:space="preserve">
+    <value>Country:</value>
+    <comment>Country label shown on store details screen</comment>
+  </data>
+  <data name="LabelStoreDetailsDeliveryNotes" xml:space="preserve">
+    <value>Delivery Notes</value>
+    <comment>Delivery notes label shown on store details screen</comment>
+  </data>
+  <data name="LabelStoreDetailsDescription" xml:space="preserve">
+    <value>Description:</value>
+    <comment>Description label shown on store details screen</comment>
+  </data>
+  <data name="LabelStoreDetailsPrivacy" xml:space="preserve">
+    <value>Store Privacy</value>
+    <comment>Store privacy label shown on store details screen</comment>
+  </data>
+  <data name="MessageSavingStore" xml:space="preserve">
+    <value>Saving store...</value>
+    <comment>Message shown on save store screen to indicate that store is being saved</comment>
+  </data>
+  <data name="MessageValidateRequiredCategory" xml:space="preserve">
+    <value>Category is required.</value>
+  </data>
+  <data name="MessageValidateRequiredCity" xml:space="preserve">
+    <value>City is required.</value>
+  </data>
+  <data name="MessageValidateRequiredCountry" xml:space="preserve">
+    <value>Country is required.</value>
+  </data>
+  <data name="MessageValidateRequiredName" xml:space="preserve">
+    <value>Please enter non-empty name.</value>
+  </data>
+  <data name="TitleCreateStore" xml:space="preserve">
+    <value>Create store</value>
+    <comment>The title of create store page</comment>
+  </data>
+  <data name="ButtonAddImage" xml:space="preserve">
+    <value>Add image</value>
+  </data>
+  <data name="LabelAddMainImage" xml:space="preserve">
+    <value>Tap to add main image</value>
+  </data>
+  <data name="LabelDeliveryNotes" xml:space="preserve">
+    <value>Delivery notes</value>
+  </data>
+  <data name="LabelDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="LabelStoreName" xml:space="preserve">
+    <value>Store name</value>
+  </data>
+  <data name="LabelFromCamera" xml:space="preserve">
+    <value>From camera</value>
+  </data>
+  <data name="LabelFromLibrary" xml:space="preserve">
+    <value>From library</value>
+  </data>
+  <data name="TitlePickImage" xml:space="preserve">
+    <value>Pick image</value>
+  </data>
+  <data name="ButtonCreateStore" xml:space="preserve">
+    <value>Create a store</value>
+    <comment>Create store button title</comment>
+  </data>
+  <data name="ButtonRefetchStore" xml:space="preserve">
+    <value>Refetch store</value>
+  </data>
+  <data name="ButtonSaveChanges" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="MessageLoadingStore" xml:space="preserve">
+    <value>Loading store...</value>
+  </data>
+  <data name="MessageValidateInvalidStoreName" xml:space="preserve">
+    <value>Please select different name for your store. This name is reserved.</value>
+  </data>
+  <data name="TitleEditStore" xml:space="preserve">
+    <value>Edit store</value>
+  </data>
+  <data name="MessageValidateStoreName" xml:space="preserve">
+    <value>Store name should have 6 to 40 length, contain only alpha-numeric characters, spaces and these special characters: -_'&amp;</value>
+  </data>
+  <data name="MessageValidateStoreNameReserved" xml:space="preserve">
+    <value>The name you've entered for your store is reserved. Please change it and try again.</value>
+  </data>
+  <data name="ButtonAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ButtonEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ButtonOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="MessageAddFirstProduct" xml:space="preserve">
+    <value>Tap here to add your first product</value>
+  </data>
+  <data name="MessageSavingFailure" xml:space="preserve">
+    <value>Saving failure</value>
+  </data>
+  <data name="MessageStoreNoProducts" xml:space="preserve">
+    <value>Store doesn't have any products.</value>
+  </data>
+  <data name="MessageWarningChangeStoreDetails" xml:space="preserve">
+    <value>Choose your store name, country and city wisely, you won't be able to change them later.</value>
+  </data>
+  <data name="ButtonCreateProduct" xml:space="preserve">
+    <value>Add product</value>
+  </data>
+  <data name="LabelProductName" xml:space="preserve">
+    <value>Product name</value>
+  </data>
+  <data name="MessageValidateProductName" xml:space="preserve">
+    <value>Product name should have 5 to 256 length.</value>
+  </data>
+  <data name="MessageValidateRequiredSubcategory" xml:space="preserve">
+    <value>Subcategory is required.</value>
+  </data>
+  <data name="TitleCreateProduct" xml:space="preserve">
+    <value>Create product</value>
+  </data>
+  <data name="TitleEditProduct" xml:space="preserve">
+    <value>Edit product</value>
+  </data>
+  <data name="LabelPrice" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="MessageValidationPriceInvalid" xml:space="preserve">
+    <value>Price should be a number greater than 0.</value>
+  </data>
+  <data name="MessageRemoveImageFailure" xml:space="preserve">
+    <value>Failed to remove image. Please try again.</value>
+  </data>
+  <data name="TitleError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="TitleFailure" xml:space="preserve">
+    <value>Failure</value>
+  </data>
+  <data name="LabelTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="ButtonAddTags" xml:space="preserve">
+    <value>Add tags</value>
+  </data>
+  <data name="LabelDeclined" xml:space="preserve">
+    <value>Declined</value>
+  </data>
+  <data name="LabelPending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="LabelVisible" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="MessageProductDeclined" xml:space="preserve">
+    <value>Product was declined. Reason: {0}</value>
+  </data>
+  <data name="MessageProductPending" xml:space="preserve">
+    <value>Product is pending for approval. It will be visible to the users as soon as we approve it.</value>
+  </data>
+  <data name="TextUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="MessageStoreBlocked" xml:space="preserve">
+    <value>Your store has been blocked.</value>
+  </data>
+  <data name="LabelBlocked" xml:space="preserve">
+    <value>Blocked</value>
+  </data>
+  <data name="TitleShop" xml:space="preserve">
+    <value>Shop</value>
+  </data>
+  <data name="ButtonApply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ButtonMyStore" xml:space="preserve">
+    <value>My store</value>
+  </data>
+  <data name="ButtonTryAgain" xml:space="preserve">
+    <value>Try again</value>
+  </data>
+  <data name="LabelMobileNumber" xml:space="preserve">
+    <value>Mobile number</value>
+  </data>
+  <data name="MessageNoFavoriteProducts" xml:space="preserve">
+    <value>You don't have any favorite products.</value>
+    <comment>Placeholder shown when there are no favorite products to be shown in the list</comment>
+  </data>
+  <data name="MessageNoFavoriteStores" xml:space="preserve">
+    <value>You don't have any favorite stores.</value>
+    <comment>Placeholder shown when there are no favorite stores to be shown in the list</comment>
+  </data>
+  <data name="MessageNoProducts" xml:space="preserve">
+    <value>No products available.</value>
+    <comment>Placeholder shown when there are no products to be shown in the list</comment>
+  </data>
+  <data name="MessageNoStores" xml:space="preserve">
+    <value>No stores available.</value>
+    <comment>Placeholder shown when there are no stores to be shown in the list</comment>
+  </data>
+  <data name="MessageNoTags" xml:space="preserve">
+    <value>No tags available</value>
+    <comment>Placeholder shown when there are no tags to be shown in the list</comment>
+  </data>
+  <data name="ButtonAddProduct" xml:space="preserve">
+    <value>Add product</value>
+  </data>
+  <data name="ButtonReadTerms" xml:space="preserve">
+    <value>Read our Terms of Service</value>
+  </data>
+  <data name="ButtonTerms" xml:space="preserve">
+    <value>Terms of Service</value>
+  </data>
+  <data name="LabelEmptyList" xml:space="preserve">
+    <value>There are no items in this list.</value>
+  </data>
+  <data name="LabelListCount" xml:space="preserve">
+    <value>{0} items in this list.</value>
+  </data>
+  <data name="MessageTermsWarning" xml:space="preserve">
+    <value>By submitting this form you confirm that you agree to our Terms of Service</value>
+  </data>
+  <data name="MessageMatchingProducts" xml:space="preserve">
+    <value>There are {0} matching products.</value>
+  </data>
+  <data name="MessageMatchingStores" xml:space="preserve">
+    <value>There are {0} matching stores.</value>
+  </data>
+  <data name="MessageNoMatchingProducts" xml:space="preserve">
+    <value>There are no matching products.</value>
+  </data>
+  <data name="MessageNoMatchingStores" xml:space="preserve">
+    <value>There are no matching stores.</value>
+  </data>
+  <data name="MessageSingleMatchingProduct" xml:space="preserve">
+    <value>There is 1 matching product.</value>
+  </data>
+  <data name="MessageSingleMatchingStore" xml:space="preserve">
+    <value>There is 1 matching store.</value>
+  </data>
+  <data name="ButtonResetFilters" xml:space="preserve">
+    <value>Reset all filters</value>
+  </data>
+  <data name="MessageLoadingMatches" xml:space="preserve">
+    <value>Loading matches...</value>
+  </data>
+  <data name="ButtonChatWithSeller" xml:space="preserve">
+    <value>Chat with seller</value>
+  </data>
+  <data name="ButtonLoadMoreMessages" xml:space="preserve">
+    <value>Load more messages...</value>
+  </data>
+  <data name="MessageChatMessageSendingFailure" xml:space="preserve">
+    <value>Failed to send chat message. Please try again.</value>
+  </data>
+  <data name="MessageChatMessageSendingTimeout" xml:space="preserve">
+    <value>Failed to send chat message because of timeout. Please try again.</value>
+  </data>
+</root>

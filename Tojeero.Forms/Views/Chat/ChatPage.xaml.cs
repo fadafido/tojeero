@@ -11,13 +11,36 @@ namespace Tojeero.Forms.Views.Chat
 {
     public partial class ChatPage
     {
+        #region Private fields
+
+        private readonly IChatChannel _channel;
+        private readonly IProduct _product;
+
+        #endregion
+
         #region Constructors
 
         public ChatPage(IChatChannel channel = null, IProduct product = null)
         {
+            InitializeComponent();
+
+            _channel = channel;
+            _product = product;
+
             ViewModel = MvxToolbox.LoadViewModel<ChatViewModel>();
-            ViewModel.Channel = channel;
-            ViewModel.ProductViewModel = new ProductViewModel(product)
+            
+            productView.ProductImage.WidthRequest = 80;
+        }
+
+        #endregion
+
+        #region Parent override
+
+        protected override void SetupViewModel()
+        {
+            base.SetupViewModel();
+            ViewModel.Channel = _channel;
+            ViewModel.ProductViewModel = new ProductViewModel(_product)
             {
                 FavoriteToggleEnabled = false
             };
@@ -28,9 +51,6 @@ namespace Tojeero.Forms.Views.Chat
             {
                 Navigation.PushAsync(new ProductDetailsPage(p));
             };
-            InitializeComponent();
-            
-            productView.ProductImage.WidthRequest = 80;
         }
 
         #endregion

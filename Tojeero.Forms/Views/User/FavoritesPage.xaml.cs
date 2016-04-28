@@ -6,55 +6,35 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.User
 {
-    public partial class FavoritesPage : ContentPage
+    public partial class FavoritesPage
     {
         #region Constructors
 
         public FavoritesPage()
         {
-            ViewModel = MvxToolbox.LoadViewModel<FavoritesViewModel>();
             InitializeComponent();
+
+            ViewModel = MvxToolbox.LoadViewModel<FavoritesViewModel>();
+            
             NavigationPage.SetTitleIcon(this, "tojeero.png");
         }
 
         #endregion
 
-        #region View lifecycle management
+        #region Parent override
 
-        protected override void OnAppearing()
+        protected override void SetupViewModel()
         {
-            base.OnAppearing();
-            ViewModel.LoadFavoriteCountsCommand.Execute(null);
-        }
-
-        #endregion
-
-        #region Properties
-
-        private FavoritesViewModel _viewModel;
-
-        public FavoritesViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                _viewModel = value;
-                setupViewModel();
-            }
-        }
-
-        #endregion
-
-        #region Utility methods
-
-        private void setupViewModel()
-        {
+            base.SetupViewModel();
             ViewModel.ShowFavoriteProductsAction =
                 async () => { await Navigation.PushAsync(new FavoriteProductsPage()); };
-            ViewModel.ShowFavoriteStoresAction = async () => { Navigation.PushAsync(new FavoriteStoresPage()); };
-            BindingContext = ViewModel;
+            ViewModel.ShowFavoriteStoresAction = async () =>
+            {
+                await Navigation.PushAsync(new FavoriteStoresPage());
+            };
         }
 
         #endregion
+
     }
 }

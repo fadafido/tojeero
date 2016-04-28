@@ -8,38 +8,22 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.User
 {
-    public partial class ProfileSettingsPage : ContentPage
+    public partial class ProfileSettingsPage
     {
-        #region Properties
-
-        private ProfileSettingsViewModel _viewModel;
-
-        public ProfileSettingsViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel != value)
-                {
-                    _viewModel = value;
-                    BindingContext = _viewModel;
-                }
-            }
-        }
-
-        #endregion
 
         #region Constructors
 
         public ProfileSettingsPage(bool userShouldProvideDetails = false)
         {
+            InitializeComponent();
+
             ViewModel =
                 MvxToolbox.LoadViewModel<ProfileSettingsViewModel>(
                     new {userShouldProvideProfileDetails = userShouldProvideDetails});
             ViewModel.CloseAction = async () => { await Navigation.PopModalAsync(); };
             ViewModel.ShowTermsAction =
                 async () => { await Navigation.PushModalAsync(new NavigationPage(new TermsPage())); };
-            InitializeComponent();
+
             if (!ViewModel.UserShouldProvideProfileDetails)
             {
                 ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, null,
@@ -47,24 +31,14 @@ namespace Tojeero.Forms.Views.User
                 ToolbarItems.Add(new ToolbarItem(AppResources.ButtonCancel, null,
                     async () => { await Navigation.PopModalAsync(); }, priority: 15));
             }
-            setupPickers();
-        }
-
-        #endregion
-
-        #region View Lifecycle
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.ReloadCommand.Execute(null);
+            SetupPickers();
         }
 
         #endregion
 
         #region Utility methods
 
-        private void setupPickers()
+        private void SetupPickers()
         {
             countriesPicker.FacetsLoader = ViewModel.FetchCountryFacets;
             countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => ViewModel.Countries);

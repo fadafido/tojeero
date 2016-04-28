@@ -12,11 +12,12 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Store
 {
-    public partial class SaveStorePage : ContentPage
+    public partial class SaveStorePage
     {
         #region Private fields and properties
 
         private bool _toolbarButtonsAdded;
+        private readonly IStore _store;
 
         #endregion
 
@@ -24,33 +25,23 @@ namespace Tojeero.Forms.Views.Store
 
         public SaveStorePage(IStore store)
         {
-            ViewModel = MvxToolbox.LoadViewModel<SaveStoreViewModel>();
             InitializeComponent();
-            setupPickers();
 
-
-            ViewModel.CurrentStore = store;
-            mainImageControl.ViewModel = ViewModel.MainImage;
-            ViewModel.ShowAlert = (t, m, accept) => { DisplayAlert(t, m, accept); };
+            _store = store;
+            ViewModel = MvxToolbox.LoadViewModel<SaveStoreViewModel>();
+            
+            SetupPickers();
         }
 
         #endregion
 
-        #region Properties
+        #region Parent override
 
-        private SaveStoreViewModel _viewModel;
-
-        public SaveStoreViewModel ViewModel
+        protected override void SetupViewModel()
         {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel != value)
-                {
-                    _viewModel = value;
-                    BindingContext = value;
-                }
-            }
+            base.SetupViewModel();
+            ViewModel.CurrentStore = _store;
+            mainImageControl.ViewModel = ViewModel.MainImage;
         }
 
         #endregion
@@ -94,15 +85,13 @@ namespace Tojeero.Forms.Views.Store
                 };
                 _toolbarButtonsAdded = true;
             }
-
-            ViewModel.ReloadCommand.Execute(null);
         }
 
         #endregion
 
         #region Utility methods
 
-        private void setupPickers()
+        private void SetupPickers()
         {
             categoriesPicker.ItemsLoader =
                 () => Task<IList<IStoreCategory>>.Factory.StartNew(() => ViewModel.Categories);

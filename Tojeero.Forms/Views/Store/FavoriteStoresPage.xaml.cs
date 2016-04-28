@@ -6,48 +6,20 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Store
 {
-    public partial class FavoriteStoresPage : BaseCollectionPage
+    public partial class FavoriteStoresPage
     {
         #region Constructors
 
         public FavoriteStoresPage()
         {
             InitializeComponent();
-            ViewModel = MvxToolbox.LoadViewModel<FavoriteStoresViewModel>();
-            ListViewEx.ItemSelected += itemSelected;
-        }
-
-        #endregion
-
-        #region Properties
-
-        public new FavoriteStoresViewModel ViewModel
-        {
-            get { return base.ViewModel as FavoriteStoresViewModel; }
-            set { base.ViewModel = value; }
-        }
-
-        #endregion
-
-        #region Page lifecycle
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.LoadFirstPageCommand.Execute(null);
-        }
-
-        #endregion
-
-        #region UI Events
-
-        private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var item = ((ListViewEx) sender).SelectedItem as StoreViewModel;
-            if (item != null)
+            var vm = MvxToolbox.LoadViewModel<FavoriteStoresViewModel>();
+            vm.ShowStoreInfoAction = async s =>
             {
-                ((ListViewEx) sender).SelectedItem = null;
-            }
+                var storeInfoPage = new StoreInfoPage(s);
+                await Navigation.PushAsync(storeInfoPage);
+            };
+            ViewModel = vm;
         }
 
         #endregion

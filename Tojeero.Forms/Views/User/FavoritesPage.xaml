@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<ContentPage
+<common:BasePage
+	x:TypeArguments="user:FavoritesViewModel"
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
 	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:user="clr-namespace:Tojeero.Core.ViewModels.User;assembly=Tojeero.Core"
 	x:Class="Tojeero.Forms.Views.User.FavoritesPage"
 	BackgroundColor="{x:Static core:Colors.LightBackground}">
 	<ContentPage.Content>
@@ -108,4 +110,4 @@
 			</StackLayout>
 		</ScrollView>
 	</ContentPage.Content>
-</ContentPage>
+</common:BasePage>

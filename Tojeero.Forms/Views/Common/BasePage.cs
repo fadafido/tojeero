@@ -1,10 +1,11 @@
 ﻿using Tojeero.Core.ViewModels.Common;
+using Tojeero.Core.ViewModels.Contracts;
 using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Common
 {
     public abstract class BasePage<T> : ContentPage
-        where T : BaseViewModel
+        where T : IBaseViewModel
     {
         #region Constructors
 
@@ -17,17 +18,27 @@ namespace Tojeero.Forms.Views.Common
         #endregion
 
         #region Properties
-        public T ViewModel  
+        public virtual T ViewModel  
         {
             get
             {
-                return BindingContext as T;
+                return (T) BindingContext;
             }
-            set
+            protected set
             {
                 BindingContext = value;
                 UpdateDialogAction();
+                SetupViewModel();
             }
+        }
+
+        #endregion
+
+        #region Protected API
+
+        protected virtual void SetupViewModel()
+        {
+
         }
 
         #endregion

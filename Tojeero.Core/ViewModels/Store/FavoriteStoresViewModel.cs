@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Cirrious.MvvmCross.ViewModels;
 using Tojeero.Core.Managers.Contracts;
 using Tojeero.Core.Model.Contracts;
 using Tojeero.Core.Resources;
@@ -24,6 +26,36 @@ namespace Tojeero.Core.ViewModels.Store
         {
             _manager = manager;
             Placeholder = AppResources.MessageNoFavoriteStores;
+        }
+
+        #endregion
+
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            LoadFirstPageCommand.Execute(null);
+        }
+
+        #endregion
+
+        #region Properties
+
+        public Action<IStore> ShowStoreInfoAction { get; set; }
+
+        #endregion
+
+        #region Commands
+
+        private MvxCommand<StoreViewModel> _itemSelectedCommand;
+        public override ICommand ItemSelectedCommand
+        {
+            get
+            {
+                _itemSelectedCommand = _itemSelectedCommand ?? new MvxCommand<StoreViewModel>(s => ShowStoreInfoAction(s.Store));
+                return _itemSelectedCommand;
+            }
         }
 
         #endregion

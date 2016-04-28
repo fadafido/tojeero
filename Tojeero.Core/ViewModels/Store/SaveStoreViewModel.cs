@@ -51,6 +51,16 @@ namespace Tojeero.Core.ViewModels.Store
 
         #endregion
 
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            ReloadCommand.Execute(null);
+        }
+
+        #endregion
+
         #region ISaveStoreViewModel implementation
 
         private IStore _currentStore;
@@ -199,7 +209,6 @@ namespace Tojeero.Core.ViewModels.Store
 
         #region Properties
 
-        public Action<string, string, string> ShowAlert { get; set; }
         //Action which will called as soon as store will be saved. 
         //Bool parameter indicates wether this was new store creation or update of existing store
         public Action<IStore, bool> DidSaveStoreAction { get; set; }
@@ -468,9 +477,9 @@ namespace Tojeero.Core.ViewModels.Store
                 failureMessage = AppResources.MessageSubmissionUnknownFailure;
             }
             SavingFailure = failureMessage;
-            if (failureMessage != null && ShowAlert != null)
+            if (failureMessage != null)
             {
-                ShowAlert(AppResources.MessageSavingFailure, failureMessage, AppResources.ButtonOK);
+                ShowDialog(AppResources.MessageSavingFailure, failureMessage, AppResources.ButtonOK);
             }
             SavingInProgress = false;
         }

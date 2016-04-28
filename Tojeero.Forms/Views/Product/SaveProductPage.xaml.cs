@@ -10,24 +10,46 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Product
 {
-    public partial class SaveProductPage : ContentPage
+    public partial class SaveProductPage
     {
+        #region Private fields
+
+        private readonly IProduct _currentProduct;
+        private readonly IStore _parentStore;
+
+        #endregion
+
+
         #region Constructors
 
         public SaveProductPage(IProduct product, IStore parentStore)
         {
-            ViewModel = MvxToolbox.LoadViewModel<SaveProductViewModel>();
-            ViewModel.CurrentProduct = product;
-            ViewModel.Store = parentStore;
-
             InitializeComponent();
-            setupPickers();
+
+            _parentStore = parentStore;
+            _currentProduct = product;
+
+            ViewModel = MvxToolbox.LoadViewModel<SaveProductViewModel>();
+
+            SetupPickers();
             ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, "",
                 async () => { await Navigation.PopModalAsync(); }));
-            ViewModel.CurrentProduct = product;
+        }
+
+        #endregion
+
+        #region Parent override
+
+        protected override void SetupViewModel()
+        {
+            base.SetupViewModel();
+            ViewModel.CurrentProduct = _currentProduct;
+            ViewModel.Store = _parentStore;
+
+
+            ViewModel.CurrentProduct = _currentProduct;
 
             mainImageControl.ViewModel = ViewModel.MainImage;
-            ViewModel.ShowAlert = (t, m, accept) => { DisplayAlert(t, m, accept); };
 
             ViewModel.DidSaveProductAction = async (savedProduct, isNew) =>
             {
@@ -50,38 +72,9 @@ namespace Tojeero.Forms.Views.Product
 
         #endregion
 
-        #region Properties
-
-        private SaveProductViewModel _viewModel;
-
-        public SaveProductViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel != value)
-                {
-                    _viewModel = value;
-                    BindingContext = value;
-                }
-            }
-        }
-
-        #endregion
-
-        #region View Lifecycle
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.ReloadCommand.Execute(null);
-        }
-
-        #endregion
-
         #region Utility methods
 
-        private void setupPickers()
+        private void SetupPickers()
         {
             categoriesPicker.ItemsLoader =
                 () => Task<IList<IProductCategory>>.Factory.StartNew(() => ViewModel.Categories);

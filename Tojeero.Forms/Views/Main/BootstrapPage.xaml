@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<ContentPage
+<common:BasePage
+	x:TypeArguments="main:BootstrapViewModel" 
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="Tojeero.Forms.Views.Main.BootstrapPage"
@@ -9,6 +10,8 @@
 	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms"
 	xmlns:model="clr-namespace:Tojeero.Core.Model;assembly=Tojeero.Core"
 	xmlns:contracts="clr-namespace:Tojeero.Core.Model.Contracts;assembly=Tojeero.Core"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:main="clr-namespace:Tojeero.Core.ViewModels.Main;assembly=Tojeero.Core"
 	BackgroundColor="{x:Static core:Colors.Secondary}">
 	<ContentPage.Content>
 		<ScrollView>
@@ -141,4 +144,4 @@
 			</StackLayout>
 		</ScrollView>
 	</ContentPage.Content>
-</ContentPage>
+</common:BasePage>

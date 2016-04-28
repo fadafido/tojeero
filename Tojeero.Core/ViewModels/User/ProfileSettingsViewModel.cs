@@ -63,6 +63,16 @@ namespace Tojeero.Core.ViewModels.User
 
         #endregion
 
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            ReloadCommand.Execute(null);
+        }
+
+        #endregion
+
         #region Properties
 
         public Action CloseAction { get; set; }

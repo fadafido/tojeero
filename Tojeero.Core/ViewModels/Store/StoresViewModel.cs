@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Cirrious.MvvmCross.Plugins.Messenger;
+using Cirrious.MvvmCross.ViewModels;
 using Tojeero.Core.Managers.Contracts;
 using Tojeero.Core.Messages;
 using Tojeero.Core.Model.Contracts;
@@ -33,6 +35,37 @@ namespace Tojeero.Core.ViewModels.Store
                 messenger.SubscribeOnMainThread<StoreChangedMessage>(message => { RefetchCommand.Execute(null); });
             _sessionChangedToken =
                 messenger.SubscribeOnMainThread<SessionStateChangedMessage>(m => { RefetchCommand.Execute(null); });
+        }
+
+        #endregion
+
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.LoadFirstPageCommand.Execute(null);
+        }
+
+        #endregion
+
+        #region Properties
+
+        public Action<IStore> ShowStoreInfoAction { get; set; }
+
+        #endregion
+
+        #region Commands
+
+        private MvxCommand<StoreViewModel> _itemSelectedCommand;
+        public ICommand ItemSelectedCommand
+        {
+            get
+            {
+                _itemSelectedCommand = _itemSelectedCommand 
+                    ?? new MvxCommand<StoreViewModel>(s => ShowStoreInfoAction(s.Store));
+                return _itemSelectedCommand;
+            }
         }
 
         #endregion

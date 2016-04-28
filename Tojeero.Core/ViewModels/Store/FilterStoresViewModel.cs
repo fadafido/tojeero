@@ -49,6 +49,17 @@ namespace Tojeero.Core.ViewModels.Store
 
         #endregion
 
+        #region Lifecycle management
+
+        public override async void OnAppearing()
+        {
+            base.OnAppearing();
+            ReloadCommand.Execute(null);
+            await ReloadCount();
+        }
+
+        #endregion
+
         #region IDisposable implementation
 
         public void Dispose()

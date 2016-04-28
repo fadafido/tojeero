@@ -1,5 +1,6 @@
 ﻿using System;
 using Cirrious.MvvmCross.ViewModels;
+using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
@@ -7,7 +8,7 @@ namespace Tojeero.Core.ViewModels.Common
         string negativeTitle, string positiveTitle = null,
         Action negativeAction = null, Action positiveAction = null);
 
-    public class BaseViewModel : MvxViewModel
+    public class BaseViewModel : MvxViewModel, IBaseViewModel
     {
         #region Constructors
 
@@ -21,6 +22,7 @@ namespace Tojeero.Core.ViewModels.Common
 
         #region Properties
         public ShowDialogDelegate ShowDialogAction { get; set; }
+        public Action CloseAction { get; set; }
 
         #endregion
 
@@ -31,6 +33,11 @@ namespace Tojeero.Core.ViewModels.Common
             Action negativeAction = null, Action positiveAction = null)
         {
             ShowDialogAction?.Invoke(title, content, negativeTitle, positiveTitle, negativeAction, positiveAction);
+        }
+
+        public void Close()
+        {
+            CloseAction?.Invoke();
         }
 
         public virtual void OnAppearing()

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Cirrious.MvvmCross.ViewModels;
 using Tojeero.Core.Managers.Contracts;
 using Tojeero.Core.Model.Contracts;
 using Tojeero.Core.Resources;
@@ -24,6 +26,36 @@ namespace Tojeero.Core.ViewModels.Product
         {
             _manager = manager;
             Placeholder = AppResources.MessageNoFavoriteProducts;
+        }
+
+        #endregion
+
+        #region Page lifecycle
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            LoadFirstPageCommand.Execute(null);
+        }
+
+        #endregion
+
+        #region Properties
+
+        public Action<IProduct> ShowProductDetailsAction { get; set; }
+
+        #endregion
+
+        #region Commands
+
+        private MvxCommand<ProductViewModel> _itemSelectedCommand;
+        public override ICommand ItemSelectedCommand
+        {
+            get
+            {
+                _itemSelectedCommand = _itemSelectedCommand ?? new MvxCommand<ProductViewModel>(p => ShowProductDetailsAction?.Invoke(p.Product));
+                return _itemSelectedCommand;
+            }
         }
 
         #endregion

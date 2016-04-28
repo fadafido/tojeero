@@ -41,9 +41,21 @@ namespace Tojeero.Core.ViewModels.Product
 
         #endregion
 
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.LoadFirstPageCommand.Execute(null);
+        }
+
+        #endregion
+
         #region Properties
 
         public Action ShowFiltersAction { get; set; }
+        public Action<IProduct> ShowProductDetailsAction { get; set; }
+
         public Action<ListMode> ChangeListModeAction { get; set; }
 
         private ListMode _listMode = Settings.ProductListMode;
@@ -98,6 +110,17 @@ namespace Tojeero.Core.ViewModels.Product
                                                      : ListMode.Normal;
                                              });
                 return _toggleListModeCommand;
+            }
+        }
+
+        private MvxCommand<ProductViewModel> _showProductDetailsCommand;
+        public ICommand ShowProductDetailsCommand
+        {
+            get
+            {
+                _showProductDetailsCommand = _showProductDetailsCommand ?? 
+                    new MvxCommand<ProductViewModel>(p => ShowProductDetailsAction(p.Product));
+                return _showProductDetailsCommand;
             }
         }
 

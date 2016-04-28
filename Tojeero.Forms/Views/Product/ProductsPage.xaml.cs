@@ -8,17 +8,8 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Product
 {
-    public partial class ProductsPage : BaseSearchableTabPage
+    public partial class ProductsPage
     {
-        #region Properties
-
-        public new ProductsViewModel ViewModel
-        {
-            get { return base.ViewModel as ProductsViewModel; }
-            set { base.ViewModel = value; }
-        }
-
-        #endregion
 
         #region Constructors
 
@@ -29,49 +20,29 @@ namespace Tojeero.Forms.Views.Product
             ProductsButton.IsSelected = true;
             StoresButton.IsSelected = false;
 
-            ViewModel = MvxToolbox.LoadViewModel<ProductsViewModel>();
-            ViewModel.ShowFiltersAction =
+            var vm = MvxToolbox.LoadViewModel<ProductsViewModel>();
+            vm.ShowFiltersAction =
                 async () =>
                 {
                     await Navigation.PushModalAsync(new NavigationPage(new FilterProductsPage(ViewModel.SearchQuery)));
                 };
-
-            ViewModel.ChangeListModeAction = mode => { updateListLayout(mode); };
-            SearchBar.Placeholder = AppResources.PlaceholderSearchProducts;
-            ListViewEx.ItemSelected += itemSelected;
-            updateListLayout(ViewModel.ListMode);
-        }
-
-        #endregion
-
-        #region Page lifecycle
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
-        }
-
-        #endregion
-
-        #region UI Events
-
-        private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var item = ((ListViewEx) sender).SelectedItem as ProductViewModel;
-            if (item != null)
+            vm.ShowProductDetailsAction = async p =>
             {
-                ((ListViewEx) sender).SelectedItem = null;
-                var productDetails = new ProductDetailsPage(item.Product);
+                var productDetails = new ProductDetailsPage(p);
                 await Navigation.PushAsync(productDetails);
-            }
+            };
+            vm.ChangeListModeAction = mode => { UpdateListLayout(mode); };
+            ViewModel = vm;
+            SearchBar.Placeholder = AppResources.PlaceholderSearchProducts;
+            UpdateListLayout(vm.ListMode);
         }
 
         #endregion
+
 
         #region Utility methods
 
-        private void updateListLayout(ListMode mode)
+        private void UpdateListLayout(ListMode mode)
         {
             ListViewEx.RowHeight = mode == ListMode.Normal ? 100 : 350;
             var type = mode == ListMode.Normal ? typeof (ProductListCell) : typeof (ProductListLargeCell);

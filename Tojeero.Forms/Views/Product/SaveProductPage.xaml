@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<ContentPage
+<common:BasePage
+	x:TypeArguments="product:SaveProductViewModel"
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="Tojeero.Forms.Views.Product.SaveProductPage"
@@ -8,6 +9,8 @@
 	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
 	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms"
 	xmlns:contracts="clr-namespace:Tojeero.Core.Model.Contracts;assembly=Tojeero.Core"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:product="clr-namespace:Tojeero.Core.ViewModels.Product;assembly=Tojeero.Core"
 	BackgroundColor="{x:Static core:Colors.LightBackground}"
 	Title="{Binding Title}">
 	<ContentPage.Content>
@@ -275,4 +278,4 @@
 			</StackLayout>
 		</ScrollView>
 	</ContentPage.Content>
-</ContentPage>
+</common:BasePage>

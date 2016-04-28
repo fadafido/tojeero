@@ -17,6 +17,8 @@ namespace Tojeero.Core.ViewModels.Tag
         #region Private fields and properties
 
         private readonly ITagManager _manager;
+        private ITag _selectedTag;
+        private string _newTag;
 
         #endregion
 
@@ -29,9 +31,35 @@ namespace Tojeero.Core.ViewModels.Tag
 
         #endregion
 
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.LoadFirstPageCommand.Execute(null);
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            string selectedTag = null;
+            if (_newTag != null)
+            {
+                selectedTag = _newTag;
+            }
+            else
+            {
+                var selected = ViewModel.SelectedItem;
+                selectedTag = selected != null ? selected.Tag.Text : null;
+            }
+            SelectTagAction?.Invoke(selectedTag);
+        }
+
+        #endregion
+
         #region Properties
 
-        public Action<string> CreateTagAction { get; set; }
+        public Action<string> SelectTagAction { get; set; }
 
         public BaseSelectableCollectionViewModel<TagViewModel> ViewModel
         {
@@ -138,7 +166,10 @@ namespace Tojeero.Core.ViewModels.Tag
                 _createTagCommand = _createTagCommand ?? new MvxCommand(() =>
                 {
                     if (CreateTagVisible)
-                        CreateTagAction.Fire(SearchQuery);
+                    {
+                        _newTag = SearchQuery;
+                        Close();
+                    }
                 });
                 return _createTagCommand;
             }

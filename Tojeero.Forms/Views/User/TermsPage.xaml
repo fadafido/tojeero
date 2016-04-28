@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<ContentPage
+<common:BasePage
+	x:TypeArguments="user:TermsViewModel"
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:user="clr-namespace:Tojeero.Core.ViewModels.User;assembly=Tojeero.Core"
 	x:Class="Tojeero.Forms.Views.User.TermsPage">
 	<ContentPage.Content>
 		<WebView
@@ -10,4 +13,4 @@
 			HorizontalOptions="FillAndExpand"
 			VerticalOptions="FillAndExpand" />
 	</ContentPage.Content>
-</ContentPage>
+</common:BasePage>

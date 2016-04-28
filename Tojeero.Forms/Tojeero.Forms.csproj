@@ -42,6 +42,9 @@
     <Compile Include="Views\Common\LoadingOverlay.xaml.cs">
       <DependentUpon>LoadingOverlay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Product\ProductDetailsPage.xaml.cs">
+      <DependentUpon>ProductDetailsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Product\ProductView.xaml.cs">
       <DependentUpon>ProductView.xaml</DependentUpon>
     </Compile>
@@ -109,7 +112,6 @@
     <Compile Include="Misc\Controls\BorderView.cs" />
     <Compile Include="Misc\Controls\ImageButton.cs" />
     <Compile Include="Misc\Converters\NullableBoolConverter.cs" />
-    <Compile Include="Views\Product\ProductDetailsPage.xaml.cs" />
     <Compile Include="Views\Product\FilterProductsPage.xaml.cs">
       <DependentUpon>FilterProductsPage.xaml</DependentUpon>
     </Compile>
@@ -341,9 +343,6 @@
     <EmbeddedResource Include="Misc\Controls\TagControl.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Product\ProductDetailsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\Product\FilterProductsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -446,6 +445,12 @@
     <EmbeddedResource Include="Views\Common\LoadingOverlay.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Product\ProductDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

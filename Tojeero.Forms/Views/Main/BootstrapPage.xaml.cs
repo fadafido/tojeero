@@ -9,52 +9,24 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Main
 {
-    public partial class BootstrapPage : ContentPage
+    public partial class BootstrapPage
     {
-        #region Properties
-
-        private BootstrapViewModel _viewModel;
-
-        public BootstrapViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel != value)
-                {
-                    _viewModel = value;
-                    BindingContext = _viewModel;
-                }
-            }
-        }
-
-        #endregion
-
         #region Constructors
 
         public BootstrapPage()
         {
-            ViewModel = MvxToolbox.LoadViewModel<BootstrapViewModel>();
             InitializeComponent();
 
-            setupPickers();
-        }
+            ViewModel = MvxToolbox.LoadViewModel<BootstrapViewModel>();
 
-        #endregion
-
-        #region Page lifecycle
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.BootstrapCommand.Execute(null);
+            SetupPickers();
         }
 
         #endregion
 
         #region Utility methods
 
-        private void setupPickers()
+        private void SetupPickers()
         {
             countriesPicker.FacetsLoader = ViewModel.FetchCountryFacets;
             countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => ViewModel.Countries);

@@ -8,18 +8,29 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Store
 {
-    public partial class StoreDetailsPage : ContentPage
+    public partial class StoreDetailsPage
     {
+        #region Private fields
+
+        private readonly IStore _store;
+        private readonly ContentMode _mode;
+
+        #endregion
+
+
         #region Constructors
 
         public StoreDetailsPage(IStore store, ContentMode mode = ContentMode.View)
         {
-            ViewModel = MvxToolbox.LoadViewModel<StoreDetailsViewModel>();
-            ViewModel.Store = store;
-            ViewModel.Mode = mode;
             InitializeComponent();
+
+            _mode = mode;
+            _store = store;
+            ViewModel = MvxToolbox.LoadViewModel<StoreDetailsViewModel>();
+
             deliveryNotes.DidOpen +=
                 (sender, e) => { scrollView.ScrollToAsync(deliveryNotes, ScrollToPosition.End, true); };
+
             if (mode == ContentMode.Edit && store != null)
             {
                 ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
@@ -28,40 +39,22 @@ namespace Tojeero.Forms.Views.Store
                     await Navigation.PushModalAsync(new NavigationPage(editStorePage));
                 }));
             }
+        }
+
+        #endregion
+
+        #region Parent override
+
+        protected override void SetupViewModel()
+        {
+            base.SetupViewModel();
+            ViewModel.Store = _store;
+            ViewModel.Mode = _mode;
             ViewModel.ShowChatPageAction = async channel =>
             {
                 var chatPage = new ChatPage(channel);
                 await Navigation.PushAsync(chatPage);
             };
-        }
-
-        #endregion
-
-        #region Properties
-
-        private StoreDetailsViewModel _viewModel;
-
-        public StoreDetailsViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel != value)
-                {
-                    _viewModel = value;
-                    BindingContext = _viewModel;
-                }
-            }
-        }
-
-        #endregion
-
-        #region Lifecycle management
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.ReloadCommand.Execute(null);
         }
 
         #endregion

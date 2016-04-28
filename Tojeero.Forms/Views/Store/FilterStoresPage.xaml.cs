@@ -8,16 +8,25 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Store
 {
-    public partial class FilterStoresPage : ContentPage
+    public partial class FilterStoresPage
     {
+        #region Private fields
+
+        private readonly string _query;
+
+        #endregion
+
+
         #region Constructors
 
         public FilterStoresPage(string query = null)
         {
-            ViewModel = MvxToolbox.LoadViewModel<FilterStoresViewModel>();
-            ViewModel.Query = query;
             InitializeComponent();
-            setupPickers();
+
+            _query = query;
+            ViewModel = MvxToolbox.LoadViewModel<FilterStoresViewModel>();
+            
+            SetupPickers();
             ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "", async () =>
             {
                 await Navigation.PopModalAsync();
@@ -27,39 +36,19 @@ namespace Tojeero.Forms.Views.Store
 
         #endregion
 
-        #region Properties
+        #region Parent override
 
-        private FilterStoresViewModel _viewModel;
-
-        public FilterStoresViewModel ViewModel
+        protected override void SetupViewModel()
         {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel != value)
-                {
-                    _viewModel = value;
-                    BindingContext = _viewModel;
-                }
-            }
-        }
-
-        #endregion
-
-        #region View Lifecycle
-
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.ReloadCommand.Execute(null);
-            await ViewModel.ReloadCount();
+            base.SetupViewModel();
+            ViewModel.Query = _query;
         }
 
         #endregion
 
         #region Utility methods
 
-        private void setupPickers()
+        private void SetupPickers()
         {
             countriesPicker.FacetsLoader = ViewModel.FetchCountryFacets;
             countriesPicker.ObjectsLoader = () => Task<IList<ICountry>>.Factory.StartNew(() => ViewModel.Countries);

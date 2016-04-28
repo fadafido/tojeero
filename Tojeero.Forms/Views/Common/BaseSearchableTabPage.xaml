@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<ContentPage
+<common:BasePage
+	x:TypeArguments="contracts:ISearchViewModel" 
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
 	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:contracts="clr-namespace:Tojeero.Core.ViewModels.Contracts;assembly=Tojeero.Core"
 	x:Class="Tojeero.Forms.Views.Common.BaseSearchableTabPage"
 	BackgroundColor="White">
 	<ContentPage.Content>
@@ -50,7 +53,7 @@
 					Text="{markupExtensions:Translate TitleProducts}"
 					TextColor="White"
 					FontAttributes="Bold"
-					Clicked="productButtonClicked" />
+					Clicked="ProductButtonClicked" />
 				<controls:TabButton
 					Grid.Row="0"
 					Grid.Column="4"
@@ -58,7 +61,7 @@
 					Text="{markupExtensions:Translate TitleStores}"
 					TextColor="White"
 					FontAttributes="Bold"
-					Clicked="storeButtonClicked" />
+					Clicked="StoreButtonClicked" />
 				<controls:SearchBarEx
 					Grid.Row="1"
 					Grid.Column="1"
@@ -101,6 +104,7 @@
 				<controls:InfiniteListViewEx
 					x:Name="_listViewEx"
 					ItemsSource="{Binding ViewModel.Collection}"
+					ItemClickedCommand="{Binding ItemSelectedCommand}"
 					BackgroundColor="Transparent"
 					RowHeight="100"
 					SeparatorVisibility="None"
@@ -121,4 +125,4 @@
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>
-</ContentPage>
+</common:BasePage>

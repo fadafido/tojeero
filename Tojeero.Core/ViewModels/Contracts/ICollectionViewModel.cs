@@ -4,7 +4,7 @@ using Tojeero.Core.Contracts;
 
 namespace Tojeero.Core.ViewModels.Contracts
 {
-    public interface ICollectionViewModel
+    public interface ICollectionViewModel : IBaseViewModel
     {
         event EventHandler<EventArgs> LoadingNextPageFinished;
         event EventHandler<EventArgs> ReloadFinished;
@@ -18,6 +18,7 @@ namespace Tojeero.Core.ViewModels.Contracts
         bool CanExecuteLoadNextPageCommand { get; }
         ICommand ReloadCommand { get; }
         bool CanExecuteReloadCommand { get; }
+        ICommand ItemSelectedCommand { get; }
     }
 
     public interface ICollectionViewModel<T> : ICollectionViewModel

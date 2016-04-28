@@ -8,54 +8,29 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Main
 {
-    public partial class SideMenuPage : ContentPage
+    public partial class SideMenuPage
     {
-        #region Properties
-
-        private SideMenuViewModel _viewModel;
-
-        public SideMenuViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel != value)
-                {
-                    _viewModel = value;
-                    setupViewModel();
-                }
-            }
-        }
-
-        #endregion
 
         #region Constructors
 
         public SideMenuPage()
         {
-            ViewModel = MvxToolbox.LoadViewModel<SideMenuViewModel>();
             InitializeComponent();
+
+            ViewModel = MvxToolbox.LoadViewModel<SideMenuViewModel>();
+
             Icon = "menuIcon.png";
         }
 
         #endregion
 
-        #region View lifecycle management
+        #region Parent override
 
-        protected override void OnAppearing()
+        protected override void SetupViewModel()
         {
-            base.OnAppearing();
-            ViewModel.LoadUserStoreCommand.Execute(null);
-        }
-
-        #endregion
-
-        #region Utility methods
-
-        private void setupViewModel()
-        {
+            base.SetupViewModel();
             ViewModel.ShowProfileSettings =
-                async arg => { await Navigation.PushModalAsync(new NavigationPage(new ProfileSettingsPage(arg))); };
+              async arg => { await Navigation.PushModalAsync(new NavigationPage(new ProfileSettingsPage(arg))); };
             ViewModel.ShowLanguageChangeWarning =
                 arg => { DisplayAlert(AppResources.AlertTitleWarning, arg, AppResources.OK); };
 
@@ -74,9 +49,9 @@ namespace Tojeero.Forms.Views.Main
 
             ViewModel.ShowTermsAction =
                 async () => { await Navigation.PushModalAsync(new NavigationPage(new TermsPage())); };
-            BindingContext = _viewModel;
         }
 
         #endregion
+
     }
 }

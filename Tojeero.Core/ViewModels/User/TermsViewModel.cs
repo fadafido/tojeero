@@ -1,10 +1,11 @@
 ﻿using Cirrious.MvvmCross.ViewModels;
 using Tojeero.Core.Services.Contracts;
 using Tojeero.Core.Toolbox;
+using Tojeero.Core.ViewModels.Common;
 
 namespace Tojeero.Core.ViewModels.User
 {
-    public class TermsViewModel : MvxViewModel
+    public class TermsViewModel : BaseViewModel
     {
         #region Private fields and properties
 

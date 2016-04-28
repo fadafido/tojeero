@@ -123,6 +123,8 @@ namespace Tojeero.Core.ViewModels.Common
             }
         }
 
+        public ICommand ItemSelectedCommand => null;
+
         #endregion
 
         #region Protected API

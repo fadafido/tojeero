@@ -39,6 +39,16 @@ namespace Tojeero.Core.ViewModels.Main
 
         #endregion
 
+        #region View lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            LoadUserStoreCommand.Execute(null);
+        }
+
+        #endregion
+
         #region Properties
 
         public Action<bool> ShowProfileSettings { get; set; }

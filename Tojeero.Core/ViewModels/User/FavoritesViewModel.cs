@@ -29,6 +29,18 @@ namespace Tojeero.Core.ViewModels.User
 
         #endregion
 
+
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            LoadFavoriteCountsCommand.Execute(null);
+
+        }
+
+        #endregion
+
         #region Properties
 
         public Action ShowFavoriteProductsAction;
@@ -103,7 +115,7 @@ namespace Tojeero.Core.ViewModels.User
             get
             {
                 _showFavoriteProductsCommand = _showFavoriteProductsCommand ??
-                                               new MvxCommand(() => { ShowFavoriteProductsAction.Fire(); });
+                                               new MvxCommand(() => { ShowFavoriteProductsAction?.Invoke(); });
                 return _showFavoriteProductsCommand;
             }
         }
@@ -115,7 +127,7 @@ namespace Tojeero.Core.ViewModels.User
             get
             {
                 _showFavoriteStoresCommand = _showFavoriteStoresCommand ??
-                                             new MvxCommand(() => { ShowFavoriteStoresAction.Fire(); });
+                                             new MvxCommand(() => { ShowFavoriteStoresAction?.Invoke(); });
                 return _showFavoriteStoresCommand;
             }
         }

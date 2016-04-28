@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<ContentPage
+<common:BasePage
+	x:TypeArguments="contracts:ISearchViewModel" 
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:contracts="clr-namespace:Tojeero.Core.ViewModels.Contracts;assembly=Tojeero.Core"
 	x:Class="Tojeero.Forms.Views.Common.BaseSearchablePage"
 	BackgroundColor="White">
 	<ContentPage.Content>
@@ -61,4 +64,4 @@
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>
-</ContentPage>
+</common:BasePage>

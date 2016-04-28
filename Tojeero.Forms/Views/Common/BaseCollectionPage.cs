@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Common
 {
-    public partial class BaseCollectionPage : ContentPage
+    public partial class BaseCollectionPage
     {
         #region Constructors
 
@@ -18,19 +18,16 @@ namespace Tojeero.Forms.Views.Common
 
         #region Properties
 
-        private ICollectionViewModel _viewModel;
-
-        public ICollectionViewModel ViewModel
+        public override ICollectionViewModel ViewModel
         {
-            get { return _viewModel; }
-            set
+            get { return base.ViewModel; }
+            protected set
             {
-                if (_viewModel != value)
+                if (ViewModel != value)
                 {
                     DisconnectEvents();
-                    _viewModel = value;
+                    base.ViewModel = value;
                     ConnectEvents();
-                    BindingContext = _viewModel;
                 }
             }
         }

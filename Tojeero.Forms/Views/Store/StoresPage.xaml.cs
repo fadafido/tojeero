@@ -9,16 +9,6 @@ namespace Tojeero.Forms.Views.Store
 {
     public partial class StoresPage : BaseSearchableTabPage
     {
-        #region Properties
-
-        public new StoresViewModel ViewModel
-        {
-            get { return base.ViewModel as StoresViewModel; }
-            set { base.ViewModel = value; }
-        }
-
-        #endregion
-
         #region Constructors
 
         public StoresPage()
@@ -28,39 +18,22 @@ namespace Tojeero.Forms.Views.Store
             ProductsButton.IsSelected = false;
             StoresButton.IsSelected = true;
 
-            ViewModel = MvxToolbox.LoadViewModel<StoresViewModel>();
+            var vm = MvxToolbox.LoadViewModel<StoresViewModel>();
+            vm.ShowStoreInfoAction = async s =>
+            {
+                var storeInfo = new StoreInfoPage(s);
+                await Navigation.PushAsync(storeInfo);
+            };
+
+            ViewModel = vm;
+
             ToolbarItems.Add(new ToolbarItem("", "filterIcon.png",
                 async () =>
                 {
                     await Navigation.PushModalAsync(new NavigationPage(new FilterStoresPage(ViewModel.SearchQuery)));
                 }));
             SearchBar.Placeholder = AppResources.PlaceholderSearchStores;
-            ListViewEx.ItemSelected += itemSelected;
-        }
 
-        #endregion
-
-        #region Page lifecycle
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
-        }
-
-        #endregion
-
-        #region UI Events
-
-        private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var item = ((ListViewEx) sender).SelectedItem as StoreViewModel;
-            if (item != null)
-            {
-                ((ListViewEx) sender).SelectedItem = null;
-                var storeInfo = new StoreInfoPage(item.Store);
-                await Navigation.PushAsync(storeInfo);
-            }
         }
 
         #endregion

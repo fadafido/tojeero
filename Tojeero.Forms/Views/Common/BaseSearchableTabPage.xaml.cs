@@ -7,23 +7,20 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Common
 {
-    public partial class BaseSearchableTabPage : ContentPage
+    public partial class BaseSearchableTabPage
     {
         #region Properties
 
-        private ISearchViewModel _viewModel;
-
         public ISearchViewModel ViewModel
         {
-            get { return _viewModel; }
+            get { return base.ViewModel; }
             set
             {
-                if (_viewModel != value)
+                if (ViewModel != value)
                 {
                     DisconnectEvents();
-                    _viewModel = value;
+                    base.ViewModel = value;
                     ConnectEvents();
-                    BindingContext = _viewModel;
                 }
             }
         }
@@ -76,7 +73,7 @@ namespace Tojeero.Forms.Views.Common
         {
             if (ViewModel != null)
             {
-                ViewModel.ReloadFinished += reloadFinished;
+                ViewModel.ReloadFinished += ReloadFinished;
             }
         }
 
@@ -84,7 +81,7 @@ namespace Tojeero.Forms.Views.Common
         {
             if (ViewModel != null)
             {
-                ViewModel.ReloadFinished -= reloadFinished;
+                ViewModel.ReloadFinished -= ReloadFinished;
             }
         }
 
@@ -92,12 +89,12 @@ namespace Tojeero.Forms.Views.Common
 
         #region Event Handlers
 
-        void reloadFinished(object sender, EventArgs e)
+        void ReloadFinished(object sender, EventArgs e)
         {
             ListViewEx.EndRefresh();
         }
 
-        protected void productButtonClicked(object sender, EventArgs e)
+        protected void ProductButtonClicked(object sender, EventArgs e)
         {
             var root = this.FindParent<RootPage>();
             if (root != null)
@@ -106,7 +103,7 @@ namespace Tojeero.Forms.Views.Common
             }
         }
 
-        protected void storeButtonClicked(object sender, EventArgs e)
+        protected void StoreButtonClicked(object sender, EventArgs e)
         {
             var root = this.FindParent<RootPage>();
             if (root != null)

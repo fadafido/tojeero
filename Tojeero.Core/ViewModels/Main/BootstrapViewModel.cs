@@ -50,6 +50,16 @@ namespace Tojeero.Core.ViewModels.Main
 
         #endregion
 
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            BootstrapCommand.Execute(null);
+        }
+
+        #endregion
+
         #region Properties
 
         public Action BootstrapFinished { get; set; }

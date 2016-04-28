@@ -50,10 +50,23 @@ namespace Tojeero.Core.ViewModels.Store
 
         #endregion
 
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            Products.LoadFirstPageCommand.Execute(null);
+            ReloadCommand.Execute(null);
+        }
+
+        #endregion
+
         #region Properties
 
         public Action<IStore> ShowStoreDetailsAction { get; set; }
         public Action<IProduct, IStore> AddProductAction { get; set; }
+
+        public Action<IProduct, ContentMode> ShowProductDetailsAction { get; set; }
 
         private BaseCollectionViewModel<ProductViewModel> _products;
 
@@ -152,6 +165,17 @@ namespace Tojeero.Core.ViewModels.Store
                         AddProductAction(null, Store);
                 }, () => true);
                 return _addProductCommand;
+            }
+        }
+
+        private MvxCommand<ProductViewModel> _showProductDetailsCommand;
+        public ICommand ShowProductDetailsCommand
+        {
+            get
+            {
+                _showProductDetailsCommand = _showProductDetailsCommand ?? 
+                    new MvxCommand<ProductViewModel>(p => ShowProductDetailsAction?.Invoke(p.Product, Mode));
+                return _showProductDetailsCommand;
             }
         }
 

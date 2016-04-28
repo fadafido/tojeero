@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-
-<ContentPage
+<common:BasePage
+	x:TypeArguments="store:FilterStoresViewModel"
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="Tojeero.Forms.Views.Store.FilterStoresPage"
-	xmlns:local="clr-namespace:Tojeero.Forms;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
 	xmlns:markupExtensions="clr-namespace:Tojeero.Forms.Markup_Extensions;assembly=Tojeero.Forms"
 	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
 	xmlns:contracts="clr-namespace:Tojeero.Core.Model.Contracts;assembly=Tojeero.Core"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:store="clr-namespace:Tojeero.Core.ViewModels.Store;assembly=Tojeero.Core"
 	BackgroundColor="{x:Static core:Colors.LightBackground}"
 	Title="{markupExtensions:Translate TitleFilterStores}">
 	<ContentPage.Content>
@@ -168,4 +169,4 @@
 			</ScrollView>
 		</StackLayout>
 	</ContentPage.Content>
-</ContentPage>
+</common:BasePage>

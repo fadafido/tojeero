@@ -52,6 +52,16 @@ namespace Tojeero.Core.ViewModels.Product
 
         #endregion
 
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            ReloadCommand.Execute(null);
+        }
+
+        #endregion
+
         #region ISaveProductViewModel implementation
 
         private IProduct _currentProduct;
@@ -261,7 +271,6 @@ namespace Tojeero.Core.ViewModels.Product
 
         #region Properties
 
-        public Action<string, string, string> ShowAlert { get; set; }
         //Action which will called as soon as product will be saved. 
         //Bool parameter indicates wether this was new product creation or update of existing product
         public Action<IProduct, bool> DidSaveProductAction { get; set; }
@@ -531,9 +540,9 @@ namespace Tojeero.Core.ViewModels.Product
                 failureMessage = AppResources.MessageSubmissionUnknownFailure;
             }
             SavingFailure = failureMessage;
-            if (failureMessage != null && ShowAlert != null)
+            if (failureMessage != null)
             {
-                ShowAlert(AppResources.MessageSavingFailure, failureMessage, AppResources.ButtonOK);
+                ShowDialog(AppResources.MessageSavingFailure, failureMessage, AppResources.ButtonOK);
             }
             SavingInProgress = false;
         }
@@ -710,9 +719,9 @@ namespace Tojeero.Core.ViewModels.Product
                 failureMessage = AppResources.MessageRemoveImageFailure;
             }
 
-            if (failureMessage != null && ShowAlert != null)
+            if (failureMessage != null)
             {
-                ShowAlert(AppResources.TitleFailure, failureMessage, AppResources.ButtonOK);
+                ShowDialog(AppResources.TitleFailure, failureMessage, AppResources.ButtonOK);
             }
             return failureMessage == null;
         }

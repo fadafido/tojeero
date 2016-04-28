@@ -10,23 +10,46 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Product
 {
-    public partial class ProductDetailsPage : ContentPage
+    public partial class ProductDetailsPage
     {
+        #region Private fields
+
+        private readonly IProduct _product;
+        private readonly ContentMode _mode;
+
+        #endregion
+
+
         #region Constructors
 
         public ProductDetailsPage(IProduct product, ContentMode mode = ContentMode.View)
         {
-            ViewModel = MvxToolbox.LoadViewModel<ProductDetailsViewModel>();
-            ViewModel.Product = product;
-            ViewModel.Mode = mode;
             InitializeComponent();
+
+            _mode = mode;
+            _product = product;
+            ViewModel = MvxToolbox.LoadViewModel<ProductDetailsViewModel>();
+            
+            carouselLayout.IndicatorStyle = CarouselLayout.IndicatorStyleEnum.Dots;
+        }
+
+        #endregion
+
+        #region Parent override
+
+        protected override void SetupViewModel()
+        {
+            base.SetupViewModel();
+            ViewModel.Product = _product;
+            ViewModel.Mode = _mode;
+
             ViewModel.ShowStoreInfoPageAction = async s => { await Navigation.PushAsync(new StoreInfoPage(s)); };
 
-            if (mode == ContentMode.Edit)
+            if (_mode == ContentMode.Edit)
             {
                 ToolbarItems.Add(new ToolbarItem(AppResources.ButtonEdit, "", async () =>
                 {
-                    var saveProductPage = new SaveProductPage(product, product.Store);
+                    var saveProductPage = new SaveProductPage(_product, _product.Store);
                     await Navigation.PushModalAsync(new NavigationPage(saveProductPage));
                 }));
             }
@@ -35,36 +58,6 @@ namespace Tojeero.Forms.Views.Product
                 var chatPage = new ChatPage(channel, ViewModel.Product);
                 await Navigation.PushAsync(chatPage);
             };
-            carouselLayout.IndicatorStyle = CarouselLayout.IndicatorStyleEnum.Dots;
-        }
-
-        #endregion
-
-        #region Properties
-
-        private ProductDetailsViewModel _viewModel;
-
-        public ProductDetailsViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel != value)
-                {
-                    _viewModel = value;
-                    BindingContext = _viewModel;
-                }
-            }
-        }
-
-        #endregion
-
-        #region Parent 
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.ReloadCommand.Execute(null);
         }
 
         #endregion

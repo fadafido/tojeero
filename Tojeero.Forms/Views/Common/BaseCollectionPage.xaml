@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-
-<ContentPage
+<common:BasePage
+	x:TypeArguments="contracts:ICollectionViewModel"
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:contracts="clr-namespace:Tojeero.Core.ViewModels.Contracts;assembly=Tojeero.Core"
 	x:Class="Tojeero.Forms.Views.Common.BaseCollectionPage"
 	BackgroundColor="White">
 	<ContentPage.Content>
@@ -35,6 +37,7 @@
 				<controls:InfiniteListViewEx
 					x:Name="_listViewEx"
 					ItemsSource="{Binding Collection}"
+					ItemClickedCommand="{Binding ItemSelectedCommand}"
 					BackgroundColor="Transparent"
 					RowHeight="100"
 					SeparatorVisibility="None"
@@ -53,4 +56,4 @@
 			</StackLayout>
 		</Grid>
 	</ContentPage.Content>
-</ContentPage>
+</common:BasePage>

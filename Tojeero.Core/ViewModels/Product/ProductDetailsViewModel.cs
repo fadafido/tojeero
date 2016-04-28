@@ -35,6 +35,17 @@ namespace Tojeero.Core.ViewModels.Product
 
         #endregion
 
+
+        #region Lifecycle management 
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            ReloadCommand.Execute(null);
+        }
+
+        #endregion
+
         #region Properties
 
         public Action<IStore> ShowStoreInfoPageAction { get; set; }

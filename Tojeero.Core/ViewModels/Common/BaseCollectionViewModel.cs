@@ -227,6 +227,8 @@ namespace Tojeero.Core.ViewModels.Common
             get { return !IsLoading && IsNetworkAvailable; }
         }
 
+        public virtual ICommand ItemSelectedCommand => null;     
+
         #endregion
 
         #region Protected

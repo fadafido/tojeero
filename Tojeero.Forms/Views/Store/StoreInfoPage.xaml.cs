@@ -12,11 +12,13 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Store
 {
-    public partial class StoreInfoPage : ContentPage
+    public partial class StoreInfoPage
     {
         #region Private fields and properties
 
         private bool _toolbarButtonsAdded;
+        private readonly IStore _store;
+        private readonly ContentMode _mode;
 
         #endregion
 
@@ -24,22 +26,39 @@ namespace Tojeero.Forms.Views.Store
 
         public StoreInfoPage(IStore store, ContentMode mode = ContentMode.View)
         {
+            InitializeComponent();
+
+            _mode = mode;
+            _store = store;
             //Setup view model
             ViewModel = MvxToolbox.LoadViewModel<StoreInfoViewModel>();
-            ViewModel.Store = store;
-            ViewModel.Mode = mode;
+        }
 
-            InitializeComponent();
+        #endregion
+
+        #region Parent override
+
+        protected override void SetupViewModel()
+        {
+            base.SetupViewModel();
+            ViewModel.Store = _store;
+            ViewModel.Mode = _mode;
 
             //Setup Header
             HeaderView.BindingContext = ViewModel;
 
             //Setup events
-            listView.ItemSelected += itemSelected;
+
             ViewModel.Products.ReloadFinished += (sender, e) => { listView.EndRefresh(); };
 
             //Setup view model actions
-            ViewModel.ShowStoreDetailsAction = async s => { await Navigation.PushAsync(new StoreDetailsPage(s, mode)); };
+            ViewModel.ShowStoreDetailsAction = async s => { await Navigation.PushAsync(new StoreDetailsPage(s, _mode)); };
+
+            ViewModel.ShowProductDetailsAction = async (p, m) =>
+            {
+                var productDetails = new ProductDetailsPage(p, m);
+                await Navigation.PushAsync(productDetails);
+            };
 
             ViewModel.AddProductAction =
                 async (p, s) => { await Navigation.PushModalAsync(new NavigationPage(new SaveProductPage(p, s))); };
@@ -76,46 +95,9 @@ namespace Tojeero.Forms.Views.Store
                 }
                 _toolbarButtonsAdded = true;
             }
-            ViewModel.Products.LoadFirstPageCommand.Execute(null);
-            ViewModel.ReloadCommand.Execute(null);
         }
 
         #endregion
 
-        #region Properties
-
-        private StoreInfoViewModel _viewModel;
-
-        public StoreInfoViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel != value)
-                {
-                    _viewModel = value;
-                    if (HeaderView != null)
-                        HeaderView.BindingContext = _viewModel;
-                    BindingContext = _viewModel;
-                }
-            }
-        }
-
-        #endregion
-
-        #region UI Events
-
-        private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var item = ((ListViewEx) sender).SelectedItem as ProductViewModel;
-            if (item != null)
-            {
-                ((ListViewEx) sender).SelectedItem = null;
-                var productDetails = new ProductDetailsPage(item.Product, ViewModel.Mode);
-                await Navigation.PushAsync(productDetails);
-            }
-        }
-
-        #endregion
     }
 }

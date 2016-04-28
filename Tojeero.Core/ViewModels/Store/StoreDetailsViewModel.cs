@@ -29,6 +29,17 @@ namespace Tojeero.Core.ViewModels.Store
 
         #endregion
 
+
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            ReloadCommand.Execute(null);
+        }
+
+        #endregion
+
         #region Properties
 
         public Action<IChatChannel> ShowChatPageAction { get; set; }

@@ -7,23 +7,20 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Common
 {
-    public partial class BaseSearchablePage : ContentPage
+    public partial class BaseSearchablePage
     {
         #region Properties
 
-        private ISearchViewModel _viewModel;
-
         public ISearchViewModel ViewModel
         {
-            get { return _viewModel; }
+            get { return base.ViewModel; }
             set
             {
-                if (_viewModel != value)
+                if (ViewModel != value)
                 {
                     DisconnectEvents();
-                    _viewModel = value;
+                    base.ViewModel = value;
                     ConnectEvents();
-                    BindingContext = _viewModel;
                 }
             }
         }
@@ -75,7 +72,7 @@ namespace Tojeero.Forms.Views.Common
         {
             if (ViewModel != null)
             {
-                ViewModel.ReloadFinished += reloadFinished;
+                ViewModel.ReloadFinished += ReloadFinished;
             }
         }
 
@@ -83,7 +80,7 @@ namespace Tojeero.Forms.Views.Common
         {
             if (ViewModel != null)
             {
-                ViewModel.ReloadFinished -= reloadFinished;
+                ViewModel.ReloadFinished -= ReloadFinished;
             }
         }
 
@@ -91,7 +88,7 @@ namespace Tojeero.Forms.Views.Common
 
         #region Event Handlers
 
-        void reloadFinished(object sender, EventArgs e)
+        void ReloadFinished(object sender, EventArgs e)
         {
             ListViewEx.EndRefresh();
         }

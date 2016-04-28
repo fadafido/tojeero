@@ -9,15 +9,8 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Views.Tag
 {
-    public partial class TagsPage : BaseSearchablePage
+    public partial class TagsPage
     {
-        #region Private fields
-
-        private ITag _selectedTag;
-        private string _newTag;
-
-        #endregion
-
         #region Properties
 
         public event EventHandler<EventArgs<string>> DidClose;
@@ -27,7 +20,6 @@ namespace Tojeero.Forms.Views.Tag
             get { return base.ViewModel as TagsViewModel; }
             set { base.ViewModel = value; }
         }
-
         #endregion
 
         #region Constructors
@@ -36,60 +28,29 @@ namespace Tojeero.Forms.Views.Tag
         {
             InitializeComponent();
             ViewModel = MvxToolbox.LoadViewModel<TagsViewModel>();
+            ViewModel.CloseAction = async () => await Navigation.PopModalAsync();
+            ViewModel.SelectTagAction = t => DidClose.Fire(this, new EventArgs<string>(t));
+           
+
             SearchBar.Placeholder = "Search for tags";
             ListViewEx.RowHeight = 50;
-            ListViewEx.ItemSelected += itemSelected;
-            ViewModel.CreateTagAction = createTag;
+            ListViewEx.ItemSelected += ItemSelected;
+            
             ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "",
                 async () => { await Navigation.PopModalAsync(); }));
         }
 
         #endregion
 
-        #region Page lifecycle
+        #region Utility methods
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.ViewModel.LoadFirstPageCommand.Execute(null);
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            string selectedTag = null;
-            if (_newTag != null)
-            {
-                selectedTag = _newTag;
-            }
-            else
-            {
-                var selected = ViewModel.ViewModel.SelectedItem;
-                selectedTag = selected != null ? selected.Tag.Text : null;
-            }
-            DidClose.Fire(this, new EventArgs<string>(selectedTag));
-        }
-
-        #endregion
-
-        #region Parent override
-
-        private void itemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem != null)
                 ViewModel.ViewModel.SelectedItem = e.SelectedItem as TagViewModel;
             ListViewEx.SelectedItem = null;
         }
 
-        #endregion
-
-        #region Utility methods
-
-        private async void createTag(string tag)
-        {
-            _newTag = tag;
-            await Navigation.PopModalAsync();
-        }
 
         #endregion
     }

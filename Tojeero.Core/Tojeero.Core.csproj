@@ -67,6 +67,7 @@
     <Compile Include="DAL\Contracts\ICacheRepository.cs" />
     <Compile Include="ViewModels\Chat\ChatChannelsViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatViewModel.cs" />
+    <Compile Include="ViewModels\Common\BaseViewModel.cs" />
     <Compile Include="ViewModels\Contracts\ICollectionViewModel.cs" />
     <Compile Include="ViewModels\Contracts\IImageViewModel.cs" />
     <Compile Include="ViewModels\Contracts\ILoadableViewModel.cs" />

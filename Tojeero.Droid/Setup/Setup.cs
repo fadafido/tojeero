@@ -32,16 +32,6 @@ namespace Tojeero.Droid
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            CreatableTypes()
-                .EndingWith("Manager")
-                .AsInterfaces()
-                .RegisterAsLazySingleton();
-
-            CreatableTypes()
-                .EndingWith("Repository")
-                .AsInterfaces()
-                .RegisterAsLazySingleton();
-
             Mvx.LazyConstructAndRegisterSingleton<IMediaPicker, MediaPicker>();
         }
     }

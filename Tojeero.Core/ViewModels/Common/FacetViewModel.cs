@@ -3,7 +3,7 @@ using Tojeero.Core.Model.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-    public class FacetViewModel<T> : MvxViewModel where T : IUniqueEntity
+    public class FacetViewModel<T> : BaseViewModel where T : IUniqueEntity
     {
         #region Constructors
 

@@ -36,6 +36,11 @@ namespace Tojeero.Core
                 .AsTypes()
                 .RegisterAsDynamic();
 
+            CreatableTypes()
+                .EndingWith("Repository")
+                .AsInterfaces()
+                .RegisterAsLazySingleton();
+
             Mvx.LazyConstructAndRegisterSingleton<ILogger, Logger>();
             //We need to set thread culture to english because if the device culture will be arabic
             //when sending requests to parse.com app will use arabic calender, which cause app crash.

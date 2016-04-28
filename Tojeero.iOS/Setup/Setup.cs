@@ -33,16 +33,6 @@ namespace Tojeero.iOS
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            CreatableTypes()
-                .EndingWith("Manager")
-                .AsInterfaces()
-                .RegisterAsLazySingleton();
-
-            CreatableTypes()
-                .EndingWith("Repository")
-                .AsInterfaces()
-                .RegisterAsLazySingleton();
-
             Mvx.LazyConstructAndRegisterSingleton<IMediaPicker, MediaPicker>();
         }
     }

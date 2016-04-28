@@ -9,7 +9,7 @@ using Tojeero.Core.ViewModels.Common;
 
 namespace Tojeero.Core.ViewModels.Main
 {
-    public class RootViewModel : MvxViewModel
+    public class RootViewModel : BaseViewModel
     {
         #region Private fields and properties
 

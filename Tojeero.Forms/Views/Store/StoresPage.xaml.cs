@@ -1,9 +1,9 @@
 ﻿using Tojeero.Core.Resources;
 using Tojeero.Core.Toolbox;
 using Tojeero.Core.ViewModels.Store;
+using Tojeero.Forms.Controls;
 using Tojeero.Forms.Views.Common;
 using Xamarin.Forms;
-using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Store
 {
@@ -35,7 +35,7 @@ namespace Tojeero.Forms.Views.Store
                     await Navigation.PushModalAsync(new NavigationPage(new FilterStoresPage(ViewModel.SearchQuery)));
                 }));
             SearchBar.Placeholder = AppResources.PlaceholderSearchStores;
-            ListView.ItemSelected += itemSelected;
+            ListViewEx.ItemSelected += itemSelected;
         }
 
         #endregion
@@ -54,10 +54,10 @@ namespace Tojeero.Forms.Views.Store
 
         private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = ((ListView) sender).SelectedItem as StoreViewModel;
+            var item = ((ListViewEx) sender).SelectedItem as StoreViewModel;
             if (item != null)
             {
-                ((ListView) sender).SelectedItem = null;
+                ((ListViewEx) sender).SelectedItem = null;
                 var storeInfo = new StoreInfoPage(item.Store);
                 await Navigation.PushAsync(storeInfo);
             }

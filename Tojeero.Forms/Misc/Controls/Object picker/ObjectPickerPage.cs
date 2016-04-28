@@ -57,7 +57,7 @@ namespace Tojeero.Forms.Controls
             grid.HorizontalOptions = LayoutOptions.FillAndExpand;
             grid.VerticalOptions = LayoutOptions.FillAndExpand;
             grid.Children.Add(Spinner);
-            grid.Children.Add(ListView);
+            grid.Children.Add(ListViewEx);
             Content = grid;
 
             ToolbarItems.Add(new ToolbarItem(AppResources.ButtonClose, null,
@@ -70,26 +70,26 @@ namespace Tojeero.Forms.Controls
 
         public event EventHandler<EventArgs<T>> ItemSelected;
 
-        private ListView _listView;
+        private ListViewEx _listViewEx;
 
-        public ListView ListView
+        public ListViewEx ListViewEx
         {
             get
             {
-                if (_listView == null)
+                if (_listViewEx == null)
                 {
-                    _listView = new ListView();
-                    _listView.ItemSelected += itemSelected;
-                    _listView.BackgroundColor = Color.Transparent;
-                    _listView.SeparatorVisibility = SeparatorVisibility.None;
-                    _listView.HorizontalOptions = LayoutOptions.FillAndExpand;
-                    _listView.VerticalOptions = LayoutOptions.FillAndExpand;
+                    _listViewEx = new ListViewEx();
+                    _listViewEx.ItemSelected += itemSelected;
+                    _listViewEx.BackgroundColor = Color.Transparent;
+                    _listViewEx.SeparatorVisibility = SeparatorVisibility.None;
+                    _listViewEx.HorizontalOptions = LayoutOptions.FillAndExpand;
+                    _listViewEx.VerticalOptions = LayoutOptions.FillAndExpand;
                 }
-                return _listView;
+                return _listViewEx;
             }
         }
 
-        public Func<Task<IEnumerable<SelectableViewModel<T>>>> LoaderAction { get; set; }
+        public Func<Task<IEnumerable<BaseSelectableViewModel<T>>>> LoaderAction { get; set; }
 
         #endregion
 
@@ -99,7 +99,7 @@ namespace Tojeero.Forms.Controls
         {
             base.OnAppearing();
             IsLoading = true;
-            ListView.ItemsSource = await LoaderAction();
+            ListViewEx.ItemsSource = await LoaderAction();
             IsLoading = false;
         }
 
@@ -111,10 +111,10 @@ namespace Tojeero.Forms.Controls
         {
             if (e.SelectedItem != null)
             {
-                var selected = e.SelectedItem as SelectableViewModel<T>;
+                var selected = e.SelectedItem as BaseSelectableViewModel<T>;
                 ItemSelected.Fire(this, new EventArgs<T>(selected.Item));
             }
-            ListView.SelectedItem = null;
+            ListViewEx.SelectedItem = null;
         }
 
         #endregion

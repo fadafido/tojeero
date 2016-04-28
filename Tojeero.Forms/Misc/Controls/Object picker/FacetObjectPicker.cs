@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Controls
 {
-    public class FacetObjectPicker<T> : ObjectPicker<FacetViewModel<T>, FacetPickerCell>
+    public class FacetObjectPicker<T> : ObjectPicker<BaseFacetViewModel<T>, FacetPickerCell>
         where T : class, IUniqueEntity
     {
         #region Private fields and properties
@@ -79,7 +79,7 @@ namespace Tojeero.Forms.Controls
             }
             if (e.PropertyName == SelectedObjectProperty.PropertyName)
             {
-                SelectedItem = SelectedObject != null ? new FacetViewModel<T>(SelectedObject) : null;
+                SelectedItem = SelectedObject != null ? new BaseFacetViewModel<T>(SelectedObject) : null;
             }
         }
 

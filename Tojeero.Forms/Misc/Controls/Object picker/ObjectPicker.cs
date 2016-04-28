@@ -17,7 +17,7 @@ namespace Tojeero.Forms.Controls
 
         private ObjectPickerPage<T, CellType> _objectPicker;
         private NavigationPage _objectPickerPage;
-        private SelectableViewModel<T>[] _items;
+        private BaseSelectableViewModel<T>[] _items;
         private readonly TapGestureRecognizer _tapGesture;
         private readonly LabelEx _placeholderLabel;
         private readonly LabelEx _textLabel;
@@ -197,13 +197,13 @@ namespace Tojeero.Forms.Controls
             {
                 _objectPicker = new ObjectPickerPage<T, CellType>();
                 _objectPickerPage = new NavigationPage(_objectPicker);
-                _objectPicker.ListView.ItemTemplate = new DataTemplate(typeof (CellType));
+                _objectPicker.ListViewEx.ItemTemplate = new DataTemplate(typeof (CellType));
                 _objectPicker.LoaderAction = async () =>
                 {
                     var items = ItemsLoader != null ? await ItemsLoader() : null;
                     _items = items == null
                         ? null
-                        : items.Select(i => new SelectableViewModel<T>(i, Comparer(i, SelectedItem), ItemCaption))
+                        : items.Select(i => new BaseSelectableViewModel<T>(i, Comparer(i, SelectedItem), ItemCaption))
                             .ToArray();
                     return _items;
                 };

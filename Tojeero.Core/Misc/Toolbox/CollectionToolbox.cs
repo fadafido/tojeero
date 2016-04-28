@@ -101,13 +101,13 @@ namespace Tojeero.Core.Toolbox
             return result;
         }
 
-        public static IEnumerable<FacetViewModel<T>> ApplyFacets<T>(this IEnumerable<T> objects,
+        public static IEnumerable<BaseFacetViewModel<T>> ApplyFacets<T>(this IEnumerable<T> objects,
             Dictionary<string, int> facets, bool countVisible = true) where T : IUniqueEntity
         {
             if (objects == null || facets == null)
                 return null;
             return
-                objects.Join(facets, i => i.ID, f => f.Key, (i, f) => new FacetViewModel<T>(i, f.Value, countVisible))
+                objects.Join(facets, i => i.ID, f => f.Key, (i, f) => new BaseFacetViewModel<T>(i, f.Value, countVisible))
                     .ToList();
         }
 

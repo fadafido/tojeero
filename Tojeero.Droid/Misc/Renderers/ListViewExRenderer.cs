@@ -2,16 +2,17 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 using Android.Views;
+using Tojeero.Droid.Renderers;
+using Tojeero.Forms.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using ListViewRenderer = Tojeero.Droid.Renderers.ListViewRenderer;
 using View = Android.Views.View;
 
-[assembly: ExportRenderer(typeof (Tojeero.Forms.Controls.ListView), typeof (ListViewRenderer))]
+[assembly: ExportRenderer(typeof (ListViewEx), typeof (ListViewExRenderer))]
 
 namespace Tojeero.Droid.Renderers
 {
-    public class ListViewRenderer : Xamarin.Forms.Platform.Android.ListViewRenderer
+    public class ListViewExRenderer : Xamarin.Forms.Platform.Android.ListViewRenderer
     {
         #region Private fields
 
@@ -30,7 +31,7 @@ namespace Tojeero.Droid.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == Forms.Controls.ListView.FooterViewProperty.PropertyName)
+            if (e.PropertyName == Forms.Controls.ListViewEx.FooterViewProperty.PropertyName)
             {
                 updateFooterView();
             }
@@ -54,7 +55,7 @@ namespace Tojeero.Droid.Renderers
                 if (_footerView != null)
                     Control.RemoveFooterView(_footerView);
 
-                var listView = Element as Forms.Controls.ListView;
+                var listView = Element as Forms.Controls.ListViewEx;
                 var footerView = listView.FooterView;
                 if (footerView != null)
                 {

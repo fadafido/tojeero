@@ -223,11 +223,11 @@
     <Compile Include="ViewModels\Common\BaseSelectableCollectionViewModel.cs" />
     <Compile Include="ViewModels\Common\BaseUserStoreViewModel.cs" />
     <Compile Include="ViewModels\Common\BaseUserViewModel.cs" />
-    <Compile Include="ViewModels\Common\LoadableNetworkViewModel.cs" />
-    <Compile Include="ViewModels\Common\LoadableViewModel.cs" />
-    <Compile Include="ViewModels\Common\ReloadableViewModel.cs" />
-    <Compile Include="ViewModels\Common\FacetViewModel.cs" />
-    <Compile Include="ViewModels\Common\SelectableViewModel.cs" />
+    <Compile Include="ViewModels\Common\BaseLoadableNetworkViewModel.cs" />
+    <Compile Include="ViewModels\Common\BaseLoadableViewModel.cs" />
+    <Compile Include="ViewModels\Common\BaseReloadableViewModel.cs" />
+    <Compile Include="ViewModels\Common\BaseFacetViewModel.cs" />
+    <Compile Include="ViewModels\Common\BaseSelectableViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -38,8 +38,8 @@
 					VerticalTextAlignment="Center"
 					VerticalOptions="Center"
 					HorizontalOptions="Center" />
-				<controls:InfiniteListView
-					x:Name="listView"
+				<controls:InfiniteListViewEx
+					x:Name="_listViewEx"
 					ItemsSource="{Binding ViewModel.Collection}"
 					BackgroundColor="Transparent"
 					RowHeight="100"

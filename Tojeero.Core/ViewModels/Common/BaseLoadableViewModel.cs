@@ -3,7 +3,7 @@ using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-    public class LoadableViewModel : MvxViewModel, ILoadableViewModel
+    public class BaseLoadableViewModel : BaseViewModel, ILoadableViewModel
     {
         #region Constructors
 

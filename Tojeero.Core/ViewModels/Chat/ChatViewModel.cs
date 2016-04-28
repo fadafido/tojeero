@@ -54,9 +54,19 @@ namespace Tojeero.Core.ViewModels.Chat
         {
             _chatService = chatService;
             _productManager = productManager;
-            _chatMessageReceivedSubscribtionToken = _messenger.Subscribe<ChatReceivedMessage>(handleChatMessageReceived);
+            _chatMessageReceivedSubscribtionToken = _messenger.Subscribe<ChatReceivedMessage>(HandleChatMessageReceived);
             _messages = new ObservableCollection<ChatMessageViewModel>();
             PropertyChanged += OnPropertyChanged;
+        }
+
+        #endregion
+
+        #region Lifecycle management
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            InitCommand.Execute(null);
         }
 
         #endregion
@@ -64,6 +74,7 @@ namespace Tojeero.Core.ViewModels.Chat
         #region Properties
 
         public Action<ChatMessageViewModel> ScrollToMessageAction { get; set; }
+        public Action<IProduct> ShowProductDetailsAction { get; set; }
 
         public event EventHandler WillChangeMessagesCollection;
         public event EventHandler DidChangeMessagesCollection;
@@ -159,7 +170,7 @@ namespace Tojeero.Core.ViewModels.Chat
                 {
                     if (CanExecuteSendMessageCommand)
                     {
-                        await sendMessage();
+                        await SendMessage();
                     }
                 }, () => CanExecuteSendMessageCommand);
                 return _sendMessageCommand;
@@ -177,7 +188,7 @@ namespace Tojeero.Core.ViewModels.Chat
         {
             get
             {
-                _initCommmand = _initCommmand ?? new MvxCommand(init);
+                _initCommmand = _initCommmand ?? new MvxCommand(Init, () => CanExecuteInitCommand);
                 return _initCommmand;
             }
         }
@@ -193,28 +204,45 @@ namespace Tojeero.Core.ViewModels.Chat
         {
             get
             {
-                _loadMoreMessagesCommand = _loadMoreMessagesCommand ?? new MvxCommand(loadMoreMessages);
+                _loadMoreMessagesCommand = _loadMoreMessagesCommand ?? new MvxCommand(LoadMoreMessages);
                 return _loadMoreMessagesCommand;
             }
         }
 
         public bool CanLoadMoreMessages => CanExecuteInitCommand && IsSubscribed && !IsLoading && !_allMessagesLoaded;
 
+        private MvxCommand<ChatMessageViewModel> _messageSelectedCommand;
+        public ICommand MessageSelectedCommand
+        {
+            get
+            {
+                _messageSelectedCommand = _messageSelectedCommand ?? new MvxCommand<ChatMessageViewModel>(m =>
+                {
+                    if (m.Product?.Product != null)
+                    {
+                        ShowProductDetailsAction?.Invoke(m.Product.Product);
+                    }
+                });
+                return _messageSelectedCommand;
+            }
+        }
+
+
         #endregion
 
         #region Utility methods
 
-        private void handleChatMessageReceived(ChatReceivedMessage message)
+        private void HandleChatMessageReceived(ChatReceivedMessage message)
         {
             var receivedMessage = message.Message;
             if (receivedMessage == null)
                 return;
-            var chatMessage = getChatMessageViewModel(receivedMessage);
+            var chatMessage = GetChatMessageViewModel(receivedMessage);
             _messages.Add(chatMessage);
             ScrollToMessageAction.Fire(chatMessage);
         }
 
-        private async Task sendMessage()
+        private async Task SendMessage()
         {
             IsSendingMessage = true;
             string failure = null;
@@ -253,7 +281,7 @@ namespace Tojeero.Core.ViewModels.Chat
             }
         }
 
-        private async void init()
+        private async void Init()
         {
             if (!CanExecuteInitCommand)
                 return;
@@ -266,7 +294,7 @@ namespace Tojeero.Core.ViewModels.Chat
                 IsSubscribed = true;
 
                 //Load previous messages
-                await loadNextPage();
+                await LoadNextPage();
             }
             catch (OperationCanceledException)
             {
@@ -283,7 +311,7 @@ namespace Tojeero.Core.ViewModels.Chat
             }
         }
 
-        private async void loadMoreMessages()
+        private async void LoadMoreMessages()
         {
             if (!CanLoadMoreMessages)
                 return;
@@ -292,7 +320,7 @@ namespace Tojeero.Core.ViewModels.Chat
             try
             {
                 //Load previous messages
-                await loadNextPage();
+                await LoadNextPage();
             }
             catch (OperationCanceledException)
             {
@@ -309,7 +337,7 @@ namespace Tojeero.Core.ViewModels.Chat
             }
         }
 
-        private async Task loadNextPage()
+        private async Task LoadNextPage()
         {
             if (AllMessagesLoaded)
                 return;
@@ -321,7 +349,7 @@ namespace Tojeero.Core.ViewModels.Chat
                         _pageSize);
             messages = messages.Reverse();
             WillChangeMessagesCollection.Fire(this, EventArgs.Empty);
-            Messages.InsertSorted(messages.Select(getChatMessageViewModel), Comparers.ChatMessage);
+            Messages.InsertSorted(messages.Select(GetChatMessageViewModel), Comparers.ChatMessage);
             DidChangeMessagesCollection.Fire(this, EventArgs.Empty);
             if (messages.Any())
                 _lastMessageDate = messages.Last().DeliveryDate;
@@ -331,7 +359,7 @@ namespace Tojeero.Core.ViewModels.Chat
             }
         }
 
-        private ChatMessageViewModel getChatMessageViewModel(IChatMessage receivedMessage)
+        private ChatMessageViewModel GetChatMessageViewModel(IChatMessage receivedMessage)
         {
             var isSentByCurrentUser = receivedMessage.SenderID == Channel?.SenderID;
             var profilePictureUrl = isSentByCurrentUser

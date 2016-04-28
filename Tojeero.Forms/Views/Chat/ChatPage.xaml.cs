@@ -5,10 +5,11 @@ using Tojeero.Core.ViewModels.Chat;
 using Tojeero.Core.ViewModels.Product;
 using Tojeero.Forms.Views.Product;
 using Xamarin.Forms;
+using XLabs.Forms.Mvvm;
 
 namespace Tojeero.Forms.Views.Chat
 {
-    public partial class ChatPage : ContentPage
+    public partial class ChatPage
     {
         #region Constructors
 
@@ -23,55 +24,18 @@ namespace Tojeero.Forms.Views.Chat
             ViewModel.ScrollToMessageAction = m => { listView.ScrollTo(m, ScrollToPosition.MakeVisible, true); };
             ViewModel.WillChangeMessagesCollection += ViewModelOnWillChangeMessagesCollection;
             ViewModel.DidChangeMessagesCollection += ViewModelOnDidChangeMessagesCollection;
+            ViewModel.ShowProductDetailsAction = p =>
+            {
+                Navigation.PushAsync(new ProductDetailsPage(p));
+            };
             InitializeComponent();
-            listView.ItemSelected += ListViewOnItemSelected;
+            
             productView.ProductImage.WidthRequest = 80;
         }
 
         #endregion
 
-        #region Properties
-
-        private ChatViewModel _viewModel;
-
-        public ChatViewModel ViewModel
-        {
-            get { return _viewModel; }
-            set
-            {
-                if (_viewModel != value)
-                {
-                    _viewModel = value;
-                    BindingContext = value;
-                }
-            }
-        }
-
-        #endregion
-
-        #region Parent override
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            ViewModel.InitCommand.Execute(null);
-        }
-
-        #endregion
-
         #region Utility methods
-
-        private async void ListViewOnItemSelected(object sender,
-            SelectedItemChangedEventArgs selectedItemChangedEventArgs)
-        {
-            var item = listView.SelectedItem as ChatMessageViewModel;
-            if (item?.Product?.Product != null)
-            {
-                listView.SelectedItem = null;
-                var productDetails = new ProductDetailsPage(item.Product?.Product);
-                await Navigation.PushAsync(productDetails);
-            }
-        }
 
         private void ViewModelOnWillChangeMessagesCollection(object sender, EventArgs eventArgs)
         {

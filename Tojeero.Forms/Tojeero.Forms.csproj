@@ -37,11 +37,16 @@
     <Compile Include="Views\Chat\ChatMessageCell.xaml.cs">
       <DependentUpon>ChatMessageCell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Common\BaseLoadablePage.cs" />
+    <Compile Include="Views\Common\BasePage.cs" />
+    <Compile Include="Views\Common\LoadingOverlay.xaml.cs">
+      <DependentUpon>LoadingOverlay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Product\ProductView.xaml.cs">
       <DependentUpon>ProductView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Misc\Controls\ChatListView.cs" />
-    <Compile Include="Misc\Controls\ListView.cs" />
+    <Compile Include="Misc\Controls\ChatListViewEx.cs" />
+    <Compile Include="Misc\Controls\ListViewEx.cs" />
     <Compile Include="Misc\Controls\StretchableImage.cs" />
     <Compile Include="Views\Chat\ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>
@@ -436,5 +441,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Misc\Cells\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Common\LoadingOverlay.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -4,10 +4,10 @@ using Xamarin.Forms;
 
 namespace Tojeero.Forms.Controls
 {
-    public class InfiniteListView : ListView
+    public class InfiniteListViewEx : ListViewEx
     {
         public static readonly BindableProperty LoadMoreCommandProperty =
-            BindableProperty.Create<InfiniteListView, ICommand>(bp => bp.LoadMoreCommand, default(ICommand));
+            BindableProperty.Create<InfiniteListViewEx, ICommand>(bp => bp.LoadMoreCommand, default(ICommand));
 
         public ICommand LoadMoreCommand
         {
@@ -15,7 +15,7 @@ namespace Tojeero.Forms.Controls
             set { SetValue(LoadMoreCommandProperty, value); }
         }
 
-        public InfiniteListView()
+        public InfiniteListViewEx()
         {
             ItemAppearing += InfiniteListView_ItemAppearing;
         }

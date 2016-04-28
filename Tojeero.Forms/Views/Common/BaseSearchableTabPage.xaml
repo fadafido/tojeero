@@ -98,8 +98,8 @@
 					VerticalOptions="Center"
 					HorizontalOptions="Center" />
 				<!--LIST VIEW-->
-				<controls:InfiniteListView
-					x:Name="listView"
+				<controls:InfiniteListViewEx
+					x:Name="_listViewEx"
 					ItemsSource="{Binding ViewModel.Collection}"
 					BackgroundColor="Transparent"
 					RowHeight="100"

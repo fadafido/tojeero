@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
-<ContentPage
+<common:BasePage
+	x:TypeArguments="viewModels:ChatViewModel" 
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
@@ -8,6 +8,8 @@
 	xmlns:chat="clr-namespace:Tojeero.Forms.Views.Chat;assembly=Tojeero.Forms"
 	xmlns:product="clr-namespace:Tojeero.Forms.Views.Product;assembly=Tojeero.Forms"
 	xmlns:core="clr-namespace:Tojeero.Core;assembly=Tojeero.Core"
+	xmlns:common="clr-namespace:Tojeero.Forms.Views.Common;assembly=Tojeero.Forms"
+	xmlns:viewModels="clr-namespace:Tojeero.Core.ViewModels.Chat;assembly=Tojeero.Core"
 	x:Class="Tojeero.Forms.Views.Chat.ChatPage"
 	BackgroundColor="White">
 	<StackLayout
@@ -27,18 +29,19 @@
 			IsVisible="{Binding CanLoadMoreMessages}"
 			Command="{Binding LoadMoreMessagesCommand}"
 			HorizontalOptions="Center" />
-		<controls:ChatListView
+		<controls:ChatListViewEx
 			x:Name="listView"
 			HasUnevenRows="True"
 			RowHeight="-1"
 			ItemsSource="{Binding Messages}"
+			ItemClickedCommand="{Binding}"
 			SeparatorVisibility="None">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<chat:ChatMessageCell />
 				</DataTemplate>
 			</ListView.ItemTemplate>
-		</controls:ChatListView>
+		</controls:ChatListViewEx>
 		<Grid
 			Padding="12,10,12,10"
 			RowSpacing="0"
@@ -92,4 +95,4 @@
 			</ContentView>
 		</Grid>
 	</StackLayout>
-</ContentPage>
+</common:BasePage>>

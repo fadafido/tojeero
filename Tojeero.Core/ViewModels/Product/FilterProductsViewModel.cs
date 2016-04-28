@@ -19,7 +19,7 @@ using Xamarin.Forms;
 
 namespace Tojeero.Core.ViewModels.Product
 {
-    public class FilterProductsViewModel : LoadableNetworkViewModel, IDisposable
+    public class FilterProductsViewModel : BaseLoadableNetworkViewModel, IDisposable
     {
         #region Private fields
 

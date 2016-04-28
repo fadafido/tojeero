@@ -37,8 +37,8 @@ namespace Tojeero.Forms.Views.Tag
             InitializeComponent();
             ViewModel = MvxToolbox.LoadViewModel<TagsViewModel>();
             SearchBar.Placeholder = "Search for tags";
-            ListView.RowHeight = 50;
-            ListView.ItemSelected += itemSelected;
+            ListViewEx.RowHeight = 50;
+            ListViewEx.ItemSelected += itemSelected;
             ViewModel.CreateTagAction = createTag;
             ToolbarItems.Add(new ToolbarItem(AppResources.ButtonDone, "",
                 async () => { await Navigation.PopModalAsync(); }));
@@ -78,7 +78,7 @@ namespace Tojeero.Forms.Views.Tag
         {
             if (e.SelectedItem != null)
                 ViewModel.ViewModel.SelectedItem = e.SelectedItem as TagViewModel;
-            ListView.SelectedItem = null;
+            ListViewEx.SelectedItem = null;
         }
 
         #endregion

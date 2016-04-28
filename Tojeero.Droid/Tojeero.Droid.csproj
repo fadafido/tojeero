@@ -262,7 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Misc\Renderers\ChatListViewRenderer.cs" />
-    <Compile Include="Misc\Renderers\ListViewRenderer.cs" />
+    <Compile Include="Misc\Renderers\ListViewExRenderer.cs" />
     <Compile Include="Misc\Renderers\StretchableImageRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

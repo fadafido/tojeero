@@ -4,11 +4,11 @@ using Tojeero.Core.Resources;
 using Tojeero.Core.Toolbox;
 using Tojeero.Core.ViewModels.Product;
 using Tojeero.Core.ViewModels.Store;
+using Tojeero.Forms.Controls;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.Views.Main;
 using Tojeero.Forms.Views.Product;
 using Xamarin.Forms;
-using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Store
 {
@@ -107,10 +107,10 @@ namespace Tojeero.Forms.Views.Store
 
         private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = ((ListView) sender).SelectedItem as ProductViewModel;
+            var item = ((ListViewEx) sender).SelectedItem as ProductViewModel;
             if (item != null)
             {
-                ((ListView) sender).SelectedItem = null;
+                ((ListViewEx) sender).SelectedItem = null;
                 var productDetails = new ProductDetailsPage(item.Product, ViewModel.Mode);
                 await Navigation.PushAsync(productDetails);
             }

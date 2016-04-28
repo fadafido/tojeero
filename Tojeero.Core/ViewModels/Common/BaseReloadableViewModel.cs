@@ -4,7 +4,7 @@ using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-    public abstract class ReloadableViewModel : LoadableViewModel, IReloadableViewModel
+    public abstract class BaseReloadableViewModel : BaseLoadableViewModel, IReloadableViewModel
     {
         #region Constructors
 

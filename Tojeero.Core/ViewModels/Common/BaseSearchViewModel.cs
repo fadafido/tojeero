@@ -7,7 +7,7 @@ using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-    public abstract class BaseSearchViewModel<T> : LoadableNetworkViewModel, ISearchViewModel
+    public abstract class BaseSearchViewModel<T> : BaseLoadableNetworkViewModel, ISearchViewModel
     {
         #region Private fields and properties
 

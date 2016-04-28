@@ -6,7 +6,7 @@ using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-    public class BaseUserViewModel : LoadableNetworkViewModel, IUserViewModel
+    public class BaseUserViewModel : BaseLoadableNetworkViewModel, IUserViewModel
     {
         #region Private Fields and Properties
 

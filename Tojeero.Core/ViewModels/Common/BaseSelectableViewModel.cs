@@ -4,12 +4,12 @@ using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-    public class SelectableViewModel<T> : MvxViewModel, ISelectableViewModel
+    public class BaseSelectableViewModel<T> : MvxViewModel, ISelectableViewModel
         where T : class
     {
         #region Constructors
 
-        public SelectableViewModel(T item = default(T), bool isSelected = false, Func<T, string> itemCaption = null)
+        public BaseSelectableViewModel(T item = default(T), bool isSelected = false, Func<T, string> itemCaption = null)
         {
             Item = item;
             IsSelected = isSelected;

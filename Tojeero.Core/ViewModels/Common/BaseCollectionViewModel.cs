@@ -14,7 +14,7 @@ using Tojeero.Core.ViewModels.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-    public class BaseCollectionViewModel<T> : LoadableNetworkViewModel, ICollectionViewModel<T>
+    public class BaseCollectionViewModel<T> : BaseLoadableNetworkViewModel, ICollectionViewModel<T>
     {
         #region Private fields and properties
 

@@ -1,8 +1,8 @@
 ﻿using Tojeero.Core.Toolbox;
 using Tojeero.Core.ViewModels.Product;
+using Tojeero.Forms.Controls;
 using Tojeero.Forms.Views.Common;
 using Xamarin.Forms;
-using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Product
 {
@@ -14,7 +14,7 @@ namespace Tojeero.Forms.Views.Product
         {
             InitializeComponent();
             ViewModel = MvxToolbox.LoadViewModel<FavoriteProductsViewModel>();
-            ListView.ItemSelected += itemSelected;
+            ListViewEx.ItemSelected += itemSelected;
         }
 
         #endregion
@@ -43,10 +43,10 @@ namespace Tojeero.Forms.Views.Product
 
         private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = ((ListView) sender).SelectedItem as ProductViewModel;
+            var item = ((ListViewEx) sender).SelectedItem as ProductViewModel;
             if (item != null)
             {
-                ((ListView) sender).SelectedItem = null;
+                ((ListViewEx) sender).SelectedItem = null;
                 var productDetails = new ProductDetailsPage(item.Product);
                 await Navigation.PushAsync(productDetails);
             }

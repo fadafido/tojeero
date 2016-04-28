@@ -4,11 +4,11 @@ using Tojeero.Core.Resources;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-    public class LoadableNetworkViewModel : LoadableViewModel
+    public class BaseLoadableNetworkViewModel : BaseLoadableViewModel
     {
         #region Constructors
 
-        public LoadableNetworkViewModel()
+        public BaseLoadableNetworkViewModel()
         {
             var connectivity = CrossConnectivity.Current;
             connectivity.ConnectivityChanged += handleNetworkConnectionChanged;

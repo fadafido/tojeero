@@ -32,8 +32,8 @@
 					FailureMessage="{Binding LoadingFailureMessage}"
 					IsNetworkAvailable="{Binding IsNetworkAvailable}"
 					TryAgainCommand="{Binding TryAgainCommand}" />
-				<controls:InfiniteListView
-					x:Name="listView"
+				<controls:InfiniteListViewEx
+					x:Name="_listViewEx"
 					ItemsSource="{Binding Collection}"
 					BackgroundColor="Transparent"
 					RowHeight="100"

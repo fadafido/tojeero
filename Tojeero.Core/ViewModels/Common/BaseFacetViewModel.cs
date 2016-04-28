@@ -3,11 +3,11 @@ using Tojeero.Core.Model.Contracts;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-    public class FacetViewModel<T> : BaseViewModel where T : IUniqueEntity
+    public class BaseFacetViewModel<T> : BaseViewModel where T : IUniqueEntity
     {
         #region Constructors
 
-        public FacetViewModel(T data = default(T), int count = 0, bool countVisible = true)
+        public BaseFacetViewModel(T data = default(T), int count = 0, bool countVisible = true)
         {
             Data = data;
             Count = count;

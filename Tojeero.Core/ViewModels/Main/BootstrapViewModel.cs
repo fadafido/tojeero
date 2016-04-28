@@ -18,7 +18,7 @@ using Tojeero.Core.ViewModels.Common;
 
 namespace Tojeero.Core.ViewModels.Main
 {
-    public class BootstrapViewModel : LoadableNetworkViewModel
+    public class BootstrapViewModel : BaseLoadableNetworkViewModel
     {
         #region Private fields and properties
 

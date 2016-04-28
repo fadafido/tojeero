@@ -4,7 +4,6 @@ using Tojeero.Forms.Controls;
 using Tojeero.Forms.Toolbox;
 using Tojeero.Forms.Views.Main;
 using Xamarin.Forms;
-using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Common
 {
@@ -45,13 +44,13 @@ namespace Tojeero.Forms.Views.Common
 
         public DataTemplate ItemTemplate
         {
-            get { return ListView.ItemTemplate; }
-            set { ListView.ItemTemplate = value; }
+            get { return ListViewEx.ItemTemplate; }
+            set { ListViewEx.ItemTemplate = value; }
         }
 
-        public ListView ListView
+        public ListViewEx ListViewEx
         {
-            get { return listView; }
+            get { return _listViewEx; }
         }
 
         public SearchBar SearchBar
@@ -95,7 +94,7 @@ namespace Tojeero.Forms.Views.Common
 
         void reloadFinished(object sender, EventArgs e)
         {
-            ListView.EndRefresh();
+            ListViewEx.EndRefresh();
         }
 
         protected void productButtonClicked(object sender, EventArgs e)

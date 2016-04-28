@@ -10,7 +10,7 @@ using Tojeero.Core.Resources;
 
 namespace Tojeero.Core.ViewModels.Common
 {
-    public class BaseFacetedCollectionViewModel<T> : LoadableNetworkViewModel where T : IUniqueEntity
+    public class BaseFacetedCollectionViewModel<T> : BaseLoadableNetworkViewModel where T : IUniqueEntity
     {
         #region Private fields and properties
 
@@ -29,9 +29,9 @@ namespace Tojeero.Core.ViewModels.Common
 
         #region Properties
 
-        private List<FacetViewModel<T>> _facets;
+        private List<BaseFacetViewModel<T>> _facets;
 
-        public List<FacetViewModel<T>> Facets
+        public List<BaseFacetViewModel<T>> Facets
         {
             get { return _facets; }
             private set
@@ -76,7 +76,7 @@ namespace Tojeero.Core.ViewModels.Common
                 else
                 {
                     Facets =
-                        items.Join(facets, i => i.ID, f => f.Key, (i, f) => new FacetViewModel<T>(i, f.Value)).ToList();
+                        items.Join(facets, i => i.ID, f => f.Key, (i, f) => new BaseFacetViewModel<T>(i, f.Value)).ToList();
                 }
             }
             catch (Exception ex)

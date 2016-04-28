@@ -10,7 +10,7 @@ using Tojeero.Core.ViewModels.Common;
 
 namespace Tojeero.Core.ViewModels.User
 {
-    public class FavoritesViewModel : LoadableNetworkViewModel
+    public class FavoritesViewModel : BaseLoadableNetworkViewModel
     {
         #region Private fields and properties
 

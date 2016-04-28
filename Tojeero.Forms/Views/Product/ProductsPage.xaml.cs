@@ -2,9 +2,9 @@
 using Tojeero.Core.Resources;
 using Tojeero.Core.Toolbox;
 using Tojeero.Core.ViewModels.Product;
+using Tojeero.Forms.Controls;
 using Tojeero.Forms.Views.Common;
 using Xamarin.Forms;
-using ListView = Tojeero.Forms.Controls.ListView;
 
 namespace Tojeero.Forms.Views.Product
 {
@@ -38,7 +38,7 @@ namespace Tojeero.Forms.Views.Product
 
             ViewModel.ChangeListModeAction = mode => { updateListLayout(mode); };
             SearchBar.Placeholder = AppResources.PlaceholderSearchProducts;
-            ListView.ItemSelected += itemSelected;
+            ListViewEx.ItemSelected += itemSelected;
             updateListLayout(ViewModel.ListMode);
         }
 
@@ -58,10 +58,10 @@ namespace Tojeero.Forms.Views.Product
 
         private async void itemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = ((ListView) sender).SelectedItem as ProductViewModel;
+            var item = ((ListViewEx) sender).SelectedItem as ProductViewModel;
             if (item != null)
             {
-                ((ListView) sender).SelectedItem = null;
+                ((ListViewEx) sender).SelectedItem = null;
                 var productDetails = new ProductDetailsPage(item.Product);
                 await Navigation.PushAsync(productDetails);
             }
@@ -73,9 +73,9 @@ namespace Tojeero.Forms.Views.Product
 
         private void updateListLayout(ListMode mode)
         {
-            ListView.RowHeight = mode == ListMode.Normal ? 100 : 350;
+            ListViewEx.RowHeight = mode == ListMode.Normal ? 100 : 350;
             var type = mode == ListMode.Normal ? typeof (ProductListCell) : typeof (ProductListLargeCell);
-            ListView.ItemTemplate = new DataTemplate(type);
+            ListViewEx.ItemTemplate = new DataTemplate(type);
         }
 
         #endregion

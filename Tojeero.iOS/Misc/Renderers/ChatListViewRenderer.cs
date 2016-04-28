@@ -6,7 +6,7 @@ using Tojeero.iOS.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof (ChatListView), typeof (ChatListViewRenderer))]
+[assembly: ExportRenderer(typeof (ChatListViewEx), typeof (ChatListViewRenderer))]
 
 namespace Tojeero.iOS.Renderers
 {
@@ -25,7 +25,7 @@ namespace Tojeero.iOS.Renderers
             base.OnElementPropertyChanged(sender, e);
             if (Control != null && Element != null)
             {
-                var chatList = Element as ChatListView;
+                var chatList = Element as ChatListViewEx;
                 chatList.SaveScrollPosition = () => { _currentTableContentHeight = Control.ContentSize.Height; };
                 chatList.RestoreScrollPosition = () =>
                 {

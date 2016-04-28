@@ -36,7 +36,7 @@
 			<Grid
 				VerticalOptions="FillAndExpand"
 				HorizontalOptions="FillAndExpand">
-				<controls:InfiniteListView
+				<controls:InfiniteListViewEx
 					x:Name="listView"
 					ItemsSource="{Binding Products.Collection}"
 					BackgroundColor="Transparent"
@@ -45,12 +45,12 @@
 					IsPullToRefreshEnabled="true"
 					RefreshCommand="{Binding Products.ReloadCommand}"
 					LoadMoreCommand="{Binding Products.LoadNextPageCommand}">
-					<controls:InfiniteListView.ItemTemplate>
+					<controls:InfiniteListViewEx.ItemTemplate>
 						<DataTemplate>
 							<product:ProductListCell />
 						</DataTemplate>
-					</controls:InfiniteListView.ItemTemplate>
-					<controls:InfiniteListView.Header>
+					</controls:InfiniteListViewEx.ItemTemplate>
+					<controls:InfiniteListViewEx.Header>
 						<StackLayout
 							x:Name="HeaderView"
 							Spacing="0">
@@ -165,8 +165,8 @@
 								</Grid>
 							</Grid>
 						</StackLayout>
-					</controls:InfiniteListView.Header>
-				</controls:InfiniteListView>
+					</controls:InfiniteListViewEx.Header>
+				</controls:InfiniteListViewEx>
 			</Grid>
 			<StackLayout
 				Padding="5"

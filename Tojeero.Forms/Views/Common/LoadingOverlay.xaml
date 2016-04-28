@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Grid
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:controls="clr-namespace:Tojeero.Forms.Controls;assembly=Tojeero.Forms"
+	x:Class="Tojeero.Forms.Views.Common.LoadingOverlay"
+	BackgroundColor="#c8d3d3d3"
+	HorizontalOptions="FillAndExpand"
+	VerticalOptions="FillAndExpand">
+	<Grid.Resources>
+		<ResourceDictionary>
+			<Style
+				x:Key="OverlayLabelStyle"
+				TargetType="Label">
+				<Setter
+					Property="FontSize"
+					Value="20"/>
+				<Setter
+					Property="FontAttributes"
+					Value="Bold"/>
+				<Setter
+					Property="TextColor"
+					Value="White"/>
+				<Setter
+					Property="HorizontalOptions"
+					Value="FillAndExpand"/>
+				<Setter
+					Property="HorizontalTextAlignment"
+					Value="Center"/>
+			</Style>
+		</ResourceDictionary>
+	</Grid.Resources>
+	<controls:BorderView
+		WidthRequest="200"
+		MinimumHeightRequest="200"
+		Radius="20"
+		BackgroundColor="#80000000"
+		HorizontalOptions="Center"
+		VerticalOptions="Center">
+		<StackLayout
+			Padding="20"
+			Spacing="20"
+			VerticalOptions="FillAndExpand"
+			HorizontalOptions="Center">
+			<ActivityIndicator
+				IsRunning="True"
+				Color="White"
+				HorizontalOptions="Center"/>
+			<Label
+				x:Name="TitleLabel"
+				Style="{StaticResource OverlayLabelStyle}"/>
+		</StackLayout>
+	</controls:BorderView>
+</Grid>
